@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment
+{
 
     private FragmentHistoryBinding binding;
 
