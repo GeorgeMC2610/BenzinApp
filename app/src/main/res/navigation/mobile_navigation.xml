@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_all_records"
-        android:name="com.georgemc2610.benzinapp.ui.dashboard.DashboardFragment"
+        android:name="com.georgemc2610.benzinapp.ui.history.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.georgemc2610.benzinapp.ui.notifications.NotificationsFragment"
+        android:name="com.georgemc2610.benzinapp.ui.settings.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

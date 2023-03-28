@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.notifications;
+package com.georgemc2610.benzinapp.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,29 +8,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.georgemc2610.benzinapp.databinding.FragmentNotificationsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends Fragment
+{
 
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+                             ViewGroup container, Bundle savedInstanceState)
+    {
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         binding = null;
     }
