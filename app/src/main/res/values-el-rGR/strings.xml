@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Αρχική</string>
+    <string name="title_dashboard">Ιστορικό</string>
+    <string name="title_notifications">Ρυθμίσεις</string>
+</resources>
