@@ -8,4 +8,6 @@
     <string name="edit_text_cost_hint">Insert Cost in Euros...</string>
     <string name="text_view_cost">Cost in €:</string>
     <string name="text_view_liters">Liters:</string>
+    <string name="button_add">Add Record</string>
+    <string name="error_field_cannot_be_empty">This field cannot be empty.</string>
 </resources>
