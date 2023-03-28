@@ -1,9 +1,7 @@
 package com.georgemc2610.benzinapp;
 
 import android.database.sqlite.SQLiteDatabase;
-
 import androidx.annotation.Nullable;
-
 import java.time.LocalDateTime;
 
 public class DatabaseManager
@@ -37,7 +35,13 @@ public class DatabaseManager
         return instance;
     }
 
-    
+    /**
+     * Adds records to the database based on the data the user provided. <b>Automatically calculates
+     * liters per hundred kilometers, kilometers per liter and cost per kilometer.</b>
+     * @param liters Total liters filled in.
+     * @param cost Cost in EUR.
+     * @param kilometers Total kilometers travelled in one fill.
+     */
     public void AddRecord(float liters, float cost, float kilometers)
     {
         float lt_per_hundred = 100 * liters / kilometers;
@@ -45,7 +49,7 @@ public class DatabaseManager
         float eur_per_km = cost/kilometers;
 
         String query = "INSERT INTO BENZINAPP (liters, cost, kilometers, lt_per_hundred, km_per_lt, eur_per_km, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Object[] bindArgs = new Object[] { liters, cost, kilometers, lt_per_hundred, km_per_lt, eur_per_km, LocalDateTime.now()};
+        Object[] bindArgs = new Object[] { liters, cost, kilometers, lt_per_hundred, km_per_lt, eur_per_km, LocalDateTime.now() };
 
         DB.execSQL(query, bindArgs);
     }

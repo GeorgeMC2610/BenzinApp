@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        // here is where the singleton is created
         DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
         DatabaseManager.getInstance(DB);
     }
