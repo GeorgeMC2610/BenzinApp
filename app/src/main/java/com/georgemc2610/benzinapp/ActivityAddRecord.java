@@ -93,20 +93,24 @@ public class ActivityAddRecord extends AppCompatActivity
 
     public void OnEditTextDateTimeClicked(View v)
     {
+        // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
+        // date picker dialog shows up
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
         {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
+                // and when it updates, it sets the value of the edit text.
                 editTextDate.setText(year + "-" + (month < 10 ? "0" + (++month) : ++month) + "-" + dayOfMonth);
             }
         }, mYear, mMonth, mDay);
 
+        // show the dialog.
         datePickerDialog.show();
     }
 }
