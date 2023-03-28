@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.history;
+package com.georgemc2610.benzinapp.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,16 +8,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.georgemc2610.benzinapp.databinding.FragmentDashboardBinding;
+import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
-public class DashboardFragment extends Fragment {
+public class SettingsFragment extends Fragment
+{
 
-    private FragmentDashboardBinding binding;
+    private FragmentSettingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;
