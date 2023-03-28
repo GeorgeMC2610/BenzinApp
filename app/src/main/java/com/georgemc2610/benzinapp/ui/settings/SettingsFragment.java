@@ -15,8 +15,7 @@ public class SettingsFragment extends Fragment
 
     private FragmentSettingsBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
