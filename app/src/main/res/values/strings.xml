@@ -6,10 +6,14 @@
     <string name="title_add_record">Add Record</string>
     <string name="edit_text_liters_hint">Insert Liters...</string>
     <string name="edit_text_cost_hint">Insert Cost in Euros...</string>
-    <string name="text_view_cost">Cost in €:</string>
+    <string name="text_view_cost">Cost in EUR:</string>
     <string name="text_view_liters">Liters:</string>
     <string name="button_add">Add Record</string>
     <string name="error_field_cannot_be_empty">This field cannot be empty.</string>
     <string name="edit_text_kilometers_hint">Insert Kilometers...</string>
     <string name="text_view_kilometers">Kilometers:</string>
+    <string name="edit_text_petrol_type_hint">E.g. \"V-Power 100\" or \"FuelSave 95\"...</string>
+    <string name="text_view_petrol_type">Petrol Type</string>
+    <string name="text_view_datetime">Date:</string>
+    <string name="edit_text_datetime_hint">Tap to select date...</string>
 </resources>

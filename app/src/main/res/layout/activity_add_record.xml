@@ -26,13 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_kilometers"
-                app:layout_constraintBottom_toTopOf="@+id/editTextKilometers"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.069"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.2" />
+                android:text="@string/text_view_kilometers" />
 
             <EditText
                 android:id="@+id/editTextKilometers"
@@ -40,26 +34,14 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_kilometers_hint"
-                android:inputType="numberDecimal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.179"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.628" />
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:id="@+id/textViewLiters"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_liters"
-                app:layout_constraintBottom_toTopOf="@+id/editTextLiters"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.064"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.961" />
+                android:text="@string/text_view_liters" />
 
             <EditText
                 android:id="@+id/editTextLiters"
@@ -67,26 +49,14 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_liters_hint"
-                android:inputType="numberDecimal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.168"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.413" />
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:id="@+id/textViewCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_cost"
-                app:layout_constraintBottom_toTopOf="@+id/editTextCost"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.069"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                android:text="@string/text_view_cost" />
 
             <EditText
                 android:id="@+id/editTextCost"
@@ -94,13 +64,39 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_cost_hint"
-                android:inputType="numberDecimal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.166"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.2" />
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/textViewPetrolType"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_petrol_type" />
+
+            <EditText
+                android:id="@+id/editTextPetrolType"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_petrol_type_hint"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_datetime" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:editable="false"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:inputType="datetime"
+                android:onClick="OnEditTextDateTimeClicked" />
 
         </LinearLayout>
 

@@ -12,4 +12,8 @@
     <string name="error_field_cannot_be_empty">Αυτό το πεδίο δεν μπορεί να είναι κενό.</string>
     <string name="edit_text_kilometers_hint">Εισάγετε Χιλιόμετρα...</string>
     <string name="text_view_kilometers">Χιλιόμετρα:</string>
+    <string name="edit_text_petrol_type_hint">Π.χ. \"V-Power 100\" ή \"FuelSave 95\"...</string>
+    <string name="text_view_petrol_type">Τύπος Καυσίμου</string>
+    <string name="text_view_datetime">Ημερομηνία:</string>
+    <string name="edit_text_datetime_hint">Πατήστε εδώ για να επιλέξετε...</string>
 </resources>

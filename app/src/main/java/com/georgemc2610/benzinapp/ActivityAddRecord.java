@@ -3,16 +3,26 @@ package com.georgemc2610.benzinapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.Debug;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters;
     EditText editTextCost;
     EditText editTextKilometers;
+    EditText editTextDate;
+    EditText editTextPetrolType;
+    int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +35,9 @@ public class ActivityAddRecord extends AppCompatActivity
         editTextLiters = findViewById(R.id.editTextLiters);
         editTextCost = findViewById(R.id.editTextCost);
         editTextKilometers = findViewById(R.id.editTextKilometers);
+        editTextPetrolType = findViewById(R.id.editTextPetrolType);
+        editTextDate = findViewById(R.id.editTextDate);
+
 
         // action bar with back button and correct title name.
         try
@@ -44,7 +57,7 @@ public class ActivityAddRecord extends AppCompatActivity
     {
         int validation_counter = 0;
 
-        // if either of the edit texts are empty, don't proceed.
+        // if one of the necessary edit texts are empty, don't proceed.
         if (editTextCost.getText().toString().length() == 0)
         {
             editTextCost.setError(getResources().getString(R.string.error_field_cannot_be_empty));
@@ -63,7 +76,7 @@ public class ActivityAddRecord extends AppCompatActivity
             validation_counter--;
         }
 
-        // there must be exactly two correct validations to proceed.
+        // there must be exactly correct validations to proceed.
         if (validation_counter != 0)
             return;
 
@@ -71,8 +84,29 @@ public class ActivityAddRecord extends AppCompatActivity
         float cost = Float.parseFloat(editTextCost.getText().toString());
         float kilometers = Float.parseFloat(editTextKilometers.getText().toString());
 
+        LocalDate date = LocalDate.parse(editTextDate.getText().toString());
+
         // proceed to add properties.
-        DatabaseManager.getInstance(null).AddRecord(liters, cost, kilometers);
+        DatabaseManager.getInstance(null).AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
         Toast.makeText(this, "Added record...", Toast.LENGTH_LONG).show();
+    }
+
+    public void OnEditTextDateTimeClicked(View v)
+    {
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                editTextDate.setText(year + "-" + (month < 10 ? "0" + (++month) : ++month) + "-" + dayOfMonth);
+            }
+        }, mYear, mMonth, mDay);
+
+        datePickerDialog.show();
     }
 }
