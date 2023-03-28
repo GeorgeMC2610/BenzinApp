@@ -67,7 +67,12 @@ public class ActivityAddRecord extends AppCompatActivity
         if (validation_counter != 0)
             return;
 
+        float liters = Float.parseFloat(editTextLiters.getText().toString());
+        float cost = Float.parseFloat(editTextCost.getText().toString());
+        float kilometers = Float.parseFloat(editTextKilometers.getText().toString());
+
         // proceed to add properties.
-        Toast.makeText(this, "To be continued...", Toast.LENGTH_LONG).show();
+        DatabaseManager.getInstance(null).AddRecord(liters, cost, kilometers);
+        Toast.makeText(this, "Added record...", Toast.LENGTH_LONG).show();
     }
 }
