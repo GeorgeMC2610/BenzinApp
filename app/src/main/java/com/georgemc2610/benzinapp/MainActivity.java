@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
+        DatabaseManager.getInstance(DB);
     }
 
 }

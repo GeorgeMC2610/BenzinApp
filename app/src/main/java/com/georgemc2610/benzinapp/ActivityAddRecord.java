@@ -60,6 +60,6 @@ public class ActivityAddRecord extends AppCompatActivity
             return;
 
         // proceed to add properties.
-        Toast.makeText(this, "Adding Record...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, DatabaseManager.getInstance(null).sayHello(), Toast.LENGTH_LONG).show();
     }
 }
