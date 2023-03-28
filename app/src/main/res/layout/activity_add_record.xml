@@ -6,17 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ActivityAddRecord">
 
+    <EditText
+        android:id="@+id/editTextKilometers"
+        android:layout_width="322dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:hint="@string/edit_text_kilometers_hint"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.628" />
+
     <TextView
-        android:id="@+id/textViewLiters"
+        android:id="@+id/textViewLitersKilometers"
         android:layout_width="180dp"
         android:layout_height="19dp"
-        android:text="@string/text_view_liters"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLiters"
+        android:layout_marginTop="400dp"
+        android:text="@string/text_view_kilometers"
+        app:layout_constraintBottom_toTopOf="@+id/editTextKilometers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <EditText
         android:id="@+id/editTextLiters"
@@ -27,10 +42,22 @@
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintHorizontal_bias="0.168"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.445" />
+        app:layout_constraintVertical_bias="0.413" />
+
+    <TextView
+        android:id="@+id/textViewLiters"
+        android:layout_width="180dp"
+        android:layout_height="19dp"
+        android:text="@string/text_view_liters"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLiters"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.961" />
 
     <EditText
         android:id="@+id/editTextCost"

@@ -13,7 +13,7 @@ public class DatabaseManager
     {
         this.DB = DB;
         DB.execSQL("CREATE TABLE IF NOT EXISTS BENZINAPP (" +
-                "id INT PRIMARY KEY AUTOINCREMENT," +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "liters REAL NOT NULL," +
                 "cost REAL NOT NULL," +
                 "kilometers REAL NOT NULL," +
@@ -33,7 +33,7 @@ public class DatabaseManager
         return instance;
     }
 
-    public void AddRecord(float liters, float cost)
+    public void AddRecord(float liters, float cost, float kilometers)
     {
 
     }

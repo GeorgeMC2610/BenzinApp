@@ -10,4 +10,6 @@
     <string name="text_view_liters">Liters:</string>
     <string name="button_add">Add Record</string>
     <string name="error_field_cannot_be_empty">This field cannot be empty.</string>
+    <string name="edit_text_kilometers_hint">Insert Kilometers...</string>
+    <string name="text_view_kilometers">Kilometers:</string>
 </resources>
