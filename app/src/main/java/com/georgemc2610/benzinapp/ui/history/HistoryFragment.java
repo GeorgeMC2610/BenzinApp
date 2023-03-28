@@ -26,6 +26,7 @@ public class HistoryFragment extends Fragment
         View root = binding.getRoot();
 
         ButtonAdd = root.findViewById(R.id.button_add);
+        ButtonAdd.setOnClickListener(new ButtonAddListener());
 
         return root;
     }
@@ -35,5 +36,14 @@ public class HistoryFragment extends Fragment
     {
         super.onDestroyView();
         binding = null;
+    }
+}
+
+class ButtonAddListener implements View.OnClickListener
+{
+    @Override
+    public void onClick(View v)
+    {
+        System.out.println("Hello!");
     }
 }
