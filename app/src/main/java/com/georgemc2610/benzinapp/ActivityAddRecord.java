@@ -12,6 +12,7 @@ public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters;
     EditText editTextCost;
+    EditText editTextKilometers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,6 +24,7 @@ public class ActivityAddRecord extends AppCompatActivity
         // get edit texts.
         editTextLiters = findViewById(R.id.editTextLiters);
         editTextCost = findViewById(R.id.editTextCost);
+        editTextKilometers = findViewById(R.id.editTextKilometers);
 
         // action bar with back button and correct title name.
         try
@@ -52,6 +54,12 @@ public class ActivityAddRecord extends AppCompatActivity
         if (editTextLiters.getText().toString().length() == 0)
         {
             editTextLiters.setError(getResources().getString(R.string.error_field_cannot_be_empty));
+            validation_counter--;
+        }
+
+        if (editTextKilometers.getText().toString().length() == 0)
+        {
+            editTextKilometers.setError(getResources().getString(R.string.error_field_cannot_be_empty));
             validation_counter--;
         }
 
