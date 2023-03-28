@@ -12,6 +12,14 @@ public class DatabaseManager
     private DatabaseManager(SQLiteDatabase DB)
     {
         this.DB = DB;
+        DB.execSQL("CREATE TABLE IF NOT EXISTS BENZINAPP (" +
+                "id INT PRIMARY KEY AUTOINCREMENT," +
+                "liters REAL NOT NULL," +
+                "cost REAL NOT NULL," +
+                "kilometers REAL NOT NULL," +
+                "lt_per_hundred REAL NOT NULL," +
+                "km_per_lt REAL NOT NULL," +
+                "eur_per_km REAL NOT NULL)");
     }
 
     public static DatabaseManager getInstance(@Nullable SQLiteDatabase DB)
@@ -25,8 +33,8 @@ public class DatabaseManager
         return instance;
     }
 
-    public String sayHello()
+    public void AddRecord(float liters, float cost)
     {
-        return DB.toString();
+
     }
 }
