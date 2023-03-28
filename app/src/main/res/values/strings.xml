@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">History</string>
     <string name="title_notifications">Settings</string>
+    <string name="title_add_record">Add Record</string>
+    <string name="edit_text_liters_hint">Insert Liters...</string>
+    <string name="edit_text_cost_hint">Insert Cost in Euros...</string>
+    <string name="text_view_cost">Cost in €:</string>
+    <string name="text_view_liters">Liters:</string>
 </resources>

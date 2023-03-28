@@ -42,6 +42,7 @@ public class HistoryFragment extends Fragment
     }
 }
 
+
 class ButtonAddListener implements View.OnClickListener
 {
     private final Context context;

@@ -3,4 +3,9 @@
     <string name="title_home">Αρχική</string>
     <string name="title_dashboard">Ιστορικό</string>
     <string name="title_notifications">Ρυθμίσεις</string>
+    <string name="title_add_record">Προσθήκη Εγγραφής</string>
+    <string name="edit_text_liters_hint">Εισάγετε Λίτρα...</string>
+    <string name="edit_text_cost_hint">Εισάγετε το Κόστος σε Ευρώ...</string>
+    <string name="text_view_cost">Κόστος σε Ευρώ:</string>
+    <string name="text_view_liters">Κόστος σε Λίτρα:</string>
 </resources>
