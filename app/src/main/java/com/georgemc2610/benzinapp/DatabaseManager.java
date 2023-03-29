@@ -71,6 +71,8 @@ public class DatabaseManager
 
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
+        layout.removeAllViews();
+
         String query = "SELECT * FROM BENZINAPP ORDER BY timestamp DESC;";
         Cursor cursor = DB.rawQuery(query, null);
 
@@ -81,6 +83,9 @@ public class DatabaseManager
             TextView petrolType = v.findViewById(R.id.card_filled_petrol);
             petrolType.setText(cursor.getString(8));
 
+            TextView idHidden = v.findViewById(R.id.card_hidden_id);
+            idHidden.setText(cursor.getString(0));
+
             TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
             lt_per_100.setText(cursor.getString(4) + " lt/100km");
 
@@ -90,10 +95,8 @@ public class DatabaseManager
             TextView date = v.findViewById(R.id.card_date);
             date.setText(cursor.getString(7));
 
-
-
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext()));
+            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0)));
 
             layout.addView(v);
         }
@@ -101,20 +104,32 @@ public class DatabaseManager
         cursor.close();
 
     }
+
+    public void DeleteRecord(int id)
+    {
+        String query = "DELETE FROM BENZINAPP WHERE id = ?";
+        Object[] bindArgs = new Object[] { id };
+
+        DB.execSQL(query, bindArgs);
+    }
 }
 
 class DeleteButtonListener implements View.OnClickListener
 {
     private Context context;
+    private int id;
 
-    public DeleteButtonListener(Context context)
+    public DeleteButtonListener(Context context, int id)
     {
         this.context = context;
+        this.id = id;
     }
 
     @Override
     public void onClick(View v)
     {
+        int id = this.id;
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
 
         dialog.setTitle("RECORD DELETION");
@@ -125,7 +140,7 @@ class DeleteButtonListener implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-
+                DatabaseManager.getInstance(null).DeleteRecord(id);
             }
         });
 
