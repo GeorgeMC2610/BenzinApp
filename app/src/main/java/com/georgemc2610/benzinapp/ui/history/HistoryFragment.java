@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,7 @@ public class HistoryFragment extends Fragment
     private FragmentHistoryBinding binding;
 
     FloatingActionButton ButtonAdd;
+    RelativeLayout scrollViewRelativeLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -30,6 +32,9 @@ public class HistoryFragment extends Fragment
 
         ButtonAdd = root.findViewById(R.id.button_add);
         ButtonAdd.setOnClickListener(new ButtonAddListener(getContext()));
+
+        scrollViewRelativeLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
+
 
         return root;
     }

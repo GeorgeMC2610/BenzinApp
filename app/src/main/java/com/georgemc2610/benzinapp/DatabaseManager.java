@@ -1,6 +1,10 @@
 package com.georgemc2610.benzinapp;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
+
 import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
@@ -55,5 +59,12 @@ public class DatabaseManager
         Object[] bindArgs = new Object[] { liters, cost, kilometers, lt_per_hundred, km_per_lt, eur_per_km, date, fueltype };
 
         DB.execSQL(query, bindArgs);
+    }
+
+    public void DisplayCards(RelativeLayout layout, LayoutInflater inflater)
+    {
+        View v = inflater.inflate(R.layout.cardview_fill, null);
+
+        layout.addView(v);
     }
 }
