@@ -22,7 +22,7 @@ public class ActivityAddRecord extends AppCompatActivity
     EditText editTextKilometers;
     EditText editTextDate;
     EditText editTextPetrolType;
-    int mYear, mMonth, mDay, mHour, mMinute;
+    int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -106,7 +106,7 @@ public class ActivityAddRecord extends AppCompatActivity
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 // and when it updates, it sets the value of the edit text.
-                editTextDate.setText(year + "-" + (month < 10 ? "0" + (++month) : ++month) + "-" + dayOfMonth);
+                editTextDate.setText(year + "-" + (month < 10 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
             }
         }, mYear, mMonth, mDay);
 

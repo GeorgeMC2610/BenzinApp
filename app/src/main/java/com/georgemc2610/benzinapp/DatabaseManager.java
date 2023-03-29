@@ -65,15 +65,15 @@ public class DatabaseManager
 
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
-        View v = inflater.inflate(R.layout.cardview_fill, null);
-
         String query = "SELECT * FROM BENZINAPP";
         Cursor cursor = DB.rawQuery(query, null);
 
         while (cursor.moveToNext())
         {
+            View v = inflater.inflate(R.layout.cardview_fill, null);
+
             TextView petrolType = v.findViewById(R.id.card_filled_petrol);
-            petrolType.setText(cursor.getString(8));
+            petrolType.setText(cursor.getString(4) + " per 100km");
 
             TextView cost = v.findViewById(R.id.card_cost);
             cost.setText(cursor.getString(2));
