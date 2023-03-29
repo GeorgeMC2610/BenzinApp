@@ -16,4 +16,5 @@
     <string name="text_view_petrol_type">Τύπος Καυσίμου</string>
     <string name="text_view_datetime">Ημερομηνία:</string>
     <string name="edit_text_datetime_hint">Πατήστε εδώ για να επιλέξετε...</string>
+    <string name="text_view_click_cards_message">Πατήστε σε μία εγγραφή για να δείτε περισσότερα.</string>
 </resources>

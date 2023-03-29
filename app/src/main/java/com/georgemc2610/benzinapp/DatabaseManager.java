@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
+import java.util.zip.Inflater;
 
 public class DatabaseManager
 {
@@ -69,6 +71,7 @@ public class DatabaseManager
         DB.execSQL(query, bindArgs);
     }
 
+
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
         layout.removeAllViews();
@@ -96,7 +99,7 @@ public class DatabaseManager
             date.setText(cursor.getString(7));
 
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0)));
+            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout));
 
             layout.addView(v);
         }
@@ -118,18 +121,20 @@ class DeleteButtonListener implements View.OnClickListener
 {
     private Context context;
     private int id;
+    private LinearLayout layout;
+    private LayoutInflater inflater;
 
-    public DeleteButtonListener(Context context, int id)
+    public DeleteButtonListener(Context context, int id, LayoutInflater inflater, LinearLayout layout)
     {
         this.context = context;
         this.id = id;
+        this.inflater = inflater;
+        this.layout = layout;
     }
 
     @Override
     public void onClick(View v)
     {
-        int id = this.id;
-
         AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
 
         dialog.setTitle("RECORD DELETION");
@@ -141,6 +146,8 @@ class DeleteButtonListener implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which)
             {
                 DatabaseManager.getInstance(null).DeleteRecord(id);
+                DatabaseManager.getInstance(null).DisplayCards(layout, inflater);
+                Toast.makeText(layout.getContext(), "", Toast.LENGTH_LONG).show();
             }
         });
 
