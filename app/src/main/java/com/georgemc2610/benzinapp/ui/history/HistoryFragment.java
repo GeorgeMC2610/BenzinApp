@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.ActivityAddRecord;
+import com.georgemc2610.benzinapp.DatabaseManager;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
@@ -23,7 +25,7 @@ public class HistoryFragment extends Fragment
     private FragmentHistoryBinding binding;
 
     FloatingActionButton ButtonAdd;
-    RelativeLayout scrollViewRelativeLayout;
+    LinearLayout scrollViewRelativeLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -34,7 +36,7 @@ public class HistoryFragment extends Fragment
         ButtonAdd.setOnClickListener(new ButtonAddListener(getContext()));
 
         scrollViewRelativeLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
-
+        DatabaseManager.getInstance(null).DisplayCards(scrollViewRelativeLayout, getLayoutInflater());
 
         return root;
     }

@@ -21,14 +21,13 @@
         app:layout_constraintVertical_bias="0.88" />
 
     <ScrollView
-        android:layout_width="414dp"
-        android:layout_height="513dp"
+        android:layout_width="393dp"
+        android:layout_height="581dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.371">
+        app:layout_constraintVertical_bias="0.033">
 
         <LinearLayout
             android:id="@+id/historyFragment_linearLayoutScrollView"

@@ -1,14 +1,16 @@
 package com.georgemc2610.benzinapp;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class DatabaseManager
 {
@@ -61,10 +63,29 @@ public class DatabaseManager
         DB.execSQL(query, bindArgs);
     }
 
-    public void DisplayCards(RelativeLayout layout, LayoutInflater inflater)
+    public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
         View v = inflater.inflate(R.layout.cardview_fill, null);
 
-        layout.addView(v);
+        String query = "SELECT * FROM BENZINAPP";
+        Cursor cursor = DB.rawQuery(query, null);
+
+        while (cursor.moveToNext())
+        {
+            TextView petrolType = v.findViewById(R.id.card_filled_petrol);
+            petrolType.setText(cursor.getString(8));
+
+            TextView cost = v.findViewById(R.id.card_cost);
+            cost.setText(cursor.getString(2));
+
+            TextView date = v.findViewById(R.id.card_date);
+            date.setText(cursor.getString(7));
+
+            layout.addView(v);
+        }
+
+        cursor.close();
+
+
     }
 }
