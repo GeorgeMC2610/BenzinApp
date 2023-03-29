@@ -71,7 +71,7 @@ public class DatabaseManager
 
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
-        String query = "SELECT * FROM BENZINAPP";
+        String query = "SELECT * FROM BENZINAPP ORDER BY timestamp DESC;";
         Cursor cursor = DB.rawQuery(query, null);
 
         while (cursor.moveToNext())
@@ -79,13 +79,18 @@ public class DatabaseManager
             View v = inflater.inflate(R.layout.cardview_fill, null);
 
             TextView petrolType = v.findViewById(R.id.card_filled_petrol);
-            petrolType.setText(cursor.getString(4) + " per 100km");
+            petrolType.setText(cursor.getString(8));
+
+            TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
+            lt_per_100.setText(cursor.getString(4) + " lt/100km");
 
             TextView cost = v.findViewById(R.id.card_cost);
-            cost.setText(cursor.getString(2));
+            cost.setText("€" + cursor.getString(2));
 
             TextView date = v.findViewById(R.id.card_date);
             date.setText(cursor.getString(7));
+
+
 
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
             deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext()));

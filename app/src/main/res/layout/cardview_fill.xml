@@ -6,7 +6,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="105dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="5dp"
@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/card_filled_petrol"
+                android:id="@+id/card_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -30,7 +30,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:scrollHorizontally="true"
-                android:text="Petrol Type"
+                android:text="(Timestamp)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -41,18 +41,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36sp"
-                android:text="Cost"
+                android:text="(Cost)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 
 
             <TextView
-                android:id="@+id/card_date"
+                android:id="@+id/card_filled_petrol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
-                android:text="Timestamp"
+                android:text="(Petrol Filled, Gas Station)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#717171"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/card_hidden_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="60sp"
+                android:text="id"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#717171"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/card_lt_per_100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80sp"
+                android:text="(x per 100 km)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
                 android:textSize="12sp"/>
