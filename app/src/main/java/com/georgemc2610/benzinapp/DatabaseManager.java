@@ -79,15 +79,20 @@ public class DatabaseManager
      */
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
+        // first, remove all views.
         layout.removeAllViews();
 
+        // initialize db query.
         String query = "SELECT * FROM BENZINAPP ORDER BY timestamp DESC;";
         Cursor cursor = DB.rawQuery(query, null);
 
+        // go through all queries
         while (cursor.moveToNext())
         {
+            // inflate the card
             View v = inflater.inflate(R.layout.cardview_fill, null);
 
+            // initialize all text views
             TextView petrolType = v.findViewById(R.id.card_filled_petrol);
             petrolType.setText(cursor.getString(8));
 
@@ -103,16 +108,21 @@ public class DatabaseManager
             TextView date = v.findViewById(R.id.card_date);
             date.setText(cursor.getString(7));
 
+            // give life to the buttons
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
             deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout));
 
+            // and add the layout
             layout.addView(v);
         }
 
         cursor.close();
-
     }
 
+    /**
+     * Deletes a record from the database, based on the primary key.
+     * @param id The primary key (ID).
+     */
     public void DeleteRecord(int id)
     {
         String query = "DELETE FROM BENZINAPP WHERE id = ?";
@@ -122,6 +132,9 @@ public class DatabaseManager
     }
 }
 
+/**
+ * Internal class to handle most of the click listeners
+ */
 class DeleteButtonListener implements View.OnClickListener
 {
     private Context context;
@@ -142,27 +155,26 @@ class DeleteButtonListener implements View.OnClickListener
     {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
 
-        // TODO: Make these string not hardcoded.
-        dialog.setTitle("RECORD DELETION");
-        dialog.setMessage("Do you really want to delete this record?");
+        dialog.setTitle(layout.getContext().getResources().getString(R.string.dialog_delete_title));
+        dialog.setMessage(layout.getContext().getResources().getString(R.string.dialog_delete_confirmation));
 
-        dialog.setPositiveButton("YES", new DialogInterface.OnClickListener()
+        dialog.setPositiveButton(layout.getContext().getResources().getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
                 DatabaseManager.getInstance(null).DeleteRecord(id);
                 DatabaseManager.getInstance(null).DisplayCards(layout, inflater);
-                Toast.makeText(layout.getContext(), "", Toast.LENGTH_LONG).show();
+                Toast.makeText(layout.getContext(), layout.getContext().getResources().getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
             }
         });
 
-        dialog.setNegativeButton("NO", new DialogInterface.OnClickListener()
+        dialog.setNegativeButton(layout.getContext().getResources().getString(R.string.dialog_no), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-
+                // foo
             }
         });
 

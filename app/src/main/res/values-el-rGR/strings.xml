@@ -17,4 +17,9 @@
     <string name="text_view_datetime">Ημερομηνία:</string>
     <string name="edit_text_datetime_hint">Πατήστε εδώ για να επιλέξετε...</string>
     <string name="text_view_click_cards_message">Πατήστε σε μία εγγραφή για να δείτε περισσότερα.</string>
+    <string name="dialog_delete_title">ΔΙΑΓΡΑΦΗ</string>
+    <string name="dialog_delete_confirmation">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την εγγραφή;</string>
+    <string name="dialog_yes">ΝΑΙ</string>
+    <string name="dialog_no">ΟΧΙ</string>
+    <string name="toast_record_deleted">Η εγγραφή διεγράφη επιτυχώς.</string>
 </resources>

@@ -17,4 +17,9 @@
     <string name="text_view_datetime">Date:</string>
     <string name="edit_text_datetime_hint">Tap to select date...</string>
     <string name="text_view_click_cards_message">Click on a card to see more info.</string>
+    <string name="dialog_delete_title">RECORD DELETION</string>
+    <string name="dialog_delete_confirmation">Are you sure you want to delete this record?</string>
+    <string name="dialog_yes">YES</string>
+    <string name="dialog_no">NO</string>
+    <string name="toast_record_deleted">Record deleted successfully.</string>
 </resources>
