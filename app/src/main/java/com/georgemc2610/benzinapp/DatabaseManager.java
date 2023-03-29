@@ -71,7 +71,12 @@ public class DatabaseManager
         DB.execSQL(query, bindArgs);
     }
 
-
+    /**
+     * Displays all records with all the details in the cardview_fill.xml file. Gives life to the buttons and cards
+     * can be clicked to see more information. Orders by the timestamp propery.
+     * @param layout The linear layout (from a scroll view) to display the records.
+     * @param inflater The inflater to make the cards.
+     */
     public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
     {
         layout.removeAllViews();
@@ -137,6 +142,7 @@ class DeleteButtonListener implements View.OnClickListener
     {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
 
+        // TODO: Make these string not hardcoded.
         dialog.setTitle("RECORD DELETION");
         dialog.setMessage("Do you really want to delete this record?");
 
