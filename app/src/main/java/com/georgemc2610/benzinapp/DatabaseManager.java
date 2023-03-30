@@ -138,6 +138,17 @@ public class DatabaseManager
         cursor.close();
     }
 
+    public void GetRecord(int id)
+    {
+        String query = "SELECT * FROM BENZINAPP WHERE id = '" + id + "';";
+        Cursor cursor = DB.rawQuery(query, null);
+
+        if (cursor.moveToNext())
+        {
+
+        }
+    }
+
     /**
      * Deletes a record from the database, based on the primary key.
      * @param id The primary key (ID).
