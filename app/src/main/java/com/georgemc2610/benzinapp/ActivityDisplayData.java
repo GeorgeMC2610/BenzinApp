@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ActivityDisplayData extends AppCompatActivity
 {
-
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km;
 
     @Override
@@ -18,6 +18,10 @@ public class ActivityDisplayData extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_data);
+
+        // for id retrieval.
+        SharedPreferences sp = getSharedPreferences("BenzinApp", MODE_PRIVATE);
+        int id = sp.getInt("id", 0);
 
         // initialize views.
         date = findViewById(R.id.textView_Date);
@@ -41,6 +45,8 @@ public class ActivityDisplayData extends AppCompatActivity
         {
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
+
+        DatabaseManager.getInstance(null).GetRecord(id, date, petrolType, cost, kilometers, liters, lt_per_100, km_per_lt, cost_per_km);
     }
 
     @Override

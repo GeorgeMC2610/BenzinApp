@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -114,9 +115,11 @@ public class DatabaseManager
             TextView date = v.findViewById(R.id.card_date);
             date.setText(cursor.getString(7));
 
+            int id = cursor.getInt(0);
+
             // give life to the buttons
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout, hint));
+            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), id, inflater, layout, hint));
 
             // set clickable view
             v.setOnClickListener(new View.OnClickListener()
@@ -126,6 +129,11 @@ public class DatabaseManager
                 {
                     Intent intent = new Intent(layout.getContext(), ActivityDisplayData.class);
                     layout.getContext().startActivity(intent);
+
+                    SharedPreferences sp =  layout.getContext().getSharedPreferences("BenzinApp", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putInt("id", id);
+                    editor.apply();
                 }
             });
 
@@ -138,7 +146,7 @@ public class DatabaseManager
         cursor.close();
     }
 
-    public void GetRecord(int id, TextView date, TextView gasStation, TextView cost, TextView km, TextView lt, TextView lt_per_100, TextView km_per_lt, TextView cost_per_lt)
+    public void GetRecord(int id, TextView date, TextView gasStation, TextView cost, TextView km, TextView lt, TextView lt_per_100, TextView km_per_lt, TextView cost_per_km)
     {
         String query = "SELECT * FROM BENZINAPP WHERE id = '" + id + "';";
         Cursor cursor = DB.rawQuery(query, null);
@@ -148,12 +156,12 @@ public class DatabaseManager
             // i hope this makes sense.
             date.setText(cursor.getString(7));
             gasStation.setText(cursor.getString(8));
-            cost.setText(cursor.getString(2));
-            km.setText(cursor.getString(3));
-            lt.setText(cursor.getString(1));
-            lt_per_100.setText(cursor.getString(4));
-            km_per_lt.setText(cursor.getString(5));
-            cost_per_lt.setText(cursor.getString(6));
+            cost.setText("€" + cursor.getString(2));
+            km.setText(cursor.getString(3) + " km");
+            lt.setText(cursor.getString(1) + " lt");
+            lt_per_100.setText(cursor.getString(4) + " lt/100km");
+            km_per_lt.setText(cursor.getString(5) + "km/lt");
+            cost_per_km.setText("€" + cursor.getString(6) + "/lt");
         }
     }
 
