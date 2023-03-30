@@ -27,4 +27,7 @@
     <string name="dialog_exit_confirmation_title">CONFIRM EXIT</string>
     <string name="dialog_exit_confirmation_message">There is at least one field that has data in it. If you leave without adding a record, this data will be deleted. Are you sure you want to leave?</string>
     <string name="title_display_data">Record Data</string>
+    <string name="text_view_liters_per_100_km">Liters per 100km</string>
+    <string name="text_view_km_per_liter">Kilometers per Liter</string>
+    <string name="text_view_cost_per_km">Cost per Kilometer</string>
 </resources>

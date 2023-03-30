@@ -27,4 +27,7 @@
     <string name="dialog_exit_confirmation_title">ΕΞΟΔΟΣ</string>
     <string name="dialog_exit_confirmation_message">Υπάρχει τουλάχιστον ένα συμπληρωμένο πεδίο. Αν φύγετε, χωρίς να προσθέσετε κάποια εγγραφή, τα συμπληρωμένα πεδία θα χαθούν. Είστε σίγουροι ότι θέλετε να φύγετε;</string>
     <string name="title_display_data">Αναλυτική Περιγραφή</string>
+    <string name="text_view_liters_per_100_km">Λίτρα στα 100 χλμ.</string>
+    <string name="text_view_km_per_liter">Χιλιόμετρα ανά Λίτρο</string>
+    <string name="text_view_cost_per_km">Κόστος ανά Χιλιόμετρο</string>
 </resources>
