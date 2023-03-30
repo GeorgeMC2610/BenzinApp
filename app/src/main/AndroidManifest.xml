@@ -12,6 +12,9 @@
         android:theme="@style/Theme.BenzinApp"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityDisplayData"
+            android:exported="false" />
+        <activity
             android:name=".ActivityAddRecord"
             android:exported="false" />
         <activity
