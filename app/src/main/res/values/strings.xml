@@ -23,4 +23,7 @@
     <string name="dialog_no">NO</string>
     <string name="toast_record_deleted">Record deleted successfully.</string>
     <string name="text_view_click_cards_message_empty">Nothing to show here. Click the button to add records.</string>
+    <string name="toast_record_added">Successfully added record.</string>
+    <string name="dialog_exit_confirmation_title">CONFIRM EXIT</string>
+    <string name="dialog_exit_confirmation_message">There is at least one field that has data in it. If you leave without adding a record, this data will be deleted. Are you sure you want to leave?</string>
 </resources>

@@ -23,4 +23,7 @@
     <string name="dialog_no">ΟΧΙ</string>
     <string name="toast_record_deleted">Η εγγραφή διεγράφη επιτυχώς.</string>
     <string name="text_view_click_cards_message_empty">Δεν υπάρχουν εγγραφές. Πατήστε το κουμπί για να βάλετε.</string>
+    <string name="toast_record_added">Η εγγραφή προστέθηκε επιτυχώς.</string>
+    <string name="dialog_exit_confirmation_title">ΕΞΟΔΟΣ</string>
+    <string name="dialog_exit_confirmation_message">Υπάρχει τουλάχιστον ένα συμπληρωμένο πεδίο. Αν φύγετε, χωρίς να προσθέσετε κάποια εγγραφή, τα συμπληρωμένα πεδία θα χαθούν. Είστε σίγουροι ότι θέλετε να φύγετε;</string>
 </resources>

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.Debug;
 import androidx.core.app.NavUtils;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,11 +63,51 @@ public class ActivityAddRecord extends AppCompatActivity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                finish();
+
+                if (AnyEditTextFilled())
+                {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+                    dialog.setTitle(getString(R.string.dialog_exit_confirmation_title));
+                    dialog.setMessage(getString(R.string.dialog_exit_confirmation_message));
+                    dialog.setCancelable(true);
+
+                    dialog.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            finish();
+                        }
+                    });
+
+                    dialog.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            // foo.
+                        }
+                    });
+
+                    dialog.create().show();
+                }
+                else
+                    finish();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean AnyEditTextFilled()
+    {
+        return (editTextKilometers.getText().toString().trim().length() != 0 ||
+                editTextLiters.getText().toString().trim().length() != 0 ||
+                editTextCost.getText().toString().trim().length() != 0 ||
+                editTextPetrolType.getText().toString().trim().length() != 0 ||
+                editTextDate.getText().toString().trim().length() != 0);
     }
 
     public void OnButtonAddClicked(View v)
@@ -103,7 +145,7 @@ public class ActivityAddRecord extends AppCompatActivity
 
         // proceed to add properties.
         DatabaseManager.getInstance(null).AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
-        Toast.makeText(this, "Added record...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
     }
 
     public void OnEditTextDateTimeClicked(View v)
