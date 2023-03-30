@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -116,6 +117,17 @@ public class DatabaseManager
             // give life to the buttons
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
             deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout, hint));
+
+            // set clickable view
+            v.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Intent intent = new Intent(layout.getContext(), ActivityDisplayData.class);
+                    layout.getContext().startActivity(intent);
+                }
+            });
 
             hint.setText(layout.getContext().getResources().getString(R.string.text_view_click_cards_message));
 
