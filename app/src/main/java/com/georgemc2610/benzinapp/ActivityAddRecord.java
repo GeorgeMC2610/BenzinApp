@@ -147,6 +147,8 @@ public class ActivityAddRecord extends AppCompatActivity
         // proceed to add properties.
         DatabaseManager.getInstance(null).AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
         Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
+
+        finish();
     }
 
     public void OnEditTextDateTimeClicked(View v)
