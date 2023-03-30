@@ -13,7 +13,7 @@
     <string name="edit_text_kilometers_hint">Insert Kilometers...</string>
     <string name="text_view_kilometers">Kilometers:</string>
     <string name="edit_text_petrol_type_hint">E.g. \"V-Power 100\" or \"FuelSave 95\"...</string>
-    <string name="text_view_petrol_type">Petrol Type</string>
+    <string name="text_view_petrol_type">Petrol Type:</string>
     <string name="text_view_datetime">Date:</string>
     <string name="edit_text_datetime_hint">Tap to select date...</string>
     <string name="text_view_click_cards_message">Click on a card to see more info.</string>

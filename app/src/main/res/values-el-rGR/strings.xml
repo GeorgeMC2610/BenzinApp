@@ -13,7 +13,7 @@
     <string name="edit_text_kilometers_hint">Εισάγετε Χιλιόμετρα...</string>
     <string name="text_view_kilometers">Χιλιόμετρα:</string>
     <string name="edit_text_petrol_type_hint">Π.χ. \"V-Power 100\" ή \"FuelSave 95\"...</string>
-    <string name="text_view_petrol_type">Τύπος Καυσίμου</string>
+    <string name="text_view_petrol_type">Τύπος Καυσίμου:</string>
     <string name="text_view_datetime">Ημερομηνία:</string>
     <string name="edit_text_datetime_hint">Πατήστε εδώ για να επιλέξετε...</string>
     <string name="text_view_click_cards_message">Πατήστε σε μία εγγραφή για να δείτε περισσότερα.</string>
