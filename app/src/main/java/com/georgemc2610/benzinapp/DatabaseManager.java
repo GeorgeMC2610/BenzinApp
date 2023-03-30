@@ -127,9 +127,11 @@ public class DatabaseManager
                 @Override
                 public void onClick(View v)
                 {
+                    // if the view is clicked start the other activity.
                     Intent intent = new Intent(layout.getContext(), ActivityDisplayData.class);
                     layout.getContext().startActivity(intent);
 
+                    // and store the id in the shared preferences.
                     SharedPreferences sp =  layout.getContext().getSharedPreferences("BenzinApp", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putInt("id", id);
