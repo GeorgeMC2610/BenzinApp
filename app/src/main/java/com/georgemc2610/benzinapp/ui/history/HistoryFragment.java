@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -35,8 +36,10 @@ public class HistoryFragment extends Fragment
         ButtonAdd = root.findViewById(R.id.button_add);
         ButtonAdd.setOnClickListener(new ButtonAddListener(getContext()));
 
+        TextView hint = root.findViewById(R.id.textViewClickCardsMsg);
+
         scrollViewRelativeLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
-        DatabaseManager.getInstance(null).DisplayCards(scrollViewRelativeLayout, getLayoutInflater());
+        DatabaseManager.getInstance(null).DisplayCards(scrollViewRelativeLayout, getLayoutInflater(), hint);
 
         return root;
     }

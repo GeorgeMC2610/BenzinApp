@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.time.LocalDate;
 import java.util.zip.Inflater;
 
@@ -77,10 +79,12 @@ public class DatabaseManager
      * @param layout The linear layout (from a scroll view) to display the records.
      * @param inflater The inflater to make the cards.
      */
-    public void DisplayCards(LinearLayout layout, LayoutInflater inflater)
+    public void DisplayCards(LinearLayout layout, LayoutInflater inflater, TextView hint)
     {
         // first, remove all views.
         layout.removeAllViews();
+
+        hint.setText(layout.getContext().getResources().getString(R.string.text_view_click_cards_message_empty));
 
         // initialize db query.
         String query = "SELECT * FROM BENZINAPP ORDER BY timestamp DESC;";
@@ -99,6 +103,7 @@ public class DatabaseManager
             TextView idHidden = v.findViewById(R.id.card_hidden_id);
             idHidden.setText(cursor.getString(0));
 
+            // TODO: Replace hardcoded strings.
             TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
             lt_per_100.setText(cursor.getString(4) + " lt/100km");
 
@@ -110,7 +115,9 @@ public class DatabaseManager
 
             // give life to the buttons
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout));
+            deleteButton.setOnClickListener(new DeleteButtonListener(layout.getContext(), cursor.getInt(0), inflater, layout, hint));
+
+            hint.setText(layout.getContext().getResources().getString(R.string.text_view_click_cards_message));
 
             // and add the layout
             layout.addView(v);
@@ -141,13 +148,15 @@ class DeleteButtonListener implements View.OnClickListener
     private int id;
     private LinearLayout layout;
     private LayoutInflater inflater;
+    private TextView hint;
 
-    public DeleteButtonListener(Context context, int id, LayoutInflater inflater, LinearLayout layout)
+    public DeleteButtonListener(Context context, int id, LayoutInflater inflater, LinearLayout layout, TextView hint)
     {
         this.context = context;
         this.id = id;
         this.inflater = inflater;
         this.layout = layout;
+        this.hint = hint;
     }
 
     @Override
@@ -164,7 +173,7 @@ class DeleteButtonListener implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which)
             {
                 DatabaseManager.getInstance(null).DeleteRecord(id);
-                DatabaseManager.getInstance(null).DisplayCards(layout, inflater);
+                DatabaseManager.getInstance(null).DisplayCards(layout, inflater, hint);
                 Toast.makeText(layout.getContext(), layout.getContext().getResources().getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
             }
         });

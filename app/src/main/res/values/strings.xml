@@ -22,4 +22,5 @@
     <string name="dialog_yes">YES</string>
     <string name="dialog_no">NO</string>
     <string name="toast_record_deleted">Record deleted successfully.</string>
+    <string name="text_view_click_cards_message_empty">Nothing to show here. Click the button to add records.</string>
 </resources>

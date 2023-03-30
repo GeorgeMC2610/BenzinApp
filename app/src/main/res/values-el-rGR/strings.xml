@@ -22,4 +22,5 @@
     <string name="dialog_yes">ΝΑΙ</string>
     <string name="dialog_no">ΟΧΙ</string>
     <string name="toast_record_deleted">Η εγγραφή διεγράφη επιτυχώς.</string>
+    <string name="text_view_click_cards_message_empty">Δεν υπάρχουν εγγραφές. Πατήστε το κουμπί για να βάλετε.</string>
 </resources>
