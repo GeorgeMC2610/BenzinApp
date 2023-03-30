@@ -6,7 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ActivityDisplayData">
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="363dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#FF0000"
+        android:text="DELETE"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="628dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,12 +101,12 @@
                 android:textStyle="bold" />
 
             <TextView
-            android:id="@+id/textView_TitleKilometers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/text_view_kilometers"
-            android:textSize="16sp" />
+                android:id="@+id/textView_TitleKilometers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_kilometers"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView_Kilometers"
@@ -126,7 +141,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_LitersKilometersPerLiter"
+                android:id="@+id/textView_KilometersPerLiter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="39 km/lt"
@@ -152,4 +167,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
