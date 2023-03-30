@@ -138,14 +138,22 @@ public class DatabaseManager
         cursor.close();
     }
 
-    public void GetRecord(int id)
+    public void GetRecord(int id, TextView date, TextView gasStation, TextView cost, TextView km, TextView lt, TextView lt_per_100, TextView km_per_lt, TextView cost_per_lt)
     {
         String query = "SELECT * FROM BENZINAPP WHERE id = '" + id + "';";
         Cursor cursor = DB.rawQuery(query, null);
 
         if (cursor.moveToNext())
         {
-
+            // i hope this makes sense.
+            date.setText(cursor.getString(7));
+            gasStation.setText(cursor.getString(8));
+            cost.setText(cursor.getString(2));
+            km.setText(cursor.getString(3));
+            lt.setText(cursor.getString(1));
+            lt_per_100.setText(cursor.getString(4));
+            km_per_lt.setText(cursor.getString(5));
+            cost_per_lt.setText(cursor.getString(6));
         }
     }
 
