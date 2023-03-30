@@ -64,6 +64,7 @@ public class ActivityAddRecord extends AppCompatActivity
         {
             case android.R.id.home:
 
+                // when the back button is pressed without saving a record.
                 if (AnyEditTextFilled())
                 {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
