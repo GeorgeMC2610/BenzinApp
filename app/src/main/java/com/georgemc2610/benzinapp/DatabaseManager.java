@@ -215,8 +215,8 @@ class DeleteButtonListener implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                DatabaseManager.getInstance(null).DeleteRecord(id);
-                DatabaseManager.getInstance(null).DisplayCards(layout, inflater, hint);
+                DatabaseManager.getInstance().DeleteRecord(id);
+                DatabaseManager.getInstance().DisplayCards(layout, inflater, hint);
                 Toast.makeText(layout.getContext(), layout.getContext().getResources().getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
             }
         });
