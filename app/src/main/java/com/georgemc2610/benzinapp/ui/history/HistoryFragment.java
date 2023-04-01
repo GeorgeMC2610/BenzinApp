@@ -39,7 +39,7 @@ public class HistoryFragment extends Fragment
         TextView hint = root.findViewById(R.id.textViewClickCardsMsg);
 
         scrollViewRelativeLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
-        DatabaseManager.getInstance(null).DisplayCards(scrollViewRelativeLayout, getLayoutInflater(), hint);
+        DatabaseManager.getInstance().DisplayCards(scrollViewRelativeLayout, getLayoutInflater(), hint);
 
         return root;
     }

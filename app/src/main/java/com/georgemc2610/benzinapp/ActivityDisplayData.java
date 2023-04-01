@@ -46,7 +46,7 @@ public class ActivityDisplayData extends AppCompatActivity
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
 
-        DatabaseManager.getInstance(null).GetRecord(id, date, petrolType, cost, kilometers, liters, lt_per_100, km_per_lt, cost_per_km);
+        DatabaseManager.getInstance().GetRecord(id, date, petrolType, cost, kilometers, liters, lt_per_100, km_per_lt, cost_per_km);
     }
 
     @Override

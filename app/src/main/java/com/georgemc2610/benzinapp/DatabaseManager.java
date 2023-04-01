@@ -45,15 +45,17 @@ public class DatabaseManager
                 "fueltype TEXT);");
     }
 
-    public static DatabaseManager getInstance(@Nullable SQLiteDatabase DB)
+    public static DatabaseManager getInstance()
     {
-        if (DB == null && instance == null)
-            return null;
+        return instance;
+    }
 
+    public static void create(SQLiteDatabase DB)
+    {
         if (instance == null)
             instance = new DatabaseManager(DB);
-
-        return instance;
+        else
+            throw new RuntimeException("Database cannot be implemented twice.");
     }
 
     /**

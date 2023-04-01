@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
 
         // here is where the singleton is created
         DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
-        DatabaseManager.getInstance(DB);
+        DatabaseManager.create(DB);
     }
 
 }
