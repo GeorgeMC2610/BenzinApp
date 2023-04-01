@@ -34,6 +34,52 @@ public class FuelFillRecord
         costUsd_per_mile = cost_usd / miles;
     }
 
-    
 
+    public float getLiters() {
+        return liters;
+    }
+
+    public float getCost_eur() {
+        return cost_eur;
+    }
+
+    public float getKilometers() {
+        return kilometers;
+    }
+
+    public float getGallons() {
+        return gallons;
+    }
+
+    public float getCost_usd() {
+        return cost_usd;
+    }
+
+    public float getMiles() {
+        return miles;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public float getLt_per_100km() {
+        return lt_per_100km;
+    }
+
+    public float getKm_per_lt() {
+        return km_per_lt;
+    }
+
+    public float getCostEur_per_km() {
+        return costEur_per_km;
+    }
+
+    public float getMpg() {
+        return mpg;
+    }
+
+    public float getCostUsd_per_mile() {
+        return costUsd_per_mile;
+    }
 }
