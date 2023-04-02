@@ -11,10 +11,15 @@ public class RequestHandler
     }
 
     public static RequestHandler getInstance() { return instance; }
-    
+
     public static void Create()
     {
         instance = new RequestHandler();
+    }
+
+    public void Login(String Username, String Password)
+    {
+
     }
 
 }
