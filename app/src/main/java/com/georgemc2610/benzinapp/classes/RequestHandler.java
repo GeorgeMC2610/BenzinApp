@@ -7,6 +7,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestHandler
 {
     private static RequestHandler instance;
@@ -35,7 +38,17 @@ public class RequestHandler
 
         StringRequest request = new StringRequest(Request.Method.POST, url, response -> {}, error -> {})
         {
-          
+
+           @Override
+           protected Map<String, String> getParams()
+           {
+               Map<String, String> params = new HashMap<>();
+
+               params.put("username", Username);
+               params.put("password", Password);
+
+               return params;
+           }
 
         };
     }
