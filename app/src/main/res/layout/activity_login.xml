@@ -77,6 +77,7 @@
         android:id="@+id/buttonLogin"
         android:layout_width="370dp"
         android:layout_height="63dp"
+        android:onClick="OnButtonLoginPressed"
         android:text="LOGIN"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

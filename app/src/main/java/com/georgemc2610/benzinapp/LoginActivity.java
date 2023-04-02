@@ -27,7 +27,21 @@ public class LoginActivity extends AppCompatActivity
 
     public void OnButtonLoginPressed(View v)
     {
-        
-    }
+        boolean canMoveOn = true;
 
+        // check for empty edit texts and
+        if (username.getText().toString().trim().length() == 0)
+        {
+            username.setError(getString(R.string.error_field_cannot_be_empty));
+            canMoveOn = false;
+        }
+
+        if (password.getText().toString().trim().length() == 0)
+        {
+            password.setError(getString(R.string.error_field_cannot_be_empty));
+            canMoveOn = false;
+        }
+
+        if (!canMoveOn) return;
+    }
 }
