@@ -1,12 +1,19 @@
 package com.georgemc2610.benzinapp.classes;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +43,28 @@ public class RequestHandler
 
         String url = _URL + "/auth/login";
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, response -> {}, error -> {})
+        StringRequest request = new StringRequest(Request.Method.POST, url, response ->
+        {
+            try
+            {
+                JSONObject jsonObject = new JSONObject(response);
+                token = jsonObject.getString("auth_token");
+            }
+            catch (JSONException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }, error ->
+        {
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(context, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(context, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
         {
 
            @Override
@@ -51,6 +79,8 @@ public class RequestHandler
            }
 
         };
+
+        requestQueue.add(request);
     }
 
 }

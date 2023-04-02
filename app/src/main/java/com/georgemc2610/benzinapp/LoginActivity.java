@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.georgemc2610.benzinapp.classes.RequestHandler;
+
 public class LoginActivity extends AppCompatActivity
 {
 
@@ -23,6 +25,8 @@ public class LoginActivity extends AppCompatActivity
         password = findViewById(R.id.editText_Password);
 
         login = findViewById(R.id.buttonLogin);
+
+        RequestHandler.Create();
     }
 
     public void OnButtonLoginPressed(View v)
@@ -43,5 +47,7 @@ public class LoginActivity extends AppCompatActivity
         }
 
         if (!canMoveOn) return;
+
+        RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString());
     }
 }
