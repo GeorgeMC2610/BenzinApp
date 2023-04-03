@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp.classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Debug;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class RequestHandler
 
     private RequestHandler()
     {
+        token = "";
     }
 
     public static RequestHandler getInstance() { return instance; }
@@ -42,19 +44,35 @@ public class RequestHandler
         instance = new RequestHandler();
     }
 
+    /**
+     * Authenticates the user. If the user inputs correctly the Username and Password fields,
+     * <b> a bearer token is then saved and used for authentication for all the other actions.</b>
+     * If the user fails to login, the user can try again.
+     *
+     * @param activity Context required in order to display Toast Messages.
+     * @param Username Provided Username.
+     * @param Password Provided Password.
+     * @param progressBar A Progress Bar for decoration.
+     */
     public void Login(Activity activity, String Username, String Password, ProgressBar progressBar)
     {
+        // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
+        // Login url.
         String url = _URL + "/auth/login";
 
+        // the request. In the login Activity, we don't need listeners inside the of the Activity.
         StringRequest request = new StringRequest(Request.Method.POST, url, response ->
         {
+            // in case of successful response.
             try
             {
+                // get the token and save it.
                 JSONObject jsonObject = new JSONObject(response);
                 token = jsonObject.getString("auth_token");
 
+                // then start the other activity.
                 Intent intent = new Intent(activity, MainActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
@@ -65,8 +83,10 @@ public class RequestHandler
             }
         }, error ->
         {
+            // if anything goes wrong, disable the progress bar
             progressBar.setVisibility(View.GONE);
 
+            // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {
                 Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
@@ -77,6 +97,7 @@ public class RequestHandler
             }
         })
         {
+            // put the parameters as they are provided.
            @Override
            protected Map<String, String> getParams()
            {
@@ -87,10 +108,44 @@ public class RequestHandler
 
                return params;
            }
+        };
 
+        // push the request.
+        requestQueue.add(request);
+    }
+
+    public void GetFuelFillRecords(Activity activity, Response.Listener listener)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // fuel fill records url. This will return all fuel_fill_records of the User.
+        String url = _URL + "/fuel_fill_record";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        {
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+                System.out.println(error.getMessage());
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
         };
 
         requestQueue.add(request);
     }
-
 }

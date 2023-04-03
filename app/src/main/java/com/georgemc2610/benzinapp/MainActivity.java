@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -14,7 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.georgemc2610.benzinapp.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements Response.Listener
 {
 
     private ActivityMainBinding binding;
@@ -41,7 +42,12 @@ public class MainActivity extends AppCompatActivity
         DatabaseManager.create(DB);
 
         // this is for the request.
-
+        RequestHandler.getInstance().GetFuelFillRecords(this, this);
     }
 
+    @Override
+    public void onResponse(Object response)
+    {
+        System.out.println(response.toString());
+    }
 }
