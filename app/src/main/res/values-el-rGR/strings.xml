@@ -32,4 +32,6 @@
     <string name="text_view_cost_per_km">Κόστος ανά Χιλιόμετρο:</string>
     <string name="edit_text_station_hint">Π.χ. \"bp\" ή \"Shell\"</string>
     <string name="text_view_station">Πρατήριο:</string>
+    <string name="edit_text_notes_hint">Εισάγετε οποιαδήποτε παρατήρηση...</string>
+    <string name="text_view_notes">Παρατηρήσεις:</string>
 </resources>

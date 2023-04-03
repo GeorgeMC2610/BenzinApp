@@ -32,4 +32,6 @@
     <string name="text_view_cost_per_km">Cost per Kilometer:</string>
     <string name="edit_text_station_hint">E.g. \"bp\" or \"Shell\"...</string>
     <string name="text_view_station">Petrol Station:</string>
+    <string name="edit_text_notes_hint">Enter any additional notes about this refill...</string>
+    <string name="text_view_notes">Notes:</string>
 </resources>

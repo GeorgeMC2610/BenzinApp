@@ -107,11 +107,25 @@
                 android:id="@+id/editTextDate"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:editable="false"
                 android:ems="10"
                 android:hint="@string/edit_text_datetime_hint"
                 android:inputType="datetime"
                 android:onClick="OnEditTextDateTimeClicked" />
+
+            <TextView
+                android:id="@+id/textViewNotes"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_notes" />
+
+            <EditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_notes_hint"
+                android:inputType="text" />
 
         </LinearLayout>
 
