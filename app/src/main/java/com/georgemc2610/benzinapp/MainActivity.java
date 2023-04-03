@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity
         // here is where the singleton is created
         DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
         DatabaseManager.create(DB);
+
+        // this is for the request.
+
     }
 
 }
