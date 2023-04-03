@@ -3,6 +3,8 @@ package com.georgemc2610.benzinapp.classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,7 +42,7 @@ public class RequestHandler
         instance = new RequestHandler();
     }
 
-    public void Login(Activity activity, String Username, String Password)
+    public void Login(Activity activity, String Username, String Password, ProgressBar progressBar)
     {
         requestQueue = Volley.newRequestQueue(activity);
 
@@ -63,6 +65,8 @@ public class RequestHandler
             }
         }, error ->
         {
+            progressBar.setVisibility(View.GONE);
+
             if (error.networkResponse.statusCode == 401)
             {
                 Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
@@ -73,7 +77,6 @@ public class RequestHandler
             }
         })
         {
-
            @Override
            protected Map<String, String> getParams()
            {

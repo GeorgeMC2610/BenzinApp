@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 
 public class LoginActivity extends AppCompatActivity
@@ -14,6 +17,7 @@ public class LoginActivity extends AppCompatActivity
 
     EditText username, password;
     Button login;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +29,8 @@ public class LoginActivity extends AppCompatActivity
         password = findViewById(R.id.editText_Password);
 
         login = findViewById(R.id.buttonLogin);
+
+        progressBar = findViewById(R.id.progressBar_Login);
 
         RequestHandler.Create();
     }
@@ -48,6 +54,8 @@ public class LoginActivity extends AppCompatActivity
 
         if (!canMoveOn) return;
 
-        RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString());
+        progressBar.setVisibility(View.VISIBLE);
+
+        RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString(), progressBar);
     }
 }
