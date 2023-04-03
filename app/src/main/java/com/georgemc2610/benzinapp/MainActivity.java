@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,11 +16,23 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.georgemc2610.benzinapp.databinding.ActivityMainBinding;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements Response.Listener
 {
 
     private ActivityMainBinding binding;
     private SQLiteDatabase DB;
+
+    private List<FuelFillRecord> fuelFillRecords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +61,30 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     @Override
     public void onResponse(Object response)
     {
-        System.out.println(response.toString());
+        try
+        {
+            JSONArray JsonArrayResponse = new JSONArray(response.toString());
+            List<FuelFillRecord> records = new ArrayList<>();
+
+            for (int i = 0; i < JsonArrayResponse.length(); i++)
+            {
+                JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
+
+                int id = JsonObject.getInt("id");
+                float km = (float) JsonObject.getDouble("km");
+                float cost_eur = (float) JsonObject.getDouble("cost_eur");
+                float lt = (float) JsonObject.getDouble("lt");
+                String fuelType = JsonObject.getString("fuel_type");
+                String notes = JsonObject.getString("notes");
+                LocalDate date = LocalDate.parse(JsonObject.getString("created_at"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                FuelFillRecord record = new FuelFillRecord(lt, cost_eur, km, date);
+                System.out.println("All went good.");
+            }
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

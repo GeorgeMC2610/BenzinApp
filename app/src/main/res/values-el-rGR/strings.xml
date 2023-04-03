@@ -30,4 +30,6 @@
     <string name="text_view_liters_per_100_km">Λίτρα στα 100 χλμ.:</string>
     <string name="text_view_km_per_liter">Χιλιόμετρα ανά Λίτρο:</string>
     <string name="text_view_cost_per_km">Κόστος ανά Χιλιόμετρο:</string>
+    <string name="edit_text_station_hint">Π.χ. \"bp\" ή \"Shell\"</string>
+    <string name="text_view_station">Πρατήριο:</string>
 </resources>

@@ -82,6 +82,21 @@
                 android:inputType="text" />
 
             <TextView
+                android:id="@+id/textViewStation"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_station" />
+
+            <EditText
+                android:id="@+id/editTextStation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_station_hint"
+                android:inputType="text" />
+
+            <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
