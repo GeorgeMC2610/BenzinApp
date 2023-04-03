@@ -1,6 +1,8 @@
 package com.georgemc2610.benzinapp.classes;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -9,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.georgemc2610.benzinapp.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,9 +40,9 @@ public class RequestHandler
         instance = new RequestHandler();
     }
 
-    public void Login(Context context, String Username, String Password)
+    public void Login(Activity activity, String Username, String Password)
     {
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = Volley.newRequestQueue(activity);
 
         String url = _URL + "/auth/login";
 
@@ -49,6 +52,10 @@ public class RequestHandler
             {
                 JSONObject jsonObject = new JSONObject(response);
                 token = jsonObject.getString("auth_token");
+
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
             }
             catch (JSONException e)
             {
@@ -58,11 +65,11 @@ public class RequestHandler
         {
             if (error.networkResponse.statusCode == 401)
             {
-                Toast.makeText(context, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(context, "Something else went wrong.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
             }
         })
         {
