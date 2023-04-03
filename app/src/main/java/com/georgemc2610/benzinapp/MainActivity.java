@@ -74,11 +74,14 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                 float km = (float) JsonObject.getDouble("km");
                 float cost_eur = (float) JsonObject.getDouble("cost_eur");
                 float lt = (float) JsonObject.getDouble("lt");
+                String station = JsonObject.getString("station");
                 String fuelType = JsonObject.getString("fuel_type");
                 String notes = JsonObject.getString("notes");
-                LocalDate date = LocalDate.parse(JsonObject.getString("created_at"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                LocalDate date = LocalDate.parse(JsonObject.getString("filled_at"));
 
-                FuelFillRecord record = new FuelFillRecord(lt, cost_eur, km, date);
+                FuelFillRecord record = new FuelFillRecord(id, lt, cost_eur, km, date, station, fuelType, notes);
+                records.add(record);
+
                 System.out.println("All went good.");
             }
         }

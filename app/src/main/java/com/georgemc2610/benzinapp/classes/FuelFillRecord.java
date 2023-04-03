@@ -4,20 +4,26 @@ import java.time.LocalDate;
 
 public class FuelFillRecord
 {
+    private int id;
     private float liters, cost_eur, kilometers;
     private float gallons, cost_usd, miles;
     private LocalDate date;
+    private String station, fuelType, notes;
 
     private final float lt_per_100km, km_per_lt, costEur_per_km;
     private final float mpg, costUsd_per_mile;
 
-    public FuelFillRecord(float liters, float cost_eur, float kilometers, LocalDate date)
+    public FuelFillRecord(int id, float liters, float cost_eur, float kilometers, LocalDate date, String station, String fuelType, String notes)
     {
         // initialize values
+        this.id = id;
         this.liters = liters;
         this.cost_eur = cost_eur;
         this.kilometers = kilometers;
         this.date = date;
+        this.station = station;
+        this.fuelType = fuelType;
+        this.notes = notes;
 
         // conversions
         this.miles = (float) (kilometers / 1.609);
