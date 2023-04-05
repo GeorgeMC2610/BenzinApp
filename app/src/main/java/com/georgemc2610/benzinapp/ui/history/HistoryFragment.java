@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.ActivityAddRecord;
+import com.georgemc2610.benzinapp.ActivityDisplayData;
 import com.georgemc2610.benzinapp.DatabaseManager;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
@@ -123,8 +125,6 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                 // add view
                 scrollViewLayout.addView(v);
 
-                // add click listeners
-                // TODO: ADD LISTENERS FOR ONLCLICK
                 // delete button click listener
                 deleteButton.setOnClickListener(new View.OnClickListener()
                 {
@@ -160,7 +160,22 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                     }
                 });
 
+                // card view click listener
+                v.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(getContext(), ActivityDisplayData.class);
+                        startActivity(intent);
 
+                        // and store the id in the shared preferences.
+                        SharedPreferences sp =  getActivity().getSharedPreferences("BenzinApp", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.put
+                        editor.apply();
+                    }
+                });
 
                 // change the hint
                 hint.setText(getString(R.string.text_view_click_cards_message));
