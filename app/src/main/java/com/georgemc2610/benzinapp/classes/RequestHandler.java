@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.georgemc2610.benzinapp.ActivityDisplayData;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 
@@ -118,6 +119,75 @@ public class RequestHandler
         // push the request.
         requestQueue.add(request);
     }
+
+
+    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // Login url.
+        String url = _URL + "/signup";
+
+        // the request. In the login Activity, we don't need listeners inside the of the Activity.
+        StringRequest request = new StringRequest(Request.Method.POST, url, response ->
+        {
+            // in case of successful response.
+            try
+            {
+                // get the token and save it.
+                JSONObject jsonObject = new JSONObject(response);
+                token = jsonObject.getString("auth_token");
+
+                // then start the other activity.
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+            }
+            catch (JSONException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }, error ->
+        {
+            // if anything goes wrong, disable the progress bar
+            progressBar.setVisibility(View.GONE);
+
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 422)
+            {
+                Toast.makeText(activity, "Username has already been taken.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // put the parameters as they are provided.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("username", username);
+                params.put("password", password);
+                params.put("password_confirmation", passwordConfirmation);
+                params.put("manufacturer", carManufacturer);
+                params.put("model", model);
+                params.put("year", String.valueOf(year));
+
+                return params;
+            }
+        };
+
+        // push the request.
+        requestQueue.add(request);
+    }
+
 
     public void GetFuelFillRecords(Activity activity, Response.Listener<String> listener)
     {

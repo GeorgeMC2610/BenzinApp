@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+
+import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
 
 public class RegisterActivity extends AppCompatActivity
 {
     EditText username, password, passwordConfirmation, manufacturer, model, year;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity
         manufacturer = findViewById(R.id.editText_CarManufacturer);
         model = findViewById(R.id.editText_CarModel);
         year = findViewById(R.id.editText_Year);
+
+        progressBar = findViewById(R.id.progressBar_register);
     }
 
     public void OnTextViewLoginClicked(View v)
@@ -84,11 +91,18 @@ public class RegisterActivity extends AppCompatActivity
         if (!canContinue)
             return;
 
+        // set progress bar on
+        progressBar.setVisibility(View.VISIBLE);
+
+        // values
         String carManufacturer = manufacturer.getText().toString();
         String carModel = model.getText().toString();
         int carYear = Integer.parseInt(year.getText().toString());
         String Username = username.getText().toString();
         String Password = password.getText().toString();
         String PasswordConfirmation = passwordConfirmation.getText().toString();
+
+        // signup
+        RequestHandler.getInstance().Signup(this, Username, Password, PasswordConfirmation, carManufacturer, carModel, carYear, progressBar);
     }
 }
