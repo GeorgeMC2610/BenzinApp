@@ -179,6 +179,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
     @Override
     public void onResponse(String response)
     {
+        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
         finish();
     }
 }

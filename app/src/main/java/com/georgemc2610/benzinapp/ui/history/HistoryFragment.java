@@ -56,8 +56,6 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
         //DatabaseManager.getInstance().DisplayCards(scrollViewRelativeLayout, getLayoutInflater(), hint);
 
-        RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
-
         return root;
     }
 
@@ -66,6 +64,14 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
     {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
     }
 
     @Override
