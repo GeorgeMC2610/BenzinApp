@@ -13,7 +13,7 @@ import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 
 public class ActivityDisplayData extends AppCompatActivity
 {
-    TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km;
+    TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +33,7 @@ public class ActivityDisplayData extends AppCompatActivity
         lt_per_100 = findViewById(R.id.textView_LitersPer100Kilometers);
         km_per_lt = findViewById(R.id.textView_KilometersPerLiter);
         cost_per_km = findViewById(R.id.textView_CostPerKilometer);
+        notes = findViewById(R.id.textView_Notes);
 
         // action bar with back button and correct title name.
         try
@@ -56,6 +57,7 @@ public class ActivityDisplayData extends AppCompatActivity
         lt_per_100.setText(record.getLt_per_100km() + " lt/100 km");
         km_per_lt.setText(record.getKm_per_lt() + " km/lt");
         cost_per_km.setText("€" + record.getCostEur_per_km() + "/km");
+        notes.setText(record.getNotes());
     }
 
     @Override
