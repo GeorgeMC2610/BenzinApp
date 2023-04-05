@@ -189,6 +189,44 @@ public class RequestHandler
     }
 
 
+    public void GetCarInfo(Activity activity, Response.Listener<String> listener)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // fuel fill records url. This will return all fuel_fill_records of the User.
+        String url = _URL + "/car";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 422)
+            {
+                Toast.makeText(activity, "Something went wrong.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+
     public void GetFuelFillRecords(Activity activity, Response.Listener<String> listener)
     {
         // request Queue required, to send the request.
