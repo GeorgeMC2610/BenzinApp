@@ -7,13 +7,17 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
 
 public class ActivityDisplayData extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
+    FuelFillRecord record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,7 +26,7 @@ public class ActivityDisplayData extends AppCompatActivity
         setContentView(R.layout.activity_display_data);
 
         // for record retrieval
-        FuelFillRecord record = (FuelFillRecord) getIntent().getSerializableExtra("record");
+        record = (FuelFillRecord) getIntent().getSerializableExtra("record");
 
         // initialize views.
         date = findViewById(R.id.textView_Date);
@@ -71,5 +75,35 @@ public class ActivityDisplayData extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void OnButtonDeleteClicked(View view)
+    {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(getString(R.string.dialog_delete_title));
+        dialog.setMessage(getString(R.string.dialog_delete_confirmation));
+
+        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayData.this, record.getId());
+                finish();
+            }
+        });
+
+        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // foo
+            }
+        });
+
+        dialog.setCancelable(true);
+        dialog.create().show();
     }
 }

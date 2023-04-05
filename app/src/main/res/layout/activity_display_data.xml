@@ -7,10 +7,11 @@
     tools:context=".ActivityDisplayData">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonDelete"
         android:layout_width="363dp"
         android:layout_height="50dp"
         android:backgroundTint="#FF0000"
+        android:onClick="OnButtonDeleteClicked"
         android:text="DELETE"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
