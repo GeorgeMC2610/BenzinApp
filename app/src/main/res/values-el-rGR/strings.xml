@@ -35,4 +35,10 @@
     <string name="edit_text_notes_hint">Εισάγετε οποιαδήποτε παρατήρηση...</string>
     <string name="text_view_notes">Παρατηρήσεις:</string>
     <string name="text_view_register">Δεν έχετε λογαριασμό; Κάντε εγγραφή.</string>
+    <string name="text_view_login">Έχετε ήδη εγγραφεί; Συνδεθείτε.</string>
+    <string name="text_view_username_hint">Εισάγετε το Username σας...</string>
+    <string name="text_view_password">Κωδικός:</string>
+    <string name="text_view_password_hint">Εισάγετε τον κωδικό σας...</string>
+    <string name="button_login">ΕΙΣΟΔΟΣ</string>
+    <string name="text_view_login_to_benzinapp">Είσοδος στο BenzinApp</string>
 </resources>
