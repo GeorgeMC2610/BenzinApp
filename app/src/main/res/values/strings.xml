@@ -42,4 +42,5 @@
     <string name="text_view_password_hint">Enter Password...</string>
     <string name="button_login">LOGIN</string>
     <string name="text_view_login_to_benzinapp">Login to BenzinApp</string>
+    <string name="error_password_confirmation_wrong">Passwords don\'t match.</string>
 </resources>

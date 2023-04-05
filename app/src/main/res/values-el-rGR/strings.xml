@@ -41,4 +41,5 @@
     <string name="text_view_password_hint">Εισάγετε τον κωδικό σας...</string>
     <string name="button_login">ΕΙΣΟΔΟΣ</string>
     <string name="text_view_login_to_benzinapp">Είσοδος στο BenzinApp</string>
+    <string name="error_password_confirmation_wrong">Οι κωδικοί πρέπει να είναι ίδιοι.</string>
 </resources>
