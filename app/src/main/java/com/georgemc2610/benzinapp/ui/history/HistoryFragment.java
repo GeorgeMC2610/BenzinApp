@@ -1,6 +1,8 @@
 package com.georgemc2610.benzinapp.ui.history;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -116,6 +119,40 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
 
                 // add click listeners
                 // TODO: ADD LISTENERS FOR ONLCLICK
+                // delete button click listener
+                deleteButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+                        dialog.setTitle(getString(R.string.dialog_delete_title));
+                        dialog.setMessage(getString(R.string.dialog_delete_confirmation));
+
+                        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+
+                            }
+                        });
+
+                        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                // foo
+                            }
+                        });
+
+                        dialog.setCancelable(true);
+                        dialog.create().show();
+                    }
+                });
+
 
 
                 // change the hint
