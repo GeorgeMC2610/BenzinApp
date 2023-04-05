@@ -104,14 +104,21 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                 // create record instance
                 FuelFillRecord record = new FuelFillRecord(id, lt, cost_eur, km, filledAt, station, fuelType, notes);
 
+                // fill views
                 petrolType.setText(record.getFuelType() + ", " + record.getStation());
                 idHidden.setText(String.valueOf(record.getId()));
                 lt_per_100.setText(record.getLt_per_100km() + " lt/100km");
                 cost.setText("€" + record.getCost_eur());
                 date.setText(record.getDate().toString());
 
+                // add view
                 scrollViewLayout.addView(v);
 
+                // add click listeners
+                // TODO: ADD LISTENERS FOR ONLCLICK
+
+
+                // change the hint
                 hint.setText(getString(R.string.text_view_click_cards_message));
             }
         }
