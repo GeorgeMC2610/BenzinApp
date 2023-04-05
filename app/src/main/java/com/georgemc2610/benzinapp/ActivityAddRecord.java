@@ -14,18 +14,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ActivityAddRecord extends AppCompatActivity
+public class ActivityAddRecord extends AppCompatActivity implements Response.Listener<String>
 {
-    EditText editTextLiters;
-    EditText editTextCost;
-    EditText editTextKilometers;
-    EditText editTextDate;
-    EditText editTextPetrolType;
+    EditText editTextLiters, editTextCost, editTextKilometers, editTextDate, editTextPetrolType, editTextStation, editTextNotes;
     int mYear, mMonth, mDay;
 
     @Override
@@ -41,6 +40,8 @@ public class ActivityAddRecord extends AppCompatActivity
         editTextKilometers = findViewById(R.id.editTextKilometers);
         editTextPetrolType = findViewById(R.id.editTextPetrolType);
         editTextDate = findViewById(R.id.editTextDate);
+        editTextStation = findViewById(R.id.editTextStation);
+        editTextNotes = findViewById(R.id.editTextNotes);
 
 
         // action bar with back button and correct title name.
@@ -141,14 +142,15 @@ public class ActivityAddRecord extends AppCompatActivity
         float liters = Float.parseFloat(editTextLiters.getText().toString());
         float cost = Float.parseFloat(editTextCost.getText().toString());
         float kilometers = Float.parseFloat(editTextKilometers.getText().toString());
+        String petrolType = editTextPetrolType.getText().toString();
+        String station = editTextStation.getText().toString();
+        String notes = editTextNotes.getText().toString();
 
         LocalDate date = LocalDate.parse(editTextDate.getText().toString());
 
         // proceed to add properties.
-        DatabaseManager.getInstance().AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
-        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
-
-        finish();
+        // DatabaseManager.getInstance().AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
+        RequestHandler.getInstance().AddFuelFillRecord(this, this, kilometers, liters, cost, petrolType, station, date, notes);
     }
 
     public void OnEditTextDateTimeClicked(View v)
@@ -172,5 +174,11 @@ public class ActivityAddRecord extends AppCompatActivity
 
         // show the dialog.
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onResponse(String response)
+    {
+        finish();
     }
 }
