@@ -79,27 +79,33 @@ public class ActivityDisplayData extends AppCompatActivity
 
     public void OnButtonDeleteClicked(View view)
     {
+        // build a confirmation dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
         dialog.setTitle(getString(R.string.dialog_delete_title));
         dialog.setMessage(getString(R.string.dialog_delete_confirmation));
 
+        // when the button yes is clicked
         dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
+                // delete the record by its id.
                 RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayData.this, record.getId());
+
+                // then close this activity
                 finish();
             }
         });
 
+        // when the button no is clicked
         dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                // foo
+                // do nothing
             }
         });
 

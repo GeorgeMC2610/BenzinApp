@@ -34,4 +34,5 @@
     <string name="text_view_station">Πρατήριο:</string>
     <string name="edit_text_notes_hint">Εισάγετε οποιαδήποτε παρατήρηση...</string>
     <string name="text_view_notes">Παρατηρήσεις:</string>
+    <string name="text_view_register">Δεν έχετε λογαριασμό; Κάντε εγγραφή.</string>
 </resources>

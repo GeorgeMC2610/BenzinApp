@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,5 +58,12 @@ public class LoginActivity extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
 
         RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString(), progressBar);
+    }
+
+    public void OnTextViewRegisterClicked(View v)
+    {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
