@@ -1,8 +1,9 @@
 package com.georgemc2610.benzinapp.classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class FuelFillRecord
+public class FuelFillRecord implements Serializable
 {
     private int id;
     private float liters, cost_eur, kilometers;

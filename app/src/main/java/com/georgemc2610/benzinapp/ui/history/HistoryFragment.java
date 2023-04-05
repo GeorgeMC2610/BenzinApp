@@ -167,13 +167,8 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(getContext(), ActivityDisplayData.class);
+                        intent.putExtra("record", record);
                         startActivity(intent);
-
-                        // and store the id in the shared preferences.
-                        SharedPreferences sp =  getActivity().getSharedPreferences("BenzinApp", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.put
-                        editor.apply();
                     }
                 });
 

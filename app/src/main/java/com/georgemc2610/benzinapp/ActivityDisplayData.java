@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.classes.FuelFillRecord;
+
 public class ActivityDisplayData extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km;
@@ -19,9 +21,8 @@ public class ActivityDisplayData extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_data);
 
-        // for id retrieval.
-        SharedPreferences sp = getSharedPreferences("BenzinApp", MODE_PRIVATE);
-        int id = sp.getInt("id", 0);
+        // for record retrieval
+        FuelFillRecord record = (FuelFillRecord) getIntent().getSerializableExtra("record");
 
         // initialize views.
         date = findViewById(R.id.textView_Date);
@@ -46,7 +47,15 @@ public class ActivityDisplayData extends AppCompatActivity
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
 
-        DatabaseManager.getInstance().GetRecord(id, date, petrolType, cost, kilometers, liters, lt_per_100, km_per_lt, cost_per_km);
+        // set values
+        date.setText(record.getDate().toString());
+        petrolType.setText(record.getFuelType() + ", " + record.getStation());
+        cost.setText("€" + record.getCost_eur());
+        liters.setText(record.getLiters() + " lt");
+        kilometers.setText(record.getKilometers() + " km");
+        lt_per_100.setText(record.getLt_per_100km() + " lt/100 km");
+        km_per_lt.setText(record.getKm_per_lt() + " km/lt");
+        cost_per_km.setText("€" + record.getCostEur_per_km() + "/km");
     }
 
     @Override
