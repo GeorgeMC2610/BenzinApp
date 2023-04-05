@@ -86,6 +86,9 @@ public class RequestHandler
             // if anything goes wrong, disable the progress bar
             progressBar.setVisibility(View.GONE);
 
+            if (error.networkResponse == null)
+                return;
+
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {

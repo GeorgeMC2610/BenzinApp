@@ -6,12 +6,12 @@ public class FuelFillRecord
 {
     private int id;
     private float liters, cost_eur, kilometers;
-    private float gallons, cost_usd, miles;
+    private float gallons, miles;
     private LocalDate date;
     private String station, fuelType, notes;
 
     private final float lt_per_100km, km_per_lt, costEur_per_km;
-    private final float mpg, costUsd_per_mile;
+    private final float mpg;
 
     public FuelFillRecord(int id, float liters, float cost_eur, float kilometers, LocalDate date, String station, String fuelType, String notes)
     {
@@ -28,7 +28,6 @@ public class FuelFillRecord
         // conversions
         this.miles = (float) (kilometers / 1.609);
         this.gallons = (float) (liters / 3.785);
-        this.cost_usd = (float) (cost_eur * 1.09);
 
         // based on the values above,
         lt_per_100km = 100 * liters / kilometers;
@@ -37,7 +36,6 @@ public class FuelFillRecord
 
         // also convert the other values
         mpg = miles / gallons;
-        costUsd_per_mile = cost_usd / miles;
     }
 
 
@@ -55,10 +53,6 @@ public class FuelFillRecord
 
     public float getGallons() {
         return gallons;
-    }
-
-    public float getCost_usd() {
-        return cost_usd;
     }
 
     public float getMiles() {
@@ -85,7 +79,19 @@ public class FuelFillRecord
         return mpg;
     }
 
-    public float getCostUsd_per_mile() {
-        return costUsd_per_mile;
+    public int getId() {
+        return id;
+    }
+
+    public String getStation() {
+        return station;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public String getNotes() {
+        return notes;
     }
 }
