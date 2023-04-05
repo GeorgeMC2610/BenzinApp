@@ -135,7 +135,8 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                             @Override
                             public void onClick(DialogInterface dialog, int which)
                             {
-
+                                RequestHandler.getInstance().DeleteFuelFillRecord(getActivity(), record.getId());
+                                RequestHandler.getInstance().GetFuelFillRecords(getActivity(), HistoryFragment.this);
                             }
                         });
 
