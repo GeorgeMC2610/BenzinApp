@@ -103,13 +103,13 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
-            DataPoint ltPer100 = new DataPoint(i, record.getLt_per_100km());
+            DataPoint ltPer100 = new DataPoint(i+1, record.getLt_per_100km());
             seriesLtPer100.appendData(ltPer100, false, jsonArray.length());
 
-            DataPoint kmPerLt = new DataPoint(i, record.getKm_per_lt());
+            DataPoint kmPerLt = new DataPoint(i+1, record.getKm_per_lt());
             seriesKmPerLt.appendData(kmPerLt, false, jsonArray.length());
 
-            DataPoint costPerKm = new DataPoint(i, record.getCostEur_per_km());
+            DataPoint costPerKm = new DataPoint(i+1, record.getCostEur_per_km());
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
         }
 
