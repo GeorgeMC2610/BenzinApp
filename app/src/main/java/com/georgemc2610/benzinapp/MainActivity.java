@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         // here is where the singleton is created
-        DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
-        DatabaseManager.create(DB);
+        //DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
+        //DatabaseManager.create(DB);
 
         // this is for the request.
         RequestHandler.getInstance().GetFuelFillRecords(this, this);
