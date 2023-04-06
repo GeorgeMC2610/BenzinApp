@@ -241,9 +241,9 @@ public class RequestHandler
                 return;
 
             // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
+            if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
             }
             else
             {

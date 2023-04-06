@@ -19,6 +19,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +66,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
         // make the request
         RequestHandler.getInstance().GetCarInfo(getActivity(), this);
+        RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
 
         return root;
     }
@@ -81,20 +83,37 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
     {
         try
         {
-            JSONObject jsonObject = new JSONObject(response);
-
-            String manufacturer = jsonObject.getString("manufacturer");
-            String model = jsonObject.getString("model");
-            String year = jsonObject.getString("year");
-
-            String wholeCar = manufacturer + " " + model;
-
-            car.setText(wholeCar);
-            this.year.setText(year);
+            if (response.charAt(0) != '[')
+            {
+                JSONObject jsonObject = new JSONObject(response);
+                SetCarInfo(jsonObject);
+            }
+            else
+            {
+                JSONArray jsonArray = new JSONArray(response);
+                SetGraphView(jsonArray);
+            }
         }
         catch (JSONException jsonException)
         {
             throw new RuntimeException(jsonException);
         }
+    }
+
+    private void SetCarInfo(JSONObject jsonObject) throws JSONException
+    {
+        String manufacturer = jsonObject.getString("manufacturer");
+        String model = jsonObject.getString("model");
+        String year = jsonObject.getString("year");
+
+        String wholeCar = manufacturer + " " + model;
+
+        car.setText(wholeCar);
+        this.year.setText(year);
+    }
+
+    private void SetGraphView(JSONArray jsonArray) throws JSONException
+    {
+
     }
 }
