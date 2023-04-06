@@ -43,34 +43,6 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
         graphView = (GraphView) root.findViewById(R.id.graph);
 
-        /*
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(-2, 4),
-                new DataPoint(-1, 1),
-                new DataPoint(0, 0),
-                new DataPoint(1, 1),
-                new DataPoint(2, 4),
-        });
-
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(-2, -2),
-                new DataPoint(-1, -1),
-                new DataPoint(0, 0),
-                new DataPoint(1, 1),
-                new DataPoint(2, 2),
-        });
-
-
-        series.setColor(Color.rgb(255, 0, 0));
-        series2.setColor(Color.rgb(0, 255, 0));
-
-        graphView.addSeries(series);
-        graphView.addSeries(series2);
-        graphView.setTitle("ΚΑΤΑΝΑΛΩΣΗ");
-
-
-         */
-
         // make the requests
         RequestHandler.getInstance().GetCarInfo(getActivity(), this);
         RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
@@ -121,17 +93,34 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
     private void SetGraphView(JSONArray jsonArray) throws JSONException
     {
+        // create three lines that correspond to different data.
         LineGraphSeries<DataPoint> seriesLtPer100 = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
 
+        // get all the possible points
         for (int i = 0; i < jsonArray.length(); i++)
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
-            DataPoint dataPoint = new DataPoint(i, record.getLt_per_100km());
-            seriesLtPer100.appendData(dataPoint, false, jsonArray.length());
+            DataPoint ltPer100 = new DataPoint(i, record.getLt_per_100km());
+            seriesLtPer100.appendData(ltPer100, false, jsonArray.length());
+
+            DataPoint kmPerLt = new DataPoint(i, record.getKm_per_lt());
+            seriesKmPerLt.appendData(kmPerLt, false, jsonArray.length());
+
+            DataPoint costPerKm = new DataPoint(i, record.getCostEur_per_km());
+            seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
         }
 
+        // and set the different colours
+        seriesLtPer100.setColor(Color.rgb(0, 0, 255));
         graphView.addSeries(seriesLtPer100);
 
+        seriesKmPerLt.setColor(Color.rgb(0, 255, 0));
+        graphView.addSeries(seriesKmPerLt);
+
+        seriesCostPerKm.setColor(Color.rgb(255, 0, 0));
+        graphView.addSeries(seriesCostPerKm);
     }
 }
