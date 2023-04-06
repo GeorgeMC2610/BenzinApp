@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.jjoe64.graphview.GraphView;
@@ -27,6 +28,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 {
 
     TextView car, year;
+    GraphView graphView;
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -39,8 +41,9 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         car = root.findViewById(R.id.textView_Car);
         year = root.findViewById(R.id.textView_Year);
 
-        GraphView graphView = (GraphView) root.findViewById(R.id.graph);
+        graphView = (GraphView) root.findViewById(R.id.graph);
 
+        /*
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(-2, 4),
                 new DataPoint(-1, 1),
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
                 new DataPoint(2, 2),
         });
 
+
         series.setColor(Color.rgb(255, 0, 0));
         series2.setColor(Color.rgb(0, 255, 0));
 
@@ -64,7 +68,10 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         graphView.addSeries(series2);
         graphView.setTitle("ΚΑΤΑΝΑΛΩΣΗ");
 
-        // make the request
+
+         */
+
+        // make the requests
         RequestHandler.getInstance().GetCarInfo(getActivity(), this);
         RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
 
@@ -114,6 +121,17 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
     private void SetGraphView(JSONArray jsonArray) throws JSONException
     {
+        LineGraphSeries<DataPoint> seriesLtPer100 = new LineGraphSeries<>();
+
+        for (int i = 0; i < jsonArray.length(); i++)
+        {
+            FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
+
+            DataPoint dataPoint = new DataPoint(i, record.getLt_per_100km());
+            seriesLtPer100.appendData(dataPoint, false, jsonArray.length());
+        }
+
+        graphView.addSeries(seriesLtPer100);
 
     }
 }
