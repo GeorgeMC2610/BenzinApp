@@ -27,10 +27,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.util.Date;
+
 public class HomeFragment extends Fragment implements Response.Listener<String>
 {
 
-    TextView car, year;
+    TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
     GraphView graphView;
     Spinner spinner;
     int graphPosition = 0;
@@ -45,6 +49,9 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         // get views
         car = root.findViewById(R.id.textView_Car);
         year = root.findViewById(R.id.textView_Year);
+        avg_CostPerKm = root.findViewById(R.id.textView_AVG_CostPerKm);
+        avg_ltPer100Km = root.findViewById(R.id.textView_AVG_LtPer100Km);
+        avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
 
         graphView = (GraphView) root.findViewById(R.id.graph);
 
@@ -133,9 +140,9 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
 
-        int kilometerSum = 0;
-        int literSum = 0;
-        int costSum = 0;
+        float kilometerSum = 0;
+        float literSum = 0;
+        float costSum = 0;
 
         // get all the possible points
         for (int i = 0; i < jsonArray.length(); i++)
@@ -180,5 +187,18 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
                 graphView.addSeries(seriesCostPerKm);
                 break;
         }
+
+        float AvgLtPer100Km = 100 * literSum / kilometerSum;
+        float AvgKmPerLt = kilometerSum / literSum;
+        float AvgCostPerKm = costSum / kilometerSum;
+
+        DecimalFormat format = new DecimalFormat("#.##");
+        String TextAvgLtPer100Km = format.format(AvgLtPer100Km) + " lt/100km";
+        String TextAvgKmPerLt = format.format(AvgKmPerLt) + " km/lt";
+        String TextAvgCostPerKm = '€' + format.format(AvgCostPerKm) + "/lt";
+
+        avg_ltPer100Km.setText(TextAvgLtPer100Km);
+        avg_KmPerLt.setText(TextAvgKmPerLt);
+        avg_CostPerKm.setText(TextAvgCostPerKm);
     }
 }
