@@ -16,7 +16,7 @@ To use this app, you will need an Android device running Android 8.0 or later.
 
 #### Installation
 
-+ Download the app from the [Releases](https://github.com/GeorgeMC2610/BenzinApp/releases).
++ Download the app from the latest [Release](https://github.com/GeorgeMC2610/BenzinApp/releases).
 + Install the app on your Android device.
 + Open the app and start inputting data for each fill up.
 
