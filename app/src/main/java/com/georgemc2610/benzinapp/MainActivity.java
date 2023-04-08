@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Response.Listener
+public class MainActivity extends AppCompatActivity
 {
 
     private ActivityMainBinding binding;
