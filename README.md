@@ -31,4 +31,4 @@ To use this app, you will need an Android device running Android 8.0 or later.
 
 ### Contributing
 
-Contributions are welcome from anyone who would like to help improve this app (especially the front-end). If you would like to contribute, please fork the repository and submit a pull request.
+Contributions are welcome from anyone who would like to help improve this app (especially the front-end). If you would like to contribute, please fork the repository and submit a pull request. The source code is available to anyone and can be edited freely when forked.
