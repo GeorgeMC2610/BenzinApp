@@ -51,6 +51,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         // all this just for the spinner
         spinner = root.findViewById(R.id.SpinnerOptions);
 
+        // TODO: Remove hardcoded strings and replace with string values.
+
         String[] options = new String[] { "Liters per 100 Kilometers", "Kilometers per Liter", "Cost per Kilometer" };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
@@ -131,6 +133,10 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
 
+        int kilometerSum = 0;
+        int literSum = 0;
+        int costSum = 0;
+
         // get all the possible points
         for (int i = 0; i < jsonArray.length(); i++)
         {
@@ -144,6 +150,10 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
             DataPoint costPerKm = new DataPoint(i+1, record.getCostEur_per_km());
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
+
+            kilometerSum += record.getKilometers();
+            literSum += record.getLiters();
+            costSum += record.getCost_eur();
         }
 
         // and set the different colours
@@ -152,6 +162,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         seriesCostPerKm.setColor(Color.rgb(255, 0, 0));
 
         graphView.removeAllSeries();
+
+        // TODO: Remove hardcoded strings and replace with string values.
 
         switch (graphPosition)
         {
