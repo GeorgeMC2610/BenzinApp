@@ -58,9 +58,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         // all this just for the spinner
         spinner = root.findViewById(R.id.SpinnerOptions);
 
-        // TODO: Remove hardcoded strings and replace with string values.
-
-        String[] options = new String[] { "Liters per 100 Kilometers", "Kilometers per Liter", "Cost per Kilometer" };
+        String[] options = new String[] { getString(R.string.text_view_liters_per_100_km), getString(R.string.text_view_km_per_liter), getString(R.string.text_view_cost_per_km) };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -140,6 +138,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
 
+        // initialize values for average
         float kilometerSum = 0;
         float literSum = 0;
         float costSum = 0;
@@ -188,6 +187,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
                 break;
         }
 
+        // calculate averages and display them
         float AvgLtPer100Km = 100 * literSum / kilometerSum;
         float AvgKmPerLt = kilometerSum / literSum;
         float AvgCostPerKm = costSum / kilometerSum;
