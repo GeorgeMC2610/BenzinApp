@@ -43,4 +43,5 @@
     <string name="button_login">LOGIN</string>
     <string name="text_view_login_to_benzinapp">Login to BenzinApp</string>
     <string name="error_password_confirmation_wrong">Passwords don\'t match.</string>
+    <string name="text_view_average_consumption">AVERAGE CONSUMPTION</string>
 </resources>

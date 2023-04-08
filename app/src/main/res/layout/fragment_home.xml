@@ -101,7 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -118,16 +119,17 @@
                     android:id="@+id/textView_DescriptionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/text_view_average_consumption"
                     android:textAlignment="center"
-                    android:textSize="34sp"
+                    android:textSize="32sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_AVG_LtPer100Km_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Λίτρα στα 100 Χλμ.:"
+                    android:text="@string/text_view_liters_per_100_km"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -136,13 +138,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="8.25 lt/100km"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView_AVG_KmPerLt_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Χιλιόμετρα ανά Λίτρο:"
+                    android:text="@string/text_view_km_per_liter"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -151,13 +154,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="14 km/lt"
+                    android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView_AVG_CostPerKm_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Κόστος ανά Χιλιόμετρο:"
+                    android:text="@string/text_view_cost_per_km"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
