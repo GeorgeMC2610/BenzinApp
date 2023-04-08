@@ -87,16 +87,19 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         binding = null;
     }
 
+    // json response handler
     @Override
     public void onResponse(String response)
     {
         try
         {
+            // if the response is not an array, then we requested the car info
             if (response.charAt(0) != '[')
             {
                 JSONObject jsonObject = new JSONObject(response);
                 SetCarInfo(jsonObject);
             }
+            // if it is, we requested the fuel fill records
             else
             {
                 JSONArray jsonArray = new JSONArray(response);
@@ -142,7 +145,6 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             DataPoint costPerKm = new DataPoint(i+1, record.getCostEur_per_km());
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
         }
-
 
         // and set the different colours
         seriesLtPer100.setColor(Color.rgb(0, 0, 255));
