@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
     TextView car, year;
     GraphView graphView;
     Spinner spinner;
+    int graphPosition = 0;
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -54,6 +56,22 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                graphPosition = position;
+                RequestHandler.getInstance().GetFuelFillRecords(getActivity(), HomeFragment.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                // foo
+            }
+        });
 
         // make the requests
         RequestHandler.getInstance().GetCarInfo(getActivity(), this);
@@ -125,14 +143,28 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
         }
 
+
         // and set the different colours
         seriesLtPer100.setColor(Color.rgb(0, 0, 255));
-        graphView.addSeries(seriesLtPer100);
-
         seriesKmPerLt.setColor(Color.rgb(0, 255, 0));
-        graphView.addSeries(seriesKmPerLt);
-
         seriesCostPerKm.setColor(Color.rgb(255, 0, 0));
-        graphView.addSeries(seriesCostPerKm);
+
+        graphView.removeAllSeries();
+
+        switch (graphPosition)
+        {
+            case 0:
+                graphView.setTitle("Lt./100Km depend on time");
+                graphView.addSeries(seriesLtPer100);
+                break;
+            case 1:
+                graphView.setTitle("Km/Lt. depend on time");
+                graphView.addSeries(seriesKmPerLt);
+                break;
+            case 2:
+                graphView.setTitle("Cost/Km depend on time");
+                graphView.addSeries(seriesCostPerKm);
+                break;
+        }
     }
 }
