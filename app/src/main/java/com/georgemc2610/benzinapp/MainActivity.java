@@ -49,45 +49,5 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-        // here is where the singleton is created
-        //DB = openOrCreateDatabase("benzinAppDB.db", MODE_PRIVATE, null);
-        //DatabaseManager.create(DB);
-
-        // this is for the request.
-        RequestHandler.getInstance().GetFuelFillRecords(this, this);
-    }
-
-    @Override
-    public void onResponse(Object response)
-    {
-        try
-        {
-            JSONArray JsonArrayResponse = new JSONArray(response.toString());
-            List<FuelFillRecord> records = new ArrayList<>();
-
-            for (int i = 0; i < JsonArrayResponse.length(); i++)
-            {
-                JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
-
-                int id = JsonObject.getInt("id");
-                float km = (float) JsonObject.getDouble("km");
-                float cost_eur = (float) JsonObject.getDouble("cost_eur");
-                float lt = (float) JsonObject.getDouble("lt");
-                String station = JsonObject.getString("station");
-                String fuelType = JsonObject.getString("fuel_type");
-                String notes = JsonObject.getString("notes");
-                LocalDate date = LocalDate.parse(JsonObject.getString("filled_at"));
-
-                FuelFillRecord record = new FuelFillRecord(id, lt, cost_eur, km, date, station, fuelType, notes);
-                records.add(record);
-
-                System.out.println("All went good.");
-            }
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e);
-        }
     }
 }
