@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
     TextView car, year;
     GraphView graphView;
+    Spinner spinner;
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -42,6 +45,15 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         year = root.findViewById(R.id.textView_Year);
 
         graphView = (GraphView) root.findViewById(R.id.graph);
+
+        // all this just for the spinner
+        spinner = root.findViewById(R.id.SpinnerOptions);
+
+        String[] options = new String[] { "Liters per 100 Kilometers", "Kilometers per Liter", "Cost per Kilometer" };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         // make the requests
         RequestHandler.getInstance().GetCarInfo(getActivity(), this);
