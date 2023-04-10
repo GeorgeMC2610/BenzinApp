@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         DecimalFormat format = new DecimalFormat("#.##");
         String TextAvgLtPer100Km = format.format(AvgLtPer100Km) + " lt/100km";
         String TextAvgKmPerLt = format.format(AvgKmPerLt) + " km/lt";
-        String TextAvgCostPerKm = '€' + format.format(AvgCostPerKm) + "/lt";
+        String TextAvgCostPerKm = '€' + format.format(AvgCostPerKm) + "/km";
 
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
