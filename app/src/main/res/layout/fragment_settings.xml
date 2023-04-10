@@ -4,12 +4,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.settings.SettingsFragment"
     android:layout_marginTop="10dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="General Settings"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="384dp"
-        android:layout_height="230dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         app:cardCornerRadius="10dp"
@@ -19,28 +28,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:text="Dark Mode"
-                android:textSize="16sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <TextView
+                    android:id="@+id/settings_DarkModeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dark Mode"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18dp" />
 
-        </RelativeLayout>
+                <Switch
+                    android:id="@+id/settings_DarkModeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>
