@@ -14,7 +14,8 @@
         android:text="General Settings"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="5dp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -35,7 +36,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/settings_DarkModeTextView"
@@ -43,10 +46,33 @@
                     android:layout_height="wrap_content"
                     android:text="Dark Mode"
                     android:layout_marginLeft="10dp"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
                 <Switch
                     android:id="@+id/settings_DarkModeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/settings_LanguageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Language"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/settings_LanguageSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
