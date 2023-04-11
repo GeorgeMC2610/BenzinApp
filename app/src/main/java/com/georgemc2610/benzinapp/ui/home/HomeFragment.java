@@ -29,6 +29,10 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class HomeFragment extends Fragment implements Response.Listener<String>
@@ -144,17 +148,23 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         float costSum = 0;
 
         // get all the possible points
-        for (int i = 0; i < jsonArray.length(); i++)
+        for (int i = jsonArray.length() - 1; i >= 0; i--)
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
-            DataPoint ltPer100 = new DataPoint(i+1, record.getLt_per_100km());
-            seriesLtPer100.appendData(ltPer100, false, jsonArray.length());
+            LocalDateTime localDateTime = record.getDate().atStartOfDay();
+            ZoneId zoneId = ZoneId.systemDefault();
+            ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+            Instant instant = zonedDateTime.toInstant();
+            Date date = Date.from(instant);
 
-            DataPoint kmPerLt = new DataPoint(i+1, record.getKm_per_lt());
+            DataPoint ltPer100 = new DataPoint(date, record.getLt_per_100km());
+            seriesLtPer100.appendData(ltPer100, true, jsonArray.length());
+
+            DataPoint kmPerLt = new DataPoint(date, record.getKm_per_lt());
             seriesKmPerLt.appendData(kmPerLt, false, jsonArray.length());
 
-            DataPoint costPerKm = new DataPoint(i+1, record.getCostEur_per_km());
+            DataPoint costPerKm = new DataPoint(date, record.getCostEur_per_km());
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
 
             kilometerSum += record.getKilometers();
