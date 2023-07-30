@@ -32,3 +32,6 @@ To use this app, you will need an Android device running Android 8.0 or later.
 ## Contributing
 
 Contributions are welcome from anyone who would like to help improve this app (especially the front-end). If you would like to contribute, please fork the repository and submit a pull request. The source code is available to anyone and can be edited freely when forked.
+
+In order to contribute to my project, you must have a device or an emulator that runs Android 8.0 or later. **This app was developed and tested using Android Studio Electric Eel 2022.1.1 Patch 1 using MIN SDK Version 28**. 
+
