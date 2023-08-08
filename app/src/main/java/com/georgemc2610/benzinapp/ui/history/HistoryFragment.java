@@ -25,6 +25,7 @@ import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -126,15 +127,7 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                 // add view
                 scrollViewLayout.addView(v);
 
-                editButton.setOnClickListener(new View.OnClickListener()
-                {
-
-                    @Override
-                    public void onClick(View v)
-                    {
-
-                    }
-                });
+                editButton.setOnClickListener(new CardEditButtonListener(this, record));
 
                 // delete button click listener
                 deleteButton.setOnClickListener(new View.OnClickListener()
