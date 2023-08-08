@@ -99,6 +99,7 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                 TextView cost = v.findViewById(R.id.card_cost);
                 TextView date = v.findViewById(R.id.card_date);
                 FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
+                FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
 
                 // get data
                 JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
@@ -124,6 +125,16 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
 
                 // add view
                 scrollViewLayout.addView(v);
+
+                editButton.setOnClickListener(new View.OnClickListener()
+                {
+
+                    @Override
+                    public void onClick(View v)
+                    {
+
+                    }
+                });
 
                 // delete button click listener
                 deleteButton.setOnClickListener(new View.OnClickListener()
