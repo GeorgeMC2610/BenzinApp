@@ -25,6 +25,7 @@ import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -127,42 +128,9 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                 // add view
                 scrollViewLayout.addView(v);
 
+                // assign the listeners to the Floating Action Buttons.
                 editButton.setOnClickListener(new CardEditButtonListener(this, record));
-
-                // delete button click listener
-                deleteButton.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-
-                        dialog.setTitle(getString(R.string.dialog_delete_title));
-                        dialog.setMessage(getString(R.string.dialog_delete_confirmation));
-
-                        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                RequestHandler.getInstance().DeleteFuelFillRecord(getActivity(), record.getId());
-                                RequestHandler.getInstance().GetFuelFillRecords(getActivity(), HistoryFragment.this);
-                            }
-                        });
-
-                        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                // foo
-                            }
-                        });
-
-                        dialog.setCancelable(true);
-                        dialog.create().show();
-                    }
-                });
+                deleteButton.setOnClickListener(new CardDeleteButtonListener(this, record));
 
                 // card view click listener
                 v.setOnClickListener(new View.OnClickListener()

@@ -15,6 +15,7 @@ public class CardEditButtonListener implements View.OnClickListener
     private final HistoryFragment historyFragment;
     private final FuelFillRecord record;
 
+    // required constructor for button listener.
     public CardEditButtonListener(HistoryFragment historyFragment, FuelFillRecord record)
     {
         this.historyFragment = historyFragment;
@@ -25,6 +26,7 @@ public class CardEditButtonListener implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
+        // all the "edit" button does is open the ActivityEditRecord and pass the fuel fill record object to it.
         Intent intent = new Intent(historyFragment.getContext(), ActivityEditRecord.class);
         intent.putExtra("record", record);
         historyFragment.startActivity(intent);
