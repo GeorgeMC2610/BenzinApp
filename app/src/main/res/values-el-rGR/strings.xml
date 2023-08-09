@@ -44,4 +44,6 @@
     <string name="error_password_confirmation_wrong">Οι κωδικοί πρέπει να είναι ίδιοι.</string>
     <string name="text_view_average_consumption">ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ</string>
     <string name="button_apply_edits">Εφαρμογή Αλλαγών</string>
+    <string name="title_edit_record">Αλλαγή Στοιχείων Γεμίσματος</string>
+    <string name="toast_record_edited">Τα στοιχεία της εγγραφής τροποποιήθηκαν επιτυχώς.</string>
 </resources>

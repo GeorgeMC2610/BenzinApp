@@ -34,10 +34,9 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         // action bar with back button and correct title name.
         try
         {
-            // TODO: Make this string not hardcoded.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Edit Record");
+            getSupportActionBar().setTitle(getString(R.string.title_edit_record));
         }
         // if anything goes wrong, print it out.
         catch (Exception e)
@@ -122,8 +121,7 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
     @Override
     public void onResponse(String response)
     {
-        // TODO: Make this text not hardcoded.
-        Toast.makeText(this, "Record Successfully Edited.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
         finish();
     }
 }
