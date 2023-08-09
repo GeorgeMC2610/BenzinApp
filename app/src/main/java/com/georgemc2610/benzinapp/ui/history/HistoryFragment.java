@@ -25,6 +25,7 @@ import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonAddNewRecordListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
@@ -49,16 +50,19 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        // necessary code for creating the fragment.
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Floating Action Button for adding a new record.
         ButtonAdd = root.findViewById(R.id.button_add);
-        ButtonAdd.setOnClickListener(new ButtonAddListener(getContext()));
+        ButtonAdd.setOnClickListener(new ButtonAddNewRecordListener(getContext()));
 
+        // hint located in the downside of the cards.
         hint = root.findViewById(R.id.textViewClickCardsMsg);
 
+        // scrollview layout for the cards.
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
-        //DatabaseManager.getInstance().DisplayCards(scrollViewRelativeLayout, getLayoutInflater(), hint);
 
         return root;
     }
@@ -152,23 +156,5 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
         {
             throw new RuntimeException(e);
         }
-    }
-}
-
-
-class ButtonAddListener implements View.OnClickListener
-{
-    private final Context context;
-
-    ButtonAddListener(Context context)
-    {
-        this.context = context;
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        Intent intent = new Intent(context, ActivityAddRecord.class);
-        context.startActivity(intent);
     }
 }
