@@ -1,7 +1,12 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
@@ -10,6 +15,7 @@ public class ActivityEditRecord extends AppCompatActivity
 {
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextDate, editTextPetrolType, editTextStation, editTextNotes;
+    private Button buttonApply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,7 +61,21 @@ public class ActivityEditRecord extends AppCompatActivity
         // lock some properties.
         editTextDate.setEnabled(false);
 
+        // get the button
+        buttonApply = findViewById(R.id.buttonApplyEdits);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // once the back button is pressed, close the activity.
+        if (item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     
