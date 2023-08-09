@@ -18,6 +18,19 @@ public class ActivityEditRecord extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_record);
 
+        // action bar with back button and correct title name.
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Edit Record");
+        }
+        // if anything goes wrong, print it out.
+        catch (Exception e)
+        {
+            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
+        }
+
         // get the fuel fill record passed to edit.
         record = (FuelFillRecord) getIntent().getSerializableExtra("record");
 
@@ -38,6 +51,11 @@ public class ActivityEditRecord extends AppCompatActivity
         editTextDate      .setText(String.valueOf(record.getDate()));
         editTextStation   .setText(record.getStation());
         editTextNotes     .setText(record.getNotes());
+
+        // lock some properties.
+        editTextDate.setEnabled(false);
+
+
     }
 
     
