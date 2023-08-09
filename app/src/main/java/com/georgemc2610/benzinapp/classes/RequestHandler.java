@@ -360,12 +360,24 @@ public class RequestHandler
             {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("km", String.valueOf(km));
-                params.put("lt", String.valueOf(lt));
-                params.put("cost_eur", String.valueOf(cost_eur));
-                params.put("fuel_type", fuelType);
-                params.put("station", station);
-                params.put("notes", notes);
+                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
+                if (km != null)
+                    params.put("km", String.valueOf(km));
+
+                if (km != null)
+                    params.put("lt", String.valueOf(lt));
+
+                if (cost_eur != null)
+                    params.put("cost_eur", String.valueOf(cost_eur));
+
+                if (fuelType != null)
+                    params.put("fuel_type", fuelType);
+
+                if (station != null && !station.isEmpty())
+                    params.put("station", station);
+
+                if (notes != null && !station.isEmpty())
+                    params.put("notes", notes);
 
                 return params;
             }
@@ -416,4 +428,5 @@ public class RequestHandler
 
         requestQueue.add(request);
     }
+
 }
