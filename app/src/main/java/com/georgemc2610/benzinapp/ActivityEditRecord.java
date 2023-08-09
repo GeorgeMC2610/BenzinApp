@@ -61,7 +61,7 @@ public class ActivityEditRecord extends AppCompatActivity
         // lock some properties.
         editTextDate.setEnabled(false);
 
-        // get the button
+        // get the button and set its listener.
         buttonApply = findViewById(R.id.buttonApplyEdits);
     }
 

@@ -1,31 +1,22 @@
 package com.georgemc2610.benzinapp.ui.history;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
-import com.georgemc2610.benzinapp.ActivityAddRecord;
 import com.georgemc2610.benzinapp.ActivityDisplayData;
-import com.georgemc2610.benzinapp.DatabaseManager;
-import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.classes.listeners.ButtonAddNewRecordListener;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddRecordActivityListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
@@ -36,8 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HistoryFragment extends Fragment implements Response.Listener<String>
 {
@@ -56,7 +45,7 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
 
         // Floating Action Button for adding a new record.
         ButtonAdd = root.findViewById(R.id.button_add);
-        ButtonAdd.setOnClickListener(new ButtonAddNewRecordListener(getContext()));
+        ButtonAdd.setOnClickListener(new ButtonRedirectToAddRecordActivityListener(getContext()));
 
         // hint located in the downside of the cards.
         hint = root.findViewById(R.id.textViewClickCardsMsg);

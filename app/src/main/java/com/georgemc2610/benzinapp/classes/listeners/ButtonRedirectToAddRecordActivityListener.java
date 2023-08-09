@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.view.View;
 import com.georgemc2610.benzinapp.ActivityAddRecord;
 
-public class ButtonAddNewRecordListener implements View.OnClickListener
+public class ButtonRedirectToAddRecordActivityListener implements View.OnClickListener
 {
     private final Context context;
 
-    public ButtonAddNewRecordListener(Context context)
+    public ButtonRedirectToAddRecordActivityListener(Context context)
     {
         this.context = context;
     }
