@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -78,5 +79,9 @@ public class ActivityEditRecord extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void OnButtonApplyEditsClicked(View v)
+    {
+        
+    }
     
 }
