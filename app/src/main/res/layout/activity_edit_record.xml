@@ -4,6 +4,144 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityEditRecord">
+    tools:context=".ActivityAddRecord">
 
+    <ScrollView
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textViewLitersKilometersEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/text_view_kilometers" />
+
+            <EditText
+                android:id="@+id/editTextKilometersEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_kilometers_hint"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/textViewLitersEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/text_view_liters" />
+
+            <EditText
+                android:id="@+id/editTextLitersEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_liters_hint"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/textViewCostEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/text_view_cost" />
+
+            <EditText
+                android:id="@+id/editTextCostEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_cost_hint"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/textViewPetrolTypeEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_petrol_type" />
+
+            <EditText
+                android:id="@+id/editTextPetrolTypeEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_petrol_type_hint"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/textViewStationEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_station" />
+
+            <EditText
+                android:id="@+id/editTextStationEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_station_hint"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/textViewDateEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_datetime" />
+
+            <EditText
+                android:id="@+id/editTextDateEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:inputType="datetime"
+                android:onClick="OnEditTextDateTimeClicked" />
+
+            <TextView
+                android:id="@+id/textViewNotesEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_notes" />
+
+            <EditText
+                android:id="@+id/editTextNotesEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_notes_hint"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonApplyEdits"
+        android:layout_width="367dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#2DA2FF"
+        android:onClick="OnButtonAddClicked"
+        android:text="Apply Edits"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
 </androidx.constraintlayout.widget.ConstraintLayout>
