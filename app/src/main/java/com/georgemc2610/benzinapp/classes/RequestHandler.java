@@ -320,6 +320,61 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void EditFuelFillRecord(Activity activity, Response.Listener<String> listener, int id, Float km, Float lt, Float cost_eur, String fuelType, String station, String notes)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/fuel_fill_record/" + id;
+
+        // PATCH request to add fuel fill record
+        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, "Session has ended.", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+
+            // put the parameters as they are provided.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("km", String.valueOf(km));
+                params.put("lt", String.valueOf(lt));
+                params.put("cost_eur", String.valueOf(cost_eur));
+                params.put("fuel_type", fuelType);
+                params.put("station", station);
+                params.put("notes", notes);
+
+                return params;
+            }
+        };
+
+        // execute the request.
+        requestQueue.add(request);
+    }
+
 
     public void DeleteFuelFillRecord(Activity activity, int id)
     {

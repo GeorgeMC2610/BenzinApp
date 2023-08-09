@@ -81,7 +81,7 @@ public class ActivityEditRecord extends AppCompatActivity
 
     public void OnButtonApplyEditsClicked(View v)
     {
-        
+
     }
     
 }
