@@ -43,4 +43,5 @@
     <string name="text_view_login_to_benzinapp">Είσοδος στο BenzinApp</string>
     <string name="error_password_confirmation_wrong">Οι κωδικοί πρέπει να είναι ίδιοι.</string>
     <string name="text_view_average_consumption">ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ</string>
+    <string name="button_apply_edits">Εφαρμογή Αλλαγών</string>
 </resources>

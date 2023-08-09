@@ -17,11 +17,12 @@ import com.georgemc2610.benzinapp.classes.RequestHandler;
 
 import java.time.LocalDate;
 
+// TODO: Add comments.
+
 public class ActivityEditRecord extends AppCompatActivity implements Response.Listener<String>
 {
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextDate, editTextPetrolType, editTextStation, editTextNotes;
-    private Button buttonApply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +34,7 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         // action bar with back button and correct title name.
         try
         {
+            // TODO: Make this string not hardcoded.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Edit Record");
@@ -66,9 +68,6 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
 
         // lock some properties.
         editTextDate.setEnabled(false);
-
-        // get the button and set its listener.
-        buttonApply = findViewById(R.id.buttonApplyEdits);
     }
 
     @Override
@@ -123,6 +122,7 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
     @Override
     public void onResponse(String response)
     {
+        // TODO: Make this text not hardcoded.
         Toast.makeText(this, "Record Successfully Edited.", Toast.LENGTH_LONG).show();
         finish();
     }
