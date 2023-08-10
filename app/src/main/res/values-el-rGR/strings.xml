@@ -36,6 +36,7 @@
     <string name="text_view_notes">Παρατηρήσεις:</string>
     <string name="text_view_register">Δεν έχετε λογαριασμό; Κάντε εγγραφή.</string>
     <string name="text_view_login">Έχετε ήδη εγγραφεί; Συνδεθείτε.</string>
+    <string name="text_view_username">Όνομα Χρήστη:</string>
     <string name="text_view_username_hint">Εισάγετε το Username σας...</string>
     <string name="text_view_password">Κωδικός:</string>
     <string name="text_view_password_hint">Εισάγετε τον κωδικό σας...</string>
@@ -46,4 +47,13 @@
     <string name="button_apply_edits">Εφαρμογή Αλλαγών</string>
     <string name="title_edit_record">Αλλαγή Στοιχείων Γεμίσματος</string>
     <string name="toast_record_edited">Τα στοιχεία της εγγραφής τροποποιήθηκαν επιτυχώς.</string>
+    <string name="text_view_register_to_benzinapp">Εγγραφή στο BenzinApp</string>
+    <string name="text_view_confirm_password">Επιβεβαίωση Κωδικού:</string>
+    <string name="text_view_confirm_password_hint">Ξαναγράψτε τον κωδικό σας...</string>
+    <string name="text_view_car_year">Έτος:</string>
+    <string name="text_view_car_year_hint">Εισάγετε το έτος κατασκευής...</string>
+    <string name="text_view_car_model">Μοντέλο:</string>
+    <string name="text_view_car_model_hint">Εισάγετε το μοντέλο του αμαξιού...</string>
+    <string name="text_view_car_manufacturer">Μάρκα Κατασκευαστή:</string>
+    <string name="text_view_car_manufacturer_hint">Εισάγετε τη μάρκα του αμαξιού...</string>
 </resources>

@@ -36,7 +36,7 @@
     <string name="text_view_notes">Notes:</string>
     <string name="text_view_register">Don\'t have an account? Register now.</string>
     <string name="text_view_login">Already have an account? Log in.</string>
-    <string name="text_view_username" translatable="false">Username:</string>
+    <string name="text_view_username">Username:</string>
     <string name="text_view_username_hint">Enter Username...</string>
     <string name="text_view_password">Password:</string>
     <string name="text_view_password_hint">Enter Password...</string>
@@ -47,4 +47,13 @@
     <string name="button_apply_edits">Apply Edits</string>
     <string name="title_edit_record">Edit Record</string>
     <string name="toast_record_edited">Record Successfully Edited.</string>
+    <string name="text_view_register_to_benzinapp">Register to BenzinApp</string>
+    <string name="text_view_confirm_password">Confirm Password:</string>
+    <string name="text_view_confirm_password_hint">Re-Enter your Password...</string>
+    <string name="text_view_car_year">Year:</string>
+    <string name="text_view_car_year_hint">Enter Car Year...</string>
+    <string name="text_view_car_model">Model:</string>
+    <string name="text_view_car_model_hint">Enter Car Model...</string>
+    <string name="text_view_car_manufacturer">Manufacturer:</string>
+    <string name="text_view_car_manufacturer_hint">Enter Car Manufacturer...</string>
 </resources>

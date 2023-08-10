@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="49dp"
         android:fontFamily="sans-serif-black"
-        android:text="Register to BenzinApp"
+        android:text="@string/text_view_register_to_benzinapp"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.389">
+        app:layout_constraintVertical_bias="0.399">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:id="@+id/textView_Username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username:"
+                android:text="@string/text_view_username"
                 android:textSize="16sp" />
 
             <EditText
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="Enter Username..."
+                android:hint="@string/text_view_username_hint"
                 android:inputType="text" />
 
             <!-- Password -->
@@ -56,14 +56,14 @@
                 android:id="@+id/textView_Password"
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
-                android:text="Password:"
+                android:text="@string/text_view_password"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_Password"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:hint="Enter Password..."
+                android:hint="@string/text_view_password_hint"
                 android:inputType="textPassword" />
 
             <!-- Confirm Password -->
@@ -71,7 +71,7 @@
                 android:id="@+id/textView_ConfirmPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
-                android:text="Confirm Password:"
+                android:text="@string/text_view_confirm_password"
                 android:textSize="16sp" />
 
             <EditText
@@ -79,22 +79,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="Re-enter your Password..."
+                android:hint="@string/text_view_confirm_password_hint"
                 android:inputType="textPassword" />
+
+            <!-- Car Manufacturer -->
+            <TextView
+                android:id="@+id/textView_CarManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="@string/text_view_car_manufacturer"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_CarManufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:hint="@string/text_view_car_manufacturer_hint"
+                android:inputType="text" />
 
             <!-- Car Model -->
             <TextView
                 android:id="@+id/textView_CarModel"
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
-                android:text="Car Model:"
+                android:text="@string/text_view_car_model"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_CarModel"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:hint="Enter Car Model..."
+                android:hint="@string/text_view_car_model_hint"
                 android:inputType="text" />
 
             <!-- Car Year -->
@@ -102,30 +117,15 @@
                 android:id="@+id/textView_Year"
                 android:layout_width="wrap_content"
                 android:layout_height="19dp"
-                android:text="Year:"
+                android:text="@string/text_view_car_year"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_Year"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:hint="Enter Car Year..."
+                android:hint="@string/text_view_car_year_hint"
                 android:inputType="number" />
-
-            <!-- Car Manufacturer -->
-            <TextView
-                android:id="@+id/textView_CarManufacturer"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:text="Car Manufacturer:"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/editText_CarManufacturer"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:hint="Enter Car Manufacturer..."
-                android:inputType="text" />
 
         </LinearLayout>
 
@@ -157,7 +157,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />
+        app:layout_constraintVertical_bias="0.87" />
 
     <ProgressBar
         android:id="@+id/progressBar_register"
