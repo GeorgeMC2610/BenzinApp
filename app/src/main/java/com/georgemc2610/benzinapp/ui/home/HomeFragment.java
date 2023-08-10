@@ -1,7 +1,6 @@
 package com.georgemc2610.benzinapp.ui.home;
 
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
@@ -22,14 +19,11 @@ import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
