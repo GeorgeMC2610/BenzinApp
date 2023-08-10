@@ -6,23 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <!-- Register to BenzinApp logo -->
+
+    <TextView
+        android:id="@+id/textView_Login"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Register to BenzinApp"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
     <ScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.389">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- Register to BenzinApp logo -->
-            <TextView
-                android:id="@+id/textView_Login"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:fontFamily="sans-serif-black"
-                android:text="Register to BenzinApp"
-                android:textSize="34sp" />
 
             <!-- Username -->
             <TextView
@@ -34,7 +45,7 @@
 
             <EditText
                 android:id="@+id/editText_Username"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:ems="10"
                 android:hint="Enter Username..."
@@ -50,9 +61,8 @@
 
             <EditText
                 android:id="@+id/editText_Password"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:ems="10"
                 android:hint="Enter Password..."
                 android:inputType="textPassword" />
 
@@ -66,7 +76,7 @@
 
             <EditText
                 android:id="@+id/editText_PasswordConfirmation"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:ems="10"
                 android:hint="Re-enter your Password..."
@@ -82,9 +92,8 @@
 
             <EditText
                 android:id="@+id/editText_CarModel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:ems="10"
                 android:hint="Enter Car Model..."
                 android:inputType="text" />
 
@@ -98,9 +107,8 @@
 
             <EditText
                 android:id="@+id/editText_Year"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:ems="10"
                 android:hint="Enter Car Year..."
                 android:inputType="number" />
 
@@ -114,16 +122,14 @@
 
             <EditText
                 android:id="@+id/editText_CarManufacturer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:ems="10"
                 android:hint="Enter Car Manufacturer..."
                 android:inputType="text" />
 
         </LinearLayout>
 
     </ScrollView>
-
 
     <Button
         android:id="@+id/buttonLogin"
