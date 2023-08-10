@@ -8,6 +8,8 @@ This app is designed to help you keep track of your car's statistics such as fue
 + Automatically calculate and display fuel efficiency statistics such as liters per 100 km, km per liter, and cost per km.
 + View visual graphs to track your car's statistics over time.
 
+**IMPORTANT WARNING:** This app is still in its alpha phase. It's highly recommended to __**backup all of your fuel fill records**__ in some other program (e.g. Excel) and not solely use this app to track your statistics. **Also please be aware that the app might crash a lot**.
+
 ## Getting Started
 
 ### Prerequisites
