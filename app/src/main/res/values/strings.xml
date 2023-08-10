@@ -58,4 +58,8 @@
     <string name="text_view_car_manufacturer_hint">Enter Car Manufacturer...</string>
     <string name="error_cars_didnt_exist">Cars didn\'t exist back then.</string>
     <string name="button_register">REGISTER</string>
+    <string name="graph_view_liters_per_100_km">lt./100km depend on time</string>
+    <string name="graph_view_km_per_lt">km/lt depend on time</string>
+    <string name="graph_view_cost_per_km">cost/km depend on time</string>
+    <string name="text_view_no_data">No data.</string>
 </resources>

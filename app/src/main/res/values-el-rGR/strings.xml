@@ -58,4 +58,8 @@
     <string name="text_view_car_manufacturer_hint">Εισάγετε τη μάρκα του αμαξιού...</string>
     <string name="error_cars_didnt_exist">Τα αυτοκίνητα δεν υπήρχαν μέχρι το 1886 μ.Χ.</string>
     <string name="button_register">ΕΓΓΡΑΦΗ</string>
+    <string name="graph_view_liters_per_100_km">Λίτρα/100 χλμ. συναρτήσει με τον χρόνο</string>
+    <string name="graph_view_km_per_lt">χλμ/λίτρο συναρτήσει με τον χρόνο</string>
+    <string name="graph_view_cost_per_km">κόστος/χλμ. συναρτήσει με τον χρόνο</string>
+    <string name="text_view_no_data">Ανεπαρκή δεδομένα.</string>
 </resources>

@@ -184,15 +184,15 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         switch (graphPosition)
         {
             case 0:
-                graphView.setTitle("Lt./100Km depend on time");
+                graphView.setTitle(getString(R.string.graph_view_liters_per_100_km));
                 graphView.addSeries(seriesLtPer100);
                 break;
             case 1:
-                graphView.setTitle("Km/Lt. depend on time");
+                graphView.setTitle(getString(R.string.graph_view_km_per_lt));
                 graphView.addSeries(seriesKmPerLt);
                 break;
             case 2:
-                graphView.setTitle("Cost/Km depend on time");
+                graphView.setTitle(getString(R.string.graph_view_cost_per_km));
                 graphView.addSeries(seriesCostPerKm);
                 break;
         }
@@ -203,9 +203,9 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         float AvgCostPerKm = costSum / kilometerSum;
 
         DecimalFormat format = new DecimalFormat("#.##");
-        String TextAvgLtPer100Km = format.format(AvgLtPer100Km) + " lt/100km";
-        String TextAvgKmPerLt = format.format(AvgKmPerLt) + " km/lt";
-        String TextAvgCostPerKm = '€' + format.format(AvgCostPerKm) + "/km";
+        String TextAvgLtPer100Km = Float.isNaN(AvgLtPer100Km) ? getString(R.string.text_view_no_data) : format.format(AvgLtPer100Km) + " lt/100km";
+        String TextAvgKmPerLt    = Float.isNaN(AvgKmPerLt)    ? getString(R.string.text_view_no_data) : format.format(AvgKmPerLt) + " km/lt";
+        String TextAvgCostPerKm  = Float.isNaN(AvgCostPerKm)  ? getString(R.string.text_view_no_data) : '€' + format.format(AvgCostPerKm) + "/km";
 
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
