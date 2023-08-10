@@ -56,4 +56,6 @@
     <string name="text_view_car_model_hint">Enter Car Model...</string>
     <string name="text_view_car_manufacturer">Manufacturer:</string>
     <string name="text_view_car_manufacturer_hint">Enter Car Manufacturer...</string>
+    <string name="error_cars_didnt_exist">Cars didn\'t exist back then.</string>
+    <string name="button_register">REGISTER</string>
 </resources>

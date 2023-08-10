@@ -78,6 +78,13 @@ public class RegisterActivity extends AppCompatActivity
             year.setError(getString(R.string.error_field_cannot_be_empty));
         }
 
+        // -- CARS DIDN'T EXIST BACK THEN -- //
+        if (Integer.parseInt(year.getText().toString().trim()) < 1886)
+        {
+            canContinue = false;
+            year.setError(getString(R.string.error_cars_didnt_exist));
+        }
+
         // -- PASSWORD CONFIRMATION WRONG -- //
         if (!passwordConfirmation.getText().toString().equals(password.getText().toString()))
         {

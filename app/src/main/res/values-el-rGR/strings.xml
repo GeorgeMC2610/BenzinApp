@@ -56,4 +56,6 @@
     <string name="text_view_car_model_hint">Εισάγετε το μοντέλο του αμαξιού...</string>
     <string name="text_view_car_manufacturer">Μάρκα Κατασκευαστή:</string>
     <string name="text_view_car_manufacturer_hint">Εισάγετε τη μάρκα του αμαξιού...</string>
+    <string name="error_cars_didnt_exist">Τα αυτοκίνητα δεν υπήρχαν μέχρι το 1886 μ.Χ.</string>
+    <string name="button_register">ΕΓΓΡΑΦΗ</string>
 </resources>
