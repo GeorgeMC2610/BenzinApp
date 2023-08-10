@@ -6,180 +6,124 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/textView_ConfirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm Password:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.713" />
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-    <EditText
-        android:id="@+id/editText_PasswordConfirmation"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Re-enter your Password..."
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.402"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.774" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="Register to BenzinApp"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+            <!-- Register to BenzinApp logo -->
+            <TextView
+                android:id="@+id/textView_Login"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Register to BenzinApp"
+                android:textSize="34sp" />
 
-    <EditText
-        android:id="@+id/editText_Username"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Enter Username..."
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+            <!-- Username -->
+            <TextView
+                android:id="@+id/textView_Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username:"
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView_Username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+            <EditText
+                android:id="@+id/editText_Username"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Enter Username..."
+                android:inputType="text" />
 
-    <EditText
-        android:id="@+id/editText_CarModel"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Enter Car Model..."
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.394" />
+            <!-- Password -->
+            <TextView
+                android:id="@+id/textView_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="Password:"
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView_CarModel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Car Model:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
+            <EditText
+                android:id="@+id/editText_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Enter Password..."
+                android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/editText_Year"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Enter Car Year..."
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.516" />
+            <!-- Confirm Password -->
+            <TextView
+                android:id="@+id/textView_ConfirmPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="Confirm Password:"
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView_Year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Year:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465" />
+            <EditText
+                android:id="@+id/editText_PasswordConfirmation"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Re-enter your Password..."
+                android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/editText_CarManufacturer"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Enter Car Manufacturer..."
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.275" />
+            <!-- Car Model -->
+            <TextView
+                android:id="@+id/textView_CarModel"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="Car Model:"
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView_CarManufacturer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Car Manufacturer:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
+            <EditText
+                android:id="@+id/editText_CarModel"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Enter Car Model..."
+                android:inputType="text" />
 
-    <TextView
-        android:id="@+id/textView_Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password:"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.589" />
+            <!-- Car Year -->
+            <TextView
+                android:id="@+id/textView_Year"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="Year:"
+                android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/editText_Password"
-        android:layout_width="334dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:hint="Enter Password..."
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.415"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.645" />
+            <EditText
+                android:id="@+id/editText_Year"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Enter Car Year..."
+                android:inputType="number" />
+
+            <!-- Car Manufacturer -->
+            <TextView
+                android:id="@+id/textView_CarManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="Car Manufacturer:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_CarManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="Enter Car Manufacturer..."
+                android:inputType="text" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
     <Button
         android:id="@+id/buttonLogin"
