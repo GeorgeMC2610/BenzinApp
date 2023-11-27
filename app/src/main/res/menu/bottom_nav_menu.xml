@@ -17,6 +17,11 @@
         android:title="Services" />
 
     <item
+        android:id="@+id/navigation_repeated_trips"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="Repeated Trips" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="@string/title_notifications" />

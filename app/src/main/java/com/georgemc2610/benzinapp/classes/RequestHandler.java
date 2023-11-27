@@ -429,4 +429,78 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void GetServices(Activity activity, Response.Listener<String> listener)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // fuel fill records url. This will return all services of the User.
+        String url = _URL + "/service";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 422)
+            {
+                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+    public void AddService(Activity activity, Response.Listener<String> listener, int at_km, int cost_eur, String description, LocalDate date_happened, int next_km)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // services url.
+        String url = _URL + "/service";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 422)
+            {
+                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
 }
