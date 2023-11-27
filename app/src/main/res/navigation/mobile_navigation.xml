@@ -18,8 +18,15 @@
         tools:layout="@layout/fragment_history" />
 
     <fragment
+        android:id="@+id/navigation_services"
+        android:name="com.georgemc2610.benzinapp.ServicesFragment"
+        android:label="fragment_services"
+        tools:layout="@layout/fragment_services" />
+
+    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.georgemc2610.benzinapp.ui.settings.SettingsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_settings" />
+
 </navigation>
