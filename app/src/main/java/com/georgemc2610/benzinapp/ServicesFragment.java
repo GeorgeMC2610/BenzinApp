@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.georgemc2610.benzinapp.databinding.FragmentServicesBinding;
-import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
 public class ServicesFragment extends Fragment
 {
