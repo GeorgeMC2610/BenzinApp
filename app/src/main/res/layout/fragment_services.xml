@@ -13,30 +13,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!--
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="ΒΛΑΒΕΣ"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="ΣΕΡΒΙΣ"/>
-           -->
+            android:text="@string/title_notifications"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/title_services"/>
+
+
 
     </com.google.android.material.tabs.TabLayout>
 
+    <!-- SERVICES -->
     <ScrollView
+        android:id="@+id/scroll_view_services"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/linear_layout_services"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical">
 
-        
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- MALFUNCTIONS -->
+    <ScrollView
+        android:id="@+id/scroll_view_malfunctions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_malfunctions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
     </ScrollView>
 
 
