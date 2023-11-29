@@ -68,4 +68,5 @@
     <string name="toast_username_already_taken">Αυτό το username χρησιμοποιείται ήδη.</string>
     <string name="toast_session_ended">Η σύνοδός σας έληξε. Παρακαλώ, συνδεθείτε ξανά.</string>
     <string name="toast_unexpected_error">Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.</string>
+    <string name="text_view_select_date">Επιλέξτε ημερομηνία...</string>
 </resources>

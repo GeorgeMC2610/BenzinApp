@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,7 +25,8 @@ import java.util.Date;
 
 public class ActivityAddRecord extends AppCompatActivity implements Response.Listener<String>
 {
-    EditText editTextLiters, editTextCost, editTextKilometers, editTextDate, editTextPetrolType, editTextStation, editTextNotes;
+    EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
+    TextView textViewDate;
     int mYear, mMonth, mDay;
 
     @Override
@@ -39,7 +41,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
         editTextCost = findViewById(R.id.editTextCost);
         editTextKilometers = findViewById(R.id.editTextKilometers);
         editTextPetrolType = findViewById(R.id.editTextPetrolType);
-        editTextDate = findViewById(R.id.editTextDate);
+        textViewDate = findViewById(R.id.textViewDatePicked);
         editTextStation = findViewById(R.id.editTextStation);
         editTextNotes = findViewById(R.id.editTextNotes);
 
@@ -109,7 +111,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
                 editTextLiters.getText().toString().trim().length() != 0 ||
                 editTextCost.getText().toString().trim().length() != 0 ||
                 editTextPetrolType.getText().toString().trim().length() != 0 ||
-                editTextDate.getText().toString().trim().length() != 0);
+                textViewDate.getText().toString().trim().length() != 0);
     }
 
     public void OnButtonAddClicked(View v)
@@ -146,7 +148,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
         String station = editTextStation.getText().toString();
         String notes = editTextNotes.getText().toString();
 
-        LocalDate date = LocalDate.parse(editTextDate.getText().toString());
+        LocalDate date = LocalDate.parse(textViewDate.getText().toString());
 
         // proceed to add properties.
         // DatabaseManager.getInstance().AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
@@ -168,7 +170,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 // and when it updates, it sets the value of the edit text.
-                editTextDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+                textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
             }
         }, mYear, mMonth, mDay);
 
