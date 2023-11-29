@@ -95,7 +95,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {
-                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_invalid_credentials), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -159,7 +159,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "Username has already been taken.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_username_already_taken), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -205,7 +205,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "Something went wrong.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -243,7 +243,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -281,7 +281,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {
-                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -337,7 +337,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {
-                Toast.makeText(activity, "Session has ended.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -376,7 +376,7 @@ public class RequestHandler
                 if (station != null && !station.isEmpty())
                     params.put("station", station);
 
-                if (notes != null && !station.isEmpty())
+                if (notes != null && !notes.isEmpty())
                     params.put("notes", notes);
 
                 return params;
@@ -408,7 +408,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
             {
-                Toast.makeText(activity, "Invalid Username/Password.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -445,7 +445,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -482,7 +482,7 @@ public class RequestHandler
             // and test for different failures.
             if (error.networkResponse.statusCode == 422)
             {
-                Toast.makeText(activity, "An unexpected error occurred", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }
             else
             {

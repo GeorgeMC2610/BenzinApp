@@ -64,4 +64,8 @@
     <string name="text_view_no_data">Ανεπαρκή δεδομένα.</string>
     <string name="title_repeated_trips">Επαναλαμβανόμενες Διαδρομές</string>
     <string name="title_services">Βλάβες/Σέρβις</string>
+    <string name="toast_invalid_credentials">Λάθος username/κωδικός.</string>
+    <string name="toast_username_already_taken">Αυτό το username χρησιμοποιείται ήδη.</string>
+    <string name="toast_session_ended">Η σύνοδός σας έληξε. Παρακαλώ, συνδεθείτε ξανά.</string>
+    <string name="toast_unexpected_error">Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.</string>
 </resources>

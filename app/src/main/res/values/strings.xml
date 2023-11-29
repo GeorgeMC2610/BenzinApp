@@ -64,4 +64,8 @@
     <string name="text_view_no_data">No data.</string>
     <string name="title_repeated_trips">Repeated Trips</string>
     <string name="title_services">Services</string>
+    <string name="toast_invalid_credentials">Invalid username/password.</string>
+    <string name="toast_username_already_taken">This username is already in use.</string>
+    <string name="toast_session_ended">The session has ended. Please log in again.</string>
+    <string name="toast_unexpected_error">An unexpected error has occured.</string>
 </resources>
