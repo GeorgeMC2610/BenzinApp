@@ -14,6 +14,9 @@
         android:theme="@style/Theme.BenzinApp"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityAddService"
+            android:exported="false" />
+        <activity
             android:name=".ActivityEditRecord"
             android:exported="false" />
         <activity

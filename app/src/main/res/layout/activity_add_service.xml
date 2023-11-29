@@ -20,82 +20,97 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
+            <!-- AT KM -->
             <TextView
-                android:id="@+id/textViewLitersKilometers"
+                android:id="@+id/textViewServiceAtKilometers"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_kilometers" />
+                android:text="Kilometers in service" />
 
             <EditText
-                android:id="@+id/editTextKilometers"
+                android:id="@+id/editTextServiceAtKilometers"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_kilometers_hint"
+                android:hint="Insert Kilometers the service happened..."
                 android:inputType="numberDecimal" />
 
+            <!-- NEXT KM SERVICE -->
             <TextView
-                android:id="@+id/textViewLiters"
+                android:id="@+id/textViewServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_liters" />
+                android:text="Next service in km..." />
 
             <EditText
-                android:id="@+id/editTextLiters"
+                android:id="@+id/editTextServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_liters_hint"
+                android:hint="When will the next service be?"
                 android:inputType="numberDecimal" />
 
+            <!-- COST -->
             <TextView
-                android:id="@+id/textViewCost"
+                android:id="@+id/textViewServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_cost" />
 
             <EditText
-                android:id="@+id/editTextCost"
+                android:id="@+id/editTextServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
 
+            <!-- DESCRIPTION -->
             <TextView
-                android:id="@+id/textViewPetrolType"
+                android:id="@+id/textViewServiceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_petrol_type" />
+                android:text="@string/text_view_notes" />
 
             <EditText
-                android:id="@+id/editTextPetrolType"
+                android:id="@+id/editTextServiceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_petrol_type_hint"
+                android:hint="@string/edit_text_notes_hint"
                 android:inputType="text" />
 
+            <!-- LOCATION -->
             <TextView
-                android:id="@+id/textViewStation"
+                android:id="@+id/textViewServiceLocation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_station" />
+                android:text="Location:" />
 
-            <EditText
-                android:id="@+id/editTextStation"
+            <TextView
+                android:id="@+id/textViewServiceLocationPicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Select Location"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonServiceSelectLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_station_hint"
-                android:inputType="text" />
+                android:hint="Tap to select location..."
+                android:onClick="OnEditTextDateTimeClicked"
+                app:icon="@android:drawable/ic_dialog_map" />
 
+            <!-- DATE HAPPENED -->
             <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="match_parent"
@@ -121,21 +136,6 @@
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
-            <TextView
-                android:id="@+id/textViewNotes"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_notes" />
-
-            <EditText
-                android:id="@+id/editTextNotes"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_notes_hint"
-                android:inputType="text" />
-
         </LinearLayout>
 
     </ScrollView>
@@ -145,7 +145,7 @@
         android:layout_width="367dp"
         android:layout_height="66dp"
         android:onClick="OnButtonAddClicked"
-        android:text="@string/button_add"
+        android:text="Add Service"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
