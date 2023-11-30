@@ -69,4 +69,5 @@
     <string name="toast_session_ended">The session has ended. Please log in again.</string>
     <string name="toast_unexpected_error">An unexpected error has occured.</string>
     <string name="text_view_select_date">Select date...</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
