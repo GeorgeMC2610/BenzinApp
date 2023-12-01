@@ -112,14 +112,14 @@
 
             <!-- DATE HAPPENED -->
             <TextView
-                android:id="@+id/textViewDate"
+                android:id="@+id/textViewServiceDate"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_datetime" />
 
             <TextView
-                android:id="@+id/textViewDatePicked"
+                android:id="@+id/textViewServiceDatePicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
