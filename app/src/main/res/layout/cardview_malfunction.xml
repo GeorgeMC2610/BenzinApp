@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/card_service_at_km"
+                android:id="@+id/card_malfunction_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -30,29 +30,29 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:scrollHorizontally="true"
-                android:text="(at km)"
+                android:text="(title)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/card_service_cost"
+                android:id="@+id/card_malfunction_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36sp"
-                android:text="(cost)"
+                android:text="(date)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 
 
             <TextView
-                android:id="@+id/card_service_date"
+                android:id="@+id/card_malfunction_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
-                android:text="(date)"
+                android:text="(ongoing/fixed)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
                 android:textSize="12sp"/>
@@ -70,18 +70,18 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/card_service_next_km"
+                android:id="@+id/card_malfunction_at_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="80sp"
-                android:text="(next at km)"
+                android:text="(at km)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
                 android:textSize="12sp"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_buttonDelete"
+                android:id="@+id/card_malfunction_button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -95,7 +95,7 @@
                 app:srcCompat="@android:drawable/ic_menu_delete" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_buttonEdit"
+                android:id="@+id/card_malfunction_button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
