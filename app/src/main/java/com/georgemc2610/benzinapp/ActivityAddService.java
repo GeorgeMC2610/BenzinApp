@@ -46,22 +46,31 @@ public class ActivityAddService extends AppCompatActivity
     {
         boolean validated = true;
 
+        // all of the following fields are required. If any of those are not filled, display an error.
         if (atKm.getText().toString().trim().length() == 0)
         {
-            atKm.setError("This field cannot be empty");
+            atKm.setError(getString(R.string.error_field_cannot_be_empty));
             validated = false;
         }
 
         if (notes.getText().toString().trim().length() == 0)
         {
-            atKm.setError("This field cannot be empty");
+            notes.setError(getString(R.string.error_field_cannot_be_empty));
             validated = false;
         }
 
-        if (date.getText().toString().trim().equals("Select Date..."))
+        System.out.println("WHAT THERE IS: " + date.getText().toString().trim());
+        System.out.println("WHAT WE WANT:" + getString(R.string.edit_text_datetime_hint));
+
+        if (date.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
         {
-            Toast.makeText(this, "Please select date.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
             validated = false;
         }
+
+        if (!validated)
+            return;
+
+        Toast.makeText(this, "Proceeding...", Toast.LENGTH_SHORT).show();
     }
 }
