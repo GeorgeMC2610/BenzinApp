@@ -133,7 +133,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_datetime_hint"
-                android:onClick="OnEditTextDateTimeClicked"
+                android:onClick="OnPickDateClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
         </LinearLayout>
