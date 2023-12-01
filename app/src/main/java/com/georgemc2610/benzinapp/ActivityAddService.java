@@ -130,6 +130,7 @@ public class ActivityAddService extends AppCompatActivity
             return;
 
         Toast.makeText(this, "Proceeding...", Toast.LENGTH_SHORT).show();
+        // TODO: Add logic that sends the data to the cloud.
     }
 
     public void OnPickDateClicked(View v)
