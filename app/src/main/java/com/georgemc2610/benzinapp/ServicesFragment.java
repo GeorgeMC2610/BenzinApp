@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddServiceActivityListener;
 import com.georgemc2610.benzinapp.databinding.FragmentServicesBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 public class ServicesFragment extends Fragment implements TabLayout.OnTabSelectedListener
@@ -20,6 +22,7 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
     private TabLayout tabLayout;
     private ScrollView servicesScrollView, malfunctionsScrollView;
     private LinearLayout servicesLinearLayout;
+    private FloatingActionButton buttonAddService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -34,6 +37,10 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         // Get the other scroll views.
         servicesScrollView = root.findViewById(R.id.scroll_view_services);
         malfunctionsScrollView = root.findViewById(R.id.scroll_view_malfunctions);
+
+        // button add service
+        buttonAddService = root.findViewById(R.id.button_add_service);
+        buttonAddService.setOnClickListener(new ButtonRedirectToAddServiceActivityListener(getContext()));
 
         servicesLinearLayout = root.findViewById(R.id.linear_layout_services);
 
