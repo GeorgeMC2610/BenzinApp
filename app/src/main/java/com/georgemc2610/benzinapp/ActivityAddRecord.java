@@ -67,6 +67,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
         {
             case android.R.id.home:
 
+                // TODO: The logic is changed with the dates, and now it always counts as if there is something filled. Change it.
                 // when the back button is pressed without saving a record.
                 if (AnyEditTextFilled())
                 {

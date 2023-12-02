@@ -25,6 +25,7 @@ public class ButtonRedirectToAddServiceActivityListener implements View.OnClickL
         Intent intent;
 
         if (tabLayout.getSelectedTabPosition() == 0)
+            // TODO : CHANGE THE INTENT HERE
             intent = new Intent(context, ActivityAddRecord.class);
         else
             intent = new Intent(context, ActivityAddService.class);
