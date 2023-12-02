@@ -93,4 +93,6 @@ public class ActivityAddMalfunction extends AppCompatActivity
                 title.getText().toString().trim().length() != 0 ||
                 description.getText().toString().trim().length()  != 0);
     }
+
+
 }
