@@ -65,12 +65,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_cost_hint"
+                android:hint="At Km..."
                 android:inputType="numberDecimal" />
 
             <!-- DATE HAPPENED -->
             <TextView
-                android:id="@+id/textViewServiceDate"
+                android:id="@+id/textViewMalfunctionDate"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
@@ -78,7 +78,7 @@
                 android:text="@string/text_view_datetime" />
 
             <TextView
-                android:id="@+id/textViewServiceDatePicked"
+                android:id="@+id/textViewMalfunctionDatePicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -87,7 +87,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/buttonSelectDate"
+                android:id="@+id/buttonMalfunctionDate"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
