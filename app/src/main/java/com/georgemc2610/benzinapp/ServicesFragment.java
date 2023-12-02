@@ -40,7 +40,7 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
 
         // button add service
         buttonAddService = root.findViewById(R.id.button_add_service);
-        buttonAddService.setOnClickListener(new ButtonRedirectToAddServiceActivityListener(getContext()));
+        buttonAddService.setOnClickListener(new ButtonRedirectToAddServiceActivityListener(getContext(), tabLayout));
 
         servicesLinearLayout = root.findViewById(R.id.linear_layout_services);
 
@@ -48,7 +48,7 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         View v = inflater.inflate(R.layout.cardview_service, null);
         servicesLinearLayout.addView(v);
 
-        // Dynamically add two tab items.
+        // Add the tab view listener to be this class and select the first element.
         tabLayout.addOnTabSelectedListener(this);
         tabLayout.selectTab(tabLayout.getTabAt(0));
 

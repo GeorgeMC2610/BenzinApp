@@ -4,21 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.georgemc2610.benzinapp.ActivityAddRecord;
 import com.georgemc2610.benzinapp.ActivityAddService;
+import com.google.android.material.tabs.TabLayout;
 
 public class ButtonRedirectToAddServiceActivityListener implements View.OnClickListener
 {
     private final Context context;
+    private final TabLayout tabLayout;
 
-    public ButtonRedirectToAddServiceActivityListener(Context context)
+    public ButtonRedirectToAddServiceActivityListener(Context context, TabLayout tabLayout)
     {
         this.context = context;
+        this.tabLayout = tabLayout;
     }
 
     @Override
     public void onClick(View v)
     {
-        Intent intent = new Intent(context, ActivityAddService.class);
+        Intent intent;
+
+        if (tabLayout.getSelectedTabPosition() == 0)
+            intent = new Intent(context, ActivityAddRecord.class);
+        else
+            intent = new Intent(context, ActivityAddService.class);
+
         context.startActivity(intent);
     }
 }
