@@ -3,16 +3,22 @@ package com.georgemc2610.benzinapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class ActivityAddMalfunction extends AppCompatActivity
 {
     EditText title, description, atKm;
     TextView date;
+    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -94,5 +100,26 @@ public class ActivityAddMalfunction extends AppCompatActivity
                 description.getText().toString().trim().length()  != 0);
     }
 
+    public void OnButtonPickDateClicked(View view)
+    {
+        // get calendar and dates to keep track of
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
+        // date picker dialog shows up
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                // and when it updates, it sets the value of the edit text.
+                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+            }
+        }, mYear, mMonth, mDay);
+
+        // show the dialog.
+        datePickerDialog.show();
+    }
 }
