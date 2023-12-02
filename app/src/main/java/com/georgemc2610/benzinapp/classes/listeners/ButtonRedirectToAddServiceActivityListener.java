@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.georgemc2610.benzinapp.ActivityAddMalfunction;
 import com.georgemc2610.benzinapp.ActivityAddRecord;
 import com.georgemc2610.benzinapp.ActivityAddService;
 import com.google.android.material.tabs.TabLayout;
@@ -25,8 +26,7 @@ public class ButtonRedirectToAddServiceActivityListener implements View.OnClickL
         Intent intent;
 
         if (tabLayout.getSelectedTabPosition() == 0)
-            // TODO : CHANGE THE INTENT HERE
-            intent = new Intent(context, ActivityAddRecord.class);
+            intent = new Intent(context, ActivityAddMalfunction.class);
         else
             intent = new Intent(context, ActivityAddService.class);
 
