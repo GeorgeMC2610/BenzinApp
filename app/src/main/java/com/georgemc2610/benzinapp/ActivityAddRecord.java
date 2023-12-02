@@ -111,8 +111,7 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
         return (editTextKilometers.getText().toString().trim().length() != 0 ||
                 editTextLiters.getText().toString().trim().length() != 0 ||
                 editTextCost.getText().toString().trim().length() != 0 ||
-                editTextPetrolType.getText().toString().trim().length() != 0 ||
-                textViewDate.getText().toString().trim().length() != 0);
+                editTextPetrolType.getText().toString().trim().length() != 0);
     }
 
     public void OnButtonAddClicked(View v)
