@@ -4,6 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityAddMalfunction">
+    tools:context=".ActivityAddRecord">
 
+    <ScrollView
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/textViewMalfunctionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Title" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="What's malfunctioning...?"
+                android:inputType="numberDecimal" />
+
+            <!-- DESCRIPTION -->
+            <TextView
+                android:id="@+id/textViewMalfunctionDesc"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Description:" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionDesc"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="Write a short description..."
+                android:inputType="numberDecimal" />
+
+            <!-- AT_KM -->
+            <TextView
+                android:id="@+id/textViewMalfunctionAtKm"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="At KM:" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionAtKm"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_cost_hint"
+                android:inputType="numberDecimal" />
+
+            <!-- DATE HAPPENED -->
+            <TextView
+                android:id="@+id/textViewServiceDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/text_view_datetime" />
+
+            <TextView
+                android:id="@+id/textViewServiceDatePicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonSelectDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:onClick="OnPickDateClicked"
+                app:icon="@android:drawable/ic_menu_day" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="367dp"
+        android:layout_height="66dp"
+        android:onClick="OnButtonAddClicked"
+        android:text="Add Service"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
 </androidx.constraintlayout.widget.ConstraintLayout>
