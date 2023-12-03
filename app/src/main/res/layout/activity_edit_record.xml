@@ -96,6 +96,7 @@
                 android:hint="@string/edit_text_station_hint"
                 android:inputType="text" />
 
+            <!-- EDIT -->
             <TextView
                 android:id="@+id/textViewDateEdit"
                 android:layout_width="match_parent"
@@ -103,14 +104,23 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_datetime" />
 
-            <EditText
-                android:id="@+id/editTextDateEdit"
+            <TextView
+                android:id="@+id/textViewDatePickedEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonSelectDateEdit"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/edit_text_datetime_hint"
-                android:inputType="datetime"
-                android:onClick="OnEditTextDateTimeClicked" />
+                android:onClick="OnEditTextDateTimeClicked"
+                app:icon="@android:drawable/ic_menu_day" />
 
             <TextView
                 android:id="@+id/textViewNotesEdit"

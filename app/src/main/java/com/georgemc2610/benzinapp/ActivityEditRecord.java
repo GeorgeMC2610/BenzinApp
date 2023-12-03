@@ -1,21 +1,29 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+
+import java.util.Calendar;
 
 // TODO: Add comments.
 
 public class ActivityEditRecord extends AppCompatActivity implements Response.Listener<String>
 {
     private FuelFillRecord record;
-    private EditText editTextLiters, editTextCost, editTextKilometers, editTextDate, editTextPetrolType, editTextStation, editTextNotes;
+    private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
+    private TextView textViewDate;
+    int mYear, mDay, mMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,7 +53,7 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         editTextCost       = findViewById(R.id.editTextCostEdit);
         editTextKilometers = findViewById(R.id.editTextKilometersEdit);
         editTextPetrolType = findViewById(R.id.editTextPetrolTypeEdit);
-        editTextDate       = findViewById(R.id.editTextDateEdit);
+        textViewDate       = findViewById(R.id.textViewDatePickedEdit);
         editTextStation    = findViewById(R.id.editTextStationEdit);
         editTextNotes      = findViewById(R.id.editTextNotesEdit);
 
@@ -53,13 +61,10 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         editTextLiters    .setText(String.valueOf(record.getLiters()));
         editTextCost      .setText(String.valueOf(record.getCost_eur()));
         editTextKilometers.setText(String.valueOf(record.getKilometers()));
-        editTextDate      .setText(String.valueOf(record.getDate()));
+        textViewDate      .setText(String.valueOf(record.getDate()));
         editTextPetrolType.setText(record.getFuelType());
         editTextStation   .setText(record.getStation());
         editTextNotes     .setText(record.getNotes());
-
-        // lock some properties.
-        editTextDate.setEnabled(false);
     }
 
     @Override
@@ -109,6 +114,29 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
     private String getStringFromEditText(EditText editText)
     {
         return editText.getText().toString().trim().isEmpty() ? null : editText.getText().toString().trim();
+    }
+
+    public void OnEditTextDateTimeClicked(View v)
+    {
+        // get calendar and dates to keep track of
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // date picker dialog shows up
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                // and when it updates, it sets the value of the edit text.
+                textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+            }
+        }, mYear, mMonth, mDay);
+
+        // show the dialog.
+        datePickerDialog.show();
     }
 
     @Override
