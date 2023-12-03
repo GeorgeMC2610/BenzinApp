@@ -320,7 +320,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void EditFuelFillRecord(Activity activity, Response.Listener<String> listener, int id, Float km, Float lt, Float cost_eur, String fuelType, String station, String notes)
+    public void EditFuelFillRecord(Activity activity, Response.Listener<String> listener, int id, Float km, Float lt, Float cost_eur, String fuelType, String station, LocalDate newDate, String notes)
     {
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
@@ -375,6 +375,9 @@ public class RequestHandler
 
                 if (station != null && !station.isEmpty())
                     params.put("station", station);
+
+                if (newDate != null && !newDate.toString().isEmpty())
+                    params.put("filled_at", newDate.toString());
 
                 if (notes != null && !notes.isEmpty())
                     params.put("notes", notes);

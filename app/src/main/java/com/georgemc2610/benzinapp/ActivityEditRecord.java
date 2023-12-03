@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 // TODO: Add comments.
@@ -92,8 +93,12 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         String newStation    = getStringFromEditText(editTextStation);
         String newNotes      = getStringFromEditText(editTextNotes);
 
+        // parse the date
+        String date = textViewDate.getText().toString().trim();
+        LocalDate newDate = LocalDate.parse(date);
+
         // send the request.
-        RequestHandler.getInstance().EditFuelFillRecord(this, this, record.getId(), newKilometers, newLiters, newCost, newPetrolType, newStation, newNotes);
+        RequestHandler.getInstance().EditFuelFillRecord(this, this, record.getId(), newKilometers, newLiters, newCost, newPetrolType, newStation, newDate, newNotes);
     }
 
     /**
