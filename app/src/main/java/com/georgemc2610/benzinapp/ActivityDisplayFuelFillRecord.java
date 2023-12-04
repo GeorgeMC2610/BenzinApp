@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +11,8 @@ import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
 
-public class ActivityDisplayData extends AppCompatActivity
+public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
     FuelFillRecord record;
@@ -92,7 +90,7 @@ public class ActivityDisplayData extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which)
             {
                 // delete the record by its id.
-                RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayData.this, record.getId());
+                RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayFuelFillRecord.this, record.getId());
 
                 // then close this activity
                 finish();

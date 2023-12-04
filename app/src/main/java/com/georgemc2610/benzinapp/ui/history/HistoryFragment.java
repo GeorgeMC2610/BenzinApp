@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
-import com.georgemc2610.benzinapp.ActivityDisplayData;
+import com.georgemc2610.benzinapp.ActivityDisplayFuelFillRecord;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
@@ -131,7 +131,7 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), ActivityDisplayData.class);
+                        Intent intent = new Intent(getContext(), ActivityDisplayFuelFillRecord.class);
                         intent.putExtra("record", record);
                         startActivity(intent);
                     }

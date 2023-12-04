@@ -60,7 +60,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityDisplayData"
+            android:name=".ActivityDisplayFuelFillRecord"
             android:exported="false" />
         <activity
             android:name=".ActivityAddRecord"
