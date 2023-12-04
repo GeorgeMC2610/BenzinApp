@@ -19,6 +19,8 @@ import com.georgemc2610.benzinapp.databinding.FragmentServicesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Locale;
+
 public class ServicesFragment extends Fragment implements TabLayout.OnTabSelectedListener
 {
 
@@ -77,6 +79,7 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         ResponseMalfunctionListener responseMalfunctionListener = new ResponseMalfunctionListener(malfunctionsLinearLayout, getLayoutInflater());
 
         RequestHandler.getInstance().GetServices(getActivity(), responseServiceListener);
+        RequestHandler.getInstance().GetMalfunctions(getActivity(), responseMalfunctionListener);
     }
 
     @Override

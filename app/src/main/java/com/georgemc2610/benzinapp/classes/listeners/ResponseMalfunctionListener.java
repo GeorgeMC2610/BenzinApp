@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.icu.text.NumberFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class ResponseMalfunctionListener implements Response.Listener<String>
 {
@@ -47,6 +49,7 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
                 TextView at_kmView = v.findViewById(R.id.card_malfunction_at_km);
                 TextView dateView = v.findViewById(R.id.card_malfunction_date);
                 TextView statusView = v.findViewById(R.id.card_malfunction_status);
+                TextView idHidden = v.findViewById(R.id.card_malfunction_hidden_id);
 
                 // card view buttons
                 FloatingActionButton deleteButton = v.findViewById(R.id.card_malfunction_button_delete);
@@ -56,14 +59,30 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
                 // get the data
                 JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
 
+                // required data
                 int id = JsonObject.getInt("id");
                 int at_km = JsonObject.getInt("at_km");
                 String title = JsonObject.getString("title");
                 String description = JsonObject.getString("description");
                 LocalDate started = LocalDate.parse(JsonObject.getString("started"));
 
+                // optional data (might be null)
+                String ended = JsonObject.getString("ended");
+
                 // create instance of the malfunction class.
-                Malfunction malfunction = new Malfunction();
+                Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
+
+                if (!ended.equals("null"))
+                    malfunction.setEnded(LocalDate.parse(ended));
+
+                NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+
+                // set the views' data
+                titleView.setText(title);
+                at_kmView.setText("Discovered at " + numberFormat.format(at_km) + " km.");
+                dateView.setText(started.toString());
+                statusView.setText( ended.equals("null") ? "Ongoing" : "Fixed" ); // TODO: REPLACE WITH STRING VALUES AND NOT HARDCODED STRINGS.
+                idHidden.setText(String.valueOf(id));
 
                 // add the view
                 linearLayout.addView(v);
