@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +81,20 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 // set the views' data
                 titleView.setText(title);
-                at_kmView.setText("Discovered at " + numberFormat.format(at_km) + " km.");
+                at_kmView.setText(inflater.getContext().getString(R.string.card_view_malfunction_discovered_at) + " " + numberFormat.format(at_km) + " " + inflater.getContext().getString(R.string.km_short));
                 dateView.setText(started.toString());
-                statusView.setText( ended.equals("null") ? "Ongoing" : "Fixed" ); // TODO: REPLACE WITH STRING VALUES AND NOT HARDCODED STRINGS.
+
+                if (ended.equals("null"))
+                {
+                    statusView.setText(inflater.getContext().getString(R.string.card_view_malfunction_ongoing));
+                    statusView.setTextColor(Color.RED);
+                }
+                else
+                {
+                    statusView.setText(inflater.getContext().getString(R.string.card_view_malfunction_fixed));
+                    statusView.setTextColor(Color.GREEN);
+                }
+                
                 idHidden.setText(String.valueOf(id));
 
                 // add the view

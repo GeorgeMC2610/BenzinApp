@@ -70,4 +70,9 @@
     <string name="toast_unexpected_error">An unexpected error has occured.</string>
     <string name="text_view_select_date">Select date...</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="card_view_malfunction_discovered_at">Discovered at:</string>
+    <string name="card_view_malfunction_ongoing">Ongoing</string>
+    <string name="card_view_malfunction_fixed">Fixed</string>
+    <string name="km_short">km</string>
+    <string name="lt_short">lt</string>
 </resources>
