@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.settings;
+package com.georgemc2610.benzinapp.fragments.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

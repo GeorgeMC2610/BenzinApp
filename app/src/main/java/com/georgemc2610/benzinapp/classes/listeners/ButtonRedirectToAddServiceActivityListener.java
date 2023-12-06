@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.georgemc2610.benzinapp.ActivityAddMalfunction;
-import com.georgemc2610.benzinapp.ActivityAddRecord;
-import com.georgemc2610.benzinapp.ActivityAddService;
+import com.georgemc2610.benzinapp.acitvity_add.ActivityAddMalfunction;
+import com.georgemc2610.benzinapp.acitvity_add.ActivityAddService;
 import com.google.android.material.tabs.TabLayout;
 
 public class ButtonRedirectToAddServiceActivityListener implements View.OnClickListener

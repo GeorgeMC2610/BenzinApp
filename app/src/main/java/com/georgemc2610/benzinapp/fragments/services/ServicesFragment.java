@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.services;
+package com.georgemc2610.benzinapp.fragments.services;
 
 import android.os.Bundle;
 
@@ -18,8 +18,6 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseServiceListener;
 import com.georgemc2610.benzinapp.databinding.FragmentServicesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.Locale;
 
 public class ServicesFragment extends Fragment implements TabLayout.OnTabSelectedListener
 {

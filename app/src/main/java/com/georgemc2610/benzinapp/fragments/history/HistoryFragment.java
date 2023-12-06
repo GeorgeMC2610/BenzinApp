@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.history;
+package com.georgemc2610.benzinapp.fragments.history;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
-import com.georgemc2610.benzinapp.ActivityDisplayFuelFillRecord;
+import com.georgemc2610.benzinapp.activity_display.ActivityDisplayFuelFillRecord;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;

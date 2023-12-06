@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp;
+package com.georgemc2610.benzinapp.acitvity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,37 +14,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityAddMalfunction extends AppCompatActivity implements Response.Listener<String>
+public class ActivityAddService extends AppCompatActivity implements Response.Listener<String>
 {
-    EditText titleView, descriptionView, atKmView;
-    TextView dateView, locationView;
-    private int mYear, mMonth, mDay;
+    EditText atKm, nextKm, costEur, notes;
+    TextView location, date;
+    int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // initialize activity
+        // initialize activity.
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_malfunction);
+        setContentView(R.layout.activity_add_service);
 
-        // retrieve edit texts and text view
-        titleView = findViewById(R.id.editTextMalfunctionTitle);
-        descriptionView = findViewById(R.id.editTextMalfunctionDesc);
-        atKmView = findViewById(R.id.editTextMalfunctionAtKm);
-        dateView = findViewById(R.id.textViewMalfunctionDatePicked);
-        locationView = findViewById(R.id.textViewMalfunctionLocationPicked);
+        // get edit texts and text views.
+        atKm = findViewById(R.id.editTextServiceAtKilometers);
+        nextKm = findViewById(R.id.editTextServiceNextKm);
+        costEur = findViewById(R.id.editTextServiceCost);
+        notes = findViewById(R.id.editTextServiceDescription);
+        location = findViewById(R.id.textViewServiceLocation);
+        date = findViewById(R.id.textViewServiceDatePicked);
 
-        // action bar
         // action bar
         try
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Add Malfunction");
+            getSupportActionBar().setTitle("Add Service");
         }
         // if anything goes wrong, print it out.
         catch (Exception e)
@@ -100,12 +102,51 @@ public class ActivityAddMalfunction extends AppCompatActivity implements Respons
 
     private boolean AnyEditTextFilled()
     {
-        return (atKmView.getText().toString().trim().length() != 0 ||
-                titleView.getText().toString().trim().length() != 0 ||
-                descriptionView.getText().toString().trim().length()  != 0);
+        return (atKm.getText().toString().trim().length() != 0 ||
+                notes.getText().toString().trim().length() != 0 ||
+                nextKm.getText().toString().trim().length() != 0 ||
+                costEur.getText().toString().trim().length() != 0);
     }
 
-    public void OnButtonPickDateClicked(View view)
+    public void OnButtonAddClicked(View v)
+    {
+        boolean validated = true;
+
+        // all of the following fields are required. If any of those are not filled, display an error.
+        if (atKm.getText().toString().trim().length() == 0)
+        {
+            atKm.setError(getString(R.string.error_field_cannot_be_empty));
+            validated = false;
+        }
+
+        if (notes.getText().toString().trim().length() == 0)
+        {
+            notes.setError(getString(R.string.error_field_cannot_be_empty));
+            validated = false;
+        }
+
+        if (date.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
+        {
+            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
+            validated = false;
+        }
+
+        if (!validated)
+            return;
+
+        // get the data
+        String at_km = atKm.getText().toString().trim();
+        String next_km = nextKm.getText().toString().trim();
+        String cost_eur = costEur.getText().toString().trim();
+        String description = notes.getText().toString().trim();
+        String locationString = location.getText().toString().trim();
+        String date_happened = date.getText().toString().trim();
+
+        // send it to the cloud.
+        RequestHandler.getInstance().AddService(this, this, at_km, cost_eur, description, locationString, date_happened, next_km);
+    }
+
+    public void OnPickDateClicked(View v)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
@@ -120,56 +161,12 @@ public class ActivityAddMalfunction extends AppCompatActivity implements Respons
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 // and when it updates, it sets the value of the edit text.
-                dateView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
             }
         }, mYear, mMonth, mDay);
 
         // show the dialog.
         datePickerDialog.show();
-    }
-
-    public void OnButtonAddMalfunctionClicked(View view)
-    {
-        boolean validated = true;
-
-        // all of the following fields are required. If any of those are not filled, display an error.
-        if (atKmView.getText().toString().trim().length() == 0)
-        {
-            atKmView.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (titleView.getText().toString().trim().length() == 0)
-        {
-            titleView.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (descriptionView.getText().toString().trim().length() == 0)
-        {
-            descriptionView.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (dateView.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
-        {
-            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
-            validated = false;
-        }
-
-        // if any of the above are empty or not filled, the system won't proceed.
-        if (!validated)
-            return;
-
-        // get the data
-        String at_km = atKmView.getText().toString().trim();
-        String title = titleView.getText().toString().trim();
-        String description = descriptionView.getText().toString().trim();
-        String date = dateView.getText().toString().trim();
-        String location = locationView.getText().toString().trim();
-
-        // send the data to the cloud
-        RequestHandler.getInstance().AddMalfunction(this, this, at_km, title, description, date, location);
     }
 
     @Override

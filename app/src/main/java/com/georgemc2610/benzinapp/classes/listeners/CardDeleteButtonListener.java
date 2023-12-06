@@ -3,17 +3,15 @@ package com.georgemc2610.benzinapp.classes.listeners;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.View;
 
-import com.georgemc2610.benzinapp.ActivityEditRecord;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.classes.Service;
-import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
-import com.georgemc2610.benzinapp.ui.services.ServicesFragment;
+import com.georgemc2610.benzinapp.fragments.history.HistoryFragment;
+import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 
 /**
  * Listener for delete button. Once it's pressed, it will show a dialog box for confirmation.

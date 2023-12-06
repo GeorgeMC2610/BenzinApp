@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.home;
+package com.georgemc2610.benzinapp.fragments.home;
 
 import android.graphics.Color;
 import android.os.Bundle;

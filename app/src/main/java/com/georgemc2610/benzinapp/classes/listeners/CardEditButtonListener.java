@@ -2,9 +2,9 @@ package com.georgemc2610.benzinapp.classes.listeners;
 
 import android.content.Intent;
 import android.view.View;
-import com.georgemc2610.benzinapp.ActivityEditRecord;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
+import com.georgemc2610.benzinapp.fragments.history.HistoryFragment;
 
 /**
  * Listener for edit button. Once it's pressed, it will temporarily open a new activity to edit the record.

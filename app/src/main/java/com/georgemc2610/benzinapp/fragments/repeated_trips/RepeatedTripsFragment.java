@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.ui.repeated_trips;
+package com.georgemc2610.benzinapp.fragments.repeated_trips;
 
 import android.os.Bundle;
 
