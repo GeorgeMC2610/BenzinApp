@@ -81,17 +81,16 @@ public class CardDeleteButtonListener implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which)
             {
                 // when the yes button is pressed, it will check which fragment is present
-                if (servicesFragment == null)
+                if (historyFragment != null)
                 {
                     // this is for the fuel fill records
                     RequestHandler.getInstance().DeleteFuelFillRecord(historyFragment.getActivity(), record.getId());
-                    RequestHandler.getInstance().GetFuelFillRecords(historyFragment.getActivity(), historyFragment);
                 }
                 else
                 {
                     // this is for the services.
-
-
+                    RequestHandler.getInstance().DeleteService();
+                    servicesFragment.onResume();
                 }
             }
         });
