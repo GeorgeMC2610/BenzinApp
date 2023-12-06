@@ -66,29 +66,32 @@ public class ResponseServiceListener implements Response.Listener<String>
                 // required data
                 int id = JsonObject.getInt("id");
                 int at_km = JsonObject.getInt("at_km");
-                //double cost = JsonObject.getDouble("cost");
-                String description = JsonObject.getString("description");
-                int next_km = JsonObject.getInt("next_km");
                 LocalDate date_happened = LocalDate.parse(JsonObject.getString("date_happened"));
+                String description = JsonObject.getString("description");
 
                 // create instance of the malfunction class.
                 Service service = new Service(id, at_km, description, date_happened);
 
-                // set the optional values of the object.
-                //if (!Double.isNaN(cost))
-                    //service.setCost((float) cost);
+                // optional data
+                String cost_try = JsonObject.getString("cost_eur");
+                String next_km_try = JsonObject.getString("next_km");
 
-                if (next_km != 0)
-                    service.setNextKm(next_km);
+                // set the optional values of the object.
+                if (!cost_try.equals("null"))
+                    service.setCost(Float.parseFloat(cost_try));
+
+                if (!next_km_try.equals("null"))
+                    service.setNextKm(Integer.parseInt(next_km_try));
 
                 NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
                 // set the views data
                 at_kmView.setText(numberFormat.format(at_km) + "km");
-                //costView.setText('€' + String.valueOf(cost));
                 dateView.setText(date_happened.toString());
-                next_kmView.setText( next_km == 0 ? "-" : "Next at: " + numberFormat.format(next_km) + " km");
                 idHidden.setText(String.valueOf(id));
+
+                costView.setText(cost_try.equals("null")? "-" : "€" + cost_try);
+                next_kmView.setText(next_km_try.equals("null")? "Next in: -" : "Next in: " + numberFormat.format(Integer.parseInt(next_km_try)) + " km");
 
                 // add the view
                 linearLayout.addView(v);
