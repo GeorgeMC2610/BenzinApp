@@ -90,7 +90,7 @@ public class ResponseServiceListener implements Response.Listener<String>
                 dateView.setText(date_happened.toString());
                 idHidden.setText(String.valueOf(id));
 
-                costView.setText(cost_try.equals("null")? "-" : "€" + cost_try);
+                costView.setText(cost_try.equals("null")? "-" : "€" + numberFormat.format(Float.parseFloat(cost_try)));
                 next_kmView.setText(next_km_try.equals("null")? "Next in: -" : "Next in: " + numberFormat.format(Integer.parseInt(next_km_try)) + " km");
 
                 // add the view
