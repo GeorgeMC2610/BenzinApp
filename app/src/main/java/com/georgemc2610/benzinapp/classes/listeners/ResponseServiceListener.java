@@ -58,6 +58,8 @@ public class ResponseServiceListener implements Response.Listener<String>
                 FloatingActionButton deleteButton = v.findViewById(R.id.card_service_button_delete);
                 FloatingActionButton editButton = v.findViewById(R.id.card_service_button_edit);
 
+                // delete button listeners
+
                 // get the data
                 JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
 

@@ -538,6 +538,11 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void DeleteService()
+    {
+
+    }
+
     public void AddMalfunction(Activity activity, Response.Listener<String> listener, int at_km, int cost_eur, String description, LocalDate date_happened, int next_km)
     {
         // request Queue required, to send the request.

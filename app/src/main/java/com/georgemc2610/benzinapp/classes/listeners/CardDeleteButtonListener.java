@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
@@ -8,8 +9,11 @@ import android.view.View;
 import com.georgemc2610.benzinapp.ActivityEditRecord;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.Service;
 import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
+import com.georgemc2610.benzinapp.ui.services.ServicesFragment;
 
 /**
  * Listener for delete button. Once it's pressed, it will show a dialog box for confirmation.
@@ -18,40 +22,82 @@ import com.georgemc2610.benzinapp.ui.history.HistoryFragment;
 public class CardDeleteButtonListener implements View.OnClickListener
 {
     private final HistoryFragment historyFragment;
+    private final ServicesFragment servicesFragment;
     private final FuelFillRecord record;
+    private final Service service;
+    private final Malfunction malfunction;
 
-    // required constructor for the listener to previously have all the data available.
+    // gets called from the record
     public CardDeleteButtonListener(HistoryFragment historyFragment, FuelFillRecord record)
     {
         this.historyFragment = historyFragment;
         this.record = record;
+
+        this.servicesFragment = null;
+        this.malfunction = null;
+        this.service = null;
+    }
+
+    // gets called from the service
+    public CardDeleteButtonListener(ServicesFragment servicesFragment, Service service)
+    {
+        this.servicesFragment = servicesFragment;
+        this.service = service;
+        this.malfunction = null;
+
+        this.record = null;
+        this.historyFragment = null;
+    }
+
+    // gets called from the malfunction
+    public CardDeleteButtonListener(ServicesFragment servicesFragment, Malfunction malfunction)
+    {
+        this.servicesFragment = servicesFragment;
+        this.malfunction = malfunction;
+        this.service = null;
+
+        this.record = null;
+        this.historyFragment = null;
     }
 
 
     @Override
     public void onClick(View v)
     {
+        // context gets called from either fragment.
+        Context context = historyFragment == null ? servicesFragment.getContext() : historyFragment.getContext();
+
         // create a dialog builder.
-        AlertDialog.Builder dialog = new AlertDialog.Builder(historyFragment.getContext());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
         // set titles and warning message.
-        dialog.setTitle(historyFragment.getString(R.string.dialog_delete_title));
-        dialog.setMessage(historyFragment.getString(R.string.dialog_delete_confirmation));
+        dialog.setTitle(context.getString(R.string.dialog_delete_title));
+        dialog.setMessage(context.getString(R.string.dialog_delete_confirmation));
 
         // listener for YES button.
-        dialog.setPositiveButton(historyFragment.getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+        dialog.setPositiveButton(context.getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                // when the yes button is pressed, it will delete the fuel fill record and refresh the history fragment page.
-                RequestHandler.getInstance().DeleteFuelFillRecord(historyFragment.getActivity(), record.getId());
-                RequestHandler.getInstance().GetFuelFillRecords(historyFragment.getActivity(), historyFragment);
+                // when the yes button is pressed, it will check which fragment is present
+                if (servicesFragment == null)
+                {
+                    // this is for the fuel fill records
+                    RequestHandler.getInstance().DeleteFuelFillRecord(historyFragment.getActivity(), record.getId());
+                    RequestHandler.getInstance().GetFuelFillRecords(historyFragment.getActivity(), historyFragment);
+                }
+                else
+                {
+                    // this is for the services.
+
+
+                }
             }
         });
 
         // listener for NO button (nothing happens)
-        dialog.setNegativeButton(historyFragment.getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+        dialog.setNegativeButton(context.getString(R.string.dialog_no), new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
