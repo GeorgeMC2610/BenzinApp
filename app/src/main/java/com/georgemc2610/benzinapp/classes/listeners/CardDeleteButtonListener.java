@@ -86,9 +86,10 @@ public class CardDeleteButtonListener implements View.OnClickListener
                 }
                 else
                 {
-                    // this is for the services.
-                    RequestHandler.getInstance().DeleteService();
-                    servicesFragment.onResume();
+                    if (service != null)
+                        RequestHandler.getInstance().DeleteService(servicesFragment.getActivity(), service.getId());
+                    else
+                        RequestHandler.getInstance().DeleteMalfunction(servicesFragment.getActivity(), malfunction.getId());
                 }
             }
         });

@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseServiceListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -562,9 +563,45 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void DeleteService()
+    public void DeleteService(Activity activity, int id)
     {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
 
+        // correct url
+        String url = _URL + "/service/" + id;
+
+        StringRequest request = new StringRequest(Request.Method.DELETE, url, response ->
+        {
+            Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
+
+        }, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
     }
 
     public void AddMalfunction(Activity activity, Response.Listener<String> listener, String at_km, String title, String description, String date_happened, String location)
@@ -617,6 +654,47 @@ public class RequestHandler
                     params.put("location", location);
 
                 return params;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+    public void DeleteMalfunction(Activity activity, int id)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/malfunction/" + id;
+
+        StringRequest request = new StringRequest(Request.Method.DELETE, url, response ->
+        {
+            Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
+
+        }, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
             }
         };
 

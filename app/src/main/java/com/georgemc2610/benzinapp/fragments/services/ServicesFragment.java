@@ -73,8 +73,8 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
     {
         super.onResume();
 
-        ResponseServiceListener responseServiceListener = new ResponseServiceListener(servicesLinearLayout, getLayoutInflater());
-        ResponseMalfunctionListener responseMalfunctionListener = new ResponseMalfunctionListener(malfunctionsLinearLayout, getLayoutInflater());
+        ResponseServiceListener responseServiceListener = new ResponseServiceListener(servicesLinearLayout, getLayoutInflater(), this);
+        ResponseMalfunctionListener responseMalfunctionListener = new ResponseMalfunctionListener(malfunctionsLinearLayout, getLayoutInflater(), this);
 
         RequestHandler.getInstance().GetServices(getActivity(), responseServiceListener);
         RequestHandler.getInstance().GetMalfunctions(getActivity(), responseMalfunctionListener);

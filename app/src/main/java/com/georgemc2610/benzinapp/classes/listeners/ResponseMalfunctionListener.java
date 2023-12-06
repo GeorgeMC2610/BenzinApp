@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.Malfunction;
+import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -24,11 +25,13 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 {
     private final LinearLayout linearLayout;
     private final LayoutInflater inflater;
+    private final ServicesFragment fragment;
 
-    public ResponseMalfunctionListener(LinearLayout linearLayout, LayoutInflater inflater)
+    public ResponseMalfunctionListener(LinearLayout linearLayout, LayoutInflater inflater, ServicesFragment fragment)
     {
         this.linearLayout = linearLayout;
         this.inflater = inflater;
+        this.fragment = fragment;
     }
 
     @Override
@@ -73,6 +76,9 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 // create instance of the malfunction class.
                 Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
+
+                // listeners for the buttons
+                deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, malfunction));
 
                 if (!ended.equals("null"))
                     malfunction.setEnded(LocalDate.parse(ended));

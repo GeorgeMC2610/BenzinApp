@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.classes.Service;
+import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -23,11 +26,13 @@ public class ResponseServiceListener implements Response.Listener<String>
 {
     private final LinearLayout linearLayout;
     private final LayoutInflater inflater;
+    private final ServicesFragment fragment;
 
-    public ResponseServiceListener(LinearLayout linearLayout, LayoutInflater inflater)
+    public ResponseServiceListener(LinearLayout linearLayout, LayoutInflater inflater, ServicesFragment fragment)
     {
         this.linearLayout = linearLayout;
         this.inflater = inflater;
+        this.fragment = fragment;
     }
 
     @Override
@@ -71,6 +76,9 @@ public class ResponseServiceListener implements Response.Listener<String>
 
                 // create instance of the malfunction class.
                 Service service = new Service(id, at_km, description, date_happened);
+
+                // card view button listeners
+                deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, service));
 
                 // optional data
                 String cost_try = JsonObject.getString("cost_eur");
