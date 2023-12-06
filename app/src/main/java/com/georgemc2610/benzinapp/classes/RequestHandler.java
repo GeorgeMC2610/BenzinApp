@@ -559,15 +559,15 @@ public class RequestHandler
 
     }
 
-    public void AddMalfunction(Activity activity, Response.Listener<String> listener, int at_km, int cost_eur, String description, LocalDate date_happened, int next_km)
+    public void AddMalfunction(Activity activity, Response.Listener<String> listener, String at_km, String title, String description, String date_happened, String location)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
-        // services url.
+        // malfunctions url.
         String url = _URL + "/malfunction";
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        StringRequest request = new StringRequest(Request.Method.POST, url, listener, error ->
         {
             if (error.networkResponse == null)
                 return;
@@ -590,6 +590,25 @@ public class RequestHandler
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
                 return headers;
+            }
+
+            // this adds parameters to the request.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                // required parameters don't need integrity check
+                params.put("at_km", at_km);
+                params.put("title", title);
+                params.put("description", description);
+                params.put("started", date_happened);
+
+                // optional parameters need integrity check.
+                if (location != null && !location.isEmpty())
+                    params.put("location", location);
+
+                return params;
             }
         };
 

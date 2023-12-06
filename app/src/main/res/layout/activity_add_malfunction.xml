@@ -34,7 +34,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="What's malfunctioning...?"
-                android:inputType="numberDecimal" />
+                android:inputType="text" />
 
             <!-- DESCRIPTION -->
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="Write a short description..."
-                android:inputType="numberDecimal" />
+                android:inputType="textMultiLine" />
 
             <!-- AT_KM -->
             <TextView
@@ -66,7 +66,33 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="At Km..."
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
+
+            <!-- LOCATION -->
+            <TextView
+                android:id="@+id/textViewMalfunctionLocation"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="Location:" />
+
+            <TextView
+                android:id="@+id/textViewMalfunctionLocationPicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Select Location"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonMalfunctionSelectLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="Tap to select location..."
+                android:onClick="OnEditTextDateTimeClicked"
+                app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- DATE HAPPENED -->
             <TextView
@@ -103,8 +129,8 @@
         android:id="@+id/button"
         android:layout_width="367dp"
         android:layout_height="66dp"
-        android:onClick="OnButtonAddClicked"
-        android:text="Add Service"
+        android:onClick="OnButtonAddMalfunctionClicked"
+        android:text="Add Malfunction"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

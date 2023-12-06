@@ -86,6 +86,7 @@ public class ResponseServiceListener implements Response.Listener<String>
                 NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
                 // set the views data
+                // TODO: REMOVE HARDCODED STRINGS
                 at_kmView.setText(numberFormat.format(at_km) + "km");
                 dateView.setText(date_happened.toString());
                 idHidden.setText(String.valueOf(id));

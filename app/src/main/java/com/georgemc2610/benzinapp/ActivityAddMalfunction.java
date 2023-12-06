@@ -11,13 +11,17 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
 
 import java.util.Calendar;
 
-public class ActivityAddMalfunction extends AppCompatActivity
+public class ActivityAddMalfunction extends AppCompatActivity implements Response.Listener<String>
 {
-    EditText title, description, atKm;
-    TextView date;
+    EditText titleView, descriptionView, atKmView;
+    TextView dateView, locationView;
     private int mYear, mMonth, mDay;
 
     @Override
@@ -28,10 +32,11 @@ public class ActivityAddMalfunction extends AppCompatActivity
         setContentView(R.layout.activity_add_malfunction);
 
         // retrieve edit texts and text view
-        title = findViewById(R.id.editTextMalfunctionTitle);
-        description = findViewById(R.id.editTextMalfunctionDesc);
-        atKm = findViewById(R.id.editTextMalfunctionAtKm);
-        date = findViewById(R.id.textViewMalfunctionDatePicked);
+        titleView = findViewById(R.id.editTextMalfunctionTitle);
+        descriptionView = findViewById(R.id.editTextMalfunctionDesc);
+        atKmView = findViewById(R.id.editTextMalfunctionAtKm);
+        dateView = findViewById(R.id.textViewMalfunctionDatePicked);
+        locationView = findViewById(R.id.textViewMalfunctionLocationPicked);
 
         // action bar
         // action bar
@@ -95,9 +100,9 @@ public class ActivityAddMalfunction extends AppCompatActivity
 
     private boolean AnyEditTextFilled()
     {
-        return (atKm.getText().toString().trim().length() != 0 ||
-                title.getText().toString().trim().length() != 0 ||
-                description.getText().toString().trim().length()  != 0);
+        return (atKmView.getText().toString().trim().length() != 0 ||
+                titleView.getText().toString().trim().length() != 0 ||
+                descriptionView.getText().toString().trim().length()  != 0);
     }
 
     public void OnButtonPickDateClicked(View view)
@@ -115,11 +120,62 @@ public class ActivityAddMalfunction extends AppCompatActivity
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 // and when it updates, it sets the value of the edit text.
-                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+                dateView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
             }
         }, mYear, mMonth, mDay);
 
         // show the dialog.
         datePickerDialog.show();
+    }
+
+    public void OnButtonAddMalfunctionClicked(View view)
+    {
+        boolean validated = true;
+
+        // all of the following fields are required. If any of those are not filled, display an error.
+        if (atKmView.getText().toString().trim().length() == 0)
+        {
+            atKmView.setError(getString(R.string.error_field_cannot_be_empty));
+            validated = false;
+        }
+
+        if (titleView.getText().toString().trim().length() == 0)
+        {
+            titleView.setError(getString(R.string.error_field_cannot_be_empty));
+            validated = false;
+        }
+
+        if (descriptionView.getText().toString().trim().length() == 0)
+        {
+            descriptionView.setError(getString(R.string.error_field_cannot_be_empty));
+            validated = false;
+        }
+
+        if (dateView.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
+        {
+            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
+            validated = false;
+        }
+
+        // if any of the above are empty or not filled, the system won't proceed.
+        if (!validated)
+            return;
+
+        // get the data
+        String at_km = atKmView.getText().toString().trim();
+        String title = titleView.getText().toString().trim();
+        String description = descriptionView.getText().toString().trim();
+        String date = dateView.getText().toString().trim();
+        String location = locationView.getText().toString().trim();
+
+        // send the data to the cloud
+        RequestHandler.getInstance().AddMalfunction(this, this, at_km, title, description, date, location);
+    }
+
+    @Override
+    public void onResponse(String response)
+    {
+        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
+        finish();
     }
 }
