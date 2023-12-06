@@ -141,29 +141,27 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         float literSum = 0;
         float costSum = 0;
 
+        int count = 0;
+
         // get all the possible points
         for (int i = jsonArray.length() - 1; i >= 0; i--)
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
-            LocalDateTime localDateTime = record.getDate().atStartOfDay();
-            ZoneId zoneId = ZoneId.systemDefault();
-            ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-            Instant instant = zonedDateTime.toInstant();
-            Date date = Date.from(instant);
-
-            DataPoint ltPer100 = new DataPoint(date, record.getLt_per_100km());
+            DataPoint ltPer100 = new DataPoint(count, record.getLt_per_100km());
             seriesLtPer100.appendData(ltPer100, true, jsonArray.length());
 
-            DataPoint kmPerLt = new DataPoint(date, record.getKm_per_lt());
+            DataPoint kmPerLt = new DataPoint(count, record.getKm_per_lt());
             seriesKmPerLt.appendData(kmPerLt, false, jsonArray.length());
 
-            DataPoint costPerKm = new DataPoint(date, record.getCostEur_per_km());
+            DataPoint costPerKm = new DataPoint(count, record.getCostEur_per_km());
             seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
 
             kilometerSum += record.getKilometers();
             literSum += record.getLiters();
             costSum += record.getCost_eur();
+
+            count++;
         }
 
         // and set the different colours
