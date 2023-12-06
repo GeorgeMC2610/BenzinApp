@@ -81,7 +81,7 @@
                 android:textSize="12sp"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_buttonDelete"
+                android:id="@+id/card_service_button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -95,7 +95,7 @@
                 app:srcCompat="@android:drawable/ic_menu_delete" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_buttonEdit"
+                android:id="@+id/card_service_button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
