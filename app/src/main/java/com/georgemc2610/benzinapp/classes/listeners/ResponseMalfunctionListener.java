@@ -94,7 +94,7 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
                     statusView.setText(inflater.getContext().getString(R.string.card_view_malfunction_fixed));
                     statusView.setTextColor(Color.GREEN);
                 }
-                
+
                 idHidden.setText(String.valueOf(id));
 
                 // add the view
