@@ -13,9 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
+
+import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityAddService extends AppCompatActivity
+public class ActivityAddService extends AppCompatActivity implements Response.Listener<String>
 {
     EditText atKm, nextKm, costEur, notes;
     TextView location, date;
@@ -129,8 +133,16 @@ public class ActivityAddService extends AppCompatActivity
         if (!validated)
             return;
 
-        Toast.makeText(this, "Proceeding...", Toast.LENGTH_SHORT).show();
-        // TODO: Add logic that sends the data to the cloud.
+        // get the data
+        int at_km = Integer.parseInt(atKm.getText().toString().trim());
+        int next_km = Integer.parseInt(nextKm.getText().toString().trim());
+        float cost_eur = Float.parseFloat(costEur.getText().toString().trim());
+        String description = notes.getText().toString().trim();
+        String locationString = location.getText().toString().trim();
+        LocalDate date_happened = LocalDate.parse(date.getText().toString().trim());
+
+        // send it to the cloud.
+        RequestHandler.getInstance().AddService(this, this, at_km, cost_eur, description, locationString, date_happened, next_km);
     }
 
     public void OnPickDateClicked(View v)
@@ -154,5 +166,12 @@ public class ActivityAddService extends AppCompatActivity
 
         // show the dialog.
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onResponse(String response)
+    {
+        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
+        finish();
     }
 }

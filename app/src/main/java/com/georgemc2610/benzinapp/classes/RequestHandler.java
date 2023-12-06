@@ -501,7 +501,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddService(Activity activity, Response.Listener<String> listener, int at_km, int cost_eur, String description, LocalDate date_happened, int next_km)
+    public void AddService(Activity activity, Response.Listener<String> listener, int at_km, float cost_eur, String description, String location, LocalDate date_happened, int next_km)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -532,6 +532,22 @@ public class RequestHandler
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
                 return headers;
+            }
+
+            // put the parameters as they are provided.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("at_km", String.valueOf(at_km));
+                params.put("cost_eur", String.valueOf(cost_eur));
+                params.put("description", description);
+                params.put("location", location);
+                params.put("date_happened", date_happened.toString());
+                params.put("next_km", String.valueOf(next_km));
+
+                return params;
             }
         };
 
