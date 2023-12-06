@@ -501,7 +501,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddService(Activity activity, Response.Listener<String> listener, int at_km, float cost_eur, String description, String location, LocalDate date_happened, int next_km)
+    public void AddService(Activity activity, Response.Listener<String> listener, String at_km, String cost_eur, String description, String location, String date_happened, String next_km)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -540,12 +540,20 @@ public class RequestHandler
             {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("at_km", String.valueOf(at_km));
-                params.put("cost_eur", String.valueOf(cost_eur));
+                // required data don't need integrity check
+                params.put("at_km", at_km);
                 params.put("description", description);
-                params.put("location", location);
-                params.put("date_happened", date_happened.toString());
-                params.put("next_km", String.valueOf(next_km));
+                params.put("date_happened", date_happened);
+
+                // optional data need integrity check
+                if (cost_eur != null && !cost_eur.isEmpty())
+                    params.put("cost_eur", cost_eur);
+
+                if (next_km != null && !next_km.isEmpty())
+                    params.put("next_km", next_km);
+
+                if (location != null && !location.isEmpty())
+                    params.put("location", location);
 
                 return params;
             }

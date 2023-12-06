@@ -134,12 +134,12 @@ public class ActivityAddService extends AppCompatActivity implements Response.Li
             return;
 
         // get the data
-        int at_km = Integer.parseInt(atKm.getText().toString().trim());
-        int next_km = Integer.parseInt(nextKm.getText().toString().trim());
-        float cost_eur = Float.parseFloat(costEur.getText().toString().trim());
+        String at_km = atKm.getText().toString().trim();
+        String next_km = nextKm.getText().toString().trim();
+        String cost_eur = costEur.getText().toString().trim();
         String description = notes.getText().toString().trim();
         String locationString = location.getText().toString().trim();
-        LocalDate date_happened = LocalDate.parse(date.getText().toString().trim());
+        String date_happened = date.getText().toString().trim();
 
         // send it to the cloud.
         RequestHandler.getInstance().AddService(this, this, at_km, cost_eur, description, locationString, date_happened, next_km);
