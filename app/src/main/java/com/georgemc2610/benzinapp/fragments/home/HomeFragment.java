@@ -16,6 +16,10 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -24,17 +28,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HomeFragment extends Fragment implements Response.Listener<String>
 {
 
     TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
-    GraphView graphView;
     Spinner spinner;
+    LineChart lineChart;
+    LineData lineData;
+    LineDataSet lineDataSet;
+    ArrayList entries;
+
     int graphPosition = 0;
     private FragmentHomeBinding binding;
 
@@ -50,8 +60,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         avg_CostPerKm = root.findViewById(R.id.textView_AVG_CostPerKm);
         avg_ltPer100Km = root.findViewById(R.id.textView_AVG_LtPer100Km);
         avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
-
-        graphView = (GraphView) root.findViewById(R.id.graph);
+        lineChart = root.findViewById(R.id.graph);
 
         // all this just for the spinner
         spinner = root.findViewById(R.id.SpinnerOptions);
@@ -135,6 +144,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         LineGraphSeries<DataPoint> seriesLtPer100 = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
+
+        lineChart.setX
 
         // initialize values for average
         float kilometerSum = 0;

@@ -40,6 +40,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:textColor="#FF9800"
+                    android:text="Loading..."
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
@@ -52,6 +53,7 @@
                     android:layout_marginTop="9dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
+                    android:text="Loading..."
                     android:textColor="#FF5722"
                     android:textSize="23sp" />
 
@@ -83,7 +85,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp" />
 
-                <com.jjoe64.graphview.GraphView
+                <com.github.mikephil.charting.charts.LineChart
                     android:layout_width="match_parent"
                     android:layout_height="200dip"
                     android:clickable="true"
@@ -138,7 +140,7 @@
                     android:id="@+id/textView_AVG_LtPer100Km"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="8.25 lt/100km"
+                    android:text="Loading..."
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
@@ -154,7 +156,7 @@
                     android:id="@+id/textView_AVG_KmPerLt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="14 km/lt"
+                    android:text="Loading..."
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
@@ -170,7 +172,7 @@
                     android:id="@+id/textView_AVG_CostPerKm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="€0.19/km"
+                    android:text="Loading..."
                     android:textSize="18sp" />
 
 
