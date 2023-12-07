@@ -17,9 +17,15 @@ import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -27,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +41,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment implements Response.Listener<String>
 {
@@ -43,7 +52,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
     LineChart lineChart;
     LineData lineData;
     LineDataSet lineDataSet;
-    ArrayList entries;
+    ArrayList<Entry> entries;
 
     int graphPosition = 0;
     private FragmentHomeBinding binding;
@@ -140,12 +149,21 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
     private void SetGraphView(JSONArray jsonArray) throws JSONException
     {
-        // create three lines that correspond to different data.
-        LineGraphSeries<DataPoint> seriesLtPer100 = new LineGraphSeries<>();
-        LineGraphSeries<DataPoint> seriesKmPerLt = new LineGraphSeries<>();
-        LineGraphSeries<DataPoint> seriesCostPerKm = new LineGraphSeries<>();
+        entries = new ArrayList<>();
 
-        lineChart.setX
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new ValueFormatter()
+        {
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("MM/yy", Locale.getDefault());
+
+            @Override
+            public String getFormattedValue(float value)
+            {
+                long millis = TimeUnit.HOURS.toMillis((long) value);
+                return mFormat.format(new Date(millis));
+            }
+        });
 
         // initialize values for average
         float kilometerSum = 0;
@@ -159,14 +177,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
-            DataPoint ltPer100 = new DataPoint(count, record.getLt_per_100km());
-            seriesLtPer100.appendData(ltPer100, true, jsonArray.length());
 
-            DataPoint kmPerLt = new DataPoint(count, record.getKm_per_lt());
-            seriesKmPerLt.appendData(kmPerLt, false, jsonArray.length());
-
-            DataPoint costPerKm = new DataPoint(count, record.getCostEur_per_km());
-            seriesCostPerKm.appendData(costPerKm, false, jsonArray.length());
 
             kilometerSum += record.getKilometers();
             literSum += record.getLiters();
@@ -176,29 +187,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         }
 
         // and set the different colours
-        seriesLtPer100.setColor(Color.rgb(0, 0, 255));
-        seriesKmPerLt.setColor(Color.rgb(0, 255, 0));
-        seriesCostPerKm.setColor(Color.rgb(255, 0, 0));
 
-        graphView.removeAllSeries();
 
-        // TODO: Remove hardcoded strings and replace with string values.
-
-        switch (graphPosition)
-        {
-            case 0:
-                graphView.setTitle(getString(R.string.graph_view_liters_per_100_km));
-                graphView.addSeries(seriesLtPer100);
-                break;
-            case 1:
-                graphView.setTitle(getString(R.string.graph_view_km_per_lt));
-                graphView.addSeries(seriesKmPerLt);
-                break;
-            case 2:
-                graphView.setTitle(getString(R.string.graph_view_cost_per_km));
-                graphView.addSeries(seriesCostPerKm);
-                break;
-        }
 
         // calculate averages and display them
         float AvgLtPer100Km = 100 * literSum / kilometerSum;
