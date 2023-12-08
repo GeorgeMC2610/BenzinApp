@@ -22,7 +22,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_data);
+        setContentView(R.layout.activity_display_fuel_fill_record);
 
         // for record retrieval
         record = (FuelFillRecord) getIntent().getSerializableExtra("record");

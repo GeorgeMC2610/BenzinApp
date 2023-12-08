@@ -19,6 +19,8 @@ import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -26,6 +28,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -160,7 +163,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             @Override
             public String getFormattedValue(float value)
             {
-                long millis = TimeUnit.HOURS.toMillis((long) value);
+                long millis = TimeUnit.DAYS.toMillis((long) value);
                 return mFormat.format(new Date(millis));
             }
         });
@@ -170,24 +173,38 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         float literSum = 0;
         float costSum = 0;
 
-        int count = 0;
-
         // get all the possible points
         for (int i = jsonArray.length() - 1; i >= 0; i--)
         {
             FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
 
+            Entry entry = new Entry();
 
+            entry.setY(record.getLt_per_100km());
+            entry.setX(record.getDate().toEpochDay());
+
+            entries.add(entry);
 
             kilometerSum += record.getKilometers();
             literSum += record.getLiters();
             costSum += record.getCost_eur();
-
-            count++;
         }
 
-        // and set the different colours
+        lineDataSet = new LineDataSet(entries, getString(R.string.graph_view_liters_per_100_km));
+        lineDataSet.setAxisDependency(AxisDependency.LEFT);
+        lineDataSet.setColor(ColorTemplate.getHoloBlue());
+        lineDataSet.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSet.setLineWidth(1.5f);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setFillColor(ColorTemplate.getHoloBlue());
+        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 
+        lineData = new LineData(lineDataSet);
+        lineData.setValueTextColor(Color.WHITE);
+        lineData.setValueTextSize(9f);
+
+        // and set the different colours
+        lineChart.setData(lineData);
 
 
         // calculate averages and display them

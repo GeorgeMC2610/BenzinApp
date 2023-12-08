@@ -74,4 +74,11 @@
     <string name="card_view_malfunction_fixed">Έχει φτιαχτεί</string>
     <string name="km_short">χλμ.</string>
     <string name="lt_short">λ.</string>
+    <string name="button_delete">ΔΙΑΓΡΑΦΗ</string>
+    <string name="loading">Φόρτωση...</string>
+    <string name="text_view_title">Τίτλος:</string>
+    <string name="text_view_description">Περιγραφή:</string>
+    <string name="text_view_at_km">Χιλιόμετρα που βρέθηκε:</string>
+    <string name="text_view_started">Ημερομηνία που βρέθηκε:</string>
+    <string name="text_view_date_ended">Ημερομηνία που φτιάχτηκε:</string>
 </resources>

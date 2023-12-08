@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.Service;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,12 +33,19 @@ public class MainActivity extends AppCompatActivity
 
     private ActivityMainBinding binding;
 
+    List<FuelFillRecord> records;
+    List<Service> services;
+    List<Malfunction> malfunctions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-
+        // instantiate lists
+        records = new ArrayList<>();
+        services = new ArrayList<>();
+        malfunctions = new ArrayList<>();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -49,4 +58,6 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
+
 }

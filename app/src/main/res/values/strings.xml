@@ -69,10 +69,17 @@
     <string name="toast_session_ended">The session has ended. Please log in again.</string>
     <string name="toast_unexpected_error">An unexpected error has occured.</string>
     <string name="text_view_select_date">Select date...</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
     <string name="card_view_malfunction_discovered_at">Discovered at:</string>
     <string name="card_view_malfunction_ongoing">Ongoing</string>
     <string name="card_view_malfunction_fixed">Fixed</string>
     <string name="km_short">km</string>
     <string name="lt_short">lt</string>
+    <string name="button_delete">DELETE</string>
+    <string name="loading">Loading...</string>
+    <string name="text_view_title">Title:</string>
+    <string name="text_view_description">Description:</string>
+    <string name="text_view_at_km">Kilometers discovered at:</string>
+    <string name="text_view_started">Date discovered at:</string>
+    <string name="text_view_date_ended">Date fixed:</string>
 </resources>

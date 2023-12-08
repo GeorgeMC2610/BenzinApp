@@ -6,10 +6,12 @@ import android.os.Bundle;
 
 import com.georgemc2610.benzinapp.R;
 
-public class ActivityDisplayMalfunction extends AppCompatActivity {
+public class ActivityDisplayMalfunction extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_malfunction);
     }
