@@ -82,4 +82,5 @@
     <string name="text_view_at_km">Kilometers discovered at:</string>
     <string name="text_view_started">Date discovered at:</string>
     <string name="text_view_date_ended">Date fixed:</string>
+    <string name="card_view_service_next_service">Next at:</string>
 </resources>

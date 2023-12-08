@@ -81,4 +81,5 @@
     <string name="text_view_at_km">Χιλιόμετρα που βρέθηκε:</string>
     <string name="text_view_started">Ημερομηνία που βρέθηκε:</string>
     <string name="text_view_date_ended">Ημερομηνία που φτιάχτηκε:</string>
+    <string name="card_view_service_next_service">Το επόμενο στα:</string>
 </resources>

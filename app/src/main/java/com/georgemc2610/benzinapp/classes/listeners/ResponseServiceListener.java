@@ -109,12 +109,12 @@ public class ResponseServiceListener implements Response.Listener<String>
 
                 // set the views data
                 // TODO: REMOVE HARDCODED STRINGS
-                at_kmView.setText(numberFormat.format(at_km) + "km");
+                at_kmView.setText(numberFormat.format(at_km) + " " + inflater.getContext().getString(R.string.km_short));
                 dateView.setText(date_happened.toString());
                 idHidden.setText(String.valueOf(id));
 
                 costView.setText(cost_try.equals("null")? "-" : "€" + numberFormat.format(Float.parseFloat(cost_try)));
-                next_kmView.setText(next_km_try.equals("null")? "Next in: -" : "Next in: " + numberFormat.format(Integer.parseInt(next_km_try)) + " km");
+                next_kmView.setText(inflater.getContext().getString(R.string.card_view_service_next_service) + (next_km_try.equals("null")? " -" : " " + numberFormat.format(service.getNextKm()) + " " + inflater.getContext().getString(R.string.km_short)));
 
                 // add the view
                 linearLayout.addView(v);
