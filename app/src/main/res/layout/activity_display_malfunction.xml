@@ -7,7 +7,7 @@
     tools:context=".activity_display.ActivityDisplayFuelFillRecord">
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/button_display_malfunction_delete"
         android:layout_width="363dp"
         android:layout_height="50dp"
         android:backgroundTint="#FF0000"
@@ -64,7 +64,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_PetrolType"
+                android:id="@+id/text_view_display_malfunction_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
