@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.icu.text.NumberFormat;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_display.ActivityDisplayMalfunction;
 import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -76,6 +79,18 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 // create instance of the malfunction class.
                 Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
+
+                // set click listener for when the card is clicked
+                v.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(inflater.getContext(), ActivityDisplayMalfunction.class);
+                        intent.putExtra("malfunction", malfunction);
+                        inflater.getContext().startActivity(intent);
+                    }
+                });
 
                 // listeners for the buttons
                 deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, malfunction));

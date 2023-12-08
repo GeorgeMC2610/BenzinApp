@@ -1,8 +1,9 @@
 package com.georgemc2610.benzinapp.classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Service
+public class Service implements Serializable
 {
     private int id, atKm, nextKm;
     private float cost;

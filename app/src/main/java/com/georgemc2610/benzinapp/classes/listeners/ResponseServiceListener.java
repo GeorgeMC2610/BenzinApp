@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.content.Intent;
 import android.icu.text.NumberFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_display.ActivityDisplayService;
 import com.georgemc2610.benzinapp.classes.Malfunction;
 import com.georgemc2610.benzinapp.classes.Service;
 import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
@@ -76,6 +78,18 @@ public class ResponseServiceListener implements Response.Listener<String>
 
                 // create instance of the malfunction class.
                 Service service = new Service(id, at_km, description, date_happened);
+
+                // set click listener for when the card is clicked
+                v.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(inflater.getContext(), ActivityDisplayService.class);
+                        intent.putExtra("service", service);
+                        inflater.getContext().startActivity(intent);
+                    }
+                });
 
                 // card view button listeners
                 deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, service));

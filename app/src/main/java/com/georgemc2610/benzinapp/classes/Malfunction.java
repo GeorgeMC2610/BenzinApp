@@ -1,8 +1,9 @@
 package com.georgemc2610.benzinapp.classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Malfunction
+public class Malfunction implements Serializable
 {
     private int id, at_km;
     private float cost;
