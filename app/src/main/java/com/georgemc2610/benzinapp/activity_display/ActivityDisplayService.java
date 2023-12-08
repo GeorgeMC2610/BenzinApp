@@ -2,12 +2,16 @@ package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.classes.Service;
 
 import java.util.Locale;
@@ -73,5 +77,41 @@ public class ActivityDisplayService extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void DeleteRecord(View view)
+    {
+        // build a confirmation dialog
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(getString(R.string.dialog_delete_title));
+        dialog.setMessage(getString(R.string.dialog_delete_confirmation));
+
+        // when the button yes is clicked
+        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // delete the record by its id.
+                RequestHandler.getInstance().DeleteService(ActivityDisplayService.this, service.getId());
+
+                // then close this activity
+                finish();
+            }
+        });
+
+        // when the button no is clicked
+        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                // do nothing
+            }
+        });
+
+        dialog.setCancelable(true);
+        dialog.create().show();
     }
 }

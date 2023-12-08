@@ -11,7 +11,7 @@
         android:layout_width="363dp"
         android:layout_height="50dp"
         android:backgroundTint="#FF0000"
-        android:onClick="OnButtonDeleteClicked"
+        android:onClick="DeleteRecord"
         android:text="@string/button_delete"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
