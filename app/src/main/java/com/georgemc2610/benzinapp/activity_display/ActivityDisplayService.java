@@ -2,19 +2,51 @@ package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.Service;
+
+import java.util.Locale;
 
 public class ActivityDisplayService extends AppCompatActivity
 {
+    TextView atKmView, costView, dateHappenedView, descriptionView, nextAtKmView, locationView;
+    Service service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // init activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_service);
+
+        // init views
+        atKmView = findViewById(R.id.text_view_display_service_at_km);
+        costView = findViewById(R.id.text_view_display_service_cost);
+        dateHappenedView = findViewById(R.id.text_view_display_service_date_happened);
+        descriptionView = findViewById(R.id.text_view_display_service_desc);
+        nextAtKmView = findViewById(R.id.text_view_display_service_next_km);
+        locationView = findViewById(R.id.text_view_display_service_location);
+
+        // get the service
+        service = (Service) getIntent().getSerializableExtra("service");
+
+        // number format
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+
+        // set the required views data
+        atKmView.setText(numberFormat.format(service.getAtKm()) + " " + getString(R.string.km_short));
+        dateHappenedView.setText(service.getDateHappened().toString());
+        descriptionView.setText(service.getDescription());
+
+        // optional views data
+        costView.setText(service.getCost() == 0f? "-" : "€" + numberFormat.format(service.getCost()));
+        nextAtKmView.setText(service.getNextKm() == 0? "-" : numberFormat.format(service.getNextKm()) + " " + getString(R.string.km_short));
+        locationView.setText("Not supported yet.");
 
         // action bar with back button and correct title name.
         try
