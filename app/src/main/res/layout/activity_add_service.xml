@@ -36,12 +36,56 @@
                 android:hint="Insert Kilometers the service happened..."
                 android:inputType="numberDecimal" />
 
+            <!-- DESCRIPTION -->
+            <TextView
+                android:id="@+id/textViewServiceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="Description:" />
+
+            <EditText
+                android:id="@+id/editTextServiceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="What did you change in this service?"
+                android:inputType="text" />
+
+            <!-- DATE HAPPENED -->
+            <TextView
+                android:id="@+id/textViewServiceDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/text_view_datetime" />
+
+            <TextView
+                android:id="@+id/textViewServiceDatePicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonSelectDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:onClick="OnPickDateClicked"
+                app:icon="@android:drawable/ic_menu_day" />
+
             <!-- NEXT KM SERVICE -->
             <TextView
                 android:id="@+id/textViewServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="sans-serif"
                 android:text="Next service in km..." />
 
             <EditText
@@ -57,7 +101,7 @@
                 android:id="@+id/textViewServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="sans-serif"
                 android:text="@string/text_view_cost" />
 
             <EditText
@@ -67,22 +111,6 @@
                 android:ems="10"
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
-
-            <!-- DESCRIPTION -->
-            <TextView
-                android:id="@+id/textViewServiceDescription"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_notes" />
-
-            <EditText
-                android:id="@+id/editTextServiceDescription"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_notes_hint"
-                android:inputType="text" />
 
             <!-- LOCATION -->
             <TextView
@@ -109,32 +137,6 @@
                 android:hint="Tap to select location..."
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
-
-            <!-- DATE HAPPENED -->
-            <TextView
-                android:id="@+id/textViewServiceDate"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_datetime" />
-
-            <TextView
-                android:id="@+id/textViewServiceDatePicked"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/text_view_select_date"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/buttonSelectDate"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_datetime_hint"
-                android:onClick="OnPickDateClicked"
-                app:icon="@android:drawable/ic_menu_day" />
 
         </LinearLayout>
 
