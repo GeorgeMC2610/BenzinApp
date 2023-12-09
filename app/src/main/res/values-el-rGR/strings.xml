@@ -82,4 +82,8 @@
     <string name="text_view_started">Ημερομηνία που βρέθηκε:</string>
     <string name="text_view_date_ended">Ημερομηνία που φτιάχτηκε:</string>
     <string name="card_view_service_next_service">Το επόμενο στα:</string>
+    <string name="text_view_service_at_km">Χιλιόμετρα του σέρβις:</string>
+    <string name="text_view_service_next_at">Επόμενο σέρβις:</string>
+    <string name="text_view_service_date_happened">Ημερομηνία σέρβις:</string>
+    <string name="text_view_location">Τοποθεσία:</string>
 </resources>

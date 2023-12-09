@@ -43,7 +43,7 @@
                 android:id="@+id/text_view_display_service_legend_at_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="At kilometers:"
+                android:text="@string/text_view_service_at_km"
                 android:textSize="16sp" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Date happened:"
+                android:text="@string/text_view_service_date_happened"
                 android:textSize="16sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Next service at:"
+                android:text="@string/text_view_service_next_at"
                 android:textSize="16sp" />
 
             <TextView
@@ -128,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Location:"
+                android:text="@string/text_view_location"
                 android:textSize="16sp" />
 
             <TextView

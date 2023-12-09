@@ -83,4 +83,8 @@
     <string name="text_view_started">Date discovered at:</string>
     <string name="text_view_date_ended">Date fixed:</string>
     <string name="card_view_service_next_service">Next at:</string>
+    <string name="text_view_service_at_km">Service mileage:</string>
+    <string name="text_view_service_next_at">Next service mileage:</string>
+    <string name="text_view_service_date_happened">Date happened:</string>
+    <string name="text_view_location">Location:</string>
 </resources>
