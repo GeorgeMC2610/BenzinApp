@@ -104,7 +104,7 @@
         android:layout_width="367dp"
         android:layout_height="66dp"
         android:onClick="OnButtonAddMalfunctionClicked"
-        android:text="Add Malfunction"
+        android:text="@string/button_add_malfunction"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

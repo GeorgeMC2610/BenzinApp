@@ -93,4 +93,6 @@
     <string name="button_select_location">Πατήστε για να επιλέξετε τοποθεσία...</string>
     <string name="malfunction_at_km_hint">Στα πόσα χιλιόμετρα βρέθηκε η βλάβη...;</string>
     <string name="service_next_km_hint">Πότε θα γίνει το επόμενο...;</string>
+    <string name="button_add_service">Προσθήκη Σέρβις</string>
+    <string name="button_add_malfunction">Προσθήκη Βλάβης</string>
 </resources>
