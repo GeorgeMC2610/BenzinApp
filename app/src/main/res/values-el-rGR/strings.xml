@@ -86,4 +86,10 @@
     <string name="text_view_service_next_at">Επόμενο σέρβις:</string>
     <string name="text_view_service_date_happened">Ημερομηνία σέρβις:</string>
     <string name="text_view_location">Τοποθεσία:</string>
+    <string name="title_hint">Τι χάλασε...;</string>
+    <string name="description_hint">Περιγράψτε τι έγινε...</string>
+    <string name="service_at_km_hint">Στα πόσα χιλιόμετρια έγινε το σέρβις...;</string>
+    <string name="text_view_select_location">Επιλέξτε Τοποθεσία...</string>
+    <string name="button_select_location">Πατήστε για να επιλέξετε τοποθεσία...</string>
+    <string name="malfunction_at_km_hint">Στα πόσα χιλιόμετρα βρέθηκε η βλάβη...;</string>
 </resources>

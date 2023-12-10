@@ -26,14 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Title" />
+                android:text="@string/text_view_title" />
 
             <EditText
                 android:id="@+id/editTextMalfunctionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="What's malfunctioning...?"
+                android:hint="@string/title_hint"
                 android:inputType="text" />
 
             <!-- DESCRIPTION -->
@@ -42,14 +42,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Description:" />
+                android:text="@string/text_view_description" />
 
             <EditText
                 android:id="@+id/editTextMalfunctionDesc"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Write a short description..."
+                android:hint="@string/description_hint"
                 android:inputType="textMultiLine" />
 
             <!-- AT_KM -->
@@ -58,16 +58,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="At KM:" />
+                android:text="@string/text_view_at_km" />
 
             <EditText
                 android:id="@+id/editTextMalfunctionAtKm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="At Km..."
+                android:hint="@string/malfunction_at_km_hint"
                 android:inputType="number" />
-            
+
             <!-- DATE HAPPENED -->
             <TextView
                 android:id="@+id/textViewMalfunctionDate"
@@ -94,32 +94,6 @@
                 android:hint="@string/edit_text_datetime_hint"
                 android:onClick="OnButtonPickDateClicked"
                 app:icon="@android:drawable/ic_menu_day" />
-
-            <!-- LOCATION -->
-            <TextView
-                android:id="@+id/textViewMalfunctionLocation"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="Location:" />
-
-            <TextView
-                android:id="@+id/textViewMalfunctionLocationPicked"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="Select Location"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/buttonMalfunctionSelectLocation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="Tap to select location..."
-                android:onClick="OnEditTextDateTimeClicked"
-                app:icon="@android:drawable/ic_dialog_map" />
 
         </LinearLayout>
 

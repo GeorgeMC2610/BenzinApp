@@ -87,4 +87,10 @@
     <string name="text_view_service_next_at">Next service mileage:</string>
     <string name="text_view_service_date_happened">Date happened:</string>
     <string name="text_view_location">Location:</string>
+    <string name="title_hint">What\'s malfunctioning...?</string>
+    <string name="description_hint">Write what happened...</string>
+    <string name="service_at_km_hint">Write the service mileage...</string>
+    <string name="text_view_select_location">Select Location...</string>
+    <string name="button_select_location">Tap to select location...</string>
+    <string name="malfunction_at_km_hint">At what mileage was this discovered...?</string>
 </resources>
