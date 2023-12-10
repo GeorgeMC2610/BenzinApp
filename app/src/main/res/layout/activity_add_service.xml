@@ -26,14 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Kilometers in service" />
+                android:text="@string/text_view_service_at_km" />
 
             <EditText
                 android:id="@+id/editTextServiceAtKilometers"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Insert Kilometers the service happened..."
+                android:hint="@string/service_at_km_hint"
                 android:inputType="numberDecimal" />
 
             <!-- DESCRIPTION -->
@@ -43,14 +43,14 @@
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:text="Description:" />
+                android:text="@string/text_view_description" />
 
             <EditText
                 android:id="@+id/editTextServiceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="What did you change in this service?"
+                android:hint="@string/description_hint"
                 android:inputType="text" />
 
             <!-- DATE HAPPENED -->
@@ -86,14 +86,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
-                android:text="Next service in km..." />
+                android:text="@string/text_view_service_next_at" />
 
             <EditText
                 android:id="@+id/editTextServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="When will the next service be?"
+                android:hint="@string/service_next_km_hint"
                 android:inputType="numberDecimal" />
 
             <!-- COST -->
@@ -118,14 +118,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
-                android:text="Location:" />
+                android:text="@string/text_view_location" />
 
             <TextView
                 android:id="@+id/textViewServiceLocationPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="Select Location"
+                android:text="@string/text_view_select_location"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Tap to select location..."
+                android:hint="@string/button_select_location"
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
