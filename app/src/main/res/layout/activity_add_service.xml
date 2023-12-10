@@ -135,7 +135,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/button_select_location"
-                android:onClick="OnEditTextDateTimeClicked"
+                android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
         </LinearLayout>

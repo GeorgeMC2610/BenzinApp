@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.MapsActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 
@@ -37,7 +39,6 @@ public class ActivityAddMalfunction extends AppCompatActivity implements Respons
         descriptionView = findViewById(R.id.editTextMalfunctionDesc);
         atKmView = findViewById(R.id.editTextMalfunctionAtKm);
         dateView = findViewById(R.id.textViewMalfunctionDatePicked);
-        locationView = findViewById(R.id.textViewMalfunctionLocationPicked);
 
         // action bar
         // action bar
