@@ -94,7 +94,7 @@ public class RequestHandler
             }
         }, error ->
         {
-            // if anything goes wrong, disable the progress bar
+            // if anything goes wrong, remove the progress bar and re-enable the views.
             UsernameEditText.setEnabled(true);
             PasswordEditText.setEnabled(true);
             LoginButton.setEnabled(true);
@@ -131,6 +131,13 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    /**
+     * Sends a request to <code>/car</code> with the previously used token (that is saved in Shared Preferences).
+     * If the request succeeds, the user gets logged in and the Activity continues.
+     * If the request fails, it lets the user provide their credentials.
+     * @param activity Activity required to send a Volley request.
+     * @param progressBar Progress Bar that keeps turning until the request is processed.
+     */
     public void AttemptLogin(Activity activity, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
@@ -158,7 +165,7 @@ public class RequestHandler
                 return;
 
             // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
+            if (error.networkResponse.statusCode == 401 || error.networkResponse.statusCode == 422)
             {
                 Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
             }
