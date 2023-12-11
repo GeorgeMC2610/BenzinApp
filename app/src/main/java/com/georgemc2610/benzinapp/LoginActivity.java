@@ -26,21 +26,26 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // get the username and password views
         username = findViewById(R.id.editText_Username);
         password = findViewById(R.id.editText_Password);
 
+        // get the button
         login = findViewById(R.id.buttonLogin);
 
+        // progress bar for pressing the login button.
         progressBar = findViewById(R.id.progressBar_Login);
 
+        // request handler singleton instance creation.
         RequestHandler.Create();
+        RequestHandler.getInstance().AttemptLogin(this, progressBar);
     }
 
     public void OnButtonLoginPressed(View v)
     {
         boolean canMoveOn = true;
 
-        // check for empty edit texts and
+        // check for empty edit texts and don't proceed if there are any.
         if (username.getText().toString().trim().length() == 0)
         {
             username.setError(getString(R.string.error_field_cannot_be_empty));
@@ -55,6 +60,7 @@ public class LoginActivity extends AppCompatActivity
 
         if (!canMoveOn) return;
 
+        // progress bar for when the user presses the login button.
         progressBar.setVisibility(View.VISIBLE);
 
         RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString(), progressBar);
@@ -62,6 +68,7 @@ public class LoginActivity extends AppCompatActivity
 
     public void OnTextViewRegisterClicked(View v)
     {
+        // redirect to register
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
         finish();

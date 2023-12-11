@@ -1,7 +1,9 @@
 package com.georgemc2610.benzinapp.classes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -70,6 +72,7 @@ public class RequestHandler
                 // get the token and save it.
                 JSONObject jsonObject = new JSONObject(response);
                 token = jsonObject.getString("auth_token");
+                SaveToken(activity);
 
                 // then start the other activity.
                 Intent intent = new Intent(activity, MainActivity.class);
@@ -116,6 +119,54 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void AttemptLogin(Activity activity, ProgressBar progressBar)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // Login url.
+        String url = _URL + "/car";
+
+        // the request. In the login Activity, we don't need listeners inside the of the Activity.
+        StringRequest request = new StringRequest(Request.Method.GET, url, response ->
+        {
+            // start the activity if the login was successful.
+            Intent intent = new Intent(activity, MainActivity.class);
+            activity.startActivity(intent);
+            activity.finish();
+        }, error ->
+        {
+            // if anything goes wrong, disable the progress bar
+            progressBar.setVisibility(View.GONE);
+
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + GetToken(activity));
+                return headers;
+            }
+        };
+
+        // push the request.
+        requestQueue.add(request);
+    }
+
 
     public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar)
     {
@@ -134,6 +185,7 @@ public class RequestHandler
                 // get the token and save it.
                 JSONObject jsonObject = new JSONObject(response);
                 token = jsonObject.getString("auth_token");
+                SaveToken(activity);
 
                 // then start the other activity.
                 Intent intent = new Intent(activity, MainActivity.class);
@@ -182,6 +234,21 @@ public class RequestHandler
 
         // push the request.
         requestQueue.add(request);
+    }
+
+    private void SaveToken(Context context)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("current", token);
+        editor.apply();
+    }
+
+    private String GetToken(Context context)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("current", "");
+        return token;
     }
 
 
