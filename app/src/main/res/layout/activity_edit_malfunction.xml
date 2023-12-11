@@ -6,4 +6,192 @@
     android:layout_height="match_parent"
     tools:context=".activity_edit.ActivityEditMalfunction">
 
+    <ScrollView
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <!-- TITLE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewMalfunctionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_title" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/title_hint"
+                android:inputType="text" />
+
+            <!-- DESCRIPTION -->
+            <TextView
+                android:id="@+id/textViewMalfunctionDesc"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_description" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionDesc"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/description_hint"
+                android:inputType="textMultiLine" />
+
+            <!-- AT_KM -->
+            <TextView
+                android:id="@+id/textViewMalfunctionAtKm"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_at_km" />
+
+            <EditText
+                android:id="@+id/editTextMalfunctionAtKm"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/malfunction_at_km_hint"
+                android:inputType="number" />
+
+            <!-- DATE HAPPENED -->
+            <TextView
+                android:id="@+id/textViewMalfunctionDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_datetime" />
+
+            <TextView
+                android:id="@+id/textViewMalfunctionDatePicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonMalfunctionDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:backgroundTint="#2DA2FF"
+                android:onClick="OnButtonPickDateClicked"
+                app:icon="@android:drawable/ic_menu_day" />
+
+            <!-- ADDITIONAL VALUES -->
+
+            <CheckBox
+                android:id="@+id/textViewMalfunctionEditAdditionalValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="I fixed this malfunction."
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- COST -->
+            <TextView
+                android:id="@+id/textViewCostEdit"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_cost" />
+
+            <EditText
+                android:id="@+id/editTextCostEdit"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_cost_hint"
+                android:inputType="numberDecimal" />
+
+            <!-- DATE HAPPENED -->
+            <TextView
+                android:id="@+id/textViewMalfunctionDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_datetime" />
+
+            <TextView
+                android:id="@+id/textViewMalfunctionDatePicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonMalfunctionDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
+                android:backgroundTint="#2DA2FF"
+                android:onClick="OnButtonPickDateClicked"
+                app:icon="@android:drawable/ic_menu_day" />
+
+            <!-- LOCATION -->
+            <TextView
+                android:id="@+id/textViewServiceLocation"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_location" />
+
+            <TextView
+                android:id="@+id/textViewServiceLocationPicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_location"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonServiceSelectLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:backgroundTint="#2DA2FF"
+                android:hint="@string/button_select_location"
+                android:onClick="OnSelectLocationClicked"
+                app:icon="@android:drawable/ic_dialog_map" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonApplyEdits"
+        android:layout_width="367dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#2DA2FF"
+        android:onClick="OnButtonApplyEditsClicked"
+        android:text="@string/button_apply_edits"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

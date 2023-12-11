@@ -6,11 +6,16 @@ import android.os.Bundle;
 
 import com.georgemc2610.benzinapp.R;
 
-public class ActivityEditMalfunction extends AppCompatActivity {
+public class ActivityEditMalfunction extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_malfunction);
     }
+
+
+
 }
