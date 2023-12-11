@@ -96,4 +96,5 @@
     <string name="service_next_km_hint">When will the next service be...?</string>
     <string name="button_add_service">Add Service</string>
     <string name="button_add_malfunction">Add Malfunction</string>
+    <string name="button_confirm_location">SELECT LOCATION</string>
 </resources>

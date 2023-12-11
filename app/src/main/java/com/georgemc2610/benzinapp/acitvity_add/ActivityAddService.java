@@ -1,11 +1,15 @@
 package com.georgemc2610.benzinapp.acitvity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +29,7 @@ import java.util.Calendar;
 public class ActivityAddService extends AppCompatActivity implements Response.Listener<String>
 {
     EditText atKm, nextKm, costEur, notes;
+    LocationManager locationManager;
     TextView location, date;
     int mYear, mMonth, mDay;
 
@@ -170,11 +175,23 @@ public class ActivityAddService extends AppCompatActivity implements Response.Li
         // show the dialog.
         datePickerDialog.show();
     }
-    
+
     public void OnSelectLocationClicked(View view)
     {
         Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+
+        // initialize location permission
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            // request permission if not granted.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918);
+        }
+        else
+        {
+            startActivity(intent);
+        }
     }
 
     @Override
