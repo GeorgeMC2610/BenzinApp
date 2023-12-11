@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity
 
         // attempt to auto-login.
         progressBar.setVisibility(View.VISIBLE);
-        RequestHandler.getInstance().AttemptLogin(this, progressBar);
+        RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
     }
 
     public void OnButtonLoginPressed(View v)

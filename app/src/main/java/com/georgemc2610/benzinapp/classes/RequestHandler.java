@@ -136,14 +136,20 @@ public class RequestHandler
      * If the request succeeds, the user gets logged in and the Activity continues.
      * If the request fails, it lets the user provide their credentials.
      * @param activity Activity required to send a Volley request.
+     * @param UsernameEditText View that gets disabled and re-enabled once the request is processed.
+     * @param PasswordEditText View that gets disabled and re-enabled once the request is processed.
+     * @param LoginButton View that gets disabled and re-enabled once the request is processed.
      * @param progressBar Progress Bar that keeps turning until the request is processed.
      */
-    public void AttemptLogin(Activity activity, ProgressBar progressBar)
+    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
-        // visible progressbar
+        // progress bar and buttons.
+        UsernameEditText.setEnabled(false);
+        PasswordEditText.setEnabled(false);
+        LoginButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
 
         // Login url.
@@ -152,6 +158,23 @@ public class RequestHandler
         // the request. In the login Activity, we don't need listeners inside the of the Activity.
         StringRequest request = new StringRequest(Request.Method.GET, url, response ->
         {
+            // FIRST TRY HEHE.
+            // show the logged in username whenever auto-login works.
+            String previousUser = "[as the previous user]";
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject(response);
+                previousUser = jsonObject.getString("username");
+            }
+            catch (JSONException e)
+            {
+                System.out.println("Could not process response: \n" + e.getMessage());
+            }
+
+            // toast to let the user know that they were logged on.
+            Toast.makeText(activity, activity.getString(R.string.toast_logged_in_as) + previousUser, Toast.LENGTH_LONG).show();
+
             // start the activity if the login was successful.
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
@@ -159,7 +182,11 @@ public class RequestHandler
         }, error ->
         {
             // if anything goes wrong, disable the progress bar
+            UsernameEditText.setEnabled(true);
+            PasswordEditText.setEnabled(true);
+            LoginButton.setEnabled(true);
             progressBar.setVisibility(View.GONE);
+
 
             if (error.networkResponse == null)
                 return;

@@ -97,4 +97,5 @@
     <string name="button_add_service">Add Service</string>
     <string name="button_add_malfunction">Add Malfunction</string>
     <string name="button_confirm_location">SELECT LOCATION</string>
+    <string name="toast_logged_in_as">Logged in as:</string>
 </resources>
