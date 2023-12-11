@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.georgemc2610.benzinapp.LoginActivity;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseServiceListener;
@@ -55,10 +58,16 @@ public class RequestHandler
      * @param Password Provided Password.
      * @param progressBar A Progress Bar for decoration.
      */
-    public void Login(Activity activity, String Username, String Password, ProgressBar progressBar)
+    public void Login(Activity activity, String Username, String Password, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
+
+        // progress bar and buttons.
+        UsernameEditText.setEnabled(false);
+        PasswordEditText.setEnabled(false);
+        LoginButton.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
 
         // Login url.
         String url = _URL + "/auth/login";
@@ -86,6 +95,9 @@ public class RequestHandler
         }, error ->
         {
             // if anything goes wrong, disable the progress bar
+            UsernameEditText.setEnabled(true);
+            PasswordEditText.setEnabled(true);
+            LoginButton.setEnabled(true);
             progressBar.setVisibility(View.GONE);
 
             if (error.networkResponse == null)
@@ -123,6 +135,9 @@ public class RequestHandler
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
+
+        // visible progressbar
+        progressBar.setVisibility(View.VISIBLE);
 
         // Login url.
         String url = _URL + "/car";
@@ -167,11 +182,23 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void Logout(Activity activity)
+    {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+        token = "";
+        SaveToken(activity);
+    }
+
 
     public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
+
+        // set progress bar visibility to be visible.
+        progressBar.setVisibility(View.VISIBLE);
 
         // Login url.
         String url = _URL + "/signup";

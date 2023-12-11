@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity
 
         // request handler singleton instance creation.
         RequestHandler.Create();
+
+        // attempt to auto-login.
+        progressBar.setVisibility(View.VISIBLE);
         RequestHandler.getInstance().AttemptLogin(this, progressBar);
     }
 
@@ -45,14 +48,17 @@ public class LoginActivity extends AppCompatActivity
     {
         boolean canMoveOn = true;
 
+        String processedUsername = username.getText().toString().trim();
+        String processedPassword = password.getText().toString().trim();
+
         // check for empty edit texts and don't proceed if there are any.
-        if (username.getText().toString().trim().length() == 0)
+        if (processedUsername.length() == 0)
         {
             username.setError(getString(R.string.error_field_cannot_be_empty));
             canMoveOn = false;
         }
 
-        if (password.getText().toString().trim().length() == 0)
+        if (processedPassword.length() == 0)
         {
             password.setError(getString(R.string.error_field_cannot_be_empty));
             canMoveOn = false;
@@ -60,10 +66,7 @@ public class LoginActivity extends AppCompatActivity
 
         if (!canMoveOn) return;
 
-        // progress bar for when the user presses the login button.
-        progressBar.setVisibility(View.VISIBLE);
-
-        RequestHandler.getInstance().Login(this, username.getText().toString(), password.getText().toString(), progressBar);
+        RequestHandler.getInstance().Login(this, processedUsername, processedPassword, username, password, login, progressBar);
     }
 
     public void OnTextViewRegisterClicked(View v)

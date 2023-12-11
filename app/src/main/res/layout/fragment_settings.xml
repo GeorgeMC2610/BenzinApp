@@ -44,8 +44,8 @@
                     android:id="@+id/settings_DarkModeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dark Mode"
                     android:layout_marginLeft="10dp"
+                    android:text="Dark Mode"
                     android:textSize="20sp" />
 
                 <Switch
@@ -67,8 +67,8 @@
                     android:id="@+id/settings_LanguageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Language"
                     android:layout_marginLeft="10dp"
+                    android:text="Language"
                     android:textSize="20sp" />
 
                 <Spinner
@@ -90,17 +90,18 @@
                     android:id="@+id/settings_Logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
                     android:layout_marginLeft="10dp"
+                    android:text="Logout"
                     android:textSize="20sp" />
 
-                <ImageView
-                    android:id="@+id/settings_LogoutImage"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/settings_LogoutButton"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="?attr/actionModeCloseDrawable"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    android:backgroundTint="#dd0000"
+                    app:icon="?attr/actionModeCloseDrawable"
+                    app:iconGravity="textEnd" />
 
             </RelativeLayout>
 
