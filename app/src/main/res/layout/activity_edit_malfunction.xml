@@ -123,14 +123,14 @@
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
 
-            <!-- DATE HAPPENED -->
+            <!-- DATE ENDED -->
             <TextView
                 android:id="@+id/textViewEditMalfunctionDateEnded"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:visibility="gone"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_datetime" />
+                android:text="@string/text_view_date_ended" />
 
             <TextView
                 android:id="@+id/textViewEditMalfunctionDateEndedPicked"
