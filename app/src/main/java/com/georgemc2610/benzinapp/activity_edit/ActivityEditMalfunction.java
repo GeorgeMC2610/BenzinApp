@@ -63,6 +63,19 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         // get the fuel fill record passed to edit.
         malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
+
+        // from the malfunction object get and initialize data.
+        titleView.setText(malfunction.getTitle());
+        descView.setText(malfunction.getDescription());
+        atKmView.setText(String.valueOf(malfunction.getAt_km()));
+        dateStartedView.setText(malfunction.getStarted().toString());
+
+        if (malfunction.getEnded() != null)
+        {
+            fixedCheckBox.setChecked(true);
+            costView.setText(String.valueOf(malfunction.getCost()));
+            dateEndedView.setText(malfunction.getEnded().toString());
+        }
     }
 
     @Override
