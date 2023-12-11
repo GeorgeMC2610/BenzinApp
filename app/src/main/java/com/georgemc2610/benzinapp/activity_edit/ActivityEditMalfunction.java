@@ -68,18 +68,22 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
+        // get the child count of the linear layout.
         final int childCount = linearLayout.getChildCount();
 
+        // for every child...
         for (int i = 0; i < childCount; i++)
         {
+            // get the view object.
             final View view = linearLayout.getChildAt(i);
+
+            // see if there are any tags.
             if (view.getTag() == null)
                 continue;
 
+            // and if there are and its tag is "additional", conditionally change its visibility.
             if (view.getTag().toString().equals("additional"))
-            {
                 view.setVisibility(isChecked? View.VISIBLE : View.GONE);
-            }
         }
     }
 
