@@ -15,12 +15,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25">
 
-        <!-- TITLE -->
         <LinearLayout
+            android:id="@+id/linearLayoutEditMalfunction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- TITLE -->
             <TextView
                 android:id="@+id/textViewEditMalfunctionTitle"
                 android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                 android:text="@string/text_view_at_km" />
 
             <EditText
-                android:id="@+id/editTextMalfunctionAtKm"
+                android:id="@+id/editTextEditMalfunctionAtKm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -92,7 +93,7 @@
                 android:ems="10"
                 android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
-                android:onClick="OnButtonPickDateClicked"
+                android:onClick="OnDateStartedClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- ADDITIONAL VALUES -->
@@ -111,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:visibility="gone"
+                android:tag="additional"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_cost" />
 
@@ -120,6 +122,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:visibility="gone"
+                android:tag="additional"
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
 
@@ -129,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:visibility="gone"
+                android:tag="additional"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_date_ended" />
 
@@ -138,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:visibility="gone"
+                android:tag="additional"
                 android:text="@string/text_view_select_date"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -148,9 +153,10 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:visibility="gone"
+                android:tag="additional"
                 android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
-                android:onClick="OnButtonPickDateClicked"
+                android:onClick="OnDateEndedClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- LOCATION -->
@@ -159,6 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:visibility="gone"
+                android:tag="additional"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_location" />
 
@@ -168,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:visibility="gone"
+                android:tag="additional"
                 android:text="@string/not_yet_supported"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -178,6 +186,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:visibility="gone"
+                android:tag="additional"
                 android:backgroundTint="#999999"
                 android:enabled="false"
                 android:hint="@string/button_select_location"

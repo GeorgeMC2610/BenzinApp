@@ -94,6 +94,7 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 // listeners for the buttons
                 deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, malfunction));
+                editButton.setOnClickListener(new CardEditButtonListener(fragment, malfunction));
 
                 if (!ended.equals("null"))
                     malfunction.setEnded(LocalDate.parse(ended));
