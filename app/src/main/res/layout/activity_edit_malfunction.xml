@@ -22,14 +22,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewMalfunctionTitle"
+                android:id="@+id/textViewEditMalfunctionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_title" />
 
             <EditText
-                android:id="@+id/editTextMalfunctionTitle"
+                android:id="@+id/editTextEditMalfunctionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -38,14 +38,14 @@
 
             <!-- DESCRIPTION -->
             <TextView
-                android:id="@+id/textViewMalfunctionDesc"
+                android:id="@+id/textViewEditMalfunctionDesc"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_description" />
 
             <EditText
-                android:id="@+id/editTextMalfunctionDesc"
+                android:id="@+id/editTextEditMalfunctionDesc"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -54,7 +54,7 @@
 
             <!-- AT_KM -->
             <TextView
-                android:id="@+id/textViewMalfunctionAtKm"
+                android:id="@+id/textViewEditMalfunctionAtKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
@@ -70,14 +70,14 @@
 
             <!-- DATE HAPPENED -->
             <TextView
-                android:id="@+id/textViewMalfunctionDate"
+                android:id="@+id/textViewEditMalfunctionDateStarted"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_datetime" />
 
             <TextView
-                android:id="@+id/textViewMalfunctionDatePicked"
+                android:id="@+id/textViewEditMalfunctionDateStartedPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -86,7 +86,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/buttonMalfunctionDate"
+                android:id="@+id/buttonEditMalfunctionDateStarted"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -96,54 +96,58 @@
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- ADDITIONAL VALUES -->
-
             <CheckBox
-                android:id="@+id/textViewMalfunctionEditAdditionalValues"
+                android:id="@+id/checkBoxEditMalfunctionFixed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="I fixed this malfunction."
+                android:text="@string/check_box_malfunction_fixed"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <!-- COST -->
             <TextView
-                android:id="@+id/textViewCostEdit"
+                android:id="@+id/textViewEditMalfunctionCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                android:visibility="gone"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_cost" />
 
             <EditText
-                android:id="@+id/editTextCostEdit"
+                android:id="@+id/editTextEditMalfunctionCost"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                android:visibility="gone"
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
 
             <!-- DATE HAPPENED -->
             <TextView
-                android:id="@+id/textViewMalfunctionDate"
+                android:id="@+id/textViewEditMalfunctionDateEnded"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                android:visibility="gone"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_datetime" />
 
             <TextView
-                android:id="@+id/textViewMalfunctionDatePicked"
+                android:id="@+id/textViewEditMalfunctionDateEndedPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:visibility="gone"
                 android:text="@string/text_view_select_date"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/buttonMalfunctionDate"
+                android:id="@+id/buttonEditMalfunctionDateEnded"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                android:visibility="gone"
                 android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
                 android:onClick="OnButtonPickDateClicked"
@@ -151,27 +155,31 @@
 
             <!-- LOCATION -->
             <TextView
-                android:id="@+id/textViewServiceLocation"
+                android:id="@+id/textViewEditMalfunctionLocation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                android:visibility="gone"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_location" />
 
             <TextView
-                android:id="@+id/textViewServiceLocationPicked"
+                android:id="@+id/textViewEditMalfunctionLocationPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="@string/text_view_select_location"
+                android:visibility="gone"
+                android:text="@string/not_yet_supported"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/buttonServiceSelectLocation"
+                android:id="@+id/buttonEditMalfunctionSelectLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:backgroundTint="#2DA2FF"
+                android:visibility="gone"
+                android:backgroundTint="#999999"
+                android:enabled="false"
                 android:hint="@string/button_select_location"
                 android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
