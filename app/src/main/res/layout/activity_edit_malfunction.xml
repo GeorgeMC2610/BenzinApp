@@ -93,7 +93,7 @@
                 android:ems="10"
                 android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
-                android:onClick="OnDateStartedClicked"
+                android:onClick="PickDate"
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- ADDITIONAL VALUES -->
@@ -156,7 +156,7 @@
                 android:tag="additional"
                 android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
-                android:onClick="OnDateEndedClicked"
+                android:onClick="PickDate"
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- LOCATION -->

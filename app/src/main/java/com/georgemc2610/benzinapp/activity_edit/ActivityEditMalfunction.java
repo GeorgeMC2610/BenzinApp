@@ -2,11 +2,13 @@ package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.Malfunction;
 
+import java.util.Calendar;
+
 public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private LinearLayout linearLayout;
@@ -22,6 +26,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
     private Malfunction malfunction;
+    int mYear, mDay, mMonth;
 
 
     @Override
@@ -76,6 +81,31 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             costView.setText(String.valueOf(malfunction.getCost()));
             dateEndedView.setText(malfunction.getEnded().toString());
         }
+    }
+
+    public void PickDate(View view)
+    {
+        // get calendar and dates to keep track of
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        TextView date = view.getId() == R.id.buttonEditMalfunctionDateStarted ? findViewById(R.id.textViewEditMalfunctionDateStartedPicked) : findViewById(R.id.textViewEditMalfunctionDateEndedPicked);
+
+        // date picker dialog shows up
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                // and when it updates, it sets the value of the edit text.
+                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+            }
+        }, mYear, mMonth, mDay);
+
+        // show the dialog.
+        datePickerDialog.show();
     }
 
     @Override
