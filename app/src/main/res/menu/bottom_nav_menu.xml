@@ -14,12 +14,12 @@
     <item
         android:id="@+id/navigation_services"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="Services" />
+        android:title="@string/title_services" />
 
     <item
         android:id="@+id/navigation_repeated_trips"
         android:icon="@android:drawable/ic_popup_sync"
-        android:title="Repeated Trips" />
+        android:title="@string/title_repeated_trips" />
 
     <item
         android:id="@+id/navigation_settings"
