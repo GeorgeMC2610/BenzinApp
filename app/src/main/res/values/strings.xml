@@ -100,4 +100,5 @@
     <string name="toast_logged_in_as">Logged in as:</string>
     <string name="check_box_malfunction_fixed">I fixed this malfunction.</string>
     <string name="not_yet_supported">Not Supported Yet.</string>
+    <string name="toast_please_select_date">Please select a date.</string>
 </resources>

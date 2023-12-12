@@ -99,4 +99,5 @@
     <string name="toast_logged_in_as">"Συνδεθήκατε ως: "</string>
     <string name="check_box_malfunction_fixed">Έφτιαξα αυτήν τη βλάβη.</string>
     <string name="not_yet_supported">Μη Διαθέσιμο.</string>
+    <string name="toast_please_select_date">Παρακαλώ επιλέξτε ημερομηνία.</string>
 </resources>

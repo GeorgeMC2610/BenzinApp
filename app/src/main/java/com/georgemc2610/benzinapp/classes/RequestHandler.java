@@ -216,6 +216,10 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    /**
+     * Logs the user out and redirects them to the Login Activity.
+     * @param activity Activity required to start the Login Activity.
+     */
     public void Logout(Activity activity)
     {
         Intent intent = new Intent(activity, LoginActivity.class);
@@ -297,6 +301,10 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    /**
+     * Using shared preferences, saves the token with PRIVATE mode enabled.
+     * @param context Context refers to the Shared Preferences object.
+     */
     private void SaveToken(Context context)
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
@@ -305,6 +313,11 @@ public class RequestHandler
         editor.apply();
     }
 
+    /**
+     * Using shared preferences, retrieves the token with PRIVATE mode enabled.
+     * @param context Context refers to the Shared Preferences object.
+     * @return The JWT Token that logs the user in.
+     */
     private String GetToken(Context context)
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
@@ -488,7 +501,7 @@ public class RequestHandler
                 if (km != null)
                     params.put("km", String.valueOf(km));
 
-                if (km != null)
+                if (lt != null)
                     params.put("lt", String.valueOf(lt));
 
                 if (cost_eur != null)
@@ -829,4 +842,70 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
+    public void EditMalfunction(Activity activity, Response.Listener<String> listener, Malfunction malfunction)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/malfunction/" + malfunction.getId();
+
+        // PATCH request to add fuel fill record
+        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+
+            // put the parameters as they are provided.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
+                if (malfunction.getTitle() != null)
+                    params.put("title", malfunction.getTitle());
+
+                if (malfunction.getDescription() != null)
+                    params.put("description", malfunction.getDescription());
+
+                if (malfunction.getStarted() != null)
+                    params.put("started", malfunction.getStarted().toString());
+
+                if (malfunction.getAt_km() != 0)
+                    params.put("at_km", String.valueOf(malfunction.getAt_km()));
+
+                if (malfunction.getCost() != 0f)
+                    params.put("cost_eur", String.valueOf(malfunction.getCost()));
+
+                if (malfunction.getEnded() != null)
+                    params.put("ended", malfunction.getEnded().toString());
+
+                return params;
+            }
+        };
+
+        // execute the request.
+        requestQueue.add(request);
+    }
 }

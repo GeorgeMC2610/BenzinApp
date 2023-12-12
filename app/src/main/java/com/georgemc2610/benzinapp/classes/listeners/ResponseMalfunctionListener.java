@@ -76,6 +76,7 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 // optional data (might be null)
                 String ended = JsonObject.getString("ended");
+                String cost = JsonObject.getString("cost_eur");
 
                 // create instance of the malfunction class.
                 Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
@@ -98,6 +99,9 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
 
                 if (!ended.equals("null"))
                     malfunction.setEnded(LocalDate.parse(ended));
+
+                if (!cost.equals("null"))
+                    malfunction.setCost(Float.parseFloat(cost));
 
                 NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 

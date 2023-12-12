@@ -12,14 +12,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.Malfunction;
+import com.georgemc2610.benzinapp.classes.RequestHandler;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
+public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, Response.Listener<String>
 {
     private LinearLayout linearLayout;
     private EditText titleView, descView, atKmView, costView;
@@ -143,4 +147,54 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         return super.onOptionsItemSelected(item);
     }
 
+    public void OnButtonApplyEditsClicked(View v)
+    {
+        boolean canContinue = true;
+
+        // integrity checks
+        if (fixedCheckBox.isChecked())
+        {
+            if (costView.getText().toString().trim().isEmpty())
+            {
+                costView.setError(getString(R.string.error_field_cannot_be_empty));
+                canContinue = false;
+            }
+
+            if (dateEndedView.getText().toString().equals(getString(R.string.text_view_select_date)))
+            {
+                Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
+                canContinue = false;
+            }
+        }
+
+        if (!canContinue) return;
+
+        // apply edits to the object.
+        if (!titleView.getText().toString().trim().isEmpty())
+            malfunction.setTitle(titleView.getText().toString().trim());
+
+        if (!descView.getText().toString().trim().isEmpty())
+            malfunction.setDescription(descView.getText().toString().trim());
+
+        if (!atKmView.getText().toString().trim().isEmpty())
+            malfunction.setAt_km(Integer.parseInt(atKmView.getText().toString().trim()));
+
+        malfunction.setStarted(LocalDate.parse(dateStartedView.getText().toString().trim()));
+
+        // set optional data.
+        if (fixedCheckBox.isChecked())
+        {
+            malfunction.setCost(Float.parseFloat(costView.getText().toString().trim()));
+            malfunction.setEnded(LocalDate.parse(dateEndedView.getText().toString().trim()));
+        }
+
+        RequestHandler.getInstance().EditMalfunction(this, this, malfunction);
+    }
+
+    @Override
+    public void onResponse(String response)
+    {
+        Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
+        finish();
+    }
 }
