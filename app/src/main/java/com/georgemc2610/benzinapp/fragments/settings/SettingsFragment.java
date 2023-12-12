@@ -24,23 +24,25 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-
+        // initialize fragment.
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // get language spinner and add options
         languageSpinner = root.findViewById(R.id.settings_LanguageSpinner);
+        String[] options = new String[] { getString(R.string.spinner_option_same_as_system), "English", "Ελληνικά" };
 
-        String[] options = new String[] { getString(), ""English", "Ελληνικά" };
-
-        LogoutButton = root.findViewById(R.id.settings_LogoutButton);
-        LogoutButton.setOnClickListener(this);
-
-
+        // add the options to the spinner.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 
+        // set changed item listener for the spinner
         languageSpinner.setOnItemSelectedListener(this);
+
+        // set listener for the logout button.
+        LogoutButton = root.findViewById(R.id.settings_LogoutButton);
+        LogoutButton.setOnClickListener(this);
 
         return root;
     }
