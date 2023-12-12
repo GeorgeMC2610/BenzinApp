@@ -187,6 +187,11 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             malfunction.setCost(Float.parseFloat(costView.getText().toString().trim()));
             malfunction.setEnded(LocalDate.parse(dateEndedView.getText().toString().trim()));
         }
+        else
+        {
+            malfunction.setCost(0f);
+            malfunction.setEnded(null);
+        }
 
         RequestHandler.getInstance().EditMalfunction(this, this, malfunction);
     }

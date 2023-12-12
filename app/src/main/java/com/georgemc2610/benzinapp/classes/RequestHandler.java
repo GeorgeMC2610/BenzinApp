@@ -897,9 +897,13 @@ public class RequestHandler
 
                 if (malfunction.getCost() != 0f)
                     params.put("cost_eur", String.valueOf(malfunction.getCost()));
+                else
+                    params.put("cost_eur", "null");
 
                 if (malfunction.getEnded() != null)
                     params.put("ended", malfunction.getEnded().toString());
+                else
+                    params.put("ended", "null");
 
                 return params;
             }
