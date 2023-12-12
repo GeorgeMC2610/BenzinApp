@@ -745,7 +745,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddMalfunction(Activity activity, Response.Listener<String> listener, String at_km, String title, String description, String date_happened, String location)
+    public void AddMalfunction(Activity activity, Response.Listener<String> listener, String at_km, String title, String description, String date_happened)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -789,10 +789,6 @@ public class RequestHandler
                 params.put("title", title);
                 params.put("description", description);
                 params.put("started", date_happened);
-
-                // optional parameters need integrity check.
-                if (location != null && !location.isEmpty())
-                    params.put("location", location);
 
                 return params;
             }

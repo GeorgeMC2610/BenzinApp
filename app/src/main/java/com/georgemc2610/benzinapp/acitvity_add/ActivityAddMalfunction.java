@@ -24,7 +24,7 @@ import java.util.Calendar;
 public class ActivityAddMalfunction extends AppCompatActivity implements Response.Listener<String>
 {
     EditText titleView, descriptionView, atKmView;
-    TextView dateView, locationView;
+    TextView dateView;
     private int mYear, mMonth, mDay;
 
     @Override
@@ -168,10 +168,9 @@ public class ActivityAddMalfunction extends AppCompatActivity implements Respons
         String title = titleView.getText().toString().trim();
         String description = descriptionView.getText().toString().trim();
         String date = dateView.getText().toString().trim();
-        String location = locationView.getText().toString().trim();
 
         // send the data to the cloud
-        RequestHandler.getInstance().AddMalfunction(this, this, at_km, title, description, date, location);
+        RequestHandler.getInstance().AddMalfunction(this, this, at_km, title, description, date);
     }
 
     @Override
