@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.fragments.settings;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
+
+import java.util.Locale;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     Spinner languageSpinner;
@@ -63,10 +67,34 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
-        if (position == 0)
+        Locale locale;
+        switch (position)
         {
-            System.out.println("ENGLISH!!");
+            case 1:
+                locale = new Locale("en");
+                ChangeLanguage(locale);
+                break;
+            case 2:
+                locale = new Locale("el");
+                ChangeLanguage(locale);
+                break;
+            default:
+                locale = Locale.getDefault();
+                break;
         }
+    }
+
+    private void ChangeLanguage(Locale locale)
+    {
+        Locale.setDefault(locale);
+
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        getActivity().recreate();
     }
 
     @Override
