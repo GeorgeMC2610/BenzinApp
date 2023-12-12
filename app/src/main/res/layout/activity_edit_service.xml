@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <!-- AT KM -->
             <TextView
                 android:id="@+id/textViewEditServiceAtKilometers"
