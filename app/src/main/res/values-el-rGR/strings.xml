@@ -100,4 +100,8 @@
     <string name="check_box_malfunction_fixed">Έφτιαξα αυτήν τη βλάβη.</string>
     <string name="not_yet_supported">Μη Διαθέσιμο.</string>
     <string name="toast_please_select_date">Παρακαλώ επιλέξτε ημερομηνία.</string>
+    <string name="setting_dark_mode">Σκούρο Φόντο</string>
+    <string name="setting_language">Γλώσσα Εφαρμογής</string>
+    <string name="setting_logout">Αποσύνδεση</string>
+    <string name="settings_general">Γενικές Ρυθμίσεις</string>
 </resources>

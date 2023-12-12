@@ -101,4 +101,8 @@
     <string name="check_box_malfunction_fixed">I fixed this malfunction.</string>
     <string name="not_yet_supported">Not Supported Yet.</string>
     <string name="toast_please_select_date">Please select a date.</string>
+    <string name="setting_dark_mode">Dark Mode</string>
+    <string name="setting_language">Language</string>
+    <string name="setting_logout">Logout</string>
+    <string name="settings_general">General Settings</string>
 </resources>

@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="General Settings"
+        android:text="@string/settings_general"
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginBottom="15dp"
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Dark Mode"
+                    android:text="@string/setting_dark_mode"
                     android:textSize="20sp" />
 
                 <Switch
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Language"
+                    android:text="@string/setting_language"
                     android:textSize="20sp" />
 
                 <Spinner
@@ -91,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Logout"
+                    android:text="@string/setting_logout"
                     android:textSize="20sp" />
 
                 <Button
