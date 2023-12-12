@@ -6,4 +6,159 @@
     android:layout_height="match_parent"
     tools:context=".activity_edit.ActivityEditService">
 
+    <ScrollView
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutEditService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <!-- AT KM -->
+            <TextView
+                android:id="@+id/textViewEditServiceAtKilometers"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/text_view_service_at_km" />
+
+            <EditText
+                android:id="@+id/editTextEditServiceAtKilometers"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/service_at_km_hint"
+                android:inputType="numberDecimal" />
+
+            <!-- DESCRIPTION -->
+            <TextView
+                android:id="@+id/textViewEditServiceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/text_view_description" />
+
+            <EditText
+                android:id="@+id/editTextEditServiceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/description_hint"
+                android:inputType="text" />
+
+            <!-- DATE HAPPENED -->
+            <TextView
+                android:id="@+id/textViewEditServiceDate"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/text_view_datetime" />
+
+            <TextView
+                android:id="@+id/textViewEditServiceDatePicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/text_view_select_date"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonEditServiceSelectDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:backgroundTint="#2DA2FF"
+                android:hint="@string/edit_text_datetime_hint"
+                android:onClick="PickDate"
+                app:icon="@android:drawable/ic_menu_day" />
+
+            <!-- NEXT KM SERVICE -->
+            <TextView
+                android:id="@+id/textViewServiceNextKm"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_service_next_at" />
+
+            <EditText
+                android:id="@+id/editTextServiceNextKm"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/service_next_km_hint"
+                android:inputType="numberDecimal" />
+
+            <!-- COST -->
+            <TextView
+                android:id="@+id/textViewServiceCost"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_cost" />
+
+            <EditText
+                android:id="@+id/editTextServiceCost"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_cost_hint"
+                android:inputType="numberDecimal" />
+
+            <!-- LOCATION -->
+            <TextView
+                android:id="@+id/textViewServiceLocation"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_location" />
+
+            <TextView
+                android:id="@+id/textViewServiceLocationPicked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/not_yet_supported"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonServiceSelectLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:enabled="false"
+                android:backgroundTint="#999999"
+                android:hint="@string/button_select_location"
+                android:onClick="OnSelectLocationClicked"
+                app:icon="@android:drawable/ic_dialog_map" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonApplyEdits"
+        android:layout_width="367dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#2DA2FF"
+        android:onClick="OnButtonApplyEditsClicked"
+        android:text="@string/button_apply_edits"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
