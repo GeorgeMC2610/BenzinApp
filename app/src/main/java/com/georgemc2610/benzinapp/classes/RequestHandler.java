@@ -912,4 +912,73 @@ public class RequestHandler
         // execute the request.
         requestQueue.add(request);
     }
+
+    public void EditService(Activity activity, Response.Listener<String> listener, Service service)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/service/" + service.getId();
+
+        // PATCH request to add fuel fill record
+        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
+        {
+            if (error.networkResponse == null)
+                return;
+
+            // and test for different failures.
+            if (error.networkResponse.statusCode == 401)
+            {
+                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            // this authenticates the user using his token.
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+
+            // put the parameters as they are provided.
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<>();
+
+                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
+                if (service.getAtKm() != 0)
+                    params.put("at_km", String.valueOf(service.getAtKm()));
+
+                if (service.getDescription() != null)
+                    params.put("description", service.getDescription());
+
+                if (service.getDateHappened() != null)
+                    params.put("date_happened", service.getDateHappened().toString());
+
+                // nullify data if there aren't any.
+                if (service.getNextKm() != 0)
+                    params.put("next_km", String.valueOf(service.getNextKm()));
+                else
+                    params.put("next_km", "null");
+
+                if (service.getCost() != 0f)
+                    params.put("cost_eur", String.valueOf(service.getCost()));
+                else
+                    params.put("cost_eur", "null");
+
+                return params;
+            }
+        };
+
+        // execute the request.
+        requestQueue.add(request);
+    }
 }
