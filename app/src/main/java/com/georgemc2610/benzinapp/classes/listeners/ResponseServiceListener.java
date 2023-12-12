@@ -93,6 +93,7 @@ public class ResponseServiceListener implements Response.Listener<String>
 
                 // card view button listeners
                 deleteButton.setOnClickListener(new CardDeleteButtonListener(fragment, service));
+                editButton.setOnClickListener(new CardEditButtonListener(fragment, service));
 
                 // optional data
                 String cost_try = JsonObject.getString("cost_eur");
