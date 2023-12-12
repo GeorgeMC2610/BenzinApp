@@ -18,6 +18,7 @@ import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
@@ -205,7 +206,6 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
 
         // and set the different colours
         lineChart.setData(lineData);
-
 
         // calculate averages and display them
         float AvgLtPer100Km = 100 * literSum / kilometerSum;
