@@ -106,4 +106,6 @@
     <string name="setting_logout">Logout</string>
     <string name="settings_general">General Settings</string>
     <string name="spinner_option_same_as_system">Same as system</string>
+    <string name="tab_malfunctions">MALFUNCTIONS</string>
+    <string name="tab_services">SERVICES</string>
 </resources>

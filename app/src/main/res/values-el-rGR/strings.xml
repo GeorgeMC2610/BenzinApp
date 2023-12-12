@@ -105,4 +105,6 @@
     <string name="setting_logout">Αποσύνδεση</string>
     <string name="settings_general">Γενικές Ρυθμίσεις</string>
     <string name="spinner_option_same_as_system">Το ίδιο με το κινητό</string>
+    <string name="tab_malfunctions">ΒΛΑΒΕΣ</string>
+    <string name="tab_services">ΣΕΡΒΙΣ</string>
 </resources>
