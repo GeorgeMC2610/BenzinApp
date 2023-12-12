@@ -62,7 +62,6 @@ public class ResponseMalfunctionListener implements Response.Listener<String>
                 // card view buttons
                 FloatingActionButton deleteButton = v.findViewById(R.id.card_malfunction_button_delete);
                 FloatingActionButton editButton = v.findViewById(R.id.card_malfunction_button_edit);
-                FloatingActionButton fixButton = v.findViewById(R.id.card_malfunction_button_fix);
 
                 // get the data
                 JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
