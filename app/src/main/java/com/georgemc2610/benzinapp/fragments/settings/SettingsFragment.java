@@ -24,6 +24,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     Spinner languageSpinner;
     Button LogoutButton;
 
+    private static int selectedLanguagePosition = -1;
+
     private FragmentSettingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -68,20 +70,26 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
         Locale locale;
-        switch (position)
+        if (position != selectedLanguagePosition)
         {
-            case 1:
-                locale = new Locale("en");
-                ChangeLanguage(locale);
-                break;
-            case 2:
-                locale = new Locale("el");
-                ChangeLanguage(locale);
-                break;
-            default:
-                locale = Locale.getDefault();
-                break;
+            switch (position)
+            {
+                case 1:
+                    locale = new Locale("en");
+                    ChangeLanguage(locale);
+                    break;
+                case 2:
+                    locale = new Locale("el");
+                    ChangeLanguage(locale);
+                    break;
+                default:
+                    locale = Locale.getDefault();
+                    break;
+            }
         }
+
+        // Update the selected language position
+        selectedLanguagePosition = position;
     }
 
     private void ChangeLanguage(Locale locale)
@@ -93,6 +101,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
         configuration.setLocale(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        getActivity().recreate();
     }
 
     @Override
