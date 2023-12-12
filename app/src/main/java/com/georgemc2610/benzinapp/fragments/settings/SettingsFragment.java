@@ -93,8 +93,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
         configuration.setLocale(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-
-        getActivity().recreate();
     }
 
     @Override
