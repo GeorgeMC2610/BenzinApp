@@ -4,11 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.Malfunction;
+import com.georgemc2610.benzinapp.classes.Service;
 
 public class ActivityEditService extends AppCompatActivity
 {
+    Service service;
+    EditText atKmView, descView, nextKmView, costView;
+    TextView datePickedView;
+    int mMonth, mYear, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +37,23 @@ public class ActivityEditService extends AppCompatActivity
         {
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
+
+        // get views
+        atKmView = findViewById(R.id.editTextEditServiceAtKilometers);
+        descView = findViewById(R.id.editTextEditServiceDescription);
+        nextKmView = findViewById(R.id.editTextEditServiceNextKm);
+        costView = findViewById(R.id.editTextEditServiceCost);
+        datePickedView = findViewById(R.id.textViewEditServiceDatePicked);
+
+        // get the fuel fill record passed to edit.
+        service = (Service) getIntent().getSerializableExtra("service");
+
+        // set the views' texts
+        atKmView.setText(String.valueOf(service.getAtKm()));
+        descView.setText(service.getDescription());
+        nextKmView.setText(String.valueOf(service.getNextKm()));
+        costView.setText(String.valueOf(service.getCost()));
+        datePickedView.setText(service.getDateHappened().toString());
     }
 
     @Override

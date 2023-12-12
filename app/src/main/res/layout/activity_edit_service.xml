@@ -84,14 +84,14 @@
 
             <!-- NEXT KM SERVICE -->
             <TextView
-                android:id="@+id/textViewServiceNextKm"
+                android:id="@+id/textViewEditServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_service_next_at" />
 
             <EditText
-                android:id="@+id/editTextServiceNextKm"
+                android:id="@+id/editTextEditServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -100,14 +100,14 @@
 
             <!-- COST -->
             <TextView
-                android:id="@+id/textViewServiceCost"
+                android:id="@+id/textViewEditServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_cost" />
 
             <EditText
-                android:id="@+id/editTextServiceCost"
+                android:id="@+id/editTextEditServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -116,14 +116,14 @@
 
             <!-- LOCATION -->
             <TextView
-                android:id="@+id/textViewServiceLocation"
+                android:id="@+id/textViewEditServiceLocation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_location" />
 
             <TextView
-                android:id="@+id/textViewServiceLocationPicked"
+                android:id="@+id/textViewEditServiceLocationPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -132,7 +132,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/buttonServiceSelectLocation"
+                android:id="@+id/buttonEditServiceSelectLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -147,7 +147,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/buttonApplyEdits"
+        android:id="@+id/buttonEditServiceApplyEdits"
         android:layout_width="367dp"
         android:layout_height="66dp"
         android:backgroundTint="#2DA2FF"
