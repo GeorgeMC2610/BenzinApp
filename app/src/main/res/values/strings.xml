@@ -97,7 +97,7 @@
     <string name="button_add_service">Add Service</string>
     <string name="button_add_malfunction">Add Malfunction</string>
     <string name="button_confirm_location">SELECT LOCATION</string>
-    <string name="toast_logged_in_as">Logged in as:</string>
+    <string name="toast_logged_in_as">"Logged in as: "</string>
     <string name="check_box_malfunction_fixed">I fixed this malfunction.</string>
     <string name="not_yet_supported">Not Supported Yet.</string>
     <string name="toast_please_select_date">Please select a date.</string>
@@ -105,4 +105,5 @@
     <string name="setting_language">Language</string>
     <string name="setting_logout">Logout</string>
     <string name="settings_general">General Settings</string>
+    <string name="spinner_option_same_as_system">Same as system</string>
 </resources>
