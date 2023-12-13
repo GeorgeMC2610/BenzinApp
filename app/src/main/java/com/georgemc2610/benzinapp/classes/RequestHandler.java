@@ -31,8 +31,6 @@ public class RequestHandler
 {
     private static RequestHandler instance;
     private static final String _URL = "https://benzin-app.fly.dev";
-
-
     private String token;
     private RequestQueue requestQueue;
 
