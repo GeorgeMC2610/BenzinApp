@@ -144,10 +144,10 @@ public class RequestHandler
         ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
 
         // listeners for the requests.
-        ResponseGetCarInfoListener carInfoListener = new ResponseGetCarInfoListener();
-        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener();
-        ResponseGetMalfunctionsListener malfunctionsListener = new ResponseGetMalfunctionsListener();
-        ResponseGetServicesListener servicesListener = new ResponseGetServicesListener();
+        ResponseGetCarInfoListener carInfoListener = new ResponseGetCarInfoListener(activity);
+        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener(activity);
+        ResponseGetMalfunctionsListener malfunctionsListener = new ResponseGetMalfunctionsListener(activity);
+        ResponseGetServicesListener servicesListener = new ResponseGetServicesListener(activity);
 
         // url and listeners for car.
         String car_url = _URL + "/car";
