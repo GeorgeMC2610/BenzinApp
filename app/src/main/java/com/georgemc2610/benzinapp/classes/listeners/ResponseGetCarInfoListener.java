@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.MainActivity;
-import com.georgemc2610.benzinapp.classes.Car;
-import com.georgemc2610.benzinapp.classes.DataHolder;
+import com.georgemc2610.benzinapp.classes.original.Car;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 
 import org.json.JSONException;
 import org.json.JSONObject;

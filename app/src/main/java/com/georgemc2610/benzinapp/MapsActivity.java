@@ -8,9 +8,12 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -71,6 +77,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setTrafficEnabled(true);
         mMap.setBuildingsEnabled(true);
 
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        {
+            geocoder.getFromLocationName("Tilou 4, Gerakas", 5, addresses -> {
+                if (!addresses.isEmpty())
+                {
+                    Address address = addresses.get(0);
+                    runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 25f));
+                        }
+                    });
+
+                }
+            });
+        }
+
         // add listener for long press
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener()
         {
@@ -79,6 +107,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 // select the location.
                 SelectedLocation = latLng;
+
+
 
                 // set the button to be enabled.
                 SendDataButton.setEnabled(true);

@@ -21,9 +21,8 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.MapsActivity;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 
 public class ActivityAddService extends AppCompatActivity implements Response.Listener<String>

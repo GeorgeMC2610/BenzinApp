@@ -5,9 +5,8 @@ import android.content.Intent;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.MainActivity;
-import com.georgemc2610.benzinapp.classes.DataHolder;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.Malfunction;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
 
 import org.json.JSONArray;
 import org.json.JSONException;

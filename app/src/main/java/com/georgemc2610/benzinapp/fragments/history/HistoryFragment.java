@@ -11,23 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Response;
 import com.georgemc2610.benzinapp.activity_display.ActivityDisplayFuelFillRecord;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.DataHolder;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddRecordActivityListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.time.LocalDate;
 
 public class HistoryFragment extends Fragment
 {

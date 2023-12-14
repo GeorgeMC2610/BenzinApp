@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.georgemc2610.benzinapp.classes.DataHolder;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 public class LoginActivity extends AppCompatActivity
 {

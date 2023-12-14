@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.classes;
+package com.georgemc2610.benzinapp.classes.requests;
 
 import androidx.annotation.Nullable;
 

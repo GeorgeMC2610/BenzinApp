@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.classes.Service;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.Service;
 
 import java.util.Locale;
 

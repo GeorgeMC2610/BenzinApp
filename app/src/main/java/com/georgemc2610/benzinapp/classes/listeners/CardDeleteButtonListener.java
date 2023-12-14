@@ -6,10 +6,10 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.classes.Service;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.Service;
 import com.georgemc2610.benzinapp.fragments.history.HistoryFragment;
 import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 

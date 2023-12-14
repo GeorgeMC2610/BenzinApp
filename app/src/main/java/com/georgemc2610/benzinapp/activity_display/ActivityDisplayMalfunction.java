@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.util.Locale;
 

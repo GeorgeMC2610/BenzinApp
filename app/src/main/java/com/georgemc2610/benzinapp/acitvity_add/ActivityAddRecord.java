@@ -1,8 +1,6 @@
 package com.georgemc2610.benzinapp.acitvity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.Debug;
-import androidx.core.app.NavUtils;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -17,12 +15,10 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ActivityAddRecord extends AppCompatActivity implements Response.Listener<String>
 {

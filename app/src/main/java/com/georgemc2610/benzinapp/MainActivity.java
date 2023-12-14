@@ -1,13 +1,7 @@
 package com.georgemc2610.benzinapp;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
-import com.android.volley.Response;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.classes.Service;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,16 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.georgemc2610.benzinapp.databinding.ActivityMainBinding;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {

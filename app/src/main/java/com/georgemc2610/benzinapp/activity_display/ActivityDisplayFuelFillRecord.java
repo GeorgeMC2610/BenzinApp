@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 {

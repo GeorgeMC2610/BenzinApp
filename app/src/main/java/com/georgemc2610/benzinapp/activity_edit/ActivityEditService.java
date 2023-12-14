@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
-import com.georgemc2610.benzinapp.classes.Service;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.Service;
 
 import java.time.LocalDate;
 import java.util.Calendar;

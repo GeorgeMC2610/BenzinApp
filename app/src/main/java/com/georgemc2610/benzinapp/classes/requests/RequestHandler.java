@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.classes;
+package com.georgemc2610.benzinapp.classes.requests;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,8 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseGetCarInfoListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;

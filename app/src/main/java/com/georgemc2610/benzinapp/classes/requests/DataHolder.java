@@ -1,4 +1,9 @@
-package com.georgemc2610.benzinapp.classes;
+package com.georgemc2610.benzinapp.classes.requests;
+
+import com.georgemc2610.benzinapp.classes.original.Car;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.Service;
 
 import java.util.List;
 

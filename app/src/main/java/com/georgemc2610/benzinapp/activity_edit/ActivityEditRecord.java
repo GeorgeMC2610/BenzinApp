@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
 import java.util.Calendar;

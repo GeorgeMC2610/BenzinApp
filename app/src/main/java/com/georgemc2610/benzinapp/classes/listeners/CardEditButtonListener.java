@@ -6,9 +6,9 @@ import android.view.View;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditMalfunction;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
-import com.georgemc2610.benzinapp.classes.FuelFillRecord;
-import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.Service;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.Service;
 import com.georgemc2610.benzinapp.fragments.history.HistoryFragment;
 import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 
