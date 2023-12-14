@@ -22,6 +22,13 @@ public class Malfunction implements Serializable
         this.started = started;
     }
 
+    /**
+     * Generates a <code href="Service">Service</code> object from a String JSON Response. It handles
+     * all the optional and required data accordingly. Nullifies some primitive values if
+     * they're not present in the response (e.g. cost becomes -1).
+     * @param jsonObject The String JSON Response that generates the Malfunction object.
+     * @return The Malfunction object with all its data.
+     */
     public static Malfunction GetMalfunctionFromJson(JSONObject jsonObject)
     {
         try

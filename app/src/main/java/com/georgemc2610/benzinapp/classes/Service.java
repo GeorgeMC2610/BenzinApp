@@ -21,6 +21,13 @@ public class Service implements Serializable
         this.dateHappened = dateHappened;
     }
 
+    /**
+     * Generates a <code href="Service">Service</code> object from a String JSON Response. It handles
+     * all the optional and required data accordingly. Nullifies some primitive values if
+     * they're not present in the response (e.g. next_km becomes -1).
+     * @param jsonObject The String JSON Response that generates the Service object.
+     * @return The Service object with all its data.
+     */
     public static Service GetServiceFromJson(JSONObject jsonObject)
     {
         try
@@ -51,7 +58,6 @@ public class Service implements Serializable
             return null;
         }
     }
-
 
     public int getId() {
         return id;
