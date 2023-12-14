@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.app.Activity;
+
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.DataHolder;
 import com.georgemc2610.benzinapp.classes.Malfunction;
@@ -13,6 +15,13 @@ import java.util.ArrayList;
 
 public class ResponseGetServicesListener implements Response.Listener<String>
 {
+    private final Activity activity;
+
+    public ResponseGetServicesListener(Activity activity)
+    {
+        this.activity = activity;
+    }
+
     @Override
     public void onResponse(String response)
     {

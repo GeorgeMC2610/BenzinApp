@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.classes.listeners;
 
+import android.app.Activity;
+
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.Car;
 import com.georgemc2610.benzinapp.classes.DataHolder;
@@ -9,6 +11,13 @@ import org.json.JSONObject;
 
 public class ResponseGetCarInfoListener implements Response.Listener<String>
 {
+    private final Activity activity;
+
+    public ResponseGetCarInfoListener(Activity activity)
+    {
+        this.activity = activity;
+    }
+
     @Override
     public void onResponse(String response)
     {
