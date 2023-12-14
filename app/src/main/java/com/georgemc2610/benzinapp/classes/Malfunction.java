@@ -35,16 +35,17 @@ public class Malfunction implements Serializable
 
             Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
 
-            // optional data.
+            // optional data are set to -1 if they're null.
             if (!jsonObject.getString("cost_eur").equals("null"))
                 malfunction.setCost((float) jsonObject.getDouble("cost_eur"));
+            else
+                malfunction.setCost(-1f);
 
             if (!jsonObject.getString("ended").equals("null"))
                 malfunction.setEnded(LocalDate.parse(jsonObject.getString("ended")));
 
             return malfunction;
         }
-
         catch (JSONException e)
         {
             return null;

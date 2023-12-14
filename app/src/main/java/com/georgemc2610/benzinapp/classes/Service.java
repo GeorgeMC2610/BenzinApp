@@ -33,12 +33,16 @@ public class Service implements Serializable
 
             Service service = new Service(id, atKm, description, date);
 
-            // optional data.
+            // optional data are set to -1 if they're null.
             if (!jsonObject.getString("cost_eur").equals("null"))
                 service.setCost((float) jsonObject.getDouble("cost_eur"));
+            else
+                service.setCost(-1f);
 
             if (!jsonObject.getString("next_km").equals("null"))
-                service.setAtKm(jsonObject.getInt("at_km"));
+                service.setNextKm(jsonObject.getInt("at_km"));
+            else
+                service.setNextKm(-1);
 
             return service;
         }
