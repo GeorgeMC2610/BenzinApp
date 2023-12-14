@@ -70,7 +70,6 @@ public class FuelFillRecord implements Serializable
         }
     }
 
-
     public float getLiters() {
         return liters;
     }

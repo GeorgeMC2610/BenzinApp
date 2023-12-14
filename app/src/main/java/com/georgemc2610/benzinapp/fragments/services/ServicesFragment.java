@@ -19,22 +19,14 @@ import com.georgemc2610.benzinapp.activity_display.ActivityDisplayMalfunction;
 import com.georgemc2610.benzinapp.activity_display.ActivityDisplayService;
 import com.georgemc2610.benzinapp.classes.DataHolder;
 import com.georgemc2610.benzinapp.classes.Malfunction;
-import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.classes.Service;
 import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddServiceActivityListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
-import com.georgemc2610.benzinapp.classes.listeners.ResponseMalfunctionListener;
-import com.georgemc2610.benzinapp.classes.listeners.ResponseServiceListener;
 import com.georgemc2610.benzinapp.databinding.FragmentServicesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.time.LocalDate;
 import java.util.Locale;
 
 public class ServicesFragment extends Fragment implements TabLayout.OnTabSelectedListener
