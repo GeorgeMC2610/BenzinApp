@@ -167,6 +167,7 @@ public class HomeFragment extends Fragment
             costSum += record.getCost_eur();
         }
 
+        // get line data set.
         lineDataSet = new LineDataSet(entries, "lt/100km");
         lineDataSet = new LineDataSet(entries, getString(R.string.graph_view_liters_per_100_km));
         lineDataSet.setAxisDependency(AxisDependency.LEFT);
@@ -177,7 +178,7 @@ public class HomeFragment extends Fragment
         lineDataSet.setFillColor(ColorTemplate.getHoloBlue());
         lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 
-
+        // get line data.
         lineData = new LineData(lineDataSet);
         lineData.setValueTextColor(Color.WHITE);
         lineData.setValueTextSize(9f);

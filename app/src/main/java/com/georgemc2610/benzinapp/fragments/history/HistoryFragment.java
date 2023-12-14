@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.activity_display.ActivityDisplayFuelFillRecord;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.DataHolder;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddRecordActivityListener;
@@ -28,13 +29,13 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 
-public class HistoryFragment extends Fragment implements Response.Listener<String>
+public class HistoryFragment extends Fragment
 {
-
     private FragmentHistoryBinding binding;
 
     FloatingActionButton ButtonAdd;
     LinearLayout scrollViewLayout;
+    LayoutInflater inflater;
     TextView hint;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,8 +53,63 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
 
         // scrollview layout for the cards.
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
+        this.inflater = getLayoutInflater();
+
+        // scrollable cards.
+        createCards();
 
         return root;
+    }
+
+    private void createCards()
+    {
+        // initialize views.
+        scrollViewLayout.removeAllViews();
+        hint.setText(getString(R.string.text_view_click_cards_message_empty));
+
+        for (FuelFillRecord record : DataHolder.getInstance().records)
+        {
+            // inflate the card view for the fuel fill records.
+            View v = inflater.inflate(R.layout.cardview_fill, null);
+
+            // get the card's views.
+            TextView petrolType = v.findViewById(R.id.card_filled_petrol);
+            TextView idHidden = v.findViewById(R.id.card_hidden_id);
+            TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
+            TextView cost = v.findViewById(R.id.card_cost);
+            TextView date = v.findViewById(R.id.card_date);
+            FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
+            FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
+
+            // set the card's views actual values.
+            petrolType.setText(record.getFuelType() + ", " + record.getStation());
+            idHidden.setText(String.valueOf(record.getId()));
+            lt_per_100.setText(record.getLt_per_100km() + " lt/100km");
+            cost.setText("€" + record.getCost_eur());
+            date.setText(record.getDate().toString());
+
+            // add the view to the scroll view's layout
+            scrollViewLayout.addView(v);
+
+            // set button edit and delete listeners.
+            editButton.setOnClickListener(new CardEditButtonListener(this, record));
+            deleteButton.setOnClickListener(new CardDeleteButtonListener(this, record));
+
+            // set listener for when the user presses the card view.
+            v.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Intent intent = new Intent(getContext(), ActivityDisplayFuelFillRecord.class);
+                    intent.putExtra("record", record);
+                    startActivity(intent);
+                }
+            });
+
+            // change the hint text.
+            hint.setText(getString(R.string.text_view_click_cards_message));
+        }
     }
 
     @Override
@@ -67,83 +123,6 @@ public class HistoryFragment extends Fragment implements Response.Listener<Strin
     public void onResume()
     {
         super.onResume();
-
-        RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        try
-        {
-            scrollViewLayout.removeAllViews();
-            LayoutInflater inflater = getLayoutInflater();
-            hint.setText(getString(R.string.text_view_click_cards_message_empty));
-
-            JSONArray JsonArrayResponse = new JSONArray(response);
-
-            for (int i = 0; i < JsonArrayResponse.length(); i++)
-            {
-                // inflate the view.
-                View v = inflater.inflate(R.layout.cardview_fill, null);
-
-                // get views
-                TextView petrolType = v.findViewById(R.id.card_filled_petrol);
-                TextView idHidden = v.findViewById(R.id.card_hidden_id);
-                TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
-                TextView cost = v.findViewById(R.id.card_cost);
-                TextView date = v.findViewById(R.id.card_date);
-                FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-                FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
-
-                // get data
-                JSONObject JsonObject = JsonArrayResponse.getJSONObject(i);
-
-                int id = JsonObject.getInt("id");
-                float km = (float) JsonObject.getDouble("km");
-                float cost_eur = (float) JsonObject.getDouble("cost_eur");
-                float lt = (float) JsonObject.getDouble("lt");
-                String station = JsonObject.getString("station");
-                String fuelType = JsonObject.getString("fuel_type");
-                String notes = JsonObject.getString("notes");
-                LocalDate filledAt = LocalDate.parse(JsonObject.getString("filled_at"));
-
-                // create record instance
-                FuelFillRecord record = new FuelFillRecord(id, lt, cost_eur, km, filledAt, station, fuelType, notes);
-
-                // fill views
-                petrolType.setText(record.getFuelType() + ", " + record.getStation());
-                idHidden.setText(String.valueOf(record.getId()));
-                lt_per_100.setText(record.getLt_per_100km() + " lt/100km");
-                cost.setText("€" + record.getCost_eur());
-                date.setText(record.getDate().toString());
-
-                // add view
-                scrollViewLayout.addView(v);
-
-                // assign the listeners to the Floating Action Buttons.
-                editButton.setOnClickListener(new CardEditButtonListener(this, record));
-                deleteButton.setOnClickListener(new CardDeleteButtonListener(this, record));
-
-                // card view click listener
-                v.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        Intent intent = new Intent(getContext(), ActivityDisplayFuelFillRecord.class);
-                        intent.putExtra("record", record);
-                        startActivity(intent);
-                    }
-                });
-
-                // change the hint
-                hint.setText(getString(R.string.text_view_click_cards_message));
-            }
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e);
-        }
+        createCards();
     }
 }
