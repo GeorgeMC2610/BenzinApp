@@ -213,9 +213,7 @@ public class RequestHandler
             Toast.makeText(activity, activity.getString(R.string.toast_logged_in_as) + previousUser, Toast.LENGTH_LONG).show();
 
             // start the activity if the login was successful.
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
+            AssignData(activity);
         }, error ->
         {
             // if anything goes wrong, disable the progress bar
