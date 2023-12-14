@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ResponseGetFuelFillRecordsListener implements Response.Listener<String>
 {
@@ -63,6 +64,18 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
                 FuelFillRecord record = FuelFillRecord.GetRecordFromJson(jsonObject);
                 DataHolder.getInstance().records.add(record);
             }
+
+            DataHolder.getInstance().records.sort(new Comparator<FuelFillRecord>()
+            {
+                @Override
+                public int compare(FuelFillRecord o1, FuelFillRecord o2)
+                {
+                    if (o1.getDate().isEqual(o2.getDate()))
+                        return 0;
+
+                    return o1.getDate().isBefore(o2.getDate())? -1 : 1;
+                }
+            });
 
             System.out.println("JUST ADDED " + DataHolder.getInstance().records.size() + " FUEL FILL RECORDS.");
             CheckForActivityOpening();

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.DataHolder;
 import com.georgemc2610.benzinapp.classes.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
@@ -48,7 +49,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class HomeFragment extends Fragment implements Response.Listener<String>
+public class HomeFragment extends Fragment
 {
 
     TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
@@ -90,7 +91,6 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 graphPosition = position;
-                RequestHandler.getInstance().GetFuelFillRecords(getActivity(), HomeFragment.this);
             }
 
             @Override
@@ -100,9 +100,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             }
         });
 
-        // make the requests
-        RequestHandler.getInstance().GetCarInfo(getActivity(), this);
-        RequestHandler.getInstance().GetFuelFillRecords(getActivity(), this);
+        SetCarInfo();
+        SetGraphView();
 
         return root;
     }
@@ -114,44 +113,23 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         binding = null;
     }
 
-    // json response handler
-    @Override
-    public void onResponse(String response)
+    private void SetCarInfo()
     {
-        try
-        {
-            // if the response is not an array, then we requested the car info
-            if (response.charAt(0) != '[')
-            {
-                JSONObject jsonObject = new JSONObject(response);
-                SetCarInfo(jsonObject);
-            }
-            // if it is, we requested the fuel fill records
-            else
-            {
-                JSONArray jsonArray = new JSONArray(response);
-                SetGraphView(jsonArray);
-            }
-        }
-        catch (JSONException jsonException)
-        {
-            throw new RuntimeException(jsonException);
-        }
+        // this sets the car label to be the manufacturer + model.
+        StringBuilder builder = new StringBuilder();
+        builder.append(DataHolder.getInstance().car.getManufacturer());
+        builder.append(" ");
+        builder.append(DataHolder.getInstance().car.getModel());
+
+        String finalCarString = builder.toString();
+
+        car.setText(finalCarString);
+
+        // set the year below the label of the car model + manufacturer
+        year.setText(String.valueOf(DataHolder.getInstance().car.getYear()));
     }
 
-    private void SetCarInfo(JSONObject jsonObject) throws JSONException
-    {
-        String manufacturer = jsonObject.getString("manufacturer");
-        String model = jsonObject.getString("model");
-        String year = jsonObject.getString("year");
-
-        String wholeCar = manufacturer + " " + model;
-
-        car.setText(wholeCar);
-        this.year.setText(year);
-    }
-
-    private void SetGraphView(JSONArray jsonArray) throws JSONException
+    private void SetGraphView()
     {
         entries = new ArrayList<>();
 
@@ -175,10 +153,8 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         float costSum = 0;
 
         // get all the possible points
-        for (int i = jsonArray.length() - 1; i >= 0; i--)
+        for (FuelFillRecord record : DataHolder.getInstance().records)
         {
-            FuelFillRecord record = new FuelFillRecord(jsonArray.getJSONObject(i));
-
             Entry entry = new Entry();
 
             entry.setY(record.getLt_per_100km());
@@ -191,6 +167,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
             costSum += record.getCost_eur();
         }
 
+        lineDataSet = new LineDataSet(entries, "lt/100km");
         lineDataSet = new LineDataSet(entries, getString(R.string.graph_view_liters_per_100_km));
         lineDataSet.setAxisDependency(AxisDependency.LEFT);
         lineDataSet.setColor(ColorTemplate.getHoloBlue());
@@ -199,6 +176,7 @@ public class HomeFragment extends Fragment implements Response.Listener<String>
         lineDataSet.setDrawCircles(false);
         lineDataSet.setFillColor(ColorTemplate.getHoloBlue());
         lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+
 
         lineData = new LineData(lineDataSet);
         lineData.setValueTextColor(Color.WHITE);

@@ -86,11 +86,6 @@ public class RequestHandler
                 SaveToken(activity);
 
                 AssignData(activity);
-
-                // then start the other activity.
-                Intent intent = new Intent(activity, MainActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
             }
             catch (JSONException e)
             {
@@ -260,6 +255,12 @@ public class RequestHandler
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
         activity.finish();
+
+        DataHolder.getInstance().car = null;
+        DataHolder.getInstance().records = null;
+        DataHolder.getInstance().malfunctions = null;
+        DataHolder.getInstance().services = null;
+
         token = "";
         SaveToken(activity);
     }

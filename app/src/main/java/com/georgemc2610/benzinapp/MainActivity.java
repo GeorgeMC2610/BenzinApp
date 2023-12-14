@@ -33,19 +33,10 @@ public class MainActivity extends AppCompatActivity
 
     private ActivityMainBinding binding;
 
-    List<FuelFillRecord> records;
-    List<Service> services;
-    List<Malfunction> malfunctions;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        // instantiate lists
-        records = new ArrayList<>();
-        services = new ArrayList<>();
-        malfunctions = new ArrayList<>();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -58,6 +49,4 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
-
 }
