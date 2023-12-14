@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.georgemc2610.benzinapp.classes.DataHolder;
 import com.georgemc2610.benzinapp.classes.RequestHandler;
 
 public class LoginActivity extends AppCompatActivity
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity
 
         // request handler singleton instance creation.
         RequestHandler.Create();
+        DataHolder.Create();
 
         // attempt to auto-login.
         progressBar.setVisibility(View.VISIBLE);

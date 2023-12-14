@@ -4,8 +4,26 @@ import java.util.List;
 
 public class DataHolder
 {
-    public static List<FuelFillRecord> records;
-    public static List<Malfunction> malfunctions;
-    public static List<Service> services;
-    public static Car car;
+    private static DataHolder instance;
+
+    private DataHolder()
+    {
+        instance = this;
+    }
+
+    public static DataHolder getInstance()
+    {
+        return instance;
+    }
+
+    public static void Create()
+    {
+        instance = new DataHolder();
+    }
+
+    public List<FuelFillRecord> records;
+    public List<Malfunction> malfunctions;
+    public List<Service> services;
+    public Car car;
 }
+

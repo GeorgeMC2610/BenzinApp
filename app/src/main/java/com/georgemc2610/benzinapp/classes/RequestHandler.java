@@ -18,7 +18,11 @@ import com.android.volley.toolbox.Volley;
 import com.georgemc2610.benzinapp.LoginActivity;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.listeners.ResponseServiceListener;
+import com.georgemc2610.benzinapp.classes.listeners.ErrorTokenRequiredListener;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseGetCarInfoListener;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsListener;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,6 +85,8 @@ public class RequestHandler
                 token = jsonObject.getString("auth_token");
                 SaveToken(activity);
 
+                AssignData(activity);
+
                 // then start the other activity.
                 Intent intent = new Intent(activity, MainActivity.class);
                 activity.startActivity(intent);
@@ -127,6 +133,39 @@ public class RequestHandler
 
         // push the request.
         requestQueue.add(request);
+    }
+
+    private void AssignData(Activity activity)
+    {
+        // request Queue required to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // error listener for all urls.
+        ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
+
+        // listeners for the requests.
+        ResponseGetCarInfoListener carInfoListener = new ResponseGetCarInfoListener();
+        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener();
+        ResponseGetMalfunctionsListener malfunctionsListener = new ResponseGetMalfunctionsListener();
+        ResponseGetServicesListener servicesListener = new ResponseGetServicesListener();
+
+        // url and listeners for car.
+        String car_url = _URL + "/car";
+        String record_url = _URL + "/fuel_fill_record";
+        String malfunction_url = _URL + "/malfunction";
+        String service_url = _URL + "/service";
+
+        // the request. In the login Activity, we don't need listeners inside the of the Activity.
+        BenzinappStringRequest requestCar = new BenzinappStringRequest(Request.Method.GET, car_url, carInfoListener, errorTokenRequiredListener, GetToken(activity));
+        BenzinappStringRequest requestRecords = new BenzinappStringRequest(Request.Method.GET, record_url, recordsListener, errorTokenRequiredListener, GetToken(activity));
+        BenzinappStringRequest requestMalfunctions = new BenzinappStringRequest(Request.Method.GET, malfunction_url, malfunctionsListener, errorTokenRequiredListener, GetToken(activity));
+        BenzinappStringRequest requestServices = new BenzinappStringRequest(Request.Method.GET, service_url, servicesListener, errorTokenRequiredListener, GetToken(activity));
+
+        // push the requests.
+        requestQueue.add(requestCar);
+        requestQueue.add(requestRecords);
+        requestQueue.add(requestMalfunctions);
+        requestQueue.add(requestServices);
     }
 
     /**

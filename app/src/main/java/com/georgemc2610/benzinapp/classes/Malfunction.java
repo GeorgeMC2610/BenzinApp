@@ -1,5 +1,8 @@
 package com.georgemc2610.benzinapp.classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -17,6 +20,35 @@ public class Malfunction implements Serializable
         this.title = title;
         this.description = description;
         this.started = started;
+    }
+
+    public static Malfunction GetMalfunctionFromJson(JSONObject jsonObject)
+    {
+        try
+        {
+            // required data.
+            int id = jsonObject.getInt("id");
+            int at_km = jsonObject.getInt("at_km");
+            String title = jsonObject.getString("title");
+            String description = jsonObject.getString("description");
+            LocalDate started = LocalDate.parse(jsonObject.getString("started"));
+
+            Malfunction malfunction = new Malfunction(id, at_km, title, description, started);
+
+            // optional data.
+            if (!jsonObject.getString("cost_eur").equals("null"))
+                malfunction.setCost((float) jsonObject.getDouble("cost_eur"));
+
+            if (!jsonObject.getString("ended").equals("null"))
+                malfunction.setEnded(LocalDate.parse(jsonObject.getString("ended")));
+
+            return malfunction;
+        }
+
+        catch (JSONException e)
+        {
+            return null;
+        }
     }
 
     // GETTERS

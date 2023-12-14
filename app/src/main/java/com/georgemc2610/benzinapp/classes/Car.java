@@ -8,7 +8,7 @@ public class Car
     private String username, manufacturer, model;
     private int year;
 
-    public Car(String username, String manufacturer, String model, int year)
+    private Car(String username, String manufacturer, String model, int year)
     {
         this.username = username;
         this.manufacturer = manufacturer;
@@ -16,22 +16,41 @@ public class Car
         this.year = year;
     }
 
-    public Car(JSONObject jsonObject)
+    public static Car createCarFromJson(JSONObject jsonObject)
     {
         try
         {
-            this.username = jsonObject.getString("username");
-            this.manufacturer = jsonObject.getString("manufacturer");
-            this.model = jsonObject.getString("model");
-            this.year = jsonObject.getInt("year");
-        }
-        catch (JSONException e)
-        {
-            this.username = null;
-            this.manufacturer = null;
-            this.model = null;
-            this.year = -1;
-        }
+            String username = jsonObject.getString("username");
+            String manufacturer = jsonObject.getString("manufacturer");
+            String model = jsonObject.getString("model");
+            int year = jsonObject.getInt("year");
 
+            return new Car(username, manufacturer, model, year);
+        }
+        catch (JSONException ignored)
+        {
+            return null;
+        }
+    }
+
+    // -- GETTERS -- //
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public String getManufacturer()
+    {
+        return manufacturer;
+    }
+
+    public String getModel()
+    {
+        return model;
+    }
+
+    public int getYear()
+    {
+        return year;
     }
 }

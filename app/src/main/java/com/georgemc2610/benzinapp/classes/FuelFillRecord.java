@@ -51,6 +51,32 @@ public class FuelFillRecord implements Serializable
         costEur_per_km = cost_eur / kilometers;
     }
 
+    /**
+     * Creates a new <code>Fuel Fill Record</code> from a JSON Response.
+     * @param jsonObject The JSON Object with the data of a fuel fill record.
+     * @return A new Fuel Fill Record object with filled data.
+     */
+    public static FuelFillRecord GetRecordFromJson(JSONObject jsonObject)
+    {
+        try
+        {
+            int id = jsonObject.getInt("id");
+            float liters = (float) jsonObject.getDouble("lt");
+            float cost = (float) jsonObject.getDouble("cost_eur");
+            float kilometers = (float) jsonObject.getDouble("km");
+            LocalDate localDate = LocalDate.parse(jsonObject.getString("filled_at"));
+            String station = jsonObject.getString("station");
+            String fuel = jsonObject.getString("fuel_type");
+            String notes = jsonObject.getString("notes");
+
+            return new FuelFillRecord(id, liters, cost, kilometers, localDate, station, fuel, notes);
+        }
+        catch (JSONException ignored)
+        {
+            return null;
+        }
+    }
+
 
     public float getLiters() {
         return liters;

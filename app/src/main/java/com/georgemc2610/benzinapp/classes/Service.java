@@ -1,5 +1,8 @@
 package com.georgemc2610.benzinapp.classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,6 +19,33 @@ public class Service implements Serializable
         this.atKm = atKm;
         this.description = description;
         this.dateHappened = dateHappened;
+    }
+
+    public static Service GetServiceFromJson(JSONObject jsonObject)
+    {
+        try
+        {
+            // required data.
+            int id = jsonObject.getInt("id");
+            int atKm = jsonObject.getInt("at_km");
+            String description = jsonObject.getString("description");
+            LocalDate date = LocalDate.parse(jsonObject.getString("date_happened"));
+
+            Service service = new Service(id, atKm, description, date);
+
+            // optional data.
+            if (!jsonObject.getString("cost_eur").equals("null"))
+                service.setCost((float) jsonObject.getDouble("cost_eur"));
+
+            if (!jsonObject.getString("next_km").equals("null"))
+                service.setAtKm(jsonObject.getInt("at_km"));
+
+            return service;
+        }
+        catch (JSONException e)
+        {
+            return null;
+        }
     }
 
 
