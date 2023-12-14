@@ -6,6 +6,17 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * A Fuel Fill Record represents an event where someone went to the Petrol Station and <b>completely filled their car tank</b>.
+ * In this concept, the user enters how much <b>Petrol they filled (in liters)</b>, how much it <b>costed (in Euros)</b> and the car's
+ * <b>mileage (in kilometers)</b> before the previous Fuel Fill Record.
+ * <br> <br>
+ * At this point, this class can automatically calculate the amount <b>liters</b> the car consumes <b>per 100 Kilometers</b>, how many
+ * <b>kilometers</b> a singular <b>liter</b> can travel and how much it <b>costs</b> to drive the car <b>for one kilometer</b>.
+ * <br> <br>
+ * With all this data available, an application could visualise, using a graph, how the car performs over time, since the class can hold
+ * the date a Fuel Fill Record happened.
+ */
 public class FuelFillRecord implements Serializable
 {
     private int id;
