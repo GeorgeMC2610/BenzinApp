@@ -36,7 +36,10 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
     private void CheckForActivityOpening()
     {
         if (!isForLogin)
+        {
+            activity.finish();
             return;
+        }
 
         boolean canContinue = true;
 

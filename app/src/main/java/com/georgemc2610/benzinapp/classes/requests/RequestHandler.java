@@ -398,7 +398,6 @@ public class RequestHandler
             // if everything goes well, update the fuel fill records, make the toast text and then close the activity.
             UpdateFuelFillRecords(activity);
             Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
-            activity.finish();
         }, error ->
         {
             if (error.networkResponse == null)
