@@ -107,4 +107,5 @@
     <string name="spinner_option_same_as_system">Το ίδιο με το κινητό</string>
     <string name="tab_malfunctions">ΒΛΑΒΕΣ</string>
     <string name="tab_services">ΣΕΡΒΙΣ</string>
+    <string name="setting_fast_login">Γρήγορη Σύνδεση</string>
 </resources>

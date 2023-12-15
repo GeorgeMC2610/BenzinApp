@@ -363,83 +363,28 @@ public class RequestHandler
         return token;
     }
 
-
-    public void GetCarInfo(Activity activity, Response.Listener<String> listener)
+    private void UpdateFuelFillRecords(Activity activity)
     {
-        // request Queue required, to send the request.
+        // request Queue required to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
-        // fuel fill records url. This will return all fuel_fill_records of the User.
-        String url = _URL + "/car";
+        // error listener for all urls.
+        ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
+        // listeners for the requests.
+        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener(activity, false);
 
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
+        // url and listeners for car.
+        String record_url = _URL + "/fuel_fill_record";
 
-        requestQueue.add(request);
+        // the request. In the login Activity, we don't need listeners inside the of the Activity.
+        BenzinappStringRequest requestRecords = new BenzinappStringRequest(Request.Method.GET, record_url, recordsListener, errorTokenRequiredListener, GetToken(activity));
+
+        // push the requests.
+        requestQueue.add(requestRecords);
     }
 
-
-    public void GetFuelFillRecords(Activity activity, Response.Listener<String> listener)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // fuel fill records url. This will return all fuel_fill_records of the User.
-        String url = _URL + "/fuel_fill_record";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
-        requestQueue.add(request);
-    }
-
-    public void AddFuelFillRecord(Activity activity, Response.Listener<String> listener, float km, float lt, float cost_eur, String fuelType, String station, LocalDate filledAt, String notes)
+    public void AddFuelFillRecord(Activity activity, float km, float lt, float cost_eur, String fuelType, String station, LocalDate filledAt, String notes)
     {
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
@@ -448,7 +393,13 @@ public class RequestHandler
         String url = _URL + "/fuel_fill_record";
 
         // POST request to add fuel fill record
-        StringRequest request = new StringRequest(Request.Method.POST, url, listener, error ->
+        StringRequest request = new StringRequest(Request.Method.POST, url, listener ->
+        {
+            // if everything goes well, update the fuel fill records, make the toast text and then close the activity.
+            UpdateFuelFillRecords(activity);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
+            activity.finish();
+        }, error ->
         {
             if (error.networkResponse == null)
                 return;
@@ -585,80 +536,6 @@ public class RequestHandler
 
             // and test for different failures.
             if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
-        requestQueue.add(request);
-    }
-
-    public void GetServices(Activity activity, Response.Listener<String> listener)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // fuel fill records url. This will return all services of the User.
-        String url = _URL + "/service";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
-        requestQueue.add(request);
-    }
-
-    public void GetMalfunctions(Activity activity, Response.Listener<String> listener)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // fuel fill records url. This will return all services of the User.
-        String url = _URL + "/malfunction";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
             {
                 Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
             }

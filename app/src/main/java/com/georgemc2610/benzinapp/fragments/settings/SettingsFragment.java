@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.fragments.settings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,8 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
@@ -20,10 +25,12 @@ import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
 import java.util.Locale;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class SettingsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener
+{
     Spinner languageSpinner;
+    Switch darkModeToggle, fastLoginToggle;
     Button LogoutButton;
-
+    SharedPreferences preferences;
     private static int selectedLanguagePosition = -1;
 
     private FragmentSettingsBinding binding;
@@ -49,6 +56,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         // set listener for the logout button.
         LogoutButton = root.findViewById(R.id.settings_LogoutButton);
         LogoutButton.setOnClickListener(this);
+
+        // get the toggles and set their listeners
+        darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
+        fastLoginToggle = root.findViewById(R.id.settings_FastLoginSwitch);
+
+        // shared preferences
+        preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
 
         return root;
     }

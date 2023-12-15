@@ -19,13 +19,25 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
 {
     private final Activity activity;
 
+    private boolean isForLogin;
+
     public ResponseGetFuelFillRecordsListener(Activity activity)
     {
         this.activity = activity;
+        this.isForLogin = true;
+    }
+
+    public ResponseGetFuelFillRecordsListener(Activity activity, boolean isForLogin)
+    {
+        this.activity = activity;
+        this.isForLogin = isForLogin;
     }
 
     private void CheckForActivityOpening()
     {
+        if (!isForLogin)
+            return;
+
         boolean canContinue = true;
 
         if (DataHolder.getInstance().services == null)

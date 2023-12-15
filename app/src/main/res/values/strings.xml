@@ -108,4 +108,5 @@
     <string name="spinner_option_same_as_system">Same as system</string>
     <string name="tab_malfunctions">MALFUNCTIONS</string>
     <string name="tab_services">SERVICES</string>
+    <string name="setting_fast_login">Fast Login</string>
 </resources>

@@ -15,12 +15,13 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityAddRecord extends AppCompatActivity implements Response.Listener<String>
+public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     TextView textViewDate;
@@ -144,12 +145,9 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
         String petrolType = editTextPetrolType.getText().toString();
         String station = editTextStation.getText().toString();
         String notes = editTextNotes.getText().toString();
-
         LocalDate date = LocalDate.parse(textViewDate.getText().toString());
 
-        // proceed to add properties.
-        // DatabaseManager.getInstance().AddRecord(liters, cost, kilometers, date, editTextPetrolType.getText().toString());
-        RequestHandler.getInstance().AddFuelFillRecord(this, this, kilometers, liters, cost, petrolType, station, date, notes);
+        RequestHandler.getInstance().AddFuelFillRecord(this, kilometers, liters, cost, petrolType, station, date, notes);
     }
 
     public void OnEditTextDateTimeClicked(View v)
@@ -173,12 +171,5 @@ public class ActivityAddRecord extends AppCompatActivity implements Response.Lis
 
         // show the dialog.
         datePickerDialog.show();
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
-        finish();
     }
 }

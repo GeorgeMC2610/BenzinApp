@@ -21,6 +21,10 @@ import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class HistoryFragment extends Fragment
 {
     private FragmentHistoryBinding binding;
@@ -59,8 +63,10 @@ public class HistoryFragment extends Fragment
         scrollViewLayout.removeAllViews();
         hint.setText(getString(R.string.text_view_click_cards_message_empty));
 
-        for (FuelFillRecord record : DataHolder.getInstance().records)
+        for (int i = DataHolder.getInstance().records.size() - 1; i >= 0; i--)
         {
+            FuelFillRecord record = DataHolder.getInstance().records.get(i);
+
             // inflate the card view for the fuel fill records.
             View v = inflater.inflate(R.layout.cardview_fill, null);
 
