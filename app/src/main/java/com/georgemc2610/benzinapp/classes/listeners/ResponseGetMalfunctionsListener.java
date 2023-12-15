@@ -17,14 +17,28 @@ import java.util.ArrayList;
 public class ResponseGetMalfunctionsListener implements Response.Listener<String>
 {
     private final Activity activity;
+    private final boolean isForLogin;
 
     public ResponseGetMalfunctionsListener(Activity activity)
     {
         this.activity = activity;
+        this.isForLogin = true;
+    }
+
+    public ResponseGetMalfunctionsListener(Activity activity, boolean isForLogin)
+    {
+        this.activity = activity;
+        this.isForLogin = isForLogin;
     }
 
     private void CheckForActivityOpening()
     {
+        if (!isForLogin)
+        {
+            activity.finish();
+            return;
+        }
+
         boolean canContinue = true;
 
         if (DataHolder.getInstance().services == null)
@@ -63,7 +77,6 @@ public class ResponseGetMalfunctionsListener implements Response.Listener<String
                 DataHolder.getInstance().malfunctions.add(malfunction);
             }
 
-            System.out.println("JUST ADDED " + DataHolder.getInstance().malfunctions.size() + " MALFUNCTIONS.");
             CheckForActivityOpening();
         }
         catch (JSONException e)

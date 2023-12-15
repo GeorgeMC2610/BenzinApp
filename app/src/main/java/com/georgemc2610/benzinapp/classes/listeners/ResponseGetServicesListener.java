@@ -17,14 +17,28 @@ import java.util.ArrayList;
 public class ResponseGetServicesListener implements Response.Listener<String>
 {
     private final Activity activity;
+    private final boolean isForLogin;
 
     public ResponseGetServicesListener(Activity activity)
     {
         this.activity = activity;
+        this.isForLogin = true;
+    }
+
+    public ResponseGetServicesListener(Activity activity, boolean isForLogin)
+    {
+        this.activity = activity;
+        this.isForLogin = isForLogin;
     }
 
     private void CheckForActivityOpening()
     {
+        if (!isForLogin)
+        {
+            activity.finish();
+            return;
+        }
+
         boolean canContinue = true;
 
         if (DataHolder.getInstance().services == null)
@@ -63,7 +77,6 @@ public class ResponseGetServicesListener implements Response.Listener<String>
                 DataHolder.getInstance().services.add(service);
             }
 
-            System.out.println("JUST ADDED " + DataHolder.getInstance().services.size() + " SERVICES.");
             CheckForActivityOpening();
         }
         catch (JSONException e)

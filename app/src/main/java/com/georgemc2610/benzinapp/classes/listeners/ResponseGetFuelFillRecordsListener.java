@@ -19,7 +19,7 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
 {
     private final Activity activity;
 
-    private boolean isForLogin;
+    private final boolean isForLogin;
 
     public ResponseGetFuelFillRecordsListener(Activity activity)
     {
@@ -92,7 +92,6 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
                 }
             });
 
-            System.out.println("JUST ADDED " + DataHolder.getInstance().records.size() + " FUEL FILL RECORDS.");
             CheckForActivityOpening();
         }
         catch (JSONException e)
