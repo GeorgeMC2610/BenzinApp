@@ -113,4 +113,32 @@ public class FuelFillRecord implements Serializable
     public String getNotes() {
         return notes;
     }
+
+    public void setLiters(float liters) {
+        this.liters = liters;
+    }
+
+    public void setCost_eur(float cost_eur) {
+        this.cost_eur = cost_eur;
+    }
+
+    public void setKilometers(float kilometers) {
+        this.kilometers = kilometers;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setStation(String station) {
+        this.station = station;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

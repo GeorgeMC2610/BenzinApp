@@ -23,6 +23,7 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseGetCarInfoListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
+import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
@@ -141,10 +142,10 @@ public class RequestHandler
         ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
 
         // listeners for the requests.
-        ResponseGetCarInfoListener carInfoListener = new ResponseGetCarInfoListener(activity);
-        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener(activity);
-        ResponseGetMalfunctionsListener malfunctionsListener = new ResponseGetMalfunctionsListener(activity);
-        ResponseGetServicesListener servicesListener = new ResponseGetServicesListener(activity);
+        ResponseGetCarInfoListener         carInfoListener      = new ResponseGetCarInfoListener(activity);
+        ResponseGetFuelFillRecordsListener recordsListener      = selector == DataSelector.ALL ? new ResponseGetFuelFillRecordsListener(activity) : new ResponseGetFuelFillRecordsListener(activity, false);
+        ResponseGetMalfunctionsListener    malfunctionsListener = selector == DataSelector.ALL ? new ResponseGetMalfunctionsListener(activity) : new ResponseGetMalfunctionsListener(activity, false);
+        ResponseGetServicesListener        servicesListener     = selector == DataSelector.ALL ? new ResponseGetServicesListener(activity) : new ResponseGetServicesListener(activity, false);
 
         // url and listeners for car.
         String car_url = _URL + "/car";
@@ -406,71 +407,30 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void EditFuelFillRecord(Activity activity, Response.Listener<String> listener, int id, Float km, Float lt, Float cost_eur, String fuelType, String station, LocalDate newDate, String notes)
+    public void EditFuelFillRecord(Activity activity, FuelFillRecord record)
     {
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
 
         // correct url
-        String url = _URL + "/fuel_fill_record/" + id;
+        String url = _URL + "/fuel_fill_record/" + record.getId();
 
-        // PATCH request to add fuel fill record
-        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
+        // create values map
+        Map<String, String> params = new HashMap<>();
+        params.put("km", String.valueOf(record.getKilometers()));
+        params.put("lt", String.valueOf(record.getLiters()));
+        params.put("cost_eur", String.valueOf(record.getCost_eur()));
+        params.put("fuel_type", record.getFuelType());
+        params.put("station", record.getStation());
+        params.put("notes", record.getNotes());
+        params.put("filled_at", record.getDate().toString());
+
+        // PATCH request to edit fuel fill record
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
         {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
-                if (km != null)
-                    params.put("km", String.valueOf(km));
-
-                if (lt != null)
-                    params.put("lt", String.valueOf(lt));
-
-                if (cost_eur != null)
-                    params.put("cost_eur", String.valueOf(cost_eur));
-
-                if (fuelType != null)
-                    params.put("fuel_type", fuelType);
-
-                if (station != null && !station.isEmpty())
-                    params.put("station", station);
-
-                if (newDate != null && !newDate.toString().isEmpty())
-                    params.put("filled_at", newDate.toString());
-
-                if (notes != null && !notes.isEmpty())
-                    params.put("notes", notes);
-
-                return params;
-            }
-        };
+            AssignData(activity, DataSelector.FUEL_FILL_RECORDS);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_edited), Toast.LENGTH_SHORT).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute the request.
         requestQueue.add(request);

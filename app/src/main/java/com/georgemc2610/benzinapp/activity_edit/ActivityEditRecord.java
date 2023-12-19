@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 // TODO: Add comments.
 
-public class ActivityEditRecord extends AppCompatActivity implements Response.Listener<String>
+public class ActivityEditRecord extends AppCompatActivity
 {
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
@@ -98,8 +98,30 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
         String date = textViewDate.getText().toString().trim();
         LocalDate newDate = LocalDate.parse(date);
 
+        // edit the object
+        if (newLiters != null)
+            record.setLiters(newLiters);
+
+        if (newCost != null)
+            record.setCost_eur(newCost);
+
+        if (newKilometers != null)
+            record.setKilometers(newKilometers);
+
+        if (newPetrolType != null)
+            record.setFuelType(newPetrolType);
+
+        if (newStation != null)
+            record.setStation(newStation);
+
+        if (newDate != null)
+            record.setDate(newDate);
+
+        if (newNotes != null)
+            record.setNotes(newNotes);
+
         // send the request.
-        RequestHandler.getInstance().EditFuelFillRecord(this, this, record.getId(), newKilometers, newLiters, newCost, newPetrolType, newStation, newDate, newNotes);
+        RequestHandler.getInstance().EditFuelFillRecord(this, record);
     }
 
     /**
@@ -143,12 +165,5 @@ public class ActivityEditRecord extends AppCompatActivity implements Response.Li
 
         // show the dialog.
         datePickerDialog.show();
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
-        finish();
     }
 }
