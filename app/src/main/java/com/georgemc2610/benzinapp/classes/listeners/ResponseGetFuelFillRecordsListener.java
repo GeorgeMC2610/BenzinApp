@@ -3,8 +3,11 @@ package com.georgemc2610.benzinapp.classes.listeners;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.MainActivity;
+import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 
@@ -19,25 +22,23 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
 {
     private final Activity activity;
 
-    private final boolean isForLogin;
-
     public ResponseGetFuelFillRecordsListener(Activity activity)
     {
         this.activity = activity;
-        this.isForLogin = true;
-    }
-
-    public ResponseGetFuelFillRecordsListener(Activity activity, boolean isForLogin)
-    {
-        this.activity = activity;
-        this.isForLogin = isForLogin;
     }
 
     private void CheckForActivityOpening()
     {
-        if (!isForLogin)
+
+        if (activity.getLocalClassName().matches(".*(?:add|edit).*"))
         {
             activity.finish();
+            return;
+        }
+        else if (activity.getLocalClassName().equals("MainActivity"))
+        {
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.recreate();
             return;
         }
 

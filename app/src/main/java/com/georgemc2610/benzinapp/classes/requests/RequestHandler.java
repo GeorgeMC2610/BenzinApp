@@ -143,9 +143,9 @@ public class RequestHandler
 
         // listeners for the requests.
         ResponseGetCarInfoListener         carInfoListener      = new ResponseGetCarInfoListener(activity);
-        ResponseGetFuelFillRecordsListener recordsListener      = selector == DataSelector.ALL ? new ResponseGetFuelFillRecordsListener(activity) : new ResponseGetFuelFillRecordsListener(activity, false);
-        ResponseGetMalfunctionsListener    malfunctionsListener = selector == DataSelector.ALL ? new ResponseGetMalfunctionsListener(activity) : new ResponseGetMalfunctionsListener(activity, false);
-        ResponseGetServicesListener        servicesListener     = selector == DataSelector.ALL ? new ResponseGetServicesListener(activity) : new ResponseGetServicesListener(activity, false);
+        ResponseGetFuelFillRecordsListener recordsListener      = new ResponseGetFuelFillRecordsListener(activity);
+        ResponseGetMalfunctionsListener    malfunctionsListener = new ResponseGetMalfunctionsListener(activity);
+        ResponseGetServicesListener        servicesListener     = new ResponseGetServicesListener(activity);
 
         // url and listeners for car.
         String car_url = _URL + "/car";
@@ -399,6 +399,8 @@ public class RequestHandler
         // POST request to add fuel fill record
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
         {
+            // listener for when the data have been posted successfully.
+            // no need to close the activity, because `AssignData` will refresh the data and will close it whenever they are ready.
             AssignData(activity, DataSelector.FUEL_FILL_RECORDS);
             Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
@@ -428,6 +430,8 @@ public class RequestHandler
         // PATCH request to edit fuel fill record
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
         {
+            // listener for when the data have been posted successfully.
+            // no need to close the activity, because `AssignData` will refresh the data and will close it whenever they are ready.
             AssignData(activity, DataSelector.FUEL_FILL_RECORDS);
             Toast.makeText(activity, activity.getString(R.string.toast_record_edited), Toast.LENGTH_SHORT).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
@@ -445,35 +449,10 @@ public class RequestHandler
         // correct url
         String url = _URL + "/fuel_fill_record/" + id;
 
-        StringRequest request = new StringRequest(Request.Method.DELETE, url, response ->
+        BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
         {
-            Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
-
-        }, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
+            AssignData(activity, DataSelector.FUEL_FILL_RECORDS);
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity));
 
         requestQueue.add(request);
     }
