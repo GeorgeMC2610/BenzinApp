@@ -87,7 +87,7 @@ public class RequestHandler
                 token = jsonObject.getString("auth_token");
                 SaveToken(activity);
 
-                AssignData(activity);
+                AssignData(activity, DataSelector.ALL);
             }
             catch (JSONException e)
             {
@@ -132,7 +132,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    private void AssignData(Activity activity)
+    private void AssignData(Activity activity, DataSelector selector)
     {
         // request Queue required to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -159,10 +159,24 @@ public class RequestHandler
         BenzinappStringRequest requestServices = new BenzinappStringRequest(Request.Method.GET, service_url, servicesListener, errorTokenRequiredListener, GetToken(activity));
 
         // push the requests.
-        requestQueue.add(requestCar);
-        requestQueue.add(requestRecords);
-        requestQueue.add(requestMalfunctions);
-        requestQueue.add(requestServices);
+        switch (selector)
+        {
+            case ALL:
+                requestQueue.add(requestCar);
+                requestQueue.add(requestRecords);
+                requestQueue.add(requestMalfunctions);
+                requestQueue.add(requestServices);
+                break;
+            case FUEL_FILL_RECORDS:
+                requestQueue.add(requestRecords);
+                break;
+            case MALFUNCTIONS:
+                requestQueue.add(requestMalfunctions);
+                break;
+            case SERVICES:
+                requestQueue.add(requestServices);
+                break;
+        }
     }
 
     /**
@@ -210,7 +224,7 @@ public class RequestHandler
             Toast.makeText(activity, activity.getString(R.string.toast_logged_in_as) + previousUser, Toast.LENGTH_LONG).show();
 
             // start the activity if the login was successful.
-            AssignData(activity);
+            AssignData(activity, DataSelector.ALL);
         }, error ->
         {
             // if anything goes wrong, disable the progress bar
@@ -363,83 +377,30 @@ public class RequestHandler
         return token;
     }
 
-    private void UpdateFuelFillRecords(Activity activity)
-    {
-        // request Queue required to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // error listener for all urls.
-        ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
-
-        // listeners for the requests.
-        ResponseGetFuelFillRecordsListener recordsListener = new ResponseGetFuelFillRecordsListener(activity, false);
-
-        // url and listeners for car.
-        String record_url = _URL + "/fuel_fill_record";
-
-        // the request. In the login Activity, we don't need listeners inside the of the Activity.
-        BenzinappStringRequest requestRecords = new BenzinappStringRequest(Request.Method.GET, record_url, recordsListener, errorTokenRequiredListener, GetToken(activity));
-
-        // push the requests.
-        requestQueue.add(requestRecords);
-    }
-
     public void AddFuelFillRecord(Activity activity, float km, float lt, float cost_eur, String fuelType, String station, LocalDate filledAt, String notes)
     {
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
 
+        // parameters of a fuel fill record.
+        Map<String, String> params = new HashMap<>();
+        params.put("km", String.valueOf(km));
+        params.put("lt", String.valueOf(lt));
+        params.put("cost_eur", String.valueOf(cost_eur));
+        params.put("fuel_type", fuelType);
+        params.put("station", station);
+        params.put("filled_at", filledAt.toString());
+        params.put("notes", notes);
+
         // correct url
         String url = _URL + "/fuel_fill_record";
 
         // POST request to add fuel fill record
-        StringRequest request = new StringRequest(Request.Method.POST, url, listener ->
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
         {
-            // if everything goes well, update the fuel fill records, make the toast text and then close the activity.
-            UpdateFuelFillRecords(activity);
+            AssignData(activity, DataSelector.FUEL_FILL_RECORDS);
             Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
-        }, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("km", String.valueOf(km));
-                params.put("lt", String.valueOf(lt));
-                params.put("cost_eur", String.valueOf(cost_eur));
-                params.put("fuel_type", fuelType);
-                params.put("station", station);
-                params.put("filled_at", filledAt.toString());
-                params.put("notes", notes);
-
-                return params;
-            }
-        };
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute the request.
         requestQueue.add(request);
