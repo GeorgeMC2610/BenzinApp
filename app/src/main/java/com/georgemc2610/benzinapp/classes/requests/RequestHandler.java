@@ -667,6 +667,7 @@ public class RequestHandler
         BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
         {
             AssignData(activity, DataSelector.MALFUNCTIONS);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity));
 
         requestQueue.add(request);
