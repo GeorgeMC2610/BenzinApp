@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -11,6 +12,7 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 public class RegisterActivity extends AppCompatActivity
 {
     EditText username, password, passwordConfirmation, manufacturer, model, year;
+    Button button;
     ProgressBar progressBar;
 
     @Override
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity
         year = findViewById(R.id.editText_Year);
 
         progressBar = findViewById(R.id.progressBar_register);
+        button = findViewById(R.id.buttonRegister);
     }
 
     public void OnTextViewLoginClicked(View v)
@@ -99,14 +102,14 @@ public class RegisterActivity extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
 
         // values
-        String carManufacturer = manufacturer.getText().toString();
-        String carModel = model.getText().toString();
+        String carManufacturer = manufacturer.getText().toString().trim();
+        String carModel = model.getText().toString().trim();
         int carYear = Integer.parseInt(year.getText().toString());
-        String Username = username.getText().toString();
-        String Password = password.getText().toString();
-        String PasswordConfirmation = passwordConfirmation.getText().toString();
+        String Username = username.getText().toString().trim();
+        String Password = password.getText().toString().trim();
+        String PasswordConfirmation = passwordConfirmation.getText().toString().trim();
 
         // signup
-        RequestHandler.getInstance().Signup(this, Username, Password, PasswordConfirmation, carManufacturer, carModel, carYear, progressBar);
+        RequestHandler.getInstance().Signup(this, Username, Password, PasswordConfirmation, carManufacturer, carModel, carYear, progressBar, button);
     }
 }

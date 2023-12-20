@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity
         password = findViewById(R.id.editText_Password);
 
         // get the button
-        login = findViewById(R.id.buttonLogin);
+        login = findViewById(R.id.buttonRegister);
 
         // progress bar for pressing the login button.
         progressBar = findViewById(R.id.progressBar_Login);

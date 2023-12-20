@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="0.643" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonRegister"
         android:layout_width="370dp"
         android:layout_height="63dp"
         android:onClick="OnButtonLoginPressed"

@@ -18,6 +18,8 @@ import com.android.volley.toolbox.Volley;
 import com.georgemc2610.benzinapp.LoginActivity;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.listeners.ErrorLoginListener;
+import com.georgemc2610.benzinapp.classes.listeners.ErrorRegisterListener;
 import com.georgemc2610.benzinapp.classes.listeners.ErrorTokenRequiredListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetCarInfoListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsListener;
@@ -68,6 +70,11 @@ public class RequestHandler
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
+        // login parameters
+        Map<String, String> params = new HashMap<>();
+        params.put("username", Username);
+        params.put("password", Password);
+
         // progress bar and buttons.
         UsernameEditText.setEnabled(false);
         PasswordEditText.setEnabled(false);
@@ -78,7 +85,7 @@ public class RequestHandler
         String url = _URL + "/auth/login";
 
         // the request. In the login Activity, we don't need listeners inside the of the Activity.
-        StringRequest request = new StringRequest(Request.Method.POST, url, response ->
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, response ->
         {
             // in case of successful response.
             try
@@ -94,40 +101,101 @@ public class RequestHandler
             {
                 throw new RuntimeException(e);
             }
-        }, error ->
+        }, new ErrorLoginListener(activity, progressBar, LoginButton, UsernameEditText, PasswordEditText), GetToken(activity), params);
+
+        // push the request.
+        requestQueue.add(request);
+    }
+
+    /**
+     * Sends a request to <code>/car</code> with the previously used token (that is saved in Shared Preferences).
+     * If the request succeeds, the user gets logged in and the Activity continues.
+     * If the request fails, it lets the user provide their credentials.
+     * @param activity Activity required to send a Volley request.
+     * @param UsernameEditText View that gets disabled and re-enabled once the request is processed.
+     * @param PasswordEditText View that gets disabled and re-enabled once the request is processed.
+     * @param LoginButton View that gets disabled and re-enabled once the request is processed.
+     * @param progressBar Progress Bar that keeps turning until the request is processed.
+     */
+    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // progress bar and buttons.
+        UsernameEditText.setEnabled(false);
+        PasswordEditText.setEnabled(false);
+        LoginButton.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+
+        // attempt to get the car data.
+        String url = _URL + "/car";
+
+        // request that provides the previously stored jwt token.
+        BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.GET, url, response ->
         {
-            // if anything goes wrong, remove the progress bar and re-enable the views.
-            UsernameEditText.setEnabled(true);
-            PasswordEditText.setEnabled(true);
-            LoginButton.setEnabled(true);
-            progressBar.setVisibility(View.GONE);
-
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
+            // show the logged in username whenever auto-login works.
+            String previousUser = "[as the previous user]";
+            try
             {
-                Toast.makeText(activity, activity.getString(R.string.toast_invalid_credentials), Toast.LENGTH_LONG).show();
+                JSONObject jsonObject = new JSONObject(response);
+                previousUser = jsonObject.getString("username");
             }
-            else
+            catch (JSONException e)
             {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+                System.out.println("Could not process response: \n" + e.getMessage());
             }
-        })
+
+            // toast to let the user know that they were logged on.
+            Toast.makeText(activity, activity.getString(R.string.toast_logged_in_as) + previousUser, Toast.LENGTH_LONG).show();
+
+            // start the activity if the login was successful.
+            AssignData(activity, DataSelector.ALL);
+        }, new ErrorLoginListener(activity, progressBar, LoginButton, UsernameEditText, PasswordEditText), GetToken(activity));
+
+        // push the request.
+        requestQueue.add(request);
+    }
+
+    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar, Button button)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // set progress bar visibility to be visible.
+        progressBar.setVisibility(View.VISIBLE);
+        button.setEnabled(false);
+
+        // parameters for a request
+        Map<String, String> params = new HashMap<>();
+        params.put("username", username);
+        params.put("password", password);
+        params.put("password_confirmation", passwordConfirmation);
+        params.put("manufacturer", carManufacturer);
+        params.put("model", model);
+        params.put("year", String.valueOf(year));
+
+        // Login url.
+        String url = _URL + "/signup";
+
+        // post request for the data.
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, response ->
         {
-            // put the parameters as they are provided.
-           @Override
-           protected Map<String, String> getParams()
-           {
-               Map<String, String> params = new HashMap<>();
+            // in case of successful response.
+            try
+            {
+                // get the token and save it.
+                JSONObject jsonObject = new JSONObject(response);
+                token = jsonObject.getString("auth_token");
+                SaveToken(activity);
 
-               params.put("username", Username);
-               params.put("password", Password);
-
-               return params;
-           }
-        };
+                AssignData(activity, DataSelector.ALL);
+            }
+            catch (JSONException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }, new ErrorRegisterListener(activity, progressBar, button), GetToken(activity), params);
 
         // push the request.
         requestQueue.add(request);
@@ -181,89 +249,6 @@ public class RequestHandler
     }
 
     /**
-     * Sends a request to <code>/car</code> with the previously used token (that is saved in Shared Preferences).
-     * If the request succeeds, the user gets logged in and the Activity continues.
-     * If the request fails, it lets the user provide their credentials.
-     * @param activity Activity required to send a Volley request.
-     * @param UsernameEditText View that gets disabled and re-enabled once the request is processed.
-     * @param PasswordEditText View that gets disabled and re-enabled once the request is processed.
-     * @param LoginButton View that gets disabled and re-enabled once the request is processed.
-     * @param progressBar Progress Bar that keeps turning until the request is processed.
-     */
-    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // progress bar and buttons.
-        UsernameEditText.setEnabled(false);
-        PasswordEditText.setEnabled(false);
-        LoginButton.setEnabled(false);
-        progressBar.setVisibility(View.VISIBLE);
-
-        // Login url.
-        String url = _URL + "/car";
-
-        // the request. In the login Activity, we don't need listeners inside the of the Activity.
-        StringRequest request = new StringRequest(Request.Method.GET, url, response ->
-        {
-            // FIRST TRY HEHE.
-            // show the logged in username whenever auto-login works.
-            String previousUser = "[as the previous user]";
-
-            try
-            {
-                JSONObject jsonObject = new JSONObject(response);
-                previousUser = jsonObject.getString("username");
-            }
-            catch (JSONException e)
-            {
-                System.out.println("Could not process response: \n" + e.getMessage());
-            }
-
-            // toast to let the user know that they were logged on.
-            Toast.makeText(activity, activity.getString(R.string.toast_logged_in_as) + previousUser, Toast.LENGTH_LONG).show();
-
-            // start the activity if the login was successful.
-            AssignData(activity, DataSelector.ALL);
-        }, error ->
-        {
-            // if anything goes wrong, disable the progress bar
-            UsernameEditText.setEnabled(true);
-            PasswordEditText.setEnabled(true);
-            LoginButton.setEnabled(true);
-            progressBar.setVisibility(View.GONE);
-
-
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401 || error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + GetToken(activity));
-                return headers;
-            }
-        };
-
-        // push the request.
-        requestQueue.add(request);
-    }
-
-    /**
      * Logs the user out and redirects them to the Login Activity.
      * @param activity Activity required to start the Login Activity.
      */
@@ -280,78 +265,6 @@ public class RequestHandler
 
         token = "";
         SaveToken(activity);
-    }
-
-
-    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // set progress bar visibility to be visible.
-        progressBar.setVisibility(View.VISIBLE);
-
-        // Login url.
-        String url = _URL + "/signup";
-
-        // the request. In the login Activity, we don't need listeners inside the of the Activity.
-        StringRequest request = new StringRequest(Request.Method.POST, url, response ->
-        {
-            // in case of successful response.
-            try
-            {
-                // get the token and save it.
-                JSONObject jsonObject = new JSONObject(response);
-                token = jsonObject.getString("auth_token");
-                SaveToken(activity);
-
-                // then start the other activity.
-                Intent intent = new Intent(activity, MainActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-            catch (JSONException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }, error ->
-        {
-            // if anything goes wrong, disable the progress bar
-            progressBar.setVisibility(View.GONE);
-
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_username_already_taken), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("username", username);
-                params.put("password", password);
-                params.put("password_confirmation", passwordConfirmation);
-                params.put("manufacturer", carManufacturer);
-                params.put("model", model);
-                params.put("year", String.valueOf(year));
-
-                return params;
-            }
-        };
-
-        // push the request.
-        requestQueue.add(request);
     }
 
     /**
@@ -377,6 +290,7 @@ public class RequestHandler
         token = sharedPreferences.getString("current", "");
         return token;
     }
+
 
     public void AddFuelFillRecord(Activity activity, float km, float lt, float cost_eur, String fuelType, String station, LocalDate filledAt, String notes)
     {
