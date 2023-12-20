@@ -15,6 +15,17 @@ public abstract class ResponseGetListener
         this.activity = activity;
     }
 
+    /**
+     * Checks what should happen according to the Activity's name.
+     *
+     * <list>
+     *     <li>If it's an Add/Edit activity, it closes it.</li>
+     *     <li>If it's the Main Activity (which means that the delete button was pressed), it refreshes the activity.</li>
+     * </list>
+     *
+     * If it's none of the above, it checks what data have been successfully added to the Data Holder.
+     * If all the data have been successfully added, it opens the main activity.
+     */
     protected void handleActivity()
     {
         if (activity.getLocalClassName().matches(".*(?:add|edit).*"))
