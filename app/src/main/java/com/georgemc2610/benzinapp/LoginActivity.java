@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,25 @@ public class LoginActivity extends AppCompatActivity
         // request handler singleton instance creation.
         RequestHandler.Create();
         DataHolder.Create();
+
+        // get settings
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        boolean defaultSettings = preferences.getBoolean("default_settings", true);
+
+        if (!defaultSettings)
+        {
+            boolean darkMode = preferences.getBoolean("dark_mode", false);
+            boolean autoLogin = preferences.getBoolean("auto_login", true);
+            String language = preferences.getString("language", "system");
+
+            if (autoLogin)
+            {
+                progressBar.setVisibility(View.VISIBLE);
+                RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
+            }
+
+            return;
+        }
 
         // attempt to auto-login.
         progressBar.setVisibility(View.VISIBLE);

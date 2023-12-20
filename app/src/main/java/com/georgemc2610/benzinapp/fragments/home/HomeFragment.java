@@ -38,9 +38,9 @@ public class HomeFragment extends Fragment
     TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
     Spinner spinner;
     LineChart lineChart;
-    LineData lineData;
-    LineDataSet lineDataSet;
-    ArrayList<Entry> entries;
+    LineData lineDataLtPer100, lineDataKmPerLt, lineDataCostPerKm;
+    LineDataSet lineDataSetLtPer100, lineDataSetKmPerLt, lineDataSetCostPerKm;
+    ArrayList<Entry> entriesLtPer100, entriesKmPerLt, entriesCostPerKm;
 
     int graphPosition = 0;
     private FragmentHomeBinding binding;
@@ -73,7 +73,21 @@ public class HomeFragment extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                graphPosition = position;
+                switch (position)
+                {
+                    case 0:
+                        lineChart.setData(lineDataLtPer100);
+                        lineChart.forceLayout();
+                        break;
+                    case 1:
+                        lineChart.setData(lineDataKmPerLt);
+                        lineChart.forceLayout();
+                        break;
+                    case 2:
+                        lineChart.setData(lineDataCostPerKm);
+                        lineChart.forceLayout();
+                        break;
+                }
             }
 
             @Override
@@ -114,8 +128,12 @@ public class HomeFragment extends Fragment
 
     private void SetGraphView()
     {
-        entries = new ArrayList<>();
+        // entries for the data.
+        entriesLtPer100 = new ArrayList<>();
+        entriesKmPerLt = new ArrayList<>();
+        entriesCostPerKm = new ArrayList<>();
 
+        // time x-axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new ValueFormatter()
@@ -138,36 +156,79 @@ public class HomeFragment extends Fragment
         // get all the possible points
         for (FuelFillRecord record : DataHolder.getInstance().records)
         {
-            Entry entry = new Entry();
+            // initialize all entries.
+            Entry entryLtPer100 = new Entry();
+            Entry entryKmPerLt = new Entry();
+            Entry entryCostPerKm = new Entry();
 
-            entry.setY(record.getLt_per_100km());
-            entry.setX(record.getDate().toEpochDay());
+            // add the y values.
+            entryLtPer100.setY(record.getLt_per_100km());
+            entryKmPerLt.setY(record.getKm_per_lt());
+            entryCostPerKm.setY(record.getCostEur_per_km());
 
-            entries.add(entry);
+            // add the x values.
+            entryLtPer100.setX(record.getDate().toEpochDay());
+            entryCostPerKm.setX(record.getDate().toEpochDay());
+            entryKmPerLt.setX(record.getDate().toEpochDay());
 
+            // and then add them to the list.
+            entriesLtPer100.add(entryLtPer100);
+            entriesKmPerLt.add(entryKmPerLt);
+            entriesCostPerKm.add(entryCostPerKm);
+
+            // add the sums for the averages.
             kilometerSum += record.getKilometers();
             literSum += record.getLiters();
             costSum += record.getCost_eur();
         }
 
-        // get line data set.
-        lineDataSet = new LineDataSet(entries, "lt/100km");
-        lineDataSet = new LineDataSet(entries, getString(R.string.graph_view_liters_per_100_km));
-        lineDataSet.setAxisDependency(AxisDependency.LEFT);
-        lineDataSet.setColor(ColorTemplate.getHoloBlue());
-        lineDataSet.setValueTextColor(ColorTemplate.getHoloBlue());
-        lineDataSet.setLineWidth(1.5f);
-        lineDataSet.setDrawCircles(false);
-        lineDataSet.setFillColor(ColorTemplate.getHoloBlue());
-        lineDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        // get line data set for liters per 100 km.
+        lineDataSetLtPer100 = new LineDataSet(entriesLtPer100, getString(R.string.graph_view_liters_per_100_km));
+        lineDataSetLtPer100.setAxisDependency(AxisDependency.LEFT);
+        lineDataSetLtPer100.setColor(ColorTemplate.getHoloBlue());
+        lineDataSetLtPer100.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetLtPer100.setLineWidth(1.5f);
+        lineDataSetLtPer100.setDrawCircles(false);
+        lineDataSetLtPer100.setFillColor(ColorTemplate.getHoloBlue());
+        lineDataSetLtPer100.setHighLightColor(Color.rgb(244, 117, 117));
 
-        // get line data.
-        lineData = new LineData(lineDataSet);
-        lineData.setValueTextColor(Color.WHITE);
-        lineData.setValueTextSize(9f);
+        // get line data set for km per lt
+        lineDataSetKmPerLt = new LineDataSet(entriesKmPerLt, getString(R.string.graph_view_km_per_lt));
+        lineDataSetKmPerLt.setAxisDependency(AxisDependency.LEFT);
+        lineDataSetKmPerLt.setColor(ColorTemplate.rgb("#dd0000"));
+        lineDataSetKmPerLt.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetKmPerLt.setLineWidth(1.5f);
+        lineDataSetKmPerLt.setDrawCircles(false);
+        lineDataSetKmPerLt.setFillColor(ColorTemplate.rgb("#aa0000"));
+        lineDataSetKmPerLt.setHighLightColor(Color.rgb(244, 0, 0));
+
+        // get line data set for cost per km
+        lineDataSetCostPerKm = new LineDataSet(entriesCostPerKm, getString(R.string.graph_view_cost_per_km));
+        lineDataSetCostPerKm.setAxisDependency(AxisDependency.LEFT);
+        lineDataSetCostPerKm.setColor(ColorTemplate.rgb("#00dd00"));
+        lineDataSetCostPerKm.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetCostPerKm.setLineWidth(1.5f);
+        lineDataSetCostPerKm.setDrawCircles(false);
+        lineDataSetCostPerKm.setFillColor(ColorTemplate.rgb("#00aa00"));
+        lineDataSetCostPerKm.setHighLightColor(Color.rgb(244, 0, 0));
+
+        // get line data for lt per 100 km
+        lineDataLtPer100 = new LineData(lineDataSetLtPer100);
+        lineDataLtPer100.setValueTextColor(Color.WHITE);
+        lineDataLtPer100.setValueTextSize(9f);
+
+        // get line data for km per lt
+        lineDataKmPerLt = new LineData(lineDataSetKmPerLt);
+        lineDataKmPerLt.setValueTextColor(Color.WHITE);
+        lineDataKmPerLt.setValueTextSize(9f);
+
+        // get line data for cost per km
+        lineDataCostPerKm = new LineData(lineDataSetCostPerKm);
+        lineDataCostPerKm.setValueTextColor(Color.WHITE);
+        lineDataCostPerKm.setValueTextSize(9f);
 
         // and set the different colours
-        lineChart.setData(lineData);
+        lineChart.setData(lineDataLtPer100);
 
         // calculate averages and display them
         float AvgLtPer100Km = 100 * literSum / kilometerSum;
