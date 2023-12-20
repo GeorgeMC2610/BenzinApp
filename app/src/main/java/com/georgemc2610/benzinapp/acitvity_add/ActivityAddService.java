@@ -25,7 +25,7 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.util.Calendar;
 
-public class ActivityAddService extends AppCompatActivity implements Response.Listener<String>
+public class ActivityAddService extends AppCompatActivity
 {
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
@@ -149,7 +149,7 @@ public class ActivityAddService extends AppCompatActivity implements Response.Li
         String date_happened = date.getText().toString().trim();
 
         // send it to the cloud.
-        RequestHandler.getInstance().AddService(this, this, at_km, cost_eur, description, locationString, date_happened, next_km);
+        RequestHandler.getInstance().AddService(this, at_km, cost_eur, description, locationString, date_happened, next_km);
     }
 
     public void OnPickDateClicked(View v)
@@ -191,12 +191,5 @@ public class ActivityAddService extends AppCompatActivity implements Response.Li
         {
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
-        finish();
     }
 }

@@ -457,64 +457,42 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddService(Activity activity, Response.Listener<String> listener, String at_km, String cost_eur, String description, String location, String date_happened, String next_km)
+    public void AddService(Activity activity, String at_km, String cost_eur, String description, String location, String date_happened, String next_km)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
+        // parameters for a service
+        Map<String, String> params = new HashMap<>();
+
+        // required data don't need integrity check
+        params.put("at_km", at_km);
+        params.put("description", description);
+        params.put("date_happened", date_happened);
+
+        // optional data need integrity check
+        if (cost_eur != null && !cost_eur.isEmpty())
+            params.put("cost_eur", cost_eur);
+
+        if (next_km != null && !next_km.isEmpty())
+            params.put("next_km", next_km);
+
+        if (location != null && !location.isEmpty())
+            params.put("location", location);
+
         // services url.
         String url = _URL + "/service";
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, listener, error ->
+        // POST request to add service
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
         {
-            if (error.networkResponse == null)
-                return;
+            // listener for when the data have been posted successfully.
+            // no need to close the activity, because `AssignData` will refresh the data and will close it whenever they are ready.
+            AssignData(activity, DataSelector.SERVICES);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                // required data don't need integrity check
-                params.put("at_km", at_km);
-                params.put("description", description);
-                params.put("date_happened", date_happened);
-
-                // optional data need integrity check
-                if (cost_eur != null && !cost_eur.isEmpty())
-                    params.put("cost_eur", cost_eur);
-
-                if (next_km != null && !next_km.isEmpty())
-                    params.put("next_km", next_km);
-
-                if (location != null && !location.isEmpty())
-                    params.put("location", location);
-
-                return params;
-            }
-        };
-
+        // execute request.
         requestQueue.add(request);
     }
 
@@ -526,103 +504,42 @@ public class RequestHandler
         // correct url
         String url = _URL + "/service/" + id;
 
-        StringRequest request = new StringRequest(Request.Method.DELETE, url, response ->
+        // benzinapp delete request to the services
+        BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
         {
+            AssignData(activity, DataSelector.SERVICES);
             Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity));
 
-        }, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
+        // add the request.
         requestQueue.add(request);
     }
 
-    public void EditService(Activity activity, Response.Listener<String> listener, Service service)
+    public void EditService(Activity activity, Service service)
     {
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
+
+        // service parameters
+        Map<String, String> params = new HashMap<>();
+
+        // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
+        params.put("at_km", String.valueOf(service.getAtKm()));
+        params.put("description", service.getDescription());
+        params.put("date_happened", service.getDateHappened().toString());
+        params.put("next_km", String.valueOf(service.getNextKm()));
+        params.put("cost_eur", String.valueOf(service.getCost()));
 
         // correct url
         String url = _URL + "/service/" + service.getId();
 
         // PATCH request to add fuel fill record
-        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
         {
-            if (error.networkResponse == null)
-                return;
+            AssignData(activity, DataSelector.SERVICES);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
 
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
-                if (service.getAtKm() != 0)
-                    params.put("at_km", String.valueOf(service.getAtKm()));
-
-                if (service.getDescription() != null)
-                    params.put("description", service.getDescription());
-
-                if (service.getDateHappened() != null)
-                    params.put("date_happened", service.getDateHappened().toString());
-
-                // nullify data if there aren't any.
-                if (service.getNextKm() != 0)
-                    params.put("next_km", String.valueOf(service.getNextKm()));
-                else
-                    params.put("next_km", "null");
-
-                if (service.getCost() != 0f)
-                    params.put("cost_eur", String.valueOf(service.getCost()));
-                else
-                    params.put("cost_eur", "null");
-
-                return params;
-            }
-        };
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute the request.
         requestQueue.add(request);
@@ -678,9 +595,7 @@ public class RequestHandler
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
 
-        // correct url
-        String url = _URL + "/malfunction/" + malfunction.getId();
-
+        // parameters of a malfunction
         Map<String, String> params = new HashMap<>();
         params.put("title", malfunction.getTitle());
         params.put("description", malfunction.getDescription());
@@ -688,6 +603,9 @@ public class RequestHandler
         params.put("at_km", String.valueOf(malfunction.getAt_km()));
         params.put("cost_eur", String.valueOf(malfunction.getCost()));
         params.put("ended", malfunction.getEnded().toString());
+
+        // correct url
+        String url = _URL + "/malfunction/" + malfunction.getId();
 
         // PATCH request to add fuel fill record
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->

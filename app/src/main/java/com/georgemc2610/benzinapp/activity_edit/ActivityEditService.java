@@ -19,7 +19,8 @@ import com.georgemc2610.benzinapp.classes.original.Service;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityEditService extends AppCompatActivity implements Response.Listener<String> {
+public class ActivityEditService extends AppCompatActivity
+{
     Service service;
     EditText atKmView, descView, nextKmView, costView;
     TextView datePickedView;
@@ -122,13 +123,6 @@ public class ActivityEditService extends AppCompatActivity implements Response.L
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 
         // send request with applied edits.
-        RequestHandler.getInstance().EditService(this, this, service);
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
-        finish();
+        RequestHandler.getInstance().EditService(this, service);
     }
 }
