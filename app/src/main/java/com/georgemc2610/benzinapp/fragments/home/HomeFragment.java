@@ -41,8 +41,6 @@ public class HomeFragment extends Fragment
     LineData lineDataLtPer100, lineDataKmPerLt, lineDataCostPerKm;
     LineDataSet lineDataSetLtPer100, lineDataSetKmPerLt, lineDataSetCostPerKm;
     ArrayList<Entry> entriesLtPer100, entriesKmPerLt, entriesCostPerKm;
-
-    int graphPosition = 0;
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -236,9 +234,9 @@ public class HomeFragment extends Fragment
         float AvgCostPerKm = costSum / kilometerSum;
 
         DecimalFormat format = new DecimalFormat("#.##");
-        String TextAvgLtPer100Km = Float.isNaN(AvgLtPer100Km) ? getString(R.string.text_view_no_data) : format.format(AvgLtPer100Km) + " lt/100km";
-        String TextAvgKmPerLt    = Float.isNaN(AvgKmPerLt)    ? getString(R.string.text_view_no_data) : format.format(AvgKmPerLt) + " km/lt";
-        String TextAvgCostPerKm  = Float.isNaN(AvgCostPerKm)  ? getString(R.string.text_view_no_data) : '€' + format.format(AvgCostPerKm) + "/km";
+        String TextAvgLtPer100Km = Float.isNaN(AvgLtPer100Km) ? getString(R.string.text_view_no_data) : format.format(AvgLtPer100Km) + " " + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
+        String TextAvgKmPerLt    = Float.isNaN(AvgKmPerLt)    ? getString(R.string.text_view_no_data) : format.format(AvgKmPerLt) + " " + getString(R.string.km_short) + "/" + getString(R.string.lt_short);
+        String TextAvgCostPerKm  = Float.isNaN(AvgCostPerKm)  ? getString(R.string.text_view_no_data) : '€' + format.format(AvgCostPerKm) + " " + getString(R.string.km_short);
 
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
