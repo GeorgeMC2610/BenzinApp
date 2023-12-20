@@ -13,52 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class ResponseGetServicesListener implements Response.Listener<String>
+public class ResponseGetServicesListener extends ResponseGetListener implements Response.Listener<String>
 {
-    private final Activity activity;
-    private final boolean isForLogin;
-
     public ResponseGetServicesListener(Activity activity)
     {
-        this.activity = activity;
-        this.isForLogin = true;
-    }
-
-    public ResponseGetServicesListener(Activity activity, boolean isForLogin)
-    {
-        this.activity = activity;
-        this.isForLogin = isForLogin;
-    }
-
-    private void CheckForActivityOpening()
-    {
-        if (!isForLogin)
-        {
-            activity.finish();
-            return;
-        }
-
-        boolean canContinue = true;
-
-        if (DataHolder.getInstance().services == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().car == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().malfunctions == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().records == null)
-            canContinue = false;
-
-        if (canContinue)
-        {
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
-        }
+        super(activity);
     }
 
     @Override
@@ -77,7 +38,19 @@ public class ResponseGetServicesListener implements Response.Listener<String>
                 DataHolder.getInstance().services.add(service);
             }
 
-            CheckForActivityOpening();
+            DataHolder.getInstance().services.sort(new Comparator<Service>()
+            {
+                @Override
+                public int compare(Service o1, Service o2)
+                {
+                    if (o1.getDateHappened().isEqual(o2.getDateHappened()))
+                        return 0;
+
+                    return o1.getDateHappened().isBefore(o2.getDateHappened())? -1 : 1;
+                }
+            });
+
+            handleActivity();
         }
         catch (JSONException e)
         {

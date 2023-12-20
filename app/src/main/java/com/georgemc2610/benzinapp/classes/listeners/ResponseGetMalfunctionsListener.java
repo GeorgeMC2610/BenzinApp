@@ -13,52 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class ResponseGetMalfunctionsListener implements Response.Listener<String>
+public class ResponseGetMalfunctionsListener extends ResponseGetListener implements Response.Listener<String>
 {
-    private final Activity activity;
-    private final boolean isForLogin;
-
     public ResponseGetMalfunctionsListener(Activity activity)
     {
-        this.activity = activity;
-        this.isForLogin = true;
-    }
-
-    public ResponseGetMalfunctionsListener(Activity activity, boolean isForLogin)
-    {
-        this.activity = activity;
-        this.isForLogin = isForLogin;
-    }
-
-    private void CheckForActivityOpening()
-    {
-        if (!isForLogin)
-        {
-            activity.finish();
-            return;
-        }
-
-        boolean canContinue = true;
-
-        if (DataHolder.getInstance().services == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().car == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().malfunctions == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().records == null)
-            canContinue = false;
-
-        if (canContinue)
-        {
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
-        }
+        super(activity);
     }
 
     @Override
@@ -77,7 +38,19 @@ public class ResponseGetMalfunctionsListener implements Response.Listener<String
                 DataHolder.getInstance().malfunctions.add(malfunction);
             }
 
-            CheckForActivityOpening();
+            DataHolder.getInstance().malfunctions.sort(new Comparator<Malfunction>()
+            {
+                @Override
+                public int compare(Malfunction o1, Malfunction o2)
+                {
+                    if (o1.getStarted().isEqual(o2.getStarted()))
+                        return 0;
+
+                    return o1.getStarted().isBefore(o2.getStarted())? -1 : 1;
+                }
+            });
+
+            handleActivity();
         }
         catch (JSONException e)
         {

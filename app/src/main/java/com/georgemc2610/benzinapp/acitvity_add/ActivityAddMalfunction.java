@@ -19,7 +19,7 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.util.Calendar;
 
-public class ActivityAddMalfunction extends AppCompatActivity implements Response.Listener<String>
+public class ActivityAddMalfunction extends AppCompatActivity
 {
     EditText titleView, descriptionView, atKmView;
     TextView dateView;
@@ -168,13 +168,6 @@ public class ActivityAddMalfunction extends AppCompatActivity implements Respons
         String date = dateView.getText().toString().trim();
 
         // send the data to the cloud
-        RequestHandler.getInstance().AddMalfunction(this, this, at_km, title, description, date);
-    }
-
-    @Override
-    public void onResponse(String response)
-    {
-        Toast.makeText(this, getString(R.string.toast_record_added), Toast.LENGTH_LONG).show();
-        finish();
+        RequestHandler.getInstance().AddMalfunction(this, at_km, title, description, date);
     }
 }

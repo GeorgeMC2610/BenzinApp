@@ -192,7 +192,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             malfunction.setEnded(null);
         }
 
-        RequestHandler.getInstance().EditMalfunction(this, this, malfunction);
+        RequestHandler.getInstance().EditMalfunction(this, malfunction);
     }
 
     @Override

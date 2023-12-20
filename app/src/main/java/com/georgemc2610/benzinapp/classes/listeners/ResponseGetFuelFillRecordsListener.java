@@ -18,52 +18,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class ResponseGetFuelFillRecordsListener implements Response.Listener<String>
+public class ResponseGetFuelFillRecordsListener extends ResponseGetListener implements Response.Listener<String>
 {
-    private final Activity activity;
-
     public ResponseGetFuelFillRecordsListener(Activity activity)
     {
-        this.activity = activity;
+        super(activity);
     }
-
-    private void CheckForActivityOpening()
-    {
-
-        if (activity.getLocalClassName().matches(".*(?:add|edit).*"))
-        {
-            activity.finish();
-            return;
-        }
-        else if (activity.getLocalClassName().equals("MainActivity"))
-        {
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.recreate();
-            return;
-        }
-
-        boolean canContinue = true;
-
-        if (DataHolder.getInstance().services == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().car == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().malfunctions == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().records == null)
-            canContinue = false;
-
-        if (canContinue)
-        {
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
-        }
-    }
-
 
     @Override
     public void onResponse(String response)
@@ -93,7 +53,7 @@ public class ResponseGetFuelFillRecordsListener implements Response.Listener<Str
                 }
             });
 
-            CheckForActivityOpening();
+            handleActivity();
         }
         catch (JSONException e)
         {

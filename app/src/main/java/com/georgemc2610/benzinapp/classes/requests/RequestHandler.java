@@ -559,170 +559,6 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddMalfunction(Activity activity, Response.Listener<String> listener, String at_km, String title, String description, String date_happened)
-    {
-        // request Queue required, to send the request.
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // malfunctions url.
-        String url = _URL + "/malfunction";
-
-        StringRequest request = new StringRequest(Request.Method.POST, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 422)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // this adds parameters to the request.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                // required parameters don't need integrity check
-                params.put("at_km", at_km);
-                params.put("title", title);
-                params.put("description", description);
-                params.put("started", date_happened);
-
-                return params;
-            }
-        };
-
-        requestQueue.add(request);
-    }
-
-    public void DeleteMalfunction(Activity activity, int id)
-    {
-        // request queue to push the request
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // correct url
-        String url = _URL + "/malfunction/" + id;
-
-        StringRequest request = new StringRequest(Request.Method.DELETE, url, response ->
-        {
-            Toast.makeText(activity, activity.getString(R.string.toast_record_deleted), Toast.LENGTH_LONG).show();
-
-        }, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_unexpected_error), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-        };
-
-        requestQueue.add(request);
-    }
-
-    public void EditMalfunction(Activity activity, Response.Listener<String> listener, Malfunction malfunction)
-    {
-        // request queue to push the request
-        requestQueue = Volley.newRequestQueue(activity);
-
-        // correct url
-        String url = _URL + "/malfunction/" + malfunction.getId();
-
-        // PATCH request to add fuel fill record
-        StringRequest request = new StringRequest(Request.Method.PATCH, url, listener, error ->
-        {
-            if (error.networkResponse == null)
-                return;
-
-            // and test for different failures.
-            if (error.networkResponse.statusCode == 401)
-            {
-                Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            // this authenticates the user using his token.
-            @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            // put the parameters as they are provided.
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<>();
-
-                // for every parameter, check for its integrity. If there is none, then don't add it to the parameters.
-                if (malfunction.getTitle() != null)
-                    params.put("title", malfunction.getTitle());
-
-                if (malfunction.getDescription() != null)
-                    params.put("description", malfunction.getDescription());
-
-                if (malfunction.getStarted() != null)
-                    params.put("started", malfunction.getStarted().toString());
-
-                if (malfunction.getAt_km() != 0)
-                    params.put("at_km", String.valueOf(malfunction.getAt_km()));
-
-                if (malfunction.getCost() != 0f)
-                    params.put("cost_eur", String.valueOf(malfunction.getCost()));
-                else
-                    params.put("cost_eur", "null");
-
-                if (malfunction.getEnded() != null)
-                    params.put("ended", malfunction.getEnded().toString());
-                else
-                    params.put("ended", "null");
-
-                return params;
-            }
-        };
-
-        // execute the request.
-        requestQueue.add(request);
-    }
-
     public void EditService(Activity activity, Response.Listener<String> listener, Service service)
     {
         // request queue to push the request
@@ -787,6 +623,77 @@ public class RequestHandler
                 return params;
             }
         };
+
+        // execute the request.
+        requestQueue.add(request);
+    }
+
+    public void AddMalfunction(Activity activity, String at_km, String title, String description, String started)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // parameters of a malfunction
+        Map<String, String> params = new HashMap<>();
+        params.put("at_km", at_km);
+        params.put("title", title);
+        params.put("description", description);
+        params.put("started", started);
+
+        // correct URL
+        String url = _URL + "/malfunction";
+
+        // POST request to add malfunctions
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
+        {
+            // listener for when the data have been posted successfully.
+            // no need to close the activity, because `AssignData` will refresh the data and will close it whenever they are ready.
+            AssignData(activity, DataSelector.MALFUNCTIONS);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_added), Toast.LENGTH_SHORT).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
+
+        // execute the request.
+        requestQueue.add(request);
+    }
+
+    public void DeleteMalfunction(Activity activity, int id)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/malfunction/" + id;
+
+        BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
+        {
+            AssignData(activity, DataSelector.MALFUNCTIONS);
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity));
+
+        requestQueue.add(request);
+    }
+
+    public void EditMalfunction(Activity activity, Malfunction malfunction)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // correct url
+        String url = _URL + "/malfunction/" + malfunction.getId();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("title", malfunction.getTitle());
+        params.put("description", malfunction.getDescription());
+        params.put("started", malfunction.getStarted().toString());
+        params.put("at_km", String.valueOf(malfunction.getAt_km()));
+        params.put("cost_eur", String.valueOf(malfunction.getCost()));
+        params.put("ended", malfunction.getEnded().toString());
+
+        // PATCH request to add fuel fill record
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
+        {
+            AssignData(activity, DataSelector.MALFUNCTIONS);
+            Toast.makeText(activity, activity.getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute the request.
         requestQueue.add(request);
