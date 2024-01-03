@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class ActivityAddService extends AppCompatActivity
         nextKm = findViewById(R.id.editTextServiceNextKm);
         costEur = findViewById(R.id.editTextServiceCost);
         notes = findViewById(R.id.editTextServiceDescription);
-        location = findViewById(R.id.textViewServiceLocation);
+        location = findViewById(R.id.textViewServiceLocationPicked);
         date = findViewById(R.id.textViewServiceDatePicked);
 
         // action bar
@@ -59,6 +60,17 @@ public class ActivityAddService extends AppCompatActivity
         {
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+        String location = preferences.getString("picked_location", null);
+
+        if (location != null)
+            this.location.setText(location);
     }
 
     @Override

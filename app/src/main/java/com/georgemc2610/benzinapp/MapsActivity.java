@@ -32,7 +32,8 @@ import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
 import java.io.IOException;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
+{
 
     private GoogleMap mMap;
     private LatLng SelectedLocation;
@@ -42,7 +43,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private ActivityMapsBinding binding;
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -56,10 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
-        // get the location manager ready and add a listener when the user's location is changed.
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         // initialize the selected location with null and disable the send data button.
         SelectedLocation = null;
@@ -77,28 +73,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setTrafficEnabled(true);
         mMap.setBuildingsEnabled(true);
 
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        {
-            geocoder.getFromLocationName("Tilou 4, Gerakas", 5, addresses -> {
-                if (!addresses.isEmpty())
-                {
-                    Address address = addresses.get(0);
-                    runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 25f));
-                        }
-                    });
-
-                }
-            });
-        }
-
         // add listener for long press
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener()
         {
@@ -107,8 +81,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 // select the location.
                 SelectedLocation = latLng;
-
-
 
                 // set the button to be enabled.
                 SendDataButton.setEnabled(true);
@@ -128,19 +100,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void SelectLocation(View v)
     {
         // save the location and pass it to the previous activity.
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull Location location)
-    {
-        if (!cameraMoved)
-        {
-            cameraMoved = true;
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomBy(5f));
-        }
+        SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String position = SelectedLocation.latitude + ", " + SelectedLocation.longitude;
+        editor.putString("picked_location", position);
+        editor.apply();
+        finish();
     }
 }
