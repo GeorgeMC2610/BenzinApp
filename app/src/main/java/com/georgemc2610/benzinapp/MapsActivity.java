@@ -84,16 +84,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // select the location.
                 selectedLocation = latLng;
 
-                // set the button to be enabled.
-                SendDataButton.setEnabled(true);
-
-                // add the marker and remove the previous one.
-                if (marker != null)
-                    marker.remove();
-
-                marker = mMap.addMarker(new MarkerOptions().position(latLng));
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 {
                     geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new Geocoder.GeocodeListener()
@@ -101,10 +91,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         @Override
                         public void onGeocode(@NonNull List<Address> addresses)
                         {
-                            for (Address address : addresses)
+                            if (addresses.isEmpty())
                             {
-                                System.out.println(address.toString());
+                                System.out.println("No addresses found.");
+                                return;
                             }
+
+                            assignMarkerAndData(addresses.get(0));
                         }
                     });
                 }
@@ -139,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return;
                     }
 
+                    selectedAddress = addresses.get(0);
                     assignMarkerAndData(addresses.get(0));
                 }
             });
