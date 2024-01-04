@@ -44,9 +44,9 @@ public class ErrorLoginListener implements Response.ErrorListener
         {
             Toast.makeText(activity, activity.getString(R.string.toast_invalid_credentials), Toast.LENGTH_LONG).show();
         }
-        else
+        else if (error.networkResponse.statusCode == 422)
         {
-            Toast.makeText(activity, "Something else went wrong.", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
         }
     }
 }
