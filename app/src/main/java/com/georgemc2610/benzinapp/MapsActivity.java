@@ -1,46 +1,36 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Handler;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
 {
 
     private GoogleMap mMap;
-    private LatLng SelectedLocation;
+    private Address selectedAddress;
+    private LatLng selectedLocation;
     private Geocoder geocoder;
     private Marker marker;
     private Button SendDataButton;
@@ -64,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         // initialize the selected location with null and disable the send data button.
-        SelectedLocation = null;
+        selectedLocation = null;
 
         SendDataButton = findViewById(R.id.button_maps_send);
         searchView = findViewById(R.id.search_view_maps);
@@ -92,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapLongClick(@NonNull LatLng latLng)
             {
                 // select the location.
-                SelectedLocation = latLng;
+                selectedLocation = latLng;
 
                 // set the button to be enabled.
                 SendDataButton.setEnabled(true);
@@ -127,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // save the location and pass it to the previous activity.
         SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        String position = SelectedLocation.latitude + ", " + SelectedLocation.longitude;
+        String position = selectedLocation.latitude + ", " + selectedLocation.longitude;
         editor.putString("picked_location", position);
         editor.apply();
         finish();
@@ -143,37 +133,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onGeocode(@NonNull List<Address> addresses)
                 {
-                    for (Address address : addresses)
+                    if (addresses.isEmpty())
                     {
-                        // select the location.
-                        SelectedLocation = new LatLng(address.getLatitude(), address.getLongitude());
-
-                        System.out.println(address);
-                        runOnUiThread(new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                // set the button to be enabled.
-                                SendDataButton.setEnabled(true);
-
-                                // add the marker and remove the previous one.
-                                if (marker != null)
-                                    marker.remove();
-
-                                marker = mMap.addMarker(new MarkerOptions().position(SelectedLocation));
-
-                                if (marker != null)
-                                {
-                                    marker.setTitle(address.getAddressLine(0));
-                                    marker.showInfoWindow();
-                                }
-
-
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SelectedLocation, 17f));
-                            }
-                        });
+                        System.out.println("No addresses found.");
+                        return;
                     }
+
+                    assignMarkerAndData(addresses.get(0));
                 }
             });
         }
@@ -185,5 +151,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onQueryTextChange(String newText)
     {
         return false;
+    }
+
+    private void assignMarkerAndData(Address address)
+    {
+        // select the location.
+        selectedLocation = new LatLng(address.getLatitude(), address.getLongitude());
+
+        // print the address of the select location.
+        System.out.println(address);
+
+        // geocode might not be running on the main thread, so we
+        // run it on the UI Thread in order to tamper with the buttons and/or other views.
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                // set the button to be enabled.
+                SendDataButton.setEnabled(true);
+
+                // add the marker and remove the previous one.
+                if (marker != null)
+                    marker.remove();
+
+                marker = mMap.addMarker(new MarkerOptions().position(selectedLocation));
+
+                // show the marker's title
+                if (marker != null)
+                {
+                    marker.setTitle(address.getAddressLine(0));
+                    marker.showInfoWindow();
+                }
+
+                // animate the camera to zoom into the place.
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 17f));
+            }
+        });
     }
 }
