@@ -48,5 +48,9 @@ public class ErrorLoginListener implements Response.ErrorListener
         {
             Toast.makeText(activity, activity.getString(R.string.toast_session_ended), Toast.LENGTH_LONG).show();
         }
+        else
+        {
+            Toast.makeText(activity, "Something else went wrong. Please check the logs.", Toast.LENGTH_LONG).show();
+        }
     }
 }
