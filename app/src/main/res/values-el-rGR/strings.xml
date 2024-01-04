@@ -108,4 +108,5 @@
     <string name="tab_malfunctions">ΒΛΑΒΕΣ</string>
     <string name="tab_services">ΣΕΡΒΙΣ</string>
     <string name="setting_fast_login">Γρήγορη Σύνδεση</string>
+    <string name="text_view_maps_hint">Για να επιλέξετε μέρος, πατήστε παρατεταμένα στον χάρτη ή γράψτε μία διεύθυνση.</string>
 </resources>
