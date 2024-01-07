@@ -46,6 +46,9 @@ public class Service implements Serializable
             else
                 service.setCost(-1f);
 
+            if (!jsonObject.get("location").equals("null") || !jsonObject.getString("location").isEmpty())
+                service.setLocation(jsonObject.getString("location"));
+
             if (!jsonObject.getString("next_km").equals("null"))
                 service.setNextKm(jsonObject.getInt("at_km"));
             else

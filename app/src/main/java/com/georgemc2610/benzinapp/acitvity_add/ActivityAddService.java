@@ -31,6 +31,7 @@ public class ActivityAddService extends AppCompatActivity
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
     TextView location, date;
+    String coordinates, address;
     int mYear, mMonth, mDay;
 
     @Override
@@ -71,8 +72,8 @@ public class ActivityAddService extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
 
         // retrieve the selected address and location
-        String location = preferences.getString("picked_location", null);
-        String address = preferences.getString("picked_address", null);
+        coordinates = preferences.getString("picked_location", null);
+        address = preferences.getString("picked_address", null);
 
         if (location != null)
             this.location.setText(address);
@@ -162,8 +163,10 @@ public class ActivityAddService extends AppCompatActivity
         String next_km = nextKm.getText().toString().trim();
         String cost_eur = costEur.getText().toString().trim();
         String description = notes.getText().toString().trim();
-        String locationString = location.getText().toString().trim();
         String date_happened = date.getText().toString().trim();
+
+        // update the location string.
+        String locationString = address == null || coordinates == null? null : address + "|" + coordinates;
 
         // send it to the cloud.
         RequestHandler.getInstance().AddService(this, at_km, cost_eur, description, locationString, date_happened, next_km);
@@ -201,8 +204,10 @@ public class ActivityAddService extends AppCompatActivity
         if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            // request permission if not granted.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_location_required));
+            builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityAddService.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
+            builder.show();
         }
         else
         {

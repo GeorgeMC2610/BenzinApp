@@ -19,6 +19,7 @@ import java.util.Locale;
 public class ActivityDisplayService extends AppCompatActivity
 {
     TextView atKmView, costView, dateHappenedView, descriptionView, nextAtKmView, locationView;
+    String location;
     Service service;
 
     @Override
@@ -50,7 +51,27 @@ public class ActivityDisplayService extends AppCompatActivity
         // optional views data
         costView.setText(service.getCost() == 0f? "-" : "€" + numberFormat.format(service.getCost()));
         nextAtKmView.setText(service.getNextKm() == 0? "-" : numberFormat.format(service.getNextKm()) + " " + getString(R.string.km_short));
-        locationView.setText("Not supported yet.");
+        locationView.setText(service.getLocation());
+
+        if (service.getLocation() != null && !service.getLocation().isEmpty())
+        {
+            if (service.getLocation().contains("|"))
+            {
+                String[] locationSplit = service.getLocation().split("\\|");
+
+                locationView.setText(locationSplit[0]);
+                location = locationSplit[1];
+            }
+            else
+            {
+                locationView.setText(service.getLocation());
+                location = null;
+                // eventually the show on map function will be disabled.
+            }
+        }
+        else
+            locationView.setText("-");
+
 
         // action bar with back button and correct title name.
         try
