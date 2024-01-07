@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
@@ -91,15 +94,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         @Override
                         public void onGeocode(@NonNull List<Address> addresses)
                         {
+                            // upon retrieving the addresses, check if the list is empty.
                             if (addresses.isEmpty())
                             {
-                                System.out.println("No addresses found.");
+                                // if it is, show the message to the user.
+                                runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+
                                 return;
                             }
 
-                            assignMarkerAndData(addresses.get(0));
+                            assignMarkerAndData(addresses.get(0), latLng);
                         }
                     });
+                }
+                else
+                {
+                    try
+                    {
+                        List<Address> addresses = geocoder.getFromLocationName(searchView.getQuery().toString(), 10);
+
+                        if (!addresses.isEmpty())
+                            assignMarkerAndData(addresses.get(0), null);
+                        else
+                            Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (IOException e)
+                    {
+                        System.err.println("Something went wrong while trying to get the addresses: \n" + e.getMessage());
+                    }
                 }
             }
         });
@@ -107,11 +129,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void SelectLocation(View v)
     {
-        // save the location and pass it to the previous activity.
+        // shared preferences to pass the location and address.
         SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+
+        // save position and address from the selected location.
         String position = selectedLocation.latitude + ", " + selectedLocation.longitude;
+        String address = selectedAddress.getAddressLine(0);
+
+        // put the strings in shared preferences.
         editor.putString("picked_location", position);
+        editor.putString("picked_address", address);
+
+        // apply edits and close activity.
         editor.apply();
         finish();
     }
@@ -119,23 +149,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onQueryTextSubmit(String query)
     {
+        // this bit of code doesn't exist in earlier SDKs.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
+            // attempt to get all the addresses based on the search view text.
             geocoder.getFromLocationName(searchView.getQuery().toString(), 10, new Geocoder.GeocodeListener()
             {
                 @Override
                 public void onGeocode(@NonNull List<Address> addresses)
                 {
+                    // upon retrieving the addresses, check if the list is empty.
                     if (addresses.isEmpty())
                     {
-                        System.out.println("No addresses found.");
+                        // if it is, show the message to the user.
+                        runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+
                         return;
                     }
 
-                    selectedAddress = addresses.get(0);
-                    assignMarkerAndData(addresses.get(0));
+                    // otherwise spawn a marker on the map.
+                    assignMarkerAndData(addresses.get(0), null);
                 }
             });
+        }
+        else
+        {
+            try
+            {
+                List<Address> addresses = geocoder.getFromLocationName(searchView.getQuery().toString(), 10);
+
+                if (!addresses.isEmpty())
+                    assignMarkerAndData(addresses.get(0), null);
+                else
+                    Toast.makeText(this, "No addresses found.", Toast.LENGTH_SHORT).show();
+            }
+            catch (IOException e)
+            {
+                System.err.println("Something went wrong while trying to get the addresses: \n" + e.getMessage());
+            }
         }
 
         return false;
@@ -147,10 +198,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
 
-    private void assignMarkerAndData(Address address)
+    private void assignMarkerAndData(Address address, @Nullable LatLng location)
     {
-        // select the location.
-        selectedLocation = new LatLng(address.getLatitude(), address.getLongitude());
+        // if the location is picked directly by the marker, then don't change the selected location.
+        // this is done to be more precise with the coordinates.
+        if (location == null)
+            selectedLocation = new LatLng(address.getLatitude(), address.getLongitude());
+
+        selectedAddress = address;
 
         // print the address of the select location.
         System.out.println(address);

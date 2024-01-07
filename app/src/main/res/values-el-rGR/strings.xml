@@ -109,4 +109,6 @@
     <string name="tab_services">ΣΕΡΒΙΣ</string>
     <string name="setting_fast_login">Γρήγορη Σύνδεση</string>
     <string name="text_view_maps_hint">Για να επιλέξετε μέρος, πατήστε παρατεταμένα στον χάρτη ή γράψτε μία διεύθυνση.</string>
+    <string name="title_add_service">Προσθήκη Σέρβις</string>
+    <string name="title_add_malfunction">Προσθήκη Βλάβης</string>
 </resources>

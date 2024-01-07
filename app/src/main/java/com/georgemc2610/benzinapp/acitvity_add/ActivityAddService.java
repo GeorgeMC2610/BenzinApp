@@ -53,7 +53,7 @@ public class ActivityAddService extends AppCompatActivity
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Add Service");
+            getSupportActionBar().setTitle(getString(R.string.title_add_service));
         }
         // if anything goes wrong, print it out.
         catch (Exception e)
@@ -66,11 +66,16 @@ public class ActivityAddService extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+
+        // get the locations using shared preferences
         SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+        // retrieve the selected address and location
         String location = preferences.getString("picked_location", null);
+        String address = preferences.getString("picked_address", null);
 
         if (location != null)
-            this.location.setText(location);
+            this.location.setText(address);
     }
 
     @Override
@@ -203,5 +208,22 @@ public class ActivityAddService extends AppCompatActivity
         {
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        // delete the picked locations and addresses when the activity closes.
+        SharedPreferences preferencesLocation = getSharedPreferences("location", MODE_PRIVATE);
+        SharedPreferences.Editor locationEditor = preferencesLocation.edit();
+
+        // set the corresponding string values to null.
+        locationEditor.putString("picked_location", null);
+        locationEditor.putString("picked_address", null);
+
+        // apply edits before closing.
+        locationEditor.apply();
     }
 }
