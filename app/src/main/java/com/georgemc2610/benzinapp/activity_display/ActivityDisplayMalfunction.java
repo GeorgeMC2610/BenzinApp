@@ -50,7 +50,7 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
 
         // set optional views content
         endedView.setText(malfunction.getEnded() == null? "-" : malfunction.getEnded().toString());
-        costView.setText(malfunction.getCost() == 0f? "-" : String.valueOf(malfunction.getCost()));
+        costView.setText(malfunction.getCost() == -1f? "-" : "€" + numberFormat.format(malfunction.getCost()));
 
         // action bar with back button and correct title name.
         try
