@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp.activity_edit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -188,7 +189,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         }
         else
         {
-            malfunction.setCost(0f);
+            malfunction.setCost(-1f);
             malfunction.setEnded(null);
         }
 

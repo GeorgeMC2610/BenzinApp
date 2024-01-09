@@ -509,14 +509,23 @@ public class RequestHandler
         // request queue to push the request
         requestQueue = Volley.newRequestQueue(activity);
 
-        // parameters of a malfunction
+        // required parameters of a malfunction.
         Map<String, String> params = new HashMap<>();
         params.put("title", malfunction.getTitle());
         params.put("description", malfunction.getDescription());
         params.put("started", malfunction.getStarted().toString());
         params.put("at_km", String.valueOf(malfunction.getAt_km()));
-        params.put("cost_eur", String.valueOf(malfunction.getCost()));
-        params.put("ended", malfunction.getEnded().toString());
+
+        // optional parameters require an integrity check.
+        if (malfunction.getCost() == -1f)
+            params.put("cost_eur", "");
+        else
+            params.put("cost_eur", String.valueOf(malfunction.getCost()));
+
+        if (malfunction.getEnded() == null)
+            params.put("ended", "");
+        else
+            params.put("ended", malfunction.getEnded().toString());
 
         // correct url
         String url = _URL + "/malfunction/" + malfunction.getId();
