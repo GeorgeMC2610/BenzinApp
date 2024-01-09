@@ -113,4 +113,6 @@
     <string name="title_add_service">Add Service</string>
     <string name="title_add_malfunction">Add Malfunction</string>
     <string name="dialog_location_required">In order to use this feature, you will be asked to grant access to your location. Once you grant it, you may press the button again to pick an address or location in the map.</string>
+    <string name="button_delete_location">Delete Location</string>
+    <string name="dialog_select_new_location_confirm">By selecting a new location, you will discard the old one. Are you sure you want to do that?</string>
 </resources>

@@ -1,8 +1,14 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.MapsActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.acitvity_add.ActivityAddService;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
@@ -65,6 +73,7 @@ public class ActivityEditService extends AppCompatActivity
         nextKmView.setText(service.getNextKm() == -1f? "" :  String.valueOf(service.getNextKm()));
         costView.setText(service.getCost() == -1f? "" : String.valueOf(service.getCost()));
         datePickedView.setText(service.getDateHappened().toString());
+        locationView.setText(service.getLocation() == null? getString(R.string.text_view_select_location) : service.getLocation());
     }
 
     public void PickDate(View view)
@@ -127,5 +136,39 @@ public class ActivityEditService extends AppCompatActivity
 
         // send request with applied edits.
         RequestHandler.getInstance().EditService(this, service);
+    }
+
+    public void OnSelectLocationClicked(View v)
+    {
+        if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_location_required));
+            builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityEditService.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
+            builder.show();
+        }
+
+        if (service.getLocation() != null)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_select_new_location_confirm));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+            });
+        }
+
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void OnDeleteLocationClicked(View v)
+    {
+
     }
 }
