@@ -76,8 +76,11 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
     {
         malfunctionsLinearLayout.removeAllViews();
 
-        for (Malfunction malfunction : DataHolder.getInstance().malfunctions)
+        for (int i = DataHolder.getInstance().malfunctions.size() - 1; i >= 0; i--)
         {
+            // get the malfunction object.
+            Malfunction malfunction = DataHolder.getInstance().malfunctions.get(i);
+
             // get the card view
             View v = inflater.inflate(R.layout.cardview_malfunction, null);
 
