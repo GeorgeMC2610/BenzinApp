@@ -169,6 +169,17 @@ public class ActivityEditService extends AppCompatActivity
 
     public void OnDeleteLocationClicked(View v)
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_location_deletion_confirmation);
+        builder.setCancelable(true);
 
+        builder.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                locationView.setText();
+            }
+        });
     }
 }

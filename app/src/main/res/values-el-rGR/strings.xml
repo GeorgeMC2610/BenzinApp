@@ -114,4 +114,5 @@
     <string name="dialog_location_required">Για να χρησιμοποιήσετε αυτήν την υπηρεσία, θα σας ζητηθεί να δώσετε πρόσβαση στην τοποθεσία σας. Εφ\' όσον τη δώσετε, πατήστε πάλι το κουμπί της επιλογής τοποθεσίας, ώστε να επιλέξετε σημείο στο χάρτη.</string>
     <string name="button_delete_location">Διαγραφή Τοποθεσίας</string>
     <string name="dialog_select_new_location_confirm">Επιλέγοντας μία νέα τοποθεσία, σημαίνει ότι η παλιά θα διαγραφεί. Είστε σίγουρος ότι θέλετε να το κάνετε αυτό;</string>
+    <string name="dialog_location_deletion_confirmation">Είστε σίγουρος ότι θέλετε να διαγράψετε την τοποθεσία;</string>
 </resources>
