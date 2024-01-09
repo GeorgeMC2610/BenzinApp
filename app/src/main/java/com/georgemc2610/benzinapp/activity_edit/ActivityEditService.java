@@ -23,7 +23,7 @@ public class ActivityEditService extends AppCompatActivity
 {
     Service service;
     EditText atKmView, descView, nextKmView, costView;
-    TextView datePickedView;
+    TextView datePickedView, locationView;
     int mMonth, mYear, mDay;
 
     @Override
@@ -52,15 +52,18 @@ public class ActivityEditService extends AppCompatActivity
         nextKmView = findViewById(R.id.editTextEditServiceNextKm);
         costView = findViewById(R.id.editTextEditServiceCost);
         datePickedView = findViewById(R.id.textViewEditServiceDatePicked);
+        locationView = findViewById(R.id.textViewEditServiceLocationPicked);
 
         // get the fuel fill record passed to edit.
         service = (Service) getIntent().getSerializableExtra("service");
 
-        // set the views' texts
+        // set the views' required texts
         atKmView.setText(String.valueOf(service.getAtKm()));
         descView.setText(service.getDescription());
-        nextKmView.setText(String.valueOf(service.getNextKm()));
-        costView.setText(String.valueOf(service.getCost()));
+
+        // set the views' optional texts
+        nextKmView.setText(service.getNextKm() == -1f? "" :  String.valueOf(service.getNextKm()));
+        costView.setText(service.getCost() == -1f? "" : String.valueOf(service.getCost()));
         datePickedView.setText(service.getDateHappened().toString());
     }
 
@@ -113,12 +116,12 @@ public class ActivityEditService extends AppCompatActivity
 
         // optional data can be null
         if (costView.getText().toString().trim().isEmpty())
-            service.setCost(0f);
+            service.setCost(-1f);
         else
             service.setCost(Float.parseFloat(costView.getText().toString().trim()));
 
         if (nextKmView.getText().toString().trim().isEmpty())
-            service.setNextKm(0);
+            service.setNextKm(-1);
         else
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 

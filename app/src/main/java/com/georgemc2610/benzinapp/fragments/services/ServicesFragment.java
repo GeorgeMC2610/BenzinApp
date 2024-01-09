@@ -139,8 +139,11 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
     {
         servicesLinearLayout.removeAllViews();
 
-        for (Service service : DataHolder.getInstance().services)
+        for (int i = DataHolder.getInstance().services.size() - 1; i >= 0; i--)
         {
+            // retrieve the service.
+            Service service = DataHolder.getInstance().services.get(i);
+
             // get the card view
             View v = inflater.inflate(R.layout.cardview_service, null);
 
@@ -156,15 +159,11 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
             FloatingActionButton editButton = v.findViewById(R.id.card_service_button_edit);
 
             // set click listener for when the card is clicked
-            v.setOnClickListener(new View.OnClickListener()
+            v.setOnClickListener(v1 ->
             {
-                @Override
-                public void onClick(View v)
-                {
-                    Intent intent = new Intent(inflater.getContext(), ActivityDisplayService.class);
-                    intent.putExtra("service", service);
-                    inflater.getContext().startActivity(intent);
-                }
+                Intent intent = new Intent(inflater.getContext(), ActivityDisplayService.class);
+                intent.putExtra("service", service);
+                inflater.getContext().startActivity(intent);
             });
 
             // card view button listeners
@@ -225,12 +224,12 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
     @Override
     public void onTabUnselected(TabLayout.Tab tab)
     {
-        System.out.println("TAB UNSELECTED: " + tab.getText());
+
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab)
     {
-        System.out.println("TAB RESELECTED: " + tab.getText());
+
     }
 }
