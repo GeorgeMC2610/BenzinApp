@@ -118,4 +118,5 @@
     <string name="dialog_location_deletion_confirmation">Are you sure you want to delete this location?</string>
     <string name="title_edit_service">Edit Service Data</string>
     <string name="title_edit_malfunction">Edit Malfunction Data</string>
+    <string name="title_activity_maps_display_point">MapsDisplayPointActivity</string>
 </resources>
