@@ -75,7 +75,7 @@ public class ActivityAddService extends AppCompatActivity
         coordinates = preferences.getString("picked_location", null);
         address = preferences.getString("picked_address", null);
 
-        if (location != null)
+        if (coordinates != null)
             this.location.setText(address);
     }
 

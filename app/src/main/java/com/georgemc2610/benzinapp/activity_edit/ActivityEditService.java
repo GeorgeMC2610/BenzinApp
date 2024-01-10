@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class ActivityEditService extends AppCompatActivity
 {
     Service service;
     EditText atKmView, descView, nextKmView, costView;
+    String coordinates, address;
     TextView datePickedView, locationView;
     int mMonth, mYear, mDay;
 
@@ -112,6 +114,22 @@ public class ActivityEditService extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        // get the locations using shared preferences
+        SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+        // retrieve the selected address and location
+        coordinates = preferences.getString("picked_location", null);
+        address = preferences.getString("picked_address", null);
+
+        if (coordinates != null)
+            locationView.setText(address);
+    }
+
     public void OnButtonApplyEditsClicked(View v)
     {
         // set the object's data.
@@ -179,18 +197,27 @@ public class ActivityEditService extends AppCompatActivity
 
     public void OnDeleteLocationClicked(View v)
     {
+        // alert dialog for location delete confirmation.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setMessage(R.string.dialog_location_deletion_confirmation);
         builder.setCancelable(true);
-
-        builder.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener()
+        builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                locationView.setText(R.string.text_view_select_location);
+            // set the location view to be default.
+            locationView.setText(R.string.text_view_select_location);
 
-            }
+            // edit shared preferences to remove the picked_address and picked_location values.
+            SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+            // put null in each of these values.
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("picked_location", null);
+            editor.putString("picked_address", null);
+            editor.apply();
         });
+
+        builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
+        builder.show();
     }
 }
