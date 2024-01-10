@@ -198,7 +198,7 @@
                 android:layout_height="56dp"
                 android:backgroundTint="#FF0000"
                 android:ems="10"
-                android:hint="@string/button_select_location"
+                android:hint="@string/button_delete_location"
                 android:onClick="OnDeleteLocationClicked"
                 android:tag="additional"
                 android:visibility="gone"

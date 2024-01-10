@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="@string/not_yet_supported"
+                android:text="@string/text_view_select_location"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
