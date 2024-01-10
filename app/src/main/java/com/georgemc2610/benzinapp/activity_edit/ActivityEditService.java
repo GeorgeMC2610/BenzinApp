@@ -229,4 +229,21 @@ public class ActivityEditService extends AppCompatActivity
         builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
         builder.show();
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        // delete the picked locations and addresses when the activity closes.
+        SharedPreferences preferencesLocation = getSharedPreferences("location", MODE_PRIVATE);
+        SharedPreferences.Editor locationEditor = preferencesLocation.edit();
+
+        // set the corresponding string values to null.
+        locationEditor.putString("picked_location", null);
+        locationEditor.putString("picked_address", null);
+
+        // apply edits before closing.
+        locationEditor.apply();
+    }
 }

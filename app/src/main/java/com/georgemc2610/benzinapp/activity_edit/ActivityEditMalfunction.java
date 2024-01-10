@@ -233,11 +233,15 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         {
             malfunction.setCost(Float.parseFloat(costView.getText().toString().trim()));
             malfunction.setEnded(LocalDate.parse(dateEndedView.getText().toString().trim()));
+
+            if (address != null && coordinates != null)
+                malfunction.setLocation(address + '|' + coordinates);
         }
         else
         {
             malfunction.setCost(-1f);
             malfunction.setEnded(null);
+            malfunction.setLocation(null);
         }
 
         RequestHandler.getInstance().EditMalfunction(this, malfunction);
@@ -317,5 +321,22 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        // delete the picked locations and addresses when the activity closes.
+        SharedPreferences preferencesLocation = getSharedPreferences("location", MODE_PRIVATE);
+        SharedPreferences.Editor locationEditor = preferencesLocation.edit();
+
+        // set the corresponding string values to null.
+        locationEditor.putString("picked_location", null);
+        locationEditor.putString("picked_address", null);
+
+        // apply edits before closing.
+        locationEditor.apply();
     }
 }

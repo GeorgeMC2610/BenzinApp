@@ -533,6 +533,11 @@ public class RequestHandler
         else
             params.put("ended", malfunction.getEnded().toString());
 
+        if (malfunction.getLocation() == null || malfunction.getLocation().isEmpty())
+            params.put("location", "");
+        else
+            params.put("location", malfunction.getLocation());
+
         // correct url
         String url = _URL + "/malfunction/" + malfunction.getId();
 
