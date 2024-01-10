@@ -45,7 +45,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_edit_record));
+            getSupportActionBar().setTitle(R.string.title_edit_malfunction);
         }
         // if anything goes wrong, print it out.
         catch (Exception e)

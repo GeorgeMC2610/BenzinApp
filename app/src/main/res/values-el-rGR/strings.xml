@@ -115,4 +115,6 @@
     <string name="button_delete_location">Διαγραφή Τοποθεσίας</string>
     <string name="dialog_select_new_location_confirm">Επιλέγοντας μία νέα τοποθεσία, σημαίνει ότι η παλιά θα διαγραφεί. Είστε σίγουρος ότι θέλετε να το κάνετε αυτό;</string>
     <string name="dialog_location_deletion_confirmation">Είστε σίγουρος ότι θέλετε να διαγράψετε την τοποθεσία;</string>
+    <string name="title_edit_service">Επεξεργασία Στοιχείων Σέρβις</string>
+    <string name="title_edit_malfunction">Επεξεργασία Στοιχείων Βλάβης</string>
 </resources>
