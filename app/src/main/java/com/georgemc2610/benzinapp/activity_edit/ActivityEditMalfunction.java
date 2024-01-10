@@ -236,6 +236,8 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
             if (address != null && coordinates != null)
                 malfunction.setLocation(address + '|' + coordinates);
+            else
+                malfunction.setLocation(null);
         }
         else
         {
