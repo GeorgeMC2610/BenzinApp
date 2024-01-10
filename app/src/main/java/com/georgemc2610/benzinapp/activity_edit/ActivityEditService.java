@@ -126,7 +126,7 @@ public class ActivityEditService extends AppCompatActivity
         coordinates = preferences.getString("picked_location", null);
         address = preferences.getString("picked_address", null);
 
-        if (coordinates != null)
+        if (coordinates != null && address != null)
             locationView.setText(address);
     }
 

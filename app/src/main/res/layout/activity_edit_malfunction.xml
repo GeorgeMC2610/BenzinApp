@@ -199,7 +199,7 @@
                 android:backgroundTint="#FF0000"
                 android:ems="10"
                 android:hint="@string/button_select_location"
-                android:onClick="OnSelectLocationClicked"
+                android:onClick="OnDeleteLocationClicked"
                 android:tag="additional"
                 android:visibility="gone"
                 app:icon="@android:drawable/ic_delete" />

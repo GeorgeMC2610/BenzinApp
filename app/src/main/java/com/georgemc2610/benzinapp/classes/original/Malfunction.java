@@ -10,7 +10,7 @@ public class Malfunction implements Serializable
 {
     private int id, at_km;
     private float cost;
-    private String title, description;
+    private String title, description, location;
     private LocalDate started, ended;
 
     public Malfunction(int id, int at_km, String title, String description, LocalDate started)
@@ -50,6 +50,9 @@ public class Malfunction implements Serializable
 
             if (!jsonObject.getString("ended").equals("null"))
                 malfunction.setEnded(LocalDate.parse(jsonObject.getString("ended")));
+
+            if (!jsonObject.getString("location").equals("null") && !jsonObject.getString("location").isEmpty())
+                malfunction.setLocation(jsonObject.getString("location"));
 
             return malfunction;
         }
@@ -95,6 +98,11 @@ public class Malfunction implements Serializable
         return ended;
     }
 
+    public String getLocation()
+    {
+        return location;
+    }
+
     // SETTERS
 
     public void setAt_km(int at_km)
@@ -125,5 +133,10 @@ public class Malfunction implements Serializable
     public void setEnded(LocalDate ended)
     {
         this.ended = ended;
+    }
+
+    public void setLocation(String location)
+    {
+        this.location = location;
     }
 }

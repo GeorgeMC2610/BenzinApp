@@ -40,6 +40,15 @@ public class LoginActivity extends AppCompatActivity
         RequestHandler.Create();
         DataHolder.Create();
 
+        // remove the location picked preferences.
+        SharedPreferences preferencesLocation = getSharedPreferences("location", MODE_PRIVATE);
+
+        // put null in each of these values.
+        SharedPreferences.Editor editor = preferencesLocation.edit();
+        editor.putString("picked_location", null);
+        editor.putString("picked_address", null);
+        editor.apply();
+
         // get settings
         SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean defaultSettings = preferences.getBoolean("default_settings", true);

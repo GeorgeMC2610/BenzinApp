@@ -1,10 +1,19 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.MapsActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -30,6 +40,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
     private Malfunction malfunction;
+    private String address, coordinates;
     int mYear, mDay, mMonth;
 
 
@@ -79,12 +90,48 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         atKmView.setText(String.valueOf(malfunction.getAt_km()));
         dateStartedView.setText(malfunction.getStarted().toString());
 
+        // if the malfunction is fixed it MUST have additional data.
         if (malfunction.getEnded() != null)
         {
+            // the fixed check box at first gets ticked.
             fixedCheckBox.setChecked(true);
+
+            // and then all of the required data appear
             costView.setText(String.valueOf(malfunction.getCost()));
             dateEndedView.setText(malfunction.getEnded().toString());
+
+            // if the malfunction location exists...
+            if (malfunction.getLocation() != null && !malfunction.getLocation().isEmpty())
+            {
+                // it must be in the format: <address>|<coordinates>
+                if (malfunction.getLocation().contains("|"))
+                {
+                    // if it is, split it and get the coordinates and address.
+                    String[] locationSplit = malfunction.getLocation().split("\\|");
+                    locationPickedView.setText(locationSplit[0]);
+                }
+                else
+                {
+                    locationPickedView.setText(malfunction.getLocation());
+                }
+            }
         }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        // get the locations using shared preferences
+        SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+        // retrieve the selected address and location
+        coordinates = preferences.getString("picked_location", null);
+        address = preferences.getString("picked_address", null);
+
+        if (coordinates != null && address != null)
+            locationPickedView.setText(address);
     }
 
     public void PickDate(View view)
@@ -201,5 +248,74 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     {
         Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    public void OnSelectLocationClicked(View v)
+    {
+        // whenever the select location button is clicked, we must check two cases:
+        // the permission is granted.
+        if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_location_required));
+            builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityEditMalfunction.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
+            builder.show();
+        }
+
+        // the user actually wants to replace this location if it's already picked.
+        if (malfunction.getLocation() != null)
+        {
+            // create a dialog that informs them.
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_select_new_location_confirm));
+
+            // the YES button opens the google maps activity.
+            builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
+            {
+                Intent intent = new Intent(ActivityEditMalfunction.this, MapsActivity.class);
+                startActivity(intent);
+            });
+
+            // the no button cancels.
+            builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
+
+            builder.show();
+            return;
+        }
+
+        // in any other case, the maps activity can open regularly.
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void OnDeleteLocationClicked(View v)
+    {
+        // alert dialog for location delete confirmation.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.dialog_location_deletion_confirmation);
+        builder.setCancelable(true);
+        builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
+        {
+            // set the location view to be default.
+            locationPickedView.setText(R.string.text_view_select_location);
+
+            // edit shared preferences to remove the picked_address and picked_location values.
+            SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+            // put null in each of these values.
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("picked_location", null);
+            editor.putString("picked_address", null);
+            editor.apply();
+
+            // also nullify the values retrieved originally
+            address = null;
+            coordinates = null;
+        });
+
+        builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
+        builder.show();
     }
 }
