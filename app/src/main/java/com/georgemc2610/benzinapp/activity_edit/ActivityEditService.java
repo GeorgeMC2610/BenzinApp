@@ -48,7 +48,7 @@ public class ActivityEditService extends AppCompatActivity
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_edit_record));
+            getSupportActionBar().setTitle(R.string.title_edit_service);
         }
         // if anything goes wrong, print it out.
         catch (Exception e)
@@ -152,6 +152,11 @@ public class ActivityEditService extends AppCompatActivity
         else
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 
+        if (address == null || coordinates == null)
+            service.setLocation(null);
+        else
+            service.setLocation(address + '|' + coordinates);
+
         // send request with applied edits.
         RequestHandler.getInstance().EditService(this, service);
     }
@@ -215,6 +220,10 @@ public class ActivityEditService extends AppCompatActivity
             editor.putString("picked_location", null);
             editor.putString("picked_address", null);
             editor.apply();
+
+            // also nullify the values retrieved originally
+            address = null;
+            coordinates = null;
         });
 
         builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});

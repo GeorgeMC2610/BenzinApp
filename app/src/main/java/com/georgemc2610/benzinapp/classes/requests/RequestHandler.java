@@ -444,6 +444,12 @@ public class RequestHandler
         params.put("next_km", String.valueOf(service.getNextKm()));
         params.put("cost_eur", String.valueOf(service.getCost()));
 
+        // optional value requires integrity check
+        if (service.getLocation() == null)
+            params.put("location", "");
+        else
+            params.put("location", service.getLocation());
+
         // correct url
         String url = _URL + "/service/" + service.getId();
 
