@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -75,7 +77,14 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
                 locationView.setClickable(true);
                 locationView.setTextColor(Color.BLUE);
 
-                coordinates = locationSplit[1];
+                // once the location is clicked, then display the point marker.
+                locationView.setOnClickListener(v ->
+                {
+                    Intent intent = new Intent(ActivityDisplayMalfunction.this, MapsDisplayPointActivity.class);
+                    intent.putExtra("coordinates", locationSplit[1]);
+                    intent.putExtra("address", locationSplit[0]);
+                    startActivity(intent);
+                });
             }
             // if it's not, then the ability to see the location on the map will be disabled
             else
