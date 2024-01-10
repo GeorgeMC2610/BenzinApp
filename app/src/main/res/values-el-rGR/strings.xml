@@ -117,4 +117,5 @@
     <string name="dialog_location_deletion_confirmation">Είστε σίγουρος ότι θέλετε να διαγράψετε την τοποθεσία;</string>
     <string name="title_edit_service">Επεξεργασία Στοιχείων Σέρβις</string>
     <string name="title_edit_malfunction">Επεξεργασία Στοιχείων Βλάβης</string>
+    <string name="title_activity_maps_display_point">Προβολή Τοποθεσίας στον Χάρτη</string>
 </resources>

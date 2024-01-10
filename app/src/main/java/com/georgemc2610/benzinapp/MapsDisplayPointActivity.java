@@ -1,9 +1,11 @@
 package com.georgemc2610.benzinapp;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsDisplayPointBinding;
 
-public class MapsDisplayPointActivity extends FragmentActivity implements OnMapReadyCallback
+public class MapsDisplayPointActivity extends AppCompatActivity implements OnMapReadyCallback
 {
 
     private GoogleMap mMap;
@@ -33,9 +35,35 @@ public class MapsDisplayPointActivity extends FragmentActivity implements OnMapR
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // action bar with back button and correct title name.
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle(R.string.title_activity_maps_display_point); // TODO: Replace with string value
+        }
+        // if anything goes wrong, print it out.
+        catch (Exception e)
+        {
+            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
+        }
+
         // obtain the location coordinates and address to display the point on the screen.
         coordinates = (String) getIntent().getSerializableExtra("coordinates");
         address = (String) getIntent().getSerializableExtra("address");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -63,14 +91,8 @@ public class MapsDisplayPointActivity extends FragmentActivity implements OnMapR
 
         // create the marker based on the coordinates.
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
-
-        // if the marker gets created successfully
-        if (marker != null)
-        {
-            // add its title to be the address and show the window.
-            marker.setTitle(address);
-            marker.showInfoWindow();
-        }
+        marker.setTitle(address);
+        marker.showInfoWindow();
 
         // animate the camera to zoom in to the marker.
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));

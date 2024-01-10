@@ -83,8 +83,8 @@ public class ActivityDisplayService extends AppCompatActivity
                 locationView.setOnClickListener(v ->
                 {
                     Intent intent = new Intent(ActivityDisplayService.this, MapsDisplayPointActivity.class);
-                    intent.putExtra("coordinates", location);
-                    intent.putExtra("address", address);
+                    intent.putExtra("coordinates", locationSplit[1]);
+                    intent.putExtra("address", locationSplit[0]);
                     startActivity(intent);
                 });
             }
