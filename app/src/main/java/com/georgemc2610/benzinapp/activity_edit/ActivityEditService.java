@@ -140,6 +140,8 @@ public class ActivityEditService extends AppCompatActivity
 
     public void OnSelectLocationClicked(View v)
     {
+        // whenever the select location button is clicked, we must check two cases:
+        // the permission is granted.
         if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -149,20 +151,28 @@ public class ActivityEditService extends AppCompatActivity
             builder.show();
         }
 
+        // the user actually wants to replace this location if it's already picked.
         if (service.getLocation() != null)
         {
+            // create a dialog that informs them.
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(getString(R.string.dialog_select_new_location_confirm));
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
 
-                }
+            // the YES button opens the google maps activity.
+            builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
+            {
+                Intent intent = new Intent(ActivityEditService.this, MapsActivity.class);
+                startActivity(intent);
             });
+
+            // the no button cancels.
+            builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
+
+            builder.show();
+            return;
         }
 
+        // in any other case, the maps activity can open regularly.
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
@@ -178,7 +188,8 @@ public class ActivityEditService extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                locationView.setText();
+                locationView.setText(R.string.text_view_select_location);
+
             }
         });
     }
