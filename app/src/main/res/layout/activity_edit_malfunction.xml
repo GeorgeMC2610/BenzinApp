@@ -111,52 +111,52 @@
                 android:id="@+id/textViewEditMalfunctionCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:visibility="gone"
-                android:tag="additional"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_cost" />
+                android:tag="additional"
+                android:text="@string/text_view_cost"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editTextEditMalfunctionCost"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:visibility="gone"
-                android:tag="additional"
                 android:hint="@string/edit_text_cost_hint"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:tag="additional"
+                android:visibility="gone" />
 
             <!-- DATE ENDED -->
             <TextView
                 android:id="@+id/textViewEditMalfunctionDateEnded"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:visibility="gone"
-                android:tag="additional"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_date_ended" />
+                android:tag="additional"
+                android:text="@string/text_view_date_ended"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewEditMalfunctionDateEndedPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:visibility="gone"
                 android:tag="additional"
                 android:text="@string/text_view_select_date"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonEditMalfunctionDateEnded"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:ems="10"
-                android:visibility="gone"
-                android:tag="additional"
-                android:hint="@string/edit_text_datetime_hint"
                 android:backgroundTint="#2DA2FF"
+                android:ems="10"
+                android:hint="@string/edit_text_datetime_hint"
                 android:onClick="PickDate"
+                android:tag="additional"
+                android:visibility="gone"
                 app:icon="@android:drawable/ic_menu_day" />
 
             <!-- LOCATION -->
@@ -164,34 +164,45 @@
                 android:id="@+id/textViewEditMalfunctionLocation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:visibility="gone"
-                android:tag="additional"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_location" />
+                android:tag="additional"
+                android:text="@string/text_view_location"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewEditMalfunctionLocationPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:visibility="gone"
                 android:tag="additional"
-                android:text="@string/not_yet_supported"
+                android:text="@string/text_view_select_location"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/buttonEditMalfunctionSelectLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:backgroundTint="#2DA2FF"
                 android:ems="10"
-                android:visibility="gone"
-                android:tag="additional"
-                android:backgroundTint="#999999"
-                android:enabled="false"
                 android:hint="@string/button_select_location"
                 android:onClick="OnSelectLocationClicked"
+                android:tag="additional"
+                android:visibility="gone"
                 app:icon="@android:drawable/ic_dialog_map" />
+
+            <Button
+                android:id="@+id/buttonEditMalfunctionDeleteLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:backgroundTint="#FF0000"
+                android:ems="10"
+                android:hint="@string/button_select_location"
+                android:onClick="OnSelectLocationClicked"
+                android:tag="additional"
+                android:visibility="gone"
+                app:icon="@android:drawable/ic_delete" />
 
         </LinearLayout>
 
