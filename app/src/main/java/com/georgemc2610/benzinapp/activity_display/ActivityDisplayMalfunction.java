@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +21,8 @@ import java.util.Locale;
 
 public class ActivityDisplayMalfunction extends AppCompatActivity
 {
-    TextView titleView, descriptionView, startedView, endedView, atKmView, costView;
+    TextView titleView, descriptionView, startedView, endedView, atKmView, costView, locationView;
+    String coordinates;
     Malfunction malfunction;
 
     @Override
@@ -38,6 +42,7 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         endedView = findViewById(R.id.text_view_display_malfunction_date_ended);
         atKmView = findViewById(R.id.text_view_display_malfunction_discovered_at_km);
         costView = findViewById(R.id.text_view_display_malfunction_cost);
+        locationView = findViewById(R.id.text_view_display_malfunction_location);
 
         // get the serializable object
         malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
@@ -51,6 +56,38 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         // set optional views content
         endedView.setText(malfunction.getEnded() == null? "-" : malfunction.getEnded().toString());
         costView.setText(malfunction.getCost() == -1f? "-" : "€" + numberFormat.format(malfunction.getCost()));
+
+        // if the malfunction location exists...
+        if (malfunction.getLocation() != null && !malfunction.getLocation().isEmpty())
+        {
+            // it must be in the format: <address>|<coordinates>
+            if (malfunction.getLocation().contains("|"))
+            {
+                // if it is, split it and get the coordinates and address.
+                String[] locationSplit = malfunction.getLocation().split("\\|");
+
+                // display the address and make it clickable.
+                SpannableString address = new SpannableString(locationSplit[0]);
+                address.setSpan(new UnderlineSpan(), 0, locationSplit[0].length(), 0);
+
+                // make the text clickable with an underline.
+                locationView.setText(address, TextView.BufferType.SPANNABLE);
+                locationView.setClickable(true);
+                locationView.setTextColor(Color.BLUE);
+
+                coordinates = locationSplit[1];
+            }
+            // if it's not, then the ability to see the location on the map will be disabled
+            else
+            {
+                // display the text as normal.
+                locationView.setText(malfunction.getLocation());
+                coordinates = null;
+            }
+        }
+        // otherwise if the location doesn't exist, then just show a dash.
+        else
+            locationView.setText("-");
 
         // action bar with back button and correct title name.
         try
