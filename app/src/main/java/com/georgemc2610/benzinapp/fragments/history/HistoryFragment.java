@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class HistoryFragment extends Fragment
     private FragmentHistoryBinding binding;
 
     FloatingActionButton ButtonAdd;
+    ImageView image;
     LinearLayout scrollViewLayout;
     LayoutInflater inflater;
     TextView hint, totalFuelFillRecords;
@@ -47,6 +49,9 @@ public class HistoryFragment extends Fragment
         // hint located in the downside of the cards.
         hint = root.findViewById(R.id.textViewClickCardsMsg);
 
+        // image view can have its visibility revoked if there are no entries.
+        image = root.findViewById(R.id.image_view_records_nothing);
+
         // scrollview layout for the cards.
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
         this.inflater = getLayoutInflater();
@@ -55,7 +60,12 @@ public class HistoryFragment extends Fragment
         totalFuelFillRecords = root.findViewById(R.id.text_view_history_total_fuel_fill_records);
 
         if (DataHolder.getInstance().records.isEmpty())
+        {
+            image.setVisibility(View.VISIBLE);
             totalFuelFillRecords.setVisibility(View.GONE);
+            hint.setVisibility(View.GONE);
+            scrollViewLayout.setVisibility(View.GONE);
+        }
         else if (DataHolder.getInstance().records.size() == 1)
             totalFuelFillRecords.setText(R.string.text_view_one_record);
         else
