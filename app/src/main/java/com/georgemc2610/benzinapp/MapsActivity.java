@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
@@ -27,6 +28,7 @@ import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
 {
@@ -38,8 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private Button SendDataButton;
     private SearchView searchView;
-    private boolean cameraMoved = false;
-    private LocationManager locationManager;
     private ActivityMapsBinding binding;
 
     @Override
@@ -64,6 +64,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         searchView.setOnQueryTextListener(this);
 
+
+
+
         // testing the geocoder attribute.
         geocoder = new Geocoder(this);
     }
@@ -79,49 +82,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setBuildingsEnabled(true);
 
         // add listener for long press
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener()
+        mMap.setOnMapLongClickListener(latLng ->
         {
-            @Override
-            public void onMapLongClick(@NonNull LatLng latLng)
+            // select the location.
+            selectedLocation = latLng;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             {
-                // select the location.
-                selectedLocation = latLng;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new Geocoder.GeocodeListener()
                 {
-                    geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new Geocoder.GeocodeListener()
+                    @Override
+                    public void onGeocode(@NonNull List<Address> addresses)
                     {
-                        @Override
-                        public void onGeocode(@NonNull List<Address> addresses)
+                        // upon retrieving the addresses, check if the list is empty.
+                        if (addresses.isEmpty())
                         {
-                            // upon retrieving the addresses, check if the list is empty.
-                            if (addresses.isEmpty())
-                            {
-                                // if it is, show the message to the user.
-                                runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                            // if it is, show the message to the user.
+                            runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
 
-                                return;
-                            }
-
-                            assignMarkerAndData(addresses.get(0), latLng);
+                            return;
                         }
-                    });
-                }
-                else
-                {
-                    try
-                    {
-                        List<Address> addresses = geocoder.getFromLocationName(searchView.getQuery().toString(), 10);
 
-                        if (!addresses.isEmpty())
-                            assignMarkerAndData(addresses.get(0), null);
-                        else
-                            Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                        assignMarkerAndData(addresses.get(0), latLng);
                     }
-                    catch (IOException e)
-                    {
-                        System.err.println("Something went wrong while trying to get the addresses: \n" + e.getMessage());
-                    }
+                });
+            }
+            else
+            {
+                try
+                {
+                    List<Address> addresses = geocoder.getFromLocationName(searchView.getQuery().toString(), 10);
+
+                    if (!addresses.isEmpty())
+                        assignMarkerAndData(addresses.get(0), null);
+                    else
+                        Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                }
+                catch (IOException e)
+                {
+                    System.err.println("Something went wrong while trying to get the addresses: \n" + e.getMessage());
                 }
             }
         });
@@ -153,23 +152,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
             // attempt to get all the addresses based on the search view text.
-            geocoder.getFromLocationName(searchView.getQuery().toString(), 10, new Geocoder.GeocodeListener()
+            geocoder.getFromLocationName(searchView.getQuery().toString(), 10, addresses ->
             {
-                @Override
-                public void onGeocode(@NonNull List<Address> addresses)
+                // upon retrieving the addresses, check if the list is empty.
+                if (addresses.isEmpty())
                 {
-                    // upon retrieving the addresses, check if the list is empty.
-                    if (addresses.isEmpty())
-                    {
-                        // if it is, show the message to the user.
-                        runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                    // if it is, show the message to the user.
+                    runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
 
-                        return;
-                    }
-
-                    // otherwise spawn a marker on the map.
-                    assignMarkerAndData(addresses.get(0), null);
+                    return;
                 }
+
+                // otherwise spawn a marker on the map.
+                assignMarkerAndData(addresses.get(0), null);
             });
         }
         else
@@ -212,30 +207,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // geocode might not be running on the main thread, so we
         // run it on the UI Thread in order to tamper with the buttons and/or other views.
-        runOnUiThread(new Runnable()
+        runOnUiThread(() ->
         {
-            @Override
-            public void run()
+            // set the button to be enabled.
+            SendDataButton.setEnabled(true);
+
+            // add the marker and remove the previous one.
+            if (marker != null)
+                marker.remove();
+
+            marker = mMap.addMarker(new MarkerOptions().position(selectedLocation));
+
+            // show the marker's title
+            if (marker != null)
             {
-                // set the button to be enabled.
-                SendDataButton.setEnabled(true);
-
-                // add the marker and remove the previous one.
-                if (marker != null)
-                    marker.remove();
-
-                marker = mMap.addMarker(new MarkerOptions().position(selectedLocation));
-
-                // show the marker's title
-                if (marker != null)
-                {
-                    marker.setTitle(address.getAddressLine(0));
-                    marker.showInfoWindow();
-                }
-
-                // animate the camera to zoom into the place.
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 17f));
+                marker.setTitle(address.getAddressLine(0));
+                marker.showInfoWindow();
             }
+
+            // animate the camera to zoom into the place.
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 17f));
         });
     }
 }
