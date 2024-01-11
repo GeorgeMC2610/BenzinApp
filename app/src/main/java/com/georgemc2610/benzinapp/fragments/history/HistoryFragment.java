@@ -32,7 +32,7 @@ public class HistoryFragment extends Fragment
     FloatingActionButton ButtonAdd;
     LinearLayout scrollViewLayout;
     LayoutInflater inflater;
-    TextView hint;
+    TextView hint, totalFuelFillRecords;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -50,6 +50,16 @@ public class HistoryFragment extends Fragment
         // scrollview layout for the cards.
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
         this.inflater = getLayoutInflater();
+
+        // text view with total fuel fill records
+        totalFuelFillRecords = root.findViewById(R.id.text_view_history_total_fuel_fill_records);
+
+        if (DataHolder.getInstance().records.isEmpty())
+            totalFuelFillRecords.setVisibility(View.GONE);
+        else if (DataHolder.getInstance().records.size() == 1)
+            totalFuelFillRecords.setText(R.string.text_view_one_record);
+        else
+            totalFuelFillRecords.setText(DataHolder.getInstance().records.size() + getString(R.string.text_view_total_records));
 
         // scrollable cards.
         createCards();

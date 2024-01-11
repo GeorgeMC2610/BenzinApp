@@ -118,4 +118,6 @@
     <string name="title_edit_service">Επεξεργασία Στοιχείων Σέρβις</string>
     <string name="title_edit_malfunction">Επεξεργασία Στοιχείων Βλάβης</string>
     <string name="title_activity_maps_display_point">Προβολή Τοποθεσίας στον Χάρτη</string>
+    <string name="text_view_total_records">" συνολικά γεμίσματα."</string>
+    <string name="text_view_one_record">Μόλις ένα γέμισμα. Μόνο του και μοναχικό...</string>
 </resources>

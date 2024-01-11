@@ -119,4 +119,6 @@
     <string name="title_edit_service">Edit Service Data</string>
     <string name="title_edit_malfunction">Edit Malfunction Data</string>
     <string name="title_activity_maps_display_point">Display Point on Map</string>
+    <string name="text_view_total_records">" total records."</string>
+    <string name="text_view_one_record">Only one, singular, lonely record...</string>
 </resources>

@@ -23,13 +23,15 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="538dp"
         android:layout_marginBottom="142dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.033">
+        app:layout_constraintVertical_bias="0.5">
 
         <LinearLayout
             android:id="@+id/historyFragment_linearLayoutScrollView"
@@ -49,5 +51,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.882" />
+
+    <TextView
+        android:id="@+id/text_view_history_total_fuel_fill_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x Total Fuel Fill Records"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
