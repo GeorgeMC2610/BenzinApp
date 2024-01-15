@@ -601,5 +601,8 @@ public class RequestHandler
             AssignData(activity, DataSelector.REPEATED_TRIPS);
             Toast.makeText(activity, "Successfully deleted repeated trips", Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity));
+
+        // execute request.
+        requestQueue.add(request);
     }
 }
