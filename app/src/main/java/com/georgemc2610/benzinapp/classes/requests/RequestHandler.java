@@ -215,7 +215,7 @@ public class RequestHandler
         ResponseGetFuelFillRecordsListener recordsListener      = new ResponseGetFuelFillRecordsListener(activity);
         ResponseGetMalfunctionsListener    malfunctionsListener = new ResponseGetMalfunctionsListener(activity);
         ResponseGetServicesListener        servicesListener     = new ResponseGetServicesListener(activity);
-        ResponseGetRepeatedTripsListener   tripsListener        = new ResponseGetRepeatedTripsListener(activity)
+        ResponseGetRepeatedTripsListener   tripsListener        = new ResponseGetRepeatedTripsListener(activity);
 
         // url and listeners for car.
         String car_url           = _URL + "/car";
