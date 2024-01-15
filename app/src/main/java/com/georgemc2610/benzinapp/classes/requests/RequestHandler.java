@@ -549,7 +549,7 @@ public class RequestHandler
         // correct url
         String url = _URL + "/malfunction/" + malfunction.getId();
 
-        // PATCH request to add fuel fill record
+        // PATCH request to edit malfunction
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
         {
             AssignData(activity, DataSelector.MALFUNCTIONS);
@@ -557,6 +557,33 @@ public class RequestHandler
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute the request.
+        requestQueue.add(request);
+    }
+
+    public void AddRepeatedTrip(Activity activity, String title, String origin, String destination, int timesRepeating, float totalKm)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // parameters of a repeated trip. All parameters are required.
+        Map<String, String> params = new HashMap<>();
+        params.put("title", title);
+        params.put("origin", origin);
+        params.put("destination", destination);
+        params.put("times_repeating", String.valueOf(timesRepeating));
+        params.put("total_km", String.valueOf(totalKm));
+
+        // correct url
+        String url = _URL + "/repeated_trip";
+
+        // POST request to add repeated trip
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
+        {
+            AssignData(activity, DataSelector.REPEATED_TRIPS);
+            Toast.makeText(activity, "New Repeated Trip added successfully.", Toast.LENGTH_LONG).show(); // TODO: remove hardcoded string.
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
+
+        // execute request.
         requestQueue.add(request);
     }
 }
