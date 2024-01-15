@@ -28,6 +28,7 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseGetRepeatedTripsList
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
 import org.json.JSONException;
@@ -601,6 +602,33 @@ public class RequestHandler
             AssignData(activity, DataSelector.REPEATED_TRIPS);
             Toast.makeText(activity, "Successfully deleted repeated trips", Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity));
+
+        // execute request.
+        requestQueue.add(request);
+    }
+
+    public void EditRepeatedTrip(Activity activity, RepeatedTrip trip)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // url of a specific repeated trip
+        String url = _URL + "/repeated_trip/" + trip.getId();
+
+        // parameters of a repeated trip. All parameters are required, no need for integrity check.
+        Map<String, String> params = new HashMap<>();
+        params.put("title", trip.getTitle());
+        params.put("origin", trip.getOrigin());
+        params.put("destination", trip.getDestination());
+        params.put("times_repeating", String.valueOf(trip.getTimesRepeating()));
+        params.put("total_km", String.valueOf(trip.getTotalKm()));
+
+        // POST request to add repeated trip
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
+        {
+            AssignData(activity, DataSelector.REPEATED_TRIPS);
+            Toast.makeText(activity, "Trip modified successfully", Toast.LENGTH_LONG).show(); // TODO: remove hardcoded string.
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute request.
         requestQueue.add(request);
