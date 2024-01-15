@@ -216,10 +216,11 @@ public class RequestHandler
         ResponseGetServicesListener        servicesListener     = new ResponseGetServicesListener(activity);
 
         // url and listeners for car.
-        String car_url = _URL + "/car";
-        String record_url = _URL + "/fuel_fill_record";
-        String malfunction_url = _URL + "/malfunction";
-        String service_url = _URL + "/service";
+        String car_url           = _URL + "/car";
+        String record_url        = _URL + "/fuel_fill_record";
+        String malfunction_url   = _URL + "/malfunction";
+        String service_url       = _URL + "/service";
+        String repeated_trip_url = _URL + "/repeated_trip";
 
         // the request. In the login Activity, we don't need listeners inside the of the Activity.
         BenzinappStringRequest requestCar = new BenzinappStringRequest(Request.Method.GET, car_url, carInfoListener, errorTokenRequiredListener, GetToken(activity));
@@ -244,6 +245,9 @@ public class RequestHandler
                 break;
             case SERVICES:
                 requestQueue.add(requestServices);
+                break;
+            case REPEATED_TRIPS:
+
                 break;
         }
     }

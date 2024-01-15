@@ -3,7 +3,9 @@ package com.georgemc2610.benzinapp.classes.original;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RepeatedTrip
+import java.io.Serializable;
+
+public class RepeatedTrip implements Serializable
 {
     private int id, timesRepeating;
     private String title, origin, destination;
@@ -20,6 +22,13 @@ public class RepeatedTrip
         this.totalKm = totalKm;
     }
 
+    /**
+     * Generates a {@link RepeatedTrip} object from a String JSON Response. Since
+     * there are no optional parameters, everything gets retrieved and goes straight
+     * to the object.
+     * @param jsonObject The String JSON Response that generates the RepeatedTrip object.
+     * @return The RepeatedTrip object with all its data.
+     */
     public static RepeatedTrip GetRepeatedTripFromJson(JSONObject jsonObject)
     {
         try
