@@ -24,6 +24,7 @@ import com.georgemc2610.benzinapp.classes.listeners.ErrorTokenRequiredListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetCarInfoListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
+import com.georgemc2610.benzinapp.classes.listeners.ResponseGetRepeatedTripsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
@@ -214,6 +215,7 @@ public class RequestHandler
         ResponseGetFuelFillRecordsListener recordsListener      = new ResponseGetFuelFillRecordsListener(activity);
         ResponseGetMalfunctionsListener    malfunctionsListener = new ResponseGetMalfunctionsListener(activity);
         ResponseGetServicesListener        servicesListener     = new ResponseGetServicesListener(activity);
+        ResponseGetRepeatedTripsListener   tripsListener        = new ResponseGetRepeatedTripsListener(activity)
 
         // url and listeners for car.
         String car_url           = _URL + "/car";
@@ -227,6 +229,7 @@ public class RequestHandler
         BenzinappStringRequest requestRecords = new BenzinappStringRequest(Request.Method.GET, record_url, recordsListener, errorTokenRequiredListener, GetToken(activity));
         BenzinappStringRequest requestMalfunctions = new BenzinappStringRequest(Request.Method.GET, malfunction_url, malfunctionsListener, errorTokenRequiredListener, GetToken(activity));
         BenzinappStringRequest requestServices = new BenzinappStringRequest(Request.Method.GET, service_url, servicesListener, errorTokenRequiredListener, GetToken(activity));
+        BenzinappStringRequest requestRepeatedTrips = new BenzinappStringRequest(Request.Method.GET, repeated_trip_url, tripsListener, errorTokenRequiredListener, GetToken(activity));
 
         // push the requests.
         switch (selector)
@@ -236,6 +239,7 @@ public class RequestHandler
                 requestQueue.add(requestRecords);
                 requestQueue.add(requestMalfunctions);
                 requestQueue.add(requestServices);
+                requestQueue.add(requestRepeatedTrips);
                 break;
             case FUEL_FILL_RECORDS:
                 requestQueue.add(requestRecords);
@@ -247,7 +251,7 @@ public class RequestHandler
                 requestQueue.add(requestServices);
                 break;
             case REPEATED_TRIPS:
-
+                requestQueue.add(requestRepeatedTrips);
                 break;
         }
     }
