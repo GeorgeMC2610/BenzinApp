@@ -1,5 +1,8 @@
 package com.georgemc2610.benzinapp.classes.original;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RepeatedTrip
 {
     private int id, timesRepeating;
@@ -15,6 +18,26 @@ public class RepeatedTrip
         this.origin = origin;
         this.destination = destination;
         this.totalKm = totalKm;
+    }
+
+    public static RepeatedTrip GetRepeatedTripFromJson(JSONObject jsonObject)
+    {
+        try
+        {
+            // all of the data are required.
+            int id = jsonObject.getInt("id");
+            int timesRepeating = jsonObject.getInt("times_repeating");
+            float totalKm = (float) jsonObject.getDouble("total_km");
+            String title = jsonObject.getString("title");
+            String origin = jsonObject.getString("origin");
+            String destination = jsonObject.getString("destination");
+
+            return new RepeatedTrip(id, timesRepeating, title, origin, destination, totalKm);
+        }
+        catch (JSONException e)
+        {
+            return null;
+        }
     }
 
     public int getId()
