@@ -16,7 +16,7 @@
         android:theme="@style/Theme.BenzinApp"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityAddRepeatedTrip"
+            android:name=".acitvity_add.ActivityAddRepeatedTrip"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
