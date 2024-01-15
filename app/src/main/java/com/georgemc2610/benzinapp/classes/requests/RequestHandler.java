@@ -586,4 +586,20 @@ public class RequestHandler
         // execute request.
         requestQueue.add(request);
     }
+
+    public void DeleteRepeatedTrip(Activity activity, int id)
+    {
+        // request Queue required, to send the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // url of a specific repeated trip
+        String url = _URL + "/repeated_trip/" + id;
+
+        // DELETE request for repeated trip
+        BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
+        {
+            AssignData(activity, DataSelector.REPEATED_TRIPS);
+            Toast.makeText(activity, "Successfully deleted repeated trips", Toast.LENGTH_LONG).show();
+        }, new ErrorTokenRequiredListener(activity), GetToken(activity));
+    }
 }
