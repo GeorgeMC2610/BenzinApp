@@ -121,4 +121,12 @@
     <string name="title_activity_maps_display_point">Display Point on Map</string>
     <string name="text_view_total_records">" total records."</string>
     <string name="text_view_one_record">Only one, singular, lonely record...</string>
+    <string name="edit_text_repeated_trips_title_hint">E.g. \"School - Home\" or \"Trip to Thessaloniki\"...</string>
+    <string name="edit_text_repeated_trips_times_occurring">Times occurring in the week:</string>
+    <string name="edit_text_repeated_trips_times_occurring_hint">E.g. \"4\" or \"5\"...</string>
+    <string name="check_box_repeated_trips_not_repeating">This is a one-time trip.</string>
+    <string name="text_view_repeated_trips_origin_legend">Origin:</string>
+    <string name="text_view_repeated_trips_destination_legend">Destination:</string>
+    <string name="button_repeated_trips_select_origin">Tap to select origin...</string>
+    <string name="button_repeated_trips_select_destination">Tap to select destination...</string>
 </resources>

@@ -27,14 +27,14 @@
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:text="Title:" />
+                android:text="@string/text_view_title" />
 
             <EditText
                 android:id="@+id/repeated_trips_edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="E.g. 'School - Home'... "
+                android:hint="@string/edit_text_repeated_trips_title_hint"
                 android:inputType="numberDecimal" />
 
             <!-- TIMES OCCURRING -->
@@ -44,14 +44,14 @@
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:text="Times occurring in the week:" />
+                android:text="@string/edit_text_repeated_trips_times_occurring" />
 
             <EditText
                 android:id="@+id/repeated_trips_edit_text_times_repeating"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="E.g. 4 or 5..."
+                android:hint="@string/edit_text_repeated_trips_times_occurring_hint"
                 android:inputType="numberDecimal" />
 
             <!-- ONE TIME TRIP -->
@@ -59,7 +59,7 @@
                 android:id="@+id/repeated_trips_checkbox_not_repeating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is a one-time trip." />
+                android:text="@string/check_box_repeated_trips_not_repeating" />
 
             <!-- ORIGIN -->
             <TextView
@@ -114,7 +114,25 @@
                 android:hint="@string/button_select_location"
                 android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
-            
+
+            <!-- DESTINATION -->
+            <TextView
+                android:id="@+id/repeated_trips_text_view_kilometers_legend"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:text="Trip's total kilometers:" />
+
+            <TextView
+                android:id="@+id/repeated_trips_text_view_kilometers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="49 km"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </ScrollView>
