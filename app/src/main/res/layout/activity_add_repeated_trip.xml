@@ -115,7 +115,7 @@
                 android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
-            <!-- DESTINATION -->
+            <!-- TOTAL KM -->
             <TextView
                 android:id="@+id/repeated_trips_text_view_kilometers_legend"
                 android:layout_width="match_parent"
