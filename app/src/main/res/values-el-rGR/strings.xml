@@ -62,7 +62,7 @@
     <string name="graph_view_km_per_lt">χλμ/λίτρο συναρτήσει με τον χρόνο</string>
     <string name="graph_view_cost_per_km">κόστος/χλμ. συναρτήσει με τον χρόνο</string>
     <string name="text_view_no_data">Ανεπαρκή δεδομένα.</string>
-    <string name="title_repeated_trips">Επαναλαμβανόμενες Διαδρομές</string>
+    <string name="title_repeated_trips">Διαδρομές</string>
     <string name="title_services">Βλάβες/Σέρβις</string>
     <string name="toast_invalid_credentials">Λάθος username/κωδικός.</string>
     <string name="toast_username_already_taken">Αυτό το username χρησιμοποιείται ήδη.</string>
