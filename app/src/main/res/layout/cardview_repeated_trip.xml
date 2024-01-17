@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="110sp"
-                android:text="(Added on: <date>)"
+                android:text="(Added on: date)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
                 android:textSize="12sp"/>
