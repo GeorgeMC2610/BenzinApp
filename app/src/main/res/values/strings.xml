@@ -131,4 +131,5 @@
     <string name="button_repeated_trips_select_destination">Tap to select destination...</string>
     <string name="text_view_repeated_trips_km_legend">Trip\'s total kilometers:</string>
     <string name="title_add_trip">Add Trip</string>
+    <string name="text_view_card_trips_one_time">One-time trip.</string>
 </resources>
