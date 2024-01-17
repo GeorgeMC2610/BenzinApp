@@ -6,7 +6,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="125dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="5dp"
@@ -20,7 +20,7 @@
 
             <!-- ID -->
             <TextView
-                android:id="@+id/card_service_hidden_id"
+                android:id="@+id/card_trip_hidden_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -49,9 +49,9 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
-            <!-- TIMES PER WEEK -->
+            <!-- ONE TIME TRIP -->
             <TextView
-                android:id="@+id/card_service_cost"
+                android:id="@+id/card_trip_one_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -63,7 +63,7 @@
 
             <!-- COST PER WEEK -->
             <TextView
-                android:id="@+id/card_service_date"
+                android:id="@+id/card_trip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -74,7 +74,7 @@
 
             <!-- TOTAL KM -->
             <TextView
-                android:id="@+id/card_service_next_km"
+                android:id="@+id/card_trip_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -82,6 +82,18 @@
                 android:text="(Total km)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
+
+            <!-- ONE TIME TRIP -->
+            <TextView
+                android:id="@+id/card_trip_date_added"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="100sp"
+                android:text="(Added <date>)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#717171"
+                android:textSize="12sp"/>
 
             <!-- DELETE BUTTON -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -91,7 +103,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="65dp"
-                android:layout_marginBottom="21dp"
+                android:layout_marginBottom="32dp"
                 android:clickable="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
@@ -106,7 +118,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="9dp"
-                android:layout_marginBottom="21dp"
+                android:layout_marginBottom="32dp"
                 android:clickable="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
