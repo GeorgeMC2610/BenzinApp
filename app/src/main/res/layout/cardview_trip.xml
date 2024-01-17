@@ -61,9 +61,9 @@
                 android:textColor="#717171"
                 android:textSize="12sp"/>
 
-            <!-- COST PER WEEK -->
+            <!-- COST -->
             <TextView
-                android:id="@+id/card_trip_date"
+                android:id="@+id/card_trip_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -83,7 +83,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 
-            <!-- ONE TIME TRIP -->
+            <!-- DATE CREATED -->
             <TextView
                 android:id="@+id/card_trip_date_added"
                 android:layout_width="wrap_content"
