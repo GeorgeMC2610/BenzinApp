@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity
 {
@@ -84,7 +87,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity
                 }
                 else
                     finish();
-                
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
