@@ -4,15 +4,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class RepeatedTrip implements Serializable
 {
     private int id, timesRepeating;
     private String title, origin, destination;
     private float totalKm;
+
+    private LocalDate dateAdded;
     private float totalLt, totalCostEur;
 
-    private RepeatedTrip(int id, int timesRepeating, String title, String origin, String destination, float totalKm)
+    private RepeatedTrip(int id, int timesRepeating, String title, String origin, String destination, float totalKm, LocalDate dateAdded)
     {
         this.id = id;
         this.timesRepeating = timesRepeating;
@@ -20,6 +23,7 @@ public class RepeatedTrip implements Serializable
         this.origin = origin;
         this.destination = destination;
         this.totalKm = totalKm;
+        this.dateAdded = dateAdded;
     }
 
     /**
@@ -40,8 +44,9 @@ public class RepeatedTrip implements Serializable
             String title = jsonObject.getString("title");
             String origin = jsonObject.getString("origin");
             String destination = jsonObject.getString("destination");
+            LocalDate date = LocalDate.parse(jsonObject.getString("created_at"));
 
-            return new RepeatedTrip(id, timesRepeating, title, origin, destination, totalKm);
+            return new RepeatedTrip(id, timesRepeating, title, origin, destination, totalKm, date);
         }
         catch (JSONException e)
         {
@@ -102,5 +107,10 @@ public class RepeatedTrip implements Serializable
     public void setTotalKm(float totalKm)
     {
         this.totalKm = totalKm;
+    }
+
+    public LocalDate getDateAdded()
+    {
+        return dateAdded;
     }
 }
