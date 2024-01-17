@@ -68,7 +68,19 @@ public class RepeatedTripsFragment extends Fragment
                 TextView date = card.findViewById(R.id.card_trip_date_added);
                 TextView totalKm = card.findViewById(R.id.card_trip_km);
 
-                
+                // buttons.
+                FloatingActionButton delete = card.findViewById(R.id.card_trip_button_delete);
+                FloatingActionButton edit = card.findViewById(R.id.card_trip_button_edit);
+
+                // listeners for buttons.
+
+                // set view's actual values.
+                id.setText();
+                title.setText();
+                repeating.setText(R.string.text_view_card_trips_one_time);
+                cost.setText();
+                date.setText();
+                totalKm.setText();
             }
         }
     }
