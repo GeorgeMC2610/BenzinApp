@@ -53,10 +53,64 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity
         switch (item.getItemId())
         {
             case android.R.id.home:
-                finish();
+
+                if (isAnyFieldFilled())
+                {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+                    dialog.setTitle(getString(R.string.dialog_exit_confirmation_title));
+                    dialog.setMessage(getString(R.string.dialog_exit_confirmation_message));
+                    dialog.setCancelable(true);
+
+                    dialog.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            finish();
+                        }
+                    });
+
+                    dialog.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            // foo.
+                        }
+                    });
+
+                    dialog.create().show();
+                }
+                else
+                    finish();
+                
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isAnyFieldFilled()
+    {
+        if (isEditTextEmpty(title) || isEditTextEmpty(timesRepeating))
+            return true;
+
+        return !getFilteredViewSequence(origin).equals(getString(R.string.text_view_select_location)) || !getFilteredViewSequence(destination).equals(getString(R.string.text_view_select_location));
+    }
+
+    private boolean isEditTextEmpty(EditText editText)
+    {
+        return getFilteredViewSequence(editText).isEmpty();
+    }
+
+    private String getFilteredViewSequence(EditText editText)
+    {
+        return editText.getText().toString().trim();
+    }
+
+    private String getFilteredViewSequence(TextView textView)
+    {
+        return textView.getText().toString().trim();
     }
 }
