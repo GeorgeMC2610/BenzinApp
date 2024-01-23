@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditMalfunction;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditRepeatedTrip;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
@@ -84,13 +85,23 @@ public class CardEditButtonListener implements View.OnClickListener
     public void onClick(View v)
     {
         // depending on which constructor was called, the right activity should be redirected to.
-        if (servicesFragment == null)
+        if (historyFragment != null)
         {
             // if the services fragment is null, then there is absolutely no interference with a malfunction or a service.
             // open the edit record activity.
             Intent intent = new Intent(historyFragment.getContext(), ActivityEditRecord.class);
             intent.putExtra("record", record);
             historyFragment.startActivity(intent);
+            return;
+        }
+
+        // repeated trips fragment is not null means that the repeated trip fragment is opened.
+        if (repeatedTripsFragment != null)
+        {
+            // the user gets redirected to the correct activity.
+            Intent intent = new Intent(repeatedTripsFragment.getContext(), ActivityEditRepeatedTrip.class);
+            intent.putExtra("repeatedTrip", repeatedTrip);
+            repeatedTripsFragment.startActivity(intent);
             return;
         }
 
