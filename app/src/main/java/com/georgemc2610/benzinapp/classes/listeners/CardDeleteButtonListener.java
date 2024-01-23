@@ -85,8 +85,15 @@ public class CardDeleteButtonListener implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        // context gets called from either fragment.
-        Context context = historyFragment == null ? servicesFragment.getContext() : historyFragment.getContext();
+        // context gets called from any fragment.
+        Context context;
+
+        if (historyFragment != null)
+            context = historyFragment.getContext();
+        else if (servicesFragment != null)
+            context = servicesFragment.getContext();
+        else
+            context = repeatedTripsFragment.getContext();
 
         // create a dialog builder.
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
