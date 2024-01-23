@@ -114,6 +114,11 @@ public class CardDeleteButtonListener implements View.OnClickListener
                     // this is for the fuel fill records
                     RequestHandler.getInstance().DeleteFuelFillRecord(historyFragment.getActivity(), record.getId());
                 }
+                else if (repeatedTripsFragment != null)
+                {
+                    // this is for the repeated trips
+                    RequestHandler.getInstance().DeleteRepeatedTrip(repeatedTripsFragment.getActivity(), repeatedTrip.getId());
+                }
                 else
                 {
                     if (service != null)
