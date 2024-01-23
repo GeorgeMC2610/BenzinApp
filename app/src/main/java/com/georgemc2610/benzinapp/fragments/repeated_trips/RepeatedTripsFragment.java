@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddTripActivityListener;
+import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
+import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.databinding.FragmentRepeatedTripsBinding;
@@ -73,14 +75,16 @@ public class RepeatedTripsFragment extends Fragment
                 FloatingActionButton edit = card.findViewById(R.id.card_trip_button_edit);
 
                 // listeners for buttons.
+                delete.setOnClickListener(new CardDeleteButtonListener(this, trip));
+                edit.setOnClickListener(new CardEditButtonListener(this, trip));
 
                 // set view's actual values.
-                id.setText();
-                title.setText();
+                id.setText(String.valueOf(trip.getId()));
+                title.setText(trip.getTitle());
                 repeating.setText(R.string.text_view_card_trips_one_time);
-                cost.setText();
-                date.setText();
-                totalKm.setText();
+                cost.setText("");
+                date.setText(trip.getDateAdded().toString());
+                totalKm.setText(String.valueOf(trip.getTotalKm()));
             }
         }
     }
