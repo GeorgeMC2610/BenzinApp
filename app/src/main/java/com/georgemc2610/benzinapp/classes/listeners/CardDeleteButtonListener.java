@@ -8,9 +8,11 @@ import android.view.View;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 import com.georgemc2610.benzinapp.fragments.history.HistoryFragment;
+import com.georgemc2610.benzinapp.fragments.repeated_trips.RepeatedTripsFragment;
 import com.georgemc2610.benzinapp.fragments.services.ServicesFragment;
 
 /**
@@ -21,9 +23,11 @@ public class CardDeleteButtonListener implements View.OnClickListener
 {
     private final HistoryFragment historyFragment;
     private final ServicesFragment servicesFragment;
+    private final RepeatedTripsFragment repeatedTripsFragment;
     private final FuelFillRecord record;
     private final Service service;
     private final Malfunction malfunction;
+    private final RepeatedTrip repeatedTrip;
 
     // gets called from the record
     public CardDeleteButtonListener(HistoryFragment historyFragment, FuelFillRecord record)
@@ -34,6 +38,8 @@ public class CardDeleteButtonListener implements View.OnClickListener
         this.servicesFragment = null;
         this.malfunction = null;
         this.service = null;
+        this.repeatedTrip = null;
+        this.repeatedTripsFragment = null;
     }
 
     // gets called from the service
@@ -45,6 +51,8 @@ public class CardDeleteButtonListener implements View.OnClickListener
 
         this.record = null;
         this.historyFragment = null;
+        this.repeatedTrip = null;
+        this.repeatedTripsFragment = null;
     }
 
     // gets called from the malfunction
@@ -56,6 +64,21 @@ public class CardDeleteButtonListener implements View.OnClickListener
 
         this.record = null;
         this.historyFragment = null;
+        this.repeatedTrip = null;
+        this.repeatedTripsFragment = null;
+    }
+
+    // gets called from the repeated trip
+    public CardDeleteButtonListener(RepeatedTripsFragment repeatedTripsFragment, RepeatedTrip repeatedTrip)
+    {
+        this.repeatedTripsFragment = repeatedTripsFragment;
+        this.repeatedTrip = repeatedTrip;
+
+        this.record = null;
+        this.historyFragment = null;
+        this.service = null;
+        this.malfunction = null;
+        this.servicesFragment = null;
     }
 
 
