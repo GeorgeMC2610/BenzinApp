@@ -111,7 +111,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
-
+        timesRepeating.setText(isChecked? "1" : "");
+        timesRepeating.setEnabled(!isChecked);
     }
 
     private boolean isAnyFieldFilled()
