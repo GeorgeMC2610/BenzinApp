@@ -85,7 +85,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/button_repeated_trips_select_origin"
-                android:onClick="OnSelectLocationClicked"
+                android:onClick="onButtonSelectOriginClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- DESTINATION -->
@@ -112,7 +112,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/button_repeated_trips_select_destination"
-                android:onClick="OnSelectLocationClicked"
+                android:onClick="onButtonSelectDestinationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- TOTAL KM -->

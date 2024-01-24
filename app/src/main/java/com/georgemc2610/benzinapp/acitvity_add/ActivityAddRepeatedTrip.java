@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,7 +17,7 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 
-public class ActivityAddRepeatedTrip extends AppCompatActivity
+public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
@@ -35,6 +37,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity
         origin = findViewById(R.id.repeated_trips_text_view_origin);
         destination = findViewById(R.id.repeated_trips_text_view_destination);
         totalKm = findViewById(R.id.repeated_trips_text_view_kilometers);
+
+        isRepeating.setOnCheckedChangeListener(this);
 
         // action bar
         try
@@ -92,6 +96,22 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onButtonSelectOriginClicked(View v)
+    {
+
+    }
+
+    public void onButtonSelectDestinationClicked(View v)
+    {
+
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+
     }
 
     private boolean isAnyFieldFilled()
