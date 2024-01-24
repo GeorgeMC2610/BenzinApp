@@ -96,7 +96,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity
 
     private boolean isAnyFieldFilled()
     {
-        if (isEditTextEmpty(title) || isEditTextEmpty(timesRepeating))
+        if (!isEditTextEmpty(title) || !isEditTextEmpty(timesRepeating))
             return true;
 
         return !getFilteredViewSequence(origin).equals(getString(R.string.text_view_select_location)) || !getFilteredViewSequence(destination).equals(getString(R.string.text_view_select_location));
