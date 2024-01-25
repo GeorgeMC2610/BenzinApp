@@ -68,14 +68,14 @@
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:text="@string/text_view_repeated_trips_origin_legend" />
+                android:text="Trip:" />
 
             <TextView
                 android:id="@+id/repeated_trips_text_view_origin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="@string/text_view_select_location"
+                android:text="Make a trip..."
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -84,35 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/button_repeated_trips_select_origin"
-                android:onClick="onButtonSelectOriginClicked"
-                app:icon="@android:drawable/ic_dialog_map" />
-
-            <!-- DESTINATION -->
-            <TextView
-                android:id="@+id/repeated_trips_text_view_destination_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_repeated_trips_destination_legend" />
-
-            <TextView
-                android:id="@+id/repeated_trips_text_view_destination"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/text_view_select_location"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/repeated_trips_button_destination"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/button_repeated_trips_select_destination"
-                android:onClick="onButtonSelectDestinationClicked"
+                android:hint="Press to create a trip on the map..."
+                android:onClick="onButtonSelectTripClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- TOTAL KM -->
@@ -140,7 +113,7 @@
         android:id="@+id/button"
         android:layout_width="367dp"
         android:layout_height="66dp"
-        android:onClick="OnButtonAddClicked"
+        android:onClick="onButtonAddClicked"
         android:text="@string/button_add"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

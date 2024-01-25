@@ -35,7 +35,6 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         timesRepeating = findViewById(R.id.repeated_trips_edit_text_times_repeating);
         isRepeating = findViewById(R.id.repeated_trips_checkbox_not_repeating);
         origin = findViewById(R.id.repeated_trips_text_view_origin);
-        destination = findViewById(R.id.repeated_trips_text_view_destination);
         totalKm = findViewById(R.id.repeated_trips_text_view_kilometers);
 
         isRepeating.setOnCheckedChangeListener(this);
@@ -98,13 +97,16 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         }
     }
 
-    public void onButtonSelectOriginClicked(View v)
+    public void onButtonSelectTripClicked(View v)
     {
 
     }
 
-    public void onButtonSelectDestinationClicked(View v)
+    public void onButtonAddClicked(View v)
     {
+        if (!setErrors(title, timesRepeating))
+            return;
+
 
     }
 
@@ -136,5 +138,21 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     private String getFilteredViewSequence(TextView textView)
     {
         return textView.getText().toString().trim();
+    }
+
+    private boolean setErrors(EditText... texts)
+    {
+        boolean canContinue = true;
+
+        for (EditText editText: texts)
+        {
+            if (getFilteredViewSequence(editText).isEmpty())
+            {
+                editText.setError(getString(R.string.error_field_cannot_be_empty));
+                canContinue = false;
+            }
+        }
+
+        return canContinue;
     }
 }
