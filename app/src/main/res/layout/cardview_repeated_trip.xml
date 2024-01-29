@@ -108,7 +108,7 @@
 
             <!-- DELETE BUTTON -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_service_button_delete"
+                android:id="@+id/card_repeated_button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -123,7 +123,7 @@
 
             <!-- EDIT BUTTON -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/card_service_button_edit"
+                android:id="@+id/card_repeated_button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

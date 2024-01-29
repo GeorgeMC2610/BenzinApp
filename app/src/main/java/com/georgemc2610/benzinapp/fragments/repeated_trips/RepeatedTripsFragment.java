@@ -86,6 +86,33 @@ public class RepeatedTripsFragment extends Fragment
                 date.setText(trip.getDateAdded().toString());
                 totalKm.setText(String.valueOf(trip.getTotalKm()));
             }
+            else
+            {
+                // repeated trip card inflation
+                View card = inflater.inflate(R.layout.cardview_repeated_trip, null);
+
+                // text views.
+                TextView id = card.findViewById(R.id.card_repeated_trip_hidden_id);
+                TextView title = card.findViewById(R.id.card_repeated_trip_title);
+                TextView times = card.findViewById(R.id.card_repeated_trip_times);
+                TextView cost = card.findViewById(R.id.card_repeated_trip_cost);
+                TextView liters = card.findViewById(R.id.card_repeated_trip_lt);
+                TextView date = card.findViewById(R.id.card_repeated_trip_date);
+
+                // buttons.
+                FloatingActionButton delete = card.findViewById(R.id.card_repeated_button_delete);
+                FloatingActionButton edit = card.findViewById(R.id.card_repeated_button_edit);
+
+                // listeners for buttons.
+                delete.setOnClickListener(new CardDeleteButtonListener(this, trip));
+                edit.setOnClickListener(new CardEditButtonListener(this, trip));
+
+                // set views' actual values.
+                id.setText(String.valueOf(trip.getId()));
+                title.setText(trip.getTitle());
+                times.setText(trip.getTimesRepeating() + " times per week.");
+                //cost.setText();
+            }
         }
     }
 
