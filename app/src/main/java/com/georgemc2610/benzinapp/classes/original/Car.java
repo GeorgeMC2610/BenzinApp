@@ -41,7 +41,10 @@ public class Car
 
     public void calculateAverages()
     {
+        if (DataHolder.getInstance().records == null)
+            return;
 
+        // NaN values if the records are empty.
         if (DataHolder.getInstance().records.isEmpty())
         {
             averageLitersPer100Km = Float.NaN;

@@ -13,7 +13,6 @@ public class RepeatedTrip implements Serializable
     private float totalKm;
 
     private LocalDate dateAdded;
-    private float totalLt, totalCostEur;
 
     private RepeatedTrip(int id, int timesRepeating, String title, String origin, String destination, float totalKm, LocalDate dateAdded)
     {
@@ -52,6 +51,16 @@ public class RepeatedTrip implements Serializable
         {
             return null;
         }
+    }
+
+    public float getTotalLt(Car car)
+    {
+        return car.getAverageLitersPer100Km() * totalKm / 100;
+    }
+
+    public float getTotalCostEur(Car car)
+    {
+        return car.getAverageCostPerKm() * totalKm;
     }
 
     public int getId()
