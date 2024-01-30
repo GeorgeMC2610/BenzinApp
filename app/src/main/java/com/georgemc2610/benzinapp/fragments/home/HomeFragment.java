@@ -57,6 +57,9 @@ public class HomeFragment extends Fragment
         avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
         lineChart = root.findViewById(R.id.graph);
 
+        // calculate car averages
+        DataHolder.getInstance().car.calculateAverages();
+
         // all this just for the spinner
         spinner = root.findViewById(R.id.SpinnerOptions);
 
@@ -146,11 +149,6 @@ public class HomeFragment extends Fragment
             }
         });
 
-        // initialize values for average
-        float kilometerSum = 0;
-        float literSum = 0;
-        float costSum = 0;
-
         // get all the possible points
         for (FuelFillRecord record : DataHolder.getInstance().records)
         {
@@ -173,11 +171,6 @@ public class HomeFragment extends Fragment
             entriesLtPer100.add(entryLtPer100);
             entriesKmPerLt.add(entryKmPerLt);
             entriesCostPerKm.add(entryCostPerKm);
-
-            // add the sums for the averages.
-            kilometerSum += record.getKilometers();
-            literSum += record.getLiters();
-            costSum += record.getCost_eur();
         }
 
         // get line data set for liters per 100 km.
@@ -228,15 +221,10 @@ public class HomeFragment extends Fragment
         // and set the different colours
         lineChart.setData(lineDataLtPer100);
 
-        // calculate averages and display them
-        float AvgLtPer100Km = 100 * literSum / kilometerSum;
-        float AvgKmPerLt = kilometerSum / literSum;
-        float AvgCostPerKm = costSum / kilometerSum;
-
         DecimalFormat format = new DecimalFormat("#.##");
-        String TextAvgLtPer100Km = Float.isNaN(AvgLtPer100Km) ? getString(R.string.text_view_no_data) : format.format(AvgLtPer100Km) + " " + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
-        String TextAvgKmPerLt    = Float.isNaN(AvgKmPerLt)    ? getString(R.string.text_view_no_data) : format.format(AvgKmPerLt) + " " + getString(R.string.km_short) + "/" + getString(R.string.lt_short);
-        String TextAvgCostPerKm  = Float.isNaN(AvgCostPerKm)  ? getString(R.string.text_view_no_data) : '€' + format.format(AvgCostPerKm) + " " + getString(R.string.km_short);
+        String TextAvgLtPer100Km = Float.isNaN(DataHolder.getInstance().car.getAverageLitersPer100Km())     ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageLitersPer100Km()) + " " + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
+        String TextAvgKmPerLt    = Float.isNaN(DataHolder.getInstance().car.getAverageKilometersPerLiter()) ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageKilometersPerLiter()) + " " + getString(R.string.km_short) + "/" + getString(R.string.lt_short);
+        String TextAvgCostPerKm  = Float.isNaN(DataHolder.getInstance().car.getAverageCostPerKm())          ? getString(R.string.text_view_no_data) : '€' + format.format(DataHolder.getInstance().car.getAverageCostPerKm()) + " " + getString(R.string.km_short);
 
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
