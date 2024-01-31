@@ -82,7 +82,7 @@ public class RepeatedTripsFragment extends Fragment
                 id.setText(String.valueOf(trip.getId()));
                 title.setText(trip.getTitle());
                 repeating.setText(R.string.text_view_card_trips_one_time);
-                cost.setText("");
+                cost.setText(String.valueOf(trip.getTotalCostEur(DataHolder.getInstance().car)));
                 date.setText(trip.getDateAdded().toString());
                 totalKm.setText(String.valueOf(trip.getTotalKm()));
             }
@@ -111,7 +111,9 @@ public class RepeatedTripsFragment extends Fragment
                 id.setText(String.valueOf(trip.getId()));
                 title.setText(trip.getTitle());
                 times.setText(trip.getTimesRepeating() + " times per week.");
-                //cost.setText();
+                cost.setText(String.valueOf(trip.getTotalCostEur(DataHolder.getInstance().car)));
+                date.setText(trip.getDateAdded().toString());
+                liters.setText(String.valueOf(trip.getTotalLt(DataHolder.getInstance().car)));
             }
         }
     }
