@@ -71,9 +71,6 @@ public class HistoryFragment extends Fragment
         else
             totalFuelFillRecords.setText(DataHolder.getInstance().records.size() + getString(R.string.text_view_total_records));
 
-        // scrollable cards.
-        createCards();
-
         return root;
     }
 

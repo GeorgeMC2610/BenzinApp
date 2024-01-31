@@ -66,9 +66,6 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         tabLayout.addOnTabSelectedListener(this);
         tabLayout.selectTab(tabLayout.getTabAt(0));
 
-        // create the cards
-        createMalfunctionCards();
-
         return root;
     }
 
