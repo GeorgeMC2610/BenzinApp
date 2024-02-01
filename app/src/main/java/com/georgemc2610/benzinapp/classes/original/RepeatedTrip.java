@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class RepeatedTrip implements Serializable
 {
@@ -43,7 +44,7 @@ public class RepeatedTrip implements Serializable
             String title = jsonObject.getString("title");
             String origin = jsonObject.getString("origin");
             String destination = jsonObject.getString("destination");
-            LocalDate date = LocalDate.parse(jsonObject.getString("created_at"));
+            LocalDate date = LocalDate.parse(jsonObject.getString("created_at").substring(0, 10));
 
             return new RepeatedTrip(id, timesRepeating, title, origin, destination, totalKm, date);
         }

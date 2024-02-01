@@ -2,10 +2,10 @@ package com.georgemc2610.benzinapp.acitvity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,13 +15,16 @@ import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
-import com.georgemc2610.benzinapp.classes.requests.DataHolder;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
-    private TextView origin, destination, totalKm;
+    private TextView trip, totalKm, totalKmLegend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,9 +37,11 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         title = findViewById(R.id.repeated_trips_edit_text_title);
         timesRepeating = findViewById(R.id.repeated_trips_edit_text_times_repeating);
         isRepeating = findViewById(R.id.repeated_trips_checkbox_not_repeating);
-        origin = findViewById(R.id.repeated_trips_text_view_origin);
+        trip = findViewById(R.id.repeated_trips_text_view_origin);
         totalKm = findViewById(R.id.repeated_trips_text_view_kilometers);
+        totalKmLegend = findViewById(R.id.repeated_trips_text_view_kilometers_legend);
 
+        // set check box listener
         isRepeating.setOnCheckedChangeListener(this);
 
         // action bar
@@ -99,15 +104,31 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
     public void onButtonSelectTripClicked(View v)
     {
-
+        // logic will be added later...
     }
 
-    public void onButtonAddClicked(View v)
+    @SuppressLint("NewApi")
+    public void onButtonAddClicked(View v) throws JSONException
     {
         if (!setErrors(title, timesRepeating))
             return;
 
+        String title = getFilteredViewSequence(this.title);
+        int timesRepeating = Integer.parseInt(getFilteredViewSequence(this.timesRepeating));
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.append("origin", new double[] {30.92891, 48.2918});
+        jsonObject.append("originAddress", "Karaiskaki 31, Athens, 15341");
+        jsonObject.append("originCustomName", "HOME");
+
+        jsonObject.append("destination", new double[] {39.2813, 49.1934});
+        jsonObject.append("destinationAddress", "Parakalo 39, Epistimi, 39910");
+        jsonObject.append("destinationCustomName", "WORK");
+
+
+        String trip1 = jsonObject.toString();
+
+        RequestHandler.getInstance().AddRepeatedTrip(this, title, trip1, "ekei 2-0", timesRepeating, 59f);
     }
 
     @Override
@@ -122,7 +143,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         if (!isEditTextEmpty(title) || !isEditTextEmpty(timesRepeating))
             return true;
 
-        return !getFilteredViewSequence(origin).equals(getString(R.string.text_view_select_location)) || !getFilteredViewSequence(destination).equals(getString(R.string.text_view_select_location));
+        return !getFilteredViewSequence(trip).equals("Select Trip...");
     }
 
     private boolean isEditTextEmpty(EditText editText)
@@ -146,7 +167,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
         for (EditText editText: texts)
         {
-            if (getFilteredViewSequence(editText).isEmpty())
+            if (isEditTextEmpty(editText))
             {
                 editText.setError(getString(R.string.error_field_cannot_be_empty));
                 canContinue = false;

@@ -93,9 +93,10 @@
                 android:id="@+id/repeated_trips_text_view_kilometers_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
-                android:textStyle="bold"
                 android:fontFamily="sans-serif"
-                android:text="@string/text_view_repeated_trips_km_legend" />
+                android:text="@string/text_view_repeated_trips_km_legend"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/repeated_trips_text_view_kilometers"
@@ -103,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:text="49 km"
-                android:textSize="24sp"/>
+                android:textSize="24sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

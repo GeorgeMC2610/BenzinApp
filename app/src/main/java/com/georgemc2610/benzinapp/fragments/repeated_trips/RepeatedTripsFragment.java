@@ -51,7 +51,7 @@ public class RepeatedTripsFragment extends Fragment
         LayoutInflater inflater = getLayoutInflater();
 
         // start from the end of the list to get the most recent ones.
-        for (int i = DataHolder.getInstance().trips.size() - 1; i >= 0; i++)
+        for (int i = DataHolder.getInstance().trips.size() - 1; i >= 0; i--)
         {
             // create the repeated trip object.
             RepeatedTrip trip = DataHolder.getInstance().trips.get(i);
@@ -85,6 +85,8 @@ public class RepeatedTripsFragment extends Fragment
                 cost.setText(String.valueOf(trip.getTotalCostEur(DataHolder.getInstance().car)));
                 date.setText(trip.getDateAdded().toString());
                 totalKm.setText(String.valueOf(trip.getTotalKm()));
+
+                linearLayout.addView(card);
             }
             else
             {
@@ -98,6 +100,7 @@ public class RepeatedTripsFragment extends Fragment
                 TextView cost = card.findViewById(R.id.card_repeated_trip_cost);
                 TextView liters = card.findViewById(R.id.card_repeated_trip_lt);
                 TextView date = card.findViewById(R.id.card_repeated_trip_date);
+                TextView km = card.findViewById(R.id.card_repeated_trip_km);
 
                 // buttons.
                 FloatingActionButton delete = card.findViewById(R.id.card_repeated_button_delete);
@@ -111,9 +114,13 @@ public class RepeatedTripsFragment extends Fragment
                 id.setText(String.valueOf(trip.getId()));
                 title.setText(trip.getTitle());
                 times.setText(trip.getTimesRepeating() + " times per week.");
-                cost.setText(String.valueOf(trip.getTotalCostEur(DataHolder.getInstance().car)));
+                cost.setText("€" + trip.getTotalCostEur(DataHolder.getInstance().car));
                 date.setText(trip.getDateAdded().toString());
-                liters.setText(String.valueOf(trip.getTotalLt(DataHolder.getInstance().car)));
+                liters.setText(trip.getTotalLt(DataHolder.getInstance().car) + " lt");
+                km.setText(trip.getTotalKm() + " km | " + trip.getTotalKm() * 4 + " km per week.");
+
+
+                linearLayout.addView(card);
             }
         }
     }
@@ -123,5 +130,12 @@ public class RepeatedTripsFragment extends Fragment
     {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        createCards();
     }
 }

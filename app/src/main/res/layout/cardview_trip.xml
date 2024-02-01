@@ -7,10 +7,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="125dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#ffffee"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -47,7 +48,7 @@
                 android:text="(Title)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <!-- ONE TIME TRIP -->
             <TextView
@@ -59,7 +60,7 @@
                 android:text="(one time trip)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- COST -->
             <TextView
@@ -81,7 +82,7 @@
                 android:layout_marginTop="75sp"
                 android:text="(Total km)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <!-- DATE CREATED -->
             <TextView
@@ -93,7 +94,7 @@
                 android:text="(Added date)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- DELETE BUTTON -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -7,10 +7,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -47,7 +47,7 @@
                 android:text="(Title)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <!-- TIMES PER WEEK -->
             <TextView
@@ -59,7 +59,7 @@
                 android:text="(x times per week)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- COST PER WEEK -->
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_marginTop="75sp"
                 android:text="(Lt consumed per week)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- TOTAL KM PER WEEK -->
             <TextView
@@ -92,7 +92,7 @@
                 android:layout_marginTop="92sp"
                 android:text="(Trip's km|Total km per week)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- DATE ADDED -->
             <TextView
@@ -104,7 +104,7 @@
                 android:text="(Added on: date)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#717171"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <!-- DELETE BUTTON -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
