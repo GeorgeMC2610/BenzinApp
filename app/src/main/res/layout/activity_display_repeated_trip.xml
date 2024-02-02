@@ -88,9 +88,9 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <!-- DATE STARTED -->
+            <!-- TRIP'S TOTAL KM -->
             <TextView
-                android:id="@+id/text_view_display_malfunction_legend_date_started"
+                android:id="@+id/display_repeated_trip_text_view_total_km_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -98,16 +98,16 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/text_view_display_malfunction_date_started"
+                android:id="@+id/display_repeated_trip_text_view_total_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <!-- DATE ENDED -->
+            <!-- TRIP'S TOTAL COST -->
             <TextView
-                android:id="@+id/text_view_display_malfunction_legend_date_ended"
+                android:id="@+id/display_repeated_trip_text_view_total_cost_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -115,16 +115,16 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/text_view_display_malfunction_date_ended"
+                android:id="@+id/display_repeated_trip_text_view_total_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <!-- LOCATION FIXED -->
+            <!-- TRIP'S TOTAL LT -->
             <TextView
-                android:id="@+id/text_view_display_malfunction_legend_location"
+                android:id="@+id/display_repeated_trip_text_view_total_lt_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -132,24 +132,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/text_view_display_malfunction_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-
-            <!-- COST EUR -->
-            <TextView
-                android:id="@+id/text_view_display_malfunction_legend_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_cost"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/text_view_display_malfunction_cost"
+                android:id="@+id/display_repeated_trip_text_view_total_lt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loading"
