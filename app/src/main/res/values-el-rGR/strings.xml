@@ -131,4 +131,6 @@
     <string name="text_view_repeated_trips_km_legend">Συνολικά χιλιόμετρα διαδρομής:</string>
     <string name="title_add_trip">Προσθήκη Διαδρομής</string>
     <string name="text_view_card_trips_one_time">Αυτή η διαδρομή δεν επαναλαμβάνεται.</string>
+    <string name="text_view_repeated_trips_lt_legend">Συνολικά λίτρα διαδρομής:</string>
+    <string name="text_view_repeated_trips_cost_legend">Κόστος διαδρομής:</string>
 </resources>
