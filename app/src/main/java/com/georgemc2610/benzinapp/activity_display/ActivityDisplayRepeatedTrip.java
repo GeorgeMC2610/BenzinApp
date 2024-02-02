@@ -29,6 +29,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         cost = findViewById(R.id.display_repeated_trip_text_view_total_cost);
         lt = findViewById(R.id.display_repeated_trip_text_view_total_lt);
 
+
         // get the serializable object
         repeatedTrip = (RepeatedTrip) getIntent().getSerializableExtra("repeated_trip");
 
@@ -41,7 +42,19 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         km.setText(repeatedTrip.getTotalKm() + " km trip");
         cost.setText("€" + repeatedTrip.getTotalCostEur(DataHolder.getInstance().car) * repeatedTrip.getTimesRepeating() + "()");
         lt.setText(repeatedTrip.getTotalLt(DataHolder.getInstance().car) * repeatedTrip.getTimesRepeating() + " lt ()");
-    }
 
+        // action bar
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.title_add_trip));
+        }
+        // if anything goes wrong, print it out.
+        catch (Exception e)
+        {
+            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
+        }
+    }
 
 }
