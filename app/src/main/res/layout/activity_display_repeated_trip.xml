@@ -6,4 +6,157 @@
     android:layout_height="match_parent"
     tools:context=".activity_display.ActivityDisplayRepeatedTrip">
 
+    <Button
+        android:id="@+id/display_repeated_trip_button_delete"
+        android:layout_width="363dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#FF0000"
+        android:onClick="DeleteRecord"
+        android:text="@string/button_delete"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <ScrollView
+        android:id="@+id/display_repeated_trip_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="628dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/display_repeated_trip_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_title_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_view_title"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- TIMES REPEATING -->
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_times_repeating_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_description"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_times_repeating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <!-- FROM TO -->
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_at_km"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- DATE STARTED -->
+            <TextView
+                android:id="@+id/text_view_display_malfunction_legend_date_started"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_started"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_view_display_malfunction_date_started"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- DATE ENDED -->
+            <TextView
+                android:id="@+id/text_view_display_malfunction_legend_date_ended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_date_ended"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_view_display_malfunction_date_ended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- LOCATION FIXED -->
+            <TextView
+                android:id="@+id/text_view_display_malfunction_legend_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_location"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_view_display_malfunction_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- COST EUR -->
+            <TextView
+                android:id="@+id/text_view_display_malfunction_legend_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_view_cost"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_view_display_malfunction_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
