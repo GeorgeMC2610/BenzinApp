@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp.fragments.repeated_trips;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_display.ActivityDisplayRepeatedTrip;
 import com.georgemc2610.benzinapp.classes.listeners.ButtonRedirectToAddTripActivityListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardDeleteButtonListener;
 import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
@@ -70,6 +72,14 @@ public class RepeatedTripsFragment extends Fragment
                 TextView date = card.findViewById(R.id.card_trip_date_added);
                 TextView totalKm = card.findViewById(R.id.card_trip_km);
 
+                // display data view.
+                card.setOnClickListener(v ->
+                {
+                    Intent intent = new Intent(getContext(), ActivityDisplayRepeatedTrip.class);
+                    intent.putExtra("repeated_trip", trip);
+                    startActivity(intent);
+                });
+
                 // buttons.
                 FloatingActionButton delete = card.findViewById(R.id.card_trip_button_delete);
                 FloatingActionButton edit = card.findViewById(R.id.card_trip_button_edit);
@@ -101,6 +111,14 @@ public class RepeatedTripsFragment extends Fragment
                 TextView liters = card.findViewById(R.id.card_repeated_trip_lt);
                 TextView date = card.findViewById(R.id.card_repeated_trip_date);
                 TextView km = card.findViewById(R.id.card_repeated_trip_km);
+
+                // display data view.
+                card.setOnClickListener(v ->
+                {
+                    Intent intent = new Intent(getContext(), ActivityDisplayRepeatedTrip.class);
+                    intent.putExtra("repeated_trip", trip);
+                    startActivity(intent);
+                });
 
                 // buttons.
                 FloatingActionButton delete = card.findViewById(R.id.card_repeated_button_delete);

@@ -117,14 +117,16 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         int timesRepeating = Integer.parseInt(getFilteredViewSequence(this.timesRepeating));
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.append("origin", new double[] {30.92891, 48.2918});
-        jsonObject.append("originAddress", "Karaiskaki 31, Athens, 15341");
-        jsonObject.append("originCustomName", "HOME");
 
-        jsonObject.append("destination", new double[] {39.2813, 49.1934});
-        jsonObject.append("destinationAddress", "Parakalo 39, Epistimi, 39910");
-        jsonObject.append("destinationCustomName", "WORK");
+        jsonObject.append("origin", 30.29182);
+        jsonObject.append("origin", 49.29182);
+        jsonObject.put("originAddress", "Karaiskaki 31, Athens, 15341");
+        jsonObject.put("originCustomName", "HOME");
 
+        jsonObject.append("destination", 39.2813);
+        jsonObject.append("destination", 49.13928);
+        jsonObject.put("destinationAddress", "Parakalo 39, Epistimi, 39910");
+        jsonObject.put("destinationCustomName", "WORK");
 
         String trip1 = jsonObject.toString();
 
