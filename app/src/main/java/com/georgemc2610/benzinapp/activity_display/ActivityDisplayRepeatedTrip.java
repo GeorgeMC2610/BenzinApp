@@ -2,7 +2,10 @@ package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
@@ -54,6 +57,19 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         catch (Exception e)
         {
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
