@@ -134,4 +134,5 @@
     <string name="text_view_card_trips_one_time">One-time trip.</string>
     <string name="text_view_repeated_trips_lt_legend">Total liters consumed:</string>
     <string name="text_view_repeated_trips_cost_legend">Trip\'s total cost:</string>
+    <string name="title_activity_maps_create_trip">MapsCreateTripActivity</string>
 </resources>
