@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.acitvity_add;
+package com.georgemc2610.benzinapp.activity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 

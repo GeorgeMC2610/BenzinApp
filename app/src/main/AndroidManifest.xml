@@ -28,7 +28,7 @@
             android:name=".ActivityEditRepeatedTrip"
             android:exported="false" />
         <activity
-            android:name=".acitvity_add.ActivityAddRepeatedTrip"
+            android:name=".activity_add.ActivityAddRepeatedTrip"
             android:exported="false" />
         <activity
             android:name=".MapsDisplayPointActivity"
@@ -50,14 +50,14 @@
             android:name=".activity_edit.ActivityEditMalfunction"
             android:exported="false" />
         <activity
-            android:name=".acitvity_add.ActivityAddMalfunction"
+            android:name=".activity_add.ActivityAddMalfunction"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".acitvity_add.ActivityAddService"
+            android:name=".activity_add.ActivityAddService"
             android:exported="false" />
         <activity
             android:name=".activity_edit.ActivityEditRecord"
@@ -78,7 +78,7 @@
             android:name=".activity_display.ActivityDisplayFuelFillRecord"
             android:exported="false" />
         <activity
-            android:name=".acitvity_add.ActivityAddRecord"
+            android:name=".activity_add.ActivityAddRecord"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

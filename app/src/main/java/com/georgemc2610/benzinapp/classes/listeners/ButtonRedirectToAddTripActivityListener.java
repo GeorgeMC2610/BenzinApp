@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.georgemc2610.benzinapp.acitvity_add.ActivityAddRepeatedTrip;
+import com.georgemc2610.benzinapp.activity_add.ActivityAddRepeatedTrip;
 
 public class ButtonRedirectToAddTripActivityListener implements View.OnClickListener
 {

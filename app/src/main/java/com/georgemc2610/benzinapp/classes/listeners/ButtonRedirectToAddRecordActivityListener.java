@@ -3,7 +3,7 @@ package com.georgemc2610.benzinapp.classes.listeners;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import com.georgemc2610.benzinapp.acitvity_add.ActivityAddRecord;
+import com.georgemc2610.benzinapp.activity_add.ActivityAddRecord;
 
 public class ButtonRedirectToAddRecordActivityListener implements View.OnClickListener
 {
