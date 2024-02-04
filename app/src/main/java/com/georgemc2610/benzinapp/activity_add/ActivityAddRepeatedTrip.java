@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.acitvity_add;
+package com.georgemc2610.benzinapp.activity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import org.json.JSONException;
