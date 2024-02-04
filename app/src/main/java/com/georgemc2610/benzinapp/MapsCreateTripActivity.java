@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MapsCreateTripActivity extends FragmentActivity implements OnMapRea
 
     public void onButtonSelectOriginClicked(View v)
     {
+        // change the logic and make the map select the origin.
         selectingOrigin = true;
         selectDestination.setBackgroundColor(Color.GRAY);
         selectOrigin.setBackgroundColor(Color.MAGENTA);
@@ -50,6 +52,7 @@ public class MapsCreateTripActivity extends FragmentActivity implements OnMapRea
 
     public void onButtonSelectDestinationClicked(View v)
     {
+        // change the logic and make the map select the destination.
         selectingOrigin = false;
         selectDestination.setBackgroundColor(Color.MAGENTA);
         selectOrigin.setBackgroundColor(Color.GRAY);
@@ -60,9 +63,12 @@ public class MapsCreateTripActivity extends FragmentActivity implements OnMapRea
 
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
+        mMap.setTrafficEnabled(true);
     }
 }
