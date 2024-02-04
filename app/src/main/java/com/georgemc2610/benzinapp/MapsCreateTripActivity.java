@@ -1,10 +1,14 @@
 package com.georgemc2610.benzinapp;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 
-public class MapsCreateTripActivity extends FragmentActivity implements OnMapReadyCallback
+public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback
 {
 
     private GoogleMap mMap;
@@ -40,6 +44,32 @@ public class MapsCreateTripActivity extends FragmentActivity implements OnMapRea
         selectOrigin = findViewById(R.id.maps_select_trip_button_origin);
         selectDestination = findViewById(R.id.maps_select_trip_button_destination);
         searchAddress = findViewById(R.id.maps_select_trip_button_search_address);
+
+        // action bar
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Create Trip");
+        }
+        // if anything goes wrong, print it out.
+        catch (Exception e)
+        {
+            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onButtonSelectOriginClicked(View v)
@@ -67,6 +97,7 @@ public class MapsCreateTripActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
+        // initialize google maps fragment.
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.setTrafficEnabled(true);
