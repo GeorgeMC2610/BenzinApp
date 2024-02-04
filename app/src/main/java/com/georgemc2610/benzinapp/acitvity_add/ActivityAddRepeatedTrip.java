@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -104,7 +106,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
     public void onButtonSelectTripClicked(View v)
     {
-        // logic will be added later...
+        Intent intent = new Intent(this, MapsCreateTripActivity.class);
+        startActivity(intent);
     }
 
     @SuppressLint("NewApi")

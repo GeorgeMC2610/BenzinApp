@@ -2,7 +2,10 @@ package com.georgemc2610.benzinapp;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,40 +15,54 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 
-public class MapsCreateTripActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsCreateTripActivity extends FragmentActivity implements OnMapReadyCallback
+{
 
     private GoogleMap mMap;
+    private Button selectOrigin, selectDestination, searchAddress;
+    private boolean selectingOrigin = true;
     private ActivityMapsCreateTripBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        // initialize activity.
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsCreateTripBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // all the buttons
+        selectOrigin = findViewById(R.id.maps_select_trip_button_origin);
+        selectDestination = findViewById(R.id.maps_select_trip_button_destination);
+        searchAddress = findViewById(R.id.maps_select_trip_button_search_address);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    public void onButtonSelectOriginClicked(View v)
+    {
+        selectingOrigin = true;
+        selectDestination.setBackgroundColor(Color.GRAY);
+        selectOrigin.setBackgroundColor(Color.MAGENTA);
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    public void onButtonSelectDestinationClicked(View v)
+    {
+        selectingOrigin = false;
+        selectDestination.setBackgroundColor(Color.MAGENTA);
+        selectOrigin.setBackgroundColor(Color.GRAY);
+    }
+
+    public void onButtonSelectAddressClicked(View v)
+    {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mMap = googleMap;
     }
 }
