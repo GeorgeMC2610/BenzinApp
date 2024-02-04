@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
@@ -16,16 +17,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 
-public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback
+public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener
 {
 
     private GoogleMap mMap;
     private Button selectOrigin, selectDestination, searchAddress;
     private boolean selectingOrigin = true;
+    private Marker origin, destination;
     private ActivityMapsCreateTripBinding binding;
 
     @Override
@@ -101,5 +106,27 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.setTrafficEnabled(true);
+
+        // whenever the map is long pressed add a marker depending on what button is pressed.
+        mMap.setOnMapLongClickListener(this);
+    }
+
+    @Override
+    public void onMapLongClick(@NonNull LatLng latLng)
+    {
+        if (selectingOrigin)
+        {
+            if (origin != null)
+                origin.remove();
+
+            origin = mMap.addMarker(new MarkerOptions().position(latLng).title("ORIGIN").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        }
+        else
+        {
+            if (destination != null)
+                destination.remove();
+
+            destination = mMap.addMarker(new MarkerOptions().position(latLng).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
     }
 }
