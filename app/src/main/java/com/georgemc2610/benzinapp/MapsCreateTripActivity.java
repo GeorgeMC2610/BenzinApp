@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,11 +23,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 
-public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
 {
 
     private GoogleMap mMap;
@@ -131,6 +137,26 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         }
 
         if (origin != null && destination != null)
-            Toast.makeText(this, "READY TO MAKE TRIP", Toast.LENGTH_SHORT).show();
+            RequestHandler.getInstance().CreateTrip(this, origin.getPosition(), destination.getPosition(), this);
+    }
+
+    @Override
+    public void onResponse(String response)
+    {
+        try
+        {
+            JSONObject jsonResponse = new JSONObject(response);
+            jsonResponse.getJSONArray("points");
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(origin.getPosition());
+            builder.include(destination.getPosition());
+        }
+        catch (JSONException e)
+        {
+            System.err.println(e.getMessage());
+        }
+
+
     }
 }

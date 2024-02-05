@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.georgemc2610.benzinapp.BuildConfig;
 import com.georgemc2610.benzinapp.LoginActivity;
 import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
@@ -30,13 +31,17 @@ import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.original.Service;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class RequestHandler
 {
@@ -631,6 +636,30 @@ public class RequestHandler
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute request.
+        requestQueue.add(request);
+    }
+
+    public void CreateTrip(Activity activity, LatLng origin, LatLng destination, Response.Listener<String> listener)
+    {
+        // request queue to push the request
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // get the value for the key
+        String key = BuildConfig.REPEATED_TRIPS_KEY;
+
+        // latitude and longitude of origin and destination.
+        String stringOrigin = origin.latitude + ","  + origin.longitude;
+        String stringDestination = destination.latitude + "," + destination.longitude;
+
+        // url for getting a trip
+        String url = "https://maps.googleapis.com/maps/api/directions/json?destination=" + stringDestination + "&origin=" + stringOrigin + "&key=" + key;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
+        {
+            System.err.println(error.getMessage().trim());
+        });
+
+        // execute the request.
         requestQueue.add(request);
     }
 }
