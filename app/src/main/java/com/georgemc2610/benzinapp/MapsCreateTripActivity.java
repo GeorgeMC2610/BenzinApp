@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -82,14 +83,14 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // change the logic and make the map select the origin.
         selectingOrigin = true;
         selectDestination.setBackgroundColor(Color.GRAY);
-        selectOrigin.setBackgroundColor(Color.MAGENTA);
+        selectOrigin.setBackgroundColor(Color.parseColor("#FFAA00"));
     }
 
     public void onButtonSelectDestinationClicked(View v)
     {
         // change the logic and make the map select the destination.
         selectingOrigin = false;
-        selectDestination.setBackgroundColor(Color.MAGENTA);
+        selectDestination.setBackgroundColor(Color.parseColor("#FFAA00"));
         selectOrigin.setBackgroundColor(Color.GRAY);
     }
 
@@ -128,5 +129,8 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
 
             destination = mMap.addMarker(new MarkerOptions().position(latLng).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         }
+
+        if (origin != null && destination != null)
+            Toast.makeText(this, "READY TO MAKE TRIP", Toast.LENGTH_SHORT).show();
     }
 }
