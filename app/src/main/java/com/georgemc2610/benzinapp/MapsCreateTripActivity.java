@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
@@ -46,6 +47,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private boolean selectingOrigin = true;
     private Marker origin, destination;
     private ActivityMapsCreateTripBinding binding;
+    private Polyline polyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -162,6 +164,15 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             String points = polyline.getString("points");
 
             ArrayList<LatLng> mapPoints = decodePolyline(points);
+
+            PolylineOptions options = new PolylineOptions().width(10f).color(Color.BLUE).geodesic(true);
+            for (LatLng point : mapPoints)
+                options.add(point);
+
+            if (this.polyline != null)
+                this.polyline.remove();
+
+            this.polyline = mMap.addPolyline(options);
         }
         catch (JSONException e)
         {
