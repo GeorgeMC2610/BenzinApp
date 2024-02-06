@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -164,11 +165,16 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         try
         {
             // remove all previous polylines.
+            for (Polyline polyline: polylines)
+                polyline.remove();
+
             polylines.clear();
 
             // get all possible routes (which is an array).
             JSONObject jsonResponse = new JSONObject(response);
             JSONArray routes = jsonResponse.getJSONArray("routes");
+
+            Log.i("ROUTES", "Found " + routes.length() + " routes.");
 
             // for each route in the response:
             for (int i = 0; i < routes.length(); i++)
