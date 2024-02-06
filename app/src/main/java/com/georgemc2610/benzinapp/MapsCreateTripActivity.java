@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +28,15 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
 {
@@ -145,12 +152,16 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     {
         try
         {
+            // get all possible routes (which is an array).
             JSONObject jsonResponse = new JSONObject(response);
-            jsonResponse.getJSONArray("points");
+            JSONArray routes = jsonResponse.getJSONArray("routes");
 
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(origin.getPosition());
-            builder.include(destination.getPosition());
+            // get the first route and its polylines
+            JSONObject route1 = routes.getJSONObject(0);
+            JSONObject polyline = route1.getJSONObject("overview_polyline");
+            String points = polyline.getString("points");
+
+            ArrayList<LatLng> mapPoints = decodePolyline(points);
         }
         catch (JSONException e)
         {
@@ -158,5 +169,48 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         }
 
 
+    }
+
+    private ArrayList<LatLng> decodePolyline(String polyline)
+    {
+        Log.i("Location", "String Received: " + polyline);
+
+        ArrayList<LatLng> poly = new ArrayList<>();
+        int index = 0, len = polyline.length();
+        int lat = 0, lng = 0;
+
+        while (index < len)
+        {
+            int b, shift = 0, result = 0;
+            do
+            {
+                b = polyline.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do
+            {
+                b = polyline.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),(((double) lng / 1E5)));
+            poly.add(p);
+        }
+
+        for (int i = 0; i < poly.size(); i++)
+            Log.i("Location", "Point sent: Latitude: "+poly.get(i).latitude+" Longitude: "+poly.get(i).longitude);
+
+        return poly;
     }
 }
