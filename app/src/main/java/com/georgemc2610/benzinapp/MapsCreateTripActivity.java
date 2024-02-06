@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.requests.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,8 +36,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
@@ -47,7 +50,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private boolean selectingOrigin = true;
     private Marker origin, destination;
     private ActivityMapsCreateTripBinding binding;
-    private Polyline polyline;
+    private ArrayList<Polyline> polylines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,6 +68,11 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         selectOrigin = findViewById(R.id.maps_select_trip_button_origin);
         selectDestination = findViewById(R.id.maps_select_trip_button_destination);
         searchAddress = findViewById(R.id.maps_select_trip_button_search_address);
+
+        selectOrigin.performClick();
+
+        // polyline array list
+        polylines = new ArrayList<>();
 
         // action bar
         try
@@ -121,7 +129,6 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // initialize google maps fragment.
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
-        mMap.setTrafficEnabled(true);
 
         // whenever the map is long pressed add a marker depending on what button is pressed.
         mMap.setOnMapLongClickListener(this);
@@ -136,6 +143,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 origin.remove();
 
             origin = mMap.addMarker(new MarkerOptions().position(latLng).title("ORIGIN").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            origin.showInfoWindow();
         }
         else
         {
@@ -143,6 +151,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 destination.remove();
 
             destination = mMap.addMarker(new MarkerOptions().position(latLng).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            destination.showInfoWindow();
         }
 
         if (origin != null && destination != null)
@@ -154,25 +163,39 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     {
         try
         {
+            // remove all previous polylines.
+            polylines.clear();
+
             // get all possible routes (which is an array).
             JSONObject jsonResponse = new JSONObject(response);
             JSONArray routes = jsonResponse.getJSONArray("routes");
 
-            // get the first route and its polylines
-            JSONObject route1 = routes.getJSONObject(0);
-            JSONObject polyline = route1.getJSONObject("overview_polyline");
-            String points = polyline.getString("points");
+            // for each route in the response:
+            for (int i = 0; i < routes.length(); i++)
+            {
+                // retrieve the encoded route.
+                JSONObject route = routes.getJSONObject(i);
+                JSONObject encoded_polyline = route.getJSONObject("overview_polyline");
+                String encoded_points = encoded_polyline.getString("points");
 
-            ArrayList<LatLng> mapPoints = decodePolyline(points);
+                // decode the route.
+                ArrayList<LatLng> decoded_points = PolylineDecoder.decode(encoded_points);
 
-            PolylineOptions options = new PolylineOptions().width(10f).color(Color.BLUE).geodesic(true);
-            for (LatLng point : mapPoints)
-                options.add(point);
+                // set the polyline settings. for the first route, set it as default, for the rest, let them be gray.
+                PolylineOptions options;
+                if (i == 0)
+                    options = new PolylineOptions().width(10f).color(Color.BLUE).geodesic(true);
+                else
+                    options = new PolylineOptions().width(16f).color(Color.GRAY).geodesic(true);
 
-            if (this.polyline != null)
-                this.polyline.remove();
+                // add the points to the map with the options above
+                for (LatLng point : decoded_points)
+                    options.add(point);
 
-            this.polyline = mMap.addPolyline(options);
+                // and add the polyline to the map and the list.
+                Polyline polyline = mMap.addPolyline(options);
+                polylines.add(polyline);
+            }
         }
         catch (JSONException e)
         {
@@ -180,48 +203,5 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         }
 
 
-    }
-
-    private ArrayList<LatLng> decodePolyline(String polyline)
-    {
-        Log.i("Location", "String Received: " + polyline);
-
-        ArrayList<LatLng> poly = new ArrayList<>();
-        int index = 0, len = polyline.length();
-        int lat = 0, lng = 0;
-
-        while (index < len)
-        {
-            int b, shift = 0, result = 0;
-            do
-            {
-                b = polyline.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do
-            {
-                b = polyline.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((((double) lat / 1E5)),(((double) lng / 1E5)));
-            poly.add(p);
-        }
-
-        for (int i = 0; i < poly.size(); i++)
-            Log.i("Location", "Point sent: Latitude: "+poly.get(i).latitude+" Longitude: "+poly.get(i).longitude);
-
-        return poly;
     }
 }
