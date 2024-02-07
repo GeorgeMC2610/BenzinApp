@@ -6,7 +6,7 @@
 
     <!-- Search bar -->
     <SearchView
-        android:id="@+id/search_view_maps"
+        android:id="@+id/maps_select_trip_search_view_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,12 +21,12 @@
 
     <!-- Button next to the search bar -->
     <Button
-        android:id="@+id/maps_select_trip_button_search_address"
+        android:id="@+id/maps_select_trip_button_make_trip"
         android:layout_width="120dp"
         android:enabled="false"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:onClick="SelectLocation"
+        android:onClick="onButtonMakeTripClicked"
         android:text="SELECT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

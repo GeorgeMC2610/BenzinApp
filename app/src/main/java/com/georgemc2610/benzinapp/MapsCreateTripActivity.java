@@ -2,31 +2,25 @@ package com.georgemc2610.benzinapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
 import com.georgemc2610.benzinapp.classes.requests.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
@@ -37,20 +31,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
 {
 
     private GoogleMap mMap;
-    private Button selectOrigin, selectDestination, searchAddress;
-    private boolean selectingOrigin = true;
+    private Button selectOrigin, selectDestination, completeTrip;
+    private boolean isSelectingOrigin = true, ableToCompleteTrip = false;
     private Marker origin, destination;
     private ActivityMapsCreateTripBinding binding;
+    private Geocoder geocoder;
     private ArrayList<Polyline> polylines;
 
     @Override
@@ -68,12 +59,16 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // all the buttons
         selectOrigin = findViewById(R.id.maps_select_trip_button_origin);
         selectDestination = findViewById(R.id.maps_select_trip_button_destination);
-        searchAddress = findViewById(R.id.maps_select_trip_button_search_address);
+        completeTrip = findViewById(R.id.maps_select_trip_button_make_trip);
 
+        // click button to pick the origin.
         selectOrigin.performClick();
 
         // polyline array list
         polylines = new ArrayList<>();
+
+        // geocoder initialization
+        geocoder = new Geocoder(this);
 
         // action bar
         try
@@ -105,7 +100,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     public void onButtonSelectOriginClicked(View v)
     {
         // change the logic and make the map select the origin.
-        selectingOrigin = true;
+        isSelectingOrigin = true;
         selectDestination.setBackgroundColor(Color.GRAY);
         selectOrigin.setBackgroundColor(Color.parseColor("#FFAA00"));
     }
@@ -113,12 +108,12 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     public void onButtonSelectDestinationClicked(View v)
     {
         // change the logic and make the map select the destination.
-        selectingOrigin = false;
+        isSelectingOrigin = false;
         selectDestination.setBackgroundColor(Color.parseColor("#FFAA00"));
         selectOrigin.setBackgroundColor(Color.GRAY);
     }
 
-    public void onButtonSelectAddressClicked(View v)
+    public void onButtonMakeTripClicked(View v)
     {
 
     }
@@ -138,25 +133,55 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapLongClick(@NonNull LatLng latLng)
     {
-        if (selectingOrigin)
-        {
-            if (origin != null)
-                origin.remove();
+        // select the correct marker according to what button is pressed.
+        if (isSelectingOrigin)
+            origin = showMarkerOnMap(origin, latLng);
+        else
+            destination = showMarkerOnMap(destination, latLng);
 
-            origin = mMap.addMarker(new MarkerOptions().position(latLng).title("ORIGIN").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-            origin.showInfoWindow();
+        // if both origin and destination are assigned, then create the trip.
+        if (origin != null && destination != null)
+        {
+            RequestHandler.getInstance().CreateTrip(this, origin.getPosition(), destination.getPosition(), this);
+            ableToCompleteTrip = true;
+            setTripCompletionAvailable(true);
         }
         else
         {
-            if (destination != null)
-                destination.remove();
-
-            destination = mMap.addMarker(new MarkerOptions().position(latLng).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            destination.showInfoWindow();
+            ableToCompleteTrip = false;
+            setTripCompletionAvailable(false);
         }
 
-        if (origin != null && destination != null)
-            RequestHandler.getInstance().CreateTrip(this, origin.getPosition(), destination.getPosition(), this);
+    }
+
+    private void setTripCompletionAvailable(boolean state)
+    {
+        ableToCompleteTrip = state;
+        completeTrip.setEnabled(state);
+        completeTrip.setBackgroundColor(state? Color.parseColor("#FFAA00") : Color.GRAY);
+    }
+
+    @SuppressLint("NewApi")
+    private Marker showMarkerOnMap(Marker marker, LatLng latLng)
+    {
+        // if the button origin is selected, select the origin.
+        if (marker != null)
+            marker.remove();
+
+        // add the marker to the map. Green is origin, red is destination.
+        marker = mMap.addMarker(new MarkerOptions().
+                position(latLng).
+                title(isSelectingOrigin ? "ORIGIN" : "DESTINATION").
+                icon(BitmapDescriptorFactory.defaultMarker(isSelectingOrigin ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_RED)));
+
+        // show its window.
+        marker.showInfoWindow();
+
+        // retrieve its address and set it as a title.
+        geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new GeocoderShowMarkerListener(this, marker));
+
+        // return the marker, so the changes are saved.
+        return marker;
     }
 
     @Override
@@ -207,7 +232,19 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         {
             System.err.println(e.getMessage());
         }
+    }
 
+    @SuppressLint("NewApi")
+    private void createTripToJson(LatLng origin, LatLng destination) throws JSONException
+    {
+        JSONObject jsonObject = new JSONObject();
 
+        jsonObject.append("origin_coordinates", origin.latitude);
+        jsonObject.append("origin_coordinates", origin.longitude);
+        jsonObject.put("origin_customName", "CUSTOM NAME");
+
+        jsonObject.append("destination_coordinates", destination.latitude);
+        jsonObject.append("destination_coordinates", destination.longitude);
+        jsonObject.put("destination_customName", "CUSTOM NAME");
     }
 }
