@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
@@ -43,6 +45,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private ActivityMapsCreateTripBinding binding;
     private Geocoder geocoder;
     private ArrayList<Polyline> polylines;
+    private ArrayList<String> encodedPolylines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,11 +64,13 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         selectDestination = findViewById(R.id.maps_select_trip_button_destination);
         completeTrip = findViewById(R.id.maps_select_trip_button_make_trip);
 
-        // click button to pick the origin.
+        // click button to pick the origin and block the make trip button
         selectOrigin.performClick();
+        setTripCompletionAvailable(false);
 
         // polyline array list
         polylines = new ArrayList<>();
+        encodedPolylines = new ArrayList<>();
 
         // geocoder initialization
         geocoder = new Geocoder(this);
@@ -113,9 +118,28 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         selectOrigin.setBackgroundColor(Color.GRAY);
     }
 
-    public void onButtonMakeTripClicked(View v)
+    public void onButtonMakeTripClicked(View v) throws JSONException
     {
+        // make sure there is at least one trip.
+        if (polylines.isEmpty() || encodedPolylines.isEmpty())
+        {
+            Toast.makeText(this, "Please select a trip.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // shared preferences to save the data.
+        SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // based on what we want saved on the cloud, we save the shared preferences like this.
+        editor.putString("encodedTrip", encodedPolylines.get(0));
+        editor.putString("jsonTrip", createTripToJson(origin.getPosition(), destination.getPosition()));
+
+        // apply changes.
+        editor.apply();
+
+        // close the activity (which returns to the Add Trip Activity).
+        finish();
     }
 
     @SuppressLint("MissingPermission")
@@ -151,7 +175,6 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             ableToCompleteTrip = false;
             setTripCompletionAvailable(false);
         }
-
     }
 
     private void setTripCompletionAvailable(boolean state)
@@ -226,6 +249,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 // and add the polyline to the map and the list.
                 Polyline polyline = mMap.addPolyline(options);
                 polylines.add(polyline);
+                encodedPolylines.add(encoded_points);
             }
         }
         catch (JSONException e)
@@ -235,16 +259,16 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     }
 
     @SuppressLint("NewApi")
-    private void createTripToJson(LatLng origin, LatLng destination) throws JSONException
+    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException
     {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.append("origin_coordinates", origin.latitude);
         jsonObject.append("origin_coordinates", origin.longitude);
-        jsonObject.put("origin_customName", "CUSTOM NAME");
 
         jsonObject.append("destination_coordinates", destination.latitude);
         jsonObject.append("destination_coordinates", destination.longitude);
-        jsonObject.put("destination_customName", "CUSTOM NAME");
+
+        return jsonObject.toString();
     }
 }
