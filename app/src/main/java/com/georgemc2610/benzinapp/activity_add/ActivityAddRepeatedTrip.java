@@ -150,10 +150,19 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE); // TODO: Clear upon leaving.
         encodedTrip = preferences.getString("encodedTrip", null);
         jsonTrip = preferences.getString("jsonTrip", null);
+        km = preferences.getFloat("tripDistance", -1f);
 
         // if they have no data in them.
         if (encodedTrip == null || jsonTrip == null)
             return;
+
+        // if there is a trip, show its distance.
+        if (km != -1f && km != 0f)
+        {
+            totalKm.setText(km + " " + getString(R.string.km_short));
+            totalKm.setVisibility(View.VISIBLE);
+            totalKmLegend.setVisibility(View.VISIBLE);
+        }
 
         try
         {

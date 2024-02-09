@@ -46,6 +46,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private Geocoder geocoder;
     private ArrayList<Polyline> polylines;
     private ArrayList<String> encodedPolylines;
+    private ArrayList<Float> routeDistances;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,9 +69,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         selectOrigin.performClick();
         setTripCompletionAvailable(false);
 
-        // polyline array list
+        // array list initializations.
         polylines = new ArrayList<>();
         encodedPolylines = new ArrayList<>();
+        routeDistances = new ArrayList<>();
 
         // geocoder initialization
         geocoder = new Geocoder(this);
@@ -134,6 +136,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // based on what we want saved on the cloud, we save the shared preferences like this.
         editor.putString("encodedTrip", encodedPolylines.get(0));
         editor.putString("jsonTrip", createTripToJson(origin.getPosition(), destination.getPosition()));
+        editor.putFloat("tripDistance", routeDistances.get(0));
 
         // apply changes.
         editor.apply();
@@ -216,7 +219,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             for (Polyline polyline: polylines)
                 polyline.remove();
 
+            // clear all the lists.
             polylines.clear();
+            encodedPolylines.clear();
+            routeDistances.clear();
 
             // get all possible routes (which is an array).
             JSONObject jsonResponse = new JSONObject(response);
@@ -231,6 +237,13 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 JSONObject route = routes.getJSONObject(i);
                 JSONObject encoded_polyline = route.getJSONObject("overview_polyline");
                 String encoded_points = encoded_polyline.getString("points");
+
+                // get the distance for the route.
+                JSONObject leg = route.getJSONArray("legs").getJSONObject(0).getJSONObject("distance");
+                float distance = (float) leg.getInt("value") / 1000;
+
+                // add it to the distances.
+                routeDistances.add(distance);
 
                 // decode the route.
                 ArrayList<LatLng> decoded_points = PolylineDecoder.decode(encoded_points);
