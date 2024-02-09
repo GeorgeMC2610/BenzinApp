@@ -1,11 +1,17 @@
 package com.georgemc2610.benzinapp.activity_add;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,18 +20,24 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.StringRequest;
 import com.georgemc2610.benzinapp.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
     private TextView trip, totalKm, totalKmLegend;
+    private Address originAddress, destinationAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -134,6 +146,107 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
         RequestHandler.getInstance().AddRepeatedTrip(this, title, trip1, "ekei 2-0", timesRepeating, 59f);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    @Override
+    public void onResume()
+    {
+        // call original on resume (required)
+        super.onResume();
+
+        // get shared preferences data
+        SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE); // TODO: Clear upon leaving.
+        String encodedTrip = preferences.getString("encodedTrip", null);
+        String jsonTrip = preferences.getString("jsonTrip", null);
+
+        // if they have no data in them.
+        if (encodedTrip == null || jsonTrip == null)
+            return;
+
+        try
+        {
+            // loading text...
+            trip.setText("Loading addresses...");
+
+            // json objects stored
+            JSONObject jsonObject = new JSONObject(jsonTrip);
+            JSONArray jsonLatLngOrigin = jsonObject.getJSONArray("origin_coordinates");
+            JSONArray jsonLatLngDestination = jsonObject.getJSONArray("destination_coordinates");
+
+            // get latlng objects.
+            LatLng originLatLng = new LatLng(jsonLatLngOrigin.getDouble(0), jsonLatLngOrigin.getDouble(1));
+            LatLng destinationLatLng = new LatLng(jsonLatLngDestination.getDouble(0), jsonLatLngDestination.getDouble(1));
+
+            // geocoder to set the addresses correctly.
+            Geocoder geocoder = new Geocoder(this);
+
+            // assign the addresses to the text view.
+            geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, new Geocoder.GeocodeListener()
+            {
+                @Override
+                public void onGeocode(@NonNull List<Address> addresses)
+                {
+                    if (addresses.isEmpty())
+                        return;
+
+                    originAddress = addresses.get(0);
+                    runOnUiThread(() -> assignTripViewAddresses());
+
+                }
+            });
+
+            // same for the destination.
+            geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, new Geocoder.GeocodeListener()
+            {
+                @Override
+                public void onGeocode(@NonNull List<Address> addresses)
+                {
+                    if (addresses.isEmpty())
+                        return;
+
+                    destinationAddress = addresses.get(0);
+                    runOnUiThread(() -> assignTripViewAddresses());
+                }
+            });
+
+        }
+        catch (JSONException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void assignTripViewAddresses()
+    {
+        if (originAddress == null || destinationAddress == null)
+            return;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("From: ");
+        builder.append(originAddress.getAddressLine(0));
+        builder.append("\n\n");
+        builder.append("To: ");
+        builder.append(destinationAddress.getAddressLine(0));
+
+        System.out.println(builder.toString());
+
+        trip.setText(builder.toString());
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        // clear data upon leaving.
+        SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("encodedTrip", null);
+        editor.putString("jsonTrip", null);
+        editor.apply();
+    }
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
