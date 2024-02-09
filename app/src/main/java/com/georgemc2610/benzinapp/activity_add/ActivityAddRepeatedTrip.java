@@ -238,6 +238,10 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     }
 
 
+    /**
+     * Checks if all the fields have some value in them.
+     * @return True if there is at least one {@linkplain EditText} with text in it, false otherwise.
+     */
     private boolean isAnyFieldFilled()
     {
         if (!isEditTextEmpty(title) || !isEditTextEmpty(timesRepeating))
@@ -246,21 +250,42 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         return !getFilteredViewSequence(trip).equals("Select Trip...");
     }
 
+    /**
+     * Checks the trimmed content of any {@linkplain EditText} to see if it has any value in it.
+     * @param editText The field to be checked.
+     * @return True if it has no value, false otherwise.
+     */
     private boolean isEditTextEmpty(EditText editText)
     {
         return getFilteredViewSequence(editText).isEmpty();
     }
 
+    /**
+     * Filters the text inside an {@linkplain EditText} using the trim method of the {@linkplain String} class.
+     * @param editText The wanted field for its text retrieval.
+     * @return The content of the {@linkplain  EditText} with no whitespaces.
+     */
     private String getFilteredViewSequence(EditText editText)
     {
         return editText.getText().toString().trim();
     }
 
+    /**
+     * Filters the text inside an {@linkplain TextView} using the trim method of the {@linkplain String} class.
+     * @param textView The wanted field for its text retrieval.
+     * @return The content of the {@linkplain TextView} with no whitespaces.
+     */
     private String getFilteredViewSequence(TextView textView)
     {
         return textView.getText().toString().trim();
     }
 
+    /**
+     * Typically used to see if all the fields are correctly filled with data before proceeding to send it to the cloud.
+     * Sets the errors for any fields that have no data in them.
+     * @param texts A list of fields to be checked.
+     * @return True all the fields have data and it's okay to proceed, false otherwise.
+     */
     private boolean setErrors(EditText... texts)
     {
         boolean canContinue = true;
@@ -277,6 +302,10 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         return canContinue;
     }
 
+    /**
+     * Checks the integrity of the data retrieved from the {@linkplain MapsCreateTripActivity}. Shows a message if the data are not present.
+     * @return True if none of the data sent are null, false otherwise.
+     */
     private boolean checkDataIntegrity()
     {
         if (jsonTrip == null || encodedTrip == null)
