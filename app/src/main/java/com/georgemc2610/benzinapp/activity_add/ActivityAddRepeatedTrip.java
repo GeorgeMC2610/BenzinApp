@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.StringRequest;
 import com.georgemc2610.benzinapp.MapsCreateTripActivity;
@@ -38,6 +39,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     private CheckBox isRepeating;
     private TextView trip, totalKm, totalKmLegend;
     private Address originAddress, destinationAddress;
+    private float km;
+    private String encodedTrip, jsonTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -124,27 +127,16 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     @SuppressLint("NewApi")
     public void onButtonAddClicked(View v) throws JSONException
     {
-        if (!setErrors(title, timesRepeating))
+        // set all errors if any edit text has no data.
+        if (!setErrors(title, timesRepeating) || checkDataIntegrity())
             return;
 
+        // get title and times repeating.
         String title = getFilteredViewSequence(this.title);
         int timesRepeating = Integer.parseInt(getFilteredViewSequence(this.timesRepeating));
 
-        JSONObject jsonObject = new JSONObject();
-
-        jsonObject.append("origin", 30.29182);
-        jsonObject.append("origin", 49.29182);
-        jsonObject.put("originAddress", "Karaiskaki 31, Athens, 15341");
-        jsonObject.put("originCustomName", "HOME");
-
-        jsonObject.append("destination", 39.2813);
-        jsonObject.append("destination", 49.13928);
-        jsonObject.put("destinationAddress", "Parakalo 39, Epistimi, 39910");
-        jsonObject.put("destinationCustomName", "WORK");
-
-        String trip1 = jsonObject.toString();
-
-        RequestHandler.getInstance().AddRepeatedTrip(this, title, trip1, "ekei 2-0", timesRepeating, 59f);
+        // send the trip
+        RequestHandler.getInstance().AddRepeatedTrip(this, title, jsonTrip, encodedTrip, timesRepeating, km);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
@@ -156,8 +148,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
         // get shared preferences data
         SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE); // TODO: Clear upon leaving.
-        String encodedTrip = preferences.getString("encodedTrip", null);
-        String jsonTrip = preferences.getString("jsonTrip", null);
+        encodedTrip = preferences.getString("encodedTrip", null);
+        jsonTrip = preferences.getString("jsonTrip", null);
 
         // if they have no data in them.
         if (encodedTrip == null || jsonTrip == null)
@@ -181,32 +173,24 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
             Geocoder geocoder = new Geocoder(this);
 
             // assign the addresses to the text view.
-            geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, new Geocoder.GeocodeListener()
+            geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, addresses ->
             {
-                @Override
-                public void onGeocode(@NonNull List<Address> addresses)
-                {
-                    if (addresses.isEmpty())
-                        return;
+                if (addresses.isEmpty())
+                    return;
 
-                    originAddress = addresses.get(0);
-                    runOnUiThread(() -> assignTripViewAddresses());
+                originAddress = addresses.get(0);
+                runOnUiThread(this::assignTripViewAddresses);
 
-                }
             });
 
             // same for the destination.
-            geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, new Geocoder.GeocodeListener()
+            geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, addresses ->
             {
-                @Override
-                public void onGeocode(@NonNull List<Address> addresses)
-                {
-                    if (addresses.isEmpty())
-                        return;
+                if (addresses.isEmpty())
+                    return;
 
-                    destinationAddress = addresses.get(0);
-                    runOnUiThread(() -> assignTripViewAddresses());
-                }
+                destinationAddress = addresses.get(0);
+                runOnUiThread(this::assignTripViewAddresses);
             });
 
         }
@@ -227,8 +211,6 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         builder.append("\n\n");
         builder.append("To: ");
         builder.append(destinationAddress.getAddressLine(0));
-
-        System.out.println(builder.toString());
 
         trip.setText(builder.toString());
     }
@@ -254,6 +236,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         timesRepeating.setText(isChecked? "1" : "");
         timesRepeating.setEnabled(!isChecked);
     }
+
 
     private boolean isAnyFieldFilled()
     {
@@ -292,5 +275,16 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         }
 
         return canContinue;
+    }
+
+    private boolean checkDataIntegrity()
+    {
+        if (jsonTrip == null || encodedTrip == null)
+        {
+            Toast.makeText(this, "Please select a trip.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 }
