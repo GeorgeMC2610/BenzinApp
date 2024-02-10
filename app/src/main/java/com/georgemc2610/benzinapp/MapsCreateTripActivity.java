@@ -179,7 +179,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             setTripCompletionAvailable(false);
         }
     }
-
+    
     private void setTripCompletionAvailable(boolean state)
     {
         ableToCompleteTrip = state;

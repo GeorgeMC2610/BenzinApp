@@ -124,8 +124,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         startActivity(intent);
     }
 
-    @SuppressLint("NewApi")
-    public void onButtonAddClicked(View v) throws JSONException
+
+    public void onButtonAddClicked(View v)
     {
         // set all errors if any edit text has no data.
         if (!setErrors(title, timesRepeating) || checkDataIntegrity())
@@ -139,7 +139,6 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         RequestHandler.getInstance().AddRepeatedTrip(this, title, jsonTrip, encodedTrip, timesRepeating, km);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onResume()
     {
@@ -189,7 +188,6 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
                 originAddress = addresses.get(0);
                 runOnUiThread(this::assignTripViewAddresses);
-
             });
 
             // same for the destination.
@@ -256,7 +254,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         if (!isEditTextEmpty(title) || !isEditTextEmpty(timesRepeating))
             return true;
 
-        return !getFilteredViewSequence(trip).equals("Select Trip...");
+        return !getFilteredViewSequence(trip).equals("Make a trip...");
     }
 
     /**
