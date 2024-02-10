@@ -134,5 +134,9 @@
     <string name="text_view_card_trips_one_time">One-time trip.</string>
     <string name="text_view_repeated_trips_lt_legend">Total liters consumed:</string>
     <string name="text_view_repeated_trips_cost_legend">Trip\'s total cost:</string>
-    <string name="title_activity_maps_create_trip">MapsCreateTripActivity</string>
+    <string name="title_activity_maps_create_trip" translatable="false">MapsCreateTripActivity</string>
+    <string name="card_repeated_trip_repeating">"Repeating "</string>
+    <string name="card_repeated_trip_times_per_week">" times per week."</string>
+    <string name="card_repeated_trip_per_week">" per week"</string>
+    <string name="card_trip_km_trip">" trip"</string>
 </resources>

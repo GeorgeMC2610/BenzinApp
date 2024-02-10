@@ -21,6 +21,7 @@ import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.databinding.FragmentRepeatedTripsBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -55,6 +56,7 @@ public class RepeatedTripsFragment extends Fragment
         linearLayout.removeAllViews();
         LayoutInflater inflater = getLayoutInflater();
         NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         // start from the end of the list to get the most recent ones.
         for (int i = DataHolder.getInstance().trips.size() - 1; i >= 0; i--)
@@ -93,7 +95,7 @@ public class RepeatedTripsFragment extends Fragment
                 edit.setOnClickListener(new CardEditButtonListener(this, trip));
 
                 // format the values to their actual values.
-                String formattedCost = '€' + format.format(trip.getTotalCostEur(DataHolder.getInstance().car));
+                String formattedCost = '€' + decimalFormat.format(trip.getTotalCostEur(DataHolder.getInstance().car));
                 String formattedKilometers = format.format(trip.getTotalKm()) + ' ' + getString(R.string.km_short);
 
                 // set the texts to their actual values.
@@ -135,13 +137,12 @@ public class RepeatedTripsFragment extends Fragment
                 // listeners for buttons.
                 delete.setOnClickListener(new CardDeleteButtonListener(this, trip));
                 edit.setOnClickListener(new CardEditButtonListener(this, trip));
-
-                // TODO: REMOVE ALL UNNECESSARY HARDCODED STRINGS.
+                
                 // format the values.
-                String formattedTimesPerWeek = "Repeating " + trip.getTimesRepeating() + " times per week.";
-                String formattedCost = "€" + format.format(trip.getTotalCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + " per week";
-                String formattedLiters = format.format(trip.getTotalCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + " " + getString(R.string.lt_short) + " per week";
-                String formattedKilometers = format.format(trip.getTotalKm()) + " " + getString(R.string.km_short) + " trip";
+                String formattedTimesPerWeek = getString(R.string.card_repeated_trip_repeating) + trip.getTimesRepeating() + getString(R.string.card_repeated_trip_times_per_week);
+                String formattedCost = "€" + decimalFormat.format(trip.getTotalCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + getString(R.string.card_repeated_trip_per_week);
+                String formattedLiters = format.format(trip.getTotalLt(DataHolder.getInstance().car) * trip.getTimesRepeating()) + " " + getString(R.string.lt_short) + getString(R.string.card_repeated_trip_per_week);
+                String formattedKilometers = format.format(trip.getTotalKm()) + " " + getString(R.string.km_short) + getString(R.string.card_trip_km_trip);
 
                 // set views' actual values.
                 id.setText(String.valueOf(trip.getId()));
