@@ -65,8 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchView.setOnQueryTextListener(this);
 
 
-
-
         // testing the geocoder attribute.
         geocoder = new Geocoder(this);
     }

@@ -6,18 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
 import com.georgemc2610.benzinapp.classes.requests.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -34,12 +38,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>
+public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>, SearchView.OnQueryTextListener
 {
-
     private GoogleMap mMap;
     private Button selectOrigin, selectDestination, completeTrip;
+    private SearchView addressSearch;
     private boolean isSelectingOrigin = true, ableToCompleteTrip = false;
     private Marker origin, destination;
     private ActivityMapsCreateTripBinding binding;
@@ -60,14 +65,18 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // all the buttons
+        // all the views.
         selectOrigin = findViewById(R.id.maps_select_trip_button_origin);
         selectDestination = findViewById(R.id.maps_select_trip_button_destination);
         completeTrip = findViewById(R.id.maps_select_trip_button_make_trip);
+        addressSearch = findViewById(R.id.maps_select_trip_search_view_address);
 
         // click button to pick the origin and block the make trip button
         selectOrigin.performClick();
         setTripCompletionAvailable(false);
+
+        // search view listener
+        addressSearch.setOnQueryTextListener(this);
 
         // array list initializations.
         polylines = new ArrayList<>();
@@ -91,6 +100,18 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        // initialize google maps fragment.
+        mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
+
+        // whenever the map is long pressed add a marker depending on what button is pressed.
+        mMap.setOnMapLongClickListener(this);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -102,6 +123,44 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        // decode the address found by the query.
+        geocoder.getFromLocationName(query, 10, addresses ->
+        {
+            // if there are no addresses do not do anything.
+            if (addresses.isEmpty())
+            {
+                runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                return;
+            }
+
+            // otherwise add the marker to the map depending on what is selected (origin/destination).
+            runOnUiThread(() ->
+            {
+                // if the origin is being selected, show the origin on the map.
+                if (isSelectingOrigin)
+                    origin = showMarkerOnMap(origin, addresses.get(0));
+
+                // otherwise show the destination.
+                else
+                    destination = showMarkerOnMap(destination, addresses.get(0));
+
+                // draw the map polyline if the trip is ready
+                checkTripAvailability();
+            });
+        });
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        return false;
     }
 
     public void onButtonSelectOriginClicked(View v)
@@ -145,18 +204,6 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         finish();
     }
 
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
-        // initialize google maps fragment.
-        mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
-
-        // whenever the map is long pressed add a marker depending on what button is pressed.
-        mMap.setOnMapLongClickListener(this);
-    }
-
     @Override
     public void onMapLongClick(@NonNull LatLng latLng)
     {
@@ -166,25 +213,8 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         else
             destination = showMarkerOnMap(destination, latLng);
 
-        // if both origin and destination are assigned, then create the trip.
-        if (origin != null && destination != null)
-        {
-            RequestHandler.getInstance().CreateTrip(this, origin.getPosition(), destination.getPosition(), this);
-            ableToCompleteTrip = true;
-            setTripCompletionAvailable(true);
-        }
-        else
-        {
-            ableToCompleteTrip = false;
-            setTripCompletionAvailable(false);
-        }
-    }
-    
-    private void setTripCompletionAvailable(boolean state)
-    {
-        ableToCompleteTrip = state;
-        completeTrip.setEnabled(state);
-        completeTrip.setBackgroundColor(state? Color.parseColor("#FFAA00") : Color.GRAY);
+        // draw the map polyline if the trip is ready
+        checkTripAvailability();
     }
 
     @SuppressLint("NewApi")
@@ -203,8 +233,36 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // show its window.
         marker.showInfoWindow();
 
+        // move the camera to the marker
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f));
+
         // retrieve its address and set it as a title.
         geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new GeocoderShowMarkerListener(this, marker));
+
+        // return the marker, so the changes are saved.
+        return marker;
+    }
+
+    private Marker showMarkerOnMap(Marker marker, Address address)
+    {
+        // retrieve address' coordinates.
+        LatLng addressLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+        // if the button origin is selected, select the origin.
+        if (marker != null)
+            marker.remove();
+
+        // add the marker to the map. Green is origin, red is destination.
+        marker = mMap.addMarker(new MarkerOptions().
+                position(addressLatLng).
+                title(address.getAddressLine(0)).
+                icon(BitmapDescriptorFactory.defaultMarker(isSelectingOrigin ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_RED)));
+
+        // show its window.
+        marker.showInfoWindow();
+
+        // move the camera to zoom in on the marker
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, 14f));
 
         // return the marker, so the changes are saved.
         return marker;
@@ -269,6 +327,29 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         {
             System.err.println(e.getMessage());
         }
+    }
+
+    private void checkTripAvailability()
+    {
+        // if both origin and destination are assigned, then create the trip.
+        if (origin != null && destination != null)
+        {
+            RequestHandler.getInstance().CreateTrip(this, origin.getPosition(), destination.getPosition(), this);
+            ableToCompleteTrip = true;
+            setTripCompletionAvailable(true);
+        }
+        else
+        {
+            ableToCompleteTrip = false;
+            setTripCompletionAvailable(false);
+        }
+    }
+
+    private void setTripCompletionAvailable(boolean state)
+    {
+        ableToCompleteTrip = state;
+        completeTrip.setEnabled(state);
+        completeTrip.setBackgroundColor(state? Color.parseColor("#FFAA00") : Color.GRAY);
     }
 
     @SuppressLint("NewApi")
