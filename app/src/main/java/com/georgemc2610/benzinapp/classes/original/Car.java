@@ -66,8 +66,8 @@ public class Car
         }
 
         averageLitersPer100Km     = 100 * literSum / kilometerSum;
-        averageCostPerKm          = kilometerSum / literSum;
-        averageKilometersPerLiter = costSum / kilometerSum;
+        averageCostPerKm          = costSum / kilometerSum;
+        averageKilometersPerLiter = kilometerSum / literSum;
     }
 
     // -- GETTERS -- //
