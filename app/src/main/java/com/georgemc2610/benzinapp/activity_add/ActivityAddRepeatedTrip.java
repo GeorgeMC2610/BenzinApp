@@ -128,7 +128,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     public void onButtonAddClicked(View v)
     {
         // set all errors if any edit text has no data.
-        if (!setErrors(title, timesRepeating) || checkDataIntegrity())
+        if (!setErrors(title, timesRepeating) || !checkDataIntegrity())
             return;
 
         // get title and times repeating.
