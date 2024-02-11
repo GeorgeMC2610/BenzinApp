@@ -252,7 +252,6 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         checkTripAvailability();
     }
 
-    @SuppressLint("NewApi")
     private Marker showMarkerOnMap(Marker marker, LatLng latLng)
     {
         // if the button origin is selected, select the origin.
@@ -272,7 +271,27 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f));
 
         // retrieve its address and set it as a title.
-        geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new GeocoderShowMarkerListener(this, marker));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new GeocoderShowMarkerListener(this, marker));
+        else
+        {
+            try
+            {
+                List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10);
+
+                if (addresses.isEmpty())
+                    return marker;
+
+                marker.setTitle(addresses.get(0).getAddressLine(0));
+                marker.showInfoWindow();
+            }
+            catch (IOException e)
+            {
+                System.err.println(e.getMessage());
+                Toast.makeText(MapsCreateTripActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                return marker;
+            }
+        }
 
         // return the marker, so the changes are saved.
         return marker;

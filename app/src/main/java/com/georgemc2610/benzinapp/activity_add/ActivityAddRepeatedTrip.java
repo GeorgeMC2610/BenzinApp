@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.StringRequest;
 import com.georgemc2610.benzinapp.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -61,17 +62,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         isRepeating.setOnCheckedChangeListener(this);
 
         // action bar
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_add_trip));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_trip));
     }
 
     @Override
