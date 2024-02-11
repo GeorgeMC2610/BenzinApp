@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.google.android.gms.maps.model.LatLng;
@@ -141,18 +142,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
             trip.setTextColor(Color.RED);
         }
 
-        // action bar
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_add_trip));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.err.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
     }
 
     private void displayAddresses()
