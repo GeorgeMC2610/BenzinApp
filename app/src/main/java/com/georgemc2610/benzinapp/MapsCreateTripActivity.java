@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,30 +130,64 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     public boolean onQueryTextSubmit(String query)
     {
         // decode the address found by the query.
-        geocoder.getFromLocationName(query, 10, addresses ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
-            // if there are no addresses do not do anything.
-            if (addresses.isEmpty())
+            geocoder.getFromLocationName(query, 10, addresses ->
             {
-                runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
-                return;
-            }
+                // if there are no addresses do not do anything.
+                if (addresses.isEmpty())
+                {
+                    runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                    return;
+                }
 
-            // otherwise add the marker to the map depending on what is selected (origin/destination).
-            runOnUiThread(() ->
+                // otherwise add the marker to the map depending on what is selected (origin/destination).
+                runOnUiThread(() ->
+                {
+                    // if the origin is being selected, show the origin on the map.
+                    if (isSelectingOrigin)
+                        origin = showMarkerOnMap(origin, addresses.get(0));
+
+                    // otherwise show the destination.
+                    else
+                        destination = showMarkerOnMap(destination, addresses.get(0));
+
+                    // draw the map polyline if the trip is ready
+                    checkTripAvailability();
+                });
+            });
+        }
+        else
+        {
+            try
             {
-                // if the origin is being selected, show the origin on the map.
+                List<Address> addresses = geocoder.getFromLocationName(query, 10);
+
+                if (addresses.isEmpty())
+                {
+                    Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
                 if (isSelectingOrigin)
                     origin = showMarkerOnMap(origin, addresses.get(0));
 
-                // otherwise show the destination.
+                    // otherwise show the destination.
                 else
                     destination = showMarkerOnMap(destination, addresses.get(0));
 
                 // draw the map polyline if the trip is ready
                 checkTripAvailability();
-            });
-        });
+
+            }
+            catch (IOException e)
+            {
+                System.err.println(e.getMessage());
+                Toast.makeText(MapsCreateTripActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        }
 
         return false;
     }
