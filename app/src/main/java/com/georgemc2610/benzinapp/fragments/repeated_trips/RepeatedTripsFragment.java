@@ -137,7 +137,7 @@ public class RepeatedTripsFragment extends Fragment
                 // listeners for buttons.
                 delete.setOnClickListener(new CardDeleteButtonListener(this, trip));
                 edit.setOnClickListener(new CardEditButtonListener(this, trip));
-                
+
                 // format the values.
                 String formattedTimesPerWeek = getString(R.string.card_repeated_trip_repeating) + trip.getTimesRepeating() + getString(R.string.card_repeated_trip_times_per_week);
                 String formattedCost = "€" + decimalFormat.format(trip.getTotalCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + getString(R.string.card_repeated_trip_per_week);
