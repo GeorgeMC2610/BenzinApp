@@ -431,7 +431,8 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     }
 
     @SuppressLint("NewApi")
-    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException {
+    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException
+    {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.append("origin_coordinates", origin.latitude);
