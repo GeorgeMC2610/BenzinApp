@@ -12,6 +12,8 @@ public class Car
 {
     private String username, manufacturer, model;
     private float averageLitersPer100Km, averageKilometersPerLiter, averageCostPerKm;
+    private float minimumLitersPer100Km, minimumKilometersPerLiter, minimumCostPerKm;
+    private float maximumLitersPer100Km, maximumKilometersPerLiter, maximumCostPerKm;
     private int year;
 
     private Car(String username, String manufacturer, String model, int year)
@@ -20,6 +22,14 @@ public class Car
         this.manufacturer = manufacturer;
         this.model = model;
         this.year = year;
+
+        this.maximumKilometersPerLiter = -1f;
+        this.maximumLitersPer100Km = -1f;
+        this.maximumCostPerKm = 1f;
+
+        this.minimumKilometersPerLiter = -1f;
+        this.minimumLitersPer100Km = -1f;
+        this.minimumCostPerKm = 1f;
     }
 
     public static Car createCarFromJson(JSONObject jsonObject)
@@ -63,8 +73,29 @@ public class Car
             literSum += record.getLiters();
             kilometerSum += record.getKilometers();
             costSum += record.getCost_eur();
+
+            // calculate maximums.
+            if (record.getLt_per_100km() > this.maximumLitersPer100Km)
+                this.maximumLitersPer100Km = record.getLt_per_100km();
+
+            if (record.getKm_per_lt() > this.maximumKilometersPerLiter)
+                this.maximumKilometersPerLiter = record.getKm_per_lt();
+
+            if (record.getCostEur_per_km() > this.maximumCostPerKm)
+                this.maximumCostPerKm = record.getCostEur_per_km();
+
+            // calculate minimums.
+            if (record.getLt_per_100km() < this.minimumLitersPer100Km)
+                this.minimumLitersPer100Km = record.getLt_per_100km();
+
+            if (record.getKm_per_lt() < this.minimumKilometersPerLiter)
+                this.minimumKilometersPerLiter = record.getKm_per_lt();
+
+            if (record.getCostEur_per_km() < this.minimumCostPerKm)
+                this.minimumCostPerKm = record.getCostEur_per_km();
         }
 
+        // assign the averages.
         averageLitersPer100Km     = 100 * literSum / kilometerSum;
         averageCostPerKm          = costSum / kilometerSum;
         averageKilometersPerLiter = kilometerSum / literSum;

@@ -18,8 +18,6 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-// TODO: Add comments.
-
 public class ActivityEditRecord extends AppCompatActivity
 {
     private FuelFillRecord record;
