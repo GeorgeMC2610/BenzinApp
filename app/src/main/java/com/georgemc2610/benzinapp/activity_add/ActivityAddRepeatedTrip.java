@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -32,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
@@ -171,37 +173,70 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
             // geocoder to set the addresses correctly.
             Geocoder geocoder = new Geocoder(this);
 
-            // assign the addresses to the text view.
-            geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, addresses ->
+            // newer api requires listener
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             {
-                if (addresses.isEmpty())
-                    return;
+                // assign the addresses to the text view.
+                geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, addresses ->
+                {
+                    if (addresses.isEmpty())
+                        return;
 
-                originAddress = addresses.get(0);
-                runOnUiThread(this::assignTripViewAddresses);
-            });
+                    originAddress = addresses.get(0);
+                    runOnUiThread(this::assignTripViewAddresses);
+                });
 
-            // same for the destination.
-            geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, addresses ->
+                // same for the destination.
+                geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, addresses ->
+                {
+                    if (addresses.isEmpty())
+                        return;
+
+                    destinationAddress = addresses.get(0);
+                    runOnUiThread(this::assignTripViewAddresses);
+                });
+            }
+            // older api requires occupying the entire thread.
+            else
             {
-                if (addresses.isEmpty())
-                    return;
+                // get all possible addresses
+                List<Address> originAddresses = geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5);
+                List<Address> destinationAddresses = geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5);
 
-                destinationAddress = addresses.get(0);
-                runOnUiThread(this::assignTripViewAddresses);
-            });
+                // if either one is empty, don't assign it.
+                if (!originAddresses.isEmpty())
+                    originAddress = originAddresses.get(0);
 
+                if (!destinationAddresses.isEmpty())
+                    destinationAddress = destinationAddresses.get(0);
+
+                // set the view according to the list sizes.
+                assignTripViewAddresses();
+            }
         }
+        // json exception means the latitude and longitude aren't stored correctly.
         catch (JSONException e)
         {
             System.err.println(e.getMessage());
+            trip.setTextColor(Color.RED);
+            trip.setText("Invalid coordinates.");
+        }
+        // io exception means the geocoder (older api) failed.
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+            trip.setTextColor(Color.RED);
+            trip.setText("Couldn't load addresses.");
         }
     }
 
     private void assignTripViewAddresses()
     {
         if (originAddress == null || destinationAddress == null)
+        {
+            trip.setText("No addresses found.");
             return;
+        }
 
         StringBuilder builder = new StringBuilder();
         builder.append("From: ");

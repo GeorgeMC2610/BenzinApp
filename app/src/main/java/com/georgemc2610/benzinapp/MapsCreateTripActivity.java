@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>, SearchView.OnQueryTextListener
+public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>, SearchView.OnQueryTextListener, GoogleMap.OnPolylineClickListener
 {
     private GoogleMap mMap;
     private Button selectOrigin, selectDestination, completeTrip;
@@ -52,6 +52,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private Geocoder geocoder;
     private ArrayList<Polyline> polylines;
     private ArrayList<String> encodedPolylines;
+    private int indexOfSelectedPolyline;
     private ArrayList<Float> routeDistances;
 
     @Override
@@ -109,8 +110,31 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
+        mMap.setOnPolylineClickListener(this);
+
         // whenever the map is long pressed add a marker depending on what button is pressed.
         mMap.setOnMapLongClickListener(this);
+    }
+
+    @Override
+    public void onPolylineClick(@NonNull Polyline polyline)
+    {
+        int index = 0;
+
+        for (Polyline poly : polylines)
+        {
+            if (poly.equals(polyline))
+            {
+                indexOfSelectedPolyline = index;
+                poly.setColor(Color.BLUE);
+                poly.setWidth(10f);
+                continue;
+            }
+
+            poly.setColor(Color.GRAY);
+            poly.setWidth(8f);
+            index++;
+        }
     }
 
     @Override
@@ -228,9 +252,9 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         SharedPreferences.Editor editor = preferences.edit();
 
         // based on what we want saved on the cloud, we save the shared preferences like this.
-        editor.putString("encodedTrip", encodedPolylines.get(0));
+        editor.putString("encodedTrip", encodedPolylines.get(indexOfSelectedPolyline));
         editor.putString("jsonTrip", createTripToJson(origin.getPosition(), destination.getPosition()));
-        editor.putFloat("tripDistance", routeDistances.get(0));
+        editor.putFloat("tripDistance", routeDistances.get(indexOfSelectedPolyline));
 
         // apply changes.
         editor.apply();
@@ -363,9 +387,9 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 // set the polyline settings. for the first route, set it as default, for the rest, let them be gray.
                 PolylineOptions options;
                 if (i == 0)
-                    options = new PolylineOptions().width(10f).color(Color.BLUE).geodesic(true);
+                    options = new PolylineOptions().width(10f).color(Color.BLUE).geodesic(true).clickable(true);
                 else
-                    options = new PolylineOptions().width(16f).color(Color.GRAY).geodesic(true);
+                    options = new PolylineOptions().width(8f).color(Color.GRAY).geodesic(true).clickable(true);
 
                 // add the points to the map with the options above
                 for (LatLng point : decoded_points)
@@ -407,8 +431,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     }
 
     @SuppressLint("NewApi")
-    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException
-    {
+    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.append("origin_coordinates", origin.latitude);

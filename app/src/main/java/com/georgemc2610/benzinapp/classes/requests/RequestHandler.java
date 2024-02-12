@@ -652,7 +652,7 @@ public class RequestHandler
         String stringDestination = destination.latitude + "," + destination.longitude;
 
         // url for getting a trip
-        String url = "https://maps.googleapis.com/maps/api/directions/json?destination=" + stringDestination + "&origin=" + stringOrigin + "&key=" + key;
+        String url = "https://maps.googleapis.com/maps/api/directions/json?alternatives=true&destination=" + stringDestination + "&origin=" + stringOrigin + "&key=" + key;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, listener, error ->
         {
