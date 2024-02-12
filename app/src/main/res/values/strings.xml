@@ -139,4 +139,5 @@
     <string name="card_repeated_trip_times_per_week">" times per week."</string>
     <string name="card_repeated_trip_per_week">" per week"</string>
     <string name="card_trip_km_trip">" trip"</string>
+    <string name="title_activity_maps_display_trip">MapsDisplayTripActivity</string>
 </resources>
