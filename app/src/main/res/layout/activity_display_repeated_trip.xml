@@ -92,7 +92,7 @@
                 android:id="@+id/display_repeated_trip_button_show_on_map"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Show on map"
+                android:text="SHOW ON MAP"
                 app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- TRIP'S TOTAL KM -->
