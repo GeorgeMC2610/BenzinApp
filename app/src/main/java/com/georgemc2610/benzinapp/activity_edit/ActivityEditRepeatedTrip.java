@@ -189,6 +189,8 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
             // pass the data to the next activity.
             intent.putExtra("origin", coordinates.get("origin"));
             intent.putExtra("destination", coordinates.get("destination"));
+            intent.putExtra("polyline", repeatedTrip.getDestination());
+            intent.putExtra("km", repeatedTrip.getTotalKm());
         }
 
         // start the activity in any case (either with or without data).
