@@ -53,7 +53,6 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
         binding = ActivityMapsDisplayTripBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
         // geocoder initialize
         geocoder = new Geocoder(this);
@@ -69,6 +68,7 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
 
             originCoordinates = new LatLng(jsonCoordinates.getJSONArray("origin_coordinates").getDouble(0), jsonCoordinates.getJSONArray("origin_coordinates").getDouble(1));
             destinationCoordinates = new LatLng(jsonCoordinates.getJSONArray("destination_coordinates").getDouble(0), jsonCoordinates.getJSONArray("destination_coordinates").getDouble(1));
+            mapFragment.getMapAsync(this);
         }
         // in case something goes wrong print it out.
         catch (JSONException e)
@@ -110,8 +110,11 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
                 if (addresses.isEmpty())
                     return;
 
-                origin.setTitle(addresses.get(0).getAddressLine(0));
-                origin.showInfoWindow();
+                runOnUiThread(() ->
+                {
+                    origin.setTitle(addresses.get(0).getAddressLine(0));
+                    origin.showInfoWindow();
+                });
             });
 
             geocoder.getFromLocation(destinationCoordinates.latitude, destinationCoordinates.longitude, 1, addresses ->
@@ -119,8 +122,11 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
                 if (addresses.isEmpty())
                     return;
 
-                destination.setTitle(addresses.get(0).getAddressLine(0));
-                destination.showInfoWindow();
+                runOnUiThread(() ->
+                {
+                    destination.setTitle(addresses.get(0).getAddressLine(0));
+                    destination.showInfoWindow();
+                });
             });
         }
         else
