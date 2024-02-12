@@ -12,6 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
@@ -85,6 +86,19 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
 
         // actionbar
         DisplayActionBarTool.displayActionBar(this, "Trip Display"); // TODO: REMOVE HARDCODED STRING
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -167,6 +181,6 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
 
         // show the polyline
         polyline = mMap.addPolyline(options);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationCoordinates, 10f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationCoordinates, 2500f/decodedPoints.size()));
     }
 }

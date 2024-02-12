@@ -43,6 +43,8 @@ public final class PolylineDecoder
             poly.add(p);
         }
 
+        Log.i("Location", "TOTAL OF: " + poly.size() + " POINTS");
+
         for (int i = 0; i < poly.size(); i++)
             Log.i("Location", "Point sent: Latitude: "+poly.get(i).latitude+" Longitude: "+poly.get(i).longitude);
 
