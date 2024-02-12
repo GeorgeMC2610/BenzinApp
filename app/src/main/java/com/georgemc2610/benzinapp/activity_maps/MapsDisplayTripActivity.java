@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.PolylineDecoder;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsDisplayTripBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,11 +26,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapReadyCallback
@@ -146,7 +150,17 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
             }
         }
 
+        // get polyline points.
+        ArrayList<LatLng> decodedPoints = PolylineDecoder.decode(encodedPolyline);
 
+        // polyline is blue in any case.
+        PolylineOptions options = new PolylineOptions().width(10f).color(Color.BLUE);
 
+        // add the points to the polyline
+        options.addAll(decodedPoints);
+
+        // show the polyline
+        polyline = mMap.addPolyline(options);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationCoordinates, 10f));
     }
 }
