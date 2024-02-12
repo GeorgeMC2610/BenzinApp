@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.georgemc2610.benzinapp.MapsDisplayPointActivity;
+import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;

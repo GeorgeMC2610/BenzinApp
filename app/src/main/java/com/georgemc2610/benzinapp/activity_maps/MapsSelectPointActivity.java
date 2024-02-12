@@ -1,15 +1,13 @@
-package com.georgemc2610.benzinapp;
+package com.georgemc2610.benzinapp.activity_maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +15,8 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.databinding.ActivityMapsSelectPointBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,13 +24,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.georgemc2610.benzinapp.databinding.ActivityMapsBinding;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Executor;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
+public class MapsSelectPointActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
 {
 
     private GoogleMap mMap;
@@ -40,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private Button SendDataButton;
     private SearchView searchView;
-    private ActivityMapsBinding binding;
+    private ActivityMapsSelectPointBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // initialize view.
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+        binding = ActivityMapsSelectPointBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -96,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (addresses.isEmpty())
                         {
                             // if it is, show the message to the user.
-                            runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                            runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
 
                             return;
                         }
@@ -114,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (!addresses.isEmpty())
                         assignMarkerAndData(addresses.get(0), null);
                     else
-                        Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
                 }
                 catch (IOException e)
                 {
@@ -156,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addresses.isEmpty())
                 {
                     // if it is, show the message to the user.
-                    runOnUiThread(() -> Toast.makeText(MapsActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
 
                     return;
                 }

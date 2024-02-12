@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp;
+package com.georgemc2610.benzinapp.activity_maps;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.georgemc2610.benzinapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

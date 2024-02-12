@@ -1,10 +1,7 @@
 package com.georgemc2610.benzinapp.activity_add;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,8 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.StringRequest;
-import com.georgemc2610.benzinapp.MapsCreateTripActivity;
+import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;

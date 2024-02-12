@@ -17,7 +17,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.georgemc2610.benzinapp.BuildConfig;
 import com.georgemc2610.benzinapp.LoginActivity;
-import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.listeners.ErrorLoginListener;
 import com.georgemc2610.benzinapp.classes.listeners.ErrorRegisterListener;
@@ -36,12 +35,9 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class RequestHandler
 {

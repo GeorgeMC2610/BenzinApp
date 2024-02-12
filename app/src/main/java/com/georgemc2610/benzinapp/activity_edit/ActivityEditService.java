@@ -16,7 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.georgemc2610.benzinapp.MapsActivity;
+import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
@@ -180,7 +180,7 @@ public class ActivityEditService extends AppCompatActivity
             // the YES button opens the google maps activity.
             builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
             {
-                Intent intent = new Intent(ActivityEditService.this, MapsActivity.class);
+                Intent intent = new Intent(ActivityEditService.this, MapsSelectPointActivity.class);
                 startActivity(intent);
             });
 
@@ -192,7 +192,7 @@ public class ActivityEditService extends AppCompatActivity
         }
 
         // in any other case, the maps activity can open regularly.
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapsSelectPointActivity.class);
         startActivity(intent);
     }
 

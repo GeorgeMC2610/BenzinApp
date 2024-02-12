@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.georgemc2610.benzinapp.MapsActivity;
+import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -196,7 +196,7 @@ public class ActivityAddService extends AppCompatActivity
 
     public void OnSelectLocationClicked(View view)
     {
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapsSelectPointActivity.class);
 
         // initialize location permission
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

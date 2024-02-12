@@ -9,11 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.icu.text.NumberFormat;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -25,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.georgemc2610.benzinapp.MapsActivity;
+import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -279,7 +275,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             // the YES button opens the google maps activity.
             builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
             {
-                Intent intent = new Intent(ActivityEditMalfunction.this, MapsActivity.class);
+                Intent intent = new Intent(ActivityEditMalfunction.this, MapsSelectPointActivity.class);
                 startActivity(intent);
             });
 
@@ -291,7 +287,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         }
 
         // in any other case, the maps activity can open regularly.
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapsSelectPointActivity.class);
         startActivity(intent);
     }
 

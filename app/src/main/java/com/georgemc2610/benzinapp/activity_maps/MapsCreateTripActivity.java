@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp;
+package com.georgemc2610.benzinapp.activity_maps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +18,11 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
 import com.georgemc2610.benzinapp.classes.requests.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,7 +31,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 

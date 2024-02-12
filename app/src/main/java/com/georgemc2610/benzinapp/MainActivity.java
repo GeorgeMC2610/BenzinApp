@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp;
 
 import android.os.Bundle;
 
+import com.georgemc2610.benzinapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
