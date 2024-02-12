@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
 import com.georgemc2610.benzinapp.classes.activity_tools.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -90,27 +91,43 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         geocoder = new Geocoder(this);
 
         // action bar
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Create Trip");
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, "Create Trip");
     }
 
     @SuppressLint("MissingPermission")
     @Override
-    public void onMapReady(GoogleMap googleMap)
+    public void onMapReady(@NonNull GoogleMap googleMap)
     {
         // initialize google maps fragment.
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
+        // get extra data if they're present.
+        double[] originCoordinates = getIntent().getDoubleArrayExtra("origin");
+        double[] destinationCoordinates = getIntent().getDoubleArrayExtra("destination");
+        String polyline = getIntent().getStringExtra("polyline");
+        float totalKm = getIntent().getFloatExtra("km", -1f);
+
+        if (originCoordinates != null)
+        {
+            // initialize the markers.
+            origin = showMarkerOnMap(origin, new LatLng(originCoordinates[0], originCoordinates[1]));
+            destination = showMarkerOnMap(destination, new LatLng(destinationCoordinates[0], destinationCoordinates[1]));
+
+            // set the index to be the first item (since there will be only one).
+            indexOfSelectedPolyline = 0;
+
+            // add the necessary objects in the map.
+            routeDistances.add(totalKm);
+            encodedPolylines.add(polyline);
+
+            // get the points to the polyline and add them.
+            ArrayList<LatLng> points = PolylineDecoder.decode(polyline);
+            Polyline line = mMap.addPolyline(new PolylineOptions().addAll(points).width(10f).color(Color.BLUE).geodesic(true));
+            polylines.add(line);
+        }
+
+        // set clicks for the polyline.
         mMap.setOnPolylineClickListener(this);
 
         // whenever the map is long pressed add a marker depending on what button is pressed.
