@@ -1,8 +1,12 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.location.Address;
+import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -15,12 +19,19 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
+
 public class ActivityEditRepeatedTrip extends AppCompatActivity
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
     private Button selectTrip;
     private TextView trip, totalKm;
+    private Geocoder geocoder;
     private Address originAddress, destinationAddress;
     private float km;
     private String encodedTrip, jsonTrip;
@@ -51,6 +62,69 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         isRepeating.setChecked(repeatedTrip.getTimesRepeating() == 1);
         totalKm.setText(String.valueOf(repeatedTrip.getTotalKm()));
 
+        // initialize geocoder.
+        geocoder = new Geocoder(this);
+
+        // set addresses to the trip.
+        try
+        {
+            // json object with coordinates
+            JSONObject jsonObject = new JSONObject(repeatedTrip.getOrigin());
+
+            // newer api requires listener
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            {
+                // for the origin.
+                geocoder.getFromLocation(jsonObject.getJSONArray("origin_coordinates").getDouble(0), jsonObject.getJSONArray("origin_coordinates").getDouble(1), 1, addresses ->
+                {
+                    if (addresses.isEmpty())
+                        return;
+
+                    originAddress = addresses.get(0);
+                    runOnUiThread(this::setTripTitle);
+                });
+
+                // for the destination
+                geocoder.getFromLocation(jsonObject.getJSONArray("destination_coordinates").getDouble(0), jsonObject.getJSONArray("destination_coordinates").getDouble(1), 1, addresses ->
+                {
+                    if (addresses.isEmpty())
+                        return;
+
+                    destinationAddress = addresses.get(0);
+                    runOnUiThread(this::setTripTitle);
+                });
+            }
+            // older api runs on ui thread
+            else
+            {
+                // retrieve the addresses.
+                List<Address> originAddresses = geocoder.getFromLocation(jsonObject.getJSONArray("origin_coordinates").getDouble(0), jsonObject.getJSONArray("origin_coordinates").getDouble(1), 1);
+                List<Address> destinationAddresses = geocoder.getFromLocation(jsonObject.getJSONArray("destination_coordinates").getDouble(0), jsonObject.getJSONArray("destination_coordinates").getDouble(1), 1);
+
+                if (originAddresses.isEmpty() || destinationAddresses.isEmpty())
+                    return;
+
+                // get the addresses.
+                originAddress = originAddresses.get(0);
+                destinationAddress = destinationAddresses.get(0);
+
+                // set the title if they're not null.
+                setTripTitle();
+            }
+        }
+        catch (JSONException e)
+        {
+            System.err.println(e.getMessage());
+            trip.setText("Data are not stored correctly.");
+            trip.setTextColor(Color.RED);
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+            trip.setText("Unable to load addresses.");
+            trip.setTextColor(Color.RED);
+        }
+
         // actionbar
         DisplayActionBarTool.displayActionBar(this, "Edit Trip");
     }
@@ -67,6 +141,24 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void setTripTitle()
+    {
+        // addresses must not be null.
+        if (originAddress == null || destinationAddress == null)
+            return;
+
+        // make string trip.
+        String trip = "FROM: " +
+                originAddress.getAddressLine(0) +
+                "\n\n" +
+                "TO: " +
+                destinationAddress.getAddressLine(0);
+
+        // assign the trip addresses.
+        this.trip.setText(trip);
+    }
+
 
     private void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
