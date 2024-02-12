@@ -54,14 +54,35 @@ public class RepeatedTrip implements Serializable
         }
     }
 
-    public float getTotalLt(Car car)
+    public float getAvgLt(Car car)
     {
         return car.getAverageLitersPer100Km() * totalKm / 100;
     }
 
-    public float getTotalCostEur(Car car)
+    public float getBestLt(Car car)
+    {
+        System.out.println("THIS IS THE RESULT OF MAXIMUM LITERS PER 100 KM :" + car.getMinimumLitersPer100Km());
+        return car.getMinimumLitersPer100Km() * totalKm / 100;
+    }
+
+    public float getWorstLt(Car car)
+    {
+        return car.getMaximumLitersPer100Km() * totalKm / 100;
+    }
+
+    public float getAvgCostEur(Car car)
     {
         return car.getAverageCostPerKm() * totalKm;
+    }
+
+    public float getBestCostEur(Car car)
+    {
+        return car.getMinimumCostPerKm() * totalKm;
+    }
+
+    public float getWorstCostEur(Car car)
+    {
+        return car.getMaximumCostPerKm() * totalKm;
     }
 
     public int getId()

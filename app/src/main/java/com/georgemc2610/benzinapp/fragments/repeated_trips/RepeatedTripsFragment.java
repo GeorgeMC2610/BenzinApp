@@ -95,7 +95,7 @@ public class RepeatedTripsFragment extends Fragment
                 edit.setOnClickListener(new CardEditButtonListener(this, trip));
 
                 // format the values to their actual values.
-                String formattedCost = '€' + decimalFormat.format(trip.getTotalCostEur(DataHolder.getInstance().car));
+                String formattedCost = '€' + decimalFormat.format(trip.getAvgCostEur(DataHolder.getInstance().car));
                 String formattedKilometers = format.format(trip.getTotalKm()) + ' ' + getString(R.string.km_short);
 
                 // set the texts to their actual values.
@@ -140,8 +140,8 @@ public class RepeatedTripsFragment extends Fragment
 
                 // format the values.
                 String formattedTimesPerWeek = getString(R.string.card_repeated_trip_repeating) + trip.getTimesRepeating() + getString(R.string.card_repeated_trip_times_per_week);
-                String formattedCost = "€" + decimalFormat.format(trip.getTotalCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + getString(R.string.card_repeated_trip_per_week);
-                String formattedLiters = format.format(trip.getTotalLt(DataHolder.getInstance().car) * trip.getTimesRepeating()) + " " + getString(R.string.lt_short) + getString(R.string.card_repeated_trip_per_week);
+                String formattedCost = "€" + decimalFormat.format(trip.getAvgCostEur(DataHolder.getInstance().car) * trip.getTimesRepeating()) + getString(R.string.card_repeated_trip_per_week);
+                String formattedLiters = format.format(trip.getAvgLt(DataHolder.getInstance().car) * trip.getTimesRepeating()) + " " + getString(R.string.lt_short) + getString(R.string.card_repeated_trip_per_week);
                 String formattedKilometers = format.format(trip.getTotalKm()) + " " + getString(R.string.km_short) + getString(R.string.card_trip_km_trip);
 
                 // set views' actual values.

@@ -25,11 +25,11 @@ public class Car
 
         this.maximumKilometersPerLiter = -1f;
         this.maximumLitersPer100Km = -1f;
-        this.maximumCostPerKm = 1f;
+        this.maximumCostPerKm = -1f;
 
-        this.minimumKilometersPerLiter = -1f;
-        this.minimumLitersPer100Km = -1f;
-        this.minimumCostPerKm = 1f;
+        this.minimumKilometersPerLiter = Float.MAX_VALUE;
+        this.minimumLitersPer100Km = Float.MAX_VALUE;
+        this.minimumCostPerKm = Float.MAX_VALUE;
     }
 
     public static Car createCarFromJson(JSONObject jsonObject)
@@ -136,4 +136,29 @@ public class Car
     {
         return averageCostPerKm;
     }
+
+    public float getMinimumLitersPer100Km() {
+        return minimumLitersPer100Km;
+    }
+
+    public float getMinimumKilometersPerLiter() {
+        return minimumKilometersPerLiter;
+    }
+
+    public float getMinimumCostPerKm() {
+        return minimumCostPerKm;
+    }
+
+    public float getMaximumLitersPer100Km() {
+        return maximumLitersPer100Km;
+    }
+
+    public float getMaximumKilometersPerLiter() {
+        return maximumKilometersPerLiter;
+    }
+
+    public float getMaximumCostPerKm() {
+        return maximumCostPerKm;
+    }
+
 }
