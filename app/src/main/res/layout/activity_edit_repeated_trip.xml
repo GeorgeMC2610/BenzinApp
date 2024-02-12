@@ -6,4 +6,122 @@
     android:layout_height="match_parent"
     tools:context=".activity_edit.ActivityEditRepeatedTrip">
 
+    <ScrollView
+        android:layout_width="359dp"
+        android:layout_height="523dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_title_legend"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/text_view_title" />
+
+            <EditText
+                android:id="@+id/edit_repeated_trips_edit_text_title"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_repeated_trips_title_hint"
+                android:inputType="text" />
+
+            <!-- TIMES OCCURRING -->
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_times_repeating_legend"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@string/edit_text_repeated_trips_times_occurring" />
+
+            <EditText
+                android:id="@+id/edit_repeated_trips_edit_text_times_repeating"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="@string/edit_text_repeated_trips_times_occurring_hint"
+                android:inputType="numberSigned" />
+
+            <!-- ONE TIME TRIP -->
+            <CheckBox
+                android:id="@+id/edit_repeated_trips_checkbox_not_repeating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/check_box_repeated_trips_not_repeating" />
+
+            <!-- ORIGIN -->
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_origin_legend"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="Trip:" />
+
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_origin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Make a trip..."
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/edit_repeated_trips_button_origin"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:backgroundTint="#2DA2FF"
+                android:hint="Press to create a trip on the map..."
+                android:onClick="onButtonSelectTripClicked"
+                app:icon="@android:drawable/ic_dialog_map" />
+
+            <!-- TOTAL KM -->
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_kilometers_legend"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/text_view_repeated_trips_km_legend"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/edit_repeated_trips_text_view_kilometers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="--"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/edit_repeated_trips_button_apply_edits"
+        android:layout_width="367dp"
+        android:layout_height="66dp"
+        android:onClick="onButtonAddClicked"
+        android:text="@string/button_add"
+        android:backgroundTint="#2DA2FF"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
