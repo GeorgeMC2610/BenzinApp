@@ -3,12 +3,14 @@ package com.georgemc2610.benzinapp.activity_edit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -16,14 +18,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.JSONCoordinatesTool;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityEditRepeatedTrip extends AppCompatActivity
 {
@@ -61,6 +67,9 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         timesRepeating.setText(String.valueOf(repeatedTrip.getTimesRepeating()));
         isRepeating.setChecked(repeatedTrip.getTimesRepeating() == 1);
         totalKm.setText(String.valueOf(repeatedTrip.getTotalKm()));
+
+        // add the button listener
+        selectTrip.setOnClickListener(this::onSelectTripClicked);
 
         // initialize geocoder.
         geocoder = new Geocoder(this);
@@ -164,5 +173,25 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
     {
         timesRepeating.setText(isChecked? "1" : "");
         timesRepeating.setEnabled(!isChecked);
+    }
+
+    private void onSelectTripClicked(View view)
+    {
+        // initialize opening activity.
+        Intent intent = new Intent(this, MapsCreateTripActivity.class);
+
+        // get the coordinates of the trip.
+        Map<String, double[]> coordinates = JSONCoordinatesTool.getCoordinatesFromJSON(repeatedTrip.getOrigin());
+
+        // if they exist
+        if (coordinates != null)
+        {
+            // pass the data to the next activity.
+            intent.putExtra("origin", coordinates.get("origin"));
+            intent.putExtra("destination", coordinates.get("destination"));
+        }
+
+        // start the activity in any case (either with or without data).
+        startActivity(intent);
     }
 }
