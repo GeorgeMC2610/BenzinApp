@@ -1,4 +1,4 @@
-package com.georgemc2610.benzinapp.classes.requests;
+package com.georgemc2610.benzinapp.classes.activity_tools;
 
 import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;

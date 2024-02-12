@@ -2,7 +2,7 @@ package com.georgemc2610.benzinapp.classes.activity_tools;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DisplayActionBarTool
+public final class DisplayActionBarTool
 {
     public static void displayActionBar(AppCompatActivity activity, String title)
     {

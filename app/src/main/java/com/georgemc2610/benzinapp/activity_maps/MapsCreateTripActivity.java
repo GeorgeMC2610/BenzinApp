@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
-import com.georgemc2610.benzinapp.classes.requests.PolylineDecoder;
+import com.georgemc2610.benzinapp.classes.activity_tools.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsCreateTripBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
