@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -48,7 +49,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_repeated_trip);
 
-        // views
+        // get the views
         title = findViewById(R.id.repeated_trips_edit_text_title);
         timesRepeating = findViewById(R.id.repeated_trips_edit_text_times_repeating);
         isRepeating = findViewById(R.id.repeated_trips_checkbox_not_repeating);
@@ -117,12 +118,12 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     public void onButtonAddClicked(View v)
     {
         // set all errors if any edit text has no data.
-        if (!setErrors(title, timesRepeating) || !checkDataIntegrity())
+        if (!ViewTools.setErrors(this, title, timesRepeating) || !checkDataIntegrity())
             return;
 
         // get title and times repeating.
-        String title = getFilteredViewSequence(this.title);
-        int timesRepeating = Integer.parseInt(getFilteredViewSequence(this.timesRepeating));
+        String title = ViewTools.getFilteredViewSequence(this.title);
+        int timesRepeating = Integer.parseInt(ViewTools.getFilteredViewSequence(this.timesRepeating));
 
         // send the trip
         RequestHandler.getInstance().AddRepeatedTrip(this, title, jsonTrip, encodedTrip, timesRepeating, km);
@@ -273,62 +274,10 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
      */
     private boolean isAnyFieldFilled()
     {
-        if (!isEditTextEmpty(title) || !isEditTextEmpty(timesRepeating))
+        if (!ViewTools.isEditTextEmpty(title) || !ViewTools.isEditTextEmpty(timesRepeating))
             return true;
 
-        return !getFilteredViewSequence(trip).equals("Make a trip...");
-    }
-
-    /**
-     * Checks the trimmed content of any {@linkplain EditText} to see if it has any value in it.
-     * @param editText The field to be checked.
-     * @return True if it has no value, false otherwise.
-     */
-    private boolean isEditTextEmpty(EditText editText)
-    {
-        return getFilteredViewSequence(editText).isEmpty();
-    }
-
-    /**
-     * Filters the text inside an {@linkplain EditText} using the trim method of the {@linkplain String} class.
-     * @param editText The wanted field for its text retrieval.
-     * @return The content of the {@linkplain  EditText} with no whitespaces.
-     */
-    private String getFilteredViewSequence(EditText editText)
-    {
-        return editText.getText().toString().trim();
-    }
-
-    /**
-     * Filters the text inside an {@linkplain TextView} using the trim method of the {@linkplain String} class.
-     * @param textView The wanted field for its text retrieval.
-     * @return The content of the {@linkplain TextView} with no whitespaces.
-     */
-    private String getFilteredViewSequence(TextView textView)
-    {
-        return textView.getText().toString().trim();
-    }
-
-    /**
-     * Typically used to see if all the fields are correctly filled with data before proceeding to send it to the cloud.
-     * Sets the errors for any fields that have no data in them.
-     * @param texts A list of fields to be checked.
-     * @return True all the fields have data and it's okay to proceed, false otherwise.
-     */
-    private boolean setErrors(EditText... texts)
-    {
-        boolean canContinue = true;
-
-        for (EditText editText: texts)
-        {
-            if (isEditTextEmpty(editText))
-            {
-                editText.setError(getString(R.string.error_field_cannot_be_empty));
-                canContinue = false;
-            }
-        }
-
-        return canContinue;
+        return !ViewTools.getFilteredViewSequence(trip).equals("Make a trip...");
     }
 
     /**
