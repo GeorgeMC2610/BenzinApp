@@ -88,6 +88,13 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/display_repeated_trip_button_show_on_map"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Show on map"
+                app:icon="@android:drawable/ic_dialog_map" />
+
             <!-- TRIP'S TOTAL KM -->
             <TextView
                 android:id="@+id/display_repeated_trip_text_view_total_km_legend"
