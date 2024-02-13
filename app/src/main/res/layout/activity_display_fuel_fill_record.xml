@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity_display.ActivityDisplayFuelFillRecord">
 
+    <!-- BUTTON DELETE -->
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="363dp"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- DATE -->
             <TextView
                 android:id="@+id/textView_TitleDate"
                 android:layout_width="match_parent"
@@ -53,6 +55,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- FUEL TYPE -->
             <TextView
                 android:id="@+id/textView_TitlePetrolType"
                 android:layout_width="match_parent"
@@ -69,6 +72,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- COST -->
             <TextView
                 android:id="@+id/textView_TitleCost"
                 android:layout_width="match_parent"
@@ -85,6 +89,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- LT -->
             <TextView
                 android:id="@+id/textView_TitleLiters"
                 android:layout_width="match_parent"
@@ -101,6 +106,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- KM -->
             <TextView
                 android:id="@+id/textView_TitleKilometers"
                 android:layout_width="match_parent"
@@ -117,6 +123,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- LT PER 100 KM -->
             <TextView
                 android:id="@+id/textView_TitleLitersPer100Kilometers"
                 android:layout_width="match_parent"
@@ -133,6 +140,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- KM PER LT -->
             <TextView
                 android:id="@+id/textView_TitleKilometersPerLiter"
                 android:layout_width="match_parent"
@@ -149,6 +157,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- COST PER KM -->
             <TextView
                 android:id="@+id/textView_TitleCostPerKilometer"
                 android:layout_width="match_parent"
@@ -165,6 +174,7 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <!-- NOTES -->
             <TextView
                 android:id="@+id/textView_TitleNotes"
                 android:layout_width="match_parent"
