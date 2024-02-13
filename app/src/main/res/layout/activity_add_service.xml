@@ -25,6 +25,7 @@
                 android:id="@+id/textViewServiceAtKilometers"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_service_at_km" />
 
@@ -41,6 +42,7 @@
                 android:id="@+id/textViewServiceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:text="@string/text_view_description" />
@@ -58,6 +60,7 @@
                 android:id="@+id/textViewServiceDate"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:text="@string/text_view_datetime" />
@@ -67,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_select_date"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -76,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                style="@style/buttonMainBackground"
                 android:hint="@string/edit_text_datetime_hint"
                 android:onClick="OnPickDateClicked"
                 app:icon="@android:drawable/ic_menu_day" />
@@ -85,6 +90,7 @@
                 android:id="@+id/textViewServiceNextKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_service_next_at" />
 
@@ -101,6 +107,7 @@
                 android:id="@+id/textViewServiceCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_cost" />
 
@@ -117,6 +124,7 @@
                 android:id="@+id/textViewServiceLocation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_location" />
 
@@ -125,6 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_select_location"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -134,6 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                style="@style/buttonMainBackground"
                 android:hint="@string/button_select_location"
                 android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
@@ -148,6 +158,7 @@
         android:layout_height="66dp"
         android:onClick="OnButtonAddClicked"
         android:text="@string/button_add_service"
+        style="@style/buttonMainBackground"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
