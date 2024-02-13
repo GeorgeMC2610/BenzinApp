@@ -1,10 +1,12 @@
 package com.georgemc2610.benzinapp.fragments.services;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -119,12 +121,12 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
             if (malfunction.getEnded() == null)
             {
                 statusView.setText(inflater.getContext().getString(R.string.card_view_malfunction_ongoing));
-                statusView.setTextColor(Color.RED);
+                statusView.setTextColor((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES? getActivity().getColor(R.color.red) : getActivity().getColor(R.color.dark_red));
             }
             else
             {
                 statusView.setText(inflater.getContext().getString(R.string.card_view_malfunction_fixed));
-                statusView.setTextColor(Color.GREEN);
+                statusView.setTextColor((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES? getActivity().getColor(R.color.green) : getActivity().getColor(R.color.dark_green));
             }
 
             idHidden.setText(String.valueOf(malfunction.getId()));
@@ -184,7 +186,6 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
             // add the view
             servicesLinearLayout.addView(v);
         }
-
     }
 
     @Override
