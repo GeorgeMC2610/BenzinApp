@@ -19,6 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- ID -->
+            <TextView
+                android:id="@+id/card_malfunction_hidden_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="60sp"
+                android:text="id"
+                style="@style/textColorSpecial"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!-- TITLE -->
             <TextView
                 android:id="@+id/card_malfunction_title"
                 android:layout_width="wrap_content"
@@ -36,6 +49,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
+            <!-- DATE -->
             <TextView
                 android:id="@+id/card_malfunction_date"
                 android:layout_width="wrap_content"
@@ -46,7 +60,7 @@
                 style="@style/textColor"
                 android:textSize="16sp"/>
 
-
+            <!-- STATUS -->
             <TextView
                 android:id="@+id/card_malfunction_status"
                 android:layout_width="wrap_content"
@@ -57,17 +71,7 @@
                 style="@style/textColorSpecial"
                 android:textSize="12sp"/>
 
-            <TextView
-                android:id="@+id/card_malfunction_hidden_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="60sp"
-                android:text="id"
-                style="@style/textColorSpecial"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
+            <!-- WHEN -->
             <TextView
                 android:id="@+id/card_malfunction_at_km"
                 android:layout_width="wrap_content"
@@ -78,6 +82,7 @@
                 style="@style/textColor"
                 android:textSize="12sp"/>
 
+            <!-- BUTTONS -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/card_malfunction_button_delete"
                 android:layout_width="wrap_content"
