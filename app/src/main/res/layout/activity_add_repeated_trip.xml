@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
+                style="@style/textColorSpecial"
                 android:textStyle="bold"
                 android:text="@string/text_view_title" />
 
@@ -42,6 +43,7 @@
                 android:id="@+id/repeated_trips_text_view_times_repeating_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:text="@string/edit_text_repeated_trips_times_occurring" />
@@ -57,6 +59,7 @@
             <!-- ONE TIME TRIP -->
             <CheckBox
                 android:id="@+id/repeated_trips_checkbox_not_repeating"
+                style="@style/textColorSpecial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/check_box_repeated_trips_not_repeating" />
@@ -66,6 +69,7 @@
                 android:id="@+id/repeated_trips_text_view_origin_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:text="Trip:" />
@@ -75,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                style="@style/textColorSpecial"
                 android:text="Make a trip..."
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -85,6 +90,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="Press to create a trip on the map..."
+                style="@style/buttonMainBackground"
                 android:onClick="onButtonSelectTripClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
@@ -118,6 +124,7 @@
         android:onClick="onButtonAddClicked"
         android:text="@string/button_add"
         android:textAllCaps="false"
+        style="@style/buttonMainBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
