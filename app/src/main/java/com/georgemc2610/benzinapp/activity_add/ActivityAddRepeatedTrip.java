@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.JSONCoordinatesTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
@@ -110,7 +112,23 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
     public void onButtonSelectTripClicked(View v)
     {
+        // initialize intent for opening activity.
         Intent intent = new Intent(this, MapsCreateTripActivity.class);
+
+        // if they exist
+        if (jsonTrip != null)
+        {
+            // mapping the coordinates.
+            Map<String, double[]> coordinates = JSONCoordinatesTool.getCoordinatesFromJSON(jsonTrip);
+
+            // pass the data to the next activity.
+            intent.putExtra("origin", coordinates.get("origin"));
+            intent.putExtra("destination", coordinates.get("destination"));
+            intent.putExtra("polyline", encodedTrip);
+            intent.putExtra("km", km);
+        }
+
+        // start the activity.
         startActivity(intent);
     }
 
