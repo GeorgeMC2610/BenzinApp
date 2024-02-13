@@ -43,6 +43,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_title"
                 android:textSize="16sp" />
 
@@ -50,6 +51,7 @@
                 android:id="@+id/text_view_display_malfunction_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -60,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_description"
                 android:textSize="16sp" />
 
@@ -67,6 +70,7 @@
                 android:id="@+id/text_view_display_malfunction_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -76,6 +80,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_discovered_at_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_at_km"
                 android:textSize="16sp" />
@@ -84,6 +89,7 @@
                 android:id="@+id/text_view_display_malfunction_discovered_at_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -93,6 +99,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_date_started"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_started"
                 android:textSize="16sp" />
@@ -101,6 +108,7 @@
                 android:id="@+id/text_view_display_malfunction_date_started"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -110,6 +118,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_date_ended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_date_ended"
                 android:textSize="16sp" />
@@ -118,6 +127,7 @@
                 android:id="@+id/text_view_display_malfunction_date_ended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -127,6 +137,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_location"
                 android:textSize="16sp" />
@@ -135,6 +146,7 @@
                 android:id="@+id/text_view_display_malfunction_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -144,6 +156,7 @@
                 android:id="@+id/text_view_display_malfunction_legend_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_cost"
                 android:textSize="16sp" />
@@ -152,6 +165,7 @@
                 android:id="@+id/text_view_display_malfunction_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
