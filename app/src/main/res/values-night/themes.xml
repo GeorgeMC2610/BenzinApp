@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- for the cards and the texts -->
+    <style name="screenBackground"><item name="android:background">@color/black</item></style>
+    <style name="cardMainBackground"><item name="android:background">@color/black</item></style>
+    <style name="cardSpecialBackground"><item name="android:background">@color/card_special_dark</item></style>
+    <style name="textColor"><item name="android:textColor">@color/white</item></style>
+    <style name="textColorSpecial"><item name="android:textColor">@color/light_gray</item></style>
+    <style name="textColorSpecial1"><item name="android:textColor">@color/green</item></style>
+    <style name="textColorSpecial2"><item name="android:textColor">@color/red</item></style>
+
 </resources>
