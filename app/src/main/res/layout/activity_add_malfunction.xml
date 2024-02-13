@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_title" />
 
             <EditText
@@ -41,6 +42,7 @@
                 android:id="@+id/textViewMalfunctionDesc"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_description" />
 
@@ -57,6 +59,7 @@
                 android:id="@+id/textViewMalfunctionAtKm"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_at_km" />
 
@@ -74,6 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif"
+                style="@style/textColorSpecial"
                 android:textStyle="bold"
                 android:text="@string/text_view_datetime" />
 
@@ -83,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:text="@string/text_view_select_date"
+                style="@style/textColorSpecial"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -91,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                style="@style/buttonMainBackground"
                 android:hint="@string/edit_text_datetime_hint"
                 android:onClick="OnButtonPickDateClicked"
                 app:icon="@android:drawable/ic_menu_day" />
@@ -106,6 +112,7 @@
         android:onClick="OnButtonAddMalfunctionClicked"
         android:text="@string/button_add_malfunction"
         android:textAllCaps="false"
+        style="@style/buttonMainBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
