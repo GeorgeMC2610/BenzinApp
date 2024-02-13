@@ -11,7 +11,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="#ffffee"
+        style="@style/cardSpecialBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -27,8 +27,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
                 android:text="id"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColor"
                 android:textSize="12sp"
                 android:visibility="gone" />
 
@@ -46,7 +45,7 @@
                 android:lines="1"
                 android:scrollHorizontally="true"
                 android:text="(Title)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -58,8 +57,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36sp"
                 android:text="(one time trip)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp" />
 
             <!-- COST -->
@@ -70,7 +68,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="52sp"
                 android:text="(Cost in eur)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="16sp" />
 
             <!-- TOTAL KM -->
@@ -81,7 +79,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="75sp"
                 android:text="(Total km)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="16sp" />
 
             <!-- DATE CREATED -->
@@ -92,8 +90,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="100sp"
                 android:text="(Added date)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp" />
 
             <!-- DELETE BUTTON -->
@@ -108,7 +105,7 @@
                 android:clickable="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                app:backgroundTint="#FF0000"
+                app:backgroundTint="@color/red"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
 
             <!-- EDIT BUTTON -->

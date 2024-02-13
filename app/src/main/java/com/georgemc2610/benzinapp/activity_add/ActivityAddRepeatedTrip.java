@@ -62,6 +62,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         // set check box listener
         isRepeating.setOnCheckedChangeListener(this);
 
+
         // action bar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_trip));
     }

@@ -11,6 +11,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
+        style="@style/cardSpecialBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -26,8 +27,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
                 android:text="id"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColor"
                 android:textSize="12sp"
                 android:visibility="gone" />
 
@@ -45,7 +45,7 @@
                 android:lines="1"
                 android:scrollHorizontally="true"
                 android:text="(Title)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -57,8 +57,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36sp"
                 android:text="(x times per week)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp" />
 
             <!-- COST PER WEEK -->
@@ -69,7 +68,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="52sp"
                 android:text="(Cost in eur per week)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="16sp" />
 
             <!-- TOTAL LT -->
@@ -80,7 +79,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="75sp"
                 android:text="(Lt consumed per week)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="12sp" />
 
             <!-- TOTAL KM PER WEEK -->
@@ -91,7 +90,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="92sp"
                 android:text="(Trip's km|Total km per week)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="12sp" />
 
             <!-- DATE ADDED -->
@@ -102,8 +101,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="110sp"
                 android:text="(Added on: date)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp" />
 
             <!-- DELETE BUTTON -->
