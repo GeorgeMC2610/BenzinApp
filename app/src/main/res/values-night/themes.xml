@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.BenzinApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorSecondary">#ff9900</item>
-        <item name="colorSecondaryVariant">#bb6600</item>
+        <item name="colorSecondary">#009900</item>
+        <item name="colorSecondaryVariant">#004400</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorPrimary">#009900</item>
