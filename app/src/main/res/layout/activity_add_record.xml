@@ -42,6 +42,7 @@
                 android:id="@+id/textViewLiters"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_liters" />
 
@@ -58,6 +59,7 @@
                 android:id="@+id/textViewCost"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_cost" />
 
@@ -74,6 +76,7 @@
                 android:id="@+id/textViewPetrolType"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_petrol_type" />
 
@@ -90,6 +93,7 @@
                 android:id="@+id/textViewStation"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_station" />
 
@@ -106,6 +110,7 @@
                 android:id="@+id/textViewDate"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:text="@string/text_view_datetime" />
 
@@ -114,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_select_date"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -123,6 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
+                style="@style/buttonMainBackground"
                 android:hint="@string/edit_text_datetime_hint"
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_menu_day" />
@@ -155,6 +162,7 @@
         android:onClick="OnButtonAddClicked"
         android:text="@string/button_add"
         android:textAllCaps="false"
+        style="@style/buttonMainBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
