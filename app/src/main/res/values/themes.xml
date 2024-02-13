@@ -18,6 +18,8 @@
     <style name="screenBackground"><item name="android:background">@color/white</item></style>
     <style name="cardMainBackground"><item name="android:background">@color/white</item></style>
     <style name="cardSpecialBackground"><item name="android:background">@color/card_special_light</item></style>
+    <style name="buttonMainBackground"><item name="android:backgroundTint">@color/main</item></style>
+    <style name="buttonEditBackground"><item name="android:backgroundTint">@color/edit_record_dark</item></style>
     <style name="textColor"><item name="android:textColor">@color/black</item></style>
     <style name="textColorSpecial"><item name="android:textColor">@color/dark_gray</item></style>
     <style name="textColorSpecial1"><item name="android:textColor">@color/dark_green</item></style>
