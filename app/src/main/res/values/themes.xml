@@ -15,9 +15,9 @@
     </style>
 
     <!-- for the cards and the texts -->
-    <style name="screenBackground"><item name="android:background">@color/white</item></style>
-    <style name="cardMainBackground"><item name="android:background">@color/white</item></style>
-    <style name="cardSpecialBackground"><item name="android:background">@color/card_special_light</item></style>
+    <style name="screenBackground"><item name="android:backgroundTint">@color/white</item></style>
+    <style name="cardMainBackground"><item name="android:backgroundTint">@color/white</item></style>
+    <style name="cardSpecialBackground"><item name="android:backgroundTint">@color/card_special_light</item></style>
     <style name="buttonMainBackground"><item name="android:backgroundTint">@color/main</item></style>
     <style name="buttonEditBackground"><item name="android:backgroundTint">@color/edit_record_dark</item></style>
     <style name="textColor"><item name="android:textColor">@color/black</item></style>
