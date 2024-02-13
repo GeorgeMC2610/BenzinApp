@@ -20,11 +20,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
+            <!-- KM -->
             <TextView
                 android:id="@+id/textViewLitersKilometers"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
+                style="@style/textColorSpecial"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_kilometers" />
 
@@ -36,6 +37,7 @@
                 android:hint="@string/edit_text_kilometers_hint"
                 android:inputType="numberDecimal" />
 
+            <!-- LT -->
             <TextView
                 android:id="@+id/textViewLiters"
                 android:layout_width="match_parent"
@@ -51,6 +53,7 @@
                 android:hint="@string/edit_text_liters_hint"
                 android:inputType="numberDecimal" />
 
+            <!-- COST -->
             <TextView
                 android:id="@+id/textViewCost"
                 android:layout_width="match_parent"
@@ -66,6 +69,7 @@
                 android:hint="@string/edit_text_cost_hint"
                 android:inputType="numberDecimal" />
 
+            <!-- FUEL TYPE -->
             <TextView
                 android:id="@+id/textViewPetrolType"
                 android:layout_width="match_parent"
@@ -81,6 +85,7 @@
                 android:hint="@string/edit_text_petrol_type_hint"
                 android:inputType="text" />
 
+            <!-- STATION -->
             <TextView
                 android:id="@+id/textViewStation"
                 android:layout_width="match_parent"
@@ -96,6 +101,7 @@
                 android:hint="@string/edit_text_station_hint"
                 android:inputType="text" />
 
+            <!-- DATE -->
             <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="match_parent"
@@ -121,6 +127,7 @@
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
+            <!-- NOTES -->
             <TextView
                 android:id="@+id/textViewNotes"
                 android:layout_width="match_parent"
@@ -140,6 +147,7 @@
 
     </ScrollView>
 
+    <!-- BUTTON ADD -->
     <Button
         android:id="@+id/button"
         android:layout_width="367dp"
