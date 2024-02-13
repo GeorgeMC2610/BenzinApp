@@ -133,8 +133,16 @@
     <string name="text_view_card_trips_one_time">Αυτή η διαδρομή δεν επαναλαμβάνεται.</string>
     <string name="text_view_repeated_trips_lt_legend">Συνολικά λίτρα διαδρομής:</string>
     <string name="text_view_repeated_trips_cost_legend">Κόστος διαδρομής:</string>
+    <string name="title_activity_maps_create_trip">Κατασκευή Διαδρομής</string>
     <string name="card_repeated_trip_repeating">"Επαναλαμβάνεται "</string>
     <string name="card_repeated_trip_times_per_week">" φορές την εβδομάδα."</string>
     <string name="card_repeated_trip_per_week">" ανά εβδομάδα"</string>
     <string name="card_trip_km_trip">" διαδρομή"</string>
+    <string name="title_activity_maps_display_trip">Προβολή Διαδρομής</string>
+    <string name="display_trip_cost">ΚΟΣΤΟΣ:</string>
+    <string name="display_trip_consumption">ΚΑΤΑΝΑΛΩΣΗ:</string>
+    <string name="display_trip_trip">Διαδρομή:</string>
+    <string name="display_trip_from">Από:</string>
+    <string name="display_trip_to">Προς:</string>
+    <string name="display_trip_show_on_map">ΠΡΟΒΟΛΗ ΣΤΟΝ ΧΑΡΤΗ</string>
 </resources>

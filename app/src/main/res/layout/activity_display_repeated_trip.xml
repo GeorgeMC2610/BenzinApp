@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 style="@style/textColorSpecial"
-                android:text="Trip:"
+                android:text="@string/display_trip_trip"
                 android:textSize="16sp" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 style="@style/buttonMainBackground"
-                android:text="SHOW ON MAP"
+                android:text="@string/display_trip_show_on_map"
                 app:icon="@android:drawable/ic_dialog_map" />
 
             <!-- TRIP'S TOTAL KM -->
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 style="@style/textColorSpecial"
                 android:layout_marginTop="10sp"
-                android:text="COST:"
+                android:text="@string/display_trip_cost"
                 android:textSize="24sp" />
 
             <!-- AVERAGE -->
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 style="@style/textColorSpecial"
                 android:layout_marginTop="20sp"
-                android:text="CONSUMPTION:"
+                android:text="@string/display_trip_consumption"
                 android:textSize="24sp" />
 
             <!-- AVERAGE -->
