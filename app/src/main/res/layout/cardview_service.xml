@@ -32,7 +32,7 @@
                 android:lines="1"
                 android:scrollHorizontally="true"
                 android:text="(at km)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
@@ -43,7 +43,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36sp"
                 android:text="(cost)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                style="@style/textColor"
                 android:textSize="16sp"/>
 
 
@@ -54,8 +54,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
                 android:text="(date)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp"/>
 
             <TextView
@@ -65,8 +64,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="60sp"
                 android:text="id"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp"
                 android:visibility="gone" />
 
@@ -77,8 +75,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="80sp"
                 android:text="(next at km)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="#717171"
+                style="@style/textColorSpecial"
                 android:textSize="12sp"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
