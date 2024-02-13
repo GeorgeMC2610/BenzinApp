@@ -112,7 +112,9 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         {
             // initialize the markers.
             origin = showMarkerOnMap(origin, new LatLng(originCoordinates[0], originCoordinates[1]));
+            isSelectingOrigin = false;
             destination = showMarkerOnMap(destination, new LatLng(destinationCoordinates[0], destinationCoordinates[1]));
+            isSelectingOrigin = true;
 
             // set the index to be the first item (since there will be only one).
             indexOfSelectedPolyline = 0;
