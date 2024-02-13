@@ -43,6 +43,7 @@
                 android:id="@+id/text_view_display_service_legend_at_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_service_at_km"
                 android:textSize="16sp" />
 
@@ -50,6 +51,7 @@
                 android:id="@+id/text_view_display_service_at_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -59,6 +61,7 @@
                 android:id="@+id/text_view_display_service_legend_date_happened"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_service_date_happened"
                 android:textSize="16sp" />
@@ -67,6 +70,7 @@
                 android:id="@+id/text_view_display_service_date_happened"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -76,6 +80,7 @@
                 android:id="@+id/text_view_display_service_legend_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_description"
                 android:textSize="16sp" />
@@ -84,6 +89,7 @@
                 android:id="@+id/text_view_display_service_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -93,6 +99,7 @@
                 android:id="@+id/text_view_display_service_legend_next_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_service_next_at"
                 android:textSize="16sp" />
@@ -101,6 +108,7 @@
                 android:id="@+id/text_view_display_service_next_km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -110,6 +118,7 @@
                 android:id="@+id/text_view_display_service_legend_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_cost"
                 android:textSize="16sp" />
@@ -118,6 +127,7 @@
                 android:id="@+id/text_view_display_service_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
@@ -127,6 +137,7 @@
                 android:id="@+id/text_view_display_service_legend_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:layout_marginTop="20dp"
                 android:text="@string/text_view_location"
                 android:textSize="16sp" />
@@ -135,6 +146,7 @@
                 android:id="@+id/text_view_display_service_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/loading"
                 android:textSize="34sp"
                 android:textStyle="bold" />
