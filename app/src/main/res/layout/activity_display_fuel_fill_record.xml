@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:backgroundTint="#FF0000"
         android:onClick="OnButtonDeleteClicked"
-        android:text="DELETE"
+        android:text="@string/button_delete"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +44,7 @@
                 android:id="@+id/textView_TitleDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_datetime"
                 android:textSize="16sp" />
 
@@ -51,7 +52,8 @@
                 android:id="@+id/textView_Date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="22-03-2016"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -61,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_petrol_type"
                 android:textSize="16sp" />
 
@@ -68,7 +71,8 @@
                 android:id="@+id/textView_PetrolType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="FuelSave 95, Shell"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -78,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_cost"
                 android:textSize="16sp" />
 
@@ -85,7 +90,8 @@
                 android:id="@+id/textView_Cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="€102.92"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -95,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_liters"
                 android:textSize="16sp" />
 
@@ -102,7 +109,8 @@
                 android:id="@+id/textView_Liters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="43.4 lt"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -112,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_kilometers"
                 android:textSize="16sp" />
 
@@ -119,7 +128,8 @@
                 android:id="@+id/textView_Kilometers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="550 km"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -129,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_liters_per_100_km"
                 android:textSize="16sp" />
 
@@ -136,7 +147,8 @@
                 android:id="@+id/textView_LitersPer100Kilometers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="9.837 lt/100 km"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -146,6 +158,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_km_per_liter"
                 android:textSize="16sp" />
 
@@ -153,7 +166,8 @@
                 android:id="@+id/textView_KilometersPerLiter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="39 km/lt"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -163,6 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_cost_per_km"
                 android:textSize="16sp" />
 
@@ -170,7 +185,8 @@
                 android:id="@+id/textView_CostPerKilometer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="€0.22/km"
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -180,6 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                style="@style/textColorSpecial"
                 android:text="@string/text_view_notes"
                 android:textSize="16sp" />
 
@@ -187,7 +204,8 @@
                 android:id="@+id/textView_Notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notes..."
+                android:text="@string/loading"
+                style="@style/textColorSpecial"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
