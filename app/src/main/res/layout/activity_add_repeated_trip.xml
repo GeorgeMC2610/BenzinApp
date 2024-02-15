@@ -89,7 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Press to create a trip on the map..."
+                android:text="Press to create a trip on the map..."
+                android:textAllCaps="false"
                 style="@style/buttonMainBackground"
                 android:onClick="onButtonSelectTripClicked"
                 app:icon="@android:drawable/ic_dialog_map" />

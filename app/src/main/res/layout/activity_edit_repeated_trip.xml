@@ -84,8 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:backgroundTint="#2DA2FF"
-                android:hint="Press to create a trip on the map..."
+                style="@style/buttonEditBackground"
+                android:textAllCaps="false"
+                android:text="Press to create a trip on the map..."
                 android:onClick="onButtonSelectTripClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
@@ -116,7 +117,7 @@
         android:layout_height="66dp"
         android:onClick="onButtonAddClicked"
         android:text="@string/button_add"
-        android:backgroundTint="#2DA2FF"
+        style="@style/buttonEditBackground"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

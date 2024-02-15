@@ -118,7 +118,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/edit_text_datetime_hint"
+                style="@style/buttonEditBackground"
+                android:textAllCaps="false"
+                android:text="@string/edit_text_datetime_hint"
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
@@ -145,7 +147,7 @@
         android:id="@+id/buttonApplyEdits"
         android:layout_width="367dp"
         android:layout_height="66dp"
-        android:backgroundTint="#2DA2FF"
+        style="@style/buttonEditBackground"
         android:onClick="OnButtonApplyEditsClicked"
         android:text="@string/button_apply_edits"
         android:textAllCaps="false"

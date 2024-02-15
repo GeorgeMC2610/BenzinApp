@@ -11,7 +11,7 @@
         android:id="@+id/buttonDelete"
         android:layout_width="363dp"
         android:layout_height="50dp"
-        android:backgroundTint="#FF0000"
+        style="@style/buttonDeleteBackground"
         android:onClick="OnButtonDeleteClicked"
         android:text="@string/button_delete"
         android:textAllCaps="false"

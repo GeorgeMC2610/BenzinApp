@@ -77,8 +77,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:backgroundTint="#2DA2FF"
-                android:hint="@string/edit_text_datetime_hint"
+                style="@style/buttonEditBackground"
+                android:textAllCaps="false"
+                android:text="@string/edit_text_datetime_hint"
                 android:onClick="PickDate"
                 app:icon="@android:drawable/ic_menu_day" />
 
@@ -135,9 +136,10 @@
                 android:id="@+id/buttonEditServiceSelectLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:backgroundTint="#2DA2FF"
+                style="@style/buttonEditBackground"
+                android:textAllCaps="false"
                 android:ems="10"
-                android:hint="@string/button_select_location"
+                android:text="@string/button_select_location"
                 android:onClick="OnSelectLocationClicked"
                 app:icon="@android:drawable/ic_dialog_map" />
 
@@ -145,9 +147,10 @@
                 android:id="@+id/buttonEditServiceDeleteLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:backgroundTint="#FF0000"
+                style="@style/buttonDeleteBackground"
+                android:textAllCaps="false"
                 android:ems="10"
-                android:hint="Delete Location"
+                android:text="@string/button_delete_location"
                 android:onClick="OnDeleteLocationClicked"
                 app:icon="@android:drawable/ic_delete" />
 
