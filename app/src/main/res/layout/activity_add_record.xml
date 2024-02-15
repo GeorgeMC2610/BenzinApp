@@ -130,7 +130,8 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 style="@style/buttonMainBackground"
-                android:hint="@string/edit_text_datetime_hint"
+                android:text="@string/edit_text_datetime_hint"
+                android:textAllCaps="false"
                 android:onClick="OnEditTextDateTimeClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
