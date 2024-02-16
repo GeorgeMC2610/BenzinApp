@@ -117,6 +117,7 @@
                     android:id="@+id/settings_Logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/settings_LogoutButton"
                     style="@style/textColorSpecial"
                     android:layout_marginStart="10dp"
                     android:text="@string/setting_logout"
@@ -127,6 +128,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="4dp"
                     android:backgroundTint="#dd0000"
                     app:icon="?attr/actionModeCloseDrawable"
                     app:iconGravity="textEnd" />
