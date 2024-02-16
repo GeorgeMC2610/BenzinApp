@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_general"
+        style="@style/textColor"
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginBottom="15dp"
@@ -44,6 +45,7 @@
                     android:id="@+id/settings_DarkModeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
                     android:layout_marginStart="10dp"
                     android:text="@string/setting_dark_mode"
                     android:textSize="20sp" />
@@ -67,6 +69,7 @@
                     android:id="@+id/settings_FastLoginTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
                     android:layout_marginStart="10dp"
                     android:text="@string/setting_fast_login"
                     android:textSize="20sp" />
@@ -90,7 +93,8 @@
                     android:id="@+id/settings_LanguageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
                     android:text="@string/setting_language"
                     android:textSize="20sp" />
 
@@ -113,7 +117,8 @@
                     android:id="@+id/settings_Logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
                     android:text="@string/setting_logout"
                     android:textSize="20sp" />
 

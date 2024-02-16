@@ -20,4 +20,8 @@
     <color name="green">#00ff00</color>
     <color name="main">#ff9900</color>
     <color name="main_dark">#009900</color>
+    <color name="car_manufacturer_light">#aa4400</color>
+    <color name="car_manufacturer_dark">#00a500</color>
+    <color name="car_model_light">#d44400</color>
+    <color name="car_model_dark">#33a566</color>
 </resources>

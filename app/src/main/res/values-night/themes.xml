@@ -34,5 +34,6 @@
     <style name="textColorSpecial"><item name="android:textColor">@color/light_gray</item></style>
     <style name="textColorSpecial1"><item name="android:textColor">@color/green</item></style>
     <style name="textColorSpecial2"><item name="android:textColor">@color/red</item></style>
-
+    <style name="textColorSpecial3"><item name="android:textColor">@color/car_manufacturer_dark</item></style>
+    <style name="textColorSpecial4"><item name="android:textColor">@color/car_model_dark</item></style>
 </resources>

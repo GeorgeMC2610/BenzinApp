@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            style="@style/cardMainBackground"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
@@ -38,9 +39,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
+                    style="@style/textColorSpecial3"
                     android:layout_marginRight="10dp"
-                    android:textColor="#FF9800"
-                    android:text="Loading..."
+                    android:text="@string/loading"
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
@@ -51,10 +52,10 @@
                     android:layout_below="@+id/textView_Car"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="9dp"
+                    style="@style/textColorSpecial4"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Loading..."
-                    android:textColor="#FF5722"
+                    android:text="@string/loading"
                     android:textSize="23sp" />
 
             </RelativeLayout>
@@ -68,6 +69,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
+            style="@style/cardMainBackground"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +107,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
+            style="@style/cardMainBackground"
             android:layout_marginBottom="10dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
@@ -123,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
+                    style="@style/textColor"
                     android:text="@string/text_view_average_consumption"
                     android:textAlignment="center"
                     android:textSize="28sp"
@@ -132,6 +136,7 @@
                     android:id="@+id/textView_AVG_LtPer100Km_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
                     android:text="@string/text_view_liters_per_100_km"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -140,7 +145,8 @@
                     android:id="@+id/textView_AVG_LtPer100Km"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loading..."
+                    style="@style/textColorSpecial"
+                    android:text="@string/loading"
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
@@ -148,6 +154,7 @@
                     android:id="@+id/textView_AVG_KmPerLt_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
                     android:text="@string/text_view_km_per_liter"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -156,7 +163,8 @@
                     android:id="@+id/textView_AVG_KmPerLt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loading..."
+                    android:text="@string/loading"
+                    style="@style/textColorSpecial"
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp" />
 
@@ -164,6 +172,7 @@
                     android:id="@+id/textView_AVG_CostPerKm_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
                     android:text="@string/text_view_cost_per_km"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -172,7 +181,8 @@
                     android:id="@+id/textView_AVG_CostPerKm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loading..."
+                    style="@style/textColorSpecial"
+                    android:text="@string/loading"
                     android:textSize="18sp" />
 
 
