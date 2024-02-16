@@ -146,4 +146,5 @@
     <string name="display_trip_from">From:</string>
     <string name="display_trip_to">To:</string>
     <string name="display_trip_show_on_map">SHOW ON MAP</string>
+    <string name="repeated_trips_doesnt_repeat">Doesn\'t repeat.</string>
 </resources>

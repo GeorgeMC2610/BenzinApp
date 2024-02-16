@@ -70,8 +70,15 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+        // repeating text for the times in the week.
+        String repeatingText;
+
+        if (repeatedTrip.getTimesRepeating() != 1)
+            repeatingText = getString(R.string.card_repeated_trip_repeating) + repeatedTrip.getTimesRepeating() + getString(R.string.card_repeated_trip_times_per_week);
+        else
+            repeatingText = getString(R.string.repeated_trips_doesnt_repeat);
+
         // formatted strings.
-        String repeatingText = getString(R.string.card_repeated_trip_repeating) + repeatedTrip.getTimesRepeating() + getString(R.string.card_repeated_trip_times_per_week);
         String formattedTotalKm = numberFormat.format(repeatedTrip.getTotalKm()) + ' ' + getString(R.string.km_short) + getString(R.string.card_trip_km_trip);
 
         // get the car to calculate all scenarios.

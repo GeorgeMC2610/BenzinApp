@@ -4,14 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.georgemc2610.benzinapp.classes.activity_tools.Language;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+
+import java.util.InputMismatchException;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -42,22 +46,44 @@ public class LoginActivity extends AppCompatActivity
 
         // remove the location picked preferences.
         SharedPreferences preferencesLocation = getSharedPreferences("location", MODE_PRIVATE);
-
-        // put null in each of these values.
         SharedPreferences.Editor editor = preferencesLocation.edit();
         editor.putString("picked_location", null);
         editor.putString("picked_address", null);
         editor.apply();
 
-        // get settings
+        // put null for the repeated trip values.
+        SharedPreferences preferencesRepeatedTrip = getSharedPreferences("repeated_trip", MODE_PRIVATE);
+        SharedPreferences.Editor editorRepeatedTrip = preferencesRepeatedTrip.edit();
+        editorRepeatedTrip.putString("encodedTrip", null);
+        editorRepeatedTrip.putString("jsonTrip", null);
+        editorRepeatedTrip.putFloat("tripDistance", -1f);
+        editorRepeatedTrip.apply();
+
+        // get settings preferences
         SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+
+        // get if the settings are set to default.
         boolean defaultSettings = preferences.getBoolean("default_settings", true);
 
-        if (!defaultSettings)
+        // get the other settings.
+        boolean autoLogin = preferences.getBoolean("auto_login", true);
+        int language = preferences.getInt("language", Language.SYSTEM_DEFAULT);
+        boolean darkMode = preferences.getBoolean("dark_mode", false);
+
+        // in case the default settings are enabled.
+        if (defaultSettings)
         {
-            boolean darkMode = preferences.getBoolean("dark_mode", false);
-            boolean autoLogin = preferences.getBoolean("auto_login", true);
-            String language = preferences.getString("language", "system");
+            // auto login is enabled by default.
+            progressBar.setVisibility(View.VISIBLE);
+            RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
+        }
+        // otherwise seek for every setting.
+        else
+        {
+            if (darkMode)
+            {
+                setTheme(R.style.Theme_BenzinApp);
+            }
 
             if (autoLogin)
             {
@@ -65,12 +91,20 @@ public class LoginActivity extends AppCompatActivity
                 RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
             }
 
-            return;
+            switch (language)
+            {
+                case Language.SYSTEM_DEFAULT:
+                    break;
+                case Language.ENGLISH:
+                    break;
+                case Language.GREEK:
+                    break;
+                default:
+                    throw new InputMismatchException();
+            }
         }
 
-        // attempt to auto-login.
-        progressBar.setVisibility(View.VISIBLE);
-        RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
+
     }
 
     public void OnButtonLoginPressed(View v)
