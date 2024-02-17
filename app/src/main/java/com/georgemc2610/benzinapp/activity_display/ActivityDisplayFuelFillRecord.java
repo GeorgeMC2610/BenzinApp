@@ -13,6 +13,10 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
@@ -51,15 +55,28 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
             System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
         }
 
+        // formats for decimal numbers.
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        // string values assigned to the text views.
+        String petrolTypeAndStation = record.getFuelType() + ", " + record.getStation();
+        String cost        = '€' + decimalFormat.format(record.getCost_eur());
+        String liters      = numberFormat.format(record.getLiters()) + ' ' + getString(R.string.lt_short);
+        String kilometers  = numberFormat.format(record.getKilometers()) + ' ' + getString(R.string.km_short);
+        String lt_per_100  = numberFormat.format(record.getLt_per_100km()) + ' ' + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
+        String km_per_lt   = numberFormat.format(record.getKm_per_lt()) + ' ' + getString(R.string.km_short) + '/' + getString(R.string.lt_short);
+        String cost_per_km = '€' + decimalFormat.format(record.getCostEur_per_km()) + '/' + getString(R.string.km_short);
+
         // set values
         date.setText(record.getDate().toString());
-        petrolType.setText(record.getFuelType() + ", " + record.getStation());
-        cost.setText("€" + record.getCost_eur());
-        liters.setText(record.getLiters() + " lt");
-        kilometers.setText(record.getKilometers() + " km");
-        lt_per_100.setText(record.getLt_per_100km() + " lt/100 km");
-        km_per_lt.setText(record.getKm_per_lt() + " km/lt");
-        cost_per_km.setText("€" + record.getCostEur_per_km() + "/km");
+        petrolType.setText(petrolTypeAndStation);
+        this.cost.setText(cost);
+        this.liters.setText(liters);
+        this.kilometers.setText(kilometers);
+        this.lt_per_100.setText(lt_per_100);
+        this.km_per_lt.setText(km_per_lt);
+        this.cost_per_km.setText(cost_per_km);
         notes.setText(record.getNotes());
     }
 
