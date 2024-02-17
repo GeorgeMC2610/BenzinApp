@@ -1,13 +1,21 @@
 package com.georgemc2610.benzinapp.activity_maps;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +64,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     private ArrayList<String> encodedPolylines;
     private int indexOfSelectedPolyline;
     private ArrayList<Float> routeDistances;
+    private LocationManager locationManager;
+    private boolean zoomedToUserLocation = false;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -86,6 +97,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         polylines = new ArrayList<>();
         encodedPolylines = new ArrayList<>();
         routeDistances = new ArrayList<>();
+
+        // location manager init.
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, this::onLocationReceived);
 
         // geocoder initialization
         geocoder = new Geocoder(this);
@@ -134,6 +149,20 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
 
         // whenever the map is long pressed add a marker depending on what button is pressed.
         mMap.setOnMapLongClickListener(this);
+    }
+
+    private void onLocationReceived(Location location)
+    {
+        // this must be executed one time, when the map is not null.
+        if (zoomedToUserLocation || mMap == null)
+            return;
+
+        // since this is a one-time thing to be done, set the value to true, so it doesn't happen again.
+        zoomedToUserLocation = true;
+
+        // zoom to the user's location.
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
     }
 
     @Override
