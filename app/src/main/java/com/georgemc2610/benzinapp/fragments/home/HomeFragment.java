@@ -12,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
@@ -173,6 +175,9 @@ public class HomeFragment extends Fragment
             entriesCostPerKm.add(entryCostPerKm);
         }
 
+        // color for the texts.
+        int color = NightModeTool.getTextColor(getActivity());
+
         // get line data set for liters per 100 km.
         lineDataSetLtPer100 = new LineDataSet(entriesLtPer100, getString(R.string.graph_view_liters_per_100_km));
         lineDataSetLtPer100.setAxisDependency(AxisDependency.LEFT);
@@ -205,17 +210,17 @@ public class HomeFragment extends Fragment
 
         // get line data for lt per 100 km
         lineDataLtPer100 = new LineData(lineDataSetLtPer100);
-        lineDataLtPer100.setValueTextColor(Color.WHITE);
+        lineDataLtPer100.setValueTextColor(color);
         lineDataLtPer100.setValueTextSize(9f);
 
         // get line data for km per lt
         lineDataKmPerLt = new LineData(lineDataSetKmPerLt);
-        lineDataKmPerLt.setValueTextColor(Color.WHITE);
+        lineDataKmPerLt.setValueTextColor(color);
         lineDataKmPerLt.setValueTextSize(9f);
 
         // get line data for cost per km
         lineDataCostPerKm = new LineData(lineDataSetCostPerKm);
-        lineDataCostPerKm.setValueTextColor(Color.WHITE);
+        lineDataCostPerKm.setValueTextColor(color);
         lineDataCostPerKm.setValueTextSize(9f);
 
         // and set the different colours
