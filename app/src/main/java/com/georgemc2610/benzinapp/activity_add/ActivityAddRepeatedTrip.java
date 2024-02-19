@@ -87,14 +87,18 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         // call super class method.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        // request code must be this one
         if (requestCode != 9918)
             return;
 
+        // the permission must be requested before proceeding.
         if (!permissionRequested)
             return;
 
+        // check for not granted results.
         int deniedPermissionResults = 0;
 
+        // not granted results have a code -1
         for (int i : grantResults)
         {
             System.out.println(i);
@@ -103,7 +107,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
                 deniedPermissionResults++;
         }
 
-
+        // if the permission wasn't granted, the activity must close.
         if (deniedPermissionResults != 0 && deniedPermissionResults == grantResults.length)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
