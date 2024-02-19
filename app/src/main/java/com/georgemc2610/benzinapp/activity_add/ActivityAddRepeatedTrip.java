@@ -1,14 +1,19 @@
 package com.georgemc2610.benzinapp.activity_add;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,6 +28,7 @@ import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.JSONCoordinatesTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.LocationPermissionTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +49,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     private TextView trip, totalKm, totalKmLegend;
     private Address originAddress, destinationAddress;
     private float km;
+    private boolean permissionRequested = false;
     private String encodedTrip, jsonTrip;
 
     @Override
@@ -62,9 +70,47 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         // set check box listener
         isRepeating.setOnCheckedChangeListener(this);
 
+        // request permissions for the location
+        if (!LocationPermissionTool.isLocationPermissionGranted(this))
+        {
+            LocationPermissionTool.requestPermission(this);
+            permissionRequested = true;
+        }
 
         // action bar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_trip));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        // call super class method.
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode != 9918)
+            return;
+
+        if (!permissionRequested)
+            return;
+
+        int deniedPermissionResults = 0;
+
+        for (int i : grantResults)
+        {
+            System.out.println(i);
+
+            if (i == -1)
+                deniedPermissionResults++;
+        }
+
+
+        if (deniedPermissionResults != 0 && deniedPermissionResults == grantResults.length)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.dialog_location_mandatory);
+            builder.setNeutralButton("OK", (dialog, which) -> finish());
+            builder.show();
+        }
     }
 
     @Override
