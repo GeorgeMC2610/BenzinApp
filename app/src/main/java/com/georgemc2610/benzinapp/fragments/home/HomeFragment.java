@@ -226,11 +226,13 @@ public class HomeFragment extends Fragment
         // and set the different colours
         lineChart.setData(lineDataLtPer100);
 
+        // format the strings for averages.
         DecimalFormat format = new DecimalFormat("#.##");
         String TextAvgLtPer100Km = Float.isNaN(DataHolder.getInstance().car.getAverageLitersPer100Km())     ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageLitersPer100Km()) + " " + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
         String TextAvgKmPerLt    = Float.isNaN(DataHolder.getInstance().car.getAverageKilometersPerLiter()) ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageKilometersPerLiter()) + " " + getString(R.string.km_short) + "/" + getString(R.string.lt_short);
         String TextAvgCostPerKm  = Float.isNaN(DataHolder.getInstance().car.getAverageCostPerKm())          ? getString(R.string.text_view_no_data) : '€' + format.format(DataHolder.getInstance().car.getAverageCostPerKm()) + " " + getString(R.string.km_short);
 
+        // set the formats in the text views.
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
         avg_CostPerKm.setText(TextAvgCostPerKm);
