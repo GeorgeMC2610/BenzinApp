@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -111,30 +113,14 @@ public class ActivityAddRecord extends AppCompatActivity
 
     public void OnButtonAddClicked(View v)
     {
-        int validation_counter = 0;
-
-        // if one of the necessary edit texts are empty, don't proceed.
-        if (editTextCost.getText().toString().length() == 0)
-        {
-            editTextCost.setError(getResources().getString(R.string.error_field_cannot_be_empty));
-            validation_counter--;
-        }
-
-        if (editTextLiters.getText().toString().length() == 0)
-        {
-            editTextLiters.setError(getResources().getString(R.string.error_field_cannot_be_empty));
-            validation_counter--;
-        }
-
-        if (editTextKilometers.getText().toString().length() == 0)
-        {
-            editTextKilometers.setError(getResources().getString(R.string.error_field_cannot_be_empty));
-            validation_counter--;
-        }
-
-        // there must be exactly correct validations to proceed.
-        if (validation_counter != 0)
+        if (!ViewTools.setErrors(this, editTextCost, editTextKilometers, editTextLiters))
             return;
+
+        if (!ViewTools.dateFilled(this, textViewDate))
+        {
+            Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         float liters = Float.parseFloat(editTextLiters.getText().toString());
         float cost = Float.parseFloat(editTextCost.getText().toString());

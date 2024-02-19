@@ -59,4 +59,17 @@ public final class ViewTools
 
         return canContinue;
     }
+
+    /**
+     * A special tool for dates, that checks if the date is successfully filled with data.
+     * It doesn't check the format of the text. Instead, it relies on the fact that the
+     * string of the text is not "Please select date...".
+     * @param context Context is needed to get the correct string to test with the {@linkplain TextView}'s data.
+     * @param textView The {@linkplain TextView} where the date is stored.
+     * @return False if the text is equal with the "Please select date..." equivalent of the current language, true otherwise.
+     */
+    public static boolean dateFilled(Context context, TextView textView)
+    {
+        return !getFilteredViewSequence(textView).equals(context.getString(R.string.text_view_select_date));
+    }
 }
