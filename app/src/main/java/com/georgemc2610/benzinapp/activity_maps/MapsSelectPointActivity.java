@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp.activity_maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
@@ -10,12 +11,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.databinding.ActivityMapsSelectPointBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class MapsSelectPointActivity extends FragmentActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
+public class MapsSelectPointActivity extends AppCompatActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
 {
 
     private GoogleMap mMap;
@@ -62,9 +65,24 @@ public class MapsSelectPointActivity extends FragmentActivity implements OnMapRe
 
         searchView.setOnQueryTextListener(this);
 
-
         // testing the geocoder attribute.
         geocoder = new Geocoder(this);
+
+        // action bar.
+        DisplayActionBarTool.displayActionBar(this, "Select Location"); // TODO: Replace with res id.
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -83,36 +101,50 @@ public class MapsSelectPointActivity extends FragmentActivity implements OnMapRe
             // select the location.
             selectedLocation = latLng;
 
+            if (marker != null)
+                marker.remove();
+
+            // add a marker on the map with the location's position.
+            marker = mMap.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.loading)));
+
+            // marker MUST not be null.
+            assert marker != null;
+
+            // display marker's window.
+            marker.showInfoWindow();
+
+            // newer API requires listener.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             {
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, new Geocoder.GeocodeListener()
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10, addresses ->
                 {
-                    @Override
-                    public void onGeocode(@NonNull List<Address> addresses)
+                    // upon retrieving the addresses, check if the list is empty.
+                    if (addresses.isEmpty())
                     {
-                        // upon retrieving the addresses, check if the list is empty.
-                        if (addresses.isEmpty())
-                        {
-                            // if it is, show the message to the user.
-                            runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
-
-                            return;
-                        }
-
-                        assignMarkerAndData(addresses.get(0), latLng);
+                        // if it is, show the message to the user.
+                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show()); // TODO: Replace with res id.
+                        return;
                     }
+
+                    assignMarkerAndData(addresses.get(0), latLng);
                 });
             }
+            // older api requires List.
             else
             {
                 try
                 {
-                    List<Address> addresses = geocoder.getFromLocationName(searchView.getQuery().toString(), 10);
+                    // retrieve addresses from geocoder.
+                    List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 10);
 
-                    if (!addresses.isEmpty())
-                        assignMarkerAndData(addresses.get(0), null);
-                    else
-                        Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                    // if there are no addresses, do nothing
+                    if (addresses.isEmpty())
+                    {
+                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show()); // TODO: Replace with res id.
+                        return;
+                    }
+
+                    assignMarkerAndData(addresses.get(0), latLng);
                 }
                 catch (IOException e)
                 {
@@ -155,7 +187,6 @@ public class MapsSelectPointActivity extends FragmentActivity implements OnMapRe
                 {
                     // if it is, show the message to the user.
                     runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
-
                     return;
                 }
 

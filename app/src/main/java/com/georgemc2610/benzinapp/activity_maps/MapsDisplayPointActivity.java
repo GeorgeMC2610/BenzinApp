@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,18 +37,8 @@ public class MapsDisplayPointActivity extends AppCompatActivity implements OnMap
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // action bar with back button and correct title name.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(R.string.title_activity_maps_display_point); // TODO: Replace with string value
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        // action bar.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_activity_maps_display_point));
 
         // obtain the location coordinates and address to display the point on the screen.
         coordinates = (String) getIntent().getSerializableExtra("coordinates");
