@@ -21,6 +21,7 @@ import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.Car;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
+import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -252,4 +253,30 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
                 decimalFormat.format(cost) +
                 " per time)");
     }
+
+    public void onButtonDeleteRecordClicked(View view)
+    {
+        // build a confirmation dialog
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(getString(R.string.dialog_delete_title));
+        dialog.setMessage(getString(R.string.dialog_delete_confirmation));
+
+        // when the button yes is clicked
+        dialog.setPositiveButton(getString(R.string.dialog_yes), (dialog12, which) ->
+        {
+            // delete the record by its id.
+            RequestHandler.getInstance().DeleteRepeatedTrip(ActivityDisplayRepeatedTrip.this, repeatedTrip.getId());
+
+            // then close this activity
+            finish();
+        });
+
+        // when the button no is clicked
+        dialog.setNegativeButton(getString(R.string.dialog_no), (dialog1, which) -> {});
+
+        dialog.setCancelable(true);
+        dialog.create().show();
+    }
+
 }

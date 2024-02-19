@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         style="@style/buttonDeleteBackground"
         android:textAllCaps="false"
-        android:onClick="DeleteRecord"
+        android:onClick="onButtonDeleteRecordClicked"
         android:text="@string/button_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
