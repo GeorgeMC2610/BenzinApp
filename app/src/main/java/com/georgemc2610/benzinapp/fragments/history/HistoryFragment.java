@@ -22,9 +22,12 @@ import com.georgemc2610.benzinapp.classes.listeners.CardEditButtonListener;
 import com.georgemc2610.benzinapp.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryFragment extends Fragment
 {
@@ -96,11 +99,41 @@ public class HistoryFragment extends Fragment
             FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
             FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
 
+            // text formatting init
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+
+            // format the texts.
+            String formattedCost = '€' + decimalFormat.format(record.getCost_eur());
+            String formattedLitersPer100Km = numberFormat.format(record.getLt_per_100km()) + ' ' + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
+
+            // station text
+            String station;
+
+            if (record.getStation() == null || record.getStation().isEmpty())
+            {
+                if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                    station = "-";
+
+                else
+                    station = record.getFuelType();
+
+            }
+            else
+            {
+                if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                    station = record.getStation();
+
+                else
+                    station = record.getFuelType() + ", " + record.getStation();
+
+            }
+
             // set the card's views actual values.
-            petrolType.setText(record.getFuelType() + ", " + record.getStation());
+            petrolType.setText(station);
             idHidden.setText(String.valueOf(record.getId()));
-            lt_per_100.setText(record.getLt_per_100km() + " lt/100km");
-            cost.setText("€" + record.getCost_eur());
+            lt_per_100.setText(formattedLitersPer100Km);
+            cost.setText(formattedCost);
             date.setText(record.getDate().toString());
 
             // add the view to the scroll view's layout
