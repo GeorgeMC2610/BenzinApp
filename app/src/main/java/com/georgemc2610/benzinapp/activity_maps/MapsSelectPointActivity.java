@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -34,7 +36,9 @@ import java.util.List;
 public class MapsSelectPointActivity extends AppCompatActivity implements OnMapReadyCallback, SearchView.OnQueryTextListener
 {
 
+    private boolean zoomedToUserLocation = false;
     private GoogleMap mMap;
+    private LocationManager locationManager;
     private Address selectedAddress;
     private LatLng selectedLocation;
     private Geocoder geocoder;
@@ -43,6 +47,7 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
     private SearchView searchView;
     private ActivityMapsSelectPointBinding binding;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -56,6 +61,10 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        // location manager init.
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, this::onLocationReceived);
 
         // initialize the selected location with null and disable the send data button.
         selectedLocation = null;
@@ -255,5 +264,19 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
             // animate the camera to zoom into the place.
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLocation, 17f));
         });
+    }
+
+    private void onLocationReceived(Location location)
+    {
+        // this must be executed one time, when the map is not null.
+        if (zoomedToUserLocation || mMap == null)
+            return;
+
+        // since this is a one-time thing to be done, set the value to true, so it doesn't happen again.
+        zoomedToUserLocation = true;
+
+        // zoom to the user's location.
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
     }
 }
