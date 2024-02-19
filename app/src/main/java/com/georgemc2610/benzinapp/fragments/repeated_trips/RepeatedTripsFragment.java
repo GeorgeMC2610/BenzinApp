@@ -52,6 +52,9 @@ public class RepeatedTripsFragment extends Fragment
 
     private void createCards()
     {
+        // calculate averages
+        DataHolder.getInstance().car.calculateAverages();
+
         // remove all cards before creating the new ones.
         linearLayout.removeAllViews();
         LayoutInflater inflater = getLayoutInflater();
