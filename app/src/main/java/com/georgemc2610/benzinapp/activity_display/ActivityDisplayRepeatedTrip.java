@@ -238,7 +238,8 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
                 numberFormat.format(consumption) +
                 ' ' +
                 getString(R.string.lt_short) +
-                " per time)");
+                getString(R.string.per_time) +
+                ')');
     }
 
     private String formatEuros(float cost, int times)
@@ -251,7 +252,8 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
                 getString(R.string.card_repeated_trip_per_week) +
                 " (€" +
                 decimalFormat.format(cost) +
-                " per time)");
+                getString(R.string.per_time) +
+                ')');
     }
 
     public void onButtonDeleteRecordClicked(View view)

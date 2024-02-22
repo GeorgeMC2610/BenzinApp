@@ -148,4 +148,5 @@
     <string name="display_trip_show_on_map">SHOW ON MAP</string>
     <string name="repeated_trips_doesnt_repeat">Doesn\'t repeat.</string>
     <string name="dialog_location_mandatory">This feature requires the use of your location to work. Once you grant access, you can use it. If you\'re getting this message repeatedly without being asked for your location, you might want to grant access to your location through your device\'s settings.</string>
+    <string name="per_time">" per time"</string>
 </resources>
