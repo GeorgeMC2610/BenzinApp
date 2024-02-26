@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MapsCreateTripActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, Response.Listener<String>, SearchView.OnQueryTextListener, GoogleMap.OnPolylineClickListener
@@ -210,6 +211,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 // if there are no addresses do not do anything.
                 if (addresses.isEmpty())
                 {
+                    // TODO: Replace with string value.
                     runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
                     return;
                 }
@@ -238,6 +240,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
 
                 if (addresses.isEmpty())
                 {
+                    // TODO: Replace with string value.
                     Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -256,6 +259,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             catch (IOException e)
             {
                 System.err.println(e.getMessage());
+                // TODO: Replace with string value.
                 Toast.makeText(MapsCreateTripActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -302,7 +306,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
 
         // based on what we want saved on the cloud, we save the shared preferences like this.
         editor.putString("encodedTrip", encodedPolylines.get(indexOfSelectedPolyline));
-        editor.putString("jsonTrip", createTripToJson(origin.getPosition(), destination.getPosition()));
+        editor.putFloat("origin_latitude", (float) origin.getPosition().latitude);
+        editor.putFloat("origin_longitude", (float) origin.getPosition().longitude);
+        editor.putFloat("destination_latitude", (float) destination.getPosition().latitude);
+        editor.putFloat("destination_longitude", (float) destination.getPosition().longitude);
         editor.putFloat("tripDistance", routeDistances.get(indexOfSelectedPolyline));
 
         // apply changes.
@@ -477,19 +484,5 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         ableToCompleteTrip = state;
         completeTrip.setEnabled(state);
         completeTrip.setBackgroundColor(state? Color.parseColor("#FFAA00") : Color.GRAY);
-    }
-
-    @SuppressLint("NewApi")
-    private String createTripToJson(LatLng origin, LatLng destination) throws JSONException
-    {
-        JSONObject jsonObject = new JSONObject();
-
-        jsonObject.append("origin_coordinates", origin.latitude);
-        jsonObject.append("origin_coordinates", origin.longitude);
-
-        jsonObject.append("destination_coordinates", destination.latitude);
-        jsonObject.append("destination_coordinates", destination.longitude);
-
-        return jsonObject.toString();
     }
 }
