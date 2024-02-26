@@ -248,7 +248,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
 
         // build a string in the format: €#.## per week (€#.## per time)
         return  '€' + decimalFormat.format(cost * times) +
-                ' ' + (times == 1? "" :
+                (times == 1? "" :
                 getString(R.string.card_repeated_trip_per_week) +
                 " (€" +
                 decimalFormat.format(cost) +
