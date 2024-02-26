@@ -1,5 +1,7 @@
 package com.georgemc2610.benzinapp.classes.original;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,12 +14,12 @@ public class RepeatedTrip implements Serializable
     private final int id;
     private int timesRepeating;
     private String title, originAddress, destinationAddress, originPlaceId, destinationPlaceId, polyline;
-    private float originLatitude, originLongitude, destinationLatitude, destinationLongitude;
+    private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
     private float totalKm;
 
     private LocalDate dateAdded;
 
-    public RepeatedTrip(int id, int timesRepeating, String title, String originAddress, String destinationAddress, String originPlaceId, String destinationPlaceId, String polyline, float originLatitude, float originLongitude, float destinationLatitude, float destinationLongitude, float totalKm, LocalDate date)
+    public RepeatedTrip(int id, int timesRepeating, String title, String originAddress, String destinationAddress, String originPlaceId, String destinationPlaceId, String polyline, double originLatitude, double originLongitude, double destinationLatitude, double destinationLongitude, float totalKm, LocalDate date)
     {
         this.id = id;
         this.timesRepeating = timesRepeating;
@@ -52,10 +54,10 @@ public class RepeatedTrip implements Serializable
             float totalKm = (float) jsonObject.getDouble("total_km");
             String title = jsonObject.getString("title");
             String polyline = jsonObject.getString("polyline");
-            float originLatitude = (float) jsonObject.getDouble("origin_latitude");
-            float originLongitude = (float) jsonObject.getDouble("origin_longitude");
-            float destinationLatitude = (float) jsonObject.getDouble("destination_latitude");
-            float destinationLongitude = (float) jsonObject.getDouble("destination_longitude");
+            double originLatitude = jsonObject.getDouble("origin_latitude");
+            double originLongitude = jsonObject.getDouble("origin_longitude");
+            double destinationLatitude = jsonObject.getDouble("destination_latitude");
+            double destinationLongitude = jsonObject.getDouble("destination_longitude");
             LocalDate date = LocalDate.parse(jsonObject.getString("created_at").substring(0, 10));
 
             // nullable data
@@ -168,35 +170,44 @@ public class RepeatedTrip implements Serializable
         this.polyline = polyline;
     }
 
-    public float getOriginLatitude() {
+    public double getOriginLatitude() {
         return originLatitude;
     }
+    public LatLng getOriginLatlng()
+    {
+        return new LatLng(this.originLatitude, this.originLongitude);
+    }
 
-    public void setOriginLatitude(float originLatitude) {
+    public LatLng getDestinationLatlng()
+    {
+        return new LatLng(this.destinationLatitude, this.destinationLongitude);
+    }
+
+    public void setOriginLatitude(double originLatitude) {
         this.originLatitude = originLatitude;
     }
 
-    public float getOriginLongitude() {
+    public double getOriginLongitude() {
         return originLongitude;
     }
 
-    public void setOriginLongitude(float originLongitude) {
+    public void setOriginLongitude(double originLongitude) {
         this.originLongitude = originLongitude;
     }
 
-    public float getDestinationLatitude() {
+    public double getDestinationLatitude() {
         return destinationLatitude;
     }
 
-    public void setDestinationLatitude(float destinationLatitude) {
+    public void setDestinationLatitude(double destinationLatitude) {
         this.destinationLatitude = destinationLatitude;
     }
 
-    public float getDestinationLongitude() {
+    public double getDestinationLongitude() {
         return destinationLongitude;
     }
 
-    public void setDestinationLongitude(float destinationLongitude) {
+    public void setDestinationLongitude(double destinationLongitude) {
         this.destinationLongitude = destinationLongitude;
     }
 
