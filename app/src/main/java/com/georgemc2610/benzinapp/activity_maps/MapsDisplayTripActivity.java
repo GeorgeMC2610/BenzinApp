@@ -59,30 +59,18 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
         geocoder = new Geocoder(this);
 
         // get the data for the trip.
-        String coordinates = (String) getIntent().getSerializableExtra("coordinates");
+        double originLatitude = (double) getIntent().getSerializableExtra("origin_latitude");
+        double originLongitude = (double) getIntent().getSerializableExtra("origin_longitude");
+        double destinationLatitude = (double) getIntent().getSerializableExtra("destination_latitude");
+        double destinationLongitude = (double) getIntent().getSerializableExtra("destination_longitude");
         encodedPolyline = (String) getIntent().getSerializableExtra("polyline");
 
-        // decode the coordinates from the json object.
-        try
-        {
-            JSONObject jsonCoordinates = new JSONObject(coordinates);
+        // make latlng objects
+        originCoordinates = new LatLng(originLatitude, originLongitude);
+        destinationCoordinates = new LatLng(destinationLatitude, destinationLongitude);
 
-            originCoordinates = new LatLng(jsonCoordinates.getJSONArray("origin_coordinates").getDouble(0), jsonCoordinates.getJSONArray("origin_coordinates").getDouble(1));
-            destinationCoordinates = new LatLng(jsonCoordinates.getJSONArray("destination_coordinates").getDouble(0), jsonCoordinates.getJSONArray("destination_coordinates").getDouble(1));
-            mapFragment.getMapAsync(this);
-        }
-        // in case something goes wrong print it out.
-        catch (JSONException e)
-        {
-            // print the message on the console.
-            System.err.println(e.getMessage());
-
-            // build a dialog that immediately closes the activity.
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder = builder.setMessage("The details of the trip are not stored correctly. Please edit this trip, so they're correct."); // TODO: REMOVE HARDCODED STRING
-            builder = builder.setNeutralButton("OK", (dialog, which) -> finish());
-            builder.show();
-        }
+        // make the map object.
+        mapFragment.getMapAsync(this);
 
         // actionbar
         DisplayActionBarTool.displayActionBar(this, "Trip Display"); // TODO: REMOVE HARDCODED STRING

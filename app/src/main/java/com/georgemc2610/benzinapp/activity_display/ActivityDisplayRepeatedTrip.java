@@ -173,8 +173,10 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
     private void onButtonShowOnMapClicked(View view)
     {
         Intent intent = new Intent(this, MapsDisplayTripActivity.class);
-        intent.putExtra("origin_coordinates", repeatedTrip.getOriginLatlng());
-        intent.putExtra("destination_coordinates", repeatedTrip.getDestinationLatlng());
+        intent.putExtra("origin_latitude", repeatedTrip.getOriginLatitude());
+        intent.putExtra("origin_longitude", repeatedTrip.getOriginLongitude());
+        intent.putExtra("destination_latitude", repeatedTrip.getDestinationLatitude());
+        intent.putExtra("destination_longitude", repeatedTrip.getDestinationLongitude());
         intent.putExtra("polyline", repeatedTrip.getPolyline());
         startActivity(intent);
     }
