@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.ToggleButton;
@@ -32,6 +33,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     Button LogoutButton;
     SharedPreferences preferences;
     private static int selectedLanguagePosition = -1;
+    private boolean autoLogin;
 
     private FragmentSettingsBinding binding;
 
@@ -61,11 +63,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
         fastLoginToggle = root.findViewById(R.id.settings_FastLoginSwitch);
 
-        // shared preferences
+        // be able to change it.
+        fastLoginToggle.setOnCheckedChangeListener(this::onFastLoginStateChange);
+
+        // shared preferences for settings
         preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        autoLogin = preferences.getBoolean("auto_login", true);
+
+        // set the settings.
+        fastLoginToggle.setChecked(autoLogin);
 
         return root;
     }
+
+    private void onFastLoginStateChange(CompoundButton buttonView, boolean isChecked)
+    {
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean("auto_login", isChecked);
+        editor.apply();
+    }
+
 
     @Override
     public void onDestroyView()

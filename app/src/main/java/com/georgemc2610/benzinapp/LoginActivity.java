@@ -55,55 +55,28 @@ public class LoginActivity extends AppCompatActivity
         SharedPreferences preferencesRepeatedTrip = getSharedPreferences("repeated_trip", MODE_PRIVATE);
         SharedPreferences.Editor editorRepeatedTrip = preferencesRepeatedTrip.edit();
         editorRepeatedTrip.putString("encodedTrip", null);
-        editorRepeatedTrip.putString("jsonTrip", null);
+        editorRepeatedTrip.putFloat("origin_latitude", -1f);
+        editorRepeatedTrip.putFloat("origin_longitude", -1f);
+        editorRepeatedTrip.putFloat("destination_latitude", -1f);
+        editorRepeatedTrip.putFloat("destination_longitude", -1f);
         editorRepeatedTrip.putFloat("tripDistance", -1f);
+        editorRepeatedTrip.putFloat("polyline", -1f);
         editorRepeatedTrip.apply();
 
         // get settings preferences
         SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
-
-        // get if the settings are set to default.
-        boolean defaultSettings = preferences.getBoolean("default_settings", true);
 
         // get the other settings.
         boolean autoLogin = preferences.getBoolean("auto_login", true);
         int language = preferences.getInt("language", Language.SYSTEM_DEFAULT);
         boolean darkMode = preferences.getBoolean("dark_mode", false);
 
-        // in case the default settings are enabled.
-        if (defaultSettings)
+        // otherwise seek for every setting.
+        if (autoLogin)
         {
-            // auto login is enabled by default.
             progressBar.setVisibility(View.VISIBLE);
             RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
         }
-        // otherwise seek for every setting.
-        else
-        {
-            if (darkMode)
-            {
-                setTheme(R.style.Theme_BenzinApp);
-            }
-
-            if (autoLogin)
-            {
-                progressBar.setVisibility(View.VISIBLE);
-                RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
-            }
-
-            switch (language)
-            {
-                case Language.SYSTEM_DEFAULT:
-                    break;
-                case Language.ENGLISH:
-                    break;
-                case Language.GREEK:
-                    break;
-                default:
-                    throw new InputMismatchException();
-            }
-        }
-
 
     }
 
