@@ -9,21 +9,30 @@ import java.time.LocalDateTime;
 
 public class RepeatedTrip implements Serializable
 {
-    private int id, timesRepeating;
-    private String title, origin, destination;
+    private final int id;
+    private int timesRepeating;
+    private String title, originAddress, destinationAddress, originPlaceId, destinationPlaceId, polyline;
+    private float originLatitude, originLongitude, destinationLatitude, destinationLongitude;
     private float totalKm;
 
     private LocalDate dateAdded;
 
-    private RepeatedTrip(int id, int timesRepeating, String title, String origin, String destination, float totalKm, LocalDate dateAdded)
+    public RepeatedTrip(int id, int timesRepeating, String title, String originAddress, String destinationAddress, String originPlaceId, String destinationPlaceId, String polyline, float originLatitude, float originLongitude, float destinationLatitude, float destinationLongitude, float totalKm, LocalDate date)
     {
         this.id = id;
         this.timesRepeating = timesRepeating;
         this.title = title;
-        this.origin = origin;
-        this.destination = destination;
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
+        this.polyline = polyline;
+        this.originPlaceId = originPlaceId;
+        this.destinationPlaceId = destinationPlaceId;
+        this.originLatitude = originLatitude;
+        this.originLongitude = originLongitude;
+        this.destinationLatitude = destinationLatitude;
+        this.destinationLongitude = destinationLongitude;
         this.totalKm = totalKm;
-        this.dateAdded = dateAdded;
+        this.dateAdded = date;
     }
 
     /**
@@ -37,16 +46,26 @@ public class RepeatedTrip implements Serializable
     {
         try
         {
-            // all of the data are required.
+            // mandatory data (not null)
             int id = jsonObject.getInt("id");
             int timesRepeating = jsonObject.getInt("times_repeating");
             float totalKm = (float) jsonObject.getDouble("total_km");
             String title = jsonObject.getString("title");
-            String origin = jsonObject.getString("origin");
-            String destination = jsonObject.getString("destination");
+            String polyline = jsonObject.getString("polyline");
+            float originLatitude = (float) jsonObject.getDouble("origin_latitude");
+            float originLongitude = (float) jsonObject.getDouble("origin_longitude");
+            float destinationLatitude = (float) jsonObject.getDouble("destination_latitude");
+            float destinationLongitude = (float) jsonObject.getDouble("destination_longitude");
             LocalDate date = LocalDate.parse(jsonObject.getString("created_at").substring(0, 10));
 
-            return new RepeatedTrip(id, timesRepeating, title, origin, destination, totalKm, date);
+            // nullable data
+            String originAddress = jsonObject.getString("origin_address");
+            String destinationAddress = jsonObject.getString("destination_address");
+            String originPlaceId = jsonObject.getString("origin_place_id");
+            String destinationPlaceId = jsonObject.getString("destination_place_id");
+
+            // return the object
+            return new RepeatedTrip(id, timesRepeating, title, originAddress, destinationAddress, originPlaceId, destinationPlaceId, polyline, originLatitude, originLongitude, destinationLatitude, destinationLongitude, totalKm, date);
         }
         catch (JSONException e)
         {
@@ -61,7 +80,6 @@ public class RepeatedTrip implements Serializable
 
     public float getBestLt(Car car)
     {
-        System.out.println("THIS IS THE RESULT OF MAXIMUM LITERS PER 100 KM :" + car.getMinimumLitersPer100Km());
         return car.getMinimumLitersPer100Km() * totalKm / 100;
     }
 
@@ -110,24 +128,76 @@ public class RepeatedTrip implements Serializable
         this.title = title;
     }
 
-    public String getOrigin()
-    {
-        return origin;
+    public String getOriginAddress() {
+        return originAddress;
     }
 
-    public void setOrigin(String origin)
-    {
-        this.origin = origin;
+    public void setOriginAddress(String originAddress) {
+        this.originAddress = originAddress;
     }
 
-    public String getDestination()
-    {
-        return destination;
+    public String getDestinationAddress() {
+        return destinationAddress;
     }
 
-    public void setDestination(String destination)
-    {
-        this.destination = destination;
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
+    }
+
+    public String getOriginPlaceId() {
+        return originPlaceId;
+    }
+
+    public void setOriginPlaceId(String originPlaceId) {
+        this.originPlaceId = originPlaceId;
+    }
+
+    public String getDestinationPlaceId() {
+        return destinationPlaceId;
+    }
+
+    public void setDestinationPlaceId(String destinationPlaceId) {
+        this.destinationPlaceId = destinationPlaceId;
+    }
+
+    public String getPolyline() {
+        return polyline;
+    }
+
+    public void setPolyline(String polyline) {
+        this.polyline = polyline;
+    }
+
+    public float getOriginLatitude() {
+        return originLatitude;
+    }
+
+    public void setOriginLatitude(float originLatitude) {
+        this.originLatitude = originLatitude;
+    }
+
+    public float getOriginLongitude() {
+        return originLongitude;
+    }
+
+    public void setOriginLongitude(float originLongitude) {
+        this.originLongitude = originLongitude;
+    }
+
+    public float getDestinationLatitude() {
+        return destinationLatitude;
+    }
+
+    public void setDestinationLatitude(float destinationLatitude) {
+        this.destinationLatitude = destinationLatitude;
+    }
+
+    public float getDestinationLongitude() {
+        return destinationLongitude;
+    }
+
+    public void setDestinationLongitude(float destinationLongitude) {
+        this.destinationLongitude = destinationLongitude;
     }
 
     public float getTotalKm()
