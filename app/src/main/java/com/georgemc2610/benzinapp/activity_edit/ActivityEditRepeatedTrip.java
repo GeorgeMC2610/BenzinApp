@@ -79,41 +79,37 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         // initialize geocoder.
         geocoder = new Geocoder(this);
 
-        // set addresses to the trip.
-        try
+        // newer api requires listener
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
-            // json object with coordinates
-            JSONObject jsonObject = new JSONObject(repeatedTrip.getOrigin());
-
-            // newer api requires listener
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            // for the origin.
+            geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 1, addresses ->
             {
-                // for the origin.
-                geocoder.getFromLocation(jsonObject.getJSONArray("origin_coordinates").getDouble(0), jsonObject.getJSONArray("origin_coordinates").getDouble(1), 1, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+                if (addresses.isEmpty())
+                    return;
 
-                    originAddress = addresses.get(0);
-                    runOnUiThread(this::setTripTitle);
-                });
+                originAddress = addresses.get(0);
+                runOnUiThread(this::setTripTitle);
+            });
 
-                // for the destination
-                geocoder.getFromLocation(jsonObject.getJSONArray("destination_coordinates").getDouble(0), jsonObject.getJSONArray("destination_coordinates").getDouble(1), 1, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+            // for the destination
+            geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 1, addresses ->
+            {
+                if (addresses.isEmpty())
+                    return;
 
-                    destinationAddress = addresses.get(0);
-                    runOnUiThread(this::setTripTitle);
-                });
-            }
-            // older api runs on ui thread
-            else
+                destinationAddress = addresses.get(0);
+                runOnUiThread(this::setTripTitle);
+            });
+        }
+        // older api requires running in the main thread.
+        else
+        {
+            try
             {
                 // retrieve the addresses.
-                List<Address> originAddresses = geocoder.getFromLocation(jsonObject.getJSONArray("origin_coordinates").getDouble(0), jsonObject.getJSONArray("origin_coordinates").getDouble(1), 1);
-                List<Address> destinationAddresses = geocoder.getFromLocation(jsonObject.getJSONArray("destination_coordinates").getDouble(0), jsonObject.getJSONArray("destination_coordinates").getDouble(1), 1);
+                List<Address> originAddresses = geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 1);
+                List<Address> destinationAddresses = geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 1);
 
                 if (originAddresses.isEmpty() || destinationAddresses.isEmpty())
                     return;
@@ -125,18 +121,13 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
                 // set the title if they're not null.
                 setTripTitle();
             }
-        }
-        catch (JSONException e)
-        {
-            System.err.println(e.getMessage());
-            trip.setText("Data are not stored correctly.");
-            trip.setTextColor(Color.RED);
-        }
-        catch (IOException e)
-        {
-            System.err.println(e.getMessage());
-            trip.setText("Unable to load addresses.");
-            trip.setTextColor(Color.RED);
+
+            catch (IOException e)
+            {
+                System.err.println(e.getMessage());
+                trip.setText("Unable to load addresses."); // TODO: Replace with string value.
+                trip.setTextColor(Color.RED);
+            }
         }
 
         // actionbar
@@ -185,16 +176,13 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         // initialize opening activity.
         Intent intent = new Intent(this, MapsCreateTripActivity.class);
 
-        // get the coordinates of the trip.
-        Map<String, double[]> coordinates = JSONCoordinatesTool.getCoordinatesFromJSON(repeatedTrip.getOrigin());
-
         // if they exist
-        if (coordinates != null)
+        if (repeatedTrip != null)
         {
             // pass the data to the next activity.
-            intent.putExtra("origin", coordinates.get("origin"));
-            intent.putExtra("destination", coordinates.get("destination"));
-            intent.putExtra("polyline", repeatedTrip.getDestination());
+            intent.putExtra("origin", new double[] {repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude()});
+            intent.putExtra("destination", new double[] {repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude()});
+            intent.putExtra("polyline", repeatedTrip.getPolyline());
             intent.putExtra("km", repeatedTrip.getTotalKm());
         }
 
@@ -229,73 +217,64 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         // get shared preferences data
         SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE); // TODO: Clear upon leaving.
 
-        // get repeated trip data.
-        String jsonTrip = preferences.getString("jsonTrip", null);
+        // get trip data.
         String encodedTrip = preferences.getString("encodedTrip", null);
+        double originLatitude = (double) preferences.getFloat("origin_latitude", -1f);
+        double originLongitude = (double) preferences.getFloat("origin_longitude", -1f);
+        double destinationLatitude = (double) preferences.getFloat("destination_latitude", -1f);
+        double destinationLongitude = (double) preferences.getFloat("destination_longitude", -1f);
         float km = preferences.getFloat("tripDistance", -1f);
 
         // make sure they exist.
-        if (jsonTrip == null || encodedTrip == null || km == -1f)
+        if (encodedTrip == null || km == -1f)
             return;
 
         // set the data.
-        repeatedTrip.setOrigin(jsonTrip);
-        repeatedTrip.setDestination(encodedTrip);
+        repeatedTrip.setOriginLatitude(originLatitude);
+        repeatedTrip.setOriginLongitude(originLongitude);
+        repeatedTrip.setDestinationLatitude(destinationLatitude);
+        repeatedTrip.setDestinationLongitude(destinationLongitude);
+        repeatedTrip.setPolyline(encodedTrip);
         repeatedTrip.setTotalKm(km);
 
-        // if they have no data in them.
-        if (repeatedTrip.getOrigin() == null || repeatedTrip.getDestination() == null)
-            return;
+        // set the text view.
+        totalKm.setText(repeatedTrip.getTotalKm() + " " + getString(R.string.km_short));
 
-        // if there is a trip, show its distance.
-        if (repeatedTrip.getTotalKm() != -1f && repeatedTrip.getTotalKm() != 0f)
-            totalKm.setText(repeatedTrip.getTotalKm() + " " + getString(R.string.km_short));
+        // loading text...
+        trip.setText("Loading addresses...");
 
-        try
-        {
-            // loading text...
-            trip.setText("Loading addresses...");
+        // geocoder to set the addresses correctly.
+        Geocoder geocoder = new Geocoder(this);
 
-            Map<String, double[]> coordinates = JSONCoordinatesTool.getCoordinatesFromJSON(repeatedTrip.getOrigin());
-            assert coordinates != null;
-
-            double[] originCoordinates = coordinates.get("origin");
-            double[] destinationCoordinates = coordinates.get("destination");
-            assert originCoordinates != null;
-            assert destinationCoordinates != null;
-
-            // geocoder to set the addresses correctly.
-            Geocoder geocoder = new Geocoder(this);
-
-            // newer api requires listener
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        // newer api requires listener
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // assign the addresses to the text view.
+            geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 5, addresses ->
             {
-                // assign the addresses to the text view.
-                geocoder.getFromLocation(originCoordinates[0], originCoordinates[1], 5, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+                if (addresses.isEmpty())
+                    return;
 
-                    originAddress = addresses.get(0);
-                    runOnUiThread(this::setTripTitle);
-                });
+                originAddress = addresses.get(0);
+                runOnUiThread(this::setTripTitle);
+            });
 
-                // same for the destination.
-                geocoder.getFromLocation(destinationCoordinates[0], destinationCoordinates[1], 5, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+            // same for the destination.
+            geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 5, addresses ->
+            {
+                if (addresses.isEmpty())
+                    return;
 
-                    destinationAddress = addresses.get(0);
-                    runOnUiThread(this::setTripTitle);
-                });
-            }
-            // older api requires occupying the entire thread.
-            else
+                destinationAddress = addresses.get(0);
+                runOnUiThread(this::setTripTitle);
+            });
+        }
+        else
+        {
+            try
             {
                 // get all possible addresses
-                List<Address> originAddresses = geocoder.getFromLocation(originCoordinates[0], originCoordinates[1], 5);
-                List<Address> destinationAddresses = geocoder.getFromLocation(destinationCoordinates[0], destinationCoordinates[1], 5);
+                List<Address> originAddresses = geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 5);
+                List<Address> destinationAddresses = geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 5);
 
                 // if either one is empty, don't assign it.
                 if (!originAddresses.isEmpty())
@@ -307,13 +286,13 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
                 // set the view according to the list sizes.
                 setTripTitle();
             }
-        }
-        // io exception means the geocoder (older api) failed.
-        catch (IOException e)
-        {
-            System.err.println(e.getMessage());
-            trip.setTextColor(Color.RED);
-            trip.setText("Couldn't load addresses.");
+            // io exception means the geocoder (older api) failed.
+            catch (IOException e)
+            {
+                System.err.println(e.getMessage());
+                trip.setTextColor(Color.RED);
+                trip.setText("Couldn't load addresses.");
+            }
         }
     }
 

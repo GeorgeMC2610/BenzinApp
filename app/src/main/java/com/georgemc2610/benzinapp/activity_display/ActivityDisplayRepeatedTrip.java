@@ -69,7 +69,6 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
 
         // formats to display the values
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         // repeating text for the times in the week.
         String repeatingText;

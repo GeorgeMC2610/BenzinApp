@@ -291,7 +291,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         selectOrigin.setBackgroundColor(Color.GRAY);
     }
 
-    public void onButtonMakeTripClicked(View v) throws JSONException
+    public void onButtonMakeTripClicked(View v)
     {
         // make sure there is at least one trip.
         if (polylines.isEmpty() || encodedPolylines.isEmpty())

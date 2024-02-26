@@ -44,7 +44,7 @@ import java.util.Map;
 public class RequestHandler
 {
     private static RequestHandler instance;
-    private static final String _URL = "https://benzin-app.fly.dev";
+    private static final String _URL = "http://192.168.0.91:3000";
     private String token;
     private RequestQueue requestQueue;
 
@@ -634,13 +634,30 @@ public class RequestHandler
         // url of a specific repeated trip
         String url = _URL + "/repeated_trip/" + trip.getId();
 
-        // parameters of a repeated trip. All parameters are required, no need for integrity check.
+        // required (non null) parameters of a repeated trip.
         Map<String, String> params = new HashMap<>();
         params.put("title", trip.getTitle());
-        params.put("origin", trip.getOrigin());
-        params.put("destination", trip.getDestination());
+        params.put("origin_latitude", String.valueOf(trip.getOriginLatitude()));
+        params.put("origin_longitude", String.valueOf(trip.getOriginLongitude()));
+        params.put("destination_latitude", String.valueOf(trip.getDestinationLatitude()));
+        params.put("destination_longitude", String.valueOf(trip.getDestinationLongitude()));
+        params.put("polyline", trip.getPolyline());
         params.put("times_repeating", String.valueOf(trip.getTimesRepeating()));
         params.put("total_km", String.valueOf(trip.getTotalKm()));
+
+        // nullable parameters of repeated trip (not required)
+        if (trip.getOriginAddress() != null)
+            params.put("origin_address", trip.getOriginAddress());
+
+        if (trip.getDestinationAddress() != null)
+            params.put("destination_address", trip.getDestinationAddress());
+
+        if (trip.getOriginPlaceId() != null)
+            params.put("origin_place_id", trip.getOriginPlaceId());
+
+        if (trip.getDestinationPlaceId() != null)
+            params.put("destination_place_id", trip.getDestinationPlaceId());
+
 
         // POST request to add repeated trip
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
