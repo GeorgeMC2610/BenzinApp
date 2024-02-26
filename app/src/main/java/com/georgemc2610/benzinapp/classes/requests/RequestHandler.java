@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -562,18 +564,34 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void AddRepeatedTrip(Activity activity, String title, String origin, String destination, int timesRepeating, float totalKm)
+    public void AddRepeatedTrip(Activity activity, String title, double originLatitude, double originLongitude, double destinationLatitude, double destinationLongitude, String polyline, int timesRepeating, float totalKm, @Nullable String originAddress, @Nullable String destinationAddress, @Nullable String originPlaceId, @Nullable String destinationPlaceId)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
 
-        // parameters of a repeated trip. All parameters are required.
+        // required parameters of a repeated trip.
         Map<String, String> params = new HashMap<>();
         params.put("title", title);
-        params.put("origin", origin);
-        params.put("destination", destination);
+        params.put("origin_latitude", String.valueOf(originLatitude));
+        params.put("origin_longitude", String.valueOf(originLongitude));
+        params.put("destination_latitude", String.valueOf(destinationLatitude));
+        params.put("destination_longitude", String.valueOf(destinationLongitude));
+        params.put("polyline", polyline);
         params.put("times_repeating", String.valueOf(timesRepeating));
         params.put("total_km", String.valueOf(totalKm));
+
+        // nullable parameters of repeated trip (not required)
+        if (originAddress != null)
+            params.put("origin_address", originAddress);
+
+        if (destinationAddress != null)
+            params.put("destination_address", destinationAddress);
+
+        if (originPlaceId != null)
+            params.put("origin_place_id", originPlaceId);
+
+        if (destinationPlaceId != null)
+            params.put("destination_place_id", destinationPlaceId);
 
         // correct url
         String url = _URL + "/repeated_trip";
