@@ -50,7 +50,8 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     private Address originAddress, destinationAddress;
     private float km;
     private boolean permissionRequested = false;
-    private String encodedTrip, jsonTrip;
+    private String encodedTrip;
+    private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -167,14 +168,11 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         Intent intent = new Intent(this, MapsCreateTripActivity.class);
 
         // if they exist
-        if (jsonTrip != null)
+        if (encodedTrip != null)
         {
-            // mapping the coordinates.
-            Map<String, double[]> coordinates = JSONCoordinatesTool.getCoordinatesFromJSON(jsonTrip);
-
             // pass the data to the next activity.
-            intent.putExtra("origin", coordinates.get("origin"));
-            intent.putExtra("destination", coordinates.get("destination"));
+            intent.putExtra("origin", new double[] {originLatitude, originLongitude});
+            intent.putExtra("destination", new double[] {destinationLatitude, destinationLongitude});
             intent.putExtra("polyline", encodedTrip);
             intent.putExtra("km", km);
         }
@@ -195,7 +193,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         int timesRepeating = Integer.parseInt(ViewTools.getFilteredViewSequence(this.timesRepeating));
 
         // send the trip
-        RequestHandler.getInstance().AddRepeatedTrip(this, title, jsonTrip, encodedTrip, timesRepeating, km);
+        RequestHandler.getInstance().AddRepeatedTrip(this, title, originLatitude, originLongitude, destinationLatitude, destinationLongitude, encodedTrip, timesRepeating, km, null, null, null, null);
     }
 
     @Override
@@ -207,11 +205,14 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         // get shared preferences data
         SharedPreferences preferences = getSharedPreferences("repeated_trip", MODE_PRIVATE); // TODO: Clear upon leaving.
         encodedTrip = preferences.getString("encodedTrip", null);
-        jsonTrip = preferences.getString("jsonTrip", null);
+        originLatitude = (double) preferences.getFloat("origin_latitude", -1f);
+        originLongitude = (double) preferences.getFloat("origin_longitude", -1f);
+        destinationLatitude = (double) preferences.getFloat("destination_latitude", -1f);
+        destinationLongitude = (double) preferences.getFloat("destination_longitude", -1f);
         km = preferences.getFloat("tripDistance", -1f);
 
-        // if they have no data in them.
-        if (encodedTrip == null || jsonTrip == null)
+        // if they have no data in them, don't proceed.
+        if (encodedTrip == null)
             return;
 
         // if there is a trip, show its distance.
@@ -222,52 +223,43 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
             totalKmLegend.setVisibility(View.VISIBLE);
         }
 
-        try
+        // Text for loading addresses.
+        trip.setText(R.string.loading);
+
+        // geocoder to set the addresses correctly.
+        Geocoder geocoder = new Geocoder(this);
+
+        // newer api requires listener
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
-            // loading text...
-            trip.setText("Loading addresses...");
-
-            // json objects stored
-            JSONObject jsonObject = new JSONObject(jsonTrip);
-            JSONArray jsonLatLngOrigin = jsonObject.getJSONArray("origin_coordinates");
-            JSONArray jsonLatLngDestination = jsonObject.getJSONArray("destination_coordinates");
-
-            // get latlng objects.
-            LatLng originLatLng = new LatLng(jsonLatLngOrigin.getDouble(0), jsonLatLngOrigin.getDouble(1));
-            LatLng destinationLatLng = new LatLng(jsonLatLngDestination.getDouble(0), jsonLatLngDestination.getDouble(1));
-
-            // geocoder to set the addresses correctly.
-            Geocoder geocoder = new Geocoder(this);
-
-            // newer api requires listener
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            // assign the addresses to the text view.
+            geocoder.getFromLocation(originLatitude, originLongitude, 1, addresses ->
             {
-                // assign the addresses to the text view.
-                geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+                if (addresses.isEmpty())
+                    return;
 
-                    originAddress = addresses.get(0);
-                    runOnUiThread(this::assignTripViewAddresses);
-                });
+                originAddress = addresses.get(0);
+                runOnUiThread(this::assignTripViewAddresses);
+            });
 
-                // same for the destination.
-                geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5, addresses ->
-                {
-                    if (addresses.isEmpty())
-                        return;
+            // same for the destination.
+            geocoder.getFromLocation(destinationLatitude, destinationLongitude, 1, addresses ->
+            {
+                if (addresses.isEmpty())
+                    return;
 
-                    destinationAddress = addresses.get(0);
-                    runOnUiThread(this::assignTripViewAddresses);
-                });
-            }
-            // older api requires occupying the entire thread.
-            else
+                destinationAddress = addresses.get(0);
+                runOnUiThread(this::assignTripViewAddresses);
+            });
+        }
+        // older api runs on main thread.
+        else
+        {
+            try
             {
                 // get all possible addresses
-                List<Address> originAddresses = geocoder.getFromLocation(originLatLng.latitude, originLatLng.longitude, 5);
-                List<Address> destinationAddresses = geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 5);
+                List<Address> originAddresses = geocoder.getFromLocation(originLatitude, originLongitude, 5);
+                List<Address> destinationAddresses = geocoder.getFromLocation(destinationLatitude, destinationLongitude, 5);
 
                 // if either one is empty, don't assign it.
                 if (!originAddresses.isEmpty())
@@ -279,25 +271,25 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
                 // set the view according to the list sizes.
                 assignTripViewAddresses();
             }
-        }
-        // json exception means the latitude and longitude aren't stored correctly.
-        catch (JSONException e)
-        {
-            System.err.println(e.getMessage());
-            trip.setTextColor(Color.RED);
-            trip.setText("Invalid coordinates.");
-        }
-        // io exception means the geocoder (older api) failed.
-        catch (IOException e)
-        {
-            System.err.println(e.getMessage());
-            trip.setTextColor(Color.RED);
-            trip.setText("Couldn't load addresses.");
+            // io exception means the geocoder (older api) failed.
+            catch (IOException e)
+            {
+                System.err.println(e.getMessage());
+                trip.setTextColor(Color.RED);
+                trip.setText("Couldn't load addresses.");
+            }
         }
     }
 
     private void assignTripViewAddresses()
     {
+        if ((originAddress == null && destinationAddress != null) || (originAddress != null && destinationAddress == null))
+        {
+            trip.setText(R.string.loading);
+            return;
+        }
+
+
         if (originAddress == null || destinationAddress == null)
         {
             trip.setText("No addresses found.");
@@ -355,7 +347,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
      */
     private boolean checkDataIntegrity()
     {
-        if (jsonTrip == null || encodedTrip == null)
+        if (encodedTrip == null)
         {
             Toast.makeText(this, "Please select a trip.", Toast.LENGTH_LONG).show();
             return false;

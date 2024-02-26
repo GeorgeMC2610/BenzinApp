@@ -114,73 +114,59 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         // get the addresses from the locations.
         Geocoder geocoder = new Geocoder(this);
 
-        try
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         {
-            // get the json object and retrieve the coordinates.
-            JSONArray jsonOriginCoordinates = new JSONObject(repeatedTrip.getOrigin()).getJSONArray("origin_coordinates");
-            JSONArray jsonDestinationCoordinates = new JSONObject(repeatedTrip.getOrigin()).getJSONArray("destination_coordinates");
-
-            // in newer api a listener is used.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            // get the address for the origin.
+            geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 10, addresses ->
             {
-                // get the address for the origin.
-                geocoder.getFromLocation(jsonOriginCoordinates.getDouble(0), jsonOriginCoordinates.getDouble(1), 10, addresses ->
-                {
-                    // check if any address exists.
-                    if (addresses.isEmpty())
-                        return;
+                // check if any address exists.
+                if (addresses.isEmpty())
+                    return;
 
-                    // if it exists, assign the first one.
-                    origin = addresses.get(0);
-                    runOnUiThread(this::displayAddresses);
-                });
+                // if it exists, assign the first one.
+                origin = addresses.get(0);
+                runOnUiThread(this::displayAddresses);
+            });
 
-                // get the address for the destination.
-                geocoder.getFromLocation(jsonDestinationCoordinates.getDouble(0), jsonDestinationCoordinates.getDouble(1), 10, addresses ->
-                {
-                    // check for any address
-                    if (addresses.isEmpty())
-                        return;
-
-                    // and assign it to the destination also.
-                    destination = addresses.get(0);
-                    runOnUiThread(this::displayAddresses);
-                });
-            }
-            // in the old api it's in the main thread.
-            else
+            // get the address for the destination.
+            geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 10, addresses ->
             {
-                // retrieve all addresses.
-                List<Address> originAddresses = geocoder.getFromLocation(jsonOriginCoordinates.getDouble(0), jsonOriginCoordinates.getDouble(1), 10);
-                List<Address> destinationAddresses = geocoder.getFromLocation(jsonDestinationCoordinates.getDouble(0), jsonDestinationCoordinates.getDouble(1), 10);
+                // check for any address
+                if (addresses.isEmpty())
+                    return;
+
+                // and assign it to the destination also.
+                destination = addresses.get(0);
+                runOnUiThread(this::displayAddresses);
+            });
+        }
+        else
+        {
+            try
+            {
+                // get the addresses
+                List<Address> originAddresses = geocoder.getFromLocation(repeatedTrip.getOriginLatitude(), repeatedTrip.getOriginLongitude(), 10);
+                List<Address> destinationAddresses = geocoder.getFromLocation(repeatedTrip.getDestinationLatitude(), repeatedTrip.getDestinationLongitude(), 10);
 
                 // assign the first one to the origin.
                 if (!originAddresses.isEmpty())
                     origin = originAddresses.get(0);
 
-                // same for the destination.
+                // assign the first one to the destination address.
                 if (!destinationAddresses.isEmpty())
                     destination = destinationAddresses.get(0);
 
-                // and if they exist, display them.
                 displayAddresses();
             }
+            catch (IOException e)
+            {
+                // if an IOException occurs, then the geocoder failed.
+                System.err.println(e.getMessage());
+                trip.setText("Addresses failed to load.");
+                trip.setTextColor(Color.RED);
+            }
+        }
 
-        }
-        catch (JSONException e)
-        {
-            // if there is a JSON exception, then the coordinates aren't stored correctly in the cloud.
-            System.err.println(e.getMessage());
-            trip.setText("Unable to load coordinates.");
-            trip.setTextColor(Color.RED);
-        }
-        catch (IOException e)
-        {
-            // if an IOException occurs, then the geocoder failed.
-            System.err.println(e.getMessage());
-            trip.setText("Addresses failed to load.");
-            trip.setTextColor(Color.RED);
-        }
 
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
     }
@@ -188,8 +174,9 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
     private void onButtonShowOnMapClicked(View view)
     {
         Intent intent = new Intent(this, MapsDisplayTripActivity.class);
-        intent.putExtra("coordinates", repeatedTrip.getOrigin());
-        intent.putExtra("polyline", repeatedTrip.getDestination());
+        intent.putExtra("origin_coordinates", repeatedTrip.getOriginLatlng());
+        intent.putExtra("destination_coordinates", repeatedTrip.getDestinationLatlng());
+        intent.putExtra("polyline", repeatedTrip.getPolyline());
         startActivity(intent);
     }
 
