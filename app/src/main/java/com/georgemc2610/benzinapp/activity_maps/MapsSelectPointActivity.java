@@ -212,7 +212,7 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
                 if (!addresses.isEmpty())
                     assignMarkerAndData(addresses.get(0), null);
                 else
-                    Toast.makeText(this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.toast_no_addresses_found, Toast.LENGTH_SHORT).show();
             }
             catch (IOException e)
             {
