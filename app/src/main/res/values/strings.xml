@@ -155,4 +155,9 @@
     <string name="title_display_service">Service Data</string>
     <string name="marker_origin">Loading origin...</string>
     <string name="marker_destination">Loading destination...</string>
+    <string name="title_edit_trip">Edit Trip</string>
+    <string name="title_select_location">Select Location</string>
+    <string name="toast_trip_added_successfully">New trip added Successfully.</string>
+    <string name="toast_trip_edit_successfully">Trip modified successfully</string>
+    <string name="toast_trip_delete_successfully">Trip deleted successfully.</string>
 </resources>

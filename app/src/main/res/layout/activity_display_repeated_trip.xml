@@ -121,7 +121,6 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <!-- TODO: REMOVE HARD-CODED STRINGS -->
             <!-- TRIP'S GENERAL COST -->
             <TextView
                 android:id="@+id/display_repeated_trip_text_view_general_cost"

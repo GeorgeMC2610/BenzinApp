@@ -154,4 +154,9 @@
     <string name="title_display_service">Στοιχεία του Σέρβις</string>
     <string name="marker_origin">Φόρτωση αφετηρίας...</string>
     <string name="marker_destination">Φόρτωση προορισμού...</string>
+    <string name="title_edit_trip">Επεξεργασία Διαδρομής</string>
+    <string name="title_select_location">Επιλογή Τοποθεσίας</string>
+    <string name="toast_trip_added_successfully">Η διαδρομή προστέθηκε επιτυχώς.</string>
+    <string name="toast_trip_edit_successfully">Οι αλλαγές της διαδρομής εφαρμόστηκαν επιτυχώς.</string>
+    <string name="toast_trip_delete_successfully">Η διαδρομή διεγράφη επιτυχώς.</string>
 </resources>

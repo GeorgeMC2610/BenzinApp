@@ -131,7 +131,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         }
 
         // actionbar
-        DisplayActionBarTool.displayActionBar(this, "Edit Trip"); // TODO: Replace with string value.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_trip));
     }
 
     @Override

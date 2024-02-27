@@ -73,7 +73,7 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
         mapFragment.getMapAsync(this);
 
         // actionbar
-        DisplayActionBarTool.displayActionBar(this, "Trip Display"); // TODO: REMOVE HARDCODED STRING
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_activity_maps_display_point));
     }
 
     @Override

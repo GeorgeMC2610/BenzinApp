@@ -600,7 +600,7 @@ public class RequestHandler
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.POST, url, listener ->
         {
             AssignData(activity, DataSelector.REPEATED_TRIPS);
-            Toast.makeText(activity, "New Repeated Trip added successfully.", Toast.LENGTH_LONG).show(); // TODO: remove hardcoded string.
+            Toast.makeText(activity, activity.getString(R.string.toast_trip_added_successfully), Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute request.
@@ -619,7 +619,7 @@ public class RequestHandler
         BenzinappStringRequest request = new BenzinappStringRequest(Request.Method.DELETE, url, listener ->
         {
             AssignData(activity, DataSelector.REPEATED_TRIPS);
-            Toast.makeText(activity, "Successfully deleted repeated trips", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, activity.getString(R.string.toast_trip_delete_successfully), Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity));
 
         // execute request.
@@ -663,7 +663,7 @@ public class RequestHandler
         BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, listener ->
         {
             AssignData(activity, DataSelector.REPEATED_TRIPS);
-            Toast.makeText(activity, "Trip modified successfully", Toast.LENGTH_LONG).show(); // TODO: remove hardcoded string.
+            Toast.makeText(activity, activity.getString(R.string.toast_trip_edit_successfully), Toast.LENGTH_LONG).show();
         }, new ErrorTokenRequiredListener(activity), GetToken(activity), params);
 
         // execute request.

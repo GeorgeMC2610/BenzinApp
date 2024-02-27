@@ -78,7 +78,7 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
         geocoder = new Geocoder(this);
 
         // action bar.
-        DisplayActionBarTool.displayActionBar(this, "Select Location"); // TODO: Replace with res id.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_select_location));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
                     if (addresses.isEmpty())
                     {
                         // if it is, show the message to the user.
-                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show()); // TODO: Replace with res id.
+                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, R.string.toast_no_addresses_found, Toast.LENGTH_SHORT).show());
                         return;
                     }
 
@@ -149,7 +149,7 @@ public class MapsSelectPointActivity extends AppCompatActivity implements OnMapR
                     // if there are no addresses, do nothing
                     if (addresses.isEmpty())
                     {
-                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show()); // TODO: Replace with res id.
+                        runOnUiThread(() -> Toast.makeText(MapsSelectPointActivity.this, R.string.toast_no_addresses_found, Toast.LENGTH_SHORT).show());
                         return;
                     }
 
