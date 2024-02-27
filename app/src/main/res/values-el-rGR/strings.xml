@@ -124,9 +124,9 @@
     <string name="edit_text_repeated_trips_times_occurring">Φορές που επαναλαμβάνεται στην εβδομάδα:</string>
     <string name="edit_text_repeated_trips_times_occurring_hint">Π.χ. «4» ή «5»...</string>
     <string name="check_box_repeated_trips_not_repeating">Αυτή η διαδρομή δεν επαναλαμβάνεται.</string>
-    <string name="text_view_repeated_trips_origin_legend">Αρχή:</string>
+    <string name="text_view_repeated_trips_trip_legend">Διαδρομή:</string>
     <string name="text_view_repeated_trips_destination_legend">Τέλος:</string>
-    <string name="button_repeated_trips_select_origin">Πατήστε για να επιλέξετε την αρχή...</string>
+    <string name="button_repeated_trips_select_trip">Πατήστε για να επιλέξετε την αρχή...</string>
     <string name="button_repeated_trips_select_destination">Πατήστε για να επιλέξετε το τέλος...</string>
     <string name="text_view_repeated_trips_km_legend">Συνολικά χιλιόμετρα διαδρομής:</string>
     <string name="title_add_trip">Προσθήκη Διαδρομής</string>
@@ -163,4 +163,6 @@
     <string name="button_create_trip_origin">ΑΦΕΤΗΡΙΑ</string>
     <string name="button_create_trip_destination">ΠΡΟΟΡΙΣΜΟΣ</string>
     <string name="button_create_trip_confirm">ΕΠΙΒΕΒΑΙΩΣΗ</string>
+    <string name="text_view_repeated_trips_trip">Επιλογή διαδρομής...</string>
+    <string name="button_repeated_trips_make_trip">Πατήστε για να φτιάξετε διαδρομή στον χάρτη</string>
 </resources>

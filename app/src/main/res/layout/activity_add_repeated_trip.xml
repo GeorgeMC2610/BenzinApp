@@ -72,7 +72,7 @@
                 style="@style/textColorSpecial"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
-                android:text="Trip:" />
+                android:text="@string/text_view_repeated_trips_trip_legend" />
 
             <TextView
                 android:id="@+id/repeated_trips_text_view_origin"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 style="@style/textColorSpecial"
-                android:text="Make a trip..."
+                android:text="@string/text_view_repeated_trips_trip"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:text="Press to create a trip on the map..."
+                android:text="@string/button_repeated_trips_make_trip"
                 android:textAllCaps="false"
                 style="@style/buttonMainBackground"
                 android:onClick="onButtonSelectTripClicked"
