@@ -165,4 +165,6 @@
     <string name="button_create_trip_confirm">ΕΠΙΒΕΒΑΙΩΣΗ</string>
     <string name="text_view_repeated_trips_trip">Επιλογή διαδρομής...</string>
     <string name="button_repeated_trips_make_trip">Πατήστε για να φτιάξετε διαδρομή στον χάρτη</string>
+    <string name="dialog_select_language">Επιλογή Γλώσσας Εφαρμογής</string>
+    <string name="settings_account_settings">Ρυθμίσεις Λογαριασμού</string>
 </resources>

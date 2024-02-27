@@ -78,12 +78,12 @@
                     android:text="@string/setting_language"
                     android:textSize="20sp" />
 
-                <!-- TODO: REPLACE WITH RES ID -->
                 <Button
                     android:id="@+id/settings_LanguageButton"
                     android:layout_width="wrap_content"
                     style="@style/buttonMainBackground"
-                    android:text="SYSTEM"
+                    android:text="@string/loading"
+                    android:textAllCaps="false"
                     android:layout_marginEnd="4dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -95,12 +95,11 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- TODO: REPLACE WITH RES ID -->
     <!-- ACCOUNT SETTINGS -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Account Settings"
+        android:text="@string/settings_account_settings"
         style="@style/textColor"
         android:textSize="22sp"
         android:textStyle="bold"

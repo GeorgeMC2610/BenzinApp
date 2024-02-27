@@ -166,4 +166,6 @@
     <string name="button_create_trip_confirm">CONFIRM TRIP</string>
     <string name="text_view_repeated_trips_trip">Make trip...</string>
     <string name="button_repeated_trips_make_trip">Press to create trip on the map</string>
+    <string name="dialog_select_language">Select Application Language</string>
+    <string name="settings_account_settings">Account Settings</string>
 </resources>
