@@ -110,7 +110,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         geocoder = new Geocoder(this);
 
         // action bar
-        DisplayActionBarTool.displayActionBar(this, "Create Trip");
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_activity_maps_create_trip));
     }
 
     @SuppressLint("MissingPermission")
@@ -214,8 +214,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
                 // if there are no addresses do not do anything.
                 if (addresses.isEmpty())
                 {
-                    // TODO: Replace with string value.
-                    runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(MapsCreateTripActivity.this, R.string.toast_no_addresses_found, Toast.LENGTH_SHORT).show());
                     return;
                 }
 
