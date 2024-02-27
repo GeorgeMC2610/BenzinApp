@@ -1,8 +1,10 @@
 package com.georgemc2610.benzinapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.LanguageTool;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +17,6 @@ import com.georgemc2610.benzinapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
 {
-
     private ActivityMainBinding binding;
 
     @Override
@@ -33,5 +34,12 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase)
+    {
+        Context context = LanguageTool.changeLanguage(newBase, LanguageTool.getSelectedLocale());
+        super.attachBaseContext(context);
     }
 }

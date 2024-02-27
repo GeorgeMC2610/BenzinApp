@@ -14,22 +14,27 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.LanguageTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 public class SettingsFragment extends Fragment
 {
-    Switch darkModeToggle, fastLoginToggle;
-    Button logoutButton, languageButton;
-    SharedPreferences preferences;
+    private String[] languageOptions;
+    private Locale[] languages;
+    private int selectLanguagePosition;
+    private Switch darkModeToggle, fastLoginToggle;
+    private Button logoutButton, languageButton;
+    private SharedPreferences preferences;
     private boolean autoLogin, nightMode;
-
     private FragmentSettingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,6 +45,12 @@ public class SettingsFragment extends Fragment
 
         // get language spinner and add options
         languageButton = root.findViewById(R.id.settings_LanguageButton);
+        languageButton.setOnClickListener(this::onButtonSelectLanguageClicked);
+
+        // language dialog settings.
+        languageOptions = new String[] { getString(R.string.spinner_option_same_as_system), "English UK", "Ελληνικά GR" };
+        languages = new Locale[] { null, new Locale("en"), new Locale("el") };
+        selectLanguagePosition = Arrays.asList(languages).indexOf(Locale.getDefault());
 
         // set listener for the logout button.
         logoutButton = root.findViewById(R.id.settings_LogoutButton);
@@ -63,6 +74,13 @@ public class SettingsFragment extends Fragment
         darkModeToggle.setChecked(nightMode);
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        binding = null;
     }
 
     /**
@@ -94,29 +112,32 @@ public class SettingsFragment extends Fragment
         AppCompatDelegate.setDefaultNightMode(isChecked? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-        binding = null;
-    }
-
     private void onButtonLogoutClicked(View v)
     {
         RequestHandler.getInstance().Logout(getActivity());
     }
 
-    private void ChangeLanguage(Locale locale)
+    private void onButtonSelectLanguageClicked(View v)
     {
-        Locale.setDefault(locale);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
+        if (selectLanguagePosition == -1)
+            selectLanguagePosition = 0;
 
-        configuration.setLocale(locale);
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        // TODO: REPLACE WITH STRING VALUES.
+        builder.setCancelable(true);
+        builder.setTitle("Set Application Language");
+        builder.setSingleChoiceItems(languageOptions, selectLanguagePosition, (dialog, which) ->
+        {
+            selectLanguagePosition = which;
+        });
+        builder.setNeutralButton("OK", (dialog, which) -> changeLanguage());
+        builder.show();
+    }
 
+    private void changeLanguage()
+    {
+        LanguageTool.setSelectedLocale(selectLanguagePosition == -1? null : languages[selectLanguagePosition]);
         getActivity().recreate();
     }
 }
