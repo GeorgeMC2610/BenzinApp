@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.listeners.GeocoderShowMarkerListener;
 import com.georgemc2610.benzinapp.classes.activity_tools.PolylineDecoder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -42,12 +43,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.color.MaterialColors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -280,14 +283,14 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
         // change the logic and make the map select the origin.
         isSelectingOrigin = true;
         selectDestination.setBackgroundColor(Color.GRAY);
-        selectOrigin.setBackgroundColor(Color.parseColor("#FFAA00"));
+        NightModeTool.setButtonEnabled((Button)v, this);
     }
 
     public void onButtonSelectDestinationClicked(View v)
     {
         // change the logic and make the map select the destination.
         isSelectingOrigin = false;
-        selectDestination.setBackgroundColor(Color.parseColor("#FFAA00"));
+        NightModeTool.setButtonEnabled((Button)v, this);
         selectOrigin.setBackgroundColor(Color.GRAY);
     }
 
@@ -483,6 +486,10 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
     {
         ableToCompleteTrip = state;
         completeTrip.setEnabled(state);
-        completeTrip.setBackgroundColor(state? Color.parseColor("#FFAA00") : Color.GRAY);
+
+        if (state)
+            NightModeTool.setButtonEnabled(completeTrip, this);
+        else
+            completeTrip.setBackgroundColor(Color.GRAY);
     }
 }
