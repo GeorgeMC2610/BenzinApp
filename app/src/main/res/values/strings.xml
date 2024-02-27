@@ -161,4 +161,7 @@
     <string name="toast_trip_edit_successfully">Trip modified successfully</string>
     <string name="toast_trip_delete_successfully">Trip deleted successfully.</string>
     <string name="button_select_point_confirm">SELECT</string>
+    <string name="button_create_trip_origin">ORIGIN</string>
+    <string name="button_create_trip_destination">DESTINATION</string>
+    <string name="button_create_trip_confirm">CONFIRM TRIP</string>
 </resources>
