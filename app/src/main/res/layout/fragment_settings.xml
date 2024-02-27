@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        style="@style/cardMainBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +36,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!-- DARK MODE SWITCH -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,30 +61,7 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/settings_FastLoginTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/textColorSpecial"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/setting_fast_login"
-                    android:textSize="20sp" />
-
-                <Switch
-                    android:id="@+id/settings_FastLoginSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-            </RelativeLayout>
-
+            <!-- LANGUAGE SELECT -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,50 +73,109 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/textColorSpecial"
+                    android:layout_alignBaseline="@+id/settings_LanguageButton"
                     android:layout_marginStart="10dp"
                     android:text="@string/setting_language"
                     android:textSize="20sp" />
 
-                <Spinner
-                    android:id="@+id/settings_LanguageSpinner"
+                <!-- TODO: REPLACE WITH RES ID -->
+                <Button
+                    android:id="@+id/settings_LanguageButton"
                     android:layout_width="wrap_content"
+                    style="@style/buttonMainBackground"
+                    android:text="SYSTEM"
+                    android:layout_marginEnd="4dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/settings_Logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/settings_LogoutButton"
-                    style="@style/textColorSpecial"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/setting_logout"
-                    android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/settings_LogoutButton"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="4dp"
-                    android:backgroundTint="#dd0000"
-                    app:icon="?attr/actionModeCloseDrawable"
-                    app:iconGravity="textEnd" />
-
-            </RelativeLayout>
-
-
         </LinearLayout>
 
+    </androidx.cardview.widget.CardView>
+
+    <!-- TODO: REPLACE WITH RES ID -->
+    <!-- ACCOUNT SETTINGS -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Settings"
+        style="@style/textColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="5dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="10dp"
+        style="@style/cardMainBackground"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- FAST LOGIN SWITCH -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/settings_FastLoginTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textColorSpecial"
+                android:layout_marginStart="10dp"
+                android:text="@string/setting_fast_login"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/settings_FastLoginSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </RelativeLayout>
+
+        <!-- LOGOUT BUTTON -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/settings_Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/settings_LogoutButton"
+                style="@style/textColorSpecial"
+                android:layout_marginStart="10dp"
+                android:text="@string/setting_logout"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/settings_LogoutButton"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="4dp"
+                style="@style/buttonDeleteBackground"
+                app:icon="?attr/actionModeCloseDrawable"
+                app:iconGravity="textEnd" />
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 </LinearLayout>
