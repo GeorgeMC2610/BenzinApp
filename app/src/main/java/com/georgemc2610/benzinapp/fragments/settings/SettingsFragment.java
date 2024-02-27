@@ -28,11 +28,10 @@ import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
 import java.util.Locale;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener
+public class SettingsFragment extends Fragment
 {
-    Spinner languageSpinner;
     Switch darkModeToggle, fastLoginToggle;
-    Button LogoutButton;
+    Button LogoutButton, languageButton;
     SharedPreferences preferences;
     private static int selectedLanguagePosition = -1;
     private boolean autoLogin, nightMode;
@@ -46,20 +45,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         View root = binding.getRoot();
 
         // get language spinner and add options
-        languageSpinner = root.findViewById(R.id.settings_LanguageSpinner);
-        String[] options = new String[] { getString(R.string.spinner_option_same_as_system), "English", "Ελληνικά" };
-
-        // add the options to the spinner.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(adapter);
-
-        // set changed item listener for the spinner
-        languageSpinner.setOnItemSelectedListener(this);
+        languageButton = root.findViewById(R.id.settings_LanguageButton);
 
         // set listener for the logout button.
         LogoutButton = root.findViewById(R.id.settings_LogoutButton);
-        LogoutButton.setOnClickListener(this);
+        LogoutButton.setOnClickListener(this::onButtonLogoutClicked);
 
         // get the toggles and set their listeners
         darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
@@ -107,8 +97,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         binding = null;
     }
 
-    @Override
-    public void onClick(View v)
+    private void onButtonLogoutClicked(View v)
     {
         RequestHandler.getInstance().Logout(getActivity());
     }
