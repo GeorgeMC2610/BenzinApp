@@ -159,4 +159,5 @@
     <string name="toast_trip_added_successfully">Η διαδρομή προστέθηκε επιτυχώς.</string>
     <string name="toast_trip_edit_successfully">Οι αλλαγές της διαδρομής εφαρμόστηκαν επιτυχώς.</string>
     <string name="toast_trip_delete_successfully">Η διαδρομή διεγράφη επιτυχώς.</string>
+    <string name="button_select_point_confirm">ΕΠΙΛΟΓΗ</string>
 </resources>
