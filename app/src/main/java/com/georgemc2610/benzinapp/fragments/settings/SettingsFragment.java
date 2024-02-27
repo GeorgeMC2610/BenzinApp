@@ -9,20 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
-import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
@@ -31,9 +26,8 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment
 {
     Switch darkModeToggle, fastLoginToggle;
-    Button LogoutButton, languageButton;
+    Button logoutButton, languageButton;
     SharedPreferences preferences;
-    private static int selectedLanguagePosition = -1;
     private boolean autoLogin, nightMode;
 
     private FragmentSettingsBinding binding;
@@ -48,8 +42,8 @@ public class SettingsFragment extends Fragment
         languageButton = root.findViewById(R.id.settings_LanguageButton);
 
         // set listener for the logout button.
-        LogoutButton = root.findViewById(R.id.settings_LogoutButton);
-        LogoutButton.setOnClickListener(this::onButtonLogoutClicked);
+        logoutButton = root.findViewById(R.id.settings_LogoutButton);
+        logoutButton.setOnClickListener(this::onButtonLogoutClicked);
 
         // get the toggles and set their listeners
         darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
@@ -71,6 +65,7 @@ public class SettingsFragment extends Fragment
         return root;
     }
 
+    
     private void onFastLoginStateChange(CompoundButton buttonView, boolean isChecked)
     {
         SharedPreferences.Editor editor = preferences.edit();
@@ -102,32 +97,6 @@ public class SettingsFragment extends Fragment
         RequestHandler.getInstance().Logout(getActivity());
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        Locale locale;
-        if (position != selectedLanguagePosition)
-        {
-            switch (position)
-            {
-                case 1:
-                    locale = new Locale("en");
-                    ChangeLanguage(locale);
-                    break;
-                case 2:
-                    locale = new Locale("el");
-                    ChangeLanguage(locale);
-                    break;
-                default:
-                    locale = Locale.getDefault();
-                    break;
-            }
-        }
-
-        // Update the selected language position
-        selectedLanguagePosition = position;
-    }
-
     private void ChangeLanguage(Locale locale)
     {
         Locale.setDefault(locale);
@@ -139,11 +108,5 @@ public class SettingsFragment extends Fragment
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
         getActivity().recreate();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
     }
 }
