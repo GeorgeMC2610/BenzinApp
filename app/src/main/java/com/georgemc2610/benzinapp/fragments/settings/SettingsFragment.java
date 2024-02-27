@@ -17,6 +17,7 @@ import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
@@ -65,6 +66,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
         // be able to change it.
         fastLoginToggle.setOnCheckedChangeListener(this::onFastLoginStateChange);
+        darkModeToggle.setOnCheckedChangeListener(this::onDarkThemeStateChange);
 
         // shared preferences for settings
         preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
@@ -82,6 +84,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
         editor.putBoolean("auto_login", isChecked);
         editor.apply();
+    }
+
+    private void onDarkThemeStateChange(CompoundButton buttonView, boolean isChecked)
+    {
+        AppCompatDelegate.setDefaultNightMode(isChecked? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
 
