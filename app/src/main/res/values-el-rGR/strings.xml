@@ -152,4 +152,6 @@
     <string name="toast_addresses_failed_to_load">Κάτι πήγε στραβά στη φόρτωση διευθύνσεων</string>
     <string name="title_display_malfunction">Στοιχεία Βλάβης</string>
     <string name="title_display_service">Στοιχεία του Σέρβις</string>
+    <string name="marker_origin">Φόρτωση αφετηρίας...</string>
+    <string name="marker_destination">Φόρτωση προορισμού...</string>
 </resources>

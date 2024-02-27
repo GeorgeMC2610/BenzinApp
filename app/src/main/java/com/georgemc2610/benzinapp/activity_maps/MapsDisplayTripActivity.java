@@ -96,8 +96,8 @@ public class MapsDisplayTripActivity extends AppCompatActivity implements OnMapR
         mMap = googleMap;
 
         // add markers.
-        origin = mMap.addMarker(new MarkerOptions().position(originCoordinates).title("ORIGIN").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))); // TODO: REMOVE HARDCODED STRING
-        destination = mMap.addMarker(new MarkerOptions().position(destinationCoordinates).title("DESTINATION").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))); // TODO: REMOVE HARDCODED STRING
+        origin = mMap.addMarker(new MarkerOptions().position(originCoordinates).title(getString(R.string.marker_origin)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        destination = mMap.addMarker(new MarkerOptions().position(destinationCoordinates).title(getString(R.string.marker_destination)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
         // markers must not be null.
         assert origin != null;

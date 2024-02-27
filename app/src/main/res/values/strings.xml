@@ -153,4 +153,6 @@
     <string name="toast_addresses_failed_to_load">Addresses failed to load</string>
     <string name="title_display_malfunction">Malfunction Data</string>
     <string name="title_display_service">Service Data</string>
+    <string name="marker_origin">Loading origin...</string>
+    <string name="marker_destination">Loading destination...</string>
 </resources>

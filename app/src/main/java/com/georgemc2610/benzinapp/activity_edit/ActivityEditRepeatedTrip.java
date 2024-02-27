@@ -125,13 +125,13 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
             catch (IOException e)
             {
                 System.err.println(e.getMessage());
-                trip.setText("Unable to load addresses."); // TODO: Replace with string value.
+                trip.setText(R.string.toast_addresses_failed_to_load);
                 trip.setTextColor(Color.RED);
             }
         }
 
         // actionbar
-        DisplayActionBarTool.displayActionBar(this, "Edit Trip");
+        DisplayActionBarTool.displayActionBar(this, "Edit Trip"); // TODO: Replace with string value.
     }
 
     @Override
