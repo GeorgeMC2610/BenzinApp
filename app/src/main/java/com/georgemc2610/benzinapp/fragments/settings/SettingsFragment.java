@@ -51,6 +51,10 @@ public class SettingsFragment extends Fragment
         languageOptions = new String[] { getString(R.string.spinner_option_same_as_system), "English UK", "Ελληνικά GR" };
         languages = new Locale[] { null, new Locale("en"), new Locale("el") };
         selectLanguagePosition = Arrays.asList(languages).indexOf(Locale.getDefault());
+        selectLanguagePosition = selectLanguagePosition == -1? 0 : selectLanguagePosition;
+
+        // button setting for the language
+        languageButton.setText(languageOptions[selectLanguagePosition]);
 
         // set listener for the logout button.
         logoutButton = root.findViewById(R.id.settings_LogoutButton);
@@ -119,25 +123,24 @@ public class SettingsFragment extends Fragment
 
     private void onButtonSelectLanguageClicked(View v)
     {
+        // alert dialog init.
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        if (selectLanguagePosition == -1)
-            selectLanguagePosition = 0;
-
-        // TODO: REPLACE WITH STRING VALUES.
+        // alert dialog basic properties.
         builder.setCancelable(true);
-        builder.setTitle("Set Application Language");
-        builder.setSingleChoiceItems(languageOptions, selectLanguagePosition, (dialog, which) ->
-        {
-            selectLanguagePosition = which;
-        });
+        builder.setTitle(R.string.dialog_select_language);
+
+        // alert dialog click listeners.
+        builder.setSingleChoiceItems(languageOptions, selectLanguagePosition, (dialog, which) -> selectLanguagePosition = which);
         builder.setNeutralButton("OK", (dialog, which) -> changeLanguage());
+
+        // alert dialog finish.
         builder.show();
     }
 
     private void changeLanguage()
     {
-        LanguageTool.setSelectedLocale(selectLanguagePosition == -1? null : languages[selectLanguagePosition]);
+        LanguageTool.setSelectedLocale(languages[selectLanguagePosition]);
         getActivity().recreate();
     }
 }
