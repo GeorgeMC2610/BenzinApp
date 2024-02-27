@@ -65,7 +65,12 @@ public class SettingsFragment extends Fragment
         return root;
     }
 
-    
+    /**
+     * Sets the user's ability to login without entering their credentials. This is setting is then saved
+     * using shared preferences.
+     * @param buttonView The Switch.
+     * @param isChecked True if the switch is on, false otherwise.
+     */
     private void onFastLoginStateChange(CompoundButton buttonView, boolean isChecked)
     {
         SharedPreferences.Editor editor = preferences.edit();
@@ -74,6 +79,11 @@ public class SettingsFragment extends Fragment
         editor.apply();
     }
 
+    /**
+     * Changes the entire application's theme and saves it in the shared preferences.
+     * @param buttonView The Switch.
+     * @param isChecked True if the switch is on, false otherwise.
+     */
     private void onDarkThemeStateChange(CompoundButton buttonView, boolean isChecked)
     {
         SharedPreferences.Editor editor = preferences.edit();
