@@ -148,4 +148,8 @@
     <string name="repeated_trips_doesnt_repeat">Αυτή η διαδρομή δεν επαναλαμβάνεται.</string>
     <string name="dialog_location_mandatory">Αυτή η λειτουργία χρειάζεται οπωσδήποτε την χρήση της τοποθεσίας σας. Μόλις δώσετε την άδεια, θα μπορείτε να την χρησιμοποιήσετε. Αν σας εμφανίζεται συνεχώς αυτό το μήνυμα, χωρίς να σας εμφανίζεται η ερώτηση για την τοποθεσία σας, προσπαθήστε να δώσετε άδεια για την τοποθεσία σας από τις ρυθμίσεις του κινητού σας.</string>
     <string name="per_time">" τη φορά"</string>
+    <string name="toast_no_addresses_found">Δεν βρέθηκαν διευθύνσεις</string>
+    <string name="toast_addresses_failed_to_load">Κάτι πήγε στραβά στη φόρτωση διευθύνσεων</string>
+    <string name="title_display_malfunction">Στοιχεία Βλάβης</string>
+    <string name="title_display_service">Στοιχεία του Σέρβις</string>
 </resources>

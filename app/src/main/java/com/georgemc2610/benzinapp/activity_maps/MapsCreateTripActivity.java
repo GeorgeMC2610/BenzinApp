@@ -243,8 +243,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
 
                 if (addresses.isEmpty())
                 {
-                    // TODO: Replace with string value.
-                    Toast.makeText(MapsCreateTripActivity.this, "No addresses found.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsCreateTripActivity.this, R.string.toast_no_addresses_found, Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -262,8 +261,7 @@ public class MapsCreateTripActivity extends AppCompatActivity implements OnMapRe
             catch (IOException e)
             {
                 System.err.println(e.getMessage());
-                // TODO: Replace with string value.
-                Toast.makeText(MapsCreateTripActivity.this, "Failed to load addresses.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsCreateTripActivity.this, R.string.toast_addresses_failed_to_load, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
