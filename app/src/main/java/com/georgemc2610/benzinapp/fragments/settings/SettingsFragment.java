@@ -22,6 +22,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
@@ -34,7 +35,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     Button LogoutButton;
     SharedPreferences preferences;
     private static int selectedLanguagePosition = -1;
-    private boolean autoLogin;
+    private boolean autoLogin, nightMode;
 
     private FragmentSettingsBinding binding;
 
@@ -71,9 +72,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         // shared preferences for settings
         preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         autoLogin = preferences.getBoolean("auto_login", true);
+        nightMode = preferences.getBoolean("night_mode", false);
 
         // set the settings.
         fastLoginToggle.setChecked(autoLogin);
+        darkModeToggle.setChecked(nightMode);
 
         return root;
     }
@@ -88,6 +91,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     private void onDarkThemeStateChange(CompoundButton buttonView, boolean isChecked)
     {
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean("night_mode", isChecked);
+        editor.apply();
+
         AppCompatDelegate.setDefaultNightMode(isChecked? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 

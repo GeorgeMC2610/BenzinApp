@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity
         editorRepeatedTrip.putFloat("destination_latitude", -1f);
         editorRepeatedTrip.putFloat("destination_longitude", -1f);
         editorRepeatedTrip.putFloat("tripDistance", -1f);
-        editorRepeatedTrip.putFloat("polyline", -1f);
+        editorRepeatedTrip.putString("polyline", null);
         editorRepeatedTrip.apply();
 
         // get settings preferences
@@ -68,8 +69,8 @@ public class LoginActivity extends AppCompatActivity
 
         // get the other settings.
         boolean autoLogin = preferences.getBoolean("auto_login", true);
-        int language = preferences.getInt("language", Language.SYSTEM_DEFAULT);
-        boolean darkMode = preferences.getBoolean("dark_mode", false);
+        //int language = preferences.getInt("language", Language.SYSTEM_DEFAULT);
+        boolean darkMode = preferences.getBoolean("night_mode", false);
 
         // otherwise seek for every setting.
         if (autoLogin)
@@ -77,6 +78,9 @@ public class LoginActivity extends AppCompatActivity
             progressBar.setVisibility(View.VISIBLE);
             RequestHandler.getInstance().AttemptLogin(this, username, password, login, progressBar);
         }
+
+        // night mode set.
+        AppCompatDelegate.setDefaultNightMode(darkMode? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
     }
 
