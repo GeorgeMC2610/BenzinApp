@@ -24,6 +24,12 @@ public final class NightModeTool
         return isNightMode(activity)? Color.WHITE : Color.BLACK;
     }
 
+    public static int getRedColor(Activity activity)
+    {
+        return isNightMode(activity)? activity.getColor(R.color.red) : activity.getColor(R.color.dark_red);
+    }
+
+
     public static void setButtonEnabled(Button button, Context context)
     {
         TypedValue typedValue = new TypedValue();

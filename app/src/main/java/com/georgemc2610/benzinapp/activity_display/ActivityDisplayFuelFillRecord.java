@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
 public class ActivityDisplayFuelFillRecord extends AppCompatActivity
@@ -59,18 +62,39 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+        // station string is different
+        String station;
+        if (record.getStation() == null || record.getStation().isEmpty())
+        {
+            if (record.getFuelType() == null || record.getFuelType().isEmpty())
+            {
+                station = getString(R.string.unspecified);
+                petrolType.setTextColor(NightModeTool.getRedColor(this));
+            }
+            else
+                station = record.getFuelType();
+        }
+        else
+        {
+            if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                station = record.getStation();
+
+            else
+                station = record.getFuelType() + ", " + record.getStation();
+        }
+
         // string values assigned to the text views.
-        String petrolTypeAndStation = record.getFuelType() + ", " + record.getStation();
         String cost        = '€' + decimalFormat.format(record.getCost_eur());
         String liters      = numberFormat.format(record.getLiters()) + ' ' + getString(R.string.lt_short);
         String kilometers  = numberFormat.format(record.getKilometers()) + ' ' + getString(R.string.km_short);
         String lt_per_100  = numberFormat.format(record.getLt_per_100km()) + ' ' + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
         String km_per_lt   = numberFormat.format(record.getKm_per_lt()) + ' ' + getString(R.string.km_short) + '/' + getString(R.string.lt_short);
         String cost_per_km = '€' + decimalFormat.format(record.getCostEur_per_km()) + '/' + getString(R.string.km_short);
+        String date        = record.getDate().format(DateTimeFormatter.ofPattern("eeee, d MMMM yyyy"));
 
         // set values
-        date.setText(record.getDate().toString());
-        petrolType.setText(petrolTypeAndStation);
+        this.date.setText(date);
+        petrolType.setText(station);
         this.cost.setText(cost);
         this.liters.setText(liters);
         this.kilometers.setText(kilometers);
@@ -83,14 +107,13 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
+        if (item.getItemId() == android.R.id.home)
         {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            finish();
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void OnButtonDeleteClicked(View view)

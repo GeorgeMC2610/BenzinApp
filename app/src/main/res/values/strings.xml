@@ -168,4 +168,5 @@
     <string name="button_repeated_trips_make_trip">Press to create trip on the map</string>
     <string name="dialog_select_language">Select Application Language</string>
     <string name="settings_account_settings">Account Settings</string>
+    <string name="unspecified">Unspecified</string>
 </resources>
