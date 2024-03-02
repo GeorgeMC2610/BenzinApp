@@ -1,10 +1,11 @@
-package com.georgemc2610.benzinapp;
+package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 
 public class ActivityEditAccount extends AppCompatActivity
