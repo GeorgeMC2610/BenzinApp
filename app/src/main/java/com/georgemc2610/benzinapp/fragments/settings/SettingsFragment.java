@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.fragments.settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -32,7 +33,7 @@ public class SettingsFragment extends Fragment
     private Locale[] languages;
     private int selectLanguagePosition;
     private Switch darkModeToggle, fastLoginToggle;
-    private Button logoutButton, languageButton;
+    private Button logoutButton, languageButton, editAccountButton;
     private SharedPreferences preferences;
     private boolean autoLogin, nightMode;
     private FragmentSettingsBinding binding;
@@ -43,7 +44,11 @@ public class SettingsFragment extends Fragment
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // get language spinner and add options
+        // get edit account button and add listener
+        editAccountButton = root.findViewById(R.id.settings_EditAccountButton);
+        editAccountButton.setOnClickListener(this::onButtonEditAccountClicked);
+
+        // get language button and add options
         languageButton = root.findViewById(R.id.settings_LanguageButton);
         languageButton.setOnClickListener(this::onButtonSelectLanguageClicked);
 
@@ -114,6 +119,12 @@ public class SettingsFragment extends Fragment
         editor.apply();
 
         AppCompatDelegate.setDefaultNightMode(isChecked? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    private void onButtonEditAccountClicked(View v)
+    {
+        Intent intent = new Intent(this, ActivityEditAccount.class);
+        startActivity(intent);
     }
 
     private void onButtonLogoutClicked(View v)

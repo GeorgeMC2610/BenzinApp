@@ -185,14 +185,14 @@
                 android:id="@+id/settings_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/settings_EditButton"
+                android:layout_alignBaseline="@+id/settings_EditAccountButton"
                 style="@style/textColorSpecial"
                 android:layout_marginStart="10dp"
                 android:text="@string/settings_edit_account_label"
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/settings_EditButton"
+                android:id="@+id/settings_EditAccountButton"
                 style="@style/buttonEditBackground"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
