@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BenzinApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ActivityEditAccount"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
