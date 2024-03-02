@@ -97,7 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="@string/text_view_fuel_tank_capacity_hint"
+                android:enabled="false"
+                android:hint="@string/not_yet_supported"
                 android:inputType="numberDecimal" />
 
         </LinearLayout>
