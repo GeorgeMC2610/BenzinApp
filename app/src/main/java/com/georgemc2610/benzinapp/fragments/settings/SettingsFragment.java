@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import com.georgemc2610.benzinapp.ActivityEditAccount;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.LanguageTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -123,7 +124,7 @@ public class SettingsFragment extends Fragment
 
     private void onButtonEditAccountClicked(View v)
     {
-        Intent intent = new Intent(this, ActivityEditAccount.class);
+        Intent intent = new Intent(getActivity(), ActivityEditAccount.class);
         startActivity(intent);
     }
 
