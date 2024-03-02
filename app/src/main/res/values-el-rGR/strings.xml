@@ -169,4 +169,6 @@
     <string name="settings_account_settings">Ρυθμίσεις Λογαριασμού</string>
     <string name="unspecified">Δεν συμπληρώθηκε</string>
     <string name="settings_edit_account_label">Επεξεργασία Προφίλ</string>
+    <string name="text_view_fuel_tank_capacity_legend">Χωρητικότητα Ντεπόζιτου:</string>
+    <string name="text_view_fuel_tank_capacity_hint">Χωρητικότητα ντεπόζιτου σε λίτρα...</string>
 </resources>

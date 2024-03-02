@@ -22,14 +22,14 @@
 
             <!-- USERNAME -->
             <TextView
-                android:id="@+id/textViewLitersKilometersEdit"
+                android:id="@+id/edit_account_username_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_username" />
 
             <EditText
-                android:id="@+id/editTextKilometersEdit"
+                android:id="@+id/edit_account_username_text"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -38,14 +38,14 @@
 
             <!-- MANUFACTURER -->
             <TextView
-                android:id="@+id/textViewLitersEdit"
+                android:id="@+id/edit_account_manufacturer_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_car_manufacturer" />
 
             <EditText
-                android:id="@+id/editTextLitersEdit"
+                android:id="@+id/edit_account_manufacturer_text"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -54,14 +54,14 @@
 
             <!-- MODEL -->
             <TextView
-                android:id="@+id/textViewCostEdit"
+                android:id="@+id/edit_account_model_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_car_model" />
 
             <EditText
-                android:id="@+id/editTextCostEdit"
+                android:id="@+id/edit_account_model_text"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
@@ -70,34 +70,34 @@
 
             <!-- YEAR -->
             <TextView
-                android:id="@+id/textViewPetrolTypeEdit"
+                android:id="@+id/edit_account_year_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/text_view_car_year" />
 
             <EditText
-                android:id="@+id/editTextPetrolTypeEdit"
+                android:id="@+id/edit_account_year_text"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/text_view_car_year_hint"
-                android:inputType="text" />
+                android:inputType="numberSigned" />
 
             <!-- FUEL TANK CAPACITY -->
             <TextView
-                android:id="@+id/textViewStationEdit"
+                android:id="@+id/edit_account_fuel_capacity_legend"
                 android:layout_width="match_parent"
                 android:layout_height="19dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Fuel Tank Capacity:" />
+                android:text="@string/text_view_fuel_tank_capacity_legend" />
 
             <EditText
-                android:id="@+id/editTextStationEdit"
+                android:id="@+id/edit_account_fuel_capacity_text"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Fuel tank capacity in liters..."
+                android:hint="@string/text_view_fuel_tank_capacity_hint"
                 android:inputType="numberDecimal" />
 
         </LinearLayout>
