@@ -45,7 +45,7 @@ import java.util.Map;
 public class RequestHandler
 {
     private static RequestHandler instance;
-    private static final String _URL = "http://192.168.0.91:3000";
+    private static final String _URL = "https://benzin-app.fly.dev";
     private String token;
     private RequestQueue requestQueue;
 
