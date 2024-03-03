@@ -172,4 +172,5 @@
     <string name="settings_edit_account_label">Edit Account</string>
     <string name="text_view_fuel_tank_capacity_legend">Fuel Tank Capacity:</string>
     <string name="text_view_fuel_tank_capacity_hint">Enter fuel tank capacity in liters...</string>
+    <string name="toast_car_edited_success">Car properties edited successfully.</string>
 </resources>

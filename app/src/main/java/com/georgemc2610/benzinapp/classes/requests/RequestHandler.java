@@ -28,6 +28,7 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsLi
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetRepeatedTripsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
+import com.georgemc2610.benzinapp.classes.original.Car;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
@@ -44,7 +45,7 @@ import java.util.Map;
 public class RequestHandler
 {
     private static RequestHandler instance;
-    private static final String _URL = "https://benzin-app.fly.dev";
+    private static final String _URL = "http://192.168.0.91:3000";
     private String token;
     private RequestQueue requestQueue;
 
@@ -244,6 +245,9 @@ public class RequestHandler
                 requestQueue.add(requestMalfunctions);
                 requestQueue.add(requestServices);
                 requestQueue.add(requestRepeatedTrips);
+                break;
+            case CAR:
+                requestQueue.add(requestCar);
                 break;
             case FUEL_FILL_RECORDS:
                 requestQueue.add(requestRecords);
@@ -691,6 +695,40 @@ public class RequestHandler
         });
 
         // execute the request.
+        requestQueue.add(request);
+    }
+
+    public void EditCar(Activity activity, String manufacturer, String model, String year)
+    {
+        // request queue to push the request.
+        requestQueue = Volley.newRequestQueue(activity);
+
+        // car url.
+        String url = _URL + "/car";
+
+        // error token required listener for the request
+        ErrorTokenRequiredListener errorTokenRequiredListener = new ErrorTokenRequiredListener(activity);
+
+        // parameters to edit car.
+        Map<String, String> params = new HashMap<>();
+
+        if (manufacturer != null && !manufacturer.isEmpty())
+            params.put("manufacturer", manufacturer);
+
+        if (model != null && !model.isEmpty())
+            params.put("model", model);
+
+        if (year != null && !year.isEmpty())
+            params.put("year", year);
+
+        // PATCH request sent to the cloud
+        BenzinappParameterStringRequest request = new BenzinappParameterStringRequest(Request.Method.PATCH, url, response ->
+        {
+            AssignData(activity, DataSelector.CAR);
+            Toast.makeText(activity, activity.getString(R.string.toast_car_edited_success), Toast.LENGTH_LONG).show();
+        }, errorTokenRequiredListener, GetToken(activity), params);
+
+        // execute request
         requestQueue.add(request);
     }
 }

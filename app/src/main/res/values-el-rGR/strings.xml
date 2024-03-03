@@ -171,4 +171,5 @@
     <string name="settings_edit_account_label">Επεξεργασία Προφίλ</string>
     <string name="text_view_fuel_tank_capacity_legend">Χωρητικότητα Ντεπόζιτου:</string>
     <string name="text_view_fuel_tank_capacity_hint">Χωρητικότητα ντεπόζιτου σε λίτρα...</string>
+    <string name="toast_car_edited_success">Τα στοιχεία του αυτοκινήτου επεξεργάστηκαν επιτυχώς.</string>
 </resources>

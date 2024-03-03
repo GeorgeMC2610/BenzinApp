@@ -6,5 +6,6 @@ public enum DataSelector
     FUEL_FILL_RECORDS,
     MALFUNCTIONS,
     SERVICES,
-    REPEATED_TRIPS
+    REPEATED_TRIPS,
+    CAR
 }

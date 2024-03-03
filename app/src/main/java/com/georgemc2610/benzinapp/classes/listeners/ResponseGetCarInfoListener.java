@@ -11,37 +11,11 @@ import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ResponseGetCarInfoListener implements Response.Listener<String>
+public class ResponseGetCarInfoListener extends ResponseGetListener implements Response.Listener<String>
 {
-    private final Activity activity;
-
     public ResponseGetCarInfoListener(Activity activity)
     {
-        this.activity = activity;
-    }
-
-    private void CheckForActivityOpening()
-    {
-        boolean canContinue = true;
-
-        if (DataHolder.getInstance().services == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().car == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().malfunctions == null)
-            canContinue = false;
-
-        if (DataHolder.getInstance().records == null)
-            canContinue = false;
-
-        if (canContinue)
-        {
-            Intent intent = new Intent(activity, MainActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
-        }
+        super(activity);
     }
 
     @Override
@@ -52,8 +26,7 @@ public class ResponseGetCarInfoListener implements Response.Listener<String>
             JSONObject jsonObject = new JSONObject(response);
             DataHolder.getInstance().car = Car.createCarFromJson(jsonObject);
 
-            System.out.println("JUST ADDED DATA TO THE CAR.");
-            CheckForActivityOpening();
+            handleActivity();
         }
         catch (JSONException e)
         {
