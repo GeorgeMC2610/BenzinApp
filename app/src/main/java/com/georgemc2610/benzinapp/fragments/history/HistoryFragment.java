@@ -24,6 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class HistoryFragment extends Fragment
 {
@@ -87,25 +90,37 @@ public class HistoryFragment extends Fragment
         hint.setText(getString(R.string.text_view_click_cards_message_empty));
 
         // Group objects by year and month
-        Map<String, List<FuelFillRecord>> groupedRecords = new TreeMap<>();
+        Map<YearMonth, List<FuelFillRecord>> groupedRecords = new TreeMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.getDefault());
 
         for (int i = DataHolder.getInstance().records.size() - 1; i >= 0; i--)
         {
             FuelFillRecord record = DataHolder.getInstance().records.get(i);
 
-            String key = record.getDate().format(formatter);
+            YearMonth key = YearMonth.from(record.getDate());
             groupedRecords.computeIfAbsent(key, k -> new ArrayList<>()).add(record);
         }
 
-        for (String key : groupedRecords.keySet())
+        for (int i = groupedRecords.keySet().size() - 1; i >= 0; i--)
         {
+            YearMonth key = new ArrayList<>(groupedRecords.keySet()).get(i);
+
             List<FuelFillRecord> recordsInMonthYear = groupedRecords.get(key);
+            String stringYearMonth = key.format(formatter);
 
             for (FuelFillRecord record : recordsInMonthYear)
             {
                 // inflate the card view for the fuel fill records.
-                View v = inflater.inflate(R.layout.cardview_fill, null);
+                View v;
+
+                if (recordsInMonthYear.indexOf(record) == 0)
+                {
+                    v = inflater.inflate(R.layout.cardview_fill_with_legend, null);
+                    TextView legend = v.findViewById(R.id.card_year_month_legend);
+                    legend.setText(stringYearMonth);
+                }
+                else
+                    v = inflater.inflate(R.layout.cardview_fill, null);
 
                 // get the card's views.
                 TextView petrolType = v.findViewById(R.id.card_filled_petrol);
