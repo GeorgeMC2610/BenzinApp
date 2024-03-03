@@ -19,6 +19,7 @@ import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.Entry;
@@ -116,12 +117,9 @@ public class HomeFragment extends Fragment
     private void SetCarInfo()
     {
         // this sets the car label to be the manufacturer + model.
-        StringBuilder builder = new StringBuilder();
-        builder.append(DataHolder.getInstance().car.getManufacturer());
-        builder.append(" ");
-        builder.append(DataHolder.getInstance().car.getModel());
-
-        String finalCarString = builder.toString();
+        String finalCarString = DataHolder.getInstance().car.getManufacturer() +
+                " " +
+                DataHolder.getInstance().car.getModel();
 
         car.setText(finalCarString);
 
@@ -184,7 +182,7 @@ public class HomeFragment extends Fragment
         lineDataSetLtPer100.setColor(ColorTemplate.getHoloBlue());
         lineDataSetLtPer100.setValueTextColor(ColorTemplate.getHoloBlue());
         lineDataSetLtPer100.setLineWidth(1.5f);
-        lineDataSetLtPer100.setDrawCircles(false);
+        lineDataSetLtPer100.setDrawCircles(true);
         lineDataSetLtPer100.setFillColor(ColorTemplate.getHoloBlue());
         lineDataSetLtPer100.setHighLightColor(Color.rgb(244, 117, 117));
 
@@ -194,7 +192,7 @@ public class HomeFragment extends Fragment
         lineDataSetKmPerLt.setColor(ColorTemplate.rgb("#dd0000"));
         lineDataSetKmPerLt.setValueTextColor(ColorTemplate.getHoloBlue());
         lineDataSetKmPerLt.setLineWidth(1.5f);
-        lineDataSetKmPerLt.setDrawCircles(false);
+        lineDataSetKmPerLt.setDrawCircles(true);
         lineDataSetKmPerLt.setFillColor(ColorTemplate.rgb("#aa0000"));
         lineDataSetKmPerLt.setHighLightColor(Color.rgb(244, 0, 0));
 
@@ -204,7 +202,7 @@ public class HomeFragment extends Fragment
         lineDataSetCostPerKm.setColor(ColorTemplate.rgb("#00dd00"));
         lineDataSetCostPerKm.setValueTextColor(ColorTemplate.getHoloBlue());
         lineDataSetCostPerKm.setLineWidth(1.5f);
-        lineDataSetCostPerKm.setDrawCircles(false);
+        lineDataSetCostPerKm.setDrawCircles(true);
         lineDataSetCostPerKm.setFillColor(ColorTemplate.rgb("#00aa00"));
         lineDataSetCostPerKm.setHighLightColor(Color.rgb(244, 0, 0));
 
@@ -225,6 +223,14 @@ public class HomeFragment extends Fragment
 
         // and set the different colours
         lineChart.setData(lineDataLtPer100);
+
+        // description label
+        Description description = new Description();
+        description.setText(getString(R.string.line_chart_description));
+
+        // color text for the graph.
+        description.setTextColor(color);
+        lineChart.setDescription(description);
 
         // format the strings for averages.
         DecimalFormat format = new DecimalFormat("#.##");
