@@ -96,82 +96,81 @@ public class HistoryFragment extends Fragment
 
             String key = record.getDate().format(formatter);
             groupedRecords.computeIfAbsent(key, k -> new ArrayList<>()).add(record);
-
-            // inflate the card view for the fuel fill records.
-            View v = inflater.inflate(R.layout.cardview_fill, null);
-
-            // get the card's views.
-            TextView petrolType = v.findViewById(R.id.card_filled_petrol);
-            TextView idHidden = v.findViewById(R.id.card_hidden_id);
-            TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
-            TextView cost = v.findViewById(R.id.card_cost);
-            TextView date = v.findViewById(R.id.card_date);
-            FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
-            FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
-
-            // text formatting init
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
-
-            // format the texts.
-            String formattedCost = '€' + decimalFormat.format(record.getCost_eur());
-            String formattedLitersPer100Km = numberFormat.format(record.getLt_per_100km()) + ' ' + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
-
-            // station text
-            String station;
-
-            if (record.getStation() == null || record.getStation().isEmpty())
-            {
-                if (record.getFuelType() == null || record.getFuelType().isEmpty())
-                    station = "-";
-
-                else
-                    station = record.getFuelType();
-
-            }
-            else
-            {
-                if (record.getFuelType() == null || record.getFuelType().isEmpty())
-                    station = record.getStation();
-
-                else
-                    station = record.getFuelType() + ", " + record.getStation();
-
-            }
-
-            // set the card's views actual values.
-            petrolType.setText(station);
-            idHidden.setText(String.valueOf(record.getId()));
-            lt_per_100.setText(formattedLitersPer100Km);
-            cost.setText(formattedCost);
-            date.setText(record.getDate().toString());
-
-            // add the view to the scroll view's layout
-            scrollViewLayout.addView(v);
-
-            // set button edit and delete listeners.
-            editButton.setOnClickListener(new CardEditButtonListener(this, record));
-            deleteButton.setOnClickListener(new CardDeleteButtonListener(this, record));
-
-            // set listener for when the user presses the card view.
-            v.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Intent intent = new Intent(getContext(), ActivityDisplayFuelFillRecord.class);
-                    intent.putExtra("record", record);
-                    startActivity(intent);
-                }
-            });
-
-            // change the hint text.
-            hint.setText(getString(R.string.text_view_click_cards_message));
         }
 
         for (String key : groupedRecords.keySet())
         {
-            System.out.println(key);
+            List<FuelFillRecord> recordsInMonthYear = groupedRecords.get(key);
+
+            for (FuelFillRecord record : recordsInMonthYear)
+            {
+                // inflate the card view for the fuel fill records.
+                View v = inflater.inflate(R.layout.cardview_fill, null);
+
+                // get the card's views.
+                TextView petrolType = v.findViewById(R.id.card_filled_petrol);
+                TextView idHidden = v.findViewById(R.id.card_hidden_id);
+                TextView lt_per_100 = v.findViewById(R.id.card_lt_per_100);
+                TextView cost = v.findViewById(R.id.card_cost);
+                TextView date = v.findViewById(R.id.card_date);
+                FloatingActionButton deleteButton = v.findViewById(R.id.card_buttonDelete);
+                FloatingActionButton editButton = v.findViewById(R.id.card_buttonEdit);
+
+                // text formatting init
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+
+                // format the texts.
+                String formattedCost = '€' + decimalFormat.format(record.getCost_eur());
+                String formattedLitersPer100Km = numberFormat.format(record.getLt_per_100km()) + ' ' + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
+
+                // station text
+                String station;
+
+                if (record.getStation() == null || record.getStation().isEmpty())
+                {
+                    if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                        station = "-";
+
+                    else
+                        station = record.getFuelType();
+
+                }
+                else
+                {
+                    if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                        station = record.getStation();
+
+                    else
+                        station = record.getFuelType() + ", " + record.getStation();
+
+                }
+
+                // set the card's views actual values.
+                petrolType.setText(station);
+                idHidden.setText(String.valueOf(record.getId()));
+                lt_per_100.setText(formattedLitersPer100Km);
+                cost.setText(formattedCost);
+                date.setText(record.getDate().toString());
+
+                // add the view to the scroll view's layout
+                scrollViewLayout.addView(v);
+
+                // set button edit and delete listeners.
+                editButton.setOnClickListener(new CardEditButtonListener(this, record));
+                deleteButton.setOnClickListener(new CardDeleteButtonListener(this, record));
+
+                // set listener for when the user presses the card view.
+                v.setOnClickListener(v1 ->
+                {
+                    Intent intent = new Intent(getContext(), ActivityDisplayFuelFillRecord.class);
+                    intent.putExtra("record", record);
+                    startActivity(intent);
+                });
+
+                // change the hint text.
+                hint.setText(getString(R.string.text_view_click_cards_message));
+            }
         }
     }
 
