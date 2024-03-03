@@ -50,7 +50,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/text_view_car_manufacturer_hint"
-                android:inputType="numberDecimal" />
+                android:inputType="text" />
 
             <!-- MODEL -->
             <TextView
@@ -66,7 +66,7 @@
                 android:layout_height="56dp"
                 android:ems="10"
                 android:hint="@string/text_view_car_model_hint"
-                android:inputType="numberDecimal" />
+                android:inputType="text" />
 
             <!-- YEAR -->
             <TextView
@@ -105,8 +105,9 @@
 
     </ScrollView>
 
+    <!-- APPLY EDITS -->
     <Button
-        android:id="@+id/buttonApplyEdits"
+        android:id="@+id/edit_account_apply_edits"
         android:layout_width="367dp"
         android:layout_height="66dp"
         style="@style/buttonEditBackground"
