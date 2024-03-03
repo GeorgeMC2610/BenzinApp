@@ -12,8 +12,8 @@ android {
         applicationId "com.georgemc2610.benzinapp"
         minSdk 28
         targetSdk 33
-        versionCode 11
-        versionName "v0.4.2-alpha"
+        versionCode 12
+        versionName "v0.4.3-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
