@@ -24,10 +24,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class HistoryFragment extends Fragment
 {
@@ -83,9 +86,16 @@ public class HistoryFragment extends Fragment
         scrollViewLayout.removeAllViews();
         hint.setText(getString(R.string.text_view_click_cards_message_empty));
 
+        // Group objects by year and month
+        Map<String, List<FuelFillRecord>> groupedRecords = new TreeMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.getDefault());
+
         for (int i = DataHolder.getInstance().records.size() - 1; i >= 0; i--)
         {
             FuelFillRecord record = DataHolder.getInstance().records.get(i);
+
+            String key = record.getDate().format(formatter);
+            groupedRecords.computeIfAbsent(key, k -> new ArrayList<>()).add(record);
 
             // inflate the card view for the fuel fill records.
             View v = inflater.inflate(R.layout.cardview_fill, null);
@@ -157,6 +167,11 @@ public class HistoryFragment extends Fragment
 
             // change the hint text.
             hint.setText(getString(R.string.text_view_click_cards_message));
+        }
+
+        for (String key : groupedRecords.keySet())
+        {
+            System.out.println(key);
         }
     }
 
