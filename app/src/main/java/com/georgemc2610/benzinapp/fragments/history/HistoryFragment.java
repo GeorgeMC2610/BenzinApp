@@ -108,8 +108,14 @@ public class HistoryFragment extends Fragment
             List<FuelFillRecord> recordsInMonthYear = groupedRecords.get(key);
             String stringYearMonth = key.format(formatter);
 
+            TextView totalCostLegend = null;
+            float totalCost = 0f;
+
             for (FuelFillRecord record : recordsInMonthYear)
             {
+                // add total cost count
+                totalCost += record.getCost_eur();
+
                 // inflate the card view for the fuel fill records.
                 View v;
 
@@ -117,6 +123,7 @@ public class HistoryFragment extends Fragment
                 {
                     v = inflater.inflate(R.layout.cardview_fill_with_legend, null);
                     TextView legend = v.findViewById(R.id.card_year_month_legend);
+                    totalCostLegend = v.findViewById(R.id.card_cost_legend);
                     legend.setText(stringYearMonth);
                 }
                 else
@@ -185,6 +192,13 @@ public class HistoryFragment extends Fragment
 
                 // change the hint text.
                 hint.setText(getString(R.string.text_view_click_cards_message));
+            }
+
+            if (totalCostLegend != null)
+            {
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                String totalCostString = "€" + decimalFormat.format(totalCost);
+                totalCostLegend.setText(totalCostString);
             }
         }
     }
