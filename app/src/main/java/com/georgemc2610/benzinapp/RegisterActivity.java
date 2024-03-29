@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 public class RegisterActivity extends AppCompatActivity
@@ -82,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity
         }
 
         // -- CARS DIDN'T EXIST BACK THEN -- //
-        if (Integer.parseInt(year.getText().toString().trim()) < 1886)
+        if (!ViewTools.isEditTextEmpty(year) && Integer.parseInt(year.getText().toString().trim()) < 1886)
         {
             canContinue = false;
             year.setError(getString(R.string.error_cars_didnt_exist));
