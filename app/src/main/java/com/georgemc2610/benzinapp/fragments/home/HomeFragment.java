@@ -9,22 +9,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.georgemc2610.benzinapp.MainActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
-import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.original.Service;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.databinding.FragmentHomeBinding;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -32,7 +38,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment
@@ -41,6 +49,7 @@ public class HomeFragment extends Fragment
     TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
     Spinner spinner;
     LineChart lineChart;
+    PieChart pieChart;
     LineData lineDataLtPer100, lineDataKmPerLt, lineDataCostPerKm;
     LineDataSet lineDataSetLtPer100, lineDataSetKmPerLt, lineDataSetCostPerKm;
     ArrayList<Entry> entriesLtPer100, entriesKmPerLt, entriesCostPerKm;
@@ -59,6 +68,7 @@ public class HomeFragment extends Fragment
         avg_ltPer100Km = root.findViewById(R.id.textView_AVG_LtPer100Km);
         avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
         lineChart = root.findViewById(R.id.graph);
+        pieChart = root.findViewById(R.id.pie_chart_costs);
 
         // calculate car averages
         DataHolder.getInstance().car.calculateAverages();
@@ -103,6 +113,7 @@ public class HomeFragment extends Fragment
 
         SetCarInfo();
         SetGraphView();
+        setPieChartView();
 
         return root;
     }
@@ -242,5 +253,63 @@ public class HomeFragment extends Fragment
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
         avg_KmPerLt.setText(TextAvgKmPerLt);
         avg_CostPerKm.setText(TextAvgCostPerKm);
+    }
+
+    private void setPieChartView()
+    {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
+        // get all total costs
+        float fuelCosts = 0f, serviceCosts = 0f, malfunctionCosts = 0f;
+
+        // firstly from fuel
+        for (FuelFillRecord record : DataHolder.getInstance().records)
+            fuelCosts += record.getCost_eur();
+
+        // then from services
+        for (Service service : DataHolder.getInstance().services)
+            if (service.getCost() != -1f)
+                serviceCosts += service.getCost();
+
+        // then from malfunctions
+        for (Malfunction malfunction : DataHolder.getInstance().malfunctions)
+            if (malfunction.getCost() != -1f)
+                malfunctionCosts += malfunction.getCost();
+
+        // mapping the costs with their type.
+        Map<String, Float> costAmountMap = new HashMap<>();
+        costAmountMap.put("Fuel", fuelCosts); // TODO: Replace with string values
+        costAmountMap.put("Malfunctions", malfunctionCosts); // TODO: Replace with string values
+        costAmountMap.put("Services", serviceCosts); // TODO: Replace with string values
+
+        // array list with colors
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.parseColor("#00FF00"));
+        colors.add(Color.parseColor("#00AA00"));
+        colors.add(Color.parseColor("#004400"));
+
+        // put to pie chart data
+        for (String type: costAmountMap.keySet())
+            pieEntries.add(new PieEntry(costAmountMap.get(type), type));
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
+        pieDataSet.setValueTextSize(14f);
+        pieDataSet.setColors(colors);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setValueFormatter(new ValueFormatter()
+        {
+            @Override
+            public String getFormattedValue(float value)
+            {
+                float actualValue = Float.parseFloat(super.getFormattedValue(value));
+                return DecimalFormat.getCurrencyInstance(new Locale("el_GR")).format(actualValue).replace('¤', '€');
+            }
+        });
+
+        pieData.setValueTextColor(Color.WHITE);
+
+        pieChart.setData(pieData);
+        pieChart.setDrawEntryLabels(false);
     }
 }
