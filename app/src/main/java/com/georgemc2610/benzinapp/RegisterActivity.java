@@ -1,12 +1,15 @@
 package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -14,8 +17,9 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 public class RegisterActivity extends AppCompatActivity
 {
     EditText username, password, passwordConfirmation, manufacturer, model, year;
-    Button button;
+    CardView button;
     ProgressBar progressBar;
+    TextView loginText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,58 +34,30 @@ public class RegisterActivity extends AppCompatActivity
         manufacturer = findViewById(R.id.editText_CarManufacturer);
         model = findViewById(R.id.editText_CarModel);
         year = findViewById(R.id.editText_Year);
+        loginText = findViewById(R.id.textView_RegisterIfNoAccount);
 
         progressBar = findViewById(R.id.progressBar_register);
         button = findViewById(R.id.buttonRegister);
+
+        button.setOnClickListener(this::onButtonRegisterPressed);
+        loginText.setOnClickListener(this::onTextViewLoginClicked);
     }
 
-    public void OnTextViewLoginClicked(View v)
+    public void onTextViewLoginClicked(View v)
     {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void OnButtonRegisterPressed(View v)
+    public void onButtonRegisterPressed(View v)
     {
+        if (!ViewTools.setErrors(this, username, password, passwordConfirmation, model, manufacturer, year))
+        {
+            return;
+        }
+
         boolean canContinue = true;
-
-        // --- FIELDS EMPTY --- //
-        if (username.getText().toString().trim().length() == 0)
-        {
-            canContinue = false;
-            username.setError(getString(R.string.error_field_cannot_be_empty));
-        }
-
-        if (password.getText().toString().length() == 0)
-        {
-            canContinue = false;
-            password.setError(getString(R.string.error_field_cannot_be_empty));
-        }
-
-        if (passwordConfirmation.getText().toString().length() == 0)
-        {
-            canContinue = false;
-            passwordConfirmation.setError(getString(R.string.error_field_cannot_be_empty));
-        }
-
-        if (manufacturer.getText().toString().trim().length() == 0)
-        {
-            canContinue = false;
-            manufacturer.setError(getString(R.string.error_field_cannot_be_empty));
-        }
-
-        if (model.getText().toString().trim().length() == 0)
-        {
-            canContinue = false;
-            model.setError(getString(R.string.error_field_cannot_be_empty));
-        }
-
-        if (year.getText().toString().trim().length() == 0)
-        {
-            canContinue = false;
-            year.setError(getString(R.string.error_field_cannot_be_empty));
-        }
 
         // -- CARS DIDN'T EXIST BACK THEN -- //
         if (!ViewTools.isEditTextEmpty(year) && Integer.parseInt(year.getText().toString().trim()) < 1886)
@@ -104,12 +80,12 @@ public class RegisterActivity extends AppCompatActivity
         progressBar.setVisibility(View.VISIBLE);
 
         // values
-        String carManufacturer = manufacturer.getText().toString().trim();
-        String carModel = model.getText().toString().trim();
-        int carYear = Integer.parseInt(year.getText().toString());
-        String Username = username.getText().toString().trim();
-        String Password = password.getText().toString().trim();
-        String PasswordConfirmation = passwordConfirmation.getText().toString().trim();
+        String carManufacturer = ViewTools.getFilteredViewSequence(manufacturer);
+        String carModel = ViewTools.getFilteredViewSequence(model);
+        int carYear = Integer.parseInt(ViewTools.getFilteredViewSequence(year));
+        String Username = ViewTools.getFilteredViewSequence(username);
+        String Password = ViewTools.getFilteredViewSequence(password);
+        String PasswordConfirmation = ViewTools.getFilteredViewSequence(passwordConfirmation);
 
         // signup
         RequestHandler.getInstance().Signup(this, Username, Password, PasswordConfirmation, carManufacturer, carModel, carYear, progressBar, button);

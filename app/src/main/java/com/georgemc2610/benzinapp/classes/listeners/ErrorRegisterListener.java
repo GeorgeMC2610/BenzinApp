@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.georgemc2610.benzinapp.R;
@@ -14,9 +16,9 @@ public class ErrorRegisterListener implements Response.ErrorListener
 {
     private final Activity activity;
     private final ProgressBar progressBar;
-    private final Button button;
+    private final CardView button;
 
-    public ErrorRegisterListener(Activity activity, ProgressBar progressBar, Button button)
+    public ErrorRegisterListener(Activity activity, ProgressBar progressBar, CardView button)
     {
         this.activity = activity;
         this.progressBar = progressBar;
