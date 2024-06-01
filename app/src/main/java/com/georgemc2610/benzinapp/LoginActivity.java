@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -21,7 +23,8 @@ public class LoginActivity extends AppCompatActivity
 {
 
     EditText username, password;
-    Button login;
+    CardView login;
+    View register;
     ProgressBar progressBar;
 
     @Override
@@ -36,6 +39,11 @@ public class LoginActivity extends AppCompatActivity
 
         // get the button
         login = findViewById(R.id.buttonRegister);
+        login.setOnClickListener(this::OnButtonLoginPressed);
+
+        // register text view
+        register = findViewById(R.id.textView_RegisterIfNoAccount);
+        register.setOnClickListener(this::OnTextViewRegisterClicked);
 
         // progress bar for pressing the login button.
         progressBar = findViewById(R.id.progressBar_Login);

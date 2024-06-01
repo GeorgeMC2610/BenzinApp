@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.georgemc2610.benzinapp.R;
@@ -15,10 +17,10 @@ public class ErrorLoginListener implements Response.ErrorListener
 {
     private final Activity activity;
     private final ProgressBar progressBar;
-    private final Button button;
+    private final CardView button;
     private final EditText username, password;
 
-    public ErrorLoginListener(Activity activity, ProgressBar progressBar, Button button, EditText username, EditText password)
+    public ErrorLoginListener(Activity activity, ProgressBar progressBar, CardView button, EditText username, EditText password)
     {
         this.activity = activity;
         this.progressBar = progressBar;

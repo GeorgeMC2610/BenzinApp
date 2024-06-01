@@ -7,13 +7,17 @@
     tools:context=".activity_add.ActivityAddRecord">
 
     <ScrollView
-        android:layout_width="359dp"
-        android:layout_height="523dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintVertical_bias="0.25"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,21 +106,18 @@
                 android:onClick="OnButtonPickDateClicked"
                 app:icon="@android:drawable/ic_menu_day" />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:onClick="OnButtonAddMalfunctionClicked"
+                android:text="@string/button_add_malfunction"
+                android:textAllCaps="false"
+                style="@style/buttonMainBackground" />
+
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="367dp"
-        android:layout_height="66dp"
-        android:onClick="OnButtonAddMalfunctionClicked"
-        android:text="@string/button_add_malfunction"
-        android:textAllCaps="false"
-        style="@style/buttonMainBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

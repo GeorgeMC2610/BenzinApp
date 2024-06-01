@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +29,6 @@ import com.georgemc2610.benzinapp.classes.listeners.ResponseGetFuelFillRecordsLi
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetMalfunctionsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetRepeatedTripsListener;
 import com.georgemc2610.benzinapp.classes.listeners.ResponseGetServicesListener;
-import com.georgemc2610.benzinapp.classes.original.Car;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
@@ -71,7 +71,7 @@ public class RequestHandler
      * @param Password Provided Password.
      * @param progressBar A Progress Bar for decoration.
      */
-    public void Login(Activity activity, String Username, String Password, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
+    public void Login(Activity activity, String Username, String Password, EditText UsernameEditText, EditText PasswordEditText, CardView LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -123,7 +123,7 @@ public class RequestHandler
      * @param LoginButton View that gets disabled and re-enabled once the request is processed.
      * @param progressBar Progress Bar that keeps turning until the request is processed.
      */
-    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
+    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, CardView LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
