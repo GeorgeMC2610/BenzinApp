@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -93,25 +94,12 @@ public class LoginActivity extends AppCompatActivity
 
     public void OnButtonLoginPressed(View v)
     {
-        boolean canMoveOn = true;
+        // TODO: Change the filtering in the password.
+        if (!ViewTools.setErrors(this, username, password))
+            return;
 
-        String processedUsername = username.getText().toString().trim();
-        String processedPassword = password.getText().toString().trim();
-
-        // check for empty edit texts and don't proceed if there are any.
-        if (processedUsername.length() == 0)
-        {
-            username.setError(getString(R.string.error_field_cannot_be_empty));
-            canMoveOn = false;
-        }
-
-        if (processedPassword.length() == 0)
-        {
-            password.setError(getString(R.string.error_field_cannot_be_empty));
-            canMoveOn = false;
-        }
-
-        if (!canMoveOn) return;
+        String processedUsername = ViewTools.getFilteredViewSequence(username);
+        String processedPassword = ViewTools.getFilteredViewSequence(password);
 
         RequestHandler.getInstance().Login(this, processedUsername, processedPassword, username, password, login, progressBar);
     }
