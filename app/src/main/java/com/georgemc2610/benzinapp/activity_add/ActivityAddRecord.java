@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -8,12 +9,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -24,6 +25,7 @@ public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     TextView textViewDate;
+    CardView buttonPickDate, buttonPickTodayDate, buttonAdd;
     int mYear, mMonth, mDay;
 
     @Override
@@ -34,27 +36,26 @@ public class ActivityAddRecord extends AppCompatActivity
         setContentView(R.layout.activity_add_record);
 
         // get edit texts.
-        editTextLiters = findViewById(R.id.editTextLiters);
-        editTextCost = findViewById(R.id.editTextCost);
-        editTextKilometers = findViewById(R.id.editTextKilometers);
-        editTextPetrolType = findViewById(R.id.editTextPetrolType);
-        textViewDate = findViewById(R.id.textViewDatePicked);
-        editTextStation = findViewById(R.id.editTextStation);
-        editTextNotes = findViewById(R.id.editTextNotes);
+        editTextLiters = findViewById(R.id.liters);
+        editTextCost = findViewById(R.id.cost);
+        editTextKilometers = findViewById(R.id.kilometers);
+        editTextPetrolType = findViewById(R.id.fuelType);
+        textViewDate = findViewById(R.id.dateText);
+        editTextStation = findViewById(R.id.fuelStation);
+        editTextNotes = findViewById(R.id.notes);
 
+        // get the buttons.
+        buttonPickDate = findViewById(R.id.dateButton);
+        buttonPickTodayDate = findViewById(R.id.todayButton);
+        buttonAdd = findViewById(R.id.addButton);
 
-        // action bar with back button and correct title name.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getResources().getString(R.string.title_add_record));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        // set the button listeners
+        buttonPickDate.setOnClickListener(this::onButtonPickDateClicked);
+        buttonPickTodayDate.setOnClickListener(this::onButtonPickTodayDateClicked);
+        buttonAdd.setOnClickListener(this::onButtonAddClicked);
+
+        // action bar.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_record));
     }
 
     @Override
@@ -110,12 +111,12 @@ public class ActivityAddRecord extends AppCompatActivity
                 editTextPetrolType.getText().toString().trim().length() != 0);
     }
 
-    public void OnButtonAddClicked(View v)
+    public void onButtonAddClicked(View v)
     {
         if (!ViewTools.setErrors(this, editTextCost, editTextKilometers, editTextLiters))
             return;
 
-        if (!ViewTools.dateFilled(this, textViewDate))
+        if (!ViewTools.dateFilled(textViewDate))
         {
             Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
             return;
@@ -132,7 +133,13 @@ public class ActivityAddRecord extends AppCompatActivity
         RequestHandler.getInstance().AddFuelFillRecord(this, kilometers, liters, cost, petrolType, station, date, notes);
     }
 
-    public void OnEditTextDateTimeClicked(View v)
+    private void onButtonPickTodayDateClicked(View v)
+    {
+        LocalDate date = LocalDate.now();
+        textViewDate.setText(date.toString());
+    }
+
+    private void onButtonPickDateClicked(View v)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
@@ -141,14 +148,10 @@ public class ActivityAddRecord extends AppCompatActivity
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) ->
         {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
+            // and when it updates, it sets the value of the edit text.
+            textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
         }, mYear, mMonth, mDay);
 
         // show the dialog.
