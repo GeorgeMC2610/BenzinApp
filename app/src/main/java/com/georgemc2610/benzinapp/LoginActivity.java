@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.requests.BenzinappMessagingService;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.InputMismatchException;
 
@@ -89,6 +94,14 @@ public class LoginActivity extends AppCompatActivity
 
         // night mode set.
         AppCompatDelegate.setDefaultNightMode(darkMode? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task ->
+        {
+            if (!task.isSuccessful())
+                return;
+
+            Log.d("MESSAGING", "Got token: " + task.getResult());
+        });
 
     }
 
