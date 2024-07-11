@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -24,6 +27,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
     FuelFillRecord record;
+    CardView delete, edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,19 +48,11 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         km_per_lt = findViewById(R.id.textView_KilometersPerLiter);
         cost_per_km = findViewById(R.id.textView_CostPerKilometer);
         notes = findViewById(R.id.textView_Notes);
+        delete = findViewById(R.id.buttonDelete);
+        edit = findViewById(R.id.buttonEdit);
 
         // action bar with back button and correct title name.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_display_data));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
 
         // formats for decimal numbers.
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
@@ -102,6 +98,9 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         this.km_per_lt.setText(km_per_lt);
         this.cost_per_km.setText(cost_per_km);
         notes.setText(record.getNotes());
+
+        // assign listeners to the buttons
+        delete.setOnClickListener(this::OnButtonDeleteClicked);
     }
 
     @Override
