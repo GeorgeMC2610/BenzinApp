@@ -207,6 +207,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:maxLength="2000"
             android:hint="Notes"
             android:textColor="@color/black"
             android:textColorHint="#484848"

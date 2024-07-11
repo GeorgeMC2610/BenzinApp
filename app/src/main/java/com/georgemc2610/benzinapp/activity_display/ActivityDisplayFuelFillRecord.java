@@ -124,27 +124,19 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         dialog.setMessage(getString(R.string.dialog_delete_confirmation));
 
         // when the button yes is clicked
-        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+        dialog.setPositiveButton(getString(R.string.dialog_yes), (dialog1, which) ->
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // delete the record by its id.
-                RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayFuelFillRecord.this, record.getId());
+            // delete the record by its id.
+            RequestHandler.getInstance().DeleteFuelFillRecord(ActivityDisplayFuelFillRecord.this, record.getId());
 
-                // then close this activity
-                finish();
-            }
+            // then close this activity
+            finish();
         });
 
         // when the button no is clicked
-        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+        dialog.setNegativeButton(getString(R.string.dialog_no), (dialog12, which) ->
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // do nothing
-            }
+            // do nothing
         });
 
         dialog.setCancelable(true);
