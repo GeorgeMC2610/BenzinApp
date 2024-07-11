@@ -95,13 +95,8 @@ public class LoginActivity extends AppCompatActivity
         // night mode set.
         AppCompatDelegate.setDefaultNightMode(darkMode? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task ->
-        {
-            if (!task.isSuccessful())
-                return;
-
-            Log.d("MESSAGING", "Got token: " + task.getResult());
-        });
+        // handle notifications settings.
+        BenzinappMessagingService.HandleAlreadyExistingToken(this);
 
     }
 

@@ -3,6 +3,7 @@ package com.georgemc2610.benzinapp.fragments.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditAccount;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.LanguageTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.NotificationPermissionTool;
+import com.georgemc2610.benzinapp.classes.requests.BenzinappMessagingService;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.databinding.FragmentSettingsBinding;
 
@@ -30,10 +32,10 @@ public class SettingsFragment extends Fragment
     private String[] languageOptions;
     private Locale[] languages;
     private int selectLanguagePosition;
-    private Switch darkModeToggle, fastLoginToggle;
+    private Switch darkModeToggle, fastLoginToggle, notificationsToggle;
     private Button logoutButton, languageButton, editAccountButton;
     private SharedPreferences preferences;
-    private boolean autoLogin, nightMode;
+    private boolean autoLogin, nightMode, notifications, permissionRequested;
     private FragmentSettingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -66,19 +68,23 @@ public class SettingsFragment extends Fragment
         // get the toggles and set their listeners
         darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
         fastLoginToggle = root.findViewById(R.id.settings_FastLoginSwitch);
+        notificationsToggle = root.findViewById(R.id.settings_NotificationsSwitch);
 
         // be able to change it.
         fastLoginToggle.setOnCheckedChangeListener(this::onFastLoginStateChange);
         darkModeToggle.setOnCheckedChangeListener(this::onDarkThemeStateChange);
+        notificationsToggle.setOnCheckedChangeListener(this::onNotificationsStateChange);
 
         // shared preferences for settings
         preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         autoLogin = preferences.getBoolean("auto_login", true);
         nightMode = preferences.getBoolean("night_mode", false);
+        notifications = preferences.getBoolean("notifications", false);
 
         // set the settings.
         fastLoginToggle.setChecked(autoLogin);
         darkModeToggle.setChecked(nightMode);
+        notificationsToggle.setChecked(notifications);
 
         return root;
     }
@@ -119,6 +125,24 @@ public class SettingsFragment extends Fragment
         AppCompatDelegate.setDefaultNightMode(isChecked? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
+    private void onNotificationsStateChange(CompoundButton buttonView, boolean isChecked)
+    {
+        if (!NotificationPermissionTool.isNotificationPermissionGranted(getContext()))
+        {
+            NotificationPermissionTool.requestPermission(getActivity());
+            permissionRequested = true;
+            return;
+        }
+
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean("notifications", isChecked);
+        editor.apply();
+
+        if (isChecked)
+            BenzinappMessagingService.HandleAlreadyExistingToken(getContext());
+    }
+
     private void onButtonEditAccountClicked(View v)
     {
         Intent intent = new Intent(getActivity(), ActivityEditAccount.class);
@@ -151,5 +175,42 @@ public class SettingsFragment extends Fragment
     {
         LanguageTool.setSelectedLocale(languages[selectLanguagePosition]);
         getActivity().recreate();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode != 3019 && requestCode != 3017)
+            return;
+
+        if (!permissionRequested)
+            return;
+
+        boolean deniedResults = false;
+
+        for (int i : grantResults)
+        {
+            if (i == -1)
+            {
+                deniedResults = true;
+                break;
+            }
+        }
+
+        if (deniedResults)
+        {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+            builder.setMessage("If you want to get notifications, you must grant permission for this.");
+            builder.setNeutralButton("OK", null);
+            builder.show();
+            return;
+        }
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("notifications", true);
+        editor.apply();
+        BenzinappMessagingService.HandleAlreadyExistingToken(getContext());
     }
 }

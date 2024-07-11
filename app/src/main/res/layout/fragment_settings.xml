@@ -61,6 +61,30 @@
 
             </RelativeLayout>
 
+            <!-- NOTIFICATIONS SWITCH -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/settings_NotificationsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
+                    android:text="Get Notifications"
+                    android:textSize="20sp" />
+
+                <Switch
+                    android:id="@+id/settings_NotificationsSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </RelativeLayout>
+
             <!-- LANGUAGE SELECT -->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -120,89 +144,95 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- FAST LOGIN SWITCH -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/settings_FastLoginTextView"
-                android:layout_width="wrap_content"
+            <!-- FAST LOGIN SWITCH -->
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginStart="10dp"
-                android:text="@string/setting_fast_login"
-                android:textSize="20sp" />
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
-            <Switch
-                android:id="@+id/settings_FastLoginSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <TextView
+                    android:id="@+id/settings_FastLoginTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/setting_fast_login"
+                    android:textSize="20sp" />
 
-        </RelativeLayout>
+                <Switch
+                    android:id="@+id/settings_FastLoginSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        <!-- LOGOUT BUTTON -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="5dp">
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/settings_Logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/settings_LogoutButton"
-                style="@style/textColorSpecial"
-                android:layout_marginStart="10dp"
-                android:text="@string/setting_logout"
-                android:textSize="20sp" />
+            <!-- LOGOUT BUTTON -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/settings_LogoutButton"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="4dp"
-                style="@style/buttonDeleteBackground"
-                app:icon="?attr/actionModeCloseDrawable"
-                app:iconGravity="textEnd" />
+                <TextView
+                    android:id="@+id/settings_Logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/settings_LogoutButton"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/setting_logout"
+                    android:textSize="20sp" />
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/settings_LogoutButton"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="4dp"
+                    style="@style/buttonDeleteBackground"
+                    app:icon="?attr/actionModeCloseDrawable"
+                    app:iconGravity="textEnd" />
 
-        <!-- EDIT ACCOUNT BUTTON -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="85dp"
-            android:layout_marginBottom="5dp">
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/settings_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/settings_EditAccountButton"
-                style="@style/textColorSpecial"
-                android:layout_marginStart="10dp"
-                android:text="@string/settings_edit_account_label"
-                android:textSize="20sp" />
+            <!-- EDIT ACCOUNT BUTTON -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/settings_EditAccountButton"
-                style="@style/buttonEditBackground"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="4dp"
-                app:icon="@android:drawable/ic_menu_edit"
-                app:iconGravity="textEnd"
-                app:iconSize="25dp" />
+                <TextView
+                    android:id="@+id/settings_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/settings_EditAccountButton"
+                    style="@style/textColorSpecial"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/settings_edit_account_label"
+                    android:textSize="20sp" />
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/settings_EditAccountButton"
+                    style="@style/buttonEditBackground"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="4dp"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconGravity="textEnd"
+                    app:iconSize="25dp" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
 
     </androidx.cardview.widget.CardView>
 
