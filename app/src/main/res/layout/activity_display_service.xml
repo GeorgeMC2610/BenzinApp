@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity_display.ActivityDisplayFuelFillRecord">
-
-    <Button
-        android:id="@+id/display_service_button_delete"
-        android:layout_width="363dp"
-        android:layout_height="50dp"
-        style="@style/buttonDeleteBackground"
-        android:textAllCaps="false"
-        android:onClick="DeleteRecord"
-        android:text="@string/button_delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
 
     <ScrollView
         android:id="@+id/scrollView_display_service_data"
@@ -32,126 +18,322 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <!-- ALL COMPONENTS LAYOUT CONTAINER -->
         <LinearLayout
             android:id="@+id/linearLayoutDisplayServiceData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- ΑΤ ΚΜ -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_at_km"
+            <!-- CARD FOR STARTING INFO -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_service_at_km"
-                android:textSize="16sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
 
-            <TextView
-                android:id="@+id/text_view_display_service_at_km"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- DATE HAPPENED -->
+                    <TextView
+                        android:id="@+id/text_view_display_service_legend_date_happened"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/text_view_service_date_happened"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_display_service_date_happened"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <!-- ΑΤ ΚΜ -->
+                    <TextView
+                        android:id="@+id/text_view_display_service_legend_at_km"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/text_view_service_at_km"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_display_service_at_km"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/loading"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- CARD FOR DESCRIPTION -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
 
-            <!-- DATE HAPPENED -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_date_happened"
-                android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- DESCRIPTION -->
+                    <TextView
+                        android:id="@+id/text_view_display_service_legend_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textSize="24sp"
+                        android:text="@string/text_view_description" />
+
+                    <TextView
+                        android:id="@+id/text_view_display_service_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/loading"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- LAYOUT FOR BOTH CARDS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_service_date_happened"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/text_view_display_service_date_happened"
-                android:layout_width="match_parent"
+                <!-- CARD FOR MILEAGE + COST DATA -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    style="@style/cardMainBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <!-- COST EUR -->
+                        <TextView
+                            android:id="@+id/text_view_display_service_legend_cost"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/text_view_cost"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/text_view_display_service_cost"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:text="@string/loading"
+                            android:layout_marginStart="5dp"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <!-- NEXT SERVICE AT -->
+                        <TextView
+                            android:id="@+id/text_view_display_service_legend_next_km"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/text_view_service_next_at"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/text_view_display_service_next_km"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:text="@string/loading"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="10dp"
+                    style="@style/cardMainBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- LOCATION -->
+                        <TextView
+                            android:id="@+id/text_view_display_service_legend_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/text_view_location"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/text_view_display_service_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/textColorSpecial"
+                            android:text="@string/loading"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="center">
 
-            <!-- DESCRIPTION -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_description"
-                android:textSize="16sp" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#990000"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
 
-            <TextView
-                android:id="@+id/text_view_display_service_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <!-- NEXT SERVICE AT -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_next_km"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_service_next_at"
-                android:textSize="16sp" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@+id/deleteText"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="-40dp"
+                            android:background="@android:drawable/ic_menu_delete"
+                            android:backgroundTint="@color/white" />
 
-            <TextView
-                android:id="@+id/text_view_display_service_next_km"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/deleteText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="DELETE"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
 
-            <!-- COST EUR -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_cost"
-                android:textSize="16sp" />
+                    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/text_view_display_service_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
 
-            <!-- LOCATION -->
-            <TextView
-                android:id="@+id/text_view_display_service_legend_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_view_location"
-                android:textSize="16sp" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/buttonEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#2266BB"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
 
-            <TextView
-                android:id="@+id/text_view_display_service_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@+id/editText"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="-50dp"
+                            android:background="@android:drawable/ic_menu_edit"
+                            android:backgroundTint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/editText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="EDIT"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
