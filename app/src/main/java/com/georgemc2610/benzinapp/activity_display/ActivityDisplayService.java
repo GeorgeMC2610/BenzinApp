@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
 import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
@@ -25,6 +28,7 @@ import java.util.Locale;
 public class ActivityDisplayService extends AppCompatActivity
 {
     TextView atKmView, costView, dateHappenedView, descriptionView, nextAtKmView, locationView;
+    CardView edit, delete;
     String location;
     Service service;
 
@@ -42,6 +46,8 @@ public class ActivityDisplayService extends AppCompatActivity
         descriptionView = findViewById(R.id.text_view_display_service_desc);
         nextAtKmView = findViewById(R.id.text_view_display_service_next_km);
         locationView = findViewById(R.id.text_view_display_service_location);
+        edit = findViewById(R.id.buttonEdit);
+        delete = findViewById(R.id.buttonDelete);
 
         // get the service
         service = (Service) getIntent().getSerializableExtra("service");
@@ -58,6 +64,10 @@ public class ActivityDisplayService extends AppCompatActivity
         costView.setText(service.getCost() == -1f? "-" : "€" + numberFormat.format(service.getCost()));
         nextAtKmView.setText(service.getNextKm() == -1? "-" : numberFormat.format(service.getNextKm()) + " " + getString(R.string.km_short));
         locationView.setText(service.getLocation());
+
+        // button listeners
+        edit.setOnClickListener(this::onButtonEditRecordClicked);
+        delete.setOnClickListener(this::onButtonDeleteRecordClicked);
 
         // if the service location exists...
         if (service.getLocation() != null && !service.getLocation().isEmpty())
@@ -120,7 +130,14 @@ public class ActivityDisplayService extends AppCompatActivity
         }
     }
 
-    public void DeleteRecord(View view)
+    private void onButtonEditRecordClicked(View v)
+    {
+        Intent intent = new Intent(this, ActivityEditService.class);
+        intent.putExtra("service", service);
+        startActivity(intent);
+    }
+
+    private void onButtonDeleteRecordClicked(View view)
     {
         // build a confirmation dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -129,27 +146,19 @@ public class ActivityDisplayService extends AppCompatActivity
         dialog.setMessage(getString(R.string.dialog_delete_confirmation));
 
         // when the button yes is clicked
-        dialog.setPositiveButton(getString(R.string.dialog_yes), new DialogInterface.OnClickListener()
+        dialog.setPositiveButton(getString(R.string.dialog_yes), (dialog1, which) ->
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // delete the record by its id.
-                RequestHandler.getInstance().DeleteService(ActivityDisplayService.this, service.getId());
+            // delete the record by its id.
+            RequestHandler.getInstance().DeleteService(ActivityDisplayService.this, service.getId());
 
-                // then close this activity
-                finish();
-            }
+            // then close this activity
+            finish();
         });
 
         // when the button no is clicked
-        dialog.setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener()
+        dialog.setNegativeButton(getString(R.string.dialog_no), (dialog12, which) ->
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // do nothing
-            }
+            // do nothing
         });
 
         dialog.setCancelable(true);
