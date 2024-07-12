@@ -5,12 +5,14 @@ import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
@@ -100,7 +102,8 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         notes.setText(record.getNotes());
 
         // assign listeners to the buttons
-        delete.setOnClickListener(this::OnButtonDeleteClicked);
+        delete.setOnClickListener(this::onButtonDeleteClicked);
+        edit.setOnClickListener(this::onButtonEditClicked);
     }
 
     @Override
@@ -115,7 +118,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void OnButtonDeleteClicked(View view)
+    public void onButtonDeleteClicked(View view)
     {
         // build a confirmation dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -141,5 +144,12 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 
         dialog.setCancelable(true);
         dialog.create().show();
+    }
+
+    public void onButtonEditClicked(View v)
+    {
+        Intent intent = new Intent(this, ActivityEditRecord.class);
+        intent.putExtra("record", record);
+        startActivity(intent);
     }
 }
