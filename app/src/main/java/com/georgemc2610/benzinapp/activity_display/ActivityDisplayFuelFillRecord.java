@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,7 +100,16 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         this.lt_per_100.setText(lt_per_100);
         this.km_per_lt.setText(km_per_lt);
         this.cost_per_km.setText(cost_per_km);
-        notes.setText(record.getNotes());
+        this.notes.setText(record.getNotes());
+
+        if (record.getNotes().length() == 0)
+        {
+            // TODO: Replace with String Value.
+            this.notes.setText("No notes added.");
+            this.notes.setTextColor(getColor(R.color.light_gray));
+            this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
+        }
+
 
         // assign listeners to the buttons
         delete.setOnClickListener(this::onButtonDeleteClicked);
