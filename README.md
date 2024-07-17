@@ -7,6 +7,9 @@ This app is designed to help you keep track of your car's statistics such as fue
 + Input and store data for each fill-up including kilometers driven, liters of fuel, and cost.
 + Automatically calculate and display fuel efficiency statistics such as liters per 100 km, km per liter, and cost per km.
 + View visual graphs to track your car's statistics over time.
++ Keep track of the car's malfunctions and services.
++ Calculate a one-time travel cost and consumption.
++ Calculate repeating trips' cost and consumption over the course of weeks.
 
 **IMPORTANT WARNING:** This app is still in its alpha phase. It's highly recommended to __**backup all of your fuel fill records**__ in some other program (e.g. Excel) and not solely use this app to track your statistics. **Also please be aware that the app might crash a lot**.
 
@@ -24,12 +27,14 @@ To use this app, you will need an Android device running Android 8.0 or later.
 
 ## Usage
 
-+ Open the app.
-+ Create an account. Enter your car info (Manufcaturer, Model, Year).
-+ Log in.
-+ Enter the number of kilometers driven, liters of fuel, and cost for each fill up (and any other additional notes you'd like).
-+ The app will automatically calculate liters per 100 km, km per liter, and cost per km.
-+ View visual graphs to track your car's statistics over time.
+### Logging in
+You must first log in to your account, before enterning any of your data. If you've logged in recently, with the "Fast Login" option turned on, you might be logged in automatically.
+Enter your Username/Password combo.
+(image)
+
+### Registering
+If you don't have an account, you can create one for free. Once you create your account, you'll automatically be logged in. But, you must first fill all the data below. 
+(image)
 
 ## Contributing
 
