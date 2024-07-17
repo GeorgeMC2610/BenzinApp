@@ -102,6 +102,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         this.cost_per_km.setText(cost_per_km);
         this.notes.setText(record.getNotes());
 
+        // notes might not be present.
         if (record.getNotes().length() == 0)
         {
             // TODO: Replace with String Value.
@@ -109,7 +110,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
             this.notes.setTextColor(getColor(R.color.light_gray));
             this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
         }
-
+        // TODO: Add case for excess notes text.
 
         // assign listeners to the buttons
         delete.setOnClickListener(this::onButtonDeleteClicked);
