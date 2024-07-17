@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,7 +25,8 @@ import java.util.Locale;
 
 public class ActivityDisplayMalfunction extends AppCompatActivity
 {
-    TextView titleView, descriptionView, startedView, endedView, atKmView, costView, locationView;
+    TextView titleView, descriptionView, startedView, endedView, atKmView, costView, locationView, statusView;
+    CardView delete, edit, fixedData;
     String coordinates;
     Malfunction malfunction;
 
@@ -46,6 +48,12 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         atKmView = findViewById(R.id.text_view_display_malfunction_discovered_at_km);
         costView = findViewById(R.id.text_view_display_malfunction_cost);
         locationView = findViewById(R.id.text_view_display_malfunction_location);
+        statusView = findViewById(R.id.text_view_display_malfunction_status);
+
+        // get the buttons (cards) and the fixed data card view.
+        delete = findViewById(R.id.buttonDelete);
+        edit = findViewById(R.id.buttonEdit);
+        fixedData = findViewById(R.id.card_fix);
 
         // get the serializable object
         malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
@@ -55,6 +63,13 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         descriptionView.setText(malfunction.getDescription());
         startedView.setText(malfunction.getStarted().toString());
         atKmView.setText(numberFormat.format(malfunction.getAt_km()) + " " + getString(R.string.km_short));
+
+        // Set "status" depending on the actual status.
+        statusView.setText(malfunction.getEnded() == null? getText(R.string.card_view_malfunction_ongoing) : getText(R.string.card_view_malfunction_fixed));
+        statusView.setTextColor(malfunction.getEnded() == null? getColor(R.color.dark_red) : getColor(R.color.dark_green));
+
+        // Set Card Visibility depending on the malfunction's status.
+        fixedData.setVisibility(malfunction.getEnded() == null? View.GONE : View.VISIBLE);
 
         // set optional views content
         endedView.setText(malfunction.getEnded() == null? "-" : malfunction.getEnded().toString());
