@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditMalfunction;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
 import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
@@ -75,6 +77,10 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         endedView.setText(malfunction.getEnded() == null? "-" : malfunction.getEnded().toString());
         costView.setText(malfunction.getCost() == -1f? "-" : "€" + numberFormat.format(malfunction.getCost()));
 
+        // set the buttons' listeners
+        delete.setOnClickListener(this::DeleteRecord);
+        edit.setOnClickListener(this::EditRecord);
+
         // if the malfunction location exists...
         if (malfunction.getLocation() != null && !malfunction.getLocation().isEmpty())
         {
@@ -129,6 +135,13 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void EditRecord(View v)
+    {
+        Intent intent = new Intent(this, ActivityEditMalfunction.class);
+        intent.putExtra("malfunction", malfunction);
+        startActivity(intent);
     }
 
     public void DeleteRecord(View v)
