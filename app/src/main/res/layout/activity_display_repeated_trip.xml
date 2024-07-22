@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity_display.ActivityDisplayRepeatedTrip">
 
-    <Button
-        android:id="@+id/display_repeated_trip_button_delete"
-        android:layout_width="363dp"
-        android:layout_height="50dp"
-        style="@style/buttonDeleteBackground"
-        android:textAllCaps="false"
-        android:onClick="onButtonDeleteRecordClicked"
-        android:text="@string/button_delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
-
     <ScrollView
         android:id="@+id/display_repeated_trip_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="628dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/display_repeated_trip_linear_layout"
@@ -38,170 +18,358 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- TITLE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_title_legend"
+            <!-- CARD FOR STARTING INFO -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_title"
-                android:textSize="16sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical">
+
+                    <!-- TITLE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_title_legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/text_view_title"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <!-- TIMES REPEATING -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_times_repeating_legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        style="@style/textColorSpecial"
+                        android:text="@string/edit_text_repeated_trips_times_occurring"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_times_repeating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        style="@style/textColorSpecial"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <!-- TRIP'S TOTAL KM -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_total_km_legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        style="@style/textColorSpecial"
+                        android:text="@string/text_view_repeated_trips_km_legend"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_total_km"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        style="@style/textColorSpecial"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/display_repeated_trip_text_view_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
+                android:text="COSTS:"
+                android:paddingTop="15dp"
+                style="@style/textColor"
+                android:textSize="26sp"
+                android:textAlignment="center"
                 android:textStyle="bold" />
 
-            <!-- TIMES REPEATING -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_times_repeating_legend"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                style="@style/textColorSpecial"
-                android:text="@string/edit_text_repeated_trips_times_occurring"
-                android:textSize="16sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <!-- AVERAGE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_average_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        style="@style/textColorSpecial"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/averageCostPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        android:layout_marginBottom="10dp"
+                        style="@style/textColorSpecial"
+                        android:textSize="18sp" />
+
+                    <!-- WORST CASE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_worst_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial2"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/worstCostPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial2"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
+                    <!-- BEST CASE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_best_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bestCostPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/display_repeated_trip_text_view_times_repeating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/loading"
-                style="@style/textColorSpecial"
-                android:textSize="25sp"
+                android:text="CONSUMPTION:"
+                android:paddingTop="15dp"
+                style="@style/textColor"
+                android:textSize="26sp"
+                android:textAlignment="center"
                 android:textStyle="bold" />
 
-            <!-- FROM TO -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination_legend"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                style="@style/textColorSpecial"
-                android:text="@string/display_trip_trip"
-                android:textSize="16sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <!-- AVERAGE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_average_consumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        style="@style/textColorSpecial"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/averageConsumptionPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loading"
+                        android:layout_marginBottom="10dp"
+                        style="@style/textColorSpecial"
+                        android:textSize="18sp" />
+
+                    <!-- WORST CASE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_worst_consumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial2"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/worstConsumptionPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial2"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
+                    <!-- BEST CASE -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_best_consumption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bestConsumptionPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:text="@string/loading"
-                android:textSize="34sp"
+                android:text="TRIP DATA:"
+                android:paddingTop="15dp"
+                style="@style/textColor"
+                android:textSize="26sp"
+                android:textAlignment="center"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/display_repeated_trip_button_show_on_map"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                style="@style/buttonMainBackground"
-                android:text="@string/display_trip_show_on_map"
-                app:icon="@android:drawable/ic_dialog_map" />
-
-            <!-- TRIP'S TOTAL KM -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_total_km_legend"
+            <!-- CARD FOR TRIP -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_repeated_trips_km_legend"
-                android:textSize="16sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/cardMainBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
 
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_total_km"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                style="@style/textColorSpecial"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical">
 
-            <!-- TRIP'S GENERAL COST -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_general_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="10sp"
-                android:text="@string/display_trip_cost"
-                android:textSize="24sp" />
+                    <!-- FROM TO -->
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination_legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/display_trip_trip"
+                        android:textSize="12sp" />
 
-            <!-- AVERAGE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_average_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                style="@style/textColorSpecial"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/display_repeated_trip_text_view_from_origin_to_destination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial"
+                        android:text="@string/loading"
+                        android:layout_marginBottom="20dp"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
-            <!-- WORST CASE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_worst_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial2"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                    <!-- SHOW ON MAP BUTTON -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/display_repeated_trip_button_show_on_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="50dp"
+                        app:cardBackgroundColor="@color/main"
+                        android:padding="12dp"
+                        android:gravity="center"
+                        android:textSize="16sp">
 
-            <!-- BEST CASE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_best_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial1"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-            <!-- TRIP'S GENERAL CONSUMPTION -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_general_consumption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial"
-                android:layout_marginTop="20sp"
-                android:text="@string/display_trip_consumption"
-                android:textSize="24sp" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignStart="@+id/deleteText"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="-80dp"
+                                android:background="@android:drawable/ic_dialog_map"
+                                android:backgroundTint="@color/white" />
 
-            <!-- AVERAGE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_average_consumption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                style="@style/textColorSpecial"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/deleteText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/display_trip_show_on_map"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
 
-            <!-- WORST CASE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_worst_consumption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textColorSpecial2"
-                android:text="@string/loading"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                        </RelativeLayout>
 
-            <!-- BEST CASE -->
-            <TextView
-                android:id="@+id/display_repeated_trip_text_view_best_consumption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                style="@style/textColorSpecial1"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

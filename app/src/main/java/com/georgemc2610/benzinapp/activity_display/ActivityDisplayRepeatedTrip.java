@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -52,7 +53,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         TextView title = findViewById(R.id.display_repeated_trip_text_view_title);
         TextView timesRepeating = findViewById(R.id.display_repeated_trip_text_view_times_repeating);
         trip = findViewById(R.id.display_repeated_trip_text_view_from_origin_to_destination);
-        Button showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
+        CardView showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
         TextView km = findViewById(R.id.display_repeated_trip_text_view_total_km);
         TextView costAvg = findViewById(R.id.display_repeated_trip_text_view_average_cost);
         TextView costWorst = findViewById(R.id.display_repeated_trip_text_view_worst_cost);
