@@ -56,11 +56,17 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         CardView showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
         TextView km = findViewById(R.id.display_repeated_trip_text_view_total_km);
         TextView costAvg = findViewById(R.id.display_repeated_trip_text_view_average_cost);
+        TextView costAvgPerTime = findViewById(R.id.averageCostPerTime);
         TextView costWorst = findViewById(R.id.display_repeated_trip_text_view_worst_cost);
+        TextView costWorstPerTime = findViewById(R.id.worstCostPerTime);
         TextView costBest = findViewById(R.id.display_repeated_trip_text_view_best_cost);
+        TextView costBestPerTime = findViewById(R.id.bestCostPerTime);
         TextView ltAvg = findViewById(R.id.display_repeated_trip_text_view_average_consumption);
+        TextView ltAvgPerTime = findViewById(R.id.averageConsumptionPerTime);
         TextView ltWorst = findViewById(R.id.display_repeated_trip_text_view_worst_consumption);
+        TextView ltWorstPerTime = findViewById(R.id.worstConsumptionPerTime);
         TextView ltBest = findViewById(R.id.display_repeated_trip_text_view_best_consumption);
+        TextView ltBestPerTime = findViewById(R.id.bestConsumptionPerTime);
 
         // get the serializable object
         repeatedTrip = (RepeatedTrip) getIntent().getSerializableExtra("repeated_trip");
@@ -85,15 +91,14 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         // get the car to calculate all scenarios.
         Car car = DataHolder.getInstance().car;
 
-        // all scenarios for cost.
-        String formattedAvgEuros = formatEuros(repeatedTrip.getAvgCostEur(car), repeatedTrip.getTimesRepeating());
-        String formattedWorstEuros = formatEuros(repeatedTrip.getWorstCostEur(car), repeatedTrip.getTimesRepeating());
-        String formattedBestEuros = formatEuros(repeatedTrip.getBestCostEur(car), repeatedTrip.getTimesRepeating());
+        String[] formattedAvgValuesEur = formatEuros(repeatedTrip.getAvgCostEur(car), repeatedTrip.getTimesRepeating());
+        String[] formattedWorstValuesEur = formatEuros(repeatedTrip.getWorstCostEur(car), repeatedTrip.getTimesRepeating());
+        String[] formattedBestValuesEur = formatEuros(repeatedTrip.getBestCostEur(car), repeatedTrip.getTimesRepeating());
 
         // all scenarios for consumption.
-        String formattedAvgLiters = formatLiters(repeatedTrip.getAvgLt(car), repeatedTrip.getTimesRepeating());
-        String formattedWorstLiters = formatLiters(repeatedTrip.getWorstLt(car), repeatedTrip.getTimesRepeating());
-        String formattedBestLiters = formatLiters(repeatedTrip.getBestLt(car), repeatedTrip.getTimesRepeating());
+        String[] formattedAvgValuesLiters = formatLiters(repeatedTrip.getAvgLt(car), repeatedTrip.getTimesRepeating());
+        String[] formattedWorstValuesLiters = formatLiters(repeatedTrip.getWorstLt(car), repeatedTrip.getTimesRepeating());
+        String[] formattedBestValuesLiters = formatLiters(repeatedTrip.getBestLt(car), repeatedTrip.getTimesRepeating());
 
         // set the views' texts
         title.setText(repeatedTrip.getTitle());
@@ -102,14 +107,36 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         km.setText(formattedTotalKm);
 
         // set the cost
-        costAvg.setText(formattedAvgEuros);
-        costBest.setText(formattedBestEuros);
-        costWorst.setText(formattedWorstEuros);
+        costAvg.setText(formattedAvgValuesEur[0]);
+        costBest.setText(formattedBestValuesEur[0]);
+        costWorst.setText(formattedWorstValuesEur[0]);
 
         // set the consumption
-        ltAvg.setText(formattedAvgLiters);
-        ltBest.setText(formattedBestLiters);
-        ltWorst.setText(formattedWorstLiters);
+        ltAvg.setText(formattedAvgValuesLiters[0]);
+        ltBest.setText(formattedBestValuesLiters[0]);
+        ltWorst.setText(formattedWorstValuesLiters[0]);
+
+        // times repeating per time
+        if (repeatedTrip.getTimesRepeating() > 1)
+        {
+            costAvgPerTime.setText(formattedAvgValuesEur[1]);
+            costBestPerTime.setText(formattedBestValuesEur[1]);
+            costWorstPerTime.setText(formattedWorstValuesEur[1]);
+
+            ltAvgPerTime.setText(formattedAvgValuesEur[1]);
+            ltBestPerTime.setText(formattedBestValuesEur[1]);
+            ltWorstPerTime.setText(formattedWorstValuesEur[1]);
+        }
+        else
+        {
+            costAvgPerTime.setVisibility(View.GONE);
+            costBestPerTime.setVisibility(View.GONE);
+            costWorstPerTime.setVisibility(View.GONE);
+
+            ltAvgPerTime.setVisibility(View.GONE);
+            ltBestPerTime.setVisibility(View.GONE);
+            ltWorstPerTime.setVisibility(View.GONE);
+        }
 
         // get the addresses from the locations.
         Geocoder geocoder = new Geocoder(this);
@@ -214,35 +241,43 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         }
     }
 
-    private String formatLiters(float consumption, int times)
+    private String[] formatLiters(float consumption, int times)
     {
+        // get a formatter for better visuals
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
-        // build a string in the format: ## lt per week (## lt per time)
-        return numberFormat.format(consumption * times) +
-                ' ' +
-                getString(R.string.lt_short) + (times == 1? "" :
-                getString(R.string.card_repeated_trip_per_week) +
-                " (" +
-                numberFormat.format(consumption) +
-                ' ' +
-                getString(R.string.lt_short) +
-                getString(R.string.per_time) +
-                ')');
+        // store values in a string array
+        String[] values = new String[2];
+
+        // the first value is how many times it's repeating
+        String value1 = numberFormat.format(consumption * times) + ' ' + getString(R.string.lt_short) + (times == 1? getString(R.string.per_time) : getString(R.string.card_repeated_trip_per_week));
+        values[0] = value1;
+
+        // and another one for how many eur for every time.
+        if (times > 1)
+        {
+            String value2 = numberFormat.format(consumption) + ' ' + getString(R.string.lt_short) + getString(R.string.per_time);
+            values[1] = value2;
+        }
+
+        return values;
     }
 
-    private String formatEuros(float cost, int times)
+    private String[] formatEuros(float cost, int times)
     {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String[] values = new String[2];
 
-        // build a string in the format: €#.## per week (€#.## per time)
-        return  '€' + decimalFormat.format(cost * times) +
-                (times == 1? "" :
-                getString(R.string.card_repeated_trip_per_week) +
-                " (€" +
-                decimalFormat.format(cost) +
-                getString(R.string.per_time) +
-                ')');
+        String value1 = '€' + decimalFormat.format(cost * times) + (times == 1? getString(R.string.per_time) : getString(R.string.card_repeated_trip_per_week));
+        values[0] = value1;
+
+        if (times > 1)
+        {
+            String value2 = '€' + decimalFormat.format(cost) + getString(R.string.per_time);
+            values[1] = value2;
+        }
+
+        return values;
     }
 
     public void onButtonDeleteRecordClicked(View view)
