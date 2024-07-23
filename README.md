@@ -17,24 +17,37 @@ This app is designed to help you keep track of your car's statistics such as fue
 
 ### Prerequisites
 
-To use this app, you will need an Android device running Android 8.0 or later.
+To use this app, you will need an Android device running Android 8.0 or later, with access to the internet. You might also be requested to turn on some permissions to use the app's features.
 
 ### Installation
 
 + Download the app from the latest [Release](https://github.com/GeorgeMC2610/BenzinApp/releases).
 + Install the app on your Android device.
-+ Open the app and start inputting data for each fill up.
++ Open the app and create an account.
++ Once you fill all the data needed for an account, you can start inputting data.
 
 ## Usage
 
 ### Logging in
-You must first log in to your account, before enterning any of your data. If you've logged in recently, with the "Fast Login" option turned on, you might be logged in automatically.
+You must first log in to your account, before enterning any of your data. If you've logged in recently, you might be logged in automatically, if the "Fast Login" option is turned on.
 Enter your Username/Password combo.
 (image)
 
 ### Registering
 If you don't have an account, you can create one for free. Once you create your account, you'll automatically be logged in. But, you must first fill all the data below. 
 (image)
+
+### Consumption Calculation
+Once you're in the app, you can tap on **History** (the second button on the navbar) and then the + button, to add a top-up record. Make sure that you have something like a receipt or a photo to remember how many kilometers the car travelled before the previous top-up, how many liters you filled, and how much it cost. Once you do that, you can see your car's consumption.
+(image navbar) (image button) (image fill-up) (image consumption)
+
+### Services & Malfunctions
+You can store data about the car's repair history or malfunctions, in the "Services & Malfunctions" tab. In a later update, I might add the ability to add notifications & reminder with these.
+(services & malfunctions)
+
+### Repeated Trips
+If you want to calculate a trip's consumption and cost, you can use the Trips section to do so. You can add either a one-time trip or a repeating one, to see how much it costs to travel from one place to another. To add a trip, you can select two points on the map and then the app will create the trip and calculate its cost.
+(repeated trips card)
 
 ## Contributing
 
