@@ -304,7 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:orientation="vertical">
@@ -332,12 +332,12 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/display_repeated_trip_button_show_on_map"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="10dp"
                         app:cardCornerRadius="50dp"
                         app:cardBackgroundColor="@color/main"
                         android:padding="12dp"
-                        android:gravity="center"
-                        android:textSize="16sp">
+                        android:gravity="center">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
