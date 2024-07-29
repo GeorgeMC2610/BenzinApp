@@ -126,8 +126,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
                             style="@style/textColorSpecial"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
+                            android:textSize="24sp" />
 
                         <!-- KM -->
                         <TextView
@@ -145,8 +144,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
                             style="@style/textColorSpecial"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
+                            android:textSize="24sp" />
 
                         <!-- COST -->
                         <TextView
@@ -164,8 +162,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
                             style="@style/textColorSpecial"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
+                            android:textSize="24sp" />
 
                     </LinearLayout>
 
