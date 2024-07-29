@@ -163,7 +163,7 @@
         android:layout_width="367dp"
         android:layout_height="66dp"
         android:backgroundTint="#2DA2FF"
-        android:onClick="OnButtonApplyEditsClicked"
+        android:onClick="onButtonApplyEditsClicked"
         android:text="@string/button_apply_edits"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

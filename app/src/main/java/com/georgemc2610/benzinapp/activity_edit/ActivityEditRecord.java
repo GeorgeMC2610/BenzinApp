@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -9,9 +10,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.android.volley.Response;
+
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -23,6 +24,7 @@ public class ActivityEditRecord extends AppCompatActivity
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     private TextView textViewDate;
+    private CardView pickDate, pickToday, applyEdits;
     int mYear, mDay, mMonth;
 
     @Override
@@ -32,30 +34,27 @@ public class ActivityEditRecord extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_record);
 
-        // action bar with back button and correct title name.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_edit_record));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
-
         // get the fuel fill record passed to edit.
         record = (FuelFillRecord) getIntent().getSerializableExtra("record");
 
         // get edit texts.
-        editTextLiters     = findViewById(R.id.editTextLitersEdit);
-        editTextCost       = findViewById(R.id.editTextCostEdit);
-        editTextKilometers = findViewById(R.id.editTextKilometersEdit);
-        editTextPetrolType = findViewById(R.id.editTextPetrolTypeEdit);
-        textViewDate       = findViewById(R.id.textViewDatePickedEdit);
-        editTextStation    = findViewById(R.id.editTextStationEdit);
-        editTextNotes      = findViewById(R.id.editTextNotesEdit);
+        editTextLiters     = findViewById(R.id.liters);
+        editTextCost       = findViewById(R.id.cost);
+        editTextKilometers = findViewById(R.id.kilometers);
+        editTextPetrolType = findViewById(R.id.fuelType);
+        textViewDate       = findViewById(R.id.dateText);
+        editTextStation    = findViewById(R.id.fuelStation);
+        editTextNotes      = findViewById(R.id.notes);
+
+        // buttons.
+        pickDate = findViewById(R.id.dateButton);
+        pickToday = findViewById(R.id.todayButton);
+        applyEdits = findViewById(R.id.applyEditsButton);
+
+        // button listeners.
+        pickDate.setOnClickListener(this::onEditTextDateTimeClicked);
+        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
 
         // apply text to the edit texts.
         editTextLiters    .setText(String.valueOf(record.getLiters()));
@@ -65,6 +64,9 @@ public class ActivityEditRecord extends AppCompatActivity
         editTextPetrolType.setText(record.getFuelType());
         editTextStation   .setText(record.getStation());
         editTextNotes     .setText(record.getNotes());
+
+        // action bar.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_record));
     }
 
     @Override
@@ -80,7 +82,7 @@ public class ActivityEditRecord extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void OnButtonApplyEditsClicked(View v)
+    private void onButtonApplyEditsClicked(View v)
     {
         // get floats (that will be nulled if empty)
         Float newLiters     = getFloatFromEditText(editTextLiters);
@@ -108,15 +110,20 @@ public class ActivityEditRecord extends AppCompatActivity
 
         if (newPetrolType != null)
             record.setFuelType(newPetrolType);
+        else
+            record.setFuelType("");
 
         if (newStation != null)
             record.setStation(newStation);
+        else
+            record.setStation("");
 
-        if (newDate != null)
-            record.setDate(newDate);
+        record.setDate(newDate);
 
         if (newNotes != null)
             record.setNotes(newNotes);
+        else
+            record.setNotes("");
 
         // send the request.
         RequestHandler.getInstance().EditFuelFillRecord(this, record);
@@ -142,7 +149,13 @@ public class ActivityEditRecord extends AppCompatActivity
         return editText.getText().toString().trim().isEmpty() ? null : editText.getText().toString().trim();
     }
 
-    public void OnEditTextDateTimeClicked(View v)
+    private void onButtonPickTodayDateClicked(View v)
+    {
+        LocalDate date = LocalDate.now();
+        textViewDate.setText(date.toString());
+    }
+
+    private void onEditTextDateTimeClicked(View v)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();

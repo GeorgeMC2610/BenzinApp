@@ -36,9 +36,6 @@ public class BenzinappMessagingService extends FirebaseMessagingService
                 if (task.getException() != null)
                     Log.e("FIREBASE MESSAGING", "Exception: " + task.getException().getMessage());
 
-                if (task.getResult() != null)
-                    Log.e("FIREBASE MESSAGING", "Result: " + task.getResult());
-
                 return;
             }
 
