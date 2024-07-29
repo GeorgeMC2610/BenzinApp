@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_add;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,13 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class ActivityAddMalfunction extends AppCompatActivity
 {
     EditText titleView, descriptionView, atKmView;
+    CardView pickDate, pickToday, add;
     TextView dateView;
     private int mYear, mMonth, mDay;
 
@@ -32,23 +36,23 @@ public class ActivityAddMalfunction extends AppCompatActivity
         setContentView(R.layout.activity_add_malfunction);
 
         // retrieve edit texts and text view
-        titleView = findViewById(R.id.editTextMalfunctionTitle);
-        descriptionView = findViewById(R.id.editTextMalfunctionDesc);
-        atKmView = findViewById(R.id.editTextMalfunctionAtKm);
-        dateView = findViewById(R.id.textViewMalfunctionDatePicked);
+        titleView = findViewById(R.id.title);
+        descriptionView = findViewById(R.id.desc);
+        atKmView = findViewById(R.id.atKm);
+        dateView = findViewById(R.id.dateText);
+
+        // buttons
+        pickDate = findViewById(R.id.dateButton);
+        pickToday = findViewById(R.id.todayButton);
+        add = findViewById(R.id.addButton);
+
+        // button listeners
+        pickDate.setOnClickListener(this::onButtonPickDateClicked);
+        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        add.setOnClickListener(this::onButtonAddMalfunctionClicked);
 
         // action bar
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_add_malfunction));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_malfunction));
     }
 
     @Override
@@ -103,7 +107,7 @@ public class ActivityAddMalfunction extends AppCompatActivity
                 descriptionView.getText().toString().trim().length()  != 0);
     }
 
-    public void OnButtonPickDateClicked(View view)
+    private void onButtonPickDateClicked(View view)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
@@ -126,7 +130,13 @@ public class ActivityAddMalfunction extends AppCompatActivity
         datePickerDialog.show();
     }
 
-    public void OnButtonAddMalfunctionClicked(View view)
+    private void onButtonPickTodayDateClicked(View v)
+    {
+        LocalDate date = LocalDate.now();
+        dateView.setText(date.toString());
+    }
+
+    private void onButtonAddMalfunctionClicked(View view)
     {
         boolean validated = true;
 
