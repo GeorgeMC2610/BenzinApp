@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_display.ActivityDisplayFuelFillRecord">
+    tools:context=".activity_display.ActivityDisplayService">
 
     <ScrollView
         android:id="@+id/scrollView_display_service_data"
