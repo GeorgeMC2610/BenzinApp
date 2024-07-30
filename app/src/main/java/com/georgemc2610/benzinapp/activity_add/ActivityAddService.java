@@ -1,6 +1,9 @@
 package com.georgemc2610.benzinapp.activity_add;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -10,19 +13,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class ActivityAddService extends AppCompatActivity
@@ -30,8 +39,10 @@ public class ActivityAddService extends AppCompatActivity
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
     TextView location, date;
+    CardView addButton, pickLocation, pickDate, pickToday, deleteLocation;
     String coordinates, address;
     int mYear, mMonth, mDay;
+    boolean isKeyboardShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,26 +51,65 @@ public class ActivityAddService extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_service);
 
-        // get edit texts and text views.
-        atKm = findViewById(R.id.editTextServiceAtKilometers);
-        nextKm = findViewById(R.id.editTextServiceNextKm);
-        costEur = findViewById(R.id.editTextServiceCost);
-        notes = findViewById(R.id.editTextServiceDescription);
-        location = findViewById(R.id.textViewServiceLocationPicked);
-        date = findViewById(R.id.textViewServiceDatePicked);
+        // ContentView is the root view of the layout of this activity/fragment
+        LinearLayout contentView = findViewById(R.id.activity_add_service_layout);
 
-        // action bar
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_add_service));
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(
+                () ->
+                {
+                    Rect r = new Rect();
+                    contentView.getWindowVisibleDisplayFrame(r);
+                    int screenHeight = contentView.getRootView().getHeight();
+
+                    // r.bottom is the position above soft keypad or device button.
+                    // if keypad is shown, the r.bottom is smaller than that before.
+                    int keypadHeight = screenHeight - r.bottom;
+
+                    Log.d("KEYBOARD", "keypadHeight = " + keypadHeight);
+
+                    if (keypadHeight > screenHeight * 0.10) { // 0.15 ratio is perhaps enough to determine keypad height.
+                        // keyboard is opened
+                        if (!isKeyboardShowing) {
+                            isKeyboardShowing = true;
+                            onKeyboardVisibilityChanged(true);
+                        }
+                    }
+                    else {
+                        // keyboard is closed
+                        if (isKeyboardShowing) {
+                            isKeyboardShowing = false;
+                            onKeyboardVisibilityChanged(false);
+                        }
+                    }
+                });
+
+        // get edit texts and text views.
+        atKm = findViewById(R.id.atKm);
+        nextKm = findViewById(R.id.nextKm);
+        costEur = findViewById(R.id.cost);
+        notes = findViewById(R.id.desc);
+        location = findViewById(R.id.locationText);
+        date = findViewById(R.id.dateText);
+
+        // get the buttons
+        addButton = findViewById(R.id.addButton);
+        pickLocation = findViewById(R.id.locationButton);
+        pickDate = findViewById(R.id.dateButton);
+        pickToday = findViewById(R.id.todayButton);
+        deleteLocation = findViewById(R.id.removeLocationButton);
+
+        // assign listeners to the buttons
+        addButton.setOnClickListener(this::onButtonAddClicked);
+        pickLocation.setOnClickListener(this::onSelectLocationClicked);
+        pickDate.setOnClickListener(this::onPickDateClicked);
+        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_service));
+    }
+
+    private void onKeyboardVisibilityChanged(boolean opened)
+    {
+        addButton.setVisibility(opened ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -131,7 +181,13 @@ public class ActivityAddService extends AppCompatActivity
                 costEur.getText().toString().trim().length() != 0);
     }
 
-    public void OnButtonAddClicked(View v)
+    private void onButtonPickTodayDateClicked(View v)
+    {
+        LocalDate date = LocalDate.now();
+        this.date.setText(date.toString());
+    }
+
+    private void onButtonAddClicked(View v)
     {
         boolean validated = true;
 
@@ -171,7 +227,7 @@ public class ActivityAddService extends AppCompatActivity
         RequestHandler.getInstance().AddService(this, at_km, cost_eur, description, locationString, date_happened, next_km);
     }
 
-    public void OnPickDateClicked(View v)
+    private void onPickDateClicked(View v)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
@@ -194,7 +250,7 @@ public class ActivityAddService extends AppCompatActivity
         datePickerDialog.show();
     }
 
-    public void OnSelectLocationClicked(View view)
+    private void onSelectLocationClicked(View view)
     {
         Intent intent = new Intent(this, MapsSelectPointActivity.class);
 

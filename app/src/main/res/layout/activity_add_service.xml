@@ -9,6 +9,7 @@
     android:layout_marginEnd="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
+    android:id="@+id/activity_add_service_layout"
     tools:context=".activity_add.ActivityAddService">
 
     <ScrollView
@@ -52,7 +53,7 @@
                     android:id="@+id/cost"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:hint="@string/text_view_cost"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
@@ -66,8 +67,22 @@
                     android:id="@+id/atKm"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/malfunction_at_km_hint"
+                    android:layout_weight="5"
+                    android:hint="@string/service_at_km_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/nextKm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:hint="@string/service_next_km_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
