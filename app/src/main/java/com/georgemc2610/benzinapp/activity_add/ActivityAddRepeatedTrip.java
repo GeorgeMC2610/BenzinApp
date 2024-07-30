@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp.activity_add;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -45,6 +46,7 @@ import java.util.Map;
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
+    private CardView buttonAdd, buttonPick, buttonDelete;
     private CheckBox isRepeating;
     private TextView trip, totalKm, totalKmLegend;
     private Address originAddress, destinationAddress;
@@ -61,12 +63,21 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         setContentView(R.layout.activity_add_repeated_trip);
 
         // get the views
-        title = findViewById(R.id.repeated_trips_edit_text_title);
-        timesRepeating = findViewById(R.id.repeated_trips_edit_text_times_repeating);
-        isRepeating = findViewById(R.id.repeated_trips_checkbox_not_repeating);
-        trip = findViewById(R.id.repeated_trips_text_view_origin);
-        totalKm = findViewById(R.id.repeated_trips_text_view_kilometers);
-        totalKmLegend = findViewById(R.id.repeated_trips_text_view_kilometers_legend);
+        title = findViewById(R.id.title);
+        timesRepeating = findViewById(R.id.times);
+        isRepeating = findViewById(R.id.isRepeating);
+        trip = findViewById(R.id.tripText);
+        totalKm = findViewById(R.id.km);
+        totalKmLegend = findViewById(R.id.kmLegend);
+
+        // buttons
+        buttonAdd = findViewById(R.id.addButton);
+        buttonPick = findViewById(R.id.tripButton);
+        buttonDelete = findViewById(R.id.removeTripButton);
+
+        // button listeners
+        buttonAdd.setOnClickListener(this::onButtonAddClicked);
+        buttonPick.setOnClickListener(this::onButtonSelecTripClicked);
 
         // set check box listener
         isRepeating.setOnCheckedChangeListener(this);
@@ -162,7 +173,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         }
     }
 
-    public void onButtonSelectTripClicked(View v)
+    private void onButtonSelecTripClicked(View v)
     {
         // initialize intent for opening activity.
         Intent intent = new Intent(this, MapsCreateTripActivity.class);
@@ -182,7 +193,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
     }
 
 
-    public void onButtonAddClicked(View v)
+    private void onButtonAddClicked(View v)
     {
         // set all errors if any edit text has no data.
         if (!ViewTools.setErrors(this, title, timesRepeating) || !checkDataIntegrity())
