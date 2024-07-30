@@ -1,135 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_add.ActivityAddRepeatedTrip">
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    tools:context=".activity_add.ActivityAddRepeatedTrip"
+    android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="359dp"
-        android:layout_height="523dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- TITLE -->
+            <!-- REQUIRED INFO LABEL -->
             <TextView
-                android:id="@+id/repeated_trips_text_view_title_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                style="@style/textColorSpecial"
-                android:textStyle="bold"
-                android:text="@string/text_view_title" />
-
-            <EditText
-                android:id="@+id/repeated_trips_edit_text_title"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_repeated_trips_title_hint"
-                android:inputType="text" />
-
-            <!-- TIMES OCCURRING -->
-            <TextView
-                android:id="@+id/repeated_trips_text_view_times_repeating_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:text="@string/edit_text_repeated_trips_times_occurring" />
-
-            <EditText
-                android:id="@+id/repeated_trips_edit_text_times_repeating"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_repeated_trips_times_occurring_hint"
-                android:inputType="numberSigned" />
-
-            <!-- ONE TIME TRIP -->
-            <CheckBox
-                android:id="@+id/repeated_trips_checkbox_not_repeating"
-                style="@style/textColorSpecial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/check_box_repeated_trips_not_repeating" />
-
-            <!-- ORIGIN -->
-            <TextView
-                android:id="@+id/repeated_trips_text_view_origin_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:text="@string/text_view_repeated_trips_trip_legend" />
-
-            <TextView
-                android:id="@+id/repeated_trips_text_view_origin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_repeated_trips_trip"
-                android:textSize="24sp"
+                android:text="Required Info:"
+                android:layout_marginBottom="5dp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/repeated_trips_button_origin"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:text="@string/button_repeated_trips_make_trip"
-                android:textAllCaps="false"
-                style="@style/buttonMainBackground"
-                android:onClick="onButtonSelectTripClicked"
-                app:icon="@android:drawable/ic_dialog_map" />
-
-            <!-- TOTAL KM -->
-            <TextView
-                android:id="@+id/repeated_trips_text_view_kilometers_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_repeated_trips_km_legend"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/repeated_trips_text_view_kilometers"
+            <EditText
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="49 km"
-                android:textSize="24sp"
-                android:visibility="gone" />
+                android:hint="@string/edit_text_repeated_trips_title_hint"
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rounded_corner_field"
+                android:padding="11dp"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/times"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:hint="@string/text_view_cost"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="numberDecimal" />
+
+                <CheckBox
+                    android:id="@+id/isRepeating"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textColorSpecial"
+                    android:layout_weight="1"
+                    android:text="@string/check_box_repeated_trips_not_repeating" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="367dp"
-        android:layout_height="66dp"
-        android:onClick="onButtonAddClicked"
-        android:text="@string/button_add"
-        android:textAllCaps="false"
-        style="@style/buttonMainBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ADD BUTTON -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        app:cardBackgroundColor="#006600"
+        android:padding="12dp"
+        android:gravity=""
+        android:textSize="16sp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/addText"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="-100dp"
+                android:background="@android:drawable/ic_input_add"
+                android:backgroundTint="@color/white" />
+
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="ADD TRIP"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
