@@ -1,262 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     tools:context=".activity_add.ActivityAddRecord">
 
     <!-- MAIN FORM -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <!-- REQUIRED INFO LABEL -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Required Info:"
-            android:textStyle="bold" />
-
-        <!-- LINEAR LAYOUT FOR THREE FIELDS -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:gravity="center" >
-
-            <!-- LT -->
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Liters"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
-                android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
-                android:padding="11dp"
-                android:layout_marginEnd="2dp"
-                android:inputType="numberDecimal"
-                android:id="@+id/liters" />
-
-            <!-- COST -->
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Cost"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
-                android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
-                android:padding="11dp"
-                android:inputType="numberDecimal"
-                android:id="@+id/cost" />
-
-            <!-- MILEAGE -->
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Mileage in km"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
-                android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
-                android:padding="11dp"
-                android:layout_marginStart="2dp"
-                android:inputType="numberDecimal"
-                android:id="@+id/kilometers" />
-
-        </LinearLayout>
-
-        <!-- 'SELECT DATE' LABEL -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select date..."
-            android:layout_marginTop="25dp"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-black"
-            android:textAlignment="center"
-            android:id="@+id/dateText" />
-
-        <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
-
-            <!-- BUTTON PICK DATE -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/dateButton"
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="2dp"
-                app:cardCornerRadius="50dp"
-                app:cardBackgroundColor="#282828"
-                android:padding="12dp"
-                android:gravity="center"
-                android:textSize="16sp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="PICK DATE"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- BUTTON SELECT TODAY'S DATE -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/todayButton"
-                android:layout_width="fill_parent"
-                android:layout_weight="1"
-                android:layout_height="45dp"
-                android:layout_marginStart="2dp"
-                app:cardCornerRadius="50dp"
-                app:cardBackgroundColor="#464646"
-                android:padding="12dp"
-                android:gravity="center"
-                android:textSize="16sp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="SELCET TODAY'S DATE"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <!-- REQUIRED INFO LABEL -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Optional Info:"
-            android:textStyle="bold"
-            android:layout_marginTop="30dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:gravity="center" >
-
-            <!-- LT -->
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Fuel Type (e.g. '95 oct.')"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
-                android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
-                android:padding="11dp"
-                android:layout_marginEnd="1dp"
-                android:inputType="text"
-                android:id="@+id/fuelType" />
-
-            <!-- COST -->
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Station (e.g. 'bp')"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
-                android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
-                android:padding="11dp"
-                android:inputType="text"
-                android:layout_marginStart="1dp"
-                android:id="@+id/fuelStation" />
-
-        </LinearLayout>
-
-        <!-- NOTES -->
-        <EditText
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:maxLength="2000"
-            android:hint="Notes"
-            android:textColor="@color/black"
-            android:textColorHint="#484848"
-            android:textSize="15sp"
-            android:background="@drawable/rounded_corner_field"
-            android:layout_marginTop="5dp"
-            android:padding="11dp"
-            android:inputType="textMultiLine"
-            android:id="@+id/notes" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <!-- ADD BUTTON -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/addButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:cardCornerRadius="50dp"
-            app:cardBackgroundColor="#006600"
-            android:padding="12dp"
-            android:layout_marginTop="250dp"
-            android:gravity="center"
-            android:textSize="16sp">
-
-            <RelativeLayout
+            <!-- REQUIRED INFO LABEL -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:text="Required Info:"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+            <!-- LINEAR LAYOUT FOR THREE FIELDS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center" >
+
+                <!-- LT -->
+                <EditText
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/addText"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="-50dp"
-                    android:background="@android:drawable/ic_input_add"
-                    android:backgroundTint="@color/white" />
+                    android:layout_weight="1"
+                    android:hint="Liters"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:layout_marginEnd="2dp"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/liters" />
 
-                <TextView
-                    android:id="@+id/addText"
-                    android:layout_width="wrap_content"
+                <!-- COST -->
+                <EditText
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="ADD FUEL FILL RECORD"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:hint="Cost"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/cost" />
 
-            </RelativeLayout>
+                <!-- MILEAGE -->
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Mileage in km"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:layout_marginStart="2dp"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/kilometers" />
 
-        </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-    </LinearLayout>
+            <!-- 'SELECT DATE' LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select date..."
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:id="@+id/dateText" />
 
-</RelativeLayout>
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dateButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#282828"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK DATE"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/todayButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#464646"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="SELCET TODAY'S DATE"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- REQUIRED INFO LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Optional Info:"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center" >
+
+                <!-- LT -->
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Fuel Type (e.g. '95 oct.')"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:layout_marginEnd="1dp"
+                    android:inputType="text"
+                    android:id="@+id/fuelType" />
+
+                <!-- COST -->
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Station (e.g. 'bp')"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="text"
+                    android:layout_marginStart="1dp"
+                    android:id="@+id/fuelStation" />
+
+            </LinearLayout>
+
+            <!-- NOTES -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:maxLength="2000"
+                android:hint="Notes"
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_corner_field"
+                android:layout_marginTop="5dp"
+                android:padding="11dp"
+                android:inputType="textMultiLine"
+                android:id="@+id/notes" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- ADD BUTTON -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        app:cardBackgroundColor="#006600"
+        android:padding="12dp"
+        android:gravity="center"
+        android:textSize="16sp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/addText"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="-50dp"
+                android:background="@android:drawable/ic_input_add"
+                android:backgroundTint="@color/white" />
+
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="ADD FUEL FILL RECORD"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
