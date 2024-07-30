@@ -40,6 +40,7 @@ public class ActivityEditService extends AppCompatActivity
         setContentView(R.layout.activity_edit_service);
 
         // action bar with back button and correct title name.
+        // TODO: USE THE ACTIVITY TOOL HERE.
         try
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,6 +54,7 @@ public class ActivityEditService extends AppCompatActivity
         }
 
         // get views
+        // TODO: CHANGE IDs
         atKmView = findViewById(R.id.editTextEditServiceAtKilometers);
         descView = findViewById(R.id.editTextEditServiceDescription);
         nextKmView = findViewById(R.id.editTextEditServiceNextKm);

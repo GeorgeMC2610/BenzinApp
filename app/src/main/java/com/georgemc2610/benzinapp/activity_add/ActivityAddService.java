@@ -54,6 +54,7 @@ public class ActivityAddService extends AppCompatActivity
         // ContentView is the root view of the layout of this activity/fragment
         LinearLayout contentView = findViewById(R.id.activity_add_service_layout);
 
+        // TODO: Move this code elsewhere. Or even better make it more generic.
         contentView.getViewTreeObserver().addOnGlobalLayoutListener(
                 () ->
                 {
@@ -103,6 +104,7 @@ public class ActivityAddService extends AppCompatActivity
         pickLocation.setOnClickListener(this::onSelectLocationClicked);
         pickDate.setOnClickListener(this::onPickDateClicked);
         pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        deleteLocation.setOnClickListener(this::onRemoveLocationButtonClicked);
 
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_service));
     }
@@ -268,6 +270,36 @@ public class ActivityAddService extends AppCompatActivity
         {
             startActivity(intent);
         }
+    }
+
+    private void onRemoveLocationButtonClicked(View v)
+    {
+        // alert dialog for location delete confirmation.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.dialog_location_deletion_confirmation);
+        builder.setCancelable(true);
+        builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
+        {
+            // set the location view to be default.
+            location.setText(R.string.text_view_select_location);
+
+            // edit shared preferences to remove the picked_address and picked_location values.
+            SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
+
+            // put null in each of these values.
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("picked_location", null);
+            editor.putString("picked_address", null);
+            editor.apply();
+
+            // also nullify the values retrieved originally
+            address = null;
+            coordinates = null;
+        });
+
+        builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
+        builder.show();
     }
 
     @Override
