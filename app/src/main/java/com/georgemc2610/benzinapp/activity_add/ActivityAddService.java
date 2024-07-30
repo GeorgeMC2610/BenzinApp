@@ -56,33 +56,33 @@ public class ActivityAddService extends AppCompatActivity
 
         // TODO: Move this code elsewhere. Or even better make it more generic.
         contentView.getViewTreeObserver().addOnGlobalLayoutListener(
-                () ->
-                {
-                    Rect r = new Rect();
-                    contentView.getWindowVisibleDisplayFrame(r);
-                    int screenHeight = contentView.getRootView().getHeight();
+        () ->
+        {
+            Rect r = new Rect();
+            contentView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = contentView.getRootView().getHeight();
 
-                    // r.bottom is the position above soft keypad or device button.
-                    // if keypad is shown, the r.bottom is smaller than that before.
-                    int keypadHeight = screenHeight - r.bottom;
+            // r.bottom is the position above soft keypad or device button.
+            // if keypad is shown, the r.bottom is smaller than that before.
+            int keypadHeight = screenHeight - r.bottom;
 
-                    Log.d("KEYBOARD", "keypadHeight = " + keypadHeight);
+            Log.d("KEYBOARD", "keypadHeight = " + keypadHeight);
 
-                    if (keypadHeight > screenHeight * 0.10) { // 0.15 ratio is perhaps enough to determine keypad height.
-                        // keyboard is opened
-                        if (!isKeyboardShowing) {
-                            isKeyboardShowing = true;
-                            onKeyboardVisibilityChanged(true);
-                        }
-                    }
-                    else {
-                        // keyboard is closed
-                        if (isKeyboardShowing) {
-                            isKeyboardShowing = false;
-                            onKeyboardVisibilityChanged(false);
-                        }
-                    }
-                });
+            if (keypadHeight > screenHeight * 0.10) { // 0.15 ratio is perhaps enough to determine keypad height.
+                // keyboard is opened
+                if (!isKeyboardShowing) {
+                    isKeyboardShowing = true;
+                    onKeyboardVisibilityChanged(true);
+                }
+            }
+            else {
+                // keyboard is closed
+                if (isKeyboardShowing) {
+                    isKeyboardShowing = false;
+                    onKeyboardVisibilityChanged(false);
+                }
+            }
+        });
 
         // get edit texts and text views.
         atKm = findViewById(R.id.atKm);
