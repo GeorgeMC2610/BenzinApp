@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -53,6 +55,10 @@ public class ActivityAddRecord extends AppCompatActivity
         buttonPickDate.setOnClickListener(this::onButtonPickDateClicked);
         buttonPickTodayDate.setOnClickListener(this::onButtonPickTodayDateClicked);
         buttonAdd.setOnClickListener(this::onButtonAddClicked);
+
+        // add listener for the keyboard showing.
+        LinearLayout contentView = findViewById(R.id.addRecordLinearLayout);
+        new KeyboardButtonAppearingTool(contentView, buttonAdd);
 
         // action bar.
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_record));

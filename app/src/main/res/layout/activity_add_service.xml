@@ -268,10 +268,11 @@
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
         app:cardCornerRadius="50dp"
         app:cardBackgroundColor="#006600"
         android:padding="12dp"
-        android:gravity=""
+        android:gravity="center"
         android:textSize="16sp">
 
         <RelativeLayout

@@ -73,17 +73,12 @@ public class ActivityAddService extends AppCompatActivity
         pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
         deleteLocation.setOnClickListener(this::onRemoveLocationButtonClicked);
 
-        // ContentView is the root view of the layout of this activity/fragment
+        // add listener for the keyboard showing.
         LinearLayout contentView = findViewById(R.id.addServiceLinearLayout);
         new KeyboardButtonAppearingTool(contentView, addButton);
 
         // action bar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_service));
-    }
-
-    private void onKeyboardVisibilityChanged(boolean opened)
-    {
-        addButton.setVisibility(opened ? View.GONE : View.VISIBLE);
     }
 
     @Override
