@@ -36,8 +36,6 @@ public class KeyboardButtonAppearingTool implements ViewTreeObserver.OnGlobalLay
         // if keypad is shown, the r.bottom is smaller than that before.
         int keypadHeight = screenHeight - r.bottom;
 
-        Log.d("KEYBOARD", "keypadHeight = " + keypadHeight);
-
         // 0.15 ratio is perhaps enough to determine keypad height.
         if (keypadHeight > screenHeight * 0.10)
         {
@@ -66,5 +64,4 @@ public class KeyboardButtonAppearingTool implements ViewTreeObserver.OnGlobalLay
         for (View v : this.views)
             v.setVisibility(this.isShown ? View.GONE : View.VISIBLE);
     }
-
 }
