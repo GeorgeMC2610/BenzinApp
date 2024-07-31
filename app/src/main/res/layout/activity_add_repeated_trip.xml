@@ -152,12 +152,13 @@
 
             </LinearLayout>
 
-            <!-- REQUIRED INFO LABEL -->
+            <!-- TOTAL KM -->
             <TextView
                 android:id="@+id/kmLegend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Required Info:"
+                android:text="Trip's total kilometers:"
+                android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold" />
 
@@ -165,6 +166,7 @@
                 android:id="@+id/km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:textSize="24dp"
                 android:text="Total km"
                 android:layout_marginTop="5dp"
