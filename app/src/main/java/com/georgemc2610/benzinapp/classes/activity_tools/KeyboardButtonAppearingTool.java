@@ -21,8 +21,8 @@ public class KeyboardButtonAppearingTool implements ViewTreeObserver.OnGlobalLay
     public KeyboardButtonAppearingTool(LinearLayout linearLayout, View... views)
     {
         this.layout = linearLayout;
-        this.layout.getViewTreeObserver().addOnGlobalLayoutListener(this);
         this.views = views;
+        this.layout.getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
     @Override
