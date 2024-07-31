@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.text.DecimalFormat;
@@ -57,6 +59,27 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         // action bar with back button and correct title name.
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
 
+        // assign view values based on the record's data.
+        assignViewValues();
+
+        // assign listeners to the buttons
+        delete.setOnClickListener(this::onButtonDeleteClicked);
+        edit.setOnClickListener(this::onButtonEditClicked);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        record = DataHolder.getInstance().records.stream()
+                        .filter(r -> r.getId() == record.getId())
+                        .findFirst().get();
+
+        assignViewValues();
+    }
+
+    private void assignViewValues()
+    {
         // formats for decimal numbers.
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -111,10 +134,6 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
             this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
         }
         // TODO: Add case for excess notes text.
-
-        // assign listeners to the buttons
-        delete.setOnClickListener(this::onButtonDeleteClicked);
-        edit.setOnClickListener(this::onButtonEditClicked);
     }
 
     @Override
@@ -129,7 +148,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void onButtonDeleteClicked(View view)
+    private void onButtonDeleteClicked(View view)
     {
         // build a confirmation dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -157,7 +176,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         dialog.create().show();
     }
 
-    public void onButtonEditClicked(View v)
+    private void onButtonEditClicked(View v)
     {
         Intent intent = new Intent(this, ActivityEditRecord.class);
         intent.putExtra("record", record);
