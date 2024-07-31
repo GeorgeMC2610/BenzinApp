@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
@@ -28,6 +30,7 @@ public class ActivityEditService extends AppCompatActivity
 {
     Service service;
     EditText atKmView, descView, nextKmView, costView;
+    CardView applyEdits, pickDate, pickToday, pickLocation, deleteLocation;
     String coordinates, address;
     TextView datePickedView, locationView;
     int mMonth, mYear, mDay;
@@ -40,27 +43,29 @@ public class ActivityEditService extends AppCompatActivity
         setContentView(R.layout.activity_edit_service);
 
         // action bar with back button and correct title name.
-        // TODO: USE THE ACTIVITY TOOL HERE.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(R.string.title_edit_service);
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_service));
 
         // get views
-        // TODO: CHANGE IDs
-        atKmView = findViewById(R.id.editTextEditServiceAtKilometers);
-        descView = findViewById(R.id.editTextEditServiceDescription);
-        nextKmView = findViewById(R.id.editTextEditServiceNextKm);
-        costView = findViewById(R.id.editTextEditServiceCost);
-        datePickedView = findViewById(R.id.textViewEditServiceDatePicked);
-        locationView = findViewById(R.id.textViewEditServiceLocationPicked);
+        atKmView = findViewById(R.id.atKm);
+        descView = findViewById(R.id.desc);
+        nextKmView = findViewById(R.id.nextKm);
+        costView = findViewById(R.id.cost);
+        datePickedView = findViewById(R.id.dateText);
+        locationView = findViewById(R.id.locationText);
+
+        // get the buttons
+        applyEdits = findViewById(R.id.applyEditsButton);
+        pickDate = findViewById(R.id.dateButton);
+        pickToday = findViewById(R.id.todayButton);
+        pickLocation = findViewById(R.id.locationButton);
+        deleteLocation = findViewById(R.id.removeLocationButton);
+
+        // button listeners
+        applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
+        pickDate.setOnClickListener(this::onPickDateButtonClicked);
+        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        pickLocation.setOnClickListener(this::onSelectLocationClicked);
+        deleteLocation.setOnClickListener(this::onDeleteLocationClicked);
 
         // get the fuel fill record passed to edit.
         service = (Service) getIntent().getSerializableExtra("service");
@@ -74,29 +79,6 @@ public class ActivityEditService extends AppCompatActivity
         costView.setText(service.getCost() == -1f? "" : String.valueOf(service.getCost()));
         datePickedView.setText(service.getDateHappened().toString());
         locationView.setText(service.getLocation() == null? getString(R.string.text_view_select_location) : service.getLocation());
-    }
-
-    public void PickDate(View view)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                datePickedView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
     }
 
     @Override
@@ -128,7 +110,13 @@ public class ActivityEditService extends AppCompatActivity
             locationView.setText(address);
     }
 
-    public void OnButtonApplyEditsClicked(View v)
+    private void onButtonPickTodayDateClicked(View v)
+    {
+        LocalDate date = LocalDate.now();
+        this.datePickedView.setText(date.toString());
+    }
+
+    private void onButtonApplyEditsClicked(View v)
     {
         // set the object's data.
         if (!atKmView.getText().toString().trim().isEmpty())
@@ -151,7 +139,7 @@ public class ActivityEditService extends AppCompatActivity
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 
         if (address == null || coordinates == null)
-            service.setLocation(null);
+            service.setLocation("");
         else
             service.setLocation(address + '|' + coordinates);
 
@@ -159,7 +147,30 @@ public class ActivityEditService extends AppCompatActivity
         RequestHandler.getInstance().EditService(this, service);
     }
 
-    public void OnSelectLocationClicked(View v)
+    private void onPickDateButtonClicked(View view)
+    {
+        // get calendar and dates to keep track of
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // date picker dialog shows up
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                // and when it updates, it sets the value of the edit text.
+                datePickedView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
+            }
+        }, mYear, mMonth, mDay);
+
+        // show the dialog.
+        datePickerDialog.show();
+    }
+
+    private void onSelectLocationClicked(View v)
     {
         // whenever the select location button is clicked, we must check two cases:
         // the permission is granted.
@@ -198,7 +209,7 @@ public class ActivityEditService extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void OnDeleteLocationClicked(View v)
+    private void onDeleteLocationClicked(View v)
     {
         // alert dialog for location delete confirmation.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

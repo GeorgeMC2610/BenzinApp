@@ -1,175 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/editServiceLinearLayout"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".activity_edit.ActivityEditService">
 
     <ScrollView
-        android:layout_width="359dp"
-        android:layout_height="523dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/linearLayoutEditService"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- AT KM -->
+            <!-- KEYBOARD INPUT DATA -->
             <TextView
-                android:id="@+id/textViewEditServiceAtKilometers"
                 android:layout_width="match_parent"
-                android:layout_height="19dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Required Info:"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:maxLength="4096"
+                android:hint="Description..."
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_corner_field"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:padding="11dp"
+                android:inputType="textMultiLine"
+                android:id="@+id/desc" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/cost"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:hint="@string/text_view_cost"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/atKm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:hint="@string/service_at_km_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/nextKm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:hint="@string/service_next_km_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <!-- 'SELECT DATE' LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select date..."
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_service_at_km" />
+                android:textAlignment="center"
+                android:id="@+id/dateText" />
 
-            <EditText
-                android:id="@+id/editTextEditServiceAtKilometers"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/service_at_km_hint"
-                android:inputType="numberDecimal" />
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
 
-            <!-- DESCRIPTION -->
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dateButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#282828"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK DATE"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/todayButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#464646"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="SELCET TODAY'S DATE"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- 'SELECT DATE' LABEL -->
             <TextView
-                android:id="@+id/textViewEditServiceDescription"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:text="@string/text_view_description" />
-
-            <EditText
-                android:id="@+id/editTextEditServiceDescription"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/description_hint"
-                android:inputType="text" />
-
-            <!-- DATE HAPPENED -->
-            <TextView
-                android:id="@+id/textViewEditServiceDate"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:text="@string/text_view_datetime" />
-
-            <TextView
-                android:id="@+id/textViewEditServiceDatePicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/text_view_select_date"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:text="Select location..."
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:id="@+id/locationText" />
 
-            <Button
-                android:id="@+id/buttonEditServiceSelectDate"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                style="@style/buttonEditBackground"
-                android:textAllCaps="false"
-                android:text="@string/edit_text_datetime_hint"
-                android:onClick="PickDate"
-                app:icon="@android:drawable/ic_menu_day" />
-
-            <!-- NEXT KM SERVICE -->
-            <TextView
-                android:id="@+id/textViewEditServiceNextKm"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_service_next_at" />
-
-            <EditText
-                android:id="@+id/editTextEditServiceNextKm"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/service_next_km_hint"
-                android:inputType="numberDecimal" />
-
-            <!-- COST -->
-            <TextView
-                android:id="@+id/textViewEditServiceCost"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_cost" />
-
-            <EditText
-                android:id="@+id/editTextEditServiceCost"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_cost_hint"
-                android:inputType="numberDecimal" />
-
-            <!-- LOCATION -->
-            <TextView
-                android:id="@+id/textViewEditServiceLocation"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_location" />
-
-            <TextView
-                android:id="@+id/textViewEditServiceLocationPicked"
-                android:layout_width="match_parent"
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="@string/text_view_select_location"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/buttonEditServiceSelectLocation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                style="@style/buttonEditBackground"
-                android:textAllCaps="false"
-                android:ems="10"
-                android:text="@string/button_select_location"
-                android:onClick="OnSelectLocationClicked"
-                app:icon="@android:drawable/ic_dialog_map" />
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/locationButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#282828"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
 
-            <Button
-                android:id="@+id/buttonEditServiceDeleteLocation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                style="@style/buttonDeleteBackground"
-                android:textAllCaps="false"
-                android:ems="10"
-                android:text="@string/button_delete_location"
-                android:onClick="OnDeleteLocationClicked"
-                app:icon="@android:drawable/ic_delete" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK LOCATION"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/removeLocationButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#A30000"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="REMOVE LOCATION"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/buttonEditServiceApplyEdits"
-        android:layout_width="367dp"
-        android:layout_height="66dp"
-        android:backgroundTint="#2DA2FF"
-        android:onClick="onButtonApplyEditsClicked"
-        android:text="@string/button_apply_edits"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- APPLY BUTTON -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/applyEditsButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        app:cardBackgroundColor="@color/edit_record_light"
+        android:padding="12dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textSize="16sp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/addText"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="-50dp"
+                android:background="@android:drawable/ic_input_add"
+                android:backgroundTint="@color/white" />
+
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="APPLY EDITS"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

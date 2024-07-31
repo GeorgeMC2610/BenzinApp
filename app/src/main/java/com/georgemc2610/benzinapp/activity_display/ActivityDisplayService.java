@@ -20,6 +20,7 @@ import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
 import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
@@ -52,6 +53,25 @@ public class ActivityDisplayService extends AppCompatActivity
         // get the service
         service = (Service) getIntent().getSerializableExtra("service");
 
+        // assign the values to the views.
+        assignValues();
+
+        // action bar with back button and correct title name.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_service));
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        service = DataHolder.getInstance().services.stream()
+                .filter(s -> s.getId() == service.getId())
+                .findFirst().get();
+        assignValues();
+    }
+
+    private void assignValues()
+    {
         // number format
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
@@ -111,10 +131,6 @@ public class ActivityDisplayService extends AppCompatActivity
         // otherwise if the location doesn't exist, then just show a dash.
         else
             locationView.setText("-");
-
-
-        // action bar with back button and correct title name.
-        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_service));
     }
 
     @Override
