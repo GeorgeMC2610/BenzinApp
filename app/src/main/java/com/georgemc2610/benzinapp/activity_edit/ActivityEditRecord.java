@@ -9,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -64,6 +66,10 @@ public class ActivityEditRecord extends AppCompatActivity
         editTextPetrolType.setText(record.getFuelType());
         editTextStation   .setText(record.getStation());
         editTextNotes     .setText(record.getNotes());
+
+        // add listener for the keyboard showing.
+        LinearLayout contentView = findViewById(R.id.editRecordLinearLayout);
+        new KeyboardButtonAppearingTool(contentView, applyEdits);
 
         // action bar.
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_record));
