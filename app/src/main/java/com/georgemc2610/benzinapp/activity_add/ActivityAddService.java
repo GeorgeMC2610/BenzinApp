@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -42,7 +43,6 @@ public class ActivityAddService extends AppCompatActivity
     CardView addButton, pickLocation, pickDate, pickToday, deleteLocation;
     String coordinates, address;
     int mYear, mMonth, mDay;
-    boolean isKeyboardShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,39 +50,6 @@ public class ActivityAddService extends AppCompatActivity
         // initialize activity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_service);
-
-        // ContentView is the root view of the layout of this activity/fragment
-        LinearLayout contentView = findViewById(R.id.activity_add_service_layout);
-
-        // TODO: Move this code elsewhere. Or even better make it more generic.
-        contentView.getViewTreeObserver().addOnGlobalLayoutListener(
-        () ->
-        {
-            Rect r = new Rect();
-            contentView.getWindowVisibleDisplayFrame(r);
-            int screenHeight = contentView.getRootView().getHeight();
-
-            // r.bottom is the position above soft keypad or device button.
-            // if keypad is shown, the r.bottom is smaller than that before.
-            int keypadHeight = screenHeight - r.bottom;
-
-            Log.d("KEYBOARD", "keypadHeight = " + keypadHeight);
-
-            if (keypadHeight > screenHeight * 0.10) { // 0.15 ratio is perhaps enough to determine keypad height.
-                // keyboard is opened
-                if (!isKeyboardShowing) {
-                    isKeyboardShowing = true;
-                    onKeyboardVisibilityChanged(true);
-                }
-            }
-            else {
-                // keyboard is closed
-                if (isKeyboardShowing) {
-                    isKeyboardShowing = false;
-                    onKeyboardVisibilityChanged(false);
-                }
-            }
-        });
 
         // get edit texts and text views.
         atKm = findViewById(R.id.atKm);
@@ -106,6 +73,11 @@ public class ActivityAddService extends AppCompatActivity
         pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
         deleteLocation.setOnClickListener(this::onRemoveLocationButtonClicked);
 
+        // ContentView is the root view of the layout of this activity/fragment
+        LinearLayout contentView = findViewById(R.id.addServiceLinearLayout);
+        new KeyboardButtonAppearingTool(contentView, addButton);
+
+        // action bar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_service));
     }
 
