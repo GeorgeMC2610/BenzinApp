@@ -8,6 +8,7 @@
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
+    android:id="@+id/addTripLinearLayout"
     tools:context=".activity_add.ActivityAddRepeatedTrip"
     android:orientation="vertical">
 
@@ -187,7 +188,8 @@
         app:cardCornerRadius="50dp"
         app:cardBackgroundColor="#006600"
         android:padding="12dp"
-        android:gravity=""
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:textSize="16sp">
 
         <RelativeLayout

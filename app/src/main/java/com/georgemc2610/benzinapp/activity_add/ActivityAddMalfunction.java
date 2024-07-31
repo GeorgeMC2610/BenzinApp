@@ -11,11 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -50,6 +52,10 @@ public class ActivityAddMalfunction extends AppCompatActivity
         pickDate.setOnClickListener(this::onButtonPickDateClicked);
         pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
         add.setOnClickListener(this::onButtonAddMalfunctionClicked);
+
+        // add listener for the keyboard showing.
+        LinearLayout contentView = findViewById(R.id.addMalfunctionLinearLayout);
+        new KeyboardButtonAppearingTool(contentView, add);
 
         // action bar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_add_malfunction));

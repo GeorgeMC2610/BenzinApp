@@ -9,6 +9,7 @@
     android:layout_marginEnd="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
+    android:id="@+id/addMalfunctionLinearLayout"
     tools:context=".activity_add.ActivityAddMalfunction">
 
     <ScrollView
@@ -172,9 +173,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:cardCornerRadius="50dp"
+        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="#006600"
         android:padding="12dp"
-        android:gravity=""
+        android:gravity="center"
         android:textSize="16sp">
 
         <RelativeLayout
