@@ -295,6 +295,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             builder.setMessage(getString(R.string.dialog_location_required));
             builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityEditMalfunction.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
             builder.show();
+            return;
         }
 
         // the user actually wants to replace this location if it's already picked.
