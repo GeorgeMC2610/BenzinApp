@@ -10,9 +10,10 @@
 
     <!-- BUTTON DELETE -->
     <ScrollView
-        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:id="@+id/linearLayoutDisplayData"
@@ -21,12 +22,12 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                style="@style/cardMainBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                style="@style/cardMainBackground"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
@@ -38,43 +39,43 @@
                     <!-- DATE -->
                     <TextView
                         android:id="@+id/textView_DateLegend"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginStart="10dp"
-                        style="@style/textColorSpecial"
+                        android:layout_marginTop="5dp"
                         android:text="@string/text_view_datetime"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textView_Date"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/loading"
-                        style="@style/textColorSpecial"
-                        android:textSize="24sp"
                         android:layout_marginStart="10dp"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <!-- FUEL TYPE -->
                     <TextView
                         android:id="@+id/textView_TitlePetrolType"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:layout_marginStart="10dp"
-                        style="@style/textColorSpecial"
+                        android:layout_marginTop="20dp"
                         android:text="@string/text_view_petrol_type"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textView_PetrolType"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/loading"
-                        style="@style/textColorSpecial"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="10dp"
+                        android:text="@string/loading"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
@@ -85,19 +86,19 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <!-- INPUT DATA -->
                 <androidx.cardview.widget.CardView
+                    style="@style/cardMainBackground"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="5dp"
-                    style="@style/cardMainBackground"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="2"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp">
 
@@ -112,55 +113,55 @@
                         <!-- LT -->
                         <TextView
                             android:id="@+id/textView_TitleLiters"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            style="@style/textColorSpecial"
                             android:layout_marginTop="10dp"
                             android:text="@string/text_view_liters"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_Liters"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp" />
 
                         <!-- KM -->
                         <TextView
                             android:id="@+id/textView_TitleKilometers"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            style="@style/textColorSpecial"
                             android:text="@string/text_view_kilometers"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_Kilometers"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp" />
 
                         <!-- COST -->
                         <TextView
                             android:id="@+id/textView_TitleCost"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            style="@style/textColorSpecial"
                             android:text="@string/text_view_cost"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_Cost"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -169,14 +170,14 @@
 
                 <!-- CALCULATED DATA -->
                 <androidx.cardview.widget.CardView
+                    style="@style/cardMainBackground"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="10dp"
-                    style="@style/cardMainBackground"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp">
 
@@ -191,57 +192,57 @@
                         <!-- LT PER 100 KM -->
                         <TextView
                             android:id="@+id/textView_TitleLitersPer100Kilometers"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            style="@style/textColorSpecial"
                             android:text="@string/text_view_liters_per_100_km"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_LitersPer100Kilometers"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <!-- KM PER LT -->
                         <TextView
                             android:id="@+id/textView_TitleKilometersPerLiter"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            style="@style/textColorSpecial"
                             android:text="@string/text_view_km_per_liter"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_KilometersPerLiter"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <!-- COST PER KM -->
                         <TextView
                             android:id="@+id/textView_TitleCostPerKilometer"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            style="@style/textColorSpecial"
                             android:text="@string/text_view_cost_per_km"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textView_CostPerKilometer"
+                            style="@style/textColorSpecial"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/loading"
-                            style="@style/textColorSpecial"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -250,12 +251,12 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                style="@style/cardMainBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginBottom="35dp"
                 android:layout_marginEnd="10dp"
-                style="@style/cardMainBackground"
+                android:layout_marginBottom="35dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
@@ -264,126 +265,126 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <!-- NOTES -->
+                    <!-- NOTES -->
                     <TextView
                         android:id="@+id/textView_TitleNotes"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
-                        style="@style/textColorSpecial"
                         android:fontFamily="sans-serif-black"
-                        android:textSize="24sp"
-                        android:text="@string/text_view_notes" />
+                        android:text="@string/text_view_notes"
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/textView_Notes"
+                        style="@style/textColorSpecial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/loading"
                         android:fontFamily="sans-serif"
-                        style="@style/textColorSpecial"
+                        android:text="@string/loading"
                         android:textSize="14sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <!-- BUTTONS -->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/buttonDelete"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#990000"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/deleteText"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="-40dp"
-                            android:background="@android:drawable/ic_menu_delete"
-                            android:backgroundTint="@color/white" />
-
-                        <TextView
-                            android:id="@+id/deleteText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="DELETE"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/buttonEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#2266BB"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/editText"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="-50dp"
-                            android:background="@android:drawable/ic_menu_edit"
-                            android:backgroundTint="@color/white" />
-
-                        <TextView
-                            android:id="@+id/editText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="EDIT"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
+
+    <!-- BUTTONS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/buttonDelete"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="#990000"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="16sp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/deleteText"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="-40dp"
+                    android:background="@android:drawable/ic_menu_delete"
+                    android:backgroundTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/deleteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="DELETE"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/buttonEdit"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:layout_marginStart="3dp"
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="#2266BB"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="16sp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/editText"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="-50dp"
+                    android:background="@android:drawable/ic_menu_edit"
+                    android:backgroundTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="EDIT"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
 </LinearLayout>
