@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
@@ -138,10 +139,13 @@ public class ActivityEditService extends AppCompatActivity
         else
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 
-        if (address == null || coordinates == null)
+        // TODO: Will need change
+        if (ViewTools.getFilteredViewSequence(locationView).equalsIgnoreCase("select location..."))
             service.setLocation("");
-        else
+        else if (address != null && coordinates != null)
             service.setLocation(address + '|' + coordinates);
+
+
 
         // send request with applied edits.
         RequestHandler.getInstance().EditService(this, service);
