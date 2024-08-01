@@ -39,8 +39,10 @@ import java.util.Locale;
 
 public class ActivityDisplayRepeatedTrip extends AppCompatActivity
 {
-    private TextView trip;
+    private TextView title, timesRepeating, trip, km, costAvg, costAvgPerTime, costWorst, costWorstPerTime,
+            costBest, costBestPerTime, ltAvg, ltAvgPerTime, ltWorst, ltWorstPerTime, ltBest, ltBestPerTime;
     private Address origin, destination;
+
     private RepeatedTrip repeatedTrip;
 
     @Override
@@ -51,25 +53,25 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         setContentView(R.layout.activity_display_repeated_trip);
 
         // get views
-        TextView title = findViewById(R.id.display_repeated_trip_text_view_title);
-        TextView timesRepeating = findViewById(R.id.display_repeated_trip_text_view_times_repeating);
+        title = findViewById(R.id.display_repeated_trip_text_view_title);
+        timesRepeating = findViewById(R.id.display_repeated_trip_text_view_times_repeating);
         trip = findViewById(R.id.display_repeated_trip_text_view_from_origin_to_destination);
         CardView showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
         CardView deleteButton = findViewById(R.id.buttonDelete);
         CardView editButton = findViewById(R.id.buttonEdit);
-        TextView km = findViewById(R.id.display_repeated_trip_text_view_total_km);
-        TextView costAvg = findViewById(R.id.display_repeated_trip_text_view_average_cost);
-        TextView costAvgPerTime = findViewById(R.id.averageCostPerTime);
-        TextView costWorst = findViewById(R.id.display_repeated_trip_text_view_worst_cost);
-        TextView costWorstPerTime = findViewById(R.id.worstCostPerTime);
-        TextView costBest = findViewById(R.id.display_repeated_trip_text_view_best_cost);
-        TextView costBestPerTime = findViewById(R.id.bestCostPerTime);
-        TextView ltAvg = findViewById(R.id.display_repeated_trip_text_view_average_consumption);
-        TextView ltAvgPerTime = findViewById(R.id.averageConsumptionPerTime);
-        TextView ltWorst = findViewById(R.id.display_repeated_trip_text_view_worst_consumption);
-        TextView ltWorstPerTime = findViewById(R.id.worstConsumptionPerTime);
-        TextView ltBest = findViewById(R.id.display_repeated_trip_text_view_best_consumption);
-        TextView ltBestPerTime = findViewById(R.id.bestConsumptionPerTime);
+        km = findViewById(R.id.display_repeated_trip_text_view_total_km);
+        costAvg = findViewById(R.id.display_repeated_trip_text_view_average_cost);
+        costAvgPerTime = findViewById(R.id.averageCostPerTime);
+        costWorst = findViewById(R.id.display_repeated_trip_text_view_worst_cost);
+        costWorstPerTime = findViewById(R.id.worstCostPerTime);
+        costBest = findViewById(R.id.display_repeated_trip_text_view_best_cost);
+        costBestPerTime = findViewById(R.id.bestCostPerTime);
+        ltAvg = findViewById(R.id.display_repeated_trip_text_view_average_consumption);
+        ltAvgPerTime = findViewById(R.id.averageConsumptionPerTime);
+        ltWorst = findViewById(R.id.display_repeated_trip_text_view_worst_consumption);
+        ltWorstPerTime = findViewById(R.id.worstConsumptionPerTime);
+        ltBest = findViewById(R.id.display_repeated_trip_text_view_best_consumption);
+        ltBestPerTime = findViewById(R.id.bestConsumptionPerTime);
 
         // get the serializable object
         repeatedTrip = (RepeatedTrip) getIntent().getSerializableExtra("repeated_trip");
@@ -79,6 +81,55 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         deleteButton.setOnClickListener(this::onButtonDeleteRecordClicked);
         editButton.setOnClickListener(this::onButtonEditClicked);
 
+        // view assigning
+        assignValues();
+
+        // action bar displaying.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
+    }
+
+    private void onButtonShowOnMapClicked(View view)
+    {
+        Intent intent = new Intent(this, MapsDisplayTripActivity.class);
+        intent.putExtra("origin_latitude", repeatedTrip.getOriginLatitude());
+        intent.putExtra("origin_longitude", repeatedTrip.getOriginLongitude());
+        intent.putExtra("destination_latitude", repeatedTrip.getDestinationLatitude());
+        intent.putExtra("destination_longitude", repeatedTrip.getDestinationLongitude());
+        intent.putExtra("polyline", repeatedTrip.getPolyline());
+        startActivity(intent);
+    }
+
+    private void displayAddresses()
+    {
+        // both addresses have to be valid in order to be displayed.
+        if (origin == null || destination == null)
+        {
+            trip.setText("Unable to load addresses.");
+            return;
+        }
+
+        // creating a FROM: TO: string to display.
+        String builder = "From: " +
+                origin.getAddressLine(0) +
+                "\n\n" +
+                "To: " +
+                destination.getAddressLine(0);
+
+        trip.setText(builder);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        repeatedTrip = DataHolder.getInstance().trips.stream()
+                .filter(r -> r.getId() == repeatedTrip.getId())
+                .findFirst().get();
+        assignValues();
+    }
+
+    private void assignValues()
+    {
         // formats to display the values
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
@@ -198,39 +249,6 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
                 trip.setTextColor(Color.RED);
             }
         }
-
-
-        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_data));
-    }
-
-    private void onButtonShowOnMapClicked(View view)
-    {
-        Intent intent = new Intent(this, MapsDisplayTripActivity.class);
-        intent.putExtra("origin_latitude", repeatedTrip.getOriginLatitude());
-        intent.putExtra("origin_longitude", repeatedTrip.getOriginLongitude());
-        intent.putExtra("destination_latitude", repeatedTrip.getDestinationLatitude());
-        intent.putExtra("destination_longitude", repeatedTrip.getDestinationLongitude());
-        intent.putExtra("polyline", repeatedTrip.getPolyline());
-        startActivity(intent);
-    }
-
-    private void displayAddresses()
-    {
-        // both addresses have to be valid in order to be displayed.
-        if (origin == null || destination == null)
-        {
-            trip.setText("Unable to load addresses.");
-            return;
-        }
-
-        // creating a FROM: TO: string to display.
-        String builder = "From: " +
-                origin.getAddressLine(0) +
-                "\n\n" +
-                "To: " +
-                destination.getAddressLine(0);
-
-        trip.setText(builder);
     }
 
     @Override
