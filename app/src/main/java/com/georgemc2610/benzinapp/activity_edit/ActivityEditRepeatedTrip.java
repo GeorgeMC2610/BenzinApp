@@ -2,6 +2,7 @@ package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
-    private Button selectTrip, applyChanges;
+    private CardView selectTrip, applyChanges, deleteTrip;
     private TextView trip, totalKm;
     private Geocoder geocoder;
     private Address originAddress, destinationAddress;
@@ -54,13 +55,16 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
         setContentView(R.layout.activity_edit_repeated_trip);
 
         // get the views.
-        title = findViewById(R.id.edit_repeated_trips_edit_text_title);
-        timesRepeating = findViewById(R.id.edit_repeated_trips_edit_text_times_repeating);
-        isRepeating = findViewById(R.id.edit_repeated_trips_checkbox_not_repeating);
-        trip = findViewById(R.id.edit_repeated_trips_text_view_origin);
-        selectTrip = findViewById(R.id.edit_repeated_trips_button_origin);
-        applyChanges = findViewById(R.id.edit_repeated_trips_button_apply_edits);
-        totalKm = findViewById(R.id.edit_repeated_trips_text_view_kilometers);
+        title = findViewById(R.id.title);
+        timesRepeating = findViewById(R.id.times);
+        isRepeating = findViewById(R.id.isRepeating);
+        trip = findViewById(R.id.tripText);
+        totalKm = findViewById(R.id.km);
+
+        // buttons
+        selectTrip = findViewById(R.id.tripButton);
+        applyChanges = findViewById(R.id.applyButton);
+        deleteTrip = findViewById(R.id.removeTripButton);
 
         // initialize repeated trip
         repeatedTrip = (RepeatedTrip) getIntent().getSerializableExtra("repeatedTrip");

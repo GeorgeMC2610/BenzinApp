@@ -3,18 +3,14 @@ package com.georgemc2610.benzinapp.activity_add;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -29,21 +25,13 @@ import android.widget.Toast;
 import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
-import com.georgemc2610.benzinapp.classes.activity_tools.JSONCoordinatesTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.LocationPermissionTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
@@ -79,7 +67,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
         // button listeners
         buttonAdd.setOnClickListener(this::onButtonAddClicked);
-        buttonPick.setOnClickListener(this::onButtonSelecTripClicked);
+        buttonPick.setOnClickListener(this::onButtonSelectTripClicked);
 
         // set check box listener
         isRepeating.setOnCheckedChangeListener(this);
@@ -179,7 +167,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
         }
     }
 
-    private void onButtonSelecTripClicked(View v)
+    private void onButtonSelectTripClicked(View v)
     {
         // initialize intent for opening activity.
         Intent intent = new Intent(this, MapsCreateTripActivity.class);

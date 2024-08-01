@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_edit.ActivityEditRepeatedTrip;
 import com.georgemc2610.benzinapp.activity_maps.MapsDisplayTripActivity;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.Car;
@@ -54,6 +55,8 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         TextView timesRepeating = findViewById(R.id.display_repeated_trip_text_view_times_repeating);
         trip = findViewById(R.id.display_repeated_trip_text_view_from_origin_to_destination);
         CardView showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
+        CardView deleteButton = findViewById(R.id.buttonDelete);
+        CardView editButton = findViewById(R.id.buttonEdit);
         TextView km = findViewById(R.id.display_repeated_trip_text_view_total_km);
         TextView costAvg = findViewById(R.id.display_repeated_trip_text_view_average_cost);
         TextView costAvgPerTime = findViewById(R.id.averageCostPerTime);
@@ -73,6 +76,8 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
 
         // show on map button listener
         showOnMapButton.setOnClickListener(this::onButtonShowOnMapClicked);
+        deleteButton.setOnClickListener(this::onButtonDeleteRecordClicked);
+        editButton.setOnClickListener(this::onButtonEditClicked);
 
         // formats to display the values
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -280,7 +285,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         return values;
     }
 
-    public void onButtonDeleteRecordClicked(View view)
+    private void onButtonDeleteRecordClicked(View view)
     {
         // build a confirmation dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -303,6 +308,13 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
 
         dialog.setCancelable(true);
         dialog.create().show();
+    }
+
+    private void onButtonEditClicked(View v)
+    {
+        Intent intent = new Intent(this, ActivityEditRepeatedTrip.class);
+        intent.putExtra("repeatedTrip", repeatedTrip);
+        startActivity(intent);
     }
 
 }
