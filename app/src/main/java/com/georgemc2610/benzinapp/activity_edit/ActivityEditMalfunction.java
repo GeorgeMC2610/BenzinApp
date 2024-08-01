@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -10,8 +11,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -23,6 +26,9 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -31,10 +37,11 @@ import java.util.Calendar;
 
 public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, Response.Listener<String>
 {
-    private LinearLayout linearLayout;
+    private LinearLayout baseLayout, scrollViewLayout;
     private EditText titleView, descView, atKmView, costView;
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
+    private CardView apply, selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation;
     private Malfunction malfunction;
     private String address, coordinates;
     int mYear, mDay, mMonth;
@@ -47,35 +54,39 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_malfunction);
 
-        // action bar with back button and correct title name.
-        try
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(R.string.title_edit_malfunction);
-        }
-        // if anything goes wrong, print it out.
-        catch (Exception e)
-        {
-            System.out.println("Something went wrong while trying to find Action Bar. Message: " + e.getMessage());
-        }
-
         // get the views
-        linearLayout = findViewById(R.id.linearLayoutEditMalfunction);
+        baseLayout = findViewById(R.id.editMalfunctionLinearLayout);
+        scrollViewLayout = findViewById(R.id.scrollViewLayout);
+        titleView = findViewById(R.id.title);
+        descView = findViewById(R.id.desc);
+        atKmView = findViewById(R.id.atKm);
+        costView = findViewById(R.id.cost);
+        dateStartedView = findViewById(R.id.dateText);
+        dateEndedView = findViewById(R.id.dateFixedText);
+        locationPickedView = findViewById(R.id.locationText);
+        fixedCheckBox = findViewById(R.id.fixed);
 
-        titleView = findViewById(R.id.editTextEditMalfunctionTitle);
-        descView = findViewById(R.id.editTextEditMalfunctionDesc);
-        atKmView = findViewById(R.id.editTextEditMalfunctionAtKm);
-        costView = findViewById(R.id.editTextEditMalfunctionCost);
+        // get the buttons
+        apply = findViewById(R.id.applyButton);
+        selectDate = findViewById(R.id.dateButton);
+        selectDateFixed = findViewById(R.id.dateFixedButton);
+        selectToday = findViewById(R.id.todayButton);
+        selectTodayFixed = findViewById(R.id.todayFixedButton);
+        selectLocation = findViewById(R.id.locationButton);
+        deleteLocation = findViewById(R.id.removeLocationButton);
 
-        dateStartedView = findViewById(R.id.textViewEditMalfunctionDateStartedPicked);
-        dateEndedView = findViewById(R.id.textViewEditMalfunctionDateEndedPicked);
-        locationPickedView = findViewById(R.id.textViewEditMalfunctionLocationPicked);
-
-        fixedCheckBox = findViewById(R.id.checkBoxEditMalfunctionFixed);
+        // set button listeners
+        apply.setOnClickListener(this::onButtonApplyEditsClicked);
+        selectDate.setOnClickListener(this::onButtonPickDateClicked);
+        selectToday.setOnClickListener(this::setTodayDate);
+        selectDateFixed.setOnClickListener(this::onButtonPickDateClicked);
+        selectTodayFixed.setOnClickListener(this::setTodayDate);
+        selectLocation.setOnClickListener(this::onSelectLocationClicked);
+        deleteLocation.setOnClickListener(this::onDeleteLocationClicked);
 
         // set the listeners.
         fixedCheckBox.setOnCheckedChangeListener(this);
+        fixedCheckBox.setChecked(false);
 
         // get the fuel fill record passed to edit.
         malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
@@ -112,7 +123,14 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
                 }
             }
         }
+
+        // keyboard disappearing for the apply button.
+        new KeyboardButtonAppearingTool(baseLayout, apply);
+
+        // action bar with back button and correct title name.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_malfunction));
     }
+
 
     @Override
     public void onResume()
@@ -130,7 +148,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             locationPickedView.setText(address);
     }
 
-    public void PickDate(View view)
+    public void onButtonPickDateClicked(View view)
     {
         // get calendar and dates to keep track of
         final Calendar calendar = Calendar.getInstance();
@@ -138,7 +156,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         mMonth = calendar.get(Calendar.MONTH);
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        TextView date = view.getId() == R.id.buttonEditMalfunctionDateStarted ? findViewById(R.id.textViewEditMalfunctionDateStartedPicked) : findViewById(R.id.textViewEditMalfunctionDateEndedPicked);
+        TextView date = view.getId() == R.id.dateButton ? dateStartedView : dateEndedView;
 
         // date picker dialog shows up
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
@@ -146,6 +164,10 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
+                // set date color back to black.
+                // TODO: Make this based on theme.
+                date.setTextColor(getColor(R.color.black));
+
                 // and when it updates, it sets the value of the edit text.
                 date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
             }
@@ -155,25 +177,34 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         datePickerDialog.show();
     }
 
+    private void setTodayDate(View v)
+    {
+        TextView textViewDate = v.getId() == R.id.todayButton ? dateStartedView : dateEndedView;
+        LocalDate date = LocalDate.now();
+        textViewDate.setText(date.toString());
+    }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
-        // get the child count of the linear layout.
-        final int childCount = linearLayout.getChildCount();
+        setVisibilityByTag(baseLayout, "additional", isChecked);
+    }
 
-        // for every child...
+    private void setVisibilityByTag(ViewGroup parent, String tag, boolean isChecked)
+    {
+        int childCount = parent.getChildCount();
+
         for (int i = 0; i < childCount; i++)
         {
-            // get the view object.
-            final View view = linearLayout.getChildAt(i);
+            View child = parent.getChildAt(i);
 
-            // see if there are any tags.
-            if (view.getTag() == null)
-                continue;
+            // If the child is a ViewGroup, recursively call this method
+            if (child instanceof ViewGroup)
+                setVisibilityByTag((ViewGroup) child, tag, isChecked);
 
-            // and if there are and its tag is "additional", conditionally change its visibility.
-            if (view.getTag().toString().equals("additional"))
-                view.setVisibility(isChecked? View.VISIBLE : View.GONE);
+            // Check the tag and change visibility if it matches
+            if (child.getTag() != null && child.getTag().toString().equals(tag))
+                child.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -190,22 +221,23 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         return super.onOptionsItemSelected(item);
     }
 
-    public void OnButtonApplyEditsClicked(View v)
+    public void onButtonApplyEditsClicked(View v)
     {
         boolean canContinue = true;
 
         // integrity checks
         if (fixedCheckBox.isChecked())
         {
-            if (costView.getText().toString().trim().isEmpty())
+            if (ViewTools.isEditTextEmpty(costView))
             {
                 costView.setError(getString(R.string.error_field_cannot_be_empty));
                 canContinue = false;
             }
 
-            if (dateEndedView.getText().toString().equals(getString(R.string.text_view_select_date)))
+            if (!ViewTools.dateFilled(dateEndedView))
             {
                 Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
+                dateEndedView.setTextColor(getColor(R.color.red));
                 canContinue = false;
             }
         }
@@ -213,14 +245,14 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         if (!canContinue) return;
 
         // apply edits to the object.
-        if (!titleView.getText().toString().trim().isEmpty())
-            malfunction.setTitle(titleView.getText().toString().trim());
+        if (!ViewTools.isEditTextEmpty(titleView))
+            malfunction.setTitle(ViewTools.getFilteredViewSequence(titleView));
 
-        if (!descView.getText().toString().trim().isEmpty())
-            malfunction.setDescription(descView.getText().toString().trim());
+        if (!ViewTools.isEditTextEmpty(descView))
+            malfunction.setDescription(ViewTools.getFilteredViewSequence(descView));
 
-        if (!atKmView.getText().toString().trim().isEmpty())
-            malfunction.setAt_km(Integer.parseInt(atKmView.getText().toString().trim()));
+        if (!ViewTools.isEditTextEmpty(atKmView))
+            malfunction.setAt_km(Integer.parseInt(ViewTools.getFilteredViewSequence(atKmView)));
 
         malfunction.setStarted(LocalDate.parse(dateStartedView.getText().toString().trim()));
 
@@ -252,7 +284,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         finish();
     }
 
-    public void OnSelectLocationClicked(View v)
+    public void onSelectLocationClicked(View v)
     {
         // whenever the select location button is clicked, we must check two cases:
         // the permission is granted.
@@ -291,7 +323,7 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         startActivity(intent);
     }
 
-    public void OnDeleteLocationClicked(View v)
+    public void onDeleteLocationClicked(View v)
     {
         // alert dialog for location delete confirmation.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

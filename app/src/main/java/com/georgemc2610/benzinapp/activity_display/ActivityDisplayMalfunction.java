@@ -21,6 +21,7 @@ import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
+import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.util.Locale;
@@ -39,9 +40,6 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_malfunction);
 
-        // get number format
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
-
         // get text views
         titleView = findViewById(R.id.text_view_display_malfunction_title);
         descriptionView = findViewById(R.id.text_view_display_malfunction_desc);
@@ -59,6 +57,28 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
 
         // get the serializable object
         malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
+
+        // assign view's values
+        assignViewValues();
+
+        // action bar.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_malfunction));
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        malfunction = DataHolder.getInstance().malfunctions.stream()
+                .filter(m -> m.getId() == malfunction.getId())
+                .findFirst().get();
+        assignViewValues();
+    }
+
+    private void assignViewValues()
+    {
+        // get number format
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
         // set required views content
         titleView.setText(malfunction.getTitle());
@@ -119,9 +139,6 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
         // otherwise if the location doesn't exist, then just show a dash.
         else
             locationView.setText("-");
-
-        // action bar.
-        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_display_malfunction));
     }
 
     @Override

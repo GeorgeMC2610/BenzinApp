@@ -5,22 +5,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/editMalfunctionLinearLayout"
     tools:context=".activity_display.ActivityDisplayService">
 
     <ScrollView
         android:id="@+id/scrollView_display_service_data"
         android:layout_width="match_parent"
-        android:layout_height="628dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <!-- ALL COMPONENTS LAYOUT CONTAINER -->
         <LinearLayout
-            android:id="@+id/linearLayoutDisplayServiceData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -243,97 +238,99 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
-
-            <!-- BUTTONS -->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/buttonDelete"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#990000"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/deleteText"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="-40dp"
-                            android:background="@android:drawable/ic_menu_delete"
-                            android:backgroundTint="@color/white" />
-
-                        <TextView
-                            android:id="@+id/deleteText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="DELETE"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/buttonEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#2266BB"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/editText"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="-50dp"
-                            android:background="@android:drawable/ic_menu_edit"
-                            android:backgroundTint="@color/white" />
-
-                        <TextView
-                            android:id="@+id/editText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="EDIT"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <!-- BUTTONS -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/buttonDelete"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="#990000"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="16sp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/deleteText"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="-40dp"
+                    android:background="@android:drawable/ic_menu_delete"
+                    android:backgroundTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/deleteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="DELETE"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/buttonEdit"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:layout_marginStart="3dp"
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="#2266BB"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="16sp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/editText"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="-50dp"
+                    android:background="@android:drawable/ic_menu_edit"
+                    android:backgroundTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="EDIT"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
 </LinearLayout>

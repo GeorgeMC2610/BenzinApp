@@ -1,239 +1,407 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_edit.ActivityEditMalfunction">
+    android:orientation="vertical"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/editMalfunctionLinearLayout"
+    tools:context=".activity_add.ActivityAddMalfunction">
 
     <ScrollView
-        android:layout_width="359dp"
-        android:layout_height="523dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/linearLayoutEditMalfunction"
+            android:id="@+id/scrollViewLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- TITLE -->
+            <!-- KEYBOARD INPUT DATA -->
             <TextView
-                android:id="@+id/textViewEditMalfunctionTitle"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_title" />
-
-            <EditText
-                android:id="@+id/editTextEditMalfunctionTitle"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/title_hint"
-                android:inputType="text" />
-
-            <!-- DESCRIPTION -->
-            <TextView
-                android:id="@+id/textViewEditMalfunctionDesc"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_description" />
-
-            <EditText
-                android:id="@+id/editTextEditMalfunctionDesc"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/description_hint"
-                android:inputType="textMultiLine" />
-
-            <!-- AT_KM -->
-            <TextView
-                android:id="@+id/textViewEditMalfunctionAtKm"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_at_km" />
-
-            <EditText
-                android:id="@+id/editTextEditMalfunctionAtKm"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/malfunction_at_km_hint"
-                android:inputType="number" />
-
-            <!-- DATE HAPPENED -->
-            <TextView
-                android:id="@+id/textViewEditMalfunctionDateStarted"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                style="@style/textColorSpecial"
-                android:fontFamily="sans-serif"
-                android:text="@string/text_view_datetime" />
-
-            <TextView
-                android:id="@+id/textViewEditMalfunctionDateStartedPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_select_date"
-                android:textSize="24sp"
+                android:layout_marginBottom="10dp"
+                android:text="Required Info:"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/buttonEditMalfunctionDateStarted"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:textAllCaps="false"
-                android:text="@string/edit_text_datetime_hint"
-                style="@style/buttonEditBackground"
-                android:onClick="PickDate"
-                app:icon="@android:drawable/ic_menu_day" />
-
-            <!-- ADDITIONAL VALUES -->
-            <CheckBox
-                android:id="@+id/checkBoxEditMalfunctionFixed"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                style="@style/textColorSpecial"
-                android:text="@string/check_box_malfunction_fixed"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
 
-            <!-- COST -->
-            <TextView
-                android:id="@+id/textViewEditMalfunctionCost"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                style="@style/textColorSpecial"
-                android:tag="additional"
-                android:text="@string/text_view_cost"
-                android:visibility="gone" />
+                <EditText
+                    android:id="@+id/title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="@string/title_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/atKm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:hint="@string/malfunction_at_km_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="number" />
+            </LinearLayout>
 
             <EditText
-                android:id="@+id/editTextEditMalfunctionCost"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/edit_text_cost_hint"
-                android:inputType="numberDecimal"
-                android:tag="additional"
-                android:visibility="gone" />
+                android:layout_height="100dp"
+                android:maxLength="2000"
+                android:hint="Description..."
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_corner_field"
+                android:layout_marginTop="5dp"
+                android:padding="11dp"
+                android:inputType="textMultiLine"
+                android:id="@+id/desc" />
 
-            <!-- DATE ENDED -->
+            <!-- 'SELECT DATE' LABEL -->
             <TextView
-                android:id="@+id/textViewEditMalfunctionDateEnded"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                style="@style/textColorSpecial"
-                android:tag="additional"
-                android:text="@string/text_view_date_ended"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textViewEditMalfunctionDateEndedPicked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:tag="additional"
-                style="@style/textColorSpecial"
-                android:textAllCaps="false"
-                android:text="@string/text_view_select_date"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:text="Select discovery date..."
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:id="@+id/dateText" />
 
-            <Button
-                android:id="@+id/buttonEditMalfunctionDateEnded"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                style="@style/buttonEditBackground"
-                android:text="@string/edit_text_datetime_hint"
-                android:onClick="PickDate"
-                android:tag="additional"
-                android:visibility="gone"
-                app:icon="@android:drawable/ic_menu_day" />
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
 
-            <!-- LOCATION -->
-            <TextView
-                android:id="@+id/textViewEditMalfunctionLocation"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif"
-                style="@style/textColorSpecial"
-                android:tag="additional"
-                android:text="@string/text_view_location"
-                android:visibility="gone" />
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dateButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#282828"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
 
-            <TextView
-                android:id="@+id/textViewEditMalfunctionLocationPicked"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK DATE"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/todayButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#464646"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="SELCET TODAY'S DATE"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- CHECK BOX AND COST FIELDS -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:tag="additional"
-                style="@style/textColorSpecial"
-                android:text="@string/text_view_select_location"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/buttonEditMalfunctionSelectLocation"
+                <!-- CHECK BOX FOR MALFUNCTION FIXING -->
+                <CheckBox
+                    android:id="@+id/fixed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/check_box_malfunction_fixed" />
+
+                <!-- COST EDIT TEXT -->
+                <EditText
+                    android:id="@+id/cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:tag="additional"
+                    android:visibility="gone"
+                    android:layout_weight="4"
+                    android:hint="@string/text_view_cost"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="11dp"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <!-- 'SELECT DATE' LABEL -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                style="@style/buttonEditBackground"
-                android:textAllCaps="false"
-                android:text="@string/button_select_location"
-                android:onClick="OnSelectLocationClicked"
+                android:layout_height="wrap_content"
+                android:text="Select date fixed..."
                 android:tag="additional"
                 android:visibility="gone"
-                app:icon="@android:drawable/ic_dialog_map" />
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:id="@+id/dateFixedText" />
 
-            <Button
-                android:id="@+id/buttonEditMalfunctionDeleteLocation"
-                style="@style/buttonDeleteBackground"
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/button_delete_location"
-                android:textAllCaps="false"
-                android:onClick="OnDeleteLocationClicked"
                 android:tag="additional"
                 android:visibility="gone"
-                app:icon="@android:drawable/ic_delete" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dateFixedButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#005000"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK DATE"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/todayFixedButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#00AA00"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="SELCET TODAY'S DATE"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- 'SELECT DATE' LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select location..."
+                android:layout_marginTop="25dp"
+                android:textSize="25sp"
+                android:visibility="gone"
+                android:tag="additional"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:id="@+id/locationText" />
+
+            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:tag="additional"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <!-- BUTTON PICK DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/locationButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#282828"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="PICK LOCATION"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- BUTTON SELECT TODAY'S DATE -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/removeLocationButton"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardBackgroundColor="#A30000"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:textSize="16sp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="REMOVE LOCATION"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/buttonApplyEdits"
-        android:layout_width="367dp"
-        android:layout_height="66dp"
-        style="@style/buttonEditBackground"
-        android:onClick="onButtonApplyEditsClicked"
-        android:text="@string/button_apply_edits"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+    <!-- APPLY EDITS BUTTON -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/edit_record_light"
+        android:padding="12dp"
+        android:gravity="center"
+        android:textSize="16sp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/addText"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="-50dp"
+                android:background="@android:drawable/ic_input_add"
+                android:backgroundTint="@color/white" />
+
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="APPLY EDITS"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
