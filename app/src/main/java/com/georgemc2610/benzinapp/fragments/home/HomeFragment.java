@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment
     Spinner spinner;
     LineChart lineChart;
     PieChart pieChart;
+    DecimalFormat format;
     LineData lineDataLtPer100, lineDataKmPerLt, lineDataCostPerKm;
     LineDataSet lineDataSetLtPer100, lineDataSetKmPerLt, lineDataSetCostPerKm;
     ArrayList<Entry> entriesLtPer100, entriesKmPerLt, entriesCostPerKm;
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-
+        // fragment init
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -69,6 +70,9 @@ public class HomeFragment extends Fragment
         avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
         lineChart = root.findViewById(R.id.graph);
         pieChart = root.findViewById(R.id.pie_chart_costs);
+
+        // decimal formatter
+        format = new DecimalFormat("#.##");
 
         // calculate car averages
         DataHolder.getInstance().car.calculateAverages();
@@ -237,17 +241,16 @@ public class HomeFragment extends Fragment
 
         // description label
         Description description = new Description();
-        description.setText(getString(R.string.line_chart_description));
+        description.setText("");
 
         // color text for the graph.
         description.setTextColor(color);
         lineChart.setDescription(description);
 
         // format the strings for averages.
-        DecimalFormat format = new DecimalFormat("#.##");
         String TextAvgLtPer100Km = Float.isNaN(DataHolder.getInstance().car.getAverageLitersPer100Km())     ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageLitersPer100Km()) + " " + getString(R.string.lt_short) + "/100 " + getString(R.string.km_short);
         String TextAvgKmPerLt    = Float.isNaN(DataHolder.getInstance().car.getAverageKilometersPerLiter()) ? getString(R.string.text_view_no_data) : format.format(DataHolder.getInstance().car.getAverageKilometersPerLiter()) + " " + getString(R.string.km_short) + "/" + getString(R.string.lt_short);
-        String TextAvgCostPerKm  = Float.isNaN(DataHolder.getInstance().car.getAverageCostPerKm())          ? getString(R.string.text_view_no_data) : '€' + format.format(DataHolder.getInstance().car.getAverageCostPerKm()) + " " + getString(R.string.km_short);
+        String TextAvgCostPerKm  = Float.isNaN(DataHolder.getInstance().car.getAverageCostPerKm())          ? getString(R.string.text_view_no_data) : '€' + format.format(DataHolder.getInstance().car.getAverageCostPerKm()) + "/" + getString(R.string.km_short);
 
         // set the formats in the text views.
         avg_ltPer100Km.setText(TextAvgLtPer100Km);
@@ -284,9 +287,21 @@ public class HomeFragment extends Fragment
 
         // array list with colors
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#00FF00"));
-        colors.add(Color.parseColor("#00AA00"));
-        colors.add(Color.parseColor("#004400"));
+        colors.add(getResources().getColor(R.color.car_model_light, getContext().getTheme()));
+        colors.add(getResources().getColor(R.color.car_manufacturer_light, getContext().getTheme()));
+        colors.add(getResources().getColor(R.color.main, getContext().getTheme()));
+
+        // total combined costs string.
+        String finalCosts = "Total: €";
+        finalCosts += format.format(fuelCosts + serviceCosts + malfunctionCosts);
+
+        // description label
+        Description description = new Description();
+        description.setText(finalCosts);
+
+        // color text for the graph.
+        description.setTextColor(NightModeTool.getTextColor(getActivity()));
+        pieChart.setDescription(description);
 
         // put to pie chart data
         for (String type: costAmountMap.keySet())
