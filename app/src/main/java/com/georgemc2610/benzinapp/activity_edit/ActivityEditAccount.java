@@ -1,6 +1,7 @@
 package com.georgemc2610.benzinapp.activity_edit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,8 +18,8 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 public class ActivityEditAccount extends AppCompatActivity
 {
-    EditText username, manufacturer, model, year, capacity;
-    Button apply;
+    EditText username, manufacturer, model, year;
+    CardView apply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,15 +29,14 @@ public class ActivityEditAccount extends AppCompatActivity
         setContentView(R.layout.activity_edit_account);
 
         // button + listener
-        apply = findViewById(R.id.edit_account_apply_edits);
+        apply = findViewById(R.id.applyButton);
         apply.setOnClickListener(this::onButtonApplyEditsClicked);
 
         // edit texts
-        username = findViewById(R.id.edit_account_username_text);
-        manufacturer = findViewById(R.id.edit_account_manufacturer_text);
-        model = findViewById(R.id.edit_account_model_text);
-        year = findViewById(R.id.edit_account_year_text);
-        capacity = findViewById(R.id.edit_account_fuel_capacity_text);
+        username = findViewById(R.id.username);
+        manufacturer = findViewById(R.id.manufacturer);
+        model = findViewById(R.id.model);
+        year = findViewById(R.id.year);
 
         // car object with properties
         Car car = DataHolder.getInstance().car;

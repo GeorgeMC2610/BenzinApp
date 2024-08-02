@@ -1,122 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/edit_account_background_gradient"
+    android:orientation="vertical"
     tools:context=".activity_edit.ActivityEditAccount">
 
     <ScrollView
-        android:layout_width="359dp"
-        android:layout_height="523dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- USERNAME -->
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:src="@drawable/benzinapp_logo_round" />
+
             <TextView
-                android:id="@+id/edit_account_username_legend"
                 android:layout_width="match_parent"
-                android:layout_height="19dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Account Info:"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_username" />
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_account_username_text"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Unavailable for editing"
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
                 android:enabled="false"
-                android:inputType="numberDecimal" />
+                android:background="@drawable/rounded_corner_field"
+                android:padding="10dp"
+                android:inputType="text"
+                android:id="@+id/username" />
 
-            <!-- MANUFACTURER -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:hint="Unavailable for editing"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:enabled="false"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="2dp"
+                    android:hint="Unavailable for editing"
+                    android:enabled="false"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="10dp"
+                    android:inputType="textWebPassword" />
+
+
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/edit_account_manufacturer_legend"
                 android:layout_width="match_parent"
-                android:layout_height="19dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Car Info:"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_car_manufacturer" />
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_account_manufacturer_text"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
+                android:layout_height="wrap_content"
                 android:hint="@string/text_view_car_manufacturer_hint"
-                android:inputType="text" />
+                android:textColor="@color/black"
+                android:textColorHint="#484848"
+                android:textSize="15sp"
+                android:background="@drawable/rounded_corner_field"
+                android:padding="10dp"
+                android:layout_marginTop="5dp"
+                android:inputType="text"
+                android:id="@+id/manufacturer" />
 
-            <!-- MODEL -->
-            <TextView
-                android:id="@+id/edit_account_model_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_car_model" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
 
-            <EditText
-                android:id="@+id/edit_account_model_text"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/text_view_car_model_hint"
-                android:inputType="text" />
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:hint="@string/text_view_car_model_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="10dp"
+                    android:inputType="text"
+                    android:id="@+id/model" />
 
-            <!-- YEAR -->
-            <TextView
-                android:id="@+id/edit_account_year_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_car_year" />
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:hint="@string/text_view_car_year_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="#484848"
+                    android:textSize="15sp"
+                    android:background="@drawable/rounded_corner_field"
+                    android:padding="10dp"
+                    android:inputType="numberSigned"
+                    android:id="@+id/year" />
 
-            <EditText
-                android:id="@+id/edit_account_year_text"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:hint="@string/text_view_car_year_hint"
-                android:inputType="numberSigned" />
 
-            <!-- FUEL TANK CAPACITY -->
-            <TextView
-                android:id="@+id/edit_account_fuel_capacity_legend"
-                android:layout_width="match_parent"
-                android:layout_height="19dp"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/text_view_fuel_tank_capacity_legend" />
-
-            <EditText
-                android:id="@+id/edit_account_fuel_capacity_text"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:ems="10"
-                android:enabled="false"
-                android:hint="@string/not_yet_supported"
-                android:inputType="numberDecimal" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- APPLY EDITS -->
-    <Button
-        android:id="@+id/edit_account_apply_edits"
-        android:layout_width="367dp"
-        android:layout_height="66dp"
-        style="@style/buttonEditBackground"
-        android:text="@string/button_apply_edits"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+    <!-- APPLY EDITS BUTTON -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/edit_record_light"
+        android:padding="12dp"
+        android:gravity="center"
+        android:textSize="16sp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/addText"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="-50dp"
+                android:background="@android:drawable/ic_input_add"
+                android:backgroundTint="@color/white" />
+
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="APPLY EDITS"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
