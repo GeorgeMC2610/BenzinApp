@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity_edit.ActivityEditRecord"
-    android:layout_margin="10dp"
+    android:background="@drawable/edit_account_background_gradient"
     android:id="@+id/editRecordLinearLayout"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:layout_weight="1">
 
         <!-- MAIN FORM -->
@@ -274,6 +275,8 @@
         app:cardBackgroundColor="@color/edit_record_light"
         android:padding="12dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center"
         android:textSize="16sp">
 

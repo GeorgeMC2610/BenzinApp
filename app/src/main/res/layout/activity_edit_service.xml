@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/editServiceLinearLayout"
-    android:layout_margin="10dp"
+    android:background="@drawable/edit_account_background_gradient"
     android:orientation="vertical"
     tools:context=".activity_edit.ActivityEditService">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -24,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Required Info:"
+                android:text="Service Info:"
                 android:textStyle="bold" />
 
             <EditText
@@ -265,6 +266,8 @@
         app:cardBackgroundColor="@color/edit_record_light"
         android:padding="12dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center"
         android:textSize="16sp">
 
