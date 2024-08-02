@@ -15,11 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
@@ -30,6 +32,7 @@ import java.util.Calendar;
 public class ActivityEditService extends AppCompatActivity
 {
     Service service;
+    LinearLayout layout;
     EditText atKmView, descView, nextKmView, costView;
     CardView applyEdits, pickDate, pickToday, pickLocation, deleteLocation;
     String coordinates, address;
@@ -43,9 +46,6 @@ public class ActivityEditService extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_service);
 
-        // action bar with back button and correct title name.
-        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_service));
-
         // get views
         atKmView = findViewById(R.id.atKm);
         descView = findViewById(R.id.desc);
@@ -53,6 +53,7 @@ public class ActivityEditService extends AppCompatActivity
         costView = findViewById(R.id.cost);
         datePickedView = findViewById(R.id.dateText);
         locationView = findViewById(R.id.locationText);
+        layout = findViewById(R.id.editServiceLinearLayout);
 
         // get the buttons
         applyEdits = findViewById(R.id.applyEditsButton);
@@ -80,6 +81,12 @@ public class ActivityEditService extends AppCompatActivity
         costView.setText(service.getCost() == -1f? "" : String.valueOf(service.getCost()));
         datePickedView.setText(service.getDateHappened().toString());
         locationView.setText(service.getLocation() == null? getString(R.string.text_view_select_location) : service.getLocation());
+
+        // keyboard hider
+        new KeyboardButtonAppearingTool(layout, applyEdits);
+
+        // action bar with back button and correct title name.
+        DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_service));
     }
 
     @Override

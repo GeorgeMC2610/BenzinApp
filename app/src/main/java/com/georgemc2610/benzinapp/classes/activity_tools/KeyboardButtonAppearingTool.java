@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
  * the Activity's/Fragment's main content view (a Linear Layout in this case), and all the views
  * that you want to disappear whenever the keyboard is shown.
  */
-public class KeyboardButtonAppearingTool implements ViewTreeObserver.OnGlobalLayoutListener
+public final class KeyboardButtonAppearingTool implements ViewTreeObserver.OnGlobalLayoutListener
 {
     private boolean isShown;
     private final LinearLayout layout;

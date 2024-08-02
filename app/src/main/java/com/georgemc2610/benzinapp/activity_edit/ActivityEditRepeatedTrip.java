@@ -17,12 +17,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.activity_maps.MapsCreateTripActivity;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.JSONCoordinatesTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.RepeatedTrip;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -133,6 +135,10 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
                 trip.setTextColor(Color.RED);
             }
         }
+
+        // keyboard hiding
+        LinearLayout layout = findViewById(R.id.editTripLinearLayout);
+        new KeyboardButtonAppearingTool(layout, applyChanges);
 
         // actionbar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_trip));
