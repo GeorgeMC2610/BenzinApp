@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
+    android:background="@drawable/login_background_gradient"
     android:id="@+id/addTripLinearLayout"
     tools:context=".activity_add.ActivityAddRepeatedTrip"
     android:orientation="vertical">
@@ -15,6 +12,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -66,7 +64,6 @@
                     android:id="@+id/isRepeating"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    style="@style/textColorSpecial"
                     android:layout_weight="1"
                     android:text="@string/check_box_repeated_trips_not_repeating" />
 
@@ -187,7 +184,8 @@
         app:cardBackgroundColor="#006600"
         android:padding="12dp"
         android:layout_marginBottom="10dp"
-        android:gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"        android:gravity="center"
         android:textSize="16sp">
 
         <RelativeLayout
