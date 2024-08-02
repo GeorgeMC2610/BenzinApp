@@ -160,6 +160,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WARNING: By unchecking, you will mark this Malfunction as ongoing again."
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:visibility="invisible"
+                android:textColor="#aa6600"
+                android:fontFamily="sans-serif"
+                android:id="@+id/warning" />
+
             <!-- CHECK BOX AND COST FIELDS -->
             <LinearLayout
                 android:layout_width="match_parent"

@@ -145,8 +145,6 @@ public class ActivityEditService extends AppCompatActivity
         else if (address != null && coordinates != null)
             service.setLocation(address + '|' + coordinates);
 
-
-
         // send request with applied edits.
         RequestHandler.getInstance().EditService(this, service);
     }

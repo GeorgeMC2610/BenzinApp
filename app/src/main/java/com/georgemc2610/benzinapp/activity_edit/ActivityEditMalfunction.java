@@ -194,6 +194,14 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     {
         int childCount = parent.getChildCount();
 
+        if (malfunction.getEnded() != null)
+        {
+            if (!isChecked)
+                findViewById(R.id.warning).setVisibility(View.VISIBLE);
+            else
+                findViewById(R.id.warning).setVisibility(View.INVISIBLE);
+        }
+
         for (int i = 0; i < childCount; i++)
         {
             View child = parent.getChildAt(i);
