@@ -310,6 +310,7 @@ public class HomeFragment extends Fragment
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
         pieDataSet.setValueTextSize(14f);
         pieDataSet.setColors(colors);
+        pieDataSet.setDrawValues(true);
 
         PieData pieData = new PieData(pieDataSet);
         pieData.setValueFormatter(new ValueFormatter()
@@ -322,9 +323,13 @@ public class HomeFragment extends Fragment
             }
         });
 
-        pieData.setValueTextColor(Color.WHITE);
+        pieData.setValueTextColor(Color.BLACK);
+        pieData.setHighlightEnabled(true);
+        pieData.setDrawValues(true);
 
         pieChart.setData(pieData);
         pieChart.setDrawEntryLabels(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setDrawSlicesUnderHole(true);
     }
 }
