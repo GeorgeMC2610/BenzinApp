@@ -203,7 +203,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:id="@+id/cardWeekly"
-                style="@style/cardMainBackground"
+                style="@style/cardSpecialBackground"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="15dp"
                 app:cardCornerRadius="10dp"
@@ -239,7 +239,7 @@
 
                     <!-- AVERAGE -->
                     <TextView
-                        android:id="@+id/avgCostPerWeek"
+                        android:id="@+id/averageCostPerWeek"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
