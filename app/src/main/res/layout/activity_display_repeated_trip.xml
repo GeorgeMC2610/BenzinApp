@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="COSTS:"
+                android:text="ANALYTICS PER ONE TIME:"
                 android:paddingTop="15dp"
                 style="@style/textColor"
                 android:textSize="26sp"
@@ -127,9 +127,28 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
+                    <!-- BEST CASE -->
+                    <TextView
+                        android:id="@+id/bestCostPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bestLtPerTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
                     <!-- AVERAGE -->
                     <TextView
-                        android:id="@+id/display_repeated_trip_text_view_average_cost"
+                        android:id="@+id/averageCostPerTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
@@ -138,7 +157,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/averageCostPerTime"
+                        android:id="@+id/averageLtPerTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
@@ -148,41 +167,21 @@
 
                     <!-- WORST CASE -->
                     <TextView
-                        android:id="@+id/display_repeated_trip_text_view_worst_cost"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/textColorSpecial2"
-                        android:text="@string/loading"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
                         android:id="@+id/worstCostPerTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/textColorSpecial2"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/loading"
-                        android:textSize="18sp" />
-
-                    <!-- BEST CASE -->
-                    <TextView
-                        android:id="@+id/display_repeated_trip_text_view_best_cost"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/textColorSpecial1"
                         android:text="@string/loading"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/bestCostPerTime"
+                        android:id="@+id/worstLtPerTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/textColorSpecial1"
+                        style="@style/textColorSpecial2"
                         android:text="@string/loading"
                         android:textSize="18sp" />
-
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -190,7 +189,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CONSUMPTION:"
+                android:id="@+id/textWeekly"
+                android:text="WEEKLY ANALYTICS:"
                 android:paddingTop="15dp"
                 style="@style/textColor"
                 android:textSize="26sp"
@@ -202,6 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:id="@+id/cardWeekly"
                 style="@style/cardMainBackground"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="15dp"
@@ -217,9 +218,28 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
+                    <!-- BEST CASE -->
+                    <TextView
+                        android:id="@+id/bestCostPerWeek"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:text="@string/loading"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/bestLtPerWeek"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/textColorSpecial1"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/loading"
+                        android:textSize="18sp" />
+
                     <!-- AVERAGE -->
                     <TextView
-                        android:id="@+id/display_repeated_trip_text_view_average_consumption"
+                        android:id="@+id/avgCostPerWeek"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
@@ -228,7 +248,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/averageConsumptionPerTime"
+                        android:id="@+id/averageLtPerWeek"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
@@ -238,7 +258,7 @@
 
                     <!-- WORST CASE -->
                     <TextView
-                        android:id="@+id/display_repeated_trip_text_view_worst_consumption"
+                        android:id="@+id/worstCostPerWeek"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/textColorSpecial2"
@@ -247,32 +267,12 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/worstConsumptionPerTime"
+                        android:id="@+id/worstLtPerWeek"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/textColorSpecial2"
-                        android:layout_marginBottom="10dp"
                         android:text="@string/loading"
                         android:textSize="18sp" />
-
-                    <!-- BEST CASE -->
-                    <TextView
-                        android:id="@+id/display_repeated_trip_text_view_best_consumption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/textColorSpecial1"
-                        android:text="@string/loading"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/bestConsumptionPerTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/textColorSpecial1"
-                        android:text="@string/loading"
-                        android:textSize="18sp" />
-
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
