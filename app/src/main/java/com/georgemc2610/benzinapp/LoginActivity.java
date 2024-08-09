@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity
         AppCompatDelegate.setDefaultNightMode(darkMode? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
         // handle notifications settings.
-        BenzinappMessagingService.HandleAlreadyExistingToken(this);
+        //BenzinappMessagingService.HandleAlreadyExistingToken(this);
 
     }
 
