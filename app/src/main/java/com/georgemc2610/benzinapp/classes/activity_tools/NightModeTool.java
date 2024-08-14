@@ -29,6 +29,26 @@ public final class NightModeTool
         return isNightMode(activity)? activity.getColor(R.color.red) : activity.getColor(R.color.dark_red);
     }
 
+    public static int getGreenColor(Activity activity)
+    {
+        return isNightMode(activity)? activity.getColor(R.color.green) : activity.getColor(R.color.dark_green);
+    }
+
+    public static int getPrimaryColor(Activity activity)
+    {
+        return isNightMode(activity)? activity.getColor(R.color.main_dark) : activity.getColor(R.color.main);
+    }
+
+    public static int getSecondaryColor(Activity activity)
+    {
+        return isNightMode(activity)? activity.getColor(R.color.car_manufacturer_dark) : activity.getColor(R.color.car_manufacturer_light);
+    }
+
+    public static int getTetriaryColor(Activity activity)
+    {
+        return isNightMode(activity)? activity.getColor(R.color.car_model_dark) : activity.getColor(R.color.car_model_light);
+    }
+
 
     public static void setButtonEnabled(Button button, Context context)
     {

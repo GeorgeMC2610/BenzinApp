@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity
 
         // handle notifications settings.
         //BenzinappMessagingService.HandleAlreadyExistingToken(this);
-
     }
 
     public void OnButtonLoginPressed(View v)

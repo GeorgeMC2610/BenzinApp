@@ -287,9 +287,9 @@ public class HomeFragment extends Fragment
 
         // array list with colors
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(getResources().getColor(R.color.car_model_light, getContext().getTheme()));
-        colors.add(getResources().getColor(R.color.car_manufacturer_light, getContext().getTheme()));
-        colors.add(getResources().getColor(R.color.main, getContext().getTheme()));
+        colors.add(NightModeTool.getTetriaryColor(getActivity()));
+        colors.add(NightModeTool.getSecondaryColor(getActivity()));
+        colors.add(NightModeTool.getPrimaryColor(getActivity()));
 
         // total combined costs string.
         String finalCosts = "Total: €";
