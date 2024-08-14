@@ -62,7 +62,7 @@
             </RelativeLayout>
 
             <!-- NOTIFICATIONS SWITCH -->
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp">
@@ -83,7 +83,7 @@
                     android:layout_alignParentEnd="true"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
             <!-- LANGUAGE SELECT -->
             <RelativeLayout

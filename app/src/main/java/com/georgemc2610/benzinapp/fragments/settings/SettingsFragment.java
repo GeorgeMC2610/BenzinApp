@@ -73,7 +73,7 @@ public class SettingsFragment extends Fragment
         // be able to change it.
         fastLoginToggle.setOnCheckedChangeListener(this::onFastLoginStateChange);
         darkModeToggle.setOnCheckedChangeListener(this::onDarkThemeStateChange);
-        notificationsToggle.setOnCheckedChangeListener(this::onNotificationsStateChange);
+        //notificationsToggle.setOnCheckedChangeListener(this::onNotificationsStateChange);
 
         // shared preferences for settings
         preferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
