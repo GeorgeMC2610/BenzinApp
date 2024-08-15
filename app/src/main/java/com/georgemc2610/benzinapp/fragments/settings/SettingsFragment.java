@@ -68,7 +68,7 @@ public class SettingsFragment extends Fragment
         // get the toggles and set their listeners
         darkModeToggle = root.findViewById(R.id.settings_DarkModeSwitch);
         fastLoginToggle = root.findViewById(R.id.settings_FastLoginSwitch);
-        notificationsToggle = root.findViewById(R.id.settings_NotificationsSwitch);
+        //notificationsToggle = root.findViewById(R.id.settings_NotificationsSwitch);
 
         // be able to change it.
         fastLoginToggle.setOnCheckedChangeListener(this::onFastLoginStateChange);
@@ -84,7 +84,7 @@ public class SettingsFragment extends Fragment
         // set the settings.
         fastLoginToggle.setChecked(autoLogin);
         darkModeToggle.setChecked(nightMode);
-        notificationsToggle.setChecked(notifications);
+        //notificationsToggle.setChecked(notifications);
 
         return root;
     }
