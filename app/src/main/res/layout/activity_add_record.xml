@@ -123,9 +123,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="PICK DATE"
+                            android:text="@string/button_select_date"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -141,8 +141,7 @@
                     app:cardCornerRadius="50dp"
                     app:cardBackgroundColor="#464646"
                     android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
+                    android:gravity="center">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -153,9 +152,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="SELCET TODAY'S DATE"
+                            android:text="@string/button_select_todays_date"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -262,7 +261,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="ADD FUEL FILL RECORD"
+                android:text="@string/button_add_fuel_fill_record"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

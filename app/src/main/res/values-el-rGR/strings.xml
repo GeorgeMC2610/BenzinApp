@@ -173,7 +173,7 @@
     <string name="text_view_fuel_tank_capacity_hint">Χωρητικότητα ντεπόζιτου σε λίτρα...</string>
     <string name="toast_car_edited_success">Τα στοιχεία του αυτοκινήτου επεξεργάστηκαν επιτυχώς.</string>
     <string name="line_chart_description">Γραφήματα που αναπριστούν την κατανάλωση του αυτοκινήτου στο πέρας του χρόνου.</string>
-    <string name="button_select_todays_date">ΣΗΜΕΡΑ</string>
+    <string name="button_select_todays_date">ΕΠΙΛΟΓΗ ΣΗΜΕΡΑ</string>
     <string name="text_view_combined_costs">ΑΘΡΟΙΣΤΙΚΑ ΚΟΣΤΗ</string>
     <string name="text_view_no_notes_added">Δεν υπάρχουν σημειώσεις</string>
     <string name="pie_chart_fuel">Καύσιμα</string>
@@ -181,4 +181,6 @@
     <string name="pie_chart_services">Σέρβις</string>
     <string name="text_view_optional_info">Προαιρετικές Πληροφορίες:</string>
     <string name="text_view_required_info">Υποχρεωτικά Πεδία:</string>
+    <string name="button_add_fuel_fill_record">ΠΡΟΣΘΗΚΗ ΓΕΜΙΣΜΑΤΟΣ</string>
+    <string name="button_select_date">ΕΠΙΛΟΓΗ ΗΜ/ΝΙΑΣ</string>
 </resources>

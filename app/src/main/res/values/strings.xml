@@ -182,4 +182,6 @@
     <string name="pie_chart_services">Services</string>
     <string name="text_view_optional_info">Optional Info:</string>
     <string name="text_view_required_info">Required Info:</string>
+    <string name="button_add_fuel_fill_record">ADD FUEL FILL RECORD</string>
+    <string name="button_select_date">SELECT DATE</string>
 </resources>
