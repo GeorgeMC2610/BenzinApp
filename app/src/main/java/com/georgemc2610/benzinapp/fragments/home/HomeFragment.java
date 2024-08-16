@@ -281,9 +281,9 @@ public class HomeFragment extends Fragment
 
         // mapping the costs with their type.
         Map<String, Float> costAmountMap = new HashMap<>();
-        costAmountMap.put("Fuel", fuelCosts); // TODO: Replace with string values
-        costAmountMap.put("Malfunctions", malfunctionCosts); // TODO: Replace with string values
-        costAmountMap.put("Services", serviceCosts); // TODO: Replace with string values
+        costAmountMap.put(getString(R.string.pie_chart_fuel), fuelCosts);
+        costAmountMap.put(getString(R.string.pie_chart_malfunctions), malfunctionCosts);
+        costAmountMap.put(getString(R.string.pie_chart_services), serviceCosts);
 
         // array list with colors
         ArrayList<Integer> colors = new ArrayList<>();
