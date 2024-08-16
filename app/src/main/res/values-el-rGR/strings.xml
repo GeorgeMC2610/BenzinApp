@@ -6,8 +6,8 @@
     <string name="title_add_record">Προσθήκη Εγγραφής</string>
     <string name="edit_text_liters_hint">Λίτρα</string>
     <string name="edit_text_cost_hint">Κόστος σε €</string>
-    <string name="text_view_cost">Κόστος σε Ευρώ:</string>
-    <string name="text_view_liters">Κόστος σε Λίτρα:</string>
+    <string name="text_view_cost">Κόστος σε €:</string>
+    <string name="text_view_liters">Λίτρα:</string>
     <string name="button_add">Προσθήκη Εγγραφής</string>
     <string name="error_field_cannot_be_empty">Αυτό το πεδίο δεν μπορεί να είναι κενό.</string>
     <string name="edit_text_kilometers_hint">Χιλιόμετρα</string>
