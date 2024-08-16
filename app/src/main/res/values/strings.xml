@@ -174,4 +174,10 @@
     <string name="text_view_fuel_tank_capacity_hint">Enter fuel tank capacity in liters...</string>
     <string name="toast_car_edited_success">Car properties edited successfully.</string>
     <string name="line_chart_description">Graphs that represent the car\'s consumption over the couse of time.</string>
+    <string name="button_select_todays_date">SELECT TODAY</string>
+    <string name="text_view_combined_costs">COMBINED COSTS</string>
+    <string name="text_view_no_notes_added">No notes added.</string>
+    <string name="pie_chart_fuel">Fuel</string>
+    <string name="pie_chart_malfunctions">Malfunction Repairs</string>
+    <string name="pie_chart_services">Services</string>
 </resources>
