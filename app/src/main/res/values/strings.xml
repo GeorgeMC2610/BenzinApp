@@ -4,15 +4,15 @@
     <string name="title_dashboard">History</string>
     <string name="title_notifications">Settings</string>
     <string name="title_add_record">Add Record</string>
-    <string name="edit_text_liters_hint">Insert Liters...</string>
-    <string name="edit_text_cost_hint">Insert Cost in Euros...</string>
+    <string name="edit_text_liters_hint">Liters</string>
+    <string name="edit_text_cost_hint">Cost in €</string>
     <string name="text_view_cost">Cost in EUR:</string>
     <string name="text_view_liters">Liters:</string>
     <string name="button_add">Add Record</string>
     <string name="error_field_cannot_be_empty">This field cannot be empty.</string>
-    <string name="edit_text_kilometers_hint">Insert Kilometers...</string>
+    <string name="edit_text_kilometers_hint">Mileage in km</string>
     <string name="text_view_kilometers">Kilometers:</string>
-    <string name="edit_text_petrol_type_hint">E.g. \"V-Power 100\" or \"FuelSave 95\"...</string>
+    <string name="edit_text_petrol_type_hint">Fuel Type (e.g. \'95 oct.\')</string>
     <string name="text_view_petrol_type">Petrol Type:</string>
     <string name="text_view_datetime">Date:</string>
     <string name="edit_text_datetime_hint">Tap to select date...</string>
@@ -30,9 +30,9 @@
     <string name="text_view_liters_per_100_km">Liters per 100km:</string>
     <string name="text_view_km_per_liter">Kilometers per Liter:</string>
     <string name="text_view_cost_per_km">Cost per Kilometer:</string>
-    <string name="edit_text_station_hint">E.g. \"bp\" or \"Shell\"...</string>
+    <string name="edit_text_station_hint">Station (e.g. \'bp\')</string>
     <string name="text_view_station">Petrol Station:</string>
-    <string name="edit_text_notes_hint">Enter any additional notes about this refill...</string>
+    <string name="edit_text_notes_hint">Notes</string>
     <string name="text_view_notes">Notes:</string>
     <string name="text_view_register">Don\'t have an account? Register now.</string>
     <string name="text_view_login">Already have an account? Log in.</string>
@@ -180,4 +180,6 @@
     <string name="pie_chart_fuel">Fuel</string>
     <string name="pie_chart_malfunctions">Malfunction Repairs</string>
     <string name="pie_chart_services">Services</string>
+    <string name="text_view_optional_info">Optional Info:</string>
+    <string name="text_view_required_info">Required Info:</string>
 </resources>

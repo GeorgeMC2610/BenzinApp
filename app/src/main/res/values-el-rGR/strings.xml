@@ -4,15 +4,15 @@
     <string name="title_dashboard">Ιστορικό</string>
     <string name="title_notifications">Ρυθμίσεις</string>
     <string name="title_add_record">Προσθήκη Εγγραφής</string>
-    <string name="edit_text_liters_hint">Εισάγετε Λίτρα...</string>
-    <string name="edit_text_cost_hint">Εισάγετε το Κόστος σε Ευρώ...</string>
+    <string name="edit_text_liters_hint">Λίτρα</string>
+    <string name="edit_text_cost_hint">Κόστος σε €</string>
     <string name="text_view_cost">Κόστος σε Ευρώ:</string>
     <string name="text_view_liters">Κόστος σε Λίτρα:</string>
     <string name="button_add">Προσθήκη Εγγραφής</string>
     <string name="error_field_cannot_be_empty">Αυτό το πεδίο δεν μπορεί να είναι κενό.</string>
-    <string name="edit_text_kilometers_hint">Εισάγετε Χιλιόμετρα...</string>
+    <string name="edit_text_kilometers_hint">Χιλιόμετρα</string>
     <string name="text_view_kilometers">Χιλιόμετρα:</string>
-    <string name="edit_text_petrol_type_hint">Π.χ. \"V-Power 100\" ή \"FuelSave 95\"...</string>
+    <string name="edit_text_petrol_type_hint">Κάυσιμο (π.χ. «95 οκτ.»)</string>
     <string name="text_view_petrol_type">Τύπος Καυσίμου:</string>
     <string name="text_view_datetime">Ημερομηνία:</string>
     <string name="edit_text_datetime_hint">Πατήστε εδώ για να επιλέξετε...</string>
@@ -30,9 +30,9 @@
     <string name="text_view_liters_per_100_km">Λίτρα στα 100 χλμ.:</string>
     <string name="text_view_km_per_liter">Χιλιόμετρα ανά Λίτρο:</string>
     <string name="text_view_cost_per_km">Κόστος ανά Χιλιόμετρο:</string>
-    <string name="edit_text_station_hint">Π.χ. \"bp\" ή \"Shell\"</string>
+    <string name="edit_text_station_hint">Πρατήριο (π.χ. «bp»)</string>
     <string name="text_view_station">Πρατήριο:</string>
-    <string name="edit_text_notes_hint">Εισάγετε οποιαδήποτε παρατήρηση...</string>
+    <string name="edit_text_notes_hint">Παρατηρήσεις</string>
     <string name="text_view_notes">Παρατηρήσεις:</string>
     <string name="text_view_register">Δεν έχετε λογαριασμό; Κάντε εγγραφή.</string>
     <string name="text_view_login">Έχετε ήδη εγγραφεί; Συνδεθείτε.</string>
@@ -179,4 +179,6 @@
     <string name="pie_chart_fuel">Καύσιμα</string>
     <string name="pie_chart_malfunctions">Επισκευές Βλαβών</string>
     <string name="pie_chart_services">Σέρβις</string>
+    <string name="text_view_optional_info">Προαιρετικές Πληροφορίες:</string>
+    <string name="text_view_required_info">Υποχρεωτικά Πεδία:</string>
 </resources>
