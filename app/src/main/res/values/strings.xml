@@ -92,7 +92,7 @@
     <string name="service_at_km_hint">Service km.</string>
     <string name="text_view_select_location">Select Location...</string>
     <string name="button_select_location">SELECT LOCATION</string>
-    <string name="malfunction_at_km_hint">At what mileage was this discovered...?</string>
+    <string name="malfunction_at_km_hint">km. discovered at</string>
     <string name="service_next_km_hint">Next service km.</string>
     <string name="button_add_service">ADD SERVICE</string>
     <string name="button_add_malfunction">ADD MALFUNCTION</string>
@@ -186,4 +186,5 @@
     <string name="button_select_date">SELECT DATE</string>
     <string name="service_description_hint">Describe what happened to this service...</string>
     <string name="service_info_label">Service Info:</string>
+    <string name="text_view_malfunction_info">Malfunction Info:</string>
 </resources>

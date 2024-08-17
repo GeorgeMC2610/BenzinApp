@@ -91,7 +91,7 @@
     <string name="service_at_km_hint">Χλμ. του σέρβις</string>
     <string name="text_view_select_location">Επιλέξτε Τοποθεσία...</string>
     <string name="button_select_location">ΕΠΙΛΟΓΗ Τ/ΘΕΣΙΑΣ</string>
-    <string name="malfunction_at_km_hint">Στα πόσα χιλιόμετρα βρέθηκε η βλάβη...;</string>
+    <string name="malfunction_at_km_hint">Χλμ. που βρέθηκε</string>
     <string name="service_next_km_hint">Χλμ. επόμενου</string>
     <string name="button_add_service">ΠΡΟΣΘΗΚΗ ΣΕΡΒΙΣ</string>
     <string name="button_add_malfunction">ΠΡΟΣΘΗΚΗ ΒΛΑΒΗΣ</string>
@@ -185,4 +185,5 @@
     <string name="button_select_date">ΕΠΙΛΟΓΗ ΗΜ/ΝΙΑΣ</string>
     <string name="service_description_hint">Περιγράψτε τι έγινε σε αυτό το σέρβις...</string>
     <string name="service_info_label">Στοιχεία Σέρβις:</string>
+    <string name="text_view_malfunction_info">Στοιχεία Βλάβης:</string>
 </resources>
