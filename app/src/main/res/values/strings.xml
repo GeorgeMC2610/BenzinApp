@@ -8,7 +8,7 @@
     <string name="edit_text_cost_hint">Cost in €</string>
     <string name="text_view_cost">Cost in €:</string>
     <string name="text_view_liters">Liters:</string>
-    <string name="button_add">Add Record</string>
+    <string name="button_add_trip">ADD TRIP</string>
     <string name="error_field_cannot_be_empty">This field cannot be empty.</string>
     <string name="edit_text_kilometers_hint">Mileage in km</string>
     <string name="text_view_kilometers">Kilometers:</string>
@@ -188,4 +188,5 @@
     <string name="service_info_label">Service Info:</string>
     <string name="text_view_malfunction_info">Malfunction Info:</string>
     <string name="button_remove_trip">REMOVE TRIP</string>
+    <string name="trip_info">Trip Info:</string>
 </resources>
