@@ -147,25 +147,11 @@ public class ActivityAddMalfunction extends AppCompatActivity
     {
         boolean validated = true;
 
-        // all of the following fields are required. If any of those are not filled, display an error.
-        if (ViewTools.isEditTextEmpty(atKmView))
-        {
-            atKmView.setError(getString(R.string.error_field_cannot_be_empty));
+        // these fields must be filled.
+        if (ViewTools.setErrors(this, atKmView, titleView, descriptionView))
             validated = false;
-        }
 
-        if (ViewTools.isEditTextEmpty(titleView))
-        {
-            titleView.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (ViewTools.isEditTextEmpty(descriptionView))
-        {
-            descriptionView.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
+        // date must be filled.
         if (!ViewTools.dateFilled(dateView))
         {
             Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_LONG).show();
