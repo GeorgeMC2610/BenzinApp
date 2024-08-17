@@ -36,9 +36,9 @@
     <string name="text_view_notes">Notes:</string>
     <string name="text_view_register">Don\'t have an account? Register now.</string>
     <string name="text_view_login">Already have an account? Log in.</string>
-    <string name="text_view_username">Username:</string>
+    <string name="text_view_username">Username</string>
     <string name="text_view_username_hint">Enter Username...</string>
-    <string name="text_view_password">Password:</string>
+    <string name="text_view_password">Password</string>
     <string name="text_view_password_hint">Enter Password...</string>
     <string name="button_login">LOGIN</string>
     <string name="text_view_login_to_benzinapp">Login to BenzinApp</string>
@@ -48,13 +48,13 @@
     <string name="title_edit_record">Edit Record</string>
     <string name="toast_record_edited">Record Successfully Edited.</string>
     <string name="text_view_register_to_benzinapp">Register to BenzinApp</string>
-    <string name="text_view_confirm_password">Confirm Password:</string>
-    <string name="text_view_confirm_password_hint">Re-Enter your Password...</string>
-    <string name="text_view_car_year">Year:</string>
+    <string name="text_view_confirm_password">Confirm Password</string>
+    <string name="text_view_confirm_password_hint">Re-enter your password...</string>
+    <string name="text_view_car_year">Car Year</string>
     <string name="text_view_car_year_hint">Enter Car Year...</string>
-    <string name="text_view_car_model">Model:</string>
+    <string name="text_view_car_model">Car Model</string>
     <string name="text_view_car_model_hint">Enter Car Model...</string>
-    <string name="text_view_car_manufacturer">Manufacturer:</string>
+    <string name="text_view_car_manufacturer">Car Manufacturer</string>
     <string name="text_view_car_manufacturer_hint">Enter Car Manufacturer...</string>
     <string name="error_cars_didnt_exist">Cars didn\'t exist back then.</string>
     <string name="button_register">REGISTER</string>
@@ -193,4 +193,6 @@
     <string name="analytics_weekly">WEEKLY ANALYTICS:</string>
     <string name="trip_info_caps">TRIP INFO:</string>
     <string name="button_edit">EDIT</string>
+    <string name="account_info">Account Info:</string>
+    <string name="car_info">Car Info:</string>
 </resources>
