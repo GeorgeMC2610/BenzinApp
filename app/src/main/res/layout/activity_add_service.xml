@@ -25,14 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Service Info:"
+                android:text="@string/service_info_label"
                 android:textStyle="bold" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:maxLength="4096"
-                android:hint="Description..."
+                android:hint="@string/service_description_hint"
                 android:textColor="@color/black"
                 android:textColorHint="#484848"
                 android:textSize="15sp"
@@ -53,7 +53,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:hint="@string/text_view_cost"
+                    android:hint="@string/edit_text_cost_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select date..."
+                android:text="@string/text_view_select_date"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -132,9 +132,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="PICK DATE"
+                            android:text="@string/button_select_date"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -162,9 +162,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="SELCET TODAY'S DATE"
+                            android:text="@string/button_select_todays_date"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -176,7 +176,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select location..."
+                android:text="@string/text_view_select_location"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -213,9 +213,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="PICK LOCATION"
+                            android:text="@string/button_select_location"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                     </RelativeLayout>
 
@@ -243,9 +243,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="REMOVE LOCATION"
+                            android:text="@string/button_delete_location"
                             android:textColor="@color/white"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                     </RelativeLayout>
 
@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="ADD SERVICE"
+                android:text="@string/button_add_service"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </RelativeLayout>

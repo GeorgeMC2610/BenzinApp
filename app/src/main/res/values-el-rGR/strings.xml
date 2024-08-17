@@ -44,7 +44,7 @@
     <string name="text_view_login_to_benzinapp">Είσοδος στο BenzinApp</string>
     <string name="error_password_confirmation_wrong">Οι κωδικοί πρέπει να είναι ίδιοι.</string>
     <string name="text_view_average_consumption">ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ</string>
-    <string name="button_apply_edits">Εφαρμογή Αλλαγών</string>
+    <string name="button_apply_edits">ΕΦΑΡΜΟΓΗ ΑΛΛΑΓΩΝ</string>
     <string name="title_edit_record">Αλλαγή Στοιχείων Γεμίσματος</string>
     <string name="toast_record_edited">Τα στοιχεία της εγγραφής τροποποιήθηκαν επιτυχώς.</string>
     <string name="text_view_register_to_benzinapp">Εγγραφή στο BenzinApp</string>
@@ -88,13 +88,13 @@
     <string name="text_view_location">Τοποθεσία:</string>
     <string name="title_hint">Τι χάλασε...;</string>
     <string name="description_hint">Περιγράψτε τι έγινε...</string>
-    <string name="service_at_km_hint">Στα πόσα χιλιόμετρια έγινε το σέρβις...;</string>
+    <string name="service_at_km_hint">Χλμ. του σέρβις</string>
     <string name="text_view_select_location">Επιλέξτε Τοποθεσία...</string>
-    <string name="button_select_location">Πατήστε για να επιλέξετε τοποθεσία...</string>
+    <string name="button_select_location">ΕΠΙΛΟΓΗ Τ/ΘΕΣΙΑΣ</string>
     <string name="malfunction_at_km_hint">Στα πόσα χιλιόμετρα βρέθηκε η βλάβη...;</string>
-    <string name="service_next_km_hint">Πότε θα γίνει το επόμενο...;</string>
-    <string name="button_add_service">Προσθήκη Σέρβις</string>
-    <string name="button_add_malfunction">Προσθήκη Βλάβης</string>
+    <string name="service_next_km_hint">Χλμ. επόμενου</string>
+    <string name="button_add_service">ΠΡΟΣΘΗΚΗ ΣΕΡΒΙΣ</string>
+    <string name="button_add_malfunction">ΠΡΟΣΘΗΚΗ ΒΛΑΒΗΣ</string>
     <string name="button_confirm_location">ΕΠΙΛΟΓΗ ΤΟΠΟΘΕΣΙΑΣ</string>
     <string name="toast_logged_in_as">"Συνδεθήκατε ως: "</string>
     <string name="check_box_malfunction_fixed">Έφτιαξα αυτήν τη βλάβη.</string>
@@ -112,9 +112,9 @@
     <string name="title_add_service">Προσθήκη Σέρβις</string>
     <string name="title_add_malfunction">Προσθήκη Βλάβης</string>
     <string name="dialog_location_required">Για να χρησιμοποιήσετε αυτήν την υπηρεσία, θα σας ζητηθεί να δώσετε πρόσβαση στην τοποθεσία σας. Εφ\' όσον τη δώσετε, πατήστε πάλι το κουμπί της επιλογής τοποθεσίας, ώστε να επιλέξετε σημείο στο χάρτη.</string>
-    <string name="button_delete_location">Διαγραφή Τοποθεσίας</string>
-    <string name="dialog_select_new_location_confirm">Επιλέγοντας μία νέα τοποθεσία, σημαίνει ότι η παλιά θα διαγραφεί. Είστε σίγουρος ότι θέλετε να το κάνετε αυτό;</string>
-    <string name="dialog_location_deletion_confirmation">Είστε σίγουρος ότι θέλετε να διαγράψετε την τοποθεσία;</string>
+    <string name="button_delete_location">ΔΙΑΓΡΑΦΗ Τ/ΘΕΣΙΑΣ</string>
+    <string name="dialog_select_new_location_confirm">Επιλέγοντας μία νέα τοποθεσία, σημαίνει ότι η παλιά θα διαγραφεί. Είστε σίγουροι ότι θέλετε να το κάνετε αυτό;</string>
+    <string name="dialog_location_deletion_confirmation">Είστε σίγουροι ότι θέλετε να διαγράψετε την τοποθεσία;</string>
     <string name="title_edit_service">Επεξεργασία Στοιχείων Σέρβις</string>
     <string name="title_edit_malfunction">Επεξεργασία Στοιχείων Βλάβης</string>
     <string name="title_activity_maps_display_point">Προβολή Τοποθεσίας στον Χάρτη</string>
@@ -183,4 +183,6 @@
     <string name="text_view_required_info">Υποχρεωτικά Πεδία:</string>
     <string name="button_add_fuel_fill_record">ΠΡΟΣΘΗΚΗ ΓΕΜΙΣΜΑΤΟΣ</string>
     <string name="button_select_date">ΕΠΙΛΟΓΗ ΗΜ/ΝΙΑΣ</string>
+    <string name="service_description_hint">Περιγράψτε τι έγινε σε αυτό το σέρβις...</string>
+    <string name="service_info_label">Στοιχεία Σέρβις:</string>
 </resources>
