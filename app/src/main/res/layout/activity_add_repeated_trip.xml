@@ -51,7 +51,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:hint="@string/text_view_cost"
+                    android:hint="@string/edit_text_repeated_trips_times_occurring_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Make a trip..."
+                android:text="@string/text_view_repeated_trips_trip"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -110,9 +110,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="MAKE TRIP"
+                            android:text="@string/button_repeated_trips_make_trip"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                     </RelativeLayout>
 
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="DELETE TRIP"
+                            android:text="@string/button_remove_trip"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
 

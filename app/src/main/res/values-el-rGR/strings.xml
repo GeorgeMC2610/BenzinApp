@@ -120,9 +120,9 @@
     <string name="title_activity_maps_display_point">Προβολή Τοποθεσίας στον Χάρτη</string>
     <string name="text_view_total_records">" συνολικά γεμίσματα."</string>
     <string name="text_view_one_record">Μόλις ένα γέμισμα. Μόνο του και μοναχικό...</string>
-    <string name="edit_text_repeated_trips_title_hint">Π.χ. «Σχολείο - Σπίτι» ή «Ταξίδι στην Θεσσαλονίκη»...</string>
+    <string name="edit_text_repeated_trips_title_hint">Τίτλος ταξιδιού (π.χ. «Σχολείο - Σπίτι» ή «Ταξίδι στην Εύβοια»)</string>
     <string name="edit_text_repeated_trips_times_occurring">Φορές που επαναλαμβάνεται στην εβδομάδα:</string>
-    <string name="edit_text_repeated_trips_times_occurring_hint">Π.χ. «4» ή «5»...</string>
+    <string name="edit_text_repeated_trips_times_occurring_hint">Φορές</string>
     <string name="check_box_repeated_trips_not_repeating">Αυτή η διαδρομή δεν επαναλαμβάνεται.</string>
     <string name="text_view_repeated_trips_trip_legend">Διαδρομή:</string>
     <string name="text_view_repeated_trips_destination_legend">Τέλος:</string>
@@ -164,7 +164,7 @@
     <string name="button_create_trip_destination">ΠΡΟΟΡΙΣΜΟΣ</string>
     <string name="button_create_trip_confirm">ΕΠΙΒΕΒΑΙΩΣΗ</string>
     <string name="text_view_repeated_trips_trip">Επιλογή διαδρομής...</string>
-    <string name="button_repeated_trips_make_trip">Πατήστε για να φτιάξετε διαδρομή στον χάρτη</string>
+    <string name="button_repeated_trips_make_trip">ΕΠΙΛΟΓΗ ΔΙΑΔΡΟΜΗΣ</string>
     <string name="dialog_select_language">Επιλογή Γλώσσας Εφαρμογής</string>
     <string name="settings_account_settings">Ρυθμίσεις Λογαριασμού</string>
     <string name="unspecified">Δεν συμπληρώθηκε</string>
@@ -186,4 +186,5 @@
     <string name="service_description_hint">Περιγράψτε τι έγινε σε αυτό το σέρβις...</string>
     <string name="service_info_label">Στοιχεία Σέρβις:</string>
     <string name="text_view_malfunction_info">Στοιχεία Βλάβης:</string>
+    <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ</string>
 </resources>

@@ -121,9 +121,9 @@
     <string name="title_activity_maps_display_point">Display Point on Map</string>
     <string name="text_view_total_records">" total records."</string>
     <string name="text_view_one_record">Only one, singular, lonely record...</string>
-    <string name="edit_text_repeated_trips_title_hint">E.g. \"School - Home\" or \"Trip to Thessaloniki\"...</string>
+    <string name="edit_text_repeated_trips_title_hint">Trip title (e.g. \"Home - School\" or \"Trip to Miami\")</string>
     <string name="edit_text_repeated_trips_times_occurring">Times occurring in the week:</string>
-    <string name="edit_text_repeated_trips_times_occurring_hint">E.g. \"4\" or \"5\"...</string>
+    <string name="edit_text_repeated_trips_times_occurring_hint">Times</string>
     <string name="check_box_repeated_trips_not_repeating">This is a one-time trip.</string>
     <string name="text_view_repeated_trips_trip_legend">Trip:</string>
     <string name="text_view_repeated_trips_destination_legend">Destination:</string>
@@ -165,7 +165,7 @@
     <string name="button_create_trip_destination">DESTINATION</string>
     <string name="button_create_trip_confirm">CONFIRM TRIP</string>
     <string name="text_view_repeated_trips_trip">Make trip...</string>
-    <string name="button_repeated_trips_make_trip">Press to create trip on the map</string>
+    <string name="button_repeated_trips_make_trip">CREATE TRIP</string>
     <string name="dialog_select_language">Select Application Language</string>
     <string name="settings_account_settings">Account Settings</string>
     <string name="unspecified">Unspecified</string>
@@ -187,4 +187,5 @@
     <string name="service_description_hint">Describe what happened to this service...</string>
     <string name="service_info_label">Service Info:</string>
     <string name="text_view_malfunction_info">Malfunction Info:</string>
+    <string name="button_remove_trip">REMOVE TRIP</string>
 </resources>
