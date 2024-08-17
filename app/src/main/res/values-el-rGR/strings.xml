@@ -188,4 +188,8 @@
     <string name="text_view_malfunction_info">Στοιχεία Βλάβης:</string>
     <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ</string>
     <string name="trip_info">Στοιχεία Διαδρομής:</string>
+    <string name="analytics_per_one_time">ΣΤΑΤΙΣΤΙΚΑ ΑΝΑ ΦΟΡΑ:</string>
+    <string name="analytics_weekly">ΕΒΔΟΜΑΔΙΑΙΑ ΣΤΑΤΙΣΤΙΚΑ:</string>
+    <string name="trip_info_caps">ΣΤΟΙΧΕΙΑ ΔΙΑΔΡΟΜΗΣ:</string>
+    <string name="button_edit">ΑΛΛΑΓΗ</string>
 </resources>
