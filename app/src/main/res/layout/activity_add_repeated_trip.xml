@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Trip Info:"
+                android:text="@string/trip_info"
                 android:layout_marginBottom="5dp"
                 android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:hint="@string/text_view_cost"
+                    android:hint="@string/edit_text_repeated_trips_times_occurring_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Make a trip..."
+                android:text="@string/text_view_repeated_trips_trip"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -110,9 +110,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="MAKE TRIP"
+                            android:text="@string/button_repeated_trips_make_trip"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                     </RelativeLayout>
 
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="DELETE TRIP"
+                            android:text="@string/button_remove_trip"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
 
@@ -155,7 +155,7 @@
                 android:id="@+id/kmLegend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Trip's total kilometers:"
+                android:text="@string/text_view_repeated_trips_km_legend"
                 android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold" />
@@ -165,8 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:textSize="24dp"
-                android:text="Total km"
+                android:textSize="24sp"
                 android:layout_marginTop="5dp"
                 android:textStyle="bold" />
 
@@ -185,7 +184,8 @@
         android:padding="12dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"        android:gravity="center"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
         android:textSize="16sp">
 
         <RelativeLayout
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/addText"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="-100dp"
+                android:layout_marginStart="-60dp"
                 android:background="@android:drawable/ic_input_add"
                 android:backgroundTint="@color/white" />
 
@@ -207,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="ADD TRIP"
+                android:text="@string/button_add_trip"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </RelativeLayout>

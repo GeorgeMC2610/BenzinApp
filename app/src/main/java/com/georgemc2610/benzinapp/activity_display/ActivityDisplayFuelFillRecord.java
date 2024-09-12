@@ -128,8 +128,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         // notes might not be present.
         if (record.getNotes().length() == 0)
         {
-            // TODO: Replace with String Value.
-            this.notes.setText("No notes added.");
+            this.notes.setText(R.string.text_view_no_notes_added);
             this.notes.setTextColor(getColor(R.color.light_gray));
             this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
         }

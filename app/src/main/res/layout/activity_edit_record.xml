@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Required Info:"
+                android:text="@string/text_view_required_info"
                 android:textStyle="bold" />
 
             <!-- LINEAR LAYOUT FOR THREE FIELDS -->
@@ -52,7 +52,7 @@
                     <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Liters"
+                        android:hint="@string/edit_text_liters_hint"
                         android:textColor="@color/black"
                         android:textColorHint="#484848"
                         android:textSize="15sp"
@@ -79,8 +79,7 @@
                     <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Cost"
+                        android:hint="@string/edit_text_cost_hint"
                         android:textColor="@color/black"
                         android:textColorHint="#484848"
                         android:textSize="15sp"
@@ -105,8 +104,7 @@
                     <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Mileage in km"
+                        android:hint="@string/edit_text_kilometers_hint"
                         android:textColor="@color/black"
                         android:textColorHint="#484848"
                         android:textSize="15sp"
@@ -123,7 +121,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select date..."
+                android:text="@string/text_view_select_date"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -160,9 +158,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="PICK DATE"
+                            android:text="@string/button_select_date"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -190,9 +188,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="SELCET TODAY'S DATE"
+                            android:text="@string/button_select_todays_date"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -204,7 +202,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Optional Info:"
+                android:text="@string/text_view_optional_info"
                 android:textStyle="bold"
                 android:layout_marginTop="30dp" />
 
@@ -220,7 +218,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Fuel Type (e.g. '95 oct.')"
+                    android:hint="@string/edit_text_petrol_type_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
@@ -235,7 +233,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Station (e.g. 'bp')"
+                    android:hint="@string/edit_text_station_hint"
                     android:textColor="@color/black"
                     android:textColorHint="#484848"
                     android:textSize="15sp"
@@ -252,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:maxLength="2000"
-                android:hint="Notes"
+                android:hint="@string/edit_text_notes_hint"
                 android:textColor="@color/black"
                 android:textColorHint="#484848"
                 android:textSize="15sp"

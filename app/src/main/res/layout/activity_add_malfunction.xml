@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Malfunction Info:"
+                android:text="@string/text_view_malfunction_info"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:maxLength="2000"
-                android:hint="Description..."
+                android:hint="@string/description_hint"
                 android:textColor="@color/black"
                 android:textColorHint="#484848"
                 android:textSize="15sp"
@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select date..."
+                android:text="@string/text_view_select_date"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -117,9 +117,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="PICK DATE"
+                            android:text="@string/button_select_date"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -147,9 +147,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:text="SELCET TODAY'S DATE"
+                            android:text="@string/button_select_todays_date"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -194,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="ADD MALFUNCTION"
+                android:text="@string/button_add_malfunction"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </RelativeLayout>

@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ANALYTICS PER ONE TIME:"
+                android:text="@string/analytics_per_one_time"
                 android:paddingTop="15dp"
                 style="@style/textColor"
                 android:textSize="26sp"
@@ -190,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textWeekly"
-                android:text="WEEKLY ANALYTICS:"
+                android:text="@string/analytics_weekly"
                 android:paddingTop="15dp"
                 style="@style/textColor"
                 android:textSize="26sp"
@@ -280,7 +280,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TRIP DATA:"
+                android:text="@string/trip_info_caps"
                 android:paddingTop="15dp"
                 style="@style/textColor"
                 android:textSize="26sp"
@@ -414,7 +414,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="DELETE"
+                    android:text="@string/button_delete"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -455,7 +455,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="EDIT"
+                    android:text="@string/button_edit"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 

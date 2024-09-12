@@ -30,6 +30,7 @@ import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -161,21 +162,12 @@ public class ActivityAddService extends AppCompatActivity
         boolean validated = true;
 
         // all of the following fields are required. If any of those are not filled, display an error.
-        if (atKm.getText().toString().trim().length() == 0)
-        {
-            atKm.setError(getString(R.string.error_field_cannot_be_empty));
+        if (ViewTools.setErrors(this, notes, atKm))
             validated = false;
-        }
 
-        if (notes.getText().toString().trim().length() == 0)
+        if (!ViewTools.dateFilled(date))
         {
-            notes.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (date.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
-        {
-            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_LONG).show();
             validated = false;
         }
 

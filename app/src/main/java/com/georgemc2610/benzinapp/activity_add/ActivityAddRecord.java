@@ -80,22 +80,10 @@ public class ActivityAddRecord extends AppCompatActivity
                     dialog.setMessage(getString(R.string.dialog_exit_confirmation_message));
                     dialog.setCancelable(true);
 
-                    dialog.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            finish();
-                        }
-                    });
+                    dialog.setPositiveButton(R.string.dialog_yes, (dialog12, which) -> finish());
 
-                    dialog.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            // foo.
-                        }
+                    dialog.setNegativeButton(R.string.dialog_no, (dialog1, which) -> {
+                        // foo.
                     });
 
                     dialog.create().show();
