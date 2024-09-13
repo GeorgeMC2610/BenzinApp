@@ -17,10 +17,10 @@ public class ErrorLoginListener implements Response.ErrorListener
 {
     private final Activity activity;
     private final ProgressBar progressBar;
-    private final CardView button;
+    private final Button button;
     private final EditText username, password;
 
-    public ErrorLoginListener(Activity activity, ProgressBar progressBar, CardView button, EditText username, EditText password)
+    public ErrorLoginListener(Activity activity, ProgressBar progressBar, Button button, EditText username, EditText password)
     {
         this.activity = activity;
         this.progressBar = progressBar;
