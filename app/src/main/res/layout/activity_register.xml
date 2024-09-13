@@ -149,44 +149,43 @@
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/buttonRegister"
+        <!-- BUTTON -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:cardCornerRadius="50dp"
-            app:cardBackgroundColor="#282828"
-            android:padding="12dp"
-            android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:textSize="16sp">
+            android:layout_marginTop="30dp">
 
-            <RelativeLayout
+            <ProgressBar
+                android:id="@+id/progressBar_Register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <ProgressBar
-                    android:id="@+id/progressBar_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/text_view_login"
-                    android:layout_marginStart="-100dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/text_view_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/button_register"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
+                android:layout_height="55dp"
+                android:background="@drawable/rounded_button"
+                android:gravity="center"
+                android:text="@string/button_register"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:backgroundTint="#323232"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView_RegisterIfNoAccount"

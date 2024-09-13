@@ -163,7 +163,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar, CardView button)
+    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar, Button button)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
