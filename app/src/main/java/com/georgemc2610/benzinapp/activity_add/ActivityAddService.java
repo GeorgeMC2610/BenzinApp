@@ -32,6 +32,7 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -42,10 +43,9 @@ public class ActivityAddService extends AppCompatActivity
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
     TextView location, date;
-    CardView pickLocation, pickDate, pickToday, deleteLocation;
+    Button pickLocation, pickDate, pickToday, deleteLocation;
     Button addButton;
     String coordinates, address;
-    int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,16 +65,19 @@ public class ActivityAddService extends AppCompatActivity
         // get the buttons
         addButton = findViewById(R.id.addButton);
         addButton.setText(R.string.button_add_service);
+        addButton.setOnClickListener(this::onButtonAddClicked);
+
         pickLocation = findViewById(R.id.locationButton);
-        pickDate = findViewById(R.id.dateButton);
-        pickToday = findViewById(R.id.todayButton);
         deleteLocation = findViewById(R.id.removeLocationButton);
 
+        // location buttons and listeners
+        pickDate = findViewById(R.id.dateButton);
+        pickToday = findViewById(R.id.todayButton);
+        new ButtonDateListener(pickDate, pickToday, date);
+
         // assign listeners to the buttons
-        addButton.setOnClickListener(this::onButtonAddClicked);
+
         pickLocation.setOnClickListener(this::onSelectLocationClicked);
-        pickDate.setOnClickListener(this::onPickDateClicked);
-        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
         deleteLocation.setOnClickListener(this::onRemoveLocationButtonClicked);
 
         // add listener for the keyboard showing.
@@ -154,12 +157,6 @@ public class ActivityAddService extends AppCompatActivity
                 costEur.getText().toString().trim().length() != 0);
     }
 
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        this.date.setText(date.toString());
-    }
-
     private void onButtonAddClicked(View v)
     {
         boolean validated = true;
@@ -189,29 +186,6 @@ public class ActivityAddService extends AppCompatActivity
 
         // send it to the cloud.
         RequestHandler.getInstance().AddService(this, at_km, cost_eur, description, locationString, date_happened, next_km);
-    }
-
-    private void onPickDateClicked(View v)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
     }
 
     private void onSelectLocationClicked(View view)
