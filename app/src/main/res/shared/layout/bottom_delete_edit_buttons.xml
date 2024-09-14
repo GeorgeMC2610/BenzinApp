@@ -48,6 +48,5 @@
         app:iconPadding="0dp"
         app:iconSize="27dp"
         app:iconTintMode="multiply" />
-
-
+    
 </LinearLayout>
