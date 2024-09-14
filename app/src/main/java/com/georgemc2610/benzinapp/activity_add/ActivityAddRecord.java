@@ -19,6 +19,7 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -28,9 +29,7 @@ public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     TextView textViewDate;
-    CardView buttonPickDate, buttonPickTodayDate;
-    Button buttonAdd;
-    int mYear, mMonth, mDay;
+    Button buttonAdd, buttonPickDate, buttonPickToday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,15 +47,14 @@ public class ActivityAddRecord extends AppCompatActivity
         editTextStation = findViewById(R.id.fuelStation);
         editTextNotes = findViewById(R.id.notes);
 
-        // get the buttons.
-        buttonPickDate = findViewById(R.id.dateButton);
-        buttonPickTodayDate = findViewById(R.id.todayButton);
+        // add button listener
         buttonAdd = findViewById(R.id.addButton);
-
-        // set the button listeners
-        buttonPickDate.setOnClickListener(this::onButtonPickDateClicked);
-        buttonPickTodayDate.setOnClickListener(this::onButtonPickTodayDateClicked);
         buttonAdd.setOnClickListener(this::onButtonAddClicked);
+
+        // location buttons and listeners
+        buttonPickDate = findViewById(R.id.dateButton);
+        buttonPickToday = findViewById(R.id.todayButton);
+        new ButtonDateListener(buttonPickDate, buttonPickToday, textViewDate);
 
         // add listener for the keyboard showing.
         LinearLayout contentView = findViewById(R.id.addRecordLinearLayout);
@@ -127,30 +125,5 @@ public class ActivityAddRecord extends AppCompatActivity
         LocalDate date = LocalDate.parse(textViewDate.getText().toString());
 
         RequestHandler.getInstance().AddFuelFillRecord(this, kilometers, liters, cost, petrolType, station, date, notes);
-    }
-
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        textViewDate.setText(date.toString());
-    }
-
-    private void onButtonPickDateClicked(View v)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) ->
-        {
-            // and when it updates, it sets the value of the edit text.
-            textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
     }
 }
