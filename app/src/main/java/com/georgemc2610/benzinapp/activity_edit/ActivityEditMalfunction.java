@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -41,7 +42,8 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     private EditText titleView, descView, atKmView, costView;
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
-    private CardView apply, selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation;
+    private CardView selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation;
+    private Button apply;
     private Malfunction malfunction;
     private String address, coordinates;
     int mYear, mDay, mMonth;

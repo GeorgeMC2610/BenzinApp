@@ -376,43 +376,8 @@
 
     </ScrollView>
 
-    <!-- APPLY EDITS BUTTON -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/applyButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardCornerRadius="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/edit_record_light"
-        android:padding="12dp"
-        android:gravity="center"
-        android:textSize="16sp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/addText"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="-50dp"
-                android:background="@android:drawable/ic_input_add"
-                android:backgroundTint="@color/white" />
-
-            <TextView
-                android:id="@+id/addText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="APPLY EDITS"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    <!-- APPLY BUTTON -->
+    <include
+        layout="@layout/bottom_button_apply_edits" />
 
 </LinearLayout>

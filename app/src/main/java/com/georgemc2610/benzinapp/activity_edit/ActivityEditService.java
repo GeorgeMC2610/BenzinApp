@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -34,7 +35,8 @@ public class ActivityEditService extends AppCompatActivity
     Service service;
     LinearLayout layout;
     EditText atKmView, descView, nextKmView, costView;
-    CardView applyEdits, pickDate, pickToday, pickLocation, deleteLocation;
+    CardView pickDate, pickToday, pickLocation, deleteLocation;
+    Button applyEdits;
     String coordinates, address;
     TextView datePickedView, locationView;
     int mMonth, mYear, mDay;
@@ -56,7 +58,7 @@ public class ActivityEditService extends AppCompatActivity
         layout = findViewById(R.id.editServiceLinearLayout);
 
         // get the buttons
-        applyEdits = findViewById(R.id.applyEditsButton);
+        applyEdits = findViewById(R.id.applyButton);
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
         pickLocation = findViewById(R.id.locationButton);
