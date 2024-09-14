@@ -95,86 +95,9 @@
             <include
                 layout="@layout/date_picker" />
 
-            <!-- 'SELECT DATE' LABEL -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_view_select_location"
-                android:layout_marginTop="25dp"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:id="@+id/locationText" />
-
-            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <!-- BUTTON PICK DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/locationButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#282828"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_select_location"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- BUTTON SELECT TODAY'S DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/removeLocationButton"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#A30000"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_delete_location"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
+            <!-- SELECT LOCATION -->
+            <include
+                layout="@layout/location_picker" />
 
         </LinearLayout>
 
