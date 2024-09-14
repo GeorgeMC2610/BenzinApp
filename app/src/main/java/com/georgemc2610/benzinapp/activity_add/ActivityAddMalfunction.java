@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,7 +28,8 @@ import java.util.Calendar;
 public class ActivityAddMalfunction extends AppCompatActivity
 {
     EditText titleView, descriptionView, atKmView;
-    CardView pickDate, pickToday, add;
+    CardView pickDate, pickToday;
+    Button add;
     TextView dateView;
     private int mYear, mMonth, mDay;
 
@@ -48,6 +50,7 @@ public class ActivityAddMalfunction extends AppCompatActivity
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
         add = findViewById(R.id.addButton);
+        add.setText(R.string.button_add_malfunction);
 
         // button listeners
         pickDate.setOnClickListener(this::onButtonPickDateClicked);

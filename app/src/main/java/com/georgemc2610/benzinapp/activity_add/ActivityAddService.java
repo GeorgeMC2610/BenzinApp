@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -41,7 +42,8 @@ public class ActivityAddService extends AppCompatActivity
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
     TextView location, date;
-    CardView addButton, pickLocation, pickDate, pickToday, deleteLocation;
+    CardView pickLocation, pickDate, pickToday, deleteLocation;
+    Button addButton;
     String coordinates, address;
     int mYear, mMonth, mDay;
 
@@ -62,6 +64,7 @@ public class ActivityAddService extends AppCompatActivity
 
         // get the buttons
         addButton = findViewById(R.id.addButton);
+        addButton.setText(R.string.button_add_service);
         pickLocation = findViewById(R.id.locationButton);
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +28,8 @@ public class ActivityAddRecord extends AppCompatActivity
 {
     EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     TextView textViewDate;
-    CardView buttonPickDate, buttonPickTodayDate, buttonAdd;
+    CardView buttonPickDate, buttonPickTodayDate;
+    Button buttonAdd;
     int mYear, mMonth, mDay;
 
     @Override
