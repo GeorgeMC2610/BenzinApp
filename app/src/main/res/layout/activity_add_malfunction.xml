@@ -76,86 +76,9 @@
                 android:inputType="textMultiLine"
                 android:id="@+id/desc" />
 
-            <!-- 'SELECT DATE' LABEL -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_view_select_date"
-                android:layout_marginTop="25dp"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:id="@+id/dateText" />
-
-            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <!-- BUTTON PICK DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/dateButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#282828"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_select_date"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- BUTTON SELECT TODAY'S DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/todayButton"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#464646"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_select_todays_date"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
+            <!-- SELECT DATE -->
+            <include
+                layout="@layout/date_picker" />
 
         </LinearLayout>
 
