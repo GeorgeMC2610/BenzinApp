@@ -71,7 +71,7 @@ public class ActivityAddService extends AppCompatActivity implements Coordinates
         // location button listeners
         pickLocation = findViewById(R.id.locationButton);
         deleteLocation = findViewById(R.id.deleteLocationButton);
-        new ButtonLocationPicker(pickLocation, deleteLocation, location, this, null, this);
+        new ButtonLocationPicker(pickLocation, deleteLocation, location, this, false, this);
 
         // location buttons and listeners
         pickDate = findViewById(R.id.dateButton);

@@ -15,21 +15,20 @@ import androidx.core.app.ActivityCompat;
 
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
-import com.georgemc2610.benzinapp.classes.original.Service;
 
 
 public class ButtonLocationPicker
 {
     private final TextView locationTextView;
     private final Activity activity;
-    private final Service service;
+    private final boolean existingLocation;
     private final CoordinatesChangeListener removeListener;
 
-    public ButtonLocationPicker(Button pickLocationButton, Button deleteLocationButton, TextView locationTextView, Activity activity, Service service, CoordinatesChangeListener removeListener)
+    public ButtonLocationPicker(Button pickLocationButton, Button deleteLocationButton, TextView locationTextView, Activity activity, boolean existingLocation, CoordinatesChangeListener removeListener)
     {
         this.locationTextView = locationTextView;
         this.activity = activity;
-        this.service = service;
+        this.existingLocation = existingLocation;
         this.removeListener = removeListener;
 
         pickLocationButton.setOnClickListener(this::onSelectLocationClicked);
@@ -48,29 +47,26 @@ public class ButtonLocationPicker
             builder.show();
         }
 
-        if (service != null)
+        // the user actually wants to replace this location if it's already picked.
+        if (existingLocation)
         {
-            // the user actually wants to replace this location if it's already picked.
-            if (service.getLocation() != null)
+            // create a dialog that informs them.
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(activity.getString(R.string.dialog_select_new_location_confirm));
+
+            // the YES button opens the google maps activity.
+            builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
             {
-                // create a dialog that informs them.
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage(activity.getString(R.string.dialog_select_new_location_confirm));
+                Intent intent = new Intent(activity, MapsSelectPointActivity.class);
+                activity.startActivity(intent);
+            });
 
-                // the YES button opens the google maps activity.
-                builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
-                {
-                    Intent intent = new Intent(activity, MapsSelectPointActivity.class);
-                    activity.startActivity(intent);
-                });
+            // the no button cancels.
+            builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {
+            });
 
-                // the no button cancels.
-                builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {
-                });
-
-                builder.show();
-                return;
-            }
+            builder.show();
+            return;
         }
 
         // in any other case, the maps activity can open regularly.

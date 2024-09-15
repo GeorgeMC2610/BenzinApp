@@ -66,13 +66,13 @@ public class ActivityEditService extends AppCompatActivity implements Coordinate
         pickLocation = findViewById(R.id.locationButton);
         deleteLocation = findViewById(R.id.deleteLocationButton);
 
-        // button listeners
-        new ButtonDateListener(pickDate, pickToday, datePickedView);
-        new ButtonLocationPicker(pickLocation, deleteLocation, locationView, this, service, this);
-        applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
-
         // get the fuel fill record passed to edit.
         service = (Service) getIntent().getSerializableExtra("service");
+
+        // button listeners
+        new ButtonDateListener(pickDate, pickToday, datePickedView);
+        new ButtonLocationPicker(pickLocation, deleteLocation, locationView, this, service.getLocation() != null, this);
+        applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
 
         // set the views' required texts
         atKmView.setText(String.valueOf(service.getAtKm()));
