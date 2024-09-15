@@ -41,14 +41,13 @@ import java.util.Calendar;
 
 public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, Response.Listener<String>, CoordinatesChangeListener
 {
-    private LinearLayout baseLayout, scrollViewLayout;
+    private LinearLayout baseLayout;
     private EditText titleView, descView, atKmView, costView;
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
     private Button selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation, apply;
     private Malfunction malfunction;
     private String address, coordinates;
-    int mYear, mDay, mMonth;
 
 
     @Override
@@ -63,7 +62,6 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         // get the views
         baseLayout = findViewById(R.id.editMalfunctionLinearLayout);
-        scrollViewLayout = findViewById(R.id.scrollViewLayout);
         titleView = findViewById(R.id.title);
         descView = findViewById(R.id.desc);
         atKmView = findViewById(R.id.atKm);
@@ -132,7 +130,6 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_malfunction));
     }
 
-
     @Override
     public void onResume()
     {
@@ -147,42 +144,6 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         if (coordinates != null && address != null)
             locationPickedView.setText(address);
-    }
-
-    public void onButtonPickDateClicked(View view)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        TextView date = view.getId() == R.id.dateButton ? dateStartedView : dateEndedView;
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // set date color back to black.
-                // TODO: Make this based on theme.
-                date.setTextColor(getColor(R.color.black));
-
-                // and when it updates, it sets the value of the edit text.
-                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
-    }
-
-    private void setTodayDate(View v)
-    {
-        TextView textViewDate = v.getId() == R.id.todayButton ? dateStartedView : dateEndedView;
-        LocalDate date = LocalDate.now();
-        textViewDate.setText(date.toString());
     }
 
     @Override
@@ -291,76 +252,6 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
     {
         Toast.makeText(this, getString(R.string.toast_record_edited), Toast.LENGTH_LONG).show();
         finish();
-    }
-
-    public void onSelectLocationClicked(View v)
-    {
-        // whenever the select location button is clicked, we must check two cases:
-        // the permission is granted.
-        if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.dialog_location_required));
-            builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityEditMalfunction.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
-            builder.show();
-            return;
-        }
-
-        // the user actually wants to replace this location if it's already picked.
-        if (malfunction.getLocation() != null)
-        {
-            // create a dialog that informs them.
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.dialog_select_new_location_confirm));
-
-            // the YES button opens the google maps activity.
-            builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
-            {
-                Intent intent = new Intent(ActivityEditMalfunction.this, MapsSelectPointActivity.class);
-                startActivity(intent);
-            });
-
-            // the no button cancels.
-            builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
-
-            builder.show();
-            return;
-        }
-
-        // in any other case, the maps activity can open regularly.
-        Intent intent = new Intent(this, MapsSelectPointActivity.class);
-        startActivity(intent);
-    }
-
-    public void onDeleteLocationClicked(View v)
-    {
-        // alert dialog for location delete confirmation.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(R.string.dialog_location_deletion_confirmation);
-        builder.setCancelable(true);
-        builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
-        {
-            // set the location view to be default.
-            locationPickedView.setText(R.string.text_view_select_location);
-
-            // edit shared preferences to remove the picked_address and picked_location values.
-            SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
-
-            // put null in each of these values.
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("picked_location", null);
-            editor.putString("picked_address", null);
-            editor.apply();
-
-            // also nullify the values retrieved originally
-            address = null;
-            coordinates = null;
-        });
-
-        builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
-        builder.show();
     }
 
     @Override
