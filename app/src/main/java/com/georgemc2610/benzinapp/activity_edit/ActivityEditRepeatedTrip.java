@@ -43,8 +43,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
-    private CardView selectTrip, deleteTrip;
-    private Button applyEdits;
+    private Button selectTrip, deleteTrip, applyEdits;
     private TextView trip, totalKm;
     private Geocoder geocoder;
     private Address originAddress, destinationAddress;

@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Trip Info:"
+                android:text="@string/trip_info"
                 android:layout_marginBottom="5dp"
                 android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Make a trip..."
+                android:text="@string/text_view_repeated_trips_trip"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -83,70 +83,36 @@
 
             <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
                 <!-- BUTTON PICK DATE -->
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/tripButton"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#282828"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
+                    android:text="@string/button_repeated_trips_make_trip"
+                    app:backgroundTint="#282828"
+                    android:background="@drawable/rounded_button"
+                    android:letterSpacing="0"
+                    android:textSize="14sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="MAKE TRIP"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- BUTTON SELECT TODAY'S DATE -->
-                <androidx.cardview.widget.CardView
+                <!-- BUTTON PICK DATE -->
+                <Button
                     android:id="@+id/removeTripButton"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginStart="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#A30000"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="DELETE TRIP"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/button_remove_trip"
+                    app:backgroundTint="#A30000"
+                    android:background="@drawable/rounded_button"
+                    android:letterSpacing="0"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

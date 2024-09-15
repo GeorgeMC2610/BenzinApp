@@ -37,8 +37,7 @@ import java.util.List;
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
-    private CardView buttonPick, buttonDelete;
-    private Button buttonAdd;
+    private Button buttonPick, buttonDelete, buttonAdd;
     private CheckBox isRepeating;
     private TextView trip, totalKm, totalKmLegend;
     private Address originAddress, destinationAddress;

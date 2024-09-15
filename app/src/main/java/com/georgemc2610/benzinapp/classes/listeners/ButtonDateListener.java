@@ -18,7 +18,6 @@ public class ButtonDateListener
 {
     private Button pickDateButton, pickTodayButton;
     private TextView dateTextView;
-
     private int mYear, mMonth, mDay;
 
 

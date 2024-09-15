@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Malfunction Info:"
+                android:text="@string/text_view_malfunction_info"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:maxLength="2000"
-                android:hint="Description..."
+                android:hint="@string/description_hint"
                 android:textColor="@color/black"
                 android:textColorHint="#484848"
                 android:textSize="15sp"
