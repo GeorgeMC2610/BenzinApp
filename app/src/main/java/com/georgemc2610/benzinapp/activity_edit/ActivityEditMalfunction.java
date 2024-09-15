@@ -30,20 +30,22 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonLocationPicker;
+import com.georgemc2610.benzinapp.classes.listeners.CoordinatesChangeListener;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, Response.Listener<String>
+public class ActivityEditMalfunction extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, Response.Listener<String>, CoordinatesChangeListener
 {
     private LinearLayout baseLayout, scrollViewLayout;
     private EditText titleView, descView, atKmView, costView;
     private TextView dateStartedView, dateEndedView, locationPickedView;
     private CheckBox fixedCheckBox;
-    private CardView selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation;
-    private Button apply;
+    private Button selectDate, selectToday, selectDateFixed, selectTodayFixed, selectLocation, deleteLocation, apply;
     private Malfunction malfunction;
     private String address, coordinates;
     int mYear, mDay, mMonth;
@@ -55,6 +57,9 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
         // initialize activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_malfunction);
+
+        // get the fuel fill record passed to edit.
+        malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
 
         // get the views
         baseLayout = findViewById(R.id.editMalfunctionLinearLayout);
@@ -79,19 +84,13 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         // set button listeners
         apply.setOnClickListener(this::onButtonApplyEditsClicked);
-        selectDate.setOnClickListener(this::onButtonPickDateClicked);
-        selectToday.setOnClickListener(this::setTodayDate);
-        selectDateFixed.setOnClickListener(this::onButtonPickDateClicked);
-        selectTodayFixed.setOnClickListener(this::setTodayDate);
-        selectLocation.setOnClickListener(this::onSelectLocationClicked);
-        deleteLocation.setOnClickListener(this::onDeleteLocationClicked);
+        new ButtonDateListener(selectDate, selectToday, dateStartedView);
+        new ButtonDateListener(selectDateFixed, selectTodayFixed, dateEndedView);
+        new ButtonLocationPicker(selectLocation, deleteLocation, locationPickedView, this, malfunction.getLocation() == null, this);
 
         // set the listeners.
         fixedCheckBox.setOnCheckedChangeListener(this);
         fixedCheckBox.setChecked(false);
-
-        // get the fuel fill record passed to edit.
-        malfunction = (Malfunction) getIntent().getSerializableExtra("malfunction");
 
         // from the malfunction object get and initialize data.
         titleView.setText(malfunction.getTitle());
@@ -379,5 +378,12 @@ public class ActivityEditMalfunction extends AppCompatActivity implements Compou
 
         // apply edits before closing.
         locationEditor.apply();
+    }
+
+    @Override
+    public void deleteCoordinates()
+    {
+        address = null;
+        coordinates = null;
     }
 }
