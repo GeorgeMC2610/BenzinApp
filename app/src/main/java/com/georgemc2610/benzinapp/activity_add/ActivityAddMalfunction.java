@@ -31,7 +31,7 @@ public class ActivityAddMalfunction extends AppCompatActivity
     EditText titleView, descriptionView, atKmView;
     Button pickDate, pickToday, add;
     TextView dateView;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

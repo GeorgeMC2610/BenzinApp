@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
@@ -29,7 +30,7 @@ import java.util.Locale;
 public class ActivityDisplayService extends AppCompatActivity
 {
     TextView atKmView, costView, dateHappenedView, descriptionView, nextAtKmView, locationView;
-    CardView edit, delete;
+    Button edit, delete;
     String location;
     Service service;
 
