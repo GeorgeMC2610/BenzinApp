@@ -24,19 +24,21 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonLocationPicker;
+import com.georgemc2610.benzinapp.classes.listeners.CoordinatesChangeListener;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import com.georgemc2610.benzinapp.classes.original.Service;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityEditService extends AppCompatActivity
+public class ActivityEditService extends AppCompatActivity implements CoordinatesChangeListener
 {
     Service service;
     LinearLayout layout;
     EditText atKmView, descView, nextKmView, costView;
-    CardView pickDate, pickToday, pickLocation, deleteLocation;
-    Button applyEdits;
+    Button pickDate, pickToday, pickLocation, deleteLocation, applyEdits;
     String coordinates, address;
     TextView datePickedView, locationView;
     int mMonth, mYear, mDay;
@@ -62,14 +64,12 @@ public class ActivityEditService extends AppCompatActivity
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
         pickLocation = findViewById(R.id.locationButton);
-        deleteLocation = findViewById(R.id.removeLocationButton);
+        deleteLocation = findViewById(R.id.deleteLocationButton);
 
         // button listeners
+        new ButtonDateListener(pickDate, pickToday, datePickedView);
+        new ButtonLocationPicker(pickLocation, deleteLocation, locationView, this, service, this);
         applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
-        pickDate.setOnClickListener(this::onPickDateButtonClicked);
-        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
-        pickLocation.setOnClickListener(this::onSelectLocationClicked);
-        deleteLocation.setOnClickListener(this::onDeleteLocationClicked);
 
         // get the fuel fill record passed to edit.
         service = (Service) getIntent().getSerializableExtra("service");
@@ -265,5 +265,12 @@ public class ActivityEditService extends AppCompatActivity
 
         // apply edits before closing.
         locationEditor.apply();
+    }
+
+    @Override
+    public void deleteCoordinates()
+    {
+        address = null;
+        coordinates = null;
     }
 }

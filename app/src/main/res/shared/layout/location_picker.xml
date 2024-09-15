@@ -26,7 +26,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/dateButton"
+            android:id="@+id/locationButton"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/todayButton"
+            android:id="@+id/deleteLocationButton"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_weight="1"
