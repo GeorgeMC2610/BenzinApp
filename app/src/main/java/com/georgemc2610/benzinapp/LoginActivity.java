@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity
 {
 
     EditText username, password;
-    CardView login;
+    Button login;
     View register;
     ProgressBar progressBar;
 
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity
         password = findViewById(R.id.editText_Password);
 
         // get the button
-        login = findViewById(R.id.buttonRegister);
+        login = findViewById(R.id.buttonLogin);
         login.setOnClickListener(this::OnButtonLoginPressed);
 
         // register text view

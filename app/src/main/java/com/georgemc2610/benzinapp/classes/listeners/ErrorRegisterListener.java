@@ -16,9 +16,9 @@ public class ErrorRegisterListener implements Response.ErrorListener
 {
     private final Activity activity;
     private final ProgressBar progressBar;
-    private final CardView button;
+    private final Button button;
 
-    public ErrorRegisterListener(Activity activity, ProgressBar progressBar, CardView button)
+    public ErrorRegisterListener(Activity activity, ProgressBar progressBar, Button button)
     {
         this.activity = activity;
         this.progressBar = progressBar;

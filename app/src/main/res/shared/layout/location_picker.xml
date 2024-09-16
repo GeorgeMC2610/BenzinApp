@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 'SELECT DATE' LABEL -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_view_select_location"
+        android:layout_marginTop="25dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-black"
+        android:textAlignment="center"
+        android:id="@+id/locationText" />
+
+    <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/locationButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:text="@string/button_select_location"
+            app:backgroundTint="#282828"
+            android:background="@drawable/rounded_button"
+            android:letterSpacing="0"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/deleteLocationButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:text="@string/button_delete_location"
+            app:backgroundTint="#A30000"
+            android:background="@drawable/rounded_button"
+            android:letterSpacing="0"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</LinearLayout>

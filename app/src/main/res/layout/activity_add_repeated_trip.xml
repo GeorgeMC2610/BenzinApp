@@ -83,70 +83,36 @@
 
             <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
                 <!-- BUTTON PICK DATE -->
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/tripButton"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#282828"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
+                    android:text="@string/button_repeated_trips_make_trip"
+                    app:backgroundTint="#282828"
+                    android:background="@drawable/rounded_button"
+                    android:letterSpacing="0"
+                    android:textSize="14sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_repeated_trips_make_trip"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- BUTTON SELECT TODAY'S DATE -->
-                <androidx.cardview.widget.CardView
+                <!-- BUTTON PICK DATE -->
+                <Button
                     android:id="@+id/removeTripButton"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginStart="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#A30000"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_remove_trip"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/button_remove_trip"
+                    app:backgroundTint="#A30000"
+                    android:background="@drawable/rounded_button"
+                    android:letterSpacing="0"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -175,42 +141,7 @@
     </ScrollView>
 
     <!-- ADD BUTTON -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardCornerRadius="50dp"
-        app:cardBackgroundColor="#006600"
-        android:padding="12dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
-        android:textSize="16sp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/addText"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="-60dp"
-                android:background="@android:drawable/ic_input_add"
-                android:backgroundTint="@color/white" />
-
-            <TextView
-                android:id="@+id/addText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="@string/button_add_trip"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    <include
+        layout="@layout/bottom_button_add" />
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -70,7 +71,7 @@ public class RequestHandler
      * @param Password Provided Password.
      * @param progressBar A Progress Bar for decoration.
      */
-    public void Login(Activity activity, String Username, String Password, EditText UsernameEditText, EditText PasswordEditText, CardView LoginButton, ProgressBar progressBar)
+    public void Login(Activity activity, String Username, String Password, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -122,7 +123,7 @@ public class RequestHandler
      * @param LoginButton View that gets disabled and re-enabled once the request is processed.
      * @param progressBar Progress Bar that keeps turning until the request is processed.
      */
-    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, CardView LoginButton, ProgressBar progressBar)
+    public void AttemptLogin(Activity activity, EditText UsernameEditText, EditText PasswordEditText, Button LoginButton, ProgressBar progressBar)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);
@@ -162,7 +163,7 @@ public class RequestHandler
         requestQueue.add(request);
     }
 
-    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar, CardView button)
+    public void Signup(Activity activity, String username, String password, String passwordConfirmation, String carManufacturer, String model, int year, ProgressBar progressBar, Button button)
     {
         // request Queue required, to send the request.
         requestQueue = Volley.newRequestQueue(activity);

@@ -117,86 +117,9 @@
 
             </LinearLayout>
 
-            <!-- 'SELECT DATE' LABEL -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_view_select_date"
-                android:layout_marginTop="25dp"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:id="@+id/dateText" />
-
-            <!-- LINEAR LAYOUT FOR TWO BUTTONS -->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <!-- BUTTON PICK DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/dateButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#282828"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_select_date"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- BUTTON SELECT TODAY'S DATE -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/todayButton"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="2dp"
-                    app:cardCornerRadius="50dp"
-                    app:cardBackgroundColor="#464646"
-                    android:padding="12dp"
-                    android:gravity="center"
-                    android:textSize="16sp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/button_select_todays_date"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
+            <!-- SELECT DATE -->
+            <include
+                layout="@layout/date_picker" />
 
             <!-- REQUIRED INFO LABEL -->
             <TextView
@@ -265,44 +188,7 @@
     </ScrollView>
 
     <!-- APPLY BUTTON -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/applyEditsButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardCornerRadius="50dp"
-        app:cardBackgroundColor="@color/edit_record_light"
-        android:padding="12dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
-        android:textSize="16sp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/addText"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="-50dp"
-                android:background="@android:drawable/ic_input_add"
-                android:backgroundTint="@color/white" />
-
-            <TextView
-                android:id="@+id/addText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="APPLY EDITS"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
+    <include
+        layout="@layout/bottom_button_apply_edits" />
 
 </LinearLayout>

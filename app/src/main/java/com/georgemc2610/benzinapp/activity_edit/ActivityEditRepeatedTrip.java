@@ -43,7 +43,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 {
     private EditText title, timesRepeating;
     private CheckBox isRepeating;
-    private CardView selectTrip, applyChanges, deleteTrip;
+    private Button selectTrip, deleteTrip, applyEdits;
     private TextView trip, totalKm;
     private Geocoder geocoder;
     private Address originAddress, destinationAddress;
@@ -65,7 +65,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 
         // buttons
         selectTrip = findViewById(R.id.tripButton);
-        applyChanges = findViewById(R.id.applyButton);
+        applyEdits = findViewById(R.id.applyButton);
         deleteTrip = findViewById(R.id.removeTripButton);
 
         // initialize repeated trip
@@ -80,7 +80,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 
         // add the button listener
         selectTrip.setOnClickListener(this::onSelectTripClicked);
-        applyChanges.setOnClickListener(this::onButtonApplyChangesClicked);
+        applyEdits.setOnClickListener(this::onButtonApplyChangesClicked);
 
         // initialize geocoder.
         geocoder = new Geocoder(this);
@@ -138,7 +138,7 @@ public class ActivityEditRepeatedTrip extends AppCompatActivity
 
         // keyboard hiding
         LinearLayout layout = findViewById(R.id.editTripLinearLayout);
-        new KeyboardButtonAppearingTool(layout, applyChanges);
+        new KeyboardButtonAppearingTool(layout, applyEdits);
 
         // actionbar
         DisplayActionBarTool.displayActionBar(this, getString(R.string.title_edit_trip));

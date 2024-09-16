@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,7 +27,8 @@ public class ActivityEditRecord extends AppCompatActivity
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     private TextView textViewDate;
-    private CardView pickDate, pickToday, applyEdits;
+    private CardView pickDate, pickToday;
+    Button applyEdits;
     int mYear, mDay, mMonth;
 
     @Override
@@ -51,7 +53,7 @@ public class ActivityEditRecord extends AppCompatActivity
         // buttons.
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
-        applyEdits = findViewById(R.id.applyEditsButton);
+        applyEdits = findViewById(R.id.applyButton);
 
         // button listeners.
         pickDate.setOnClickListener(this::onEditTextDateTimeClicked);

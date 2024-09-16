@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
@@ -27,9 +29,8 @@ import java.util.Calendar;
 public class ActivityAddMalfunction extends AppCompatActivity
 {
     EditText titleView, descriptionView, atKmView;
-    CardView pickDate, pickToday, add;
+    Button pickDate, pickToday, add;
     TextView dateView;
-    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,10 +49,10 @@ public class ActivityAddMalfunction extends AppCompatActivity
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
         add = findViewById(R.id.addButton);
+        add.setText(R.string.button_add_malfunction);
 
         // button listeners
-        pickDate.setOnClickListener(this::onButtonPickDateClicked);
-        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        new ButtonDateListener(pickDate, pickToday, dateView);
         add.setOnClickListener(this::onButtonAddMalfunctionClicked);
 
         // add listener for the keyboard showing.
@@ -112,35 +113,6 @@ public class ActivityAddMalfunction extends AppCompatActivity
         return (atKmView.getText().toString().trim().length() != 0 ||
                 titleView.getText().toString().trim().length() != 0 ||
                 descriptionView.getText().toString().trim().length()  != 0);
-    }
-
-    private void onButtonPickDateClicked(View view)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                dateView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
-    }
-
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        dateView.setText(date.toString());
     }
 
     private void onButtonAddMalfunctionClicked(View view)
