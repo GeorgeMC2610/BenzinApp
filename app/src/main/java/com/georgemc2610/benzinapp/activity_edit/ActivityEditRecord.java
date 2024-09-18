@@ -28,7 +28,8 @@ public class ActivityEditRecord extends AppCompatActivity
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     private TextView textViewDate;
-    Button applyEdits, pickDate, pickToday;
+    private Button applyEdits, pickDate, pickToday;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
