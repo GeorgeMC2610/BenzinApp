@@ -41,7 +41,6 @@ public class ActivityEditService extends AppCompatActivity implements Coordinate
     Button pickDate, pickToday, pickLocation, deleteLocation, applyEdits;
     String coordinates, address;
     TextView datePickedView, locationView;
-    int mMonth, mYear, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -120,12 +119,6 @@ public class ActivityEditService extends AppCompatActivity implements Coordinate
             locationView.setText(address);
     }
 
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        this.datePickedView.setText(date.toString());
-    }
-
     private void onButtonApplyEditsClicked(View v)
     {
         // set the object's data.
@@ -149,105 +142,13 @@ public class ActivityEditService extends AppCompatActivity implements Coordinate
             service.setNextKm(Integer.parseInt(nextKmView.getText().toString().trim()));
 
         // TODO: Will need change
-        if (ViewTools.getFilteredViewSequence(locationView).equalsIgnoreCase("select location..."))
+        if (ViewTools.getFilteredViewSequence(locationView).equalsIgnoreCase("select location"))
             service.setLocation("");
         else if (address != null && coordinates != null)
             service.setLocation(address + '|' + coordinates);
 
         // send request with applied edits.
         RequestHandler.getInstance().EditService(this, service);
-    }
-
-    private void onPickDateButtonClicked(View view)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                datePickedView.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
-    }
-
-    private void onSelectLocationClicked(View v)
-    {
-        // whenever the select location button is clicked, we must check two cases:
-        // the permission is granted.
-        if (    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.dialog_location_required));
-            builder.setNeutralButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ActivityEditService.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 9918));
-            builder.show();
-        }
-
-        // the user actually wants to replace this location if it's already picked.
-        if (service.getLocation() != null)
-        {
-            // create a dialog that informs them.
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.dialog_select_new_location_confirm));
-
-            // the YES button opens the google maps activity.
-            builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
-            {
-                Intent intent = new Intent(ActivityEditService.this, MapsSelectPointActivity.class);
-                startActivity(intent);
-            });
-
-            // the no button cancels.
-            builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
-
-            builder.show();
-            return;
-        }
-
-        // in any other case, the maps activity can open regularly.
-        Intent intent = new Intent(this, MapsSelectPointActivity.class);
-        startActivity(intent);
-    }
-
-    private void onDeleteLocationClicked(View v)
-    {
-        // alert dialog for location delete confirmation.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(R.string.dialog_location_deletion_confirmation);
-        builder.setCancelable(true);
-        builder.setPositiveButton(R.string.dialog_yes, (dialog, which) ->
-        {
-            // set the location view to be default.
-            locationView.setText(R.string.text_view_select_location);
-
-            // edit shared preferences to remove the picked_address and picked_location values.
-            SharedPreferences preferences = getSharedPreferences("location", MODE_PRIVATE);
-
-            // put null in each of these values.
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("picked_location", null);
-            editor.putString("picked_address", null);
-            editor.apply();
-
-            // also nullify the values retrieved originally
-            address = null;
-            coordinates = null;
-        });
-
-        builder.setNegativeButton(R.string.dialog_no, (dialog, which) -> {});
-        builder.show();
     }
 
     @Override
