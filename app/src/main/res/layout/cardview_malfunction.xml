@@ -79,7 +79,8 @@
                     android:layout_height="wrap_content"
                     android:text="(at km)"
                     style="@style/textColor"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText" />
 
 
             </LinearLayout>
@@ -91,7 +92,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_weight="0">
-                
+
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/card_malfunction_button_delete"
                     android:layout_width="wrap_content"
