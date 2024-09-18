@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
@@ -27,9 +28,8 @@ public class ActivityEditRecord extends AppCompatActivity
     private FuelFillRecord record;
     private EditText editTextLiters, editTextCost, editTextKilometers, editTextPetrolType, editTextStation, editTextNotes;
     private TextView textViewDate;
-    private CardView pickDate, pickToday;
-    Button applyEdits;
-    int mYear, mDay, mMonth;
+    private Button applyEdits, pickDate, pickToday;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,8 +56,7 @@ public class ActivityEditRecord extends AppCompatActivity
         applyEdits = findViewById(R.id.applyButton);
 
         // button listeners.
-        pickDate.setOnClickListener(this::onEditTextDateTimeClicked);
-        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
+        new ButtonDateListener(pickDate, pickToday, textViewDate);
         applyEdits.setOnClickListener(this::onButtonApplyEditsClicked);
 
         // apply text to the edit texts.
@@ -155,34 +154,5 @@ public class ActivityEditRecord extends AppCompatActivity
     private String getStringFromEditText(EditText editText)
     {
         return editText.getText().toString().trim().isEmpty() ? null : editText.getText().toString().trim();
-    }
-
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        textViewDate.setText(date.toString());
-    }
-
-    private void onEditTextDateTimeClicked(View v)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                textViewDate.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
     }
 }
