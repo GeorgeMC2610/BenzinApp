@@ -17,7 +17,7 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 public class RegisterActivity extends AppCompatActivity
 {
     EditText username, password, passwordConfirmation, manufacturer, model, year;
-    CardView button;
+    Button button;
     ProgressBar progressBar;
     TextView loginText;
 
@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity
         year = findViewById(R.id.editText_Year);
         loginText = findViewById(R.id.textView_RegisterIfNoAccount);
 
-        progressBar = findViewById(R.id.progressBar_register);
+        progressBar = findViewById(R.id.progressBar_Register);
         button = findViewById(R.id.buttonRegister);
 
         button.setOnClickListener(this::onButtonRegisterPressed);

@@ -15,6 +15,15 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_view_login_to_benzinapp"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
@@ -46,44 +55,44 @@
             android:inputType="textPassword"
             android:id="@+id/editText_Password" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/buttonRegister"
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:cardCornerRadius="50dp"
-            app:cardBackgroundColor="#282828"
-            android:padding="12dp"
-            android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:textSize="16sp">
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp">
 
-            <RelativeLayout
+            <ProgressBar
+                android:id="@+id/progressBar_Login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_button"
+                android:gravity="center"
+                android:text="@string/button_login"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:backgroundTint="#323232"
 
-                <ProgressBar
-                    android:id="@+id/progressBar_Login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/text_view_login"
-                    android:layout_marginStart="-100dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/text_view_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/button_login"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/textView_RegisterIfNoAccount"

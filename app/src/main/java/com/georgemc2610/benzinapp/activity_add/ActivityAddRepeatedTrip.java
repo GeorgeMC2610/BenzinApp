@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -36,7 +37,7 @@ import java.util.List;
 public class ActivityAddRepeatedTrip extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener
 {
     private EditText title, timesRepeating;
-    private CardView buttonAdd, buttonPick, buttonDelete;
+    private Button buttonPick, buttonDelete, buttonAdd;
     private CheckBox isRepeating;
     private TextView trip, totalKm, totalKmLegend;
     private Address originAddress, destinationAddress;
@@ -62,6 +63,7 @@ public class ActivityAddRepeatedTrip extends AppCompatActivity implements Compou
 
         // buttons
         buttonAdd = findViewById(R.id.addButton);
+        buttonAdd.setText(R.string.button_add_trip);
         buttonPick = findViewById(R.id.tripButton);
         buttonDelete = findViewById(R.id.removeTripButton);
 

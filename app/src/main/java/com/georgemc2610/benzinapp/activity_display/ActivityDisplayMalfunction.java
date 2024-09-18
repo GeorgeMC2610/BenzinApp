@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditMalfunction;
@@ -29,7 +30,8 @@ import java.util.Locale;
 public class ActivityDisplayMalfunction extends AppCompatActivity
 {
     TextView titleView, descriptionView, startedView, endedView, atKmView, costView, locationView, statusView;
-    CardView delete, edit, fixedData;
+    Button delete, edit;
+    CardView fixedData;
     String coordinates;
     Malfunction malfunction;
 

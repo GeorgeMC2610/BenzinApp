@@ -19,7 +19,7 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 public class ActivityEditAccount extends AppCompatActivity
 {
     EditText username, manufacturer, model, year;
-    CardView apply;
+    Button apply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

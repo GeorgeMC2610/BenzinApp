@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
@@ -32,7 +33,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 {
     TextView date, petrolType, cost, liters, kilometers, lt_per_100, km_per_lt, cost_per_km, notes;
     FuelFillRecord record;
-    CardView delete, edit;
+    Button delete, edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,6 +87,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
 
         // station string is different
         String station;
+        //petrolType.setTextColor(NightModeTool.getRedColor(this)); TODO: Add normal color for this TextView.
         if (record.getStation() == null || record.getStation().isEmpty())
         {
             if (record.getFuelType() == null || record.getFuelType().isEmpty())
@@ -128,8 +130,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         // notes might not be present.
         if (record.getNotes().length() == 0)
         {
-            // TODO: Replace with String Value.
-            this.notes.setText("No notes added.");
+            this.notes.setText(R.string.text_view_no_notes_added);
             this.notes.setTextColor(getColor(R.color.light_gray));
             this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
         }

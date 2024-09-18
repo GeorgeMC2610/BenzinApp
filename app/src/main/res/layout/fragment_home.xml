@@ -214,7 +214,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- TODO: REPLACE WITH STRING VALUE -->
                 <TextView
                     android:id="@+id/text_view_combined_costs"
                     android:layout_width="match_parent"
@@ -222,7 +221,7 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     style="@style/textColor"
-                    android:text="COMBINED COSTS"
+                    android:text="@string/text_view_combined_costs"
                     android:textAlignment="center"
                     android:textSize="28sp"
                     android:textStyle="bold" />

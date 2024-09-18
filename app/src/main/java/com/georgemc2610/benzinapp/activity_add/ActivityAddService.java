@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,19 +31,22 @@ import com.georgemc2610.benzinapp.activity_maps.MapsSelectPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.KeyboardButtonAppearingTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonDateListener;
+import com.georgemc2610.benzinapp.classes.listeners.ButtonLocationPicker;
+import com.georgemc2610.benzinapp.classes.listeners.CoordinatesChangeListener;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class ActivityAddService extends AppCompatActivity
+public class ActivityAddService extends AppCompatActivity implements CoordinatesChangeListener
 {
     EditText atKm, nextKm, costEur, notes;
     LocationManager locationManager;
     TextView location, date;
-    CardView addButton, pickLocation, pickDate, pickToday, deleteLocation;
+    Button pickLocation, pickDate, pickToday, deleteLocation, addButton;
     String coordinates, address;
-    int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,16 +65,21 @@ public class ActivityAddService extends AppCompatActivity
 
         // get the buttons
         addButton = findViewById(R.id.addButton);
+        addButton.setText(R.string.button_add_service);
+        addButton.setOnClickListener(this::onButtonAddClicked);
+
+        // location button listeners
         pickLocation = findViewById(R.id.locationButton);
+        deleteLocation = findViewById(R.id.deleteLocationButton);
+        new ButtonLocationPicker(pickLocation, deleteLocation, location, this, false, this);
+
+        // location buttons and listeners
         pickDate = findViewById(R.id.dateButton);
         pickToday = findViewById(R.id.todayButton);
-        deleteLocation = findViewById(R.id.removeLocationButton);
+        new ButtonDateListener(pickDate, pickToday, date);
 
         // assign listeners to the buttons
-        addButton.setOnClickListener(this::onButtonAddClicked);
         pickLocation.setOnClickListener(this::onSelectLocationClicked);
-        pickDate.setOnClickListener(this::onPickDateClicked);
-        pickToday.setOnClickListener(this::onButtonPickTodayDateClicked);
         deleteLocation.setOnClickListener(this::onRemoveLocationButtonClicked);
 
         // add listener for the keyboard showing.
@@ -150,32 +159,17 @@ public class ActivityAddService extends AppCompatActivity
                 costEur.getText().toString().trim().length() != 0);
     }
 
-    private void onButtonPickTodayDateClicked(View v)
-    {
-        LocalDate date = LocalDate.now();
-        this.date.setText(date.toString());
-    }
-
     private void onButtonAddClicked(View v)
     {
         boolean validated = true;
 
         // all of the following fields are required. If any of those are not filled, display an error.
-        if (atKm.getText().toString().trim().length() == 0)
-        {
-            atKm.setError(getString(R.string.error_field_cannot_be_empty));
+        if (ViewTools.setErrors(this, notes, atKm))
             validated = false;
-        }
 
-        if (notes.getText().toString().trim().length() == 0)
+        if (!ViewTools.dateFilled(date))
         {
-            notes.setError(getString(R.string.error_field_cannot_be_empty));
-            validated = false;
-        }
-
-        if (date.getText().toString().trim().equals(getString(R.string.text_view_select_date)))
-        {
-            Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_please_select_date), Toast.LENGTH_LONG).show();
             validated = false;
         }
 
@@ -194,29 +188,6 @@ public class ActivityAddService extends AppCompatActivity
 
         // send it to the cloud.
         RequestHandler.getInstance().AddService(this, at_km, cost_eur, description, locationString, date_happened, next_km);
-    }
-
-    private void onPickDateClicked(View v)
-    {
-        // get calendar and dates to keep track of
-        final Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // date picker dialog shows up
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-                // and when it updates, it sets the value of the edit text.
-                date.setText(year + "-" + (month < 9 ? "0" + (++month) : ++month) + "-" + (dayOfMonth < 10? "0" + dayOfMonth : dayOfMonth));
-            }
-        }, mYear, mMonth, mDay);
-
-        // show the dialog.
-        datePickerDialog.show();
     }
 
     private void onSelectLocationClicked(View view)
@@ -284,5 +255,12 @@ public class ActivityAddService extends AppCompatActivity
 
         // apply edits before closing.
         locationEditor.apply();
+    }
+
+    @Override
+    public void deleteCoordinates()
+    {
+        address = null;
+        coordinates = null;
     }
 }
