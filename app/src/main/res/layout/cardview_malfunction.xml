@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -15,6 +16,7 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
+        <!-- TEXTS -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,7 +49,8 @@
                     android:text="(title)"
                     style="@style/textColor"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
                 <!-- DATE -->
                 <TextView
@@ -56,7 +59,8 @@
                     android:layout_height="wrap_content"
                     android:text="(date)"
                     style="@style/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
 
                 <!-- STATUS -->
                 <TextView
@@ -65,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:text="(ongoing/fixed)"
                     style="@style/textColorSpecial"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText" />
 
                 <!-- WHEN -->
                 <TextView
@@ -79,14 +84,14 @@
 
             </LinearLayout>
 
+            <!-- BUTTONS -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_weight="2">
-
-                <!-- BUTTONS -->
+                android:layout_weight="0">
+                
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/card_malfunction_button_delete"
                     android:layout_width="wrap_content"

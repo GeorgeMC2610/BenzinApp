@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -29,7 +30,8 @@
                 android:text="id"
                 style="@style/textColorSpecial"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
 
             <!-- DATE -->
             <TextView
@@ -47,7 +49,8 @@
                 android:text="(Timestamp)"
                 style="@style/textColor"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <!-- COST -->
             <TextView
@@ -58,7 +61,8 @@
                 android:layout_marginTop="36sp"
                 android:text="(Cost)"
                 style="@style/textColor"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
 
             <!-- FUEL TYPE -->
             <TextView
@@ -69,7 +73,8 @@
                 android:layout_marginTop="60sp"
                 android:text="(Petrol Filled, Gas Station)"
                 style="@style/textColorSpecial"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
 
             <!-- LT PER 100 -->
             <TextView
@@ -80,7 +85,8 @@
                 android:layout_marginTop="80sp"
                 android:text="(x per 100 km)"
                 style="@style/textColorSpecial"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
 
             <!-- BUTTONS -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
