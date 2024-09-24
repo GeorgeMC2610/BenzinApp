@@ -120,7 +120,7 @@ public class ActivityAddMalfunction extends AppCompatActivity
         boolean validated = true;
 
         // these fields must be filled.
-        if (ViewTools.setErrors(this, atKmView, titleView, descriptionView))
+        if (!ViewTools.setErrors(this, atKmView, titleView, descriptionView))
             validated = false;
 
         // date must be filled.
