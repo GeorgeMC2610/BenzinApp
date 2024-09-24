@@ -164,7 +164,7 @@ public class ActivityAddService extends AppCompatActivity implements Coordinates
         boolean validated = true;
 
         // all of the following fields are required. If any of those are not filled, display an error.
-        if (ViewTools.setErrors(this, notes, atKm))
+        if (!ViewTools.setErrors(this, notes, atKm))
             validated = false;
 
         if (!ViewTools.dateFilled(date))
