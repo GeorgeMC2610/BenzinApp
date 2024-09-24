@@ -24,6 +24,11 @@ public final class NightModeTool
         return isNightMode(activity)? Color.WHITE : Color.BLACK;
     }
 
+    public static int getGrayTextColor(Activity activity)
+    {
+        return isNightMode(activity)? Color.rgb(180, 180, 180) : Color.rgb(55, 55, 55);
+    }
+
     public static int getRedColor(Activity activity)
     {
         return isNightMode(activity)? activity.getColor(R.color.red) : activity.getColor(R.color.dark_red);
