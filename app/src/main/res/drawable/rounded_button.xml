@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#323232" />
-    <corners android:bottomRightRadius="50dp"
-        android:bottomLeftRadius="50dp"
-        android:topRightRadius="50dp"
-        android:topLeftRadius="50dp"/>
-</shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight"> <!-- ripple color follows system theme -->
+
+    <!-- Mask for ripple effect -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:bottomRightRadius="50dp"
+                android:bottomLeftRadius="50dp"
+                android:topRightRadius="50dp"
+                android:topLeftRadius="50dp"/>
+        </shape>
+    </item>
+
+    <!-- Normal button background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorPrimary" />
+            <corners android:bottomRightRadius="50dp"
+                android:bottomLeftRadius="50dp"
+                android:topRightRadius="50dp"
+                android:topLeftRadius="50dp"/>
+        </shape>
+    </item>
+</ripple>

@@ -13,7 +13,8 @@
     <color name="card_special_dark">#333300</color>
     <color name="dark_gray">#717171</color>
     <color name="very_dark_gray">#242424</color>
-    <color name="light_gray">#a4a4a4</color>
+    <color name="gray">#a4a4a4</color>
+    <color name="light_gray">#d8d8d8</color>
     <color name="dark_red">#990000</color>
     <color name="red">#ff0000</color>
     <color name="dark_green">#007400</color>

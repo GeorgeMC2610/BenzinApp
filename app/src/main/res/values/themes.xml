@@ -30,6 +30,34 @@
         <item name="android:backgroundTint">@color/dark_red</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="genericField" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/very_dark_gray</item>
+    </style>
+
+    <style name="selectDate">
+        <item name="android:backgroundTint">@color/dark_gray</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="selectToday">
+        <item name="android:backgroundTint">@color/very_dark_gray</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="mainBackground">
+        <item name="android:backgroundTint">
+            @drawable/login_background_gradient
+        </item>
+    </style>
+
+    <style name="secondaryBackground">
+        <item name="android:backgroundTint">
+            @drawable/register_background_gradient
+        </item>
+    </style>
+
     <style name="textColor"><item name="android:textColor">@color/black</item></style>
     <style name="textColorSpecial"><item name="android:textColor">@color/dark_gray</item></style>
     <style name="textColorSpecial1"><item name="android:textColor">@color/dark_green</item></style>
