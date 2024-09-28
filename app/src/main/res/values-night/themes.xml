@@ -20,8 +20,8 @@
     <style name="cardSpecialBackground"><item name="android:backgroundTint">@color/card_special_dark</item></style>
 
     <style name="buttonMainBackground">
-        <item name="android:backgroundTint">@color/main_dark</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/light_gray</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="buttonEditBackground">
@@ -71,7 +71,7 @@
         </item>
     </style>
 
-    <style name="secondaryBackground" parent="">
+    <style name="secondaryBackground">
         <item name="android:background">
             @drawable/register_background_gradient_dark
         </item>
