@@ -70,6 +70,26 @@ public class FuelFillRecord implements Serializable
         }
     }
 
+    private boolean isPresent(String field)
+    {
+        return !field.trim().isEmpty() && !field.trim().equals("null");
+    }
+
+    public boolean hasNotes()
+    {
+        return isPresent(this.notes);
+    }
+
+    public boolean hasStation()
+    {
+        return isPresent(this.station);
+    }
+
+    public boolean hasFuelType()
+    {
+        return isPresent(this.fuelType);
+    }
+
     public float getLiters() {
         return liters;
     }

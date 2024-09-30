@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/edit_account_background_gradient"
+    style="@style/editBackground"
     android:id="@+id/editMalfunctionLinearLayout"
     tools:context=".activity_add.ActivityAddMalfunction">
 
@@ -40,11 +40,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:hint="@string/title_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginEnd="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="text" />
 
@@ -54,11 +52,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:hint="@string/malfunction_at_km_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>
@@ -68,10 +64,8 @@
                 android:layout_height="100dp"
                 android:maxLength="2000"
                 android:hint="@string/description_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:layout_marginTop="5dp"
                 android:padding="11dp"
                 android:inputType="textMultiLine"
@@ -116,10 +110,8 @@
                     android:visibility="gone"
                     android:layout_weight="4"
                     android:hint="@string/text_view_cost"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>
@@ -133,7 +125,7 @@
                 android:visibility="gone"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/dateFixedText" />
@@ -149,27 +141,27 @@
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/dateFixedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    style="@style/selectDateFixed"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_select_date"
-                    app:backgroundTint="#005000"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
                     android:textSize="18sp" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/todayFixedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    style="@style/selectTodayFixed"
+                    android:layout_marginStart="3dp"
                     android:text="@string/button_select_todays_date"
-                    app:backgroundTint="#00AA00"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
                     android:textSize="18sp" />
 
@@ -179,12 +171,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select location..."
+                android:text="@string/text_view_select_location"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 android:visibility="gone"
                 android:tag="additional"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/locationText" />
@@ -202,27 +194,27 @@
                 <Button
                     android:id="@+id/locationButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_select_location"
-                    app:backgroundTint="#232323"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
+                    style="@style/selectToday"
+                    app:cornerRadius="55dp"
                     android:textSize="18sp" />
 
                 <!-- BUTTON DELETE LOCATION -->
                 <Button
                     android:id="@+id/removeLocationButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="3dp"
+                    style="@style/deleteButton"
                     android:text="@string/button_delete_location"
-                    app:backgroundTint="#A30000"
-                    android:background="@drawable/rounded_button"
+                    app:cornerRadius="55dp"
                     android:letterSpacing="0"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

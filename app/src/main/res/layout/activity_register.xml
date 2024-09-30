@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/register_background_gradient"
+    style="@style/secondaryBackground"
     android:gravity="center"
     android:padding="16dp"
     tools:context=".RegisterActivity">
@@ -43,10 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/text_view_username"
-            android:textColor="@color/black"
-            android:textColorHint="#484848"
+            style="@style/genericField"
             android:textSize="15sp"
-            android:background="@drawable/rounded_corner_field"
             android:padding="10dp"
             android:inputType="text"
             android:id="@+id/editText_Username" />
@@ -65,10 +63,8 @@
                 android:layout_weight="1"
                 android:hint="@string/text_view_password"
                 android:inputType="textPassword"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:id="@+id/editText_Password" />
 
@@ -78,10 +74,8 @@
                 android:layout_weight="1"
                 android:layout_marginStart="2dp"
                 android:hint="@string/text_view_confirm_password"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:inputType="textWebPassword"
                 android:id="@+id/editText_PasswordConfirmation" />
@@ -102,10 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/text_view_car_manufacturer"
-            android:textColor="@color/black"
-            android:textColorHint="#484848"
+            style="@style/genericField"
             android:textSize="15sp"
-            android:background="@drawable/rounded_corner_field"
             android:padding="10dp"
             android:layout_marginTop="5dp"
             android:inputType="text"
@@ -124,10 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:hint="@string/text_view_car_model"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:inputType="text"
                 android:id="@+id/editText_CarModel" />
@@ -138,10 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:hint="@string/text_view_car_year"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:inputType="numberSigned"
                 android:id="@+id/editText_Year" />
@@ -169,15 +157,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
+                app:cornerRadius="55dp"
                 android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/rounded_button"
+                style="@style/selectDate"
+                android:layout_height="65dp"
                 android:gravity="center"
                 android:text="@string/button_register"
                 android:textAllCaps="false"
                 android:textSize="18sp"
-                app:backgroundTint="#323232"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -191,9 +179,9 @@
             android:id="@+id/textView_RegisterIfNoAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/textColor"
             android:text="@string/text_view_login"
             android:textSize="18sp"
-            android:textColor="@color/black"
             android:layout_marginTop="32dp" />
 
     </LinearLayout>
