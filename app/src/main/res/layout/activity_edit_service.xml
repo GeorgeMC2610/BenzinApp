@@ -33,12 +33,10 @@
                 android:layout_height="100dp"
                 android:maxLength="4096"
                 android:hint="@string/description_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
+                style="@style/genericField"
                 android:padding="11dp"
                 android:inputType="textMultiLine"
                 android:id="@+id/desc" />
@@ -54,11 +52,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:hint="@string/text_view_cost"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="numberDecimal" />
 
@@ -68,11 +64,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:hint="@string/service_at_km_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
 
@@ -82,11 +76,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:hint="@string/service_next_km_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>

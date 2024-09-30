@@ -40,11 +40,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:hint="@string/title_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginEnd="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="text" />
 
@@ -54,11 +52,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:hint="@string/malfunction_at_km_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>
@@ -68,10 +64,8 @@
                 android:layout_height="100dp"
                 android:maxLength="2000"
                 android:hint="@string/description_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:layout_marginTop="5dp"
                 android:padding="11dp"
                 android:inputType="textMultiLine"
@@ -116,10 +110,8 @@
                     android:visibility="gone"
                     android:layout_weight="4"
                     android:hint="@string/text_view_cost"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>
@@ -133,7 +125,7 @@
                 android:visibility="gone"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/dateFixedText" />
@@ -184,7 +176,7 @@
                 android:textSize="25sp"
                 android:visibility="gone"
                 android:tag="additional"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/locationText" />
@@ -199,6 +191,7 @@
                 android:orientation="horizontal" >
 
                 <!-- BUTTON PICK LOCATION -->
+                <!-- TODO: Needs styling -->
                 <Button
                     android:id="@+id/locationButton"
                     android:layout_width="match_parent"
@@ -212,6 +205,7 @@
                     android:textSize="18sp" />
 
                 <!-- BUTTON DELETE LOCATION -->
+                <!-- TODO: Needs styling -->
                 <Button
                     android:id="@+id/removeLocationButton"
                     android:layout_width="match_parent"
