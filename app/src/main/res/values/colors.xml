@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="edit_record_dark">#2DA2FF</color>
     <color name="edit_record_light">#5599FF</color>
-    <color name="edit_record_gradient_dark">#1629A8</color>
+    <color name="edit_record_gradient_dark">#1666C8</color>
     <color name="card_special_light">#ffffee</color>
     <color name="card_special_dark">#333300</color>
     <color name="dark_gray">#717171</color>
