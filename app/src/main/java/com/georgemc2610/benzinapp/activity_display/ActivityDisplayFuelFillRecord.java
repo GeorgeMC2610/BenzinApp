@@ -1,14 +1,11 @@
 package com.georgemc2610.benzinapp.activity_display;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +15,6 @@ import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.activity_edit.ActivityEditRecord;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
-import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -26,7 +22,6 @@ import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
 public class ActivityDisplayFuelFillRecord extends AppCompatActivity
@@ -88,9 +83,9 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         // station string is different
         String station;
         //petrolType.setTextColor(NightModeTool.getRedColor(this)); TODO: Add normal color for this TextView.
-        if (record.getStation() == null || record.getStation().isEmpty())
+        if (!record.hasStation())
         {
-            if (record.getFuelType() == null || record.getFuelType().isEmpty())
+            if (!record.hasFuelType())
             {
                 station = getString(R.string.unspecified);
                 petrolType.setTextColor(NightModeTool.getRedColor(this));
@@ -100,7 +95,7 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         }
         else
         {
-            if (record.getFuelType() == null || record.getFuelType().isEmpty())
+            if (!record.hasFuelType())
                 station = record.getStation();
 
             else
@@ -128,10 +123,10 @@ public class ActivityDisplayFuelFillRecord extends AppCompatActivity
         this.notes.setText(record.getNotes());
 
         // notes might not be present.
-        if (record.getNotes().length() == 0)
+        if (!record.hasNotes())
         {
             this.notes.setText(R.string.text_view_no_notes_added);
-            this.notes.setTextColor(getColor(R.color.light_gray));
+            this.notes.setTextColor(getColor(R.color.gray));
             this.notes.setTypeface(notes.getTypeface(), Typeface.ITALIC);
         }
         // TODO: Add case for excess notes text.

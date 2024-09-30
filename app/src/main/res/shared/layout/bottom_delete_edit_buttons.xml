@@ -12,43 +12,41 @@
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_button"
         android:gravity="center"
         android:isScrollContainer="false"
         android:text="@string/button_delete"
         android:textSize="18sp"
         android:letterSpacing="0.04"
-        app:backgroundTint="@color/dark_red"
+        style="@style/deleteButton"
+        app:cornerRadius="55dp"
         app:cardCornerRadius="50dp"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconPadding="0dp"
-        app:iconSize="27dp"
-        app:iconTintMode="multiply" />
+        app:iconSize="27dp" />
 
     <Button
         android:id="@+id/buttonEdit"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_button"
         android:gravity="center"
         android:isScrollContainer="false"
         android:text="@string/button_edit"
         android:textSize="18sp"
         android:letterSpacing="0.04"
-        app:backgroundTint="#2266BB"
+        style="@style/editButton"
+        app:cornerRadius="50dp"
         app:cardCornerRadius="50dp"
         app:icon="@android:drawable/ic_menu_edit"
         app:iconPadding="0dp"
-        app:iconSize="27dp"
-        app:iconTintMode="multiply" />
+        app:iconSize="27dp" />
 
 </LinearLayout>

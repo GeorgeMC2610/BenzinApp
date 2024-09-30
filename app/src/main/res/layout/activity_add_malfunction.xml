@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/login_background_gradient"
+    style="@style/mainBackground"
     android:id="@+id/addMalfunctionLinearLayout"
     tools:context=".activity_add.ActivityAddMalfunction">
 
@@ -39,11 +39,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:hint="@string/title_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginEnd="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="text" />
 
@@ -53,11 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:hint="@string/malfunction_at_km_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
                     android:textSize="15sp"
+                    style="@style/genericField"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="number" />
             </LinearLayout>
@@ -67,11 +63,9 @@
                 android:layout_height="100dp"
                 android:maxLength="2000"
                 android:hint="@string/description_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:layout_marginTop="5dp"
+                style="@style/genericField"
                 android:padding="11dp"
                 android:inputType="textMultiLine"
                 android:id="@+id/desc" />
