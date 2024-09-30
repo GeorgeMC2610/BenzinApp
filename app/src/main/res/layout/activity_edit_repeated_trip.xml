@@ -72,7 +72,7 @@
                 android:text="@string/text_view_repeated_trips_trip"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/tripText" />
@@ -86,27 +86,27 @@
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/tripButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_repeated_trips_make_trip"
-                    app:backgroundTint="#282828"
-                    android:background="@drawable/rounded_button"
+                    style="@style/selectDate"
                     android:letterSpacing="0"
                     android:textSize="14sp" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/removeTripButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="3dp"
                     android:text="@string/button_remove_trip"
-                    app:backgroundTint="#A30000"
-                    android:background="@drawable/rounded_button"
+                    style="@style/deleteButton"
                     android:letterSpacing="0"
                     android:textSize="20sp" />
 
@@ -125,6 +125,7 @@
                 android:id="@+id/km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColor"
                 android:textSize="24sp"
                 android:text="@string/loading"
                 android:layout_marginTop="5dp"

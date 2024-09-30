@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="additional"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_weight="4"
                     android:hint="@string/text_view_cost"
                     style="@style/genericField"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="Select date fixed..."
                 android:tag="additional"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 style="@style/textColor"
@@ -134,34 +134,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:tag="additional"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/dateFixedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    style="@style/selectDateFixed"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_select_date"
-                    app:backgroundTint="#005000"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
                     android:textSize="18sp" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/todayFixedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    style="@style/selectTodayFixed"
+                    android:layout_marginStart="3dp"
                     android:text="@string/button_select_todays_date"
-                    app:backgroundTint="#00AA00"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
                     android:textSize="18sp" />
 
@@ -171,10 +171,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select location..."
+                android:text="@string/text_view_select_location"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:tag="additional"
                 style="@style/textColor"
                 android:fontFamily="sans-serif-black"
@@ -186,37 +186,35 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:tag="additional"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
                 <!-- BUTTON PICK LOCATION -->
-                <!-- TODO: Needs styling -->
                 <Button
                     android:id="@+id/locationButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_select_location"
-                    app:backgroundTint="#232323"
-                    android:background="@drawable/rounded_button"
                     android:letterSpacing="0"
+                    style="@style/selectToday"
+                    app:cornerRadius="55dp"
                     android:textSize="18sp" />
 
                 <!-- BUTTON DELETE LOCATION -->
-                <!-- TODO: Needs styling -->
                 <Button
                     android:id="@+id/removeLocationButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="3dp"
+                    style="@style/deleteButton"
                     android:text="@string/button_delete_location"
-                    app:backgroundTint="#A30000"
-                    android:background="@drawable/rounded_button"
+                    app:cornerRadius="55dp"
                     android:letterSpacing="0"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
