@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="additional"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_weight="4"
                     android:hint="@string/text_view_cost"
                     style="@style/genericField"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="Select date fixed..."
                 android:tag="additional"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
                 style="@style/textColor"
@@ -134,7 +134,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:tag="additional"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal" >
@@ -174,7 +174,7 @@
                 android:text="@string/text_view_select_location"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:tag="additional"
                 style="@style/textColor"
                 android:fontFamily="sans-serif-black"
@@ -186,7 +186,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:tag="additional"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
