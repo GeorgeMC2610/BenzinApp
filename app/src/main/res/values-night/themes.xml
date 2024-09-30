@@ -77,6 +77,12 @@
         </item>
     </style>
 
+    <style name="editBackground">
+        <item name="android:background">
+            @drawable/edit_account_background_gradient_dark
+        </item>
+    </style>
+
     <style name="textColor"><item name="android:textColor">@color/white</item></style>
     <style name="textColorSpecial"><item name="android:textColor">@color/gray</item></style>
     <style name="textColorSpecial1"><item name="android:textColor">@color/green</item></style>
