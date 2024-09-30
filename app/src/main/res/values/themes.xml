@@ -20,7 +20,7 @@
     <style name="cardSpecialBackground"><item name="android:backgroundTint">@color/card_special_light</item></style>
 
     <style name="buttonMainBackground">
-        <item name="android:backgroundTint">@color/dark_gray</item>
+        <item name="android:backgroundTint">@color/main</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
