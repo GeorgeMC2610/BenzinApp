@@ -149,9 +149,13 @@ public class HomeFragment extends Fragment
         entriesKmPerLt = new ArrayList<>();
         entriesCostPerKm = new ArrayList<>();
 
+        // color for the texts.
+        int color = NightModeTool.getTextColor(getActivity());
+
         // time x-axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(color);
         xAxis.setValueFormatter(new ValueFormatter()
         {
             private final SimpleDateFormat mFormat = new SimpleDateFormat("MM/yy", Locale.getDefault());
@@ -188,9 +192,6 @@ public class HomeFragment extends Fragment
             entriesCostPerKm.add(entryCostPerKm);
         }
 
-        // color for the texts.
-        int color = NightModeTool.getTextColor(getActivity());
-
         // get line data set for liters per 100 km.
         lineDataSetLtPer100 = new LineDataSet(entriesLtPer100, getString(R.string.graph_view_liters_per_100_km));
         lineDataSetLtPer100.setAxisDependency(AxisDependency.LEFT);
@@ -205,7 +206,7 @@ public class HomeFragment extends Fragment
         lineDataSetKmPerLt = new LineDataSet(entriesKmPerLt, getString(R.string.graph_view_km_per_lt));
         lineDataSetKmPerLt.setAxisDependency(AxisDependency.LEFT);
         lineDataSetKmPerLt.setColor(ColorTemplate.rgb("#dd0000"));
-        lineDataSetKmPerLt.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetKmPerLt.setValueTextColor(Color.WHITE);
         lineDataSetKmPerLt.setLineWidth(1.5f);
         lineDataSetKmPerLt.setDrawCircles(true);
         lineDataSetKmPerLt.setFillColor(ColorTemplate.rgb("#aa0000"));
@@ -215,29 +216,37 @@ public class HomeFragment extends Fragment
         lineDataSetCostPerKm = new LineDataSet(entriesCostPerKm, getString(R.string.graph_view_cost_per_km));
         lineDataSetCostPerKm.setAxisDependency(AxisDependency.LEFT);
         lineDataSetCostPerKm.setColor(ColorTemplate.rgb("#00dd00"));
-        lineDataSetCostPerKm.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetCostPerKm.setValueTextColor(Color.rgb(255, 255, 255));
         lineDataSetCostPerKm.setLineWidth(1.5f);
         lineDataSetCostPerKm.setDrawCircles(true);
         lineDataSetCostPerKm.setFillColor(ColorTemplate.rgb("#00aa00"));
         lineDataSetCostPerKm.setHighLightColor(Color.rgb(244, 0, 0));
 
+        // gray color
+        int gray = NightModeTool.getGrayTextColor(getActivity());
+
         // get line data for lt per 100 km
         lineDataLtPer100 = new LineData(lineDataSetLtPer100);
-        lineDataLtPer100.setValueTextColor(color);
+        lineDataLtPer100.setValueTextColor(gray);
         lineDataLtPer100.setValueTextSize(9f);
 
         // get line data for km per lt
         lineDataKmPerLt = new LineData(lineDataSetKmPerLt);
-        lineDataKmPerLt.setValueTextColor(color);
+        lineDataKmPerLt.setValueTextColor(gray);
         lineDataKmPerLt.setValueTextSize(9f);
 
         // get line data for cost per km
         lineDataCostPerKm = new LineData(lineDataSetCostPerKm);
-        lineDataCostPerKm.setValueTextColor(color);
+        lineDataCostPerKm.setValueTextColor(gray);
         lineDataCostPerKm.setValueTextSize(9f);
 
         // and set the different colours
         lineChart.setData(lineDataLtPer100);
+
+        // set the correct colors for the axes and the colors
+        lineChart.getAxisLeft().setTextColor(color);
+        lineChart.getAxisRight().setTextColor(color);
+        lineChart.getLegend().setTextColor(color);
 
         // description label
         Description description = new Description();
@@ -331,5 +340,6 @@ public class HomeFragment extends Fragment
         pieChart.setDrawEntryLabels(false);
         pieChart.setDrawHoleEnabled(false);
         pieChart.setDrawSlicesUnderHole(true);
+        pieChart.getLegend().setTextColor(NightModeTool.getTextColor(getActivity()));
     }
 }
