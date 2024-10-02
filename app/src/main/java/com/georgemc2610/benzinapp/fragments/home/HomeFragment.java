@@ -206,7 +206,7 @@ public class HomeFragment extends Fragment
         lineDataSetKmPerLt = new LineDataSet(entriesKmPerLt, getString(R.string.graph_view_km_per_lt));
         lineDataSetKmPerLt.setAxisDependency(AxisDependency.LEFT);
         lineDataSetKmPerLt.setColor(ColorTemplate.rgb("#dd0000"));
-        lineDataSetKmPerLt.setValueTextColor(ColorTemplate.getHoloBlue());
+        lineDataSetKmPerLt.setValueTextColor(Color.WHITE);
         lineDataSetKmPerLt.setLineWidth(1.5f);
         lineDataSetKmPerLt.setDrawCircles(true);
         lineDataSetKmPerLt.setFillColor(ColorTemplate.rgb("#aa0000"));
@@ -242,6 +242,11 @@ public class HomeFragment extends Fragment
 
         // and set the different colours
         lineChart.setData(lineDataLtPer100);
+
+        // set the correct colors for the axes and the colors
+        lineChart.getAxisLeft().setTextColor(color);
+        lineChart.getAxisRight().setTextColor(color);
+        lineChart.getLegend().setTextColor(color);
 
         // description label
         Description description = new Description();
@@ -335,5 +340,6 @@ public class HomeFragment extends Fragment
         pieChart.setDrawEntryLabels(false);
         pieChart.setDrawHoleEnabled(false);
         pieChart.setDrawSlicesUnderHole(true);
+        pieChart.getLegend().setTextColor(NightModeTool.getTextColor(getActivity()));
     }
 }
