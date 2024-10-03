@@ -13,7 +13,7 @@
         android:text="@string/text_view_select_location"
         android:layout_marginTop="25dp"
         android:textSize="25sp"
-        android:textColor="@color/black"
+        style="@style/textColor"
         android:fontFamily="sans-serif-black"
         android:textAlignment="center"
         android:id="@+id/locationText" />
@@ -28,24 +28,24 @@
         <Button
             android:id="@+id/locationButton"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="3dp"
             android:text="@string/button_select_location"
-            app:backgroundTint="#282828"
-            android:background="@drawable/rounded_button"
             android:letterSpacing="0"
+            style="@style/selectToday"
+            app:cornerRadius="55dp"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/deleteLocationButton"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="3dp"
+            style="@style/deleteButton"
             android:text="@string/button_delete_location"
-            app:backgroundTint="#A30000"
-            android:background="@drawable/rounded_button"
+            app:cornerRadius="55dp"
             android:letterSpacing="0"
             android:textSize="16sp" />
 

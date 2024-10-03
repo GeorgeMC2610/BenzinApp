@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/edit_account_background_gradient"
+    style="@style/editBackground"
     android:id="@+id/editTripLinearLayout"
     tools:context=".activity_edit.ActivityEditRepeatedTrip"
     android:orientation="vertical">
@@ -33,11 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_text_repeated_trips_title_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="11dp"
                 android:inputType="text" />
 
@@ -52,11 +50,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:hint="@string/text_view_cost"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
                     android:layout_marginStart="1dp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="11dp"
                     android:inputType="numberDecimal" />
 
@@ -76,7 +72,7 @@
                 android:text="@string/text_view_repeated_trips_trip"
                 android:layout_marginTop="25dp"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                style="@style/textColor"
                 android:fontFamily="sans-serif-black"
                 android:textAlignment="center"
                 android:id="@+id/tripText" />
@@ -90,27 +86,27 @@
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/tripButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="3dp"
                     android:text="@string/button_repeated_trips_make_trip"
-                    app:backgroundTint="#282828"
-                    android:background="@drawable/rounded_button"
+                    style="@style/selectDate"
                     android:letterSpacing="0"
                     android:textSize="14sp" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
+                    app:cornerRadius="65dp"
                     android:id="@+id/removeTripButton"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="3dp"
                     android:text="@string/button_remove_trip"
-                    app:backgroundTint="#A30000"
-                    android:background="@drawable/rounded_button"
+                    style="@style/deleteButton"
                     android:letterSpacing="0"
                     android:textSize="20sp" />
 
@@ -129,6 +125,7 @@
                 android:id="@+id/km"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/textColor"
                 android:textSize="24sp"
                 android:text="@string/loading"
                 android:layout_marginTop="5dp"

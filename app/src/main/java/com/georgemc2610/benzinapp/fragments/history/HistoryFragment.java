@@ -149,9 +149,9 @@ public class HistoryFragment extends Fragment
                 // station text
                 String station;
 
-                if (record.getStation() == null || record.getStation().isEmpty())
+                if (!record.hasStation())
                 {
-                    if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                    if (!record.hasFuelType())
                         station = "-";
 
                     else
@@ -160,12 +160,11 @@ public class HistoryFragment extends Fragment
                 }
                 else
                 {
-                    if (record.getFuelType() == null || record.getFuelType().isEmpty())
+                    if (!record.hasFuelType())
                         station = record.getStation();
 
                     else
                         station = record.getFuelType() + ", " + record.getStation();
-
                 }
 
                 // set the card's views actual values.

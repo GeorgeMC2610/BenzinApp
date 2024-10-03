@@ -24,6 +24,11 @@ public final class NightModeTool
         return isNightMode(activity)? Color.WHITE : Color.BLACK;
     }
 
+    public static int getGrayTextColor(Activity activity)
+    {
+        return isNightMode(activity)? Color.rgb(180, 180, 180) : Color.rgb(55, 55, 55);
+    }
+
     public static int getRedColor(Activity activity)
     {
         return isNightMode(activity)? activity.getColor(R.color.red) : activity.getColor(R.color.dark_red);
@@ -36,17 +41,17 @@ public final class NightModeTool
 
     public static int getPrimaryColor(Activity activity)
     {
-        return isNightMode(activity)? activity.getColor(R.color.main_dark) : activity.getColor(R.color.main);
+        return isNightMode(activity)? activity.getColor(R.color.light_main) : activity.getColor(R.color.main);
     }
 
     public static int getSecondaryColor(Activity activity)
     {
-        return isNightMode(activity)? activity.getColor(R.color.car_manufacturer_dark) : activity.getColor(R.color.car_manufacturer_light);
+        return isNightMode(activity)? activity.getColor(R.color.dark_green) : activity.getColor(R.color.car_manufacturer_light);
     }
 
     public static int getTetriaryColor(Activity activity)
     {
-        return isNightMode(activity)? activity.getColor(R.color.car_model_dark) : activity.getColor(R.color.car_model_light);
+        return isNightMode(activity)? activity.getColor(R.color.green) : activity.getColor(R.color.car_model_light);
     }
 
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/edit_account_background_gradient"
+    style="@style/editBackground"
     android:orientation="vertical"
     tools:context=".activity_edit.ActivityEditAccount">
 
@@ -40,11 +40,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:hint="Unavailable for editing"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
                 android:enabled="false"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:inputType="text"
                 android:id="@+id/username" />
@@ -63,11 +61,9 @@
                     android:layout_weight="1"
                     android:hint="Unavailable for editing"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:enabled="false"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="10dp" />
 
                 <EditText
@@ -77,10 +73,8 @@
                     android:layout_marginStart="2dp"
                     android:hint="Unavailable for editing"
                     android:enabled="false"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="10dp"
                     android:inputType="textWebPassword" />
 
@@ -100,10 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/text_view_car_manufacturer_hint"
-                android:textColor="@color/black"
-                android:textColorHint="#484848"
+                style="@style/genericField"
                 android:textSize="15sp"
-                android:background="@drawable/rounded_corner_field"
                 android:padding="10dp"
                 android:layout_marginTop="5dp"
                 android:inputType="text"
@@ -122,10 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:hint="@string/text_view_car_model_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="10dp"
                     android:inputType="text"
                     android:id="@+id/model" />
@@ -136,10 +126,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:hint="@string/text_view_car_year_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="#484848"
+                    style="@style/genericField"
                     android:textSize="15sp"
-                    android:background="@drawable/rounded_corner_field"
                     android:padding="10dp"
                     android:inputType="numberSigned"
                     android:id="@+id/year" />
