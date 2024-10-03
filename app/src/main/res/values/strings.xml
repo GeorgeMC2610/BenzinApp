@@ -61,7 +61,7 @@
     <string name="graph_view_liters_per_100_km">lt./100km depend on time</string>
     <string name="graph_view_km_per_lt">km/lt depend on time</string>
     <string name="graph_view_cost_per_km">cost/km depend on time</string>
-    <string name="text_view_no_data">No data.</string>
+    <string name="text_view_no_data">Insufficient Data!</string>
     <string name="title_repeated_trips">Trips</string>
     <string name="title_services">Services</string>
     <string name="toast_invalid_credentials">Invalid username/password.</string>
@@ -195,4 +195,5 @@
     <string name="button_edit">EDIT</string>
     <string name="account_info">Account Info:</string>
     <string name="car_info">Car Info:</string>
+    <string name="text_view_no_data_long">At the moment, there are no Fuel Fill Records available to show. You can start inputting data by clicking the history icon below, then the add icon, or just by clicking the button below. Once you input data, you\'ll see here Graphs and Average consumption/costs.</string>
 </resources>
