@@ -1,5 +1,6 @@
 package com.georgemc2610.benzinapp.fragments.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
+import com.georgemc2610.benzinapp.activity_add.ActivityAddRecord;
 import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
 import com.georgemc2610.benzinapp.classes.original.FuelFillRecord;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
@@ -47,7 +51,9 @@ public class HomeFragment extends Fragment
 {
 
     TextView car, year, avg_ltPer100Km, avg_KmPerLt, avg_CostPerKm;
+    Button startExploring;
     Spinner spinner;
+    LinearLayout mainLayout;
     LineChart lineChart;
     PieChart pieChart;
     DecimalFormat format;
@@ -65,11 +71,16 @@ public class HomeFragment extends Fragment
         // get views
         car = root.findViewById(R.id.textView_Car);
         year = root.findViewById(R.id.textView_Year);
+        mainLayout = root.findViewById(R.id.main_linear_layout);
         avg_CostPerKm = root.findViewById(R.id.textView_AVG_CostPerKm);
         avg_ltPer100Km = root.findViewById(R.id.textView_AVG_LtPer100Km);
         avg_KmPerLt = root.findViewById(R.id.textView_AVG_KmPerLt);
         lineChart = root.findViewById(R.id.graph);
         pieChart = root.findViewById(R.id.pie_chart_costs);
+        startExploring = root.findViewById(R.id.start_exploring);
+
+        // start exploring button clicked
+        startExploring.setOnClickListener(this::onStartExploringButtonClicked);
 
         // decimal formatter
         format = new DecimalFormat("#.##");
@@ -116,10 +127,35 @@ public class HomeFragment extends Fragment
         });
 
         SetCarInfo();
-        SetGraphView();
-        setPieChartView();
+
+        // create the cards based on the car records
+        showCorrectCardsForNoRecordsYet();
 
         return root;
+    }
+
+    private void showCorrectCardsForNoRecordsYet()
+    {
+        if (DataHolder.getInstance().records.isEmpty())
+        {
+            for (int i = 0; i < mainLayout.getChildCount(); i++)
+            {
+                View child = mainLayout.getChildAt(i);
+                if (child.getTag() == null) continue;
+                child.setVisibility(child.getTag().toString().equals("yes_data") ? View.GONE : View.VISIBLE);
+            }
+
+            return;
+        }
+
+        SetGraphView();
+        setPieChartView();
+    }
+
+    private void onStartExploringButtonClicked(View v)
+    {
+        Intent intent = new Intent(getContext(), ActivityAddRecord.class);
+        startActivity(intent);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayoutServices"
@@ -8,19 +8,11 @@
     android:orientation="vertical"
     tools:context=".fragments.services.ServicesFragment">
 
-
-    <!-- SERVICES -->
+    <!-- TAB LAYOUT -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
+        android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
@@ -31,67 +23,127 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/tab_services"/>
-
-
-
     </com.google.android.material.tabs.TabLayout>
 
-    <!-- SERVICES -->
-    <ScrollView
-        android:id="@+id/scroll_view_services"
+    <!-- MAIN LAYOUT -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="540dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_services"
+        <!-- MALFUNCTIONS -->
+        <ScrollView
+            android:id="@+id/scroll_view_malfunctions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible">
 
-        </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/linear_layout_malfunctions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+            </LinearLayout>
+        </ScrollView>
 
-    <!-- MALFUNCTIONS -->
-    <ScrollView
-        android:id="@+id/scroll_view_malfunctions"
-        android:layout_width="match_parent"
-        android:layout_height="540dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:id="@+id/linear_layout_malfunctions"
+        <!-- MALFUNCTIONS NO DATA -->
+        <ScrollView
+            android:id="@+id/scroll_view_malfunctions_no_data"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_records_nothing"
+                    android:contentDescription="@string/text_view_no_data"
+                    android:layout_gravity="center"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/check_engine_icon" />
+
+                <TextView
+                    android:id="@+id/text_view_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:text="@string/text_view_no_malfunctions"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- SERVICES -->
+        <ScrollView
+            android:id="@+id/scroll_view_services"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_services"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- SERVICES NO DATA -->
+        <ScrollView
+            android:id="@+id/scroll_view_services_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_records_nothing_service"
+                    android:contentDescription="@string/text_view_no_data"
+                    android:layout_gravity="center"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/car_service_icon" />
+
+                <TextView
+                    android:id="@+id/text_view_no_data_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:text="@string/text_view_no_services"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+        <!-- ADD BUTTON -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_add_service"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="10dp"
+            android:outlineSpotShadowColor="@android:color/transparent"
+            android:layout_weight="0"
+            android:layout_gravity="end"
+            style="@style/buttonMainBackground"
+            android:src="@android:drawable/ic_input_add" />
 
-        </LinearLayout>
-    </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_add_service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        style="@style/buttonMainBackground"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.871" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
