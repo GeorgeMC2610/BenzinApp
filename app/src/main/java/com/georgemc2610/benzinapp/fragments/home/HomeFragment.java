@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.georgemc2610.benzinapp.R;
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment
     LineChart lineChart;
     PieChart pieChart;
     DecimalFormat format;
+    CardView pieChartCardView;
     LineData lineDataLtPer100, lineDataKmPerLt, lineDataCostPerKm;
     LineDataSet lineDataSetLtPer100, lineDataSetKmPerLt, lineDataSetCostPerKm;
     ArrayList<Entry> entriesLtPer100, entriesKmPerLt, entriesCostPerKm;
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment
         lineChart = root.findViewById(R.id.graph);
         pieChart = root.findViewById(R.id.pie_chart_costs);
         startExploring = root.findViewById(R.id.start_exploring);
+        pieChartCardView = root.findViewById(R.id.pie_chart_costs_card);
 
         // start exploring button clicked
         startExploring.setOnClickListener(this::onStartExploringButtonClicked);
@@ -136,6 +139,13 @@ public class HomeFragment extends Fragment
 
     private void showCorrectCardsForNoRecordsYet()
     {
+        // combined costs might still occur, as there might be services or malfunctions
+        if (!DataHolder.getInstance().car.anyCostPresent())
+            pieChartCardView.setVisibility(View.GONE);
+        else
+            setPieChartView();
+
+        // hide all graphs and consumption related cards based on the records' presence
         if (DataHolder.getInstance().records.isEmpty())
         {
             for (int i = 0; i < mainLayout.getChildCount(); i++)
@@ -149,7 +159,6 @@ public class HomeFragment extends Fragment
         }
 
         SetGraphView();
-        setPieChartView();
     }
 
     private void onStartExploringButtonClicked(View v)

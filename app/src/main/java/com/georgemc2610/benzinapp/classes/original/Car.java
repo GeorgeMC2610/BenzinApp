@@ -101,6 +101,20 @@ public class Car
         averageKilometersPerLiter = kilometerSum / literSum;
     }
 
+    public boolean anyCostPresent()
+    {
+        if (!DataHolder.getInstance().records.isEmpty())
+            return true;
+
+        if (!DataHolder.getInstance().malfunctions.isEmpty())
+            return true;
+
+        if (!DataHolder.getInstance().services.isEmpty())
+            return true;
+
+        return false;
+    }
+
     // -- GETTERS -- //
     public String getUsername()
     {
