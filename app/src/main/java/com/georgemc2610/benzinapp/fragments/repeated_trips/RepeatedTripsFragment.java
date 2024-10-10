@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.georgemc2610.benzinapp.R;
@@ -31,6 +32,7 @@ public class RepeatedTripsFragment extends Fragment
     private FragmentRepeatedTripsBinding binding;
     private FloatingActionButton buttonAddTrip;
     private LinearLayout linearLayout;
+    private ScrollView mainScrollView, noDataScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -45,13 +47,22 @@ public class RepeatedTripsFragment extends Fragment
 
         // get scroll view to add the cards.
         linearLayout = root.findViewById(R.id.repeated_trips_fragment_linearLayoutScrollView);
+        mainScrollView = root.findViewById(R.id.scrollView2);
+        noDataScrollView = root.findViewById(R.id.scrollViewNoData);
 
         return root;
     }
 
-
     private void createCards()
     {
+        // display the related image if there are no trips.
+        if (DataHolder.getInstance().trips.isEmpty())
+        {
+            mainScrollView.setVisibility(View.GONE);
+            noDataScrollView.setVisibility(View.VISIBLE);
+            return;
+        }
+
         // calculate averages
         DataHolder.getInstance().car.calculateAverages();
 

@@ -20,9 +20,7 @@
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:layout_marginHorizontal="10dp">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/repeated_trips_fragment_linearLayoutScrollView"
@@ -38,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:layout_marginHorizontal="10dp">
 
             <LinearLayout
