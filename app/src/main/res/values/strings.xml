@@ -196,4 +196,8 @@
     <string name="account_info">Account Info:</string>
     <string name="car_info">Car Info:</string>
     <string name="text_view_no_data_long">At the moment, there are no Fuel Fill Records available to show. You can start inputting data by clicking the history icon below, then the add icon, or just by clicking the button below. Once you input data, you\'ll see here Graphs and Average consumption/costs.</string>
+    <string name="text_view_no_records">No Fuel Fill Records</string>
+    <string name="text_view_no_malfunctions">No Malfunctions</string>
+    <string name="text_view_no_services">No Services</string>
+    <string name="text_view_no_trips">No Trips</string>
 </resources>

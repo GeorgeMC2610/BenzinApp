@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="32sp"
-                    android:text="@string/text_view_no_data"
+                    android:text="@string/text_view_no_malfunctions"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="32sp"
-                    android:text="@string/text_view_no_data"
+                    android:text="@string/text_view_no_services"
                     android:textAlignment="center" />
 
             </LinearLayout>

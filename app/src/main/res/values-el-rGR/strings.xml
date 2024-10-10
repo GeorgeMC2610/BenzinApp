@@ -195,4 +195,8 @@
     <string name="account_info">Στοιχεία Λογαριασμού:</string>
     <string name="car_info">Στοιχεία Αυτοκινήτου:</string>
     <string name="text_view_no_data_long">Αυτήν τη στιγμή δεν υπάρχουν Γεμίσματα που μπορούν να προβληθούν εδώ. Ξεκινήστε να βάζετε δεδομένα πατώντας το εικονίδιο του ιστορικού και μετά της προσθήκης, ή απλά πατώντας το κουμπί παρακάτω. Όταν βάλετε δεδομένα, θα σας προβάλλονται σε αυτή τη σελίδα κάποια γραφήματα, μαζί με δεδομένα μέσης κατανάλωσης του αυτοκινήτου σας.</string>
+    <string name="text_view_no_records">Δεν Υπάρχουν Γεμίσματα</string>
+    <string name="text_view_no_malfunctions">Δεν Υπάρχουν Βλάβες</string>
+    <string name="text_view_no_services">Δεν Υπάρχουν Σέρβις</string>
+    <string name="text_view_no_trips">Δεν Υπάρχουν Διαδρομές</string>
 </resources>
