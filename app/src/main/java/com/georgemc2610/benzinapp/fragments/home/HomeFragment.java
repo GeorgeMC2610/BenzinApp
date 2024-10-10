@@ -349,8 +349,12 @@ public class HomeFragment extends Fragment
         pieChart.setDescription(description);
 
         // put to pie chart data
-        for (String type: costAmountMap.keySet())
-            pieEntries.add(new PieEntry(costAmountMap.get(type), type));
+        /*for (String type: costAmountMap.keySet())
+            pieEntries.add(new PieEntry(costAmountMap.get(type), type));*/
+
+        pieEntries.add(new PieEntry(fuelCosts, getString(R.string.pie_chart_fuel)));
+        pieEntries.add(new PieEntry(malfunctionCosts, getString(R.string.pie_chart_malfunctions)));
+        pieEntries.add(new PieEntry(serviceCosts, getString(R.string.pie_chart_services)));
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
         pieDataSet.setValueTextSize(14f);
