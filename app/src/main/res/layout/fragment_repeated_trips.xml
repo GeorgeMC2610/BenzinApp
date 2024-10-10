@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,51 +7,81 @@
     android:orientation="vertical"
     tools:context=".fragments.repeated_trips.RepeatedTripsFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        style="@style/buttonMainBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
-
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <!-- MAIN LAYOUT -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="140dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="65dp">
 
-        <LinearLayout
-            android:id="@+id/repeated_trips_fragment_linearLayoutScrollView"
+        <!-- SCROLL VIEW WITH DATA -->
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_marginHorizontal="10dp">
+
+            <LinearLayout
+                android:id="@+id/repeated_trips_fragment_linearLayoutScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+        <!-- SCROLL VIEW WITHOUT DATA -->
+        <ScrollView
+            android:id="@+id/scrollViewNoData"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp">
+
+            <LinearLayout
+                android:id="@+id/layout_with_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_records_nothing"
+                    android:contentDescription="@string/text_view_no_data"
+                    android:layout_gravity="center"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/repeated_trips_icon" />
+
+                <TextView
+                    android:id="@+id/text_view_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:text="@string/text_view_no_data"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_add"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:clickable="true"
+            android:layout_gravity="end"
+            android:outlineSpotShadowColor="@android:color/transparent"
+            android:src="@android:drawable/ic_input_add"
+            style="@style/buttonMainBackground" />
 
-    <ImageView
-        android:id="@+id/image_view_records_nothing"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_dialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</LinearLayout>
