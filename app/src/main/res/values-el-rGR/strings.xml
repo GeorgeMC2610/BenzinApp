@@ -186,7 +186,7 @@
     <string name="service_description_hint">Περιγράψτε τι έγινε σε αυτό το σέρβις...</string>
     <string name="service_info_label">Στοιχεία Σέρβις:</string>
     <string name="text_view_malfunction_info">Στοιχεία Βλάβης:</string>
-    <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ</string>
+    <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ ΔΙΑΔΡΟΜΗΣ</string>
     <string name="trip_info">Στοιχεία Διαδρομής:</string>
     <string name="analytics_per_one_time">ΣΤΑΤΙΣΤΙΚΑ ΑΝΑ ΦΟΡΑ:</string>
     <string name="analytics_weekly">ΕΒΔΟΜΑΔΙΑΙΑ ΣΤΑΤΙΣΤΙΚΑ:</string>
@@ -199,4 +199,5 @@
     <string name="text_view_no_malfunctions">Δεν Υπάρχουν Βλάβες</string>
     <string name="text_view_no_services">Δεν Υπάρχουν Σέρβις</string>
     <string name="text_view_no_trips">Δεν Υπάρχουν Διαδρομές</string>
+    <string name="malfunction_edit_warning">ΠΡΟΣΟΧΗ: Ξετικάροντας, θα μαρκάρετε την βλάβη ως μη φτιαγμένη πάλι.</string>
 </resources>
