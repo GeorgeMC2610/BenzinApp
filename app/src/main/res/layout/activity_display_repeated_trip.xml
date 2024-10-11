@@ -328,42 +328,19 @@
                         android:textStyle="bold" />
 
                     <!-- SHOW ON MAP BUTTON -->
-                    <androidx.cardview.widget.CardView
+                    <Button
                         android:id="@+id/display_repeated_trip_button_show_on_map"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="55dp"
                         android:layout_marginBottom="10dp"
+                        android:autoSizeMaxTextSize="18sp"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="center"
+                        android:letterSpacing="0.02"
+                        android:text="@string/display_trip_show_on_map"
                         app:cardCornerRadius="50dp"
-                        app:cardBackgroundColor="@color/main"
-                        android:padding="12dp"
-                        android:gravity="center">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignStart="@+id/showOnMapText"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="-80dp"
-                                android:background="@android:drawable/ic_dialog_map"
-                                android:backgroundTint="@color/white" />
-
-                            <TextView
-                                android:id="@+id/showOnMapText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="@string/display_trip_show_on_map"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
+                        app:cornerRadius="65dp"
+                        app:icon="@android:drawable/ic_dialog_map" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

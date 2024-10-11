@@ -92,6 +92,9 @@ public class HistoryFragment extends Fragment
             return;
         }
 
+        totalFuelFillRecords.setVisibility(View.VISIBLE);
+        hint.setVisibility(View.VISIBLE);
+
         if (DataHolder.getInstance().records.size() == 1)
             totalFuelFillRecords.setText(R.string.text_view_one_record);
         else

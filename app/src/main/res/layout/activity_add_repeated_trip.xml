@@ -92,10 +92,11 @@
                     android:layout_weight="1"
                     app:cornerRadius="55dp"
                     style="@style/buttonMainBackground"
+                    android:autoSizeTextType="uniform"
                     android:layout_marginEnd="5dp"
+                    android:autoSizeMaxTextSize="20sp"
                     android:text="@string/button_repeated_trips_make_trip"
-                    android:letterSpacing="0"
-                    android:textSize="15sp" />
+                    android:letterSpacing="0" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
@@ -105,10 +106,11 @@
                     app:cornerRadius="55dp"
                     style="@style/buttonDeleteBackground"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="20sp"
                     android:layout_marginStart="5dp"
                     android:text="@string/button_remove_trip"
-                    android:letterSpacing="0"
-                    android:textSize="20sp" />
+                    android:letterSpacing="0" />
 
             </LinearLayout>
 

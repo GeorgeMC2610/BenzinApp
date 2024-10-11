@@ -33,9 +33,10 @@
             android:layout_weight="1"
             android:layout_marginEnd="3dp"
             android:text="@string/button_select_date"
+            android:autoSizeTextType="uniform"
             style="@style/selectDate"
-            android:letterSpacing="0"
-            android:textSize="18sp" />
+            android:autoSizeMaxTextSize="20sp"
+            android:letterSpacing="0" />
 
         <Button
             android:id="@+id/todayButton"
@@ -46,8 +47,9 @@
             android:layout_marginStart="3dp"
             android:theme="@style/selectToday"
             android:text="@string/button_select_todays_date"
-            android:letterSpacing="0"
-            android:textSize="18sp" />
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="20sp"
+            android:letterSpacing="0" />
 
     </LinearLayout>
 </LinearLayout>

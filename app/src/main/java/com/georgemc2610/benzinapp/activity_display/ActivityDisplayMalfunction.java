@@ -21,6 +21,8 @@ import com.georgemc2610.benzinapp.activity_edit.ActivityEditService;
 import com.georgemc2610.benzinapp.activity_maps.MapsDisplayPointActivity;
 import com.georgemc2610.benzinapp.R;
 import com.georgemc2610.benzinapp.classes.activity_tools.DisplayActionBarTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.NightModeTool;
+import com.georgemc2610.benzinapp.classes.activity_tools.ViewTools;
 import com.georgemc2610.benzinapp.classes.original.Malfunction;
 import com.georgemc2610.benzinapp.classes.requests.DataHolder;
 import com.georgemc2610.benzinapp.classes.requests.RequestHandler;
@@ -90,7 +92,7 @@ public class ActivityDisplayMalfunction extends AppCompatActivity
 
         // Set "status" depending on the actual status.
         statusView.setText(malfunction.getEnded() == null? getText(R.string.card_view_malfunction_ongoing) : getText(R.string.card_view_malfunction_fixed));
-        statusView.setTextColor(malfunction.getEnded() == null? getColor(R.color.dark_red) : getColor(R.color.dark_green));
+        statusView.setTextColor(malfunction.getEnded() == null? NightModeTool.getRedColor(this) : NightModeTool.getGreenColor(this));
 
         // Set Card Visibility depending on the malfunction's status.
         fixedData.setVisibility(malfunction.getEnded() == null? View.GONE : View.VISIBLE);
