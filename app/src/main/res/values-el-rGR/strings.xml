@@ -200,4 +200,5 @@
     <string name="text_view_no_services">Δεν Υπάρχουν Σέρβις</string>
     <string name="text_view_no_trips">Δεν Υπάρχουν Διαδρομές</string>
     <string name="malfunction_edit_warning">ΠΡΟΣΟΧΗ: Ξετικάροντας, θα μαρκάρετε την βλάβη ως μη φτιαγμένη πάλι.</string>
+    <string name="malfunction_select_date_fixed">Επιλέξτε ημερομηνία επισκευής...</string>
 </resources>

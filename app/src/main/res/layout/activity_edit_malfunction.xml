@@ -120,7 +120,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select date fixed..."
+                android:text="@string/malfunction_select_date_fixed"
                 android:tag="additional"
                 android:visibility="gone"
                 android:layout_marginTop="25dp"

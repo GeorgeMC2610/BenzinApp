@@ -201,4 +201,5 @@
     <string name="text_view_no_services">No Services</string>
     <string name="text_view_no_trips">No Trips</string>
     <string name="malfunction_edit_warning">WARNING: By unchecking, you will mark this Malfunction as ongoing again.</string>
+    <string name="malfunction_select_date_fixed">Selected date fixed...</string>
 </resources>
