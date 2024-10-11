@@ -61,9 +61,9 @@
     <string name="graph_view_liters_per_100_km">Λίτρα/100 χλμ. συναρτήσει με τον χρόνο</string>
     <string name="graph_view_km_per_lt">χλμ/λίτρο συναρτήσει με τον χρόνο</string>
     <string name="graph_view_cost_per_km">κόστος/χλμ. συναρτήσει με τον χρόνο</string>
-    <string name="text_view_no_data">Ανεπαρκή δεδομένα.</string>
+    <string name="text_view_no_data">Ανεπαρκή Δεδομένα!</string>
     <string name="title_repeated_trips">Διαδρομές</string>
-    <string name="title_services">Βλάβες/Σέρβις</string>
+    <string name="title_services">Συντήρηση</string>
     <string name="toast_invalid_credentials">Λάθος username/κωδικός.</string>
     <string name="toast_username_already_taken">Αυτό το username χρησιμοποιείται ήδη.</string>
     <string name="toast_session_ended">Η σύνοδός σας έληξε. Παρακαλώ, συνδεθείτε ξανά.</string>
@@ -186,7 +186,7 @@
     <string name="service_description_hint">Περιγράψτε τι έγινε σε αυτό το σέρβις...</string>
     <string name="service_info_label">Στοιχεία Σέρβις:</string>
     <string name="text_view_malfunction_info">Στοιχεία Βλάβης:</string>
-    <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ</string>
+    <string name="button_remove_trip">ΔΙΑΓΡΑΦΗ ΔΙΑΔΡΟΜΗΣ</string>
     <string name="trip_info">Στοιχεία Διαδρομής:</string>
     <string name="analytics_per_one_time">ΣΤΑΤΙΣΤΙΚΑ ΑΝΑ ΦΟΡΑ:</string>
     <string name="analytics_weekly">ΕΒΔΟΜΑΔΙΑΙΑ ΣΤΑΤΙΣΤΙΚΑ:</string>
@@ -194,4 +194,11 @@
     <string name="button_edit">ΑΛΛΑΓΗ</string>
     <string name="account_info">Στοιχεία Λογαριασμού:</string>
     <string name="car_info">Στοιχεία Αυτοκινήτου:</string>
+    <string name="text_view_no_data_long">Αυτήν τη στιγμή δεν υπάρχουν Γεμίσματα που μπορούν να προβληθούν εδώ. Ξεκινήστε να βάζετε δεδομένα πατώντας το εικονίδιο του ιστορικού και μετά της προσθήκης, ή απλά πατώντας το κουμπί παρακάτω. Όταν βάλετε δεδομένα, θα σας προβάλλονται σε αυτή τη σελίδα κάποια γραφήματα, μαζί με δεδομένα μέσης κατανάλωσης του αυτοκινήτου σας.</string>
+    <string name="text_view_no_records">Δεν Υπάρχουν Γεμίσματα</string>
+    <string name="text_view_no_malfunctions">Δεν Υπάρχουν Βλάβες</string>
+    <string name="text_view_no_services">Δεν Υπάρχουν Σέρβις</string>
+    <string name="text_view_no_trips">Δεν Υπάρχουν Διαδρομές</string>
+    <string name="malfunction_edit_warning">ΠΡΟΣΟΧΗ: Ξετικάροντας, θα μαρκάρετε την βλάβη ως μη φτιαγμένη πάλι.</string>
+    <string name="malfunction_select_date_fixed">Επιλέξτε ημερομηνία επισκευής...</string>
 </resources>

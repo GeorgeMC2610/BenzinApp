@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="WARNING: By unchecking, you will mark this Malfunction as ongoing again."
+                android:text="@string/malfunction_edit_warning"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
                 android:visibility="invisible"
@@ -120,7 +120,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select date fixed..."
+                android:text="@string/malfunction_select_date_fixed"
                 android:tag="additional"
                 android:visibility="gone"
                 android:layout_marginTop="25dp"
@@ -146,11 +146,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
                     style="@style/selectDateFixed"
                     android:layout_marginEnd="3dp"
                     android:text="@string/button_select_date"
                     android:letterSpacing="0"
-                    android:textSize="18sp" />
+                    android:autoSizeMaxTextSize="18sp" />
 
                 <!-- BUTTON PICK DATE -->
                 <Button
@@ -160,10 +161,11 @@
                     android:layout_height="55dp"
                     android:layout_weight="1"
                     style="@style/selectTodayFixed"
+                    android:autoSizeTextType="uniform"
                     android:layout_marginStart="3dp"
                     android:text="@string/button_select_todays_date"
                     android:letterSpacing="0"
-                    android:textSize="18sp" />
+                    android:autoSizeMaxTextSize="18sp" />
 
             </LinearLayout>
 
@@ -199,9 +201,10 @@
                     android:layout_marginEnd="3dp"
                     android:text="@string/button_select_location"
                     android:letterSpacing="0"
+                    android:autoSizeTextType="uniform"
                     style="@style/selectToday"
                     app:cornerRadius="55dp"
-                    android:textSize="18sp" />
+                    android:autoSizeMaxTextSize="20sp" />
 
                 <!-- BUTTON DELETE LOCATION -->
                 <Button
@@ -210,11 +213,12 @@
                     android:layout_height="55dp"
                     android:layout_weight="1"
                     android:layout_marginStart="3dp"
+                    android:autoSizeTextType="uniform"
                     style="@style/deleteButton"
                     android:text="@string/button_delete_location"
                     app:cornerRadius="55dp"
                     android:letterSpacing="0"
-                    android:textSize="16sp" />
+                    android:autoSizeMaxTextSize="20sp" />
 
             </LinearLayout>
 

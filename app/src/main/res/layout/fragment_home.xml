@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="60dp">
 
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/main_linear_layout"
         tools:context=".fragments.home.HomeFragment"
         android:orientation="vertical">
 
@@ -54,6 +55,62 @@
 
         </androidx.cardview.widget.CardView>
 
+        <!-- CONDITIONAL NO DATA CARD -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:tag="no_data"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            style="@style/cardMainBackground"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/text_view_no_data"
+                    style="@style/textColor"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:justificationMode="inter_word"
+                    style="@style/textColorSpecial"
+                    android:text="@string/text_view_no_data_long"
+                    />
+
+                <Button
+                    android:id="@+id/start_exploring"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="START ADDING DATA"
+                    app:cornerRadius="65dp"
+                    android:letterSpacing="0.03"
+                    app:icon="@drawable/ic_dashboard_black_24dp" />
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- LINE GRAPH -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +118,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
+            android:tag="yes_data"
             style="@style/cardMainBackground"
             app:cardElevation="5dp">
 
@@ -89,7 +147,9 @@
 
         </androidx.cardview.widget.CardView>
 
+        <!-- PIE CHART -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/pie_chart_costs_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -98,11 +158,7 @@
             style="@style/cardMainBackground"
             android:layout_marginBottom="10dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,20 +192,17 @@
 
         </androidx.cardview.widget.CardView>
 
+        <!-- AVERAGE CONSUMPTION -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            style="@style/cardMainBackground"
             android:layout_marginBottom="10dp"
+            style="@style/cardMainBackground"
+            android:tag="yes_data"
             app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardElevation="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

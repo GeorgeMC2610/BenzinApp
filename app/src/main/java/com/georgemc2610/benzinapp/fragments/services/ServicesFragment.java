@@ -36,7 +36,7 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
 
     private FragmentServicesBinding binding;
     private TabLayout tabLayout;
-    private ScrollView servicesScrollView, malfunctionsScrollView;
+    private ScrollView servicesScrollView, noDataServicesScrollView, malfunctionsScrollView, noDataMalfunctionsScrollView;
     private LinearLayout servicesLinearLayout, malfunctionsLinearLayout;
     private LayoutInflater inflater;
     private FloatingActionButton buttonAddService;
@@ -55,6 +55,8 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         // Get the other scroll views.
         servicesScrollView = root.findViewById(R.id.scroll_view_services);
         malfunctionsScrollView = root.findViewById(R.id.scroll_view_malfunctions);
+        noDataMalfunctionsScrollView = root.findViewById(R.id.scroll_view_malfunctions_no_data);
+        noDataServicesScrollView = root.findViewById(R.id.scroll_view_services_no_data);
 
         // button add service
         buttonAddService = root.findViewById(R.id.button_add_service);
@@ -67,6 +69,14 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         // Add the tab view listener to be this class and select the first element.
         tabLayout.addOnTabSelectedListener(this);
         tabLayout.selectTab(tabLayout.getTabAt(0));
+
+        // this must be done, even though we call the function above
+        servicesScrollView.setVisibility(View.GONE);
+        noDataServicesScrollView.setVisibility(View.GONE);
+
+        boolean noMalfunctions = DataHolder.getInstance().malfunctions.isEmpty();
+        noDataMalfunctionsScrollView.setVisibility(noMalfunctions ? View.VISIBLE : View.GONE);
+        malfunctionsScrollView.setVisibility(noMalfunctions ? View.GONE : View.VISIBLE);
 
         return root;
     }
@@ -211,11 +221,20 @@ public class ServicesFragment extends Fragment implements TabLayout.OnTabSelecte
         {
             case 0:
                 servicesScrollView.setVisibility(View.GONE);
-                malfunctionsScrollView.setVisibility(View.VISIBLE);
+                noDataServicesScrollView.setVisibility(View.GONE);
+
+                boolean noMalfunctions = DataHolder.getInstance().malfunctions.isEmpty();
+                noDataMalfunctionsScrollView.setVisibility(noMalfunctions ? View.VISIBLE : View.GONE);
+                malfunctionsScrollView.setVisibility(noMalfunctions ? View.GONE : View.VISIBLE);
                 break;
             case 1:
-                servicesScrollView.setVisibility(View.VISIBLE);
                 malfunctionsScrollView.setVisibility(View.GONE);
+                noDataMalfunctionsScrollView.setVisibility(View.GONE);
+
+                boolean noServices = DataHolder.getInstance().services.isEmpty();
+                noDataServicesScrollView.setVisibility(noServices ? View.VISIBLE : View.GONE);
+                servicesScrollView.setVisibility(noServices ? View.GONE : View.VISIBLE);
+
                 break;
             default:
                 throw new UnsupportedOperationException();

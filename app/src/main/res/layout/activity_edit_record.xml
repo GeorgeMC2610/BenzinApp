@@ -64,7 +64,7 @@
 
                 <!-- COST -->
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -75,11 +75,12 @@
                         android:text="@string/text_view_cost" />
 
                     <EditText
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/edit_text_cost_hint"
                         style="@style/genericField"
                         android:textSize="15sp"
+                        android:layout_marginHorizontal="2dp"
                         android:padding="11dp"
                         android:inputType="numberDecimal"
                         android:id="@+id/cost" />
@@ -87,7 +88,7 @@
 
                 <!-- MILEAGE -->
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -98,7 +99,7 @@
                         android:text="@string/text_view_kilometers" />
 
                     <EditText
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/edit_text_kilometers_hint"
                         style="@style/genericField"
@@ -124,7 +125,7 @@
                 android:layout_marginTop="30dp" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp"
@@ -132,7 +133,7 @@
 
                 <!-- LT -->
                 <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/edit_text_petrol_type_hint"
@@ -145,7 +146,7 @@
 
                 <!-- COST -->
                 <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/edit_text_station_hint"

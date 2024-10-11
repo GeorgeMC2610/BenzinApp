@@ -56,7 +56,7 @@ public class ActivityDisplayRepeatedTrip extends AppCompatActivity
         title = findViewById(R.id.display_repeated_trip_text_view_title);
         timesRepeating = findViewById(R.id.display_repeated_trip_text_view_times_repeating);
         trip = findViewById(R.id.display_repeated_trip_text_view_from_origin_to_destination);
-        CardView showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
+        Button showOnMapButton = findViewById(R.id.display_repeated_trip_button_show_on_map);
         Button deleteButton = findViewById(R.id.buttonDelete);
         Button editButton = findViewById(R.id.buttonEdit);
         km = findViewById(R.id.display_repeated_trip_text_view_total_km);

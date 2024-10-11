@@ -2,11 +2,13 @@ package com.georgemc2610.benzinapp.fragments.history;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,8 +44,9 @@ public class HistoryFragment extends Fragment
     FloatingActionButton ButtonAdd;
     ImageView image;
     LinearLayout scrollViewLayout;
+    ScrollView mainLayout, noDataLayout;
     LayoutInflater inflater;
-    TextView hint, totalFuelFillRecords;
+    TextView hint, totalFuelFillRecords, noDataLabel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -60,27 +63,44 @@ public class HistoryFragment extends Fragment
 
         // image view can have its visibility revoked if there are no entries.
         image = root.findViewById(R.id.image_view_records_nothing);
+        noDataLabel = root.findViewById(R.id.text_view_no_data);
 
         // scrollview layout for the cards.
         scrollViewLayout = root.findViewById(R.id.historyFragment_linearLayoutScrollView);
+        mainLayout = root.findViewById(R.id.scrollView2);
+        noDataLayout = root.findViewById(R.id.scroll_view_no_records);
         this.inflater = getLayoutInflater();
 
         // text view with total fuel fill records
         totalFuelFillRecords = root.findViewById(R.id.text_view_history_total_fuel_fill_records);
 
+        return root;
+    }
+
+    private void updateAfterCountLogic()
+    {
         if (DataHolder.getInstance().records.isEmpty())
         {
             image.setVisibility(View.VISIBLE);
+            noDataLabel.setVisibility(View.VISIBLE);
+            noDataLayout.setVisibility(View.VISIBLE);
+
+            mainLayout.setVisibility(View.GONE);
             totalFuelFillRecords.setVisibility(View.GONE);
-            hint.setVisibility(View.GONE);
-            scrollViewLayout.setVisibility(View.GONE);
+            hint.setVisibility(View.INVISIBLE);
+
+            return;
         }
-        else if (DataHolder.getInstance().records.size() == 1)
+
+        totalFuelFillRecords.setVisibility(View.VISIBLE);
+        hint.setVisibility(View.VISIBLE);
+
+        if (DataHolder.getInstance().records.size() == 1)
             totalFuelFillRecords.setText(R.string.text_view_one_record);
         else
             totalFuelFillRecords.setText(DataHolder.getInstance().records.size() + getString(R.string.text_view_total_records));
 
-        return root;
+        createCards();
     }
 
     private void createCards()
@@ -213,6 +233,6 @@ public class HistoryFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        createCards();
+        updateAfterCountLogic();
     }
 }
