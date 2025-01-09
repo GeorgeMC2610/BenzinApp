@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OverviewFragment extends StatefulWidget {
-  const OverviewFragment({super.key});
+class MaintenanceFragment extends StatefulWidget {
+  const MaintenanceFragment({super.key});
 
   @override
-  State<OverviewFragment> createState() => _OverviewFragmentState();
+  State<MaintenanceFragment> createState() => _MaintenanceFragmentState();
 }
 
-class _OverviewFragmentState extends State<OverviewFragment> {
+class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
             'You have pushed the button this many times:',
           ),
           Text(
-            'Overview Fragment',
+            'Maintenance Fragment',
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ],

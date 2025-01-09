@@ -1,3 +1,7 @@
+import 'package:benzinapp/views/fragments/fuel_fills.dart';
+import 'package:benzinapp/views/fragments/maintenance.dart';
+import 'package:benzinapp/views/fragments/overview.dart';
+import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,13 +22,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget? _buildBody(int index, BuildContext context) {
-
-    return null;
+  Widget _buildBody(int index, BuildContext context) {
 
     switch (index) {
       case 0:
-
+        return const OverviewFragment();
+      case 1:
+        return const FuelFillsFragment();
+      case 2:
+        return const MaintenanceFragment();
+      case 3:
+        return const SettingsFragment();
+      default:
+        throw UnimplementedError();
     }
 
   }
@@ -36,20 +46,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'Apisteyto',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
+      body: _buildBody(_selectedTabIndex, context),
       bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(this.context).colorScheme.primaryFixedDim,
           currentIndex: _selectedTabIndex,
