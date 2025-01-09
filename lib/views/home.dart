@@ -10,6 +10,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  int _selectedTabIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+    });
+  }
+
+  Widget? _buildBody(int index, BuildContext context) {
+
+    return null;
+
+    switch (index) {
+      case 0:
+
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +50,29 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Theme.of(this.context).colorScheme.primaryFixedDim,
+          currentIndex: _selectedTabIndex,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Home',
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+                label: 'Fuel Fills',
+                icon: Icon(Icons.local_gas_station)
+            ),
+            BottomNavigationBarItem(
+                label: 'Maintenance',
+                icon: Icon(Icons.car_repair)
+            ),
+            BottomNavigationBarItem(
+              label: 'Settings',
+              icon: Icon(Icons.settings),
+            ),
+          ]),
       floatingActionButton: const FloatingActionButton(
         onPressed: null,
         tooltip: 'Increment',
