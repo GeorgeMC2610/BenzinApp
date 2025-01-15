@@ -54,7 +54,53 @@ class _OverviewFragmentState extends State<OverviewFragment> {
               ),
             ),
 
-            const SizedBox(height: 10),
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('<Graph with Consumption>',
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ],
+                    ),
+                  )
+              ),
+            ),
+
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('<Pie Chart with Costs>',
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ],
+                    ),
+                  )
+              ),
+            ),
 
             // car consumption container
             Container(
@@ -123,6 +169,74 @@ class _OverviewFragmentState extends State<OverviewFragment> {
               ),
             ),
 
+            // timely manner consumption
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('TOTAL STATISTICS',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold
+                        )
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      Text('Total Liters Filled:',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text('Something something better than the green limo',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Text('Total Kilometers Travelled:',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text('Something something better than the green limo',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Text('Total Costs:',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text('Something something better than the green limo',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+
+                    ],
+                  ),
+                )
+              ),
+            ),
           ],
         ),
       )
