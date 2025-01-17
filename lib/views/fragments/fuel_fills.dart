@@ -11,19 +11,23 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'You have pushed the button this many times:',
+    return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('x Total Records'),
+
+               FilledButton.icon (
+                onPressed: () {},
+                label: const Text("Filters"),
+                 icon: const Icon(Icons.filter_list),
+              ),
+            ],
           ),
-          Text(
-            'Fuel Fills Fragment',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-        ],
-      ),
+        )
     );
   }
 
