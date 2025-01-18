@@ -11,19 +11,26 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'You have pushed the button this many times:',
-          ),
-          Text(
-            'Maintenance Fragment',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-        ],
-      ),
+    return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                TabBar(
+                  labelColor: Theme.of(context).appBarTheme.backgroundColor,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
+                  tabs: [
+                    const Tab(text: 'Malfunctions'),
+                    const Tab(text: 'Services')
+                  ],
+                )
+              ],
+            )
+          )
+        )
     );
   }
 
