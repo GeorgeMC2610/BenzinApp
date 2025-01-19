@@ -28,6 +28,21 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
               const SizedBox(height: 10),
 
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  filled: true,
+                  hintStyle: TextStyle(color: Colors.grey),
+                  hintText: "Search in fuel fills...",
+                  fillColor: Colors.white70,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
               Text(
                 'January 2025',
                 style: TextStyle(
