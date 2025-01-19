@@ -9,8 +9,12 @@ class SettingsFragment extends StatefulWidget {
 
 class _SettingsFragmentState extends State<SettingsFragment> {
 
+  bool lightMode = false;
+  bool fastLogin = false;
+
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -19,19 +23,41 @@ class _SettingsFragmentState extends State<SettingsFragment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text("Application Appearance",
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                    )
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500
+                  )
                 ),
 
                 const SizedBox(height: 12),
 
-                const ListTile(
-                  title: Text("Dark Mode"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.dark_mode),
+                ListTile(
+                  title: const Text("Dark Mode"),
+                  trailing: Switch.adaptive(
+                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
+                      if (states.contains(WidgetState.selected)) {
+                        return const Icon(Icons.dark_mode, color: Colors.black);
+                      }
+                      return const Icon(Icons.light_mode, color: Colors.white);
+                    }),
+                    value: lightMode,
+                    onChanged: (bool value) {
+
+                      if (lightMode == false)
+                      {
+                        setState(() {
+                          lightMode = true;
+                        });
+                      }
+                      else
+                      {
+                        setState(() {
+                          lightMode = false;
+                        });
+                      }
+                    }),
+                  leading: const Icon(Icons.dark_mode),
                 ),
                 ListTile(
                   title: const Text("Language"),
@@ -53,10 +79,33 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 const SizedBox(height: 12),
 
-                const ListTile(
-                  title: Text("Fast Login"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.fast_forward),
+                ListTile(
+                  title: const Text("Fast Login"),
+                  trailing: Switch.adaptive(
+                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
+                      if (states.contains(WidgetState.selected)) {
+                        return const Icon(Icons.electric_bolt, color: Colors.black);
+                      }
+                    }),
+                    value: fastLogin,
+                      onChanged: (bool value) {
+
+                        if (fastLogin == false)
+                        {
+                          setState(() {
+                            fastLogin = true;
+                          });
+                        }
+                        else
+                        {
+                          setState(() {
+                            fastLogin = false;
+                          });
+                        }
+                      },
+
+                  ),
+                  leading: const Icon(Icons.offline_bolt_outlined),
                 ),
                 const ListTile(
                   title: Text("Logout"),
