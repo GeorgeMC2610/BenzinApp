@@ -16,51 +16,60 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
       children: [
         DefaultTabController(
           length: 2,
-          child: Column(
-            children: [
-              TabBar(
-                labelColor: Theme.of(context).appBarTheme.backgroundColor,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
-                tabs: const [
-                  Tab(text: 'Malfunctions'),
-                  Tab(text: 'Services'),
-                ],
-              ),
-              // Use Expanded to give TabBarView proper constraints
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6, // Adjust height as needed
-                child: TabBarView(
-                  children: [
-                    SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Malfunctions')
-                          ],
-                        ),
-                      )
-                    ),
+          child: Expanded(
+            child: Column(
+              children: [
 
-                    SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('Services')
-                            ],
-                          ),
-                        )
-                    ),
+                TabBar(
+                  labelColor: Theme.of(context).appBarTheme.backgroundColor,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
+                  tabs: const [
+                    Tab(text: 'Malfunctions'),
+                    Tab(text: 'Services'),
                   ],
                 ),
-              ),
-            ],
+
+                Expanded(
+                  child: TabBarView(
+                    children: [
+
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          return const SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Malfunctions'),
+                                ]
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          return const SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Services'),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

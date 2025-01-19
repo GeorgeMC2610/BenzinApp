@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
         onPressed: () {},
         tooltip: 'Add',
+        elevation: 3,
         child: const Icon(Icons.add),
       ),
     );
