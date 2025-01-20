@@ -108,9 +108,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.offline_bolt_outlined),
                 ),
                 const ListTile(
-                  title: Text("Logout"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.logout),
+                  title: Text("Logout", style: TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+                  trailing: Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+                  leading: Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
                 ),
                 const ListTile(
                   title: Text("Edit Account"),
