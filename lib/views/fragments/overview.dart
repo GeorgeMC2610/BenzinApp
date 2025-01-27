@@ -115,11 +115,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('AVERAGE CONSUMPTION',
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold
-                            )
+                        Center(
+                          child: Text('AVERAGE CONSUMPTION',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold
+                              )
+                          )
                         ),
 
                         const SizedBox(height: 15),
@@ -182,12 +184,14 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('TOTAL STATISTICS',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold
-                        )
+                      Center(
+                        child: Text('TOTAL STATISTICS',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold
+                          )
+                        ),
                       ),
 
                       const SizedBox(height: 15),
