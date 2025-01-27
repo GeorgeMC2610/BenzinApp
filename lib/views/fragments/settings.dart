@@ -1,3 +1,4 @@
+import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
 
 class SettingsFragment extends StatefulWidget {
@@ -107,10 +108,18 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   ),
                   leading: const Icon(Icons.offline_bolt_outlined),
                 ),
-                const ListTile(
-                  title: Text("Logout", style: TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-                  trailing: Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-                  leading: Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
+                ListTile(
+                  title: const Text("Logout", style: TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+                  trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+                  leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()
+                      )
+                    );
+                  },
                 ),
                 const ListTile(
                   title: Text("Edit Account"),
