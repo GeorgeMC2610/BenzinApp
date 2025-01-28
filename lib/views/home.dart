@@ -3,6 +3,7 @@ import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/fragments/trips.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,15 +27,15 @@ class _HomePageState extends State<HomePage> {
       // this is to ensure the title changes dynamically, apart from the body.
       switch (index) {
         case 0:
-          _title = 'Home';
+          _title = AppLocalizations.of(context)!.home;
         case 1:
-          _title = 'Fuel Fills';
+          _title = AppLocalizations.of(context)!.fuelFills;
         case 2:
-          _title = 'Maintenance';
+          _title = AppLocalizations.of(context)!.maintenance;
         case 3:
-          _title = 'Trips';
+          _title = AppLocalizations.of(context)!.trips;
         case 4:
-          _title = 'Settings';
+          _title = AppLocalizations.of(context)!.settings;
         default:
           _title = 'BenzinApp';
       }
@@ -75,26 +76,26 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedTabIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home),
+          label:  AppLocalizations.of(context)!.home,
+            icon: const Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-              label: 'Fuel Fills',
-              icon: Icon(Icons.local_gas_station)
+              label: AppLocalizations.of(context)!.fuelFills,
+              icon: const Icon(Icons.local_gas_station)
           ),
           BottomNavigationBarItem(
-              label: 'Maintenance',
-              icon: Icon(Icons.car_repair)
+              label: AppLocalizations.of(context)!.maintenance,
+              icon: const Icon(Icons.car_repair)
           ),
           BottomNavigationBarItem(
-              label: 'Trips',
-              icon: Icon(Icons.pin_drop)
+              label: AppLocalizations.of(context)!.trips,
+              icon: const Icon(Icons.pin_drop)
           ),
           BottomNavigationBarItem(
-            label: 'Settings',
-            icon: Icon(Icons.settings),
+            label: AppLocalizations.of(context)!.settings,
+            icon: const Icon(Icons.settings),
           ),
         ]),
       floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
