@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
                   Center(
                     child: Image.asset(
@@ -44,12 +44,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
                   Row(
                     children: [
                       Expanded(
-                        child: new Container(
+                        child: Container(
                             margin: const EdgeInsets.only(left: 5, right: 10),
                             child: Divider(
                               color: Colors.black,
@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       Expanded(
-                        child: new Container(
+                        child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 5),
                             child: Divider(
                               color: Colors.black,
@@ -74,7 +74,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ]),
 
                   const SizedBox(height: 10),
-
 
                   // BenzinApp Logo
                   TextField(
@@ -91,17 +90,125 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 16.0),
 
-                  // Password TextField
+                  // ACCOUNT DETAILS REGION
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            hintText: "Enter your password",
+                            labelText: "Password",
+                            prefixIcon: const Icon(Icons.lock),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 7.5),
+
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            hintText: "Confirm your password",
+                            labelText: "Confirm Password",
+                            suffixIcon: const Icon(Icons.lock_outline),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      )
+
+                    ],
+                  ),
+
+                  // CAR DETAILS REGION
+                  const SizedBox(height: 50),
+
+                  Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.only(left: 5, right: 10),
+                              child: Divider(
+                                color: Colors.black,
+                                height: 36,
+                              )),
+                        ),
+                        Text(
+                          "Car Details",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.only(left: 10, right: 5),
+                              child: Divider(
+                                color: Colors.black,
+                                height: 36,
+                              )),
+                        ),
+                      ]),
+
+                  const SizedBox(height: 10),
+
+                  // BenzinApp Logo
                   TextField(
-                    obscureText: true,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      hintText: "Enter your password",
-                      labelText: "Password",
-                      prefixIcon: const Icon(Icons.lock),
+                      hintText: "Enter your car's make name",
+                      labelText: "Car Manufacturer",
+                      prefixIcon: const Icon(Icons.car_rental),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
+                  ),
+
+                  const SizedBox(height: 16.0),
+
+                  // Password TextField
+
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Enter your car's model",
+                            labelText: "Car Model",
+                            prefixIcon: const Icon(Icons.car_rental_outlined),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 7.5),
+
+                      Expanded(
+                        child: TextField(
+                          keyboardType: const TextInputType.numberWithOptions(signed: true),
+                          decoration: InputDecoration(
+                            hintText: "Enter manufacturing year",
+                            labelText: "Car Year",
+                            suffixIcon: const Icon(Icons.calendar_month),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                      )
+
+                    ],
                   ),
 
                   const SizedBox(height: 50),
