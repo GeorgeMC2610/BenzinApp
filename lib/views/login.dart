@@ -1,3 +1,4 @@
+import 'package:benzinapp/views/register.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 80),
 
               Center(
                 child: Image.asset(
@@ -74,7 +75,25 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 125),
+              const SizedBox(height: 50),
+
+              Center(
+                child: TapRegion(
+                  child: const Text(
+                    "Don't have an account? Create one.",
+                  ),
+                  onTapInside: (value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()
+                      )
+                    );
+                  },
+                )
+              ),
+
+              const SizedBox(height: 50),
 
               // Login Button
               Container(
@@ -85,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: const ButtonStyle(
                     elevation: WidgetStatePropertyAll(4),
                     backgroundColor: WidgetStatePropertyAll(
-                      Color.fromARGB(255, 255, 175, 0)
+                      Color.fromARGB(255, 184, 134, 59)
                     )
                   ),
                   label: const Text(
