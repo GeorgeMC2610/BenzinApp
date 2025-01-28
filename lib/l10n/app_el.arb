@@ -1,3 +1,14 @@
 {
-    "loggedInAs": "Συνδέθηκες ως: {username}"
+    "loggedInAs": "Συνδέθηκες ως: {username}",
+
+    "fuelUsageTrend":           "ΓΡΑΦΗΜΑ ΚΑΤΑΝΑΛΩΣΗΣ",
+    "combinedCosts":            "ΑΘΡΟΙΣΤΙΚΑ ΚΟΣΤΗ",
+    "averageConsumption":       "ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ",
+    "totalStatistics":          "ΣΥΝΟΛΙΚΑ ΣΤΑΤΙΣΤΙΚΑ",
+    "litersPer100km":           "Λίτρα ανά 100 χλμ.:",
+    "kilometersPerLiter":       "Χιλιόμετρα ανά Λίτρο:",
+    "costPerKilometer":         "Κόστος ανά Χιλιόμετρο:",
+    "totalLitersFilled":        "Συνολικά Γεμισμένα Λίτρα:",
+    "totalKilometersTravelled": "Συνολικά Χιλιόμετρα:",
+    "totalCosts":               "Συνολικά Κόστη:"
 }

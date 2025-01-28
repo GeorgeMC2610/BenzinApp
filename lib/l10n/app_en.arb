@@ -8,5 +8,18 @@
                 "example": "test1"
             }
         }
-    }
+    },
+
+    "fuelUsageTrend":           "FUEL USAGE TREND",
+    "combinedCosts":            "COMBINED COSTS",
+    "averageConsumption":       "AVERAGE CONSUMPTION",
+    "totalStatistics":          "TOTAL STATISTICS",
+    "litersPer100km":           "Liters per 100 km:",
+    "kilometersPerLiter":       "Kilometers per Liter:",
+    "costPerKilometer":         "Cost per Kilometer:",
+    "totalLitersFilled":        "Total Liters Filled:",
+    "totalKilometersTravelled": "Total Kilometers Travelled:",
+    "totalCosts":               "Total Costs:"
+
+
 }

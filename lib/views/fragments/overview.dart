@@ -69,9 +69,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Center(
-                          child: Text('FUEL USAGE TREND',
-                          style: TextStyle(
+                        Center(
+                          child: Text(AppLocalizations.of(context)!.fuelUsageTrend,
+                          style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold
                             )
@@ -102,15 +102,15 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text('COMBINED COSTS',
-                              style: TextStyle(
+                          child: Text(AppLocalizations.of(context)!.combinedCosts,
+                              style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold
                               )
@@ -130,15 +130,15 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text('AVERAGE CONSUMPTION',
-                              style: TextStyle(
+                          child: Text(AppLocalizations.of(context)!.averageConsumption,
+                              style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold
                               )
@@ -147,13 +147,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 15),
 
-                        Text('Liters per 100 km:',
+                        Text(AppLocalizations.of(context)!.litersPer100km,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text('Something something better than the green limo',
+                        const Text('Something something better than the green limo',
                           style: TextStyle(
                               fontSize: 15,
                           ),
@@ -161,7 +161,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 10),
 
-                        Text('Kilometers per Liter:',
+                        Text(AppLocalizations.of(context)!.kilometersPerLiter,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
@@ -175,7 +175,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 10),
 
-                        Text('Cost per Kilometer:',
+                        Text(AppLocalizations.of(context)!.costPerKilometer,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
@@ -199,16 +199,16 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Text('TOTAL STATISTICS',
+                        child: Text(AppLocalizations.of(context)!.totalStatistics,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold
                           )
@@ -217,13 +217,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                       const SizedBox(height: 15),
 
-                      Text('Total Liters Filled:',
-                        style: TextStyle(
+                      Text(AppLocalizations.of(context)!.totalLitersFilled,
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      Text('Something something better than the green limo',
+                      const Text('Something something better than the green limo',
                         style: TextStyle(
                           fontSize: 15,
                         ),
@@ -231,27 +231,27 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                       const SizedBox(height: 10),
 
-                      Text('Total Kilometers Travelled:',
-                        style: TextStyle(
+                      Text(AppLocalizations.of(context)!.totalKilometersTravelled,
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      Text('Something something better than the green limo',
-                        style: TextStyle(
+                      const Text('Something something better than the green limo',
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
 
                       const SizedBox(height: 10),
 
-                      Text('Total Costs:',
-                        style: TextStyle(
+                      Text(AppLocalizations.of(context)!.totalCosts,
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      Text('Something something better than the green limo',
+                      const Text('Something something better than the green limo',
                         style: TextStyle(
                           fontSize: 15,
                         ),
