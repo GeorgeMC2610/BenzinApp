@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -19,7 +21,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Text('Logged in as: polo_despoina'),
+            Text(AppLocalizations.of(context)!.loggedInAs('polo_despoina')),
 
             const SizedBox(height: 10),
 
@@ -54,24 +56,40 @@ class _OverviewFragmentState extends State<OverviewFragment> {
               ),
             ),
 
+            // graph with consumption container
             Container(
               width: MediaQuery.sizeOf(context).width,
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('<Graph with Consumption>',
-                            style: TextStyle(
+                        const Center(
+                          child: Text('FUEL USAGE TREND',
+                          style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold
                             )
+                          )
                         ),
+
+                       Container(
+                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                         constraints: BoxConstraints(minHeight: 30, minWidth: 60),
+                         decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(10)
+                         ),
+                         child: DropdownButton(
+                           items: [],
+                           onChanged: (item) {}
+                         )
+                       )
                       ],
                     ),
                   )
@@ -90,12 +108,15 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('<Pie Chart with Costs>',
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold
-                            )
+                        Center(
+                          child: Text('COMBINED COSTS',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold
+                              )
+                          ),
                         ),
+
                       ],
                     ),
                   )

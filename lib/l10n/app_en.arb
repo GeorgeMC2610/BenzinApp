@@ -1,0 +1,12 @@
+{
+    "loggedInAs": "Logged in as: {username}",
+    "@loggedInAs": {
+        "description": "Introductory message when the user logs in.",
+        "placeholders": {
+            "username": {
+                "type": "String",
+                "example": "test1"
+            }
+        }
+    }
+}

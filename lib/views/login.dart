@@ -18,15 +18,54 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text(_title),
         ),
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("SDFS")
+                    const Center(
+                        child: const Text(
+                          "Welcome Back!",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 35
+                          ),
+                        )
+                    ),
+
+                    // some other time this will be a logo
+                    const SizedBox(height: 250),
+
+                    // BenzinApp Logo
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: "Enter your email",
+                        labelText: "Email",
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+
+                    // Password TextField
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Enter your password",
+                        labelText: "Password",
+                        prefixIcon: const Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
                   ]
-              )),
+              ),
+          ),
         ));
   }
 }
