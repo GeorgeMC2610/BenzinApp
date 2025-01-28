@@ -63,6 +63,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 ListTile(
                   title: const Text("Language"),
                   onTap: () {
+
                   },
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
@@ -87,6 +88,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                       if (states.contains(WidgetState.selected)) {
                         return const Icon(Icons.electric_bolt, color: Colors.black);
                       }
+                      return null;
                     }),
                     value: fastLogin,
                       onChanged: (bool value) {

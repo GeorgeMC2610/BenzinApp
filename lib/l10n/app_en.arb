@@ -10,6 +10,12 @@
         }
     },
 
+    "home":        "Home",
+    "fuelFills":   "Fuel Fills",
+    "maintenance": "Maintenance",
+    "trips":       "Trips",
+    "settings":    "Settings",
+
     "fuelUsageTrend":           "FUEL USAGE TREND",
     "combinedCosts":            "COMBINED COSTS",
     "averageConsumption":       "AVERAGE CONSUMPTION",

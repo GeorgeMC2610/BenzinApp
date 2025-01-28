@@ -1,6 +1,12 @@
 {
     "loggedInAs": "Συνδέθηκες ως: {username}",
 
+    "home":        "Αρχική",
+    "fuelFills":   "Γεμίσματα",
+    "maintenance": "Συντήρηση",
+    "trips":       "Διαδρομές",
+    "settings":    "Ρυθμίσεις",
+
     "fuelUsageTrend":           "ΓΡΑΦΗΜΑ ΚΑΤΑΝΑΛΩΣΗΣ",
     "combinedCosts":            "ΑΘΡΟΙΣΤΙΚΑ ΚΟΣΤΗ",
     "averageConsumption":       "ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ",
