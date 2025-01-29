@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -11,12 +12,12 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
 
-    const String _title = 'Register to BenzinApp';
+
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text(_title),
+          title: Text(AppLocalizations.of(context)!.registerToBenzinApp),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -24,10 +25,10 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Center(
-                      child: const Text(
-                        "Welcome to BenzinApp!",
-                        style: TextStyle(
+                  Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.welcome,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30
                         ),
@@ -51,14 +52,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: Container(
                             margin: const EdgeInsets.only(left: 5, right: 10),
-                            child: Divider(
+                            child: const Divider(
                               color: Colors.black,
                               height: 36,
                             )),
                       ),
                       Text(
-                        "Account Details",
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.accountDetails,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17
                         ),
@@ -66,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 5),
-                            child: Divider(
+                            child: const Divider(
                               color: Colors.black,
                               height: 36,
                             )),
@@ -79,8 +80,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      hintText: "Enter your Username",
-                      labelText: "Username",
+                      hintText: AppLocalizations.of(context)!.usernameRegisterHint,
+                      labelText: AppLocalizations.of(context)!.username,
                       prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -98,8 +99,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextField(
                           obscureText: true,
                           decoration: InputDecoration(
-                            hintText: "Enter your password",
-                            labelText: "Password",
+                            hintText: AppLocalizations.of(context)!.passwordHint,
+                            labelText: AppLocalizations.of(context)!.password,
                             prefixIcon: const Icon(Icons.lock),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -114,8 +115,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextField(
                           obscureText: true,
                           decoration: InputDecoration(
-                            hintText: "Confirm your password",
-                            labelText: "Confirm Password",
+                            hintText: AppLocalizations.of(context)!.passwordConfirmationHint,
+                            labelText: AppLocalizations.of(context)!.passwordConfirmation,
                             suffixIcon: const Icon(Icons.lock_outline),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -135,14 +136,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         Expanded(
                           child: Container(
                               margin: const EdgeInsets.only(left: 5, right: 10),
-                              child: Divider(
+                              child: const Divider(
                                 color: Colors.black,
                                 height: 36,
                               )),
                         ),
                         Text(
-                          "Car Details",
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.carDetails,
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17
                           ),
@@ -150,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Expanded(
                           child: Container(
                               margin: const EdgeInsets.only(left: 10, right: 5),
-                              child: Divider(
+                              child: const Divider(
                                 color: Colors.black,
                                 height: 36,
                               )),
@@ -163,8 +164,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      hintText: "Enter your car's make name",
-                      labelText: "Car Manufacturer",
+                      hintText: AppLocalizations.of(context)!.carManufacturerHint,
+                      labelText: AppLocalizations.of(context)!.carManufacturer,
                       prefixIcon: const Icon(Icons.car_rental),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -182,8 +183,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText: "Enter your car's model",
-                            labelText: "Car Model",
+                            hintText: AppLocalizations.of(context)!.carModelHint,
+                            labelText: AppLocalizations.of(context)!.carModel,
                             prefixIcon: const Icon(Icons.car_rental_outlined),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -198,8 +199,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextField(
                           keyboardType: const TextInputType.numberWithOptions(signed: true),
                           decoration: InputDecoration(
-                            hintText: "Enter manufacturing year",
-                            labelText: "Car Year",
+                            hintText: AppLocalizations.of(context)!.carYearHint,
+                            labelText: AppLocalizations.of(context)!.carYear,
                             suffixIcon: const Icon(Icons.calendar_month),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -213,26 +214,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 50),
 
-                  Center(
-                      child: TapRegion(
-                        child: const Text(
-                          "Already registered? Log into your account.",
-                        ),
-                        onTapInside: (value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RegisterPage()
-                              )
-                          );
-                        },
-                      )
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  // Login Button
-                  Container(
+                  // Register Button
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton.icon(
@@ -243,9 +226,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               Color.fromARGB(255, 184, 134, 59)
                           )
                       ),
-                      label: const Text(
-                        "Register",
-                        style: TextStyle(
+                      label: Text(
+                        AppLocalizations.of(context)!.register,
+                        style: const TextStyle(
                             fontSize: 18,
                             color: Colors.black
                         ),

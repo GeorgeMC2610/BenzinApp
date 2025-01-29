@@ -1,4 +1,5 @@
 import 'package:benzinapp/views/register.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,14 +11,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  static const String _title = 'Login to BenzinApp';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(_title),
+        title: Text(AppLocalizations.of(context)!.loginToBenzinApp),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -25,10 +24,10 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
-                  child: const Text(
-                    "Welcome Back!",
-                    style: TextStyle(
+              Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.welcomeBack,
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 35
                     ),
@@ -51,8 +50,8 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  hintText: "Enter your Username",
-                  labelText: "Username",
+                  hintText: AppLocalizations.of(context)!.usernameHint,
+                  labelText: AppLocalizations.of(context)!.username,
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -66,8 +65,8 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "Enter your password",
-                  labelText: "Password",
+                  hintText: AppLocalizations.of(context)!.passwordHint,
+                  labelText: AppLocalizations.of(context)!.password,
                   prefixIcon: const Icon(Icons.lock),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -79,8 +78,8 @@ class _LoginPageState extends State<LoginPage> {
 
               Center(
                 child: TapRegion(
-                  child: const Text(
-                    "Don't have an account? Create one.",
+                  child: Text(
+                    AppLocalizations.of(context)!.dontHaveAnAccount,
                   ),
                   onTapInside: (value) {
                     Navigator.push(
@@ -96,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 50),
 
               // Login Button
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton.icon(
@@ -107,9 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                       Color.fromARGB(255, 184, 134, 59)
                     )
                   ),
-                  label: const Text(
-                    "Login",
-                    style: TextStyle(
+                  label: Text(
+                    AppLocalizations.of(context)!.login,
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black
                     ),
