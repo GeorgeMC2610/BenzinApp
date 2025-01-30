@@ -1,7 +1,9 @@
 import 'package:benzinapp/views/shared/status_card.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 
 class OverviewFragment extends StatefulWidget {
@@ -82,6 +84,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         ),
 
                         const StatusCard(
+                            icon: Icon(FontAwesomeIcons.carBattery),
+                            text: "Battery changed 2 and a half years ago",
+                            status: StatusCardIndex.bad
+                        ),
+
+                        const StatusCard(
                             icon: Icon(FontAwesomeIcons.drumSteelpan),
                             text: "Tyres changed two months ago",
                             status: StatusCardIndex.good
@@ -90,6 +98,18 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         const StatusCard(
                             icon: Icon(FontAwesomeIcons.shower),
                             text: "Last car wash 1 month ago",
+                            status: StatusCardIndex.good
+                        ),
+
+                        const StatusCard(
+                            icon: Icon(FontAwesomeIcons.fileContract),
+                            text: "Governmental check-up (KTEO) in 2 years",
+                            status: StatusCardIndex.good
+                        ),
+
+                        const StatusCard(
+                            icon: Icon(FontAwesomeIcons.idCard),
+                            text: "Gas card in 1 years",
                             status: StatusCardIndex.good
                         )
 
@@ -110,7 +130,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
@@ -125,6 +145,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         DropdownButton<int>(
                           value: 0, // No default selected
                           hint: const Text("Select an option"),
+
                           items: const [
                             DropdownMenuItem(value: 0, child: Text("Liters per 100km")),
                             DropdownMenuItem(value: 1, child: Text("Kilometers per Liter")),
@@ -142,6 +163,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             color: Colors.transparent, // Custom underline
                           ),
                         ),
+
+                        const SizedBox(height: 50),
+
+
 
                       ],
                     ),
@@ -319,6 +344,26 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         ),
       )
     );
+  }
+
+  List<FlSpot> getChartData() {
+    List<Map<String, dynamic>> data = [
+      {"date": "2022-01-05", "value": 11.0},
+      {"date": "2024-03-01", "value": 7.8},
+      {"date": "2025-05-01", "value": 5.8},
+    ];
+
+    return data.map((entry) {
+      double xValue = DateTime.parse(entry["date"]).millisecondsSinceEpoch.toDouble();
+      double yValue = entry["value"];
+      return FlSpot(xValue, yValue);
+    }).toList();
+  }
+
+  /// Format x-axis labels (convert milliseconds back to 'YYYY-MM-DD')
+  String formatDate(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return DateFormat("yyyy-MM-dd").format(date);
   }
 
 }
