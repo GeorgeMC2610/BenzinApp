@@ -1,10 +1,9 @@
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
 import 'package:benzinapp/views/shared/status_card.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
-
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -14,6 +13,9 @@ class OverviewFragment extends StatefulWidget {
 }
 
 class _OverviewFragmentState extends State<OverviewFragment> {
+
+  ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
+  int _selectedFocusValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -142,22 +144,39 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                           )
                         ),
 
+                        const SizedBox(height: 15),
+
                         DropdownButton<int>(
-                          value: 0, // No default selected
+                          value: _selectedFocusValue, // No default selected
                           hint: const Text("Select an option"),
 
-                          items: const [
-                            DropdownMenuItem(value: 0, child: Text("Liters per 100km")),
-                            DropdownMenuItem(value: 1, child: Text("Kilometers per Liter")),
-                            DropdownMenuItem(value: 2, child: Text("Cost per Kilometre")),
+                          items: [
+                            DropdownMenuItem(value: 0, child: Text(AppLocalizations.of(context)!.litersPer100km)),
+                            DropdownMenuItem(value: 1, child: Text(AppLocalizations.of(context)!.kilometersPerLiter)),
+                            DropdownMenuItem(value: 2, child: Text(AppLocalizations.of(context)!.costPerKilometer)),
                           ],
+
                           onChanged: (int? value) {
-                            // Handle selection change
+                            setState(() {
+                              switch (value!) {
+                                case 0:
+                                  _focus = ChartDisplayFocus.consumption;
+                                  break;
+                                case 1:
+                                  _focus = ChartDisplayFocus.efficiency;
+                                  break;
+                                case 2:
+                                  _focus = ChartDisplayFocus.travelCost;
+                                  break;
+                              }
+
+                              _selectedFocusValue = value;
+                            });
                           },
-                          dropdownColor: const Color.fromARGB(
-                              255, 255, 247, 240), // Background color of dropdown
-                          style: const TextStyle(fontSize: 13, color: Colors.black), // Text style
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.black), // Custom dropdown icon
+                          dropdownColor: const Color.fromARGB(255, 255, 247, 240),
+                          style: const TextStyle(fontSize: 13, color: Colors.black),
+                          icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           borderRadius: BorderRadius.circular(15), // Rounded corners
                           underline: Container(
                             color: Colors.transparent, // Custom underline
@@ -166,7 +185,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 50),
 
-
+                        // graph with consumption container
+                        FuelTrendLineChart(
+                            data: DataHolder.getFuelFillRecords(),
+                            title: "XAZOS",
+                            size: 350,
+                            focusType: _focus
+                        ),
 
                       ],
                     ),
@@ -344,26 +369,6 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         ),
       )
     );
-  }
-
-  List<FlSpot> getChartData() {
-    List<Map<String, dynamic>> data = [
-      {"date": "2022-01-05", "value": 11.0},
-      {"date": "2024-03-01", "value": 7.8},
-      {"date": "2025-05-01", "value": 5.8},
-    ];
-
-    return data.map((entry) {
-      double xValue = DateTime.parse(entry["date"]).millisecondsSinceEpoch.toDouble();
-      double yValue = entry["value"];
-      return FlSpot(xValue, yValue);
-    }).toList();
-  }
-
-  /// Format x-axis labels (convert milliseconds back to 'YYYY-MM-DD')
-  String formatDate(int timestamp) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return DateFormat("yyyy-MM-dd").format(date);
   }
 
 }
