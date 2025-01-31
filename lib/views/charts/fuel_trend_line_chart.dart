@@ -5,95 +5,111 @@ import 'package:intl/intl.dart';
 
 class FuelTrendLineChart extends StatelessWidget {
   const FuelTrendLineChart({
-    super.key,
-    required this.data,
-    required this.title,
-    required this.size,
-    required this.focusType
+      super.key,
+      required this.data,
+      required this.size,
+      required this.focusType,
+      required this.context,
   });
 
   final List<FuelFillRecord> data;
-  final String title;
   final double size;
   final ChartDisplayFocus focusType;
+  final BuildContext context;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
-      child: LineChart(
-        LineChartData(
-          gridData: const FlGridData(show: true),
-          titlesData: FlTitlesData(
-            leftTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40),
-            ),
-            topTitles: AxisTitles(),
-            bottomTitles: AxisTitles(
-              axisNameSize: 50,
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 77,
-                getTitlesWidget: (value, meta) {
-                  return SideTitleWidget(
-                    axisSide: AxisSide.top,
-                    angle: 1.2,
-                    space: 50,
-                    child: Text(
-                      _formatDate(value.toInt()),
-                      style: const TextStyle(fontSize: 10),
-                    ),
-                  );
-                },
+    return Column(
+      children: [
+        Center(
+            child: Text(
+          _getMetric(),
+          style: const TextStyle(
+            letterSpacing: 0,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
+
+        const SizedBox(height: 15),
+
+        SizedBox(
+          height: size,
+          child: LineChart(
+            LineChartData(
+              gridData: const FlGridData(show: true),
+              titlesData: FlTitlesData(
+                leftTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: true, reservedSize: 50),
+                ),
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: true, reservedSize: 50),
+                ),
+                topTitles: const AxisTitles(),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 50,
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 77,
+                    getTitlesWidget: (value, meta) {
+                      return SideTitleWidget(
+                        axisSide: AxisSide.top,
+                        angle: 1.2,
+                        space: 50,
+                        child: Text(
+                          _formatDate(value.toInt()),
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
+              borderData: FlBorderData(
+                show: true,
+                border: Border.all(color: Colors.black),
+              ),
+              lineTouchData: LineTouchData(
+                touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: _getLineColor(),
+                    tooltipPadding: const EdgeInsets.all(5),
+                    fitInsideHorizontally: true,
+                    fitInsideVertically: true,
+                    getTooltipItems: (spots) {
+                      return spots.map((spot) {
+                        return LineTooltipItem(
+                            'Date: ${_formatDate(spot.x.toInt())}\n\n '
+                            '${_getStringifiedFocusType()}: ${spot.y.toStringAsFixed(5)}',
+                            const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ));
+                      }).toList();
+                    }),
+                touchCallback:
+                    (FlTouchEvent event, LineTouchResponse? response) {
+                  if (event is FlPanStartEvent) {
+                    // Handle panning start
+                  }
+                },
+                handleBuiltInTouches: true,
+              ),
+              extraLinesData: const ExtraLinesData(),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: _formatData(),
+                  isCurved: true,
+                  color: _getLineColor(),
+                  curveSmoothness: 0.4,
+                  barWidth: 2,
+                  isStrokeCapRound: false,
+                  belowBarData: BarAreaData(show: false),
+                ),
+              ],
             ),
           ),
-          borderData: FlBorderData(
-            show: true,
-            border: Border.all(color: Colors.black),
-          ),
-          lineTouchData: LineTouchData(
-            touchTooltipData: LineTouchTooltipData(
-              tooltipBgColor: _getLineColor(),
-              tooltipPadding: const EdgeInsets.all(5),
-              fitInsideHorizontally: true,
-              fitInsideVertically: true,
-              getTooltipItems: (spots) {
-                return spots.map((spot) {
-                  return LineTooltipItem(
-                      'Date: ${_formatDate(spot.x.toInt())}\n\n '
-                      '${_getStringifiedFocusType()}: ${spot.y.toStringAsFixed(5)}',
-                      const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )
-                  );
-                }).toList();
-              }
-            ),
-            touchCallback: (FlTouchEvent event, LineTouchResponse? response) {
-              if (event is FlPanStartEvent) {
-                // Handle panning start
-              }
-
-            },
-            handleBuiltInTouches: true,
-          ),
-          extraLinesData: const ExtraLinesData(),
-          lineBarsData: [
-            LineChartBarData(
-              spots: _formatData(),
-              isCurved: true,
-              color: _getLineColor(),
-              curveSmoothness: 0.4,
-              barWidth: 2,
-              isStrokeCapRound: false,
-              belowBarData: BarAreaData(show: false),
-            ),
-          ],
-        ),
-
-      ),
+        )
+      ],
     );
   }
 
@@ -136,9 +152,9 @@ class FuelTrendLineChart extends StatelessWidget {
     }
   }
 
+  // TODO: Strings must be somehow localized
   String _getStringifiedFocusType() {
     switch (focusType) {
-
       case ChartDisplayFocus.consumption:
         return 'Consumption';
       case ChartDisplayFocus.efficiency:
@@ -147,10 +163,17 @@ class FuelTrendLineChart extends StatelessWidget {
         return 'Travel Cost';
     }
   }
+
+  String _getMetric() {
+    switch (focusType) {
+      case ChartDisplayFocus.consumption:
+        return 'lt./100km';
+      case ChartDisplayFocus.efficiency:
+        return 'km/lt';
+      case ChartDisplayFocus.travelCost:
+        return '€/km';
+    }
+  }
 }
 
-enum ChartDisplayFocus {
-  consumption,
-  efficiency,
-  travelCost
-}
+enum ChartDisplayFocus { consumption, efficiency, travelCost }

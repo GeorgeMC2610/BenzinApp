@@ -15,7 +15,7 @@ class OverviewFragment extends StatefulWidget {
 class _OverviewFragmentState extends State<OverviewFragment> {
 
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
-  int _selectedFocusValue = 0;
+  int? _selectedFocusValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -146,51 +146,57 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 15),
 
-                        DropdownButton<int>(
-                          value: _selectedFocusValue, // No default selected
-                          hint: const Text("Select an option"),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 255, 247, 240), // Background color
+                            borderRadius: BorderRadius.circular(15), // Rounded corners
+                            border: Border.all(color: Colors.black26, width: 1), // Optional border
+                          ),
+                          child: DropdownButton<int>(
+                            value: _selectedFocusValue, // No default selected
+                            hint: const Text("Select an option"), // TODO: Localize string
+                            items: [
+                              DropdownMenuItem(value: 0, child: Text(AppLocalizations.of(context)!.litersPer100km)),
+                              DropdownMenuItem(value: 1, child: Text(AppLocalizations.of(context)!.kilometersPerLiter)),
+                              DropdownMenuItem(value: 2, child: Text(AppLocalizations.of(context)!.costPerKilometer)),
+                            ],
+                            onChanged: (int? value) {
+                              setState(() {
+                                switch (value!) {
+                                  case 0:
+                                    _focus = ChartDisplayFocus.consumption;
+                                    break;
+                                  case 1:
+                                    _focus = ChartDisplayFocus.efficiency;
+                                    break;
+                                  case 2:
+                                    _focus = ChartDisplayFocus.travelCost;
+                                    break;
+                                }
 
-                          items: [
-                            DropdownMenuItem(value: 0, child: Text(AppLocalizations.of(context)!.litersPer100km)),
-                            DropdownMenuItem(value: 1, child: Text(AppLocalizations.of(context)!.kilometersPerLiter)),
-                            DropdownMenuItem(value: 2, child: Text(AppLocalizations.of(context)!.costPerKilometer)),
-                          ],
+                                _selectedFocusValue = value;
+                              });
+                            },
+                            dropdownColor: const Color.fromARGB(255, 255, 247, 240),
+                            style: const TextStyle(fontSize: 13, color: Colors.black),
+                            icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
 
-                          onChanged: (int? value) {
-                            setState(() {
-                              switch (value!) {
-                                case 0:
-                                  _focus = ChartDisplayFocus.consumption;
-                                  break;
-                                case 1:
-                                  _focus = ChartDisplayFocus.efficiency;
-                                  break;
-                                case 2:
-                                  _focus = ChartDisplayFocus.travelCost;
-                                  break;
-                              }
-
-                              _selectedFocusValue = value;
-                            });
-                          },
-                          dropdownColor: const Color.fromARGB(255, 255, 247, 240),
-                          style: const TextStyle(fontSize: 13, color: Colors.black),
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          borderRadius: BorderRadius.circular(15), // Rounded corners
-                          underline: Container(
-                            color: Colors.transparent, // Custom underline
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            borderRadius: BorderRadius.circular(15), // Rounded corners
+                            underline: Container(
+                              color: Colors.transparent, // Custom underline
+                            ),
                           ),
                         ),
 
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
 
                         // graph with consumption container
                         FuelTrendLineChart(
-                            data: DataHolder.getFuelFillRecords(),
-                            title: "XAZOS",
-                            size: 350,
-                            focusType: _focus
+                          data: DataHolder.getFuelFillRecords(),
+                          size: 350,
+                          focusType: _focus,
+                          context: context,
                         ),
 
                       ],

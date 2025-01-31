@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/views/shared/cards/fuel_fill_card.dart';
 import 'package:flutter/material.dart';
 
 class FuelFillsFragment extends StatefulWidget {
@@ -90,45 +92,8 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
                       children: [
 
                         // A SINGULAR FUEL-FILL RECORD
-                        ListTile(
-                          title: const Text(
-                            "Thursday 22",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-                          ),
-                          trailing: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-
-                              // EDIT BUTTON
-                              FloatingActionButton.small(
-                                onPressed: () {},
-                                child: const Icon(Icons.edit),
-                                elevation: 0,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                foregroundColor: Colors.white,
-                              ),
-
-                              // DELETE BUTTON
-                              FloatingActionButton.small(
-                                onPressed: () {},
-                                child: const Icon(Icons.delete),
-                                elevation: 0,
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                              ),
-                            ],
-                          ),
-
-                          // FUEL-FILL RECORD DATA
-                          subtitle: const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("€39,29", style: TextStyle(fontSize: 16)),
-                              Text("FuelSave 95, Shell", style: TextStyle(fontSize: 12)),
-                              Text("4.929 lt./100km", style: TextStyle(fontSize: 12)),
-                            ],
-                          ),
+                        FuelFillCard(
+                          record: DataHolder.getFuelFillRecords().first
                         ),
 
                         // DIVIDER FOR THE NEXT RECORD
