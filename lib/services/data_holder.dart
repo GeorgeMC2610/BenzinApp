@@ -36,7 +36,32 @@ class DataHolder {
           kilometers: 419
       ),
 
+      FuelFillRecord(
+          id: 3,
+          dateTime: DateTime(2024, DateTime.may, 29),
+          cost: 33.1,
+          liters: 17.27,
+          kilometers: 210
+      ),
+
     ];
+  }
+
+  static Map<String, List<FuelFillRecord>> getYearMonthFuelFills() {
+    Map<String, List<FuelFillRecord>> groupedRecords = {};
+
+    for (var record in getFuelFillRecords()) {
+      String key = "${record.dateTime.year}-${record.dateTime.month.toString()
+          .padLeft(2, '0')}";
+
+      if (!groupedRecords.containsKey(key)) {
+        groupedRecords[key] = [];
+      }
+
+      groupedRecords[key]!.add(record);
+    }
+
+    return groupedRecords;
   }
 
 }
