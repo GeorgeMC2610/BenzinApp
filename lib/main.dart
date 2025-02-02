@@ -1,4 +1,4 @@
-import 'package:benzinapp/views/home.dart';
+import 'package:benzinapp/views/start.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BenzinApp',
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: const HomePage(), // TODO: Change to Login Page Later, or another page that decides which page will be displayed.
+      home: const Start(), // TODO: Change to Login Page Later, or another page that decides which page will be displayed.
     );
   }
 }
