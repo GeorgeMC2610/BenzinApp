@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
 import 'package:benzinapp/views/shared/status_card.dart';
@@ -16,9 +17,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
+  final FuelFillRecord _lastRecord = DataHolder.getFuelFillRecords().first;
 
   @override
   Widget build(BuildContext context) {
+
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -70,9 +74,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         // fields that show if the car is ok
                         // will be added at a later date
                         // make them customizable pls
-                        const ListTile(
+                        ListTile(
                           dense: false,
-                          title: const Text("Last filled 2 weeks ago"),
+                          title: Text(_getDaysString()),
                           subtitle: const Text('39 lt. | USD26'),
                           leading: const Icon(FontAwesomeIcons.gasPump),
                         ),
@@ -194,7 +198,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         // graph with consumption container
                         FuelTrendLineChart(
                           data: DataHolder.getFuelFillRecords(),
-                          size: 350,
+                          size: 300,
                           focusType: _focus,
                           context: context,
                         ),
@@ -375,6 +379,30 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         ),
       )
     );
+  }
+
+  String _getDaysString() {
+
+    var difference = _lastRecord.dateTime.difference(DateTime.now());
+
+    print(difference.inDays);
+
+    if (difference.inDays > 0) {
+      return "You planned your fuel fill?";
+    }
+    else if (difference.inDays == 0) {
+      return "Last filled today";
+    }
+    else if (difference.inDays == -1) {
+      return "Last filled yesterday";
+    }
+    else if (difference.inDays >= -30) {
+      return "Last filled ${difference.inDays.abs()} days ago";
+    }
+    else {
+      return "Last filled at ${_lastRecord.dateTime.toString().substring(0, 10)}";
+    }
+
   }
 
 }

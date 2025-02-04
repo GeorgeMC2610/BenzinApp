@@ -7,10 +7,15 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,4 +37,5 @@ class MainApp extends StatelessWidget {
       home: const HomePage(), // TODO: Change to Login Page Later, or another page that decides which page will be displayed.
     );
   }
+
 }

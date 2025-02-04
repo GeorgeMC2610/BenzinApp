@@ -100,7 +100,7 @@ class FuelTrendLineChart extends StatelessWidget {
                   spots: _formatData(),
                   isCurved: true,
                   color: _getLineColor(),
-                  curveSmoothness: 0.4,
+                  curveSmoothness: 0,
                   barWidth: 2,
                   isStrokeCapRound: false,
                   belowBarData: BarAreaData(show: false),
