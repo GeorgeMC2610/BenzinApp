@@ -98,7 +98,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                 ],
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
 
               Text(
                 _selectedDate == null ? 'Select a date...' : _selectedDate.toString().substring(0, 10),
@@ -115,8 +115,9 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       onPressed: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
+                            locale: const Locale('jp', 'EN'),
                             lastDate: DateTime.now(),
-                            firstDate: DateTime.parse('1897-01-01')
+                            firstDate: DateTime.parse('1897-01-01'),
                         );
 
                         if (pickedDate != null) {
@@ -151,6 +152,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                 ],
               ),
 
+              const SizedBox(height: 15),
 
               const DividerWithText(
                   text: "Optional Info",
@@ -158,7 +160,60 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                   textColor: Colors.black,
                   textSize: 13
               ),
-              
+
+              const SizedBox(height: 15),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: 'E.g. "FuelSave 95"',
+                        labelText: 'Fuel Type',
+                        prefixIcon: const Icon(Icons.gas_meter),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 5),
+
+                  Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: 'E.g. "Shell" or "bp"',
+                        labelText: 'Station',
+                        prefixIcon: const Icon(Icons.local_gas_station),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+
+              const SizedBox(height: 15),
+
+              TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: 2,
+                maxLines: 10,
+                decoration: InputDecoration(
+                  hintText: 'Anything useful about this fuel fill...',
+                  labelText: 'Comments',
+                  prefixIcon: const Icon(Icons.comment),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 70)
 
             ],
