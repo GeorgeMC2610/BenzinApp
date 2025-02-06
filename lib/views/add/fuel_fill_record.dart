@@ -21,6 +21,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
   final TextEditingController _stationController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
 
+  String? _mileageValidator, _costValidator, _literValidator;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +31,23 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
           // temporary code so it runs
 
           // add field checks
+          setState(() {
+            _mileageValidator = _validator(_mileageController.text);
+            _costValidator = _validator(_costController.text);
+            _literValidator = _validator(_literController.text);
+          });
+
+          if (_selectedDate == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text("You haven't selected a date yet."),
+              )
+            );
+          }
+
+          if (_mileageValidator != null || _costValidator != null || _literValidator != null) {
+            return;
+          }
 
           // when the field checks pass, send the request.
 
@@ -46,6 +65,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
           setState(() {
             DataHolder.addFuelFill(record);
           });
+
+          Navigator.of(context).pop();
 
         },
         icon: const Icon(Icons.add),
@@ -80,10 +101,12 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                   Expanded(
                     child: TextField(
                       controller: _mileageController,
+
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: 'in km...',
                         labelText: 'Mileage',
+                        errorText: _mileageValidator,
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -101,6 +124,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       decoration: InputDecoration(
                         hintText: 'Cost',
                         labelText: 'Cost',
+                        errorText: _costValidator,
                         prefixIcon: const Icon(Icons.euro_symbol_sharp),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -118,6 +142,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       decoration: InputDecoration(
                         hintText: 'lt',
                         labelText: 'Liters',
+                        errorText: _literValidator,
                         prefixIcon: const Icon(Icons.water_drop),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -255,6 +280,19 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
         ),
       ),
     );
+  }
+
+  String? _validator(String field) {
+
+    if (field.isEmpty || field == '') {
+      return 'Cannot be empty';
+    }
+
+    if (double.parse(field) < 0) {
+      return 'Cannot be negative';
+    }
+
+    return null;
   }
 
 }
