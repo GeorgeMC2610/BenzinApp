@@ -1,3 +1,4 @@
+import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -47,32 +48,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 20),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.only(left: 5, right: 10),
-                            child: const Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.accountDetails,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.only(left: 10, right: 5),
-                            child: const Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )),
-                      ),
-                  ]),
+                  DividerWithText(
+                    text: AppLocalizations.of(context)!.accountDetails,
+                    textSize: 17,
+                    lineColor: Colors.black, textColor: Colors.black,
+                  ),
 
                   const SizedBox(height: 10),
 
@@ -131,32 +111,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   // CAR DETAILS REGION
                   const SizedBox(height: 50),
 
-                  Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(left: 5, right: 10),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 36,
-                              )),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.carDetails,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(left: 10, right: 5),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 36,
-                              )),
-                        ),
-                      ]),
+                  DividerWithText(
+                    text: AppLocalizations.of(context)!.carDetails,
+                    textSize: 17,
+                    lineColor: Colors.black, textColor: Colors.black,
+                  ),
 
                   const SizedBox(height: 10),
 
