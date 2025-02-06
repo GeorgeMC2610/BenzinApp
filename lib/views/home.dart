@@ -20,32 +20,41 @@ class _HomePageState extends State<HomePage> {
 
   void _onItemTapped(int index) {
     setState(() {
-
-      // sets the current index to the corresponding fragment.
       _selectedTabIndex = index;
+    });
 
-      // this is to ensure the title changes dynamically, apart from the body.
-      switch (index) {
+    _setTitle(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _setTitle(context);
+  }
+
+  void _setTitle(BuildContext context) {
+    setState(() {
+      switch (_selectedTabIndex) {
         case 0:
           _title = AppLocalizations.of(context)!.home;
+          break;
         case 1:
           _title = AppLocalizations.of(context)!.fuelFills;
+          break;
         case 2:
           _title = AppLocalizations.of(context)!.maintenance;
+          break;
         case 3:
           _title = AppLocalizations.of(context)!.trips;
+          break;
         case 4:
           _title = AppLocalizations.of(context)!.settings;
-        default:
-          _title = 'BenzinApp';
+          break;
       }
     });
   }
 
   Widget _buildBody(int index, BuildContext context) {
-
-    // you might see the same thing happening in the `_onItemTapped`
-    // if the code is migrated here, the strings will not update correctly.
     switch (index) {
       case 0:
         return const OverviewFragment();
