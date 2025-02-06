@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +47,7 @@ class _StartState extends State<Start> {
   void _load() {
 
     Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) { // Ensures widget is still in the tree before navigation
+      if (mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
