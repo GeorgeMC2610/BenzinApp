@@ -1,8 +1,11 @@
+import 'package:benzinapp/views/add/fuel_fill_record.dart';
 import 'package:benzinapp/views/fragments/fuel_fills.dart';
 import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/fragments/trips.dart';
+import 'package:benzinapp/views/login.dart';
+import 'package:benzinapp/views/register.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -71,6 +74,31 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _floatingActionButtonPressed() {
+    Widget page;
+
+    switch (_selectedTabIndex) {
+      case 1:
+        page = const AddFuelFillRecord();
+        break;
+      case 2:
+        page = const LoginPage();
+        break;
+      case 3:
+        page = const RegisterPage();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => page
+        )
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +137,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ]),
       floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
-        onPressed: () {},
+        onPressed: _floatingActionButtonPressed,
         tooltip: 'Add',
         elevation: 3,
         child: const Icon(Icons.add),

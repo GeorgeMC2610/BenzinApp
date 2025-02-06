@@ -14,7 +14,12 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return DataHolder.getFuelFillRecords().isEmpty?
+    Center(
+      // TODO: Fill this with an icon later.
+    )
+    :
+    SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Column(
