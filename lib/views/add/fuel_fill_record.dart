@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,6 +12,9 @@ class AddFuelFillRecord extends StatefulWidget {
 }
 
 class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
+
+  DateTime? _selectedDate;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,11 +101,54 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
               const SizedBox(height: 25),
 
               Text(
-                'Select Date...',
+                _selectedDate == null ? 'Select a date...' : _selectedDate.toString().substring(0, 10),
                 style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold
                 ),
+              ),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            lastDate: DateTime.now(),
+                            firstDate: DateTime.parse('1897-01-01')
+                        );
+
+                        if (pickedDate != null) {
+                          setState(() {
+                            _selectedDate = pickedDate;
+                          });
+                        }
+                      },
+                      label: const Text("Pick a date"),
+                      icon: const Icon(Icons.date_range),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _selectedDate = DateTime.now();
+                        });
+                      },
+                      label: const Text("Today's date"),
+                      icon: const Icon(Icons.more_time_rounded),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                            Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
+                        )
+                      ),
+                    ),
+                  )
+                ],
               ),
 
 
