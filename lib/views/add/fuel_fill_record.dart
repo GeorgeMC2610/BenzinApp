@@ -1,5 +1,5 @@
-import 'dart:math';
-
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,12 +14,40 @@ class AddFuelFillRecord extends StatefulWidget {
 class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
   DateTime? _selectedDate;
+  final TextEditingController _mileageController = TextEditingController();
+  final TextEditingController _costController = TextEditingController();
+  final TextEditingController _literController = TextEditingController();
+  final TextEditingController _fuelTypeController = TextEditingController();
+  final TextEditingController _stationController = TextEditingController();
+  final TextEditingController _commentsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          // temporary code so it runs
+
+          // add field checks
+
+          // when the field checks pass, send the request.
+
+          FuelFillRecord record = FuelFillRecord(
+              id: 19,
+              dateTime: _selectedDate!,
+              liters: double.parse(_literController.text),
+              cost: double.parse(_costController.text),
+              kilometers: double.parse(_mileageController.text),
+              fuelType: _fuelTypeController.text,
+              gasStation: _stationController.text,
+              comments: _commentsController.text,
+          );
+
+          setState(() {
+            DataHolder.addFuelFill(record);
+          });
+
+        },
         icon: const Icon(Icons.add),
         label: const Text("Confirm Add"),
         style: ButtonStyle(
@@ -51,6 +79,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _mileageController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: 'in km...',
@@ -67,6 +96,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
                   Expanded(
                     child: TextField(
+                      controller: _costController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: 'Cost',
@@ -83,6 +113,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
                   Expanded(
                     child: TextField(
+                      controller: _literController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: 'lt',
@@ -115,7 +146,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       onPressed: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            locale: const Locale('jp', 'EN'),
+                            locale: const Locale('ja', 'EN'),
                             lastDate: DateTime.now(),
                             firstDate: DateTime.parse('1897-01-01'),
                         );
@@ -167,6 +198,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _fuelTypeController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: 'E.g. "FuelSave 95"',
@@ -183,6 +215,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
                   Expanded(
                     child: TextField(
+                      controller: _stationController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: 'E.g. "Shell" or "bp"',
@@ -202,6 +235,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
               TextField(
                 keyboardType: TextInputType.multiline,
+                controller: _commentsController,
                 minLines: 2,
                 maxLines: 10,
                 decoration: InputDecoration(
