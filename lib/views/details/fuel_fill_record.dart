@@ -60,7 +60,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.access_time_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            Text(record.dateTime.toLocal().toIso8601String(), style: TextStyle(fontSize: 18),),
+                            Text(record.dateTime.toLocal().toIso8601String(), style: const TextStyle(fontSize: 18)),
                           ],
                         ),
 
@@ -70,7 +70,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.local_gas_station_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            Text(record.gasStation!, style: TextStyle(fontSize: 18),),
+                            Text(record.gasStation == null ? 'Unspecified' : record.gasStation!, style: const TextStyle(fontSize: 18)),
                           ],
                         ),
 
