@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -25,6 +26,14 @@ class FuelFillCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ViewFuelFillRecord()
+            )
+        );
+      },
       title: Text(
           "${days[record.dateTime.weekday]} ${record.dateTime.day}",
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
