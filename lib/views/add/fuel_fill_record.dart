@@ -171,9 +171,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       onPressed: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            locale: const Locale('ja', 'EN'),
                             lastDate: DateTime.now(),
-                            firstDate: DateTime.parse('1897-01-01'),
+                            firstDate: DateTime.parse('1886-29-01'),
                         );
 
                         if (pickedDate != null) {
