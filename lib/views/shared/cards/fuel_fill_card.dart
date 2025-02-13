@@ -30,7 +30,7 @@ class FuelFillCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const ViewFuelFillRecord()
+                builder: (context) => ViewFuelFillRecord(record: record)
             )
         );
       },

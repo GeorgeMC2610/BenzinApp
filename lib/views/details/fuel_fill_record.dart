@@ -1,7 +1,10 @@
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:flutter/material.dart';
 
 class ViewFuelFillRecord extends StatelessWidget {
-  const ViewFuelFillRecord({super.key});
+  const ViewFuelFillRecord({super.key, required this.record});
+
+  final FuelFillRecord record;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class ViewFuelFillRecord extends StatelessWidget {
       ],
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +60,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.access_time_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            const Text("January 15th 2026", style: TextStyle(fontSize: 18),),
+                            Text(record.dateTime.toLocal().toIso8601String(), style: TextStyle(fontSize: 18),),
                           ],
                         ),
 
@@ -67,7 +70,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.local_gas_station_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            const Text("FuelSave 95, Shell", style: TextStyle(fontSize: 18),),
+                            Text(record.gasStation!, style: TextStyle(fontSize: 18),),
                           ],
                         ),
 
