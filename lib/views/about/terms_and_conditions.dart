@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PrivacyPolicy extends StatelessWidget {
-  const PrivacyPolicy({super.key});
+class TermsAndConditions extends StatelessWidget {
+  const TermsAndConditions({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("Privacy Policy")
+          title: const Text("Terms and conditions")
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -17,7 +17,7 @@ class PrivacyPolicy extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text("Privacy Policy"),
+              const Text("Terms and Conditions"),
             ],
           ),
         ),

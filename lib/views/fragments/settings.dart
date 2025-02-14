@@ -1,5 +1,7 @@
-import 'package:benzinapp/views/app_information.dart';
+import 'package:benzinapp/views/about/app_information.dart';
+import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
+import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:flutter/material.dart';
 
 class SettingsFragment extends StatefulWidget {
@@ -142,15 +144,31 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 const SizedBox(height: 12),
 
-                const ListTile(
-                  title: Text("Privacy Policy"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.security_outlined),
+                ListTile(
+                  title: const Text("Privacy Policy"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicy()
+                        )
+                    );
+                  },
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  leading: const Icon(Icons.security_outlined),
                 ),
-                const ListTile(
+                ListTile(
                   title: Text("Terms and Conditions"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.newspaper),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TermsAndConditions()
+                        )
+                    );
+                  },
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  leading: const Icon(Icons.newspaper),
                 ),
                 ListTile(
                   title: const Text("App Information"),
