@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
+import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:flutter/material.dart';
 
 class MaintenanceFragment extends StatefulWidget {
@@ -45,17 +46,13 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ...DataHolder.getMalfunctions().map((malfunction) {
-
-                                    if (DataHolder.getMalfunctions().last != malfunction) {
-                                      return Column(
-                                        children: [
-                                          MalfunctionCard(malfunction: malfunction),
-                                          const Divider()
-                                        ],
-                                      );
-                                    }
-
-                                    return MalfunctionCard(malfunction: malfunction);
+                                    return DataHolder.getMalfunctions().last != malfunction ?
+                                    Column(
+                                      children: [
+                                        MalfunctionCard(malfunction: malfunction),
+                                        const Divider()
+                                      ],
+                                    ) : MalfunctionCard(malfunction: malfunction);
                                   }),
 
                                   const SizedBox(height: 65)
@@ -68,13 +65,23 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          return const SingleChildScrollView(
+                          return SingleChildScrollView(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Services')
+                                  ...DataHolder.getServices().map((service) {
+                                    return DataHolder.getServices().last != service ?
+                                    Column(
+                                      children: [
+                                        ServiceCard(service: service),
+                                        const Divider()
+                                      ],
+                                    ) : ServiceCard(service: service);
+                                  }),
+
+                                  const SizedBox(height: 65)
                                 ],
                               ),
                             ),
