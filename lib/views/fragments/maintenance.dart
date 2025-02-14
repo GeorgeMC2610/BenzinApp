@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:flutter/material.dart';
 
 class MaintenanceFragment extends StatefulWidget {
@@ -36,13 +38,15 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          return const SingleChildScrollView(
+                          return SingleChildScrollView(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Malfunctions'),
+                                  ...DataHolder.getMalfunctions().map((malfunction) {
+                                    return  MalfunctionCard(malfunction: malfunction);
+                                  })
                                 ]
                               ),
                             ),
@@ -58,7 +62,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Services'),
+                                  Text('Services')
                                 ],
                               ),
                             ),

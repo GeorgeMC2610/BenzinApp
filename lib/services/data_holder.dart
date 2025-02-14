@@ -1,8 +1,10 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
 
 class DataHolder {
 
   static List<FuelFillRecord> _fuelFills = [];
+  static List<Malfunction> _malfunctions = [];
 
   static List<FuelFillRecord> getFuelFillRecords() {
     if (_fuelFills.isEmpty) {
@@ -112,6 +114,39 @@ class DataHolder {
     }
 
     return groupedRecords;
+  }
+
+  static List<Malfunction> getMalfunctions() {
+    if (_malfunctions.isEmpty) {
+      _malfunctions.addAll([
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.november, 29),
+            description: 'Ta takakia trizoun',
+            title: 'Braking pads',
+            kilometersDiscovered: 99278
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.may, 18),
+            description: 'Reverse light is borken',
+            title: 'Reversing light',
+            kilometersDiscovered: 77182
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.october, 2),
+            description: 'takakeiros trizeiros',
+            title: 'Bad tyres',
+            kilometersDiscovered: 109372
+        ),
+      ]);
+    }
+
+    _malfunctions.sort((a, b) => b.id.compareTo(a.id));
+    return _malfunctions;
   }
 
 }
