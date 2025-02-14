@@ -1,3 +1,4 @@
+import 'package:benzinapp/views/app_information.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
 
@@ -152,8 +153,14 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: Icon(Icons.newspaper),
                 ),
                 ListTile(
-                  title: const Text("Technical Information"),
+                  title: const Text("App Information"),
                   onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AppInformation()
+                        )
+                    );
                   },
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.developer_mode),
