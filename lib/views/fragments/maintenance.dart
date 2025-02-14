@@ -45,8 +45,20 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ...DataHolder.getMalfunctions().map((malfunction) {
-                                    return  MalfunctionCard(malfunction: malfunction);
-                                  })
+
+                                    if (DataHolder.getMalfunctions().last != malfunction) {
+                                      return Column(
+                                        children: [
+                                          MalfunctionCard(malfunction: malfunction),
+                                          const Divider()
+                                        ],
+                                      );
+                                    }
+
+                                    return MalfunctionCard(malfunction: malfunction);
+                                  }),
+
+                                  const SizedBox(height: 65)
                                 ]
                               ),
                             ),

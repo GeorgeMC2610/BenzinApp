@@ -142,6 +142,54 @@ class DataHolder {
             title: 'Bad tyres',
             kilometersDiscovered: 109372
         ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.november, 29),
+            description: 'Ta takakia trizoun',
+            title: 'Braking pads',
+            kilometersDiscovered: 99278
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.may, 18),
+            description: 'Reverse light is borken',
+            title: 'Reversing light',
+            kilometersDiscovered: 77182
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.october, 2),
+            description: 'takakeiros trizeiros',
+            title: 'Bad tyres',
+            kilometersDiscovered: 109372
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.november, 29),
+            description: 'Ta takakia trizoun',
+            title: 'Braking pads',
+            kilometersDiscovered: 99278
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.may, 18),
+            description: 'Reverse light is borken',
+            title: 'Reversing light',
+            kilometersDiscovered: 77182
+        ),
+
+        Malfunction(
+            id: 0,
+            dateStarted: DateTime(2024, DateTime.october, 2),
+            description: 'takakeiros trizeiros',
+            title: 'Bad tyres',
+            kilometersDiscovered: 109372
+        ),
       ]);
     }
 
