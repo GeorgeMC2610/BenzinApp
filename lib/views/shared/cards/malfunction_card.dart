@@ -1,0 +1,53 @@
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:flutter/material.dart';
+
+class MalfunctionCard extends StatelessWidget {
+  const MalfunctionCard({super.key, required this.malfunction});
+
+  final Malfunction malfunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+          malfunction.title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+      ),
+      trailing: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          // EDIT BUTTON
+          FloatingActionButton.small(
+            onPressed: () {},
+            elevation: 0,
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.edit),
+          ),
+
+          // DELETE BUTTON
+          FloatingActionButton.small(
+            onPressed: () {},
+            elevation: 0,
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.delete),
+          ),
+        ],
+      ),
+
+      // FUEL-FILL RECORD DATA
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
+          Text(malfunction.dateEnded == null ? 'Fixed' : 'Ongoing', style: const TextStyle(fontSize: 12)),
+          Text("Discovered at: ${malfunction.kilometersDiscovered} km", style: const TextStyle(fontSize: 12)),
+        ],
+      ),
+    );
+  }
+
+}
