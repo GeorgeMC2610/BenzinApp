@@ -33,4 +33,5 @@ class FuelFillRecord {
   double getTravelCost() {
     return cost / kilometers;
   }
+  
 }
