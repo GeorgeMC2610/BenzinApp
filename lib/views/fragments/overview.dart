@@ -77,7 +77,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         ListTile(
                           dense: false,
                           title: Text(_getDaysString()),
-                          subtitle: Text("${DataHolder.getFuelFillRecords().last.liters} lt | €${DataHolder.getFuelFillRecords().last.cost}"),
+                          subtitle: Text(""
+                              "${DataHolder.getFuelFillRecords().last.liters} lt | "
+                              "€${DataHolder.getFuelFillRecords().last.cost.toStringAsFixed(2)}"
+                          ),
                           leading: const Icon(FontAwesomeIcons.gasPump),
                         ),
 
