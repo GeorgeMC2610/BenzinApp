@@ -1,4 +1,5 @@
 import 'package:benzinapp/views/add/fuel_fill_record.dart';
+import 'package:benzinapp/views/add/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/fragments/fuel_fills.dart';
 import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
         page = const AddFuelFillRecord();
         break;
       case 2:
-        page = const LoginPage();
+        page = const MaintenanceGuidanceMenu();
         break;
       case 3:
         page = const RegisterPage();
