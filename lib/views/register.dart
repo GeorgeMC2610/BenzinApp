@@ -2,6 +2,8 @@ import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'about/terms_and_conditions.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -13,12 +15,23 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
 
-
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(AppLocalizations.of(context)!.registerToBenzinApp),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TermsAndConditions()
+                    )
+                );
+              },
+              icon: const Icon(Icons.newspaper)
+            )
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
@@ -70,6 +83,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: 150,
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+
+                  const Text("By making an account to this app, you agree to the Terms and Conditions. Press the () button, on the top-right of your screen, to read them"),
 
                   const SizedBox(height: 20),
 
