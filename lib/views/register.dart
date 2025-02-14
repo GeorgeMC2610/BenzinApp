@@ -20,6 +20,31 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(AppLocalizations.of(context)!.registerToBenzinApp),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 52,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              style: const ButtonStyle(
+                  elevation: WidgetStatePropertyAll(4),
+                  backgroundColor: WidgetStatePropertyAll(
+                      Color.fromARGB(255, 184, 134, 59)
+                  )
+              ),
+              label: Text(
+                AppLocalizations.of(context)!.register,
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black
+                ),
+              ),
+              icon: const Icon(Icons.app_registration, color: Colors.black),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -171,30 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
 
-                  const SizedBox(height: 50),
-
-                  // Register Button
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      style: const ButtonStyle(
-                          elevation: WidgetStatePropertyAll(4),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Color.fromARGB(255, 184, 134, 59)
-                          )
-                      ),
-                      label: Text(
-                        AppLocalizations.of(context)!.register,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black
-                        ),
-                      ),
-                      icon: const Icon(Icons.app_registration, color: Colors.black),
-                    ),
-                  )
+                  const SizedBox(height: 100),
                 ]
             ),
           ),

@@ -17,6 +17,44 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(AppLocalizations.of(context)!.loginToBenzinApp),
+        actions: [
+          IconButton(onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RegisterPage()
+                )
+            );
+
+          }, icon: const Icon(Icons.app_registration)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.key_off)),
+
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 52,
+          child: ElevatedButton.icon(
+            onPressed: () {},
+            style: const ButtonStyle(
+                elevation: WidgetStatePropertyAll(4),
+                backgroundColor: WidgetStatePropertyAll(
+                    Color.fromARGB(255, 184, 134, 59)
+                )
+            ),
+            label: Text(
+              AppLocalizations.of(context)!.login,
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.black
+              ),
+            ),
+            icon: const Icon(Icons.login, color: Colors.black),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -34,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
               ),
 
-              const SizedBox(height: 80),
+              const SizedBox(height: 20),
 
               Center(
                 child: Image.asset(
@@ -74,48 +112,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 100),
 
-              Center(
-                child: TapRegion(
-                  child: Text(
-                    AppLocalizations.of(context)!.dontHaveAnAccount,
-                  ),
-                  onTapInside: (value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterPage()
-                      )
-                    );
-                  },
-                )
-              ),
+              const Text("• Don't have an account? Press the () button"),
+              const SizedBox(height: 5),
+              const Text("• Forgot your password? Press the () button"),
 
-              const SizedBox(height: 50),
-
-              // Login Button
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  style: const ButtonStyle(
-                    elevation: WidgetStatePropertyAll(4),
-                    backgroundColor: WidgetStatePropertyAll(
-                      Color.fromARGB(255, 184, 134, 59)
-                    )
-                  ),
-                  label: Text(
-                    AppLocalizations.of(context)!.login,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black
-                    ),
-                  ),
-                  icon: const Icon(Icons.login, color: Colors.black),
-                ),
-              )
+              const SizedBox(height: 100),
             ]
           ),
         ),

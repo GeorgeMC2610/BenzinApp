@@ -77,7 +77,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         ListTile(
                           dense: false,
                           title: Text(_getDaysString()),
-                          subtitle: const Text('39 lt. | USD26'),
+                          subtitle: Text("${DataHolder.getFuelFillRecords().last.liters} lt | €${DataHolder.getFuelFillRecords().last.cost}"),
                           leading: const Icon(FontAwesomeIcons.gasPump),
                         ),
 
@@ -117,6 +117,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             icon: Icon(FontAwesomeIcons.idCard),
                             text: "Gas card in 1 years",
                             status: StatusCardIndex.good
+                        ),
+
+                        const StatusCard(
+                          icon: Icon(FontAwesomeIcons.wifi),
+                          text: "e-PASS is low on money",
+                          status: StatusCardIndex.warning
                         )
 
 
@@ -384,8 +390,6 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   String _getDaysString() {
 
     var difference = _lastRecord.dateTime.difference(DateTime.now());
-
-    print(difference.inDays);
 
     if (difference.inDays > 0) {
       return "You planned your fuel fill?";

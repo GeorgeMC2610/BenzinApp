@@ -90,9 +90,6 @@ class DataHolder {
     }
 
     _fuelFills.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-
-    _fuelFills.forEach((element) => print(element.id));
-
     return _fuelFills;
   }
 
