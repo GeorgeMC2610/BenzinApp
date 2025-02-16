@@ -60,7 +60,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.access_time_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            Text(record.dateTime.toLocal().toIso8601String(), style: const TextStyle(fontSize: 18)),
+                            Text(_getFullDateTimeString(), style: const TextStyle(fontSize: 18)),
                           ],
                         ),
 
@@ -70,7 +70,14 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.local_gas_station_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            Text(record.gasStation == null ? 'Unspecified' : record.gasStation!, style: const TextStyle(fontSize: 18)),
+                            Text(
+                                _getFuelString(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: _getFuelString() == 'Unspecified' ? Colors.grey : Colors.black,
+                                    fontStyle: _getFuelString() == 'Unspecified' ? FontStyle.italic : FontStyle.normal,
+                                ),
+                            ),
                           ],
                         ),
 
@@ -86,6 +93,49 @@ class ViewFuelFillRecord extends StatelessWidget {
         )
       ),
     );
+  }
+
+  static const days = {
+    1  : "Monday",
+    2  : "Tuesday",
+    3  : "Wednesday",
+    4  : "Thursday",
+    5  : "Friday",
+    6  : "Saturday",
+    7  : "Sunday",
+  };
+
+  static const months = {
+    1  : "January",
+    2  : "February",
+    3  : "March",
+    4  : "April",
+    5  : "May",
+    6  : "June",
+    7  : "July",
+    8  : "August",
+    9  : "September",
+    10 : "October",
+    11 : "November",
+    12 : "December"
+  };
+
+  String _getFullDateTimeString() {
+    return "${days[record.dateTime.weekday]}, ${record.dateTime.day} ${months[record.dateTime.month]} ${record.dateTime.year}";
+  }
+
+  String _getFuelString() {
+
+    if (record.fuelType == null) {
+
+      if (record.gasStation == null) {
+        return 'Unspecified';
+      }
+
+      return record.gasStation!;
+    }
+
+    return record.gasStation == null? record.fuelType! : "${record.fuelType}, ${record.gasStation}";
   }
 
 }
