@@ -15,6 +15,7 @@ class ViewFuelFillRecord extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
+      // EDIT AND DELETE BUTTONS
       persistentFooterButtons: [
         ElevatedButton.icon(
             onPressed: () {},
@@ -81,14 +82,13 @@ class ViewFuelFillRecord extends StatelessWidget {
                             ),
                           ],
                         ),
-
-
                       ],
                     ),
                   ),
                 ),
               ),
 
+              // TWO CARDS WITH THE DATA AND THE STATS
               Row(
                 children: [
 
@@ -152,8 +152,45 @@ class ViewFuelFillRecord extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
 
+              // singular card with initial data
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        Row(
+                          children: [
+                            const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
+                            const SizedBox(width: 5),
+                            Text("Comments:", style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Text(
+                          record.comments == null ? "Nothing to show here." : record.comments!,
+                          style: TextStyle(
+                            color: record.comments == null ? Colors.grey : Colors.black,
+                            fontStyle: record.comments == null ? FontStyle.italic : FontStyle.normal
+                          ),
+                        )
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           )
         )
