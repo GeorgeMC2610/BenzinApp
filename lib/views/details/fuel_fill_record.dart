@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ViewFuelFillRecord extends StatelessWidget {
@@ -88,12 +89,91 @@ class ViewFuelFillRecord extends StatelessWidget {
                 ),
               ),
 
+              Row(
+                children: [
+
+                  Expanded(
+                    flex: 2,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Liters:", style: legendTextStyle),
+                            Text("${record.liters} lt", style: descriptiveTextStyle),
+
+                            const SizedBox(height: 20),
+
+                            const Text("Kilometers:", style: legendTextStyle),
+                            Text("${record.kilometers} km", style: descriptiveTextStyle),
+
+                            const SizedBox(height: 20),
+
+                            const Text("Cost:", style: legendTextStyle),
+                            Text("€${record.cost}", style: descriptiveTextStyle),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    flex: 3,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Consumption:", style: legendTextStyle),
+                            Text("${record.getConsumption().toStringAsFixed(3)} lt/100km", style: mainTextStyle),
+
+                            const SizedBox(height: 20),
+
+                            const Text("Efficiency:", style: legendTextStyle),
+                            Text("${record.getEfficiency().toStringAsFixed(3)} km/lt", style: mainTextStyle),
+
+                            const SizedBox(height: 20),
+
+                            const Text("Travel Cost:", style: legendTextStyle),
+                            Text("${record.getTravelCost().toStringAsFixed(2)} €/km", style: mainTextStyle),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+
             ],
           )
         )
       ),
     );
   }
+
+  static const TextStyle legendTextStyle = TextStyle(
+    color: CupertinoColors.systemGrey,
+    fontSize: 12
+  );
+
+  static const TextStyle descriptiveTextStyle = TextStyle(
+    fontSize: 20.5,
+  );
+
+  static const TextStyle mainTextStyle = TextStyle(
+      fontSize: 20.5,
+      fontWeight: FontWeight.bold
+  );
 
   static const days = {
     1  : "Monday",
