@@ -48,7 +48,17 @@
     "costPerKilometer":         "Cost per Kilometer:",
     "totalLitersFilled":        "Total Liters Filled:",
     "totalKilometersTravelled": "Total Kilometers Travelled:",
-    "totalCosts":               "Total Costs:"
+    "totalCosts":               "Total Costs:",
 
-
+    "applicationAppearance": "Application Appearance",
+    "darkMode": "Dark Mode",
+    "language": "Language",
+    "accountSettings": "Account Settings",
+    "fastLogin": "Fast Login",
+    "editAccount": "Edit Account",
+    "logout": "Logout",
+    "aboutTheApp": "About the App",
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms and Conditions",
+    "appInformation": "App Information"
 }

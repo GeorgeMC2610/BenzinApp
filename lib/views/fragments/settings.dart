@@ -5,6 +5,7 @@ import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsFragment extends StatefulWidget {
   const SettingsFragment({super.key});
@@ -28,8 +29,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Application Appearance",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.applicationAppearance,
+                  style: const TextStyle(
                     fontSize: 24,
                     color: Colors.black,
                     fontWeight: FontWeight.w500
@@ -39,7 +41,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: const Text("Dark Mode"),
+                  title: Text(AppLocalizations.of(context)!.darkMode),
                   trailing: Switch.adaptive(
                     thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
                       if (states.contains(WidgetState.selected)) {
@@ -66,7 +68,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.dark_mode),
                 ),
                 ListTile(
-                  title: const Text("Language"),
+                  title: Text(AppLocalizations.of(context)!.language),
                   onTap: _showLanguageModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
@@ -74,8 +76,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 const SizedBox(height: 30),
 
-                const Text("Account Settings",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.accountSettings,
+                  style: const TextStyle(
                     fontSize: 24,
                     color: Colors.black,
                     fontWeight: FontWeight.w500
@@ -85,7 +88,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: const Text("Fast Login"),
+                  title: Text(AppLocalizations.of(context)!.fastLogin),
                   trailing: Switch.adaptive(
                     thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
                       if (states.contains(WidgetState.selected)) {
@@ -113,13 +116,14 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   ),
                   leading: const Icon(Icons.offline_bolt_outlined),
                 ),
-                const ListTile(
-                  title: Text("Edit Account"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  leading: Icon(Icons.edit),
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.editAccount),
+                  onTap: () {},
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  leading: const Icon(Icons.edit),
                 ),
                 ListTile(
-                  title: const Text("Logout", style: TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+                  title: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
                   trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
                   leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
                   onTap: () {
@@ -134,8 +138,8 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 const SizedBox(height: 30),
 
-                const Text("About the App",
-                  style: TextStyle(
+                Text(AppLocalizations.of(context)!.aboutTheApp,
+                  style: const TextStyle(
                       fontSize: 24,
                       color: Colors.black,
                       fontWeight: FontWeight.w500
@@ -145,7 +149,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: const Text("Privacy Policy"),
+                  title: Text(AppLocalizations.of(context)!.privacyPolicy),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -158,7 +162,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.security_outlined),
                 ),
                 ListTile(
-                  title: Text("Terms and Conditions"),
+                  title: Text(AppLocalizations.of(context)!.termsAndConditions),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -171,7 +175,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.newspaper),
                 ),
                 ListTile(
-                  title: const Text("App Information"),
+                  title: Text(AppLocalizations.of(context)!.appInformation),
                   onTap: () {
                     Navigator.push(
                         context,

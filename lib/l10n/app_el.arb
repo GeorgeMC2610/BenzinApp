@@ -39,5 +39,17 @@
     "costPerKilometer":         "Κόστος ανά Χιλιόμετρο:",
     "totalLitersFilled":        "Συνολικά Γεμισμένα Λίτρα:",
     "totalKilometersTravelled": "Συνολικά Χιλιόμετρα:",
-    "totalCosts":               "Συνολικά Κόστη:"
+    "totalCosts":               "Συνολικά Κόστη:",
+
+    "applicationAppearance": "Εμφάνιση Εφαρμογής ",
+    "darkMode": "Σκούρο Φόντο",
+    "language": "Γλώσσα",
+    "accountSettings": "Ρυθμίσεις Λογαριασμού",
+    "fastLogin": "Γρήγορη Επανασύνδεση",
+    "editAccount": "Επεξεργασία Προφίλ",
+    "logout": "Αποσύνδεση",
+    "aboutTheApp": "Σχετικά με την Εφαρμογή",
+    "privacyPolicy": "Πολιτική Απορρίτου",
+    "termsAndConditions": "Όροι Χρήσης",
+    "appInformation": "Πληροφορίες Εφαρμογής"
 }
