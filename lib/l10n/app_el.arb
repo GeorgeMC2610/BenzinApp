@@ -51,5 +51,14 @@
     "aboutTheApp": "Σχετικά με την Εφαρμογή",
     "privacyPolicy": "Πολιτική Απορρίτου",
     "termsAndConditions": "Όροι Χρήσης",
-    "appInformation": "Πληροφορίες Εφαρμογής"
+    "appInformation": "Πληροφορίες Εφαρμογής",
+
+    "unspecified": "Άγνωστο",
+    "liters": "Λίτρα:",
+    "kilometers": "Χιλιόμετρα:",
+    "cost": "Κόστος:",
+    "consumption": "Κατανάλωση:",
+    "efficiency": "Αποδοτικότητα:",
+    "travel_cost": "Κόστος Μετακίνησης:",
+    "comments": "Παρατηρήσεις:"
 }

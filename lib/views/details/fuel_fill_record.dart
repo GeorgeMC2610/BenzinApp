@@ -1,6 +1,8 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ViewFuelFillRecord extends StatelessWidget {
   const ViewFuelFillRecord({super.key, required this.record});
@@ -73,11 +75,11 @@ class ViewFuelFillRecord extends StatelessWidget {
                             const Icon(Icons.local_gas_station_outlined, size: 30,),
                             const SizedBox(width: 15),
                             Text(
-                                _getFuelString(),
+                                _getFuelString(context),
                                 style: TextStyle(
                                     fontSize: 18,
-                                    color: _getFuelString() == 'Unspecified' ? Colors.grey : Colors.black,
-                                    fontStyle: _getFuelString() == 'Unspecified' ? FontStyle.italic : FontStyle.normal,
+                                    color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
+                                    fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
                                 ),
                             ),
                           ],
@@ -104,17 +106,17 @@ class ViewFuelFillRecord extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Liters:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.liters, style: legendTextStyle),
                             Text("${record.liters} lt", style: descriptiveTextStyle),
 
                             const SizedBox(height: 20),
 
-                            const Text("Kilometers:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.kilometers, style: legendTextStyle),
                             Text("${record.kilometers} km", style: descriptiveTextStyle),
 
                             const SizedBox(height: 20),
 
-                            const Text("Cost:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.cost, style: legendTextStyle),
                             Text("€${record.cost}", style: descriptiveTextStyle),
                           ],
                         ),
@@ -134,17 +136,17 @@ class ViewFuelFillRecord extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Consumption:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.consumption, style: legendTextStyle),
                             Text("${record.getConsumption().toStringAsFixed(3)} lt/100km", style: mainTextStyle),
 
                             const SizedBox(height: 20),
 
-                            const Text("Efficiency:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.efficiency, style: legendTextStyle),
                             Text("${record.getEfficiency().toStringAsFixed(3)} km/lt", style: mainTextStyle),
 
                             const SizedBox(height: 20),
 
-                            const Text("Travel Cost:", style: legendTextStyle),
+                            Text(AppLocalizations.of(context)!.travel_cost, style: legendTextStyle),
                             Text("${record.getTravelCost().toStringAsFixed(2)} €/km", style: mainTextStyle),
                           ],
                         ),
@@ -172,7 +174,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
                             const SizedBox(width: 5),
-                            Text("Comments:", style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
+                            Text(AppLocalizations.of(context)!.comments, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
                           ],
                         ),
 
@@ -238,15 +240,15 @@ class ViewFuelFillRecord extends StatelessWidget {
   };
 
   String _getFullDateTimeString() {
-    return "${days[record.dateTime.weekday]}, ${record.dateTime.day} ${months[record.dateTime.month]} ${record.dateTime.year}";
+    return DateFormat.yMMMMEEEEd().format(record.dateTime);
   }
 
-  String _getFuelString() {
+  String _getFuelString(BuildContext context) {
 
     if (record.fuelType == null) {
 
       if (record.gasStation == null) {
-        return 'Unspecified';
+        return AppLocalizations.of(context)!.unspecified;
       }
 
       return record.gasStation!;

@@ -60,5 +60,14 @@
     "aboutTheApp": "About the App",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms and Conditions",
-    "appInformation": "App Information"
+    "appInformation": "App Information",
+
+    "unspecified": "Unspecified",
+    "liters": "Liters:",
+    "kilometers": "Kilometers:",
+    "cost": "Cost:",
+    "consumption": "Consumption:",
+    "efficiency": "Efficiency:",
+    "travel_cost": "Travel Cost:",
+    "comments": "Comments:"
 }
