@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
@@ -50,9 +51,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       children: [
                         Row(
                           children: [
-                            const Text('Volkswagen Polo',
+                            const AutoSizeText(
+                                'Volkswagen Polo',
+                                maxLines: 1,
+                                maxFontSize: 26,
                                 style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 33,
                                     fontWeight: FontWeight.bold
                                 )
                             ),
@@ -149,8 +153,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text(AppLocalizations.of(context)!.fuelUsageTrend,
-                          style: const TextStyle(
+                          child: AutoSizeText(
+                            AppLocalizations.of(context)!.fuelUsageTrend,
+                            maxLines: 1,
+                            style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold
                             )
@@ -231,7 +237,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text(AppLocalizations.of(context)!.combinedCosts,
+                          child: AutoSizeText(
+                              AppLocalizations.of(context)!.combinedCosts,
+                              maxLines: 1,
                               style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold
@@ -259,7 +267,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text(AppLocalizations.of(context)!.averageConsumption,
+                          child: AutoSizeText(
+                              AppLocalizations.of(context)!.averageConsumption,
+                              maxLines: 1,
+                              maxFontSize: 25,
                               style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold
@@ -328,7 +339,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Text(AppLocalizations.of(context)!.totalStatistics,
+                        child: AutoSizeText(
+                          AppLocalizations.of(context)!.totalStatistics,
+                          maxLines: 1,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 25,
