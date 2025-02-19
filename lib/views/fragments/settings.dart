@@ -3,6 +3,8 @@ import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:flutter/material.dart';
+import 'package:benzinapp/services/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class SettingsFragment extends StatefulWidget {
   const SettingsFragment({super.key});
@@ -65,9 +67,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 ),
                 ListTile(
                   title: const Text("Language"),
-                  onTap: () {
-
-                  },
+                  onTap: _showLanguageModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
                 ),
@@ -187,7 +187,48 @@ class _SettingsFragmentState extends State<SettingsFragment> {
       ),
     );
 
+  }
 
+  void _showLanguageModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer<LanguageProvider>(
+          builder: (context, languageProvider, child) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Select Language',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildLanguageOption(context, 'English', const Locale('en', 'US')),
+                  _buildLanguageOption(context, 'Ελληνικά', const Locale('el', 'GR')),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageOption(BuildContext context, String title, Locale locale) {
+    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    return RadioListTile<Locale>(
+      title: Text(title),
+      value: locale,
+      groupValue: languageProvider.currentLocale,
+      onChanged: (Locale? value) {
+        if (value != null) {
+          languageProvider.changeLocale(value);
+          Navigator.pop(context); // Close modal after selection
+        }
+      },
+    );
   }
 
 }
