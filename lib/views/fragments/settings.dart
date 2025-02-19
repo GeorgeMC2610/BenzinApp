@@ -190,27 +190,28 @@ class _SettingsFragmentState extends State<SettingsFragment> {
   }
 
   void _showLanguageModal() {
-    showModalBottomSheet(
+    showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Consumer<LanguageProvider>(
-          builder: (context, languageProvider, child) {
-            return Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        return AlertDialog(
+          title: const Text("Select Language"),
+          content: Consumer<LanguageProvider>(
+            builder: (context, languageProvider, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min, // Prevent excessive height
                 children: [
-                  const Text(
-                    'Select Language',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
                   _buildLanguageOption(context, 'English', const Locale('en', 'US')),
                   _buildLanguageOption(context, 'Ελληνικά', const Locale('el', 'GR')),
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+          ],
         );
       },
     );
