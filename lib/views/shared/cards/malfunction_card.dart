@@ -46,7 +46,7 @@ class MalfunctionCard extends StatelessWidget {
         ],
       ),
 
-      // FUEL-FILL RECORD DATA
+      // MALFUNCTION DATA
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
