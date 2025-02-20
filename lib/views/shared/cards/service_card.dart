@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({super.key, required this.service});
@@ -44,7 +45,7 @@ class ServiceCard extends StatelessWidget {
         children: [
           Text(service.cost == null ? '-' : "${service.cost}", style: const TextStyle(fontSize: 16)),
           Text(service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 12)),
-          Text("Next at: ${service.nextServiceKilometers?? '-'} km", style: const TextStyle(fontSize: 12)),
+          Text("${AppLocalizations.of(context)!.nextAtKm} ${service.nextServiceKilometers?? '-'} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

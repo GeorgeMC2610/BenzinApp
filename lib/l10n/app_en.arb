@@ -99,5 +99,10 @@
     "efficiency": "Efficiency:",
     "travel_cost": "Travel Cost:",
     "comments": "Comments:",
-    "nothingToShowHere": "Nothing to show here."
+    "nothingToShowHere": "Nothing to show here.",
+
+    "discoveredAt":       "Discovered at:",
+    "ongoingMalfunction": "Ongoing",
+    "fixedMalfunction":   "Fixed",
+    "nextAtKm":           "Next at:"
 }

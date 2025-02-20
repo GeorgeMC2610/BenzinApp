@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MalfunctionCard extends StatelessWidget {
   const MalfunctionCard({super.key, required this.malfunction});
@@ -43,8 +44,14 @@ class MalfunctionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
-          Text(malfunction.dateEnded == null ? 'Fixed' : 'Ongoing', style: const TextStyle(fontSize: 12)),
-          Text("Discovered at: ${malfunction.kilometersDiscovered} km", style: const TextStyle(fontSize: 12)),
+          Text(malfunction.dateEnded == null ?
+          AppLocalizations.of(context)!.fixedMalfunction :
+          AppLocalizations.of(context)!.ongoingMalfunction,
+            style: const TextStyle(
+              fontSize: 12
+            )
+          ),
+          Text("${AppLocalizations.of(context)!.discoveredAt} ${malfunction.kilometersDiscovered} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

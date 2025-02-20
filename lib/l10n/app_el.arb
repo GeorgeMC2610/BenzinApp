@@ -72,5 +72,10 @@
     "efficiency":         "Αποδοτικότητα:",
     "travel_cost":        "Κόστος Μετακίνησης:",
     "comments":           "Παρατηρήσεις:",
-    "nothingToShowHere":  "Δεν υπάρχουν δεδομένα."
+    "nothingToShowHere":  "Δεν υπάρχουν δεδομένα.",
+
+    "discoveredAt":       "Διαπιστώθηκε στα:",
+    "ongoingMalfunction": "Σε εξέλιξη",
+    "fixedMalfunction":   "Επισκευασμένη",
+    "nextAtKm":           "Επόμενο στα:"
 }
