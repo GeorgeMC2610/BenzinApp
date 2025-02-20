@@ -1,7 +1,10 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../../services/language_provider.dart';
 import 'cards/fuel_fill_card.dart';
 
 class YearMonthFuelFillGroups extends StatelessWidget {
@@ -28,11 +31,12 @@ class YearMonthFuelFillGroups extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 25, left: 25),
               child: Text(
-                _formatYearMonth(yearMonth),
+                _formatYearMonth(yearMonth, context),
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
 
+            // COST OF ALL RECORDS
             Padding(
               padding: const EdgeInsets.only(left: 25),
               child: Text(
@@ -79,19 +83,10 @@ class YearMonthFuelFillGroups extends StatelessWidget {
   }
 
   /// Formats "YYYY-MM" into "Month Year"
-  String _formatYearMonth(String yearMonth) {
-    List<String> parts = yearMonth.split("-");
-    int year = int.parse(parts[0]);
-    int month = int.parse(parts[1]);
-    return "${_monthName(month)} $year";
+  String _formatYearMonth(String yearMonth, BuildContext context) {
+    return DateFormat.yMMMM(
+      Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag(),
+    ).format(DateTime.parse('$yearMonth-01'));
   }
 
-  /// Converts month number to name
-  String _monthName(int month) {
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    return monthNames[month - 1];
-  }
 }

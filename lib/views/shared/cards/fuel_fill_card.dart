@@ -1,7 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../../services/language_provider.dart';
 
 class FuelFillCard extends StatelessWidget {
 
@@ -34,8 +38,9 @@ class FuelFillCard extends StatelessWidget {
             )
         );
       },
-      title: Text(
-          "${days[record.dateTime.weekday]} ${record.dateTime.day}",
+      title: AutoSizeText(
+          maxLines: 1,
+          getLocalizedDate(context, record.dateTime),
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
       trailing: Row(
@@ -74,6 +79,12 @@ class FuelFillCard extends StatelessWidget {
       ),
     );
 
+  }
+
+  String getLocalizedDate(BuildContext context, DateTime date) {
+    final locale = Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag();
+
+    return "${DateFormat.EEEE(locale).format(date)} ${date.day}";
   }
 
   String _getFuelString() {
