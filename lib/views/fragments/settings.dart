@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
@@ -88,7 +89,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.fastLogin),
+                  title: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.fastLogin),
                   trailing: Switch.adaptive(
                     thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
                       if (states.contains(WidgetState.selected)) {
