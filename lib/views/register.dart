@@ -1,7 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'about/terms_and_conditions.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -65,8 +65,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                      child: Text(
+                      child: AutoSizeText(
                         AppLocalizations.of(context)!.welcome,
+                        maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30
