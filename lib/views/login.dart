@@ -114,11 +114,27 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 100),
+              const SizedBox(height: 75),
 
-              Text("• ${AppLocalizations.of(context)!.dontHaveAnAccount}"),
+              Row(
+                 children: [
+                   Expanded(
+                     child: AutoSizeText(maxLines: 1, "• ${AppLocalizations.of(context)!.dontHaveAnAccount}"),
+                   ),
+                   const SizedBox(width: 5),
+                   const Icon(Icons.app_registration, size: 18,)
+                 ],
+              ),
               const SizedBox(height: 5),
-              Text("• ${AppLocalizations.of(context)!.forgotPassword}"),
+              Row(
+                children: [
+                  Expanded(
+                    child: AutoSizeText( maxLines: 1, "• ${AppLocalizations.of(context)!.forgotPassword}"),
+                  ),
+                  const SizedBox(width: 5),
+                  const Icon(Icons.key_off, size: 18,)
+                ],
+              ),
 
               const SizedBox(height: 100),
             ]
