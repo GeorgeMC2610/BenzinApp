@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +64,9 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                  child: Text(
+                  child: AutoSizeText(
                     AppLocalizations.of(context)!.welcomeBack,
+                    maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 35
