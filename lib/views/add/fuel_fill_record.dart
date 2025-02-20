@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
@@ -39,8 +40,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
           if (_selectedDate == null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text("You haven't selected a date yet."),
+              SnackBar(
+                  content: Text(AppLocalizations.of(context)!.noDateSelected),
               )
             );
           }
@@ -70,7 +71,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
         },
         icon: const Icon(Icons.add),
-        label: const Text("Confirm Add"),
+        label: Text(AppLocalizations.of(context)!.confirmAdd),
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
             minimumSize: const WidgetStatePropertyAll(Size(200, 55),
@@ -80,15 +81,15 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Add Fuel Fill Record"),
+        title: Text(AppLocalizations.of(context)!.addFuelFillRecord),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
             children: [
-              const DividerWithText(
-                  text: "Required Info",
+              DividerWithText(
+                  text: AppLocalizations.of(context)!.requiredInfo,
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 13
@@ -104,8 +105,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: 'in km...',
-                        labelText: 'Mileage',
+                        hintText: AppLocalizations.of(context)!.inKmHint,
+                        labelText: AppLocalizations.of(context)!.mileage,
                         errorText: _mileageValidator,
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -122,8 +123,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       controller: _costController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: 'Cost',
-                        labelText: 'Cost',
+                        hintText: AppLocalizations.of(context)!.costHint,
+                        labelText: AppLocalizations.of(context)!.cost2,
                         errorText: _costValidator,
                         prefixIcon: const Icon(Icons.euro_symbol_sharp),
                         border: OutlineInputBorder(
@@ -140,8 +141,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       controller: _literController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: 'lt',
-                        labelText: 'Liters',
+                        hintText: AppLocalizations.of(context)!.litersHint,
+                        labelText: AppLocalizations.of(context)!.liters2,
                         errorText: _literValidator,
                         prefixIcon: const Icon(Icons.water_drop),
                         border: OutlineInputBorder(
@@ -156,8 +157,9 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
               const SizedBox(height: 30),
 
-              Text(
-                _selectedDate == null ? 'Select a date...' : _selectedDate.toString().substring(0, 10),
+              AutoSizeText(
+                maxLines: 1,
+                _selectedDate == null ? AppLocalizations.of(context)!.selectADate : _selectedDate.toString().substring(0, 10),
                 style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold
@@ -181,7 +183,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                           });
                         }
                       },
-                      label: const Text("Pick a date"),
+                      label: Text(AppLocalizations.of(context)!.pickADate),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -195,7 +197,7 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: const Text("Today's date"),
+                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
@@ -209,8 +211,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
 
               const SizedBox(height: 15),
 
-              const DividerWithText(
-                  text: "Optional Info",
+              DividerWithText(
+                  text: AppLocalizations.of(context)!.optionalInfo,
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 13
@@ -225,8 +227,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       controller: _fuelTypeController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: 'E.g. "FuelSave 95"',
-                        labelText: 'Fuel Type',
+                        hintText: AppLocalizations.of(context)!.fuelTypeHint,
+                        labelText: AppLocalizations.of(context)!.fuelType,
                         prefixIcon: const Icon(Icons.gas_meter),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -242,8 +244,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                       controller: _stationController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: 'E.g. "Shell" or "bp"',
-                        labelText: 'Station',
+                        hintText: AppLocalizations.of(context)!.stationHint,
+                        labelText: AppLocalizations.of(context)!.station,
                         prefixIcon: const Icon(Icons.local_gas_station),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -263,8 +265,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
                 minLines: 2,
                 maxLines: 10,
                 decoration: InputDecoration(
-                  hintText: 'Anything useful about this fuel fill...',
-                  labelText: 'Comments',
+                  hintText: AppLocalizations.of(context)!.commentsHint,
+                  labelText: AppLocalizations.of(context)!.comments2,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -284,11 +286,11 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return 'Cannot be empty';
+      return AppLocalizations.of(context)!.cannotBeEmpty;
     }
 
     if (double.parse(field) < 0) {
-      return 'Cannot be negative';
+      return AppLocalizations.of(context)!.cannotBeNegative;
     }
 
     return null;
