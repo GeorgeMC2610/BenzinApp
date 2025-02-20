@@ -1,8 +1,10 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/language_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class ViewFuelFillRecord extends StatelessWidget {
   const ViewFuelFillRecord({super.key, required this.record});
@@ -64,7 +66,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                           children: [
                             const Icon(Icons.access_time_outlined, size: 30,),
                             const SizedBox(width: 15),
-                            Text(_getFullDateTimeString(), style: const TextStyle(fontSize: 18)),
+                            Text(_getFullDateTimeString(context), style: const TextStyle(fontSize: 18)),
                           ],
                         ),
 
@@ -214,8 +216,8 @@ class ViewFuelFillRecord extends StatelessWidget {
       fontWeight: FontWeight.bold
   );
 
-  String _getFullDateTimeString() {
-    return DateFormat.yMMMMEEEEd().format(record.dateTime);
+  String _getFullDateTimeString(BuildContext context) {
+    return DateFormat.yMMMMEEEEd(Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()).format(record.dateTime);
   }
 
   String _getFuelString(BuildContext context) {
