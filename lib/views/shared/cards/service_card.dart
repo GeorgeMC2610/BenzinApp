@@ -1,6 +1,9 @@
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../services/language_provider.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({super.key, required this.service});
@@ -9,9 +12,12 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
+
     return ListTile(
       title: Text(
-          "${service.kilometersDone.toString()} km",
+          "${format.format(service.kilometersDone)} km",
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
       trailing: Row(
@@ -45,7 +51,7 @@ class ServiceCard extends StatelessWidget {
         children: [
           Text(service.cost == null ? '-' : "${service.cost}", style: const TextStyle(fontSize: 16)),
           Text(service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 12)),
-          Text("${AppLocalizations.of(context)!.nextAtKm} ${service.nextServiceKilometers?? '-'} km", style: const TextStyle(fontSize: 12)),
+          Text("${AppLocalizations.of(context)!.nextAtKm} ${service.nextServiceKilometers == null ? '-' : format.format(service.nextServiceKilometers)} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
