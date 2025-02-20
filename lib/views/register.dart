@@ -87,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 20),
 
-                  const Text("By making an account to this app, you agree to the Terms and Conditions. Press the () button, on the top-right of your screen, to read them"),
+                  Text(AppLocalizations.of(context)!.agreeToTheTandC),
 
                   const SizedBox(height: 20),
 

@@ -116,9 +116,9 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 100),
 
-              const Text("• Don't have an account? Press the () button"),
+              Text("• ${AppLocalizations.of(context)!.dontHaveAnAccount}"),
               const SizedBox(height: 5),
-              const Text("• Forgot your password? Press the () button"),
+              Text("• ${AppLocalizations.of(context)!.forgotPassword}"),
 
               const SizedBox(height: 100),
             ]
