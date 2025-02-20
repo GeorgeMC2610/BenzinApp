@@ -32,6 +32,11 @@
     "trips":       "Διαδρομές",
     "settings":    "Ρυθμίσεις",
 
+    "youPlannedYourFuelFill":   "Προσχεδιάσετε το γέμισμα; 🤨",
+    "lastFilledToday":          "Τελευταίο γέμισμα σήμερα",
+    "lastFilledYesterday":      "Τελευταίο γέμισμα χθες",
+    "lastFilledDaysAgo":        "Τελευταίο γέμισμα πριν από {amountOfDays} ημέρες",
+    "lastFilledAtDate":         "Τελευταίο γέμισμα στις {date}",
     "fuelUsageTrend":           "ΓΡΑΦΗΜΑ ΚΑΤΑΝΑΛΩΣΗΣ",
     "combinedCosts":            "ΑΘΡΟΙΣΤΙΚΑ ΚΟΣΤΗ",
     "averageConsumption":       "ΜΕΣΗ ΚΑΤΑΝΑΛΩΣΗ",

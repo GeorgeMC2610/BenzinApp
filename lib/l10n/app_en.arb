@@ -41,6 +41,29 @@
     "trips":       "Trips",
     "settings":    "Settings",
 
+    "youPlannedYourFuelFill":   "You planned your fuel fill?",
+    "lastFilledToday":          "Last filled today",
+    "lastFilledYesterday":      "Last filled yesterday",
+    "lastFilledDaysAgo":        "Last filled {amountOfDays} days ago",
+    "@lastFilledDaysAgo": {
+        "description": "Last filled status in days",
+        "placeholders": {
+            "amountOfDays": {
+                "type": "int",
+                "example": "21"
+            }
+        }
+    },
+    "lastFilledAtDate":         "Last filled at {date}",
+    "@lastFilledAtDate": {
+        "description": "Last filled status in exact date",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "21-11-2019"
+            }
+        }
+    },
     "fuelUsageTrend":           "FUEL USAGE TREND",
     "combinedCosts":            "COMBINED COSTS",
     "averageConsumption":       "AVERAGE CONSUMPTION",

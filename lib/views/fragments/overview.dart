@@ -51,14 +51,16 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                       children: [
                         Row(
                           children: [
-                            const AutoSizeText(
-                                'Volkswagen Polo',
+                            const Expanded(
+                              child: AutoSizeText(
+                                'Audi A1',
                                 maxLines: 1,
-                                maxFontSize: 26,
+                                maxFontSize: 30,
                                 style: TextStyle(
-                                    fontSize: 33,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold
                                 )
+                              )
                             ),
 
                             const SizedBox(width: 15),
@@ -69,7 +71,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                               elevation: 0, // No shadow
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                child: Text("2001"),
+                                child: Text("2015"),
                               )),
 
                           ],
@@ -80,7 +82,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         // make them customizable pls
                         ListTile(
                           dense: false,
-                          title: Text(_getDaysString()),
+                          title: AutoSizeText(maxLines: 1, _getDaysString(context)),
                           subtitle: Text(""
                               "${DataHolder.getFuelFillRecords().last.liters} lt | "
                               "€${DataHolder.getFuelFillRecords().last.cost.toStringAsFixed(2)}"
@@ -403,24 +405,24 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     );
   }
 
-  String _getDaysString() {
+  String _getDaysString(BuildContext context) {
 
     var difference = _lastRecord.dateTime.difference(DateTime.now());
 
     if (difference.inDays > 0) {
-      return "You planned your fuel fill?";
+      return AppLocalizations.of(context)!.youPlannedYourFuelFill;
     }
     else if (difference.inDays == 0) {
-      return "Last filled today";
+      return AppLocalizations.of(context)!.lastFilledToday;
     }
     else if (difference.inDays == -1) {
-      return "Last filled yesterday";
+      return AppLocalizations.of(context)!.lastFilledYesterday;
     }
     else if (difference.inDays >= -30) {
-      return "Last filled ${difference.inDays.abs()} days ago";
+      return AppLocalizations.of(context)!.lastFilledDaysAgo(difference.inDays.abs());
     }
     else {
-      return "Last filled at ${_lastRecord.dateTime.toString().substring(0, 10)}";
+      return AppLocalizations.of(context)!.lastFilledAtDate(_lastRecord.dateTime.toString().substring(0, 10));
     }
 
   }
