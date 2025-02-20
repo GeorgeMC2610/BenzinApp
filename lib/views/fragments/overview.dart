@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
 import 'package:benzinapp/views/shared/status_card.dart';
@@ -19,6 +20,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
   final FuelFillRecord _lastRecord = DataHolder.getFuelFillRecords().first;
+  final Service _lastService = DataHolder.getServices().first;
 
   @override
   Widget build(BuildContext context) {
@@ -98,41 +100,41 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             status: StatusCardIndex.bad
                         ),
 
-                        const StatusCard(
-                            icon: Icon(FontAwesomeIcons.carBattery),
-                            text: "Battery changed 2 and a half years ago",
-                            status: StatusCardIndex.bad
-                        ),
-
-                        const StatusCard(
-                            icon: Icon(FontAwesomeIcons.drumSteelpan),
-                            text: "Tyres changed two months ago",
-                            status: StatusCardIndex.good
-                        ),
-
-                        const StatusCard(
-                            icon: Icon(FontAwesomeIcons.shower),
-                            text: "Last car wash 1 month ago",
-                            status: StatusCardIndex.good
-                        ),
-
-                        const StatusCard(
-                            icon: Icon(FontAwesomeIcons.fileContract),
-                            text: "Governmental check-up (KTEO) in 2 years",
-                            status: StatusCardIndex.good
-                        ),
-
-                        const StatusCard(
-                            icon: Icon(FontAwesomeIcons.idCard),
-                            text: "Gas card in 1 years",
-                            status: StatusCardIndex.good
-                        ),
-
-                        const StatusCard(
-                          icon: Icon(FontAwesomeIcons.wifi),
-                          text: "e-PASS is low on money",
-                          status: StatusCardIndex.warning
-                        )
+                        // const StatusCard(
+                        //     icon: Icon(FontAwesomeIcons.carBattery),
+                        //     text: "Battery changed 2 and a half years ago",
+                        //     status: StatusCardIndex.bad
+                        // ),
+                        //
+                        // const StatusCard(
+                        //     icon: Icon(FontAwesomeIcons.drumSteelpan),
+                        //     text: "Tyres changed two months ago",
+                        //     status: StatusCardIndex.good
+                        // ),
+                        //
+                        // const StatusCard(
+                        //     icon: Icon(FontAwesomeIcons.shower),
+                        //     text: "Last car wash 1 month ago",
+                        //     status: StatusCardIndex.good
+                        // ),
+                        //
+                        // const StatusCard(
+                        //     icon: Icon(FontAwesomeIcons.fileContract),
+                        //     text: "Governmental check-up (KTEO) in 2 years",
+                        //     status: StatusCardIndex.good
+                        // ),
+                        //
+                        // const StatusCard(
+                        //     icon: Icon(FontAwesomeIcons.idCard),
+                        //     text: "Gas card in 1 years",
+                        //     status: StatusCardIndex.good
+                        // ),
+                        //
+                        // const StatusCard(
+                        //   icon: Icon(FontAwesomeIcons.wifi),
+                        //   text: "e-PASS is low on money",
+                        //   status: StatusCardIndex.warning
+                        // )
 
 
                       ],
@@ -283,7 +285,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         const SizedBox(height: 15),
 
                         Text(AppLocalizations.of(context)!.litersPer100km,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
@@ -297,13 +299,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         const SizedBox(height: 10),
 
                         Text(AppLocalizations.of(context)!.kilometersPerLiter,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
                         Text('Something something better than the green limo',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15,
                           ),
                         ),
@@ -311,13 +313,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                         const SizedBox(height: 10),
 
                         Text(AppLocalizations.of(context)!.costPerKilometer,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
                         Text('Something something better than the green limo',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15,
                           ),
                         ),
@@ -403,6 +405,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         ),
       )
     );
+  }
+
+  String _getServiceStatus(BuildContext context) {
+    return "It's overdue!!!";
   }
 
   String _getDaysString(BuildContext context) {

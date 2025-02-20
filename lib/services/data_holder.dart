@@ -158,26 +158,26 @@ class DataHolder {
             id: 0,
             dateHappened: DateTime(2024, DateTime.november, 29),
             description: 'Ta takakia trizoun',
-            kilometersDone: 99278
+            kilometersDone: 129402
         ),
 
         Service(
             id: 0,
             dateHappened: DateTime(2024, DateTime.may, 18),
             description: 'Reverse light is borken',
-            kilometersDone: 77182
+            kilometersDone: 118372
         ),
 
         Service(
             id: 0,
-            dateHappened: DateTime(2024, DateTime.october, 2),
+            dateHappened: DateTime(2024, DateTime.january, 2),
             description: 'takakeiros trizeiros',
-            kilometersDone: 109372
+            kilometersDone: 102852
         ),
       ]);
     }
 
-    _services.sort((a, b) => b.id.compareTo(a.id));
+    _services.sort((a, b) => b.dateHappened.compareTo(a.dateHappened));
     return _services;
   }
 
