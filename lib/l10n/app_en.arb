@@ -31,7 +31,8 @@
     "welcomeBack": "Welcome Back!",
     "accountDetails": "Account Details",
     "carDetails": "Car Details",
-    "dontHaveAnAccount": "Don't have an account? Create one.",
+    "dontHaveAnAccount": "Don't have an account? Press the button",
+    "forgotPassword": "Forgot your password? Press the button",
 
     "home":        "Home",
     "fuelFills":   "Fuel Fills",
@@ -62,6 +63,10 @@
     "termsAndConditions": "Terms and Conditions",
     "appInformation": "App Information",
 
+    "edit": "Edit",
+    "delete": "Delete",
+
+    "fuelFillRecordData": "Fuel Fill Record Data",
     "unspecified": "Unspecified",
     "liters": "Liters:",
     "kilometers": "Kilometers:",
@@ -69,5 +74,6 @@
     "consumption": "Consumption:",
     "efficiency": "Efficiency:",
     "travel_cost": "Travel Cost:",
-    "comments": "Comments:"
+    "comments": "Comments:",
+    "nothingToShowHere": "Nothing to show here."
 }

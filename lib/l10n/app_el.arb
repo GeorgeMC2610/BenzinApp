@@ -22,7 +22,8 @@
     "welcomeBack": "Καλωσήρθατε!",
     "accountDetails": "Στοιχεία Λογαριασμού",
     "carDetails": "Στοιχεία Οχήματος",
-    "dontHaveAnAccount": "Δεν έχετε λογαριασμό; Φτιάξτε έναν.",
+    "dontHaveAnAccount": "Δεν έχετε λογαριασμό; Πατήστε το κουμπί",
+    "forgotPassword": "Ξεχάσατε τον κωδικό σας; Πατήστε το κουμπί",
 
     "home":        "Αρχική",
     "fuelFills":   "Γεμίσματα",
@@ -53,6 +54,10 @@
     "termsAndConditions": "Όροι Χρήσης",
     "appInformation": "Πληροφορίες Εφαρμογής",
 
+    "edit": "Επεξεργασία",
+    "delete": "Διαγραφή",
+
+    "fuelFillRecordData": "Στοιχεία Γεμίσματος",
     "unspecified": "Άγνωστο",
     "liters": "Λίτρα:",
     "kilometers": "Χιλιόμετρα:",
@@ -60,5 +65,6 @@
     "consumption": "Κατανάλωση:",
     "efficiency": "Αποδοτικότητα:",
     "travel_cost": "Κόστος Μετακίνησης:",
-    "comments": "Παρατηρήσεις:"
+    "comments": "Παρατηρήσεις:",
+    "nothingToShowHere": "Δεν υπάρχουν δεδομένα."
 }

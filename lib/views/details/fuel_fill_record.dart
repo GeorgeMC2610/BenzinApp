@@ -13,7 +13,7 @@ class ViewFuelFillRecord extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Fuel Fill Record Data"),
+        title: Text(AppLocalizations.of(context)!.fuelFillRecordData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -26,7 +26,7 @@ class ViewFuelFillRecord extends StatelessWidget {
               foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.edit),
-            label: const Text("Edit")
+            label: Text(AppLocalizations.of(context)!.edit)
         ),
         ElevatedButton.icon(
             onPressed: () {},
@@ -35,7 +35,7 @@ class ViewFuelFillRecord extends StatelessWidget {
               foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.delete),
-            label: const Text("Delete")
+            label: Text(AppLocalizations.of(context)!.delete)
         )
       ],
       body: SingleChildScrollView(
@@ -181,7 +181,7 @@ class ViewFuelFillRecord extends StatelessWidget {
                         const SizedBox(height: 10),
 
                         Text(
-                          record.comments == null ? "Nothing to show here." : record.comments!,
+                          record.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : record.comments!,
                           style: TextStyle(
                             color: record.comments == null ? Colors.grey : Colors.black,
                             fontStyle: record.comments == null ? FontStyle.italic : FontStyle.normal
@@ -213,31 +213,6 @@ class ViewFuelFillRecord extends StatelessWidget {
       fontSize: 20.5,
       fontWeight: FontWeight.bold
   );
-
-  static const days = {
-    1  : "Monday",
-    2  : "Tuesday",
-    3  : "Wednesday",
-    4  : "Thursday",
-    5  : "Friday",
-    6  : "Saturday",
-    7  : "Sunday",
-  };
-
-  static const months = {
-    1  : "January",
-    2  : "February",
-    3  : "March",
-    4  : "April",
-    5  : "May",
-    6  : "June",
-    7  : "July",
-    8  : "August",
-    9  : "September",
-    10 : "October",
-    11 : "November",
-    12 : "December"
-  };
 
   String _getFullDateTimeString() {
     return DateFormat.yMMMMEEEEd().format(record.dateTime);
