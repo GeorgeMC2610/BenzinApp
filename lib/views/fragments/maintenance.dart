@@ -2,6 +2,8 @@ import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MaintenanceFragment extends StatefulWidget {
   const MaintenanceFragment({super.key});
@@ -27,9 +29,9 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                   labelColor: Theme.of(context).appBarTheme.backgroundColor,
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
-                  tabs: const [
-                    Tab(text: 'Malfunctions'),
-                    Tab(text: 'Services'),
+                  tabs: [
+                    Tab(text: AppLocalizations.of(context)!.malfunctions),
+                    Tab(text: AppLocalizations.of(context)!.services),
                   ],
                 ),
 

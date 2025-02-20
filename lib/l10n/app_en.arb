@@ -90,6 +90,9 @@
     "edit":   "Edit",
     "delete": "Delete",
 
+    "malfunctions": "Malfunctions",
+    "services":     "Services",
+
     "fuelFillRecordData": "Fuel Fill Record Data",
     "unspecified":        "Unspecified",
     "liters":             "Liters:",
