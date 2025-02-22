@@ -122,6 +122,28 @@ class DataHolder {
     if (_malfunctions.isEmpty) {
       _malfunctions.addAll([
         Malfunction(
+            id: 5,
+            dateStarted: DateTime(2025, DateTime.january, 16),
+            description: 'Dashcam Broken',
+            title: "it won't record",
+            kilometersDiscovered: 200094,
+            dateEnded: DateTime(2025, DateTime.january, 19),
+            cost: null,
+            location: null,
+        ),
+
+        Malfunction(
+          id: 5,
+          dateStarted: DateTime(2024, DateTime.december, 6),
+          description: 'Window Shield',
+          title: 'brokennn',
+          kilometersDiscovered: 192847,
+          dateEnded: DateTime(2024, DateTime.december, 19),
+          cost: 229.93,
+          location: "Synchro Center"
+        ),
+
+        Malfunction(
             id: 0,
             dateStarted: DateTime(2024, DateTime.november, 29),
             description: 'Ta takakia trizoun',
@@ -174,6 +196,16 @@ class DataHolder {
             description: 'takakeiros trizeiros',
             kilometersDone: 102852
         ),
+
+        Service(
+          id: 3,
+          dateHappened: DateTime(2025, DateTime.january, 29),
+          description: '- bouzi\n- takakia\n- kai kati allo pou den thymamai',
+          kilometersDone: 106538,
+          location: 'Synchronerios Senterios',
+          nextServiceKilometers: 110938,
+          cost: 520.82
+        )
       ]);
     }
 

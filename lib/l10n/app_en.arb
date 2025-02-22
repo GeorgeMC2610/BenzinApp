@@ -104,11 +104,6 @@
     "comments":           "Comments:",
     "nothingToShowHere":  "Nothing to show here.",
 
-    "discoveredAt":       "Discovered at:",
-    "ongoingMalfunction": "Ongoing",
-    "fixedMalfunction":   "Fixed",
-    "nextAtKm":           "Next at:",
-
     "addFuelFillRecord": "Add Fuel Fill Record",
     "requiredInfo":      "Required Info",
     "mileage":           "Mileage",
@@ -130,5 +125,27 @@
     "commentsHint":      "Anything useful about this fuel fill...",
     "noDateSelected":    "You haven't selected a date yet.",
     "cannotBeEmpty":     "Cannot be empty",
-    "cannotBeNegative":  "Cannot be negative"
+    "cannotBeNegative":  "Cannot be negative",
+
+    "discoveredAt":       "Discovered at:",
+    "ongoingMalfunction": "Ongoing",
+    "fixedMalfunction":   "Fixed",
+    "nextAtKm":           "Next at:",
+
+    "malfunctionData":      "Malfunction data",
+    "dateDiscovered":       "Date discovered:",
+    "kilometersDiscovered": "Kilometers discovered:",
+    "status":               "Status:",
+    "title":                "Title:",
+    "description":          "Description:",
+    "dateFixed":            "Date fixed:",
+    "locationFixed":        "Location:",
+
+    "serviceData":    "Service Data",
+    "dateDone":       "Date done:",
+    "serviceMileage": "Service mileage:",
+    "nextServiceAt":  "Next service at:",
+    "location":       "Location:",
+    "seeOnMap":       "See on map"
+
 }

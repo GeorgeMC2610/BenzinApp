@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:benzinapp/views/shared/shared_font_styles.dart';
 
 class ViewFuelFillRecord extends StatelessWidget {
   const ViewFuelFillRecord({super.key, required this.record});
@@ -108,18 +109,18 @@ class ViewFuelFillRecord extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizations.of(context)!.liters, style: legendTextStyle),
-                            Text("${record.liters} lt", style: descriptiveTextStyle),
+                            Text(AppLocalizations.of(context)!.liters, style: SharedFontStyles.legendTextStyle),
+                            Text("${record.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
 
                             const SizedBox(height: 20),
 
-                            Text(AppLocalizations.of(context)!.kilometers, style: legendTextStyle),
-                            Text("${record.kilometers} km", style: descriptiveTextStyle),
+                            Text(AppLocalizations.of(context)!.kilometers, style: SharedFontStyles.legendTextStyle),
+                            Text("${record.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
 
                             const SizedBox(height: 20),
 
-                            Text(AppLocalizations.of(context)!.cost, style: legendTextStyle),
-                            Text("€${record.cost}", style: descriptiveTextStyle),
+                            Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                            Text("€${record.cost}", style: SharedFontStyles.descriptiveTextStyle),
                           ],
                         ),
                       ),
@@ -138,18 +139,18 @@ class ViewFuelFillRecord extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizations.of(context)!.consumption, style: legendTextStyle),
-                            Text("${record.getConsumption().toStringAsFixed(3)} lt/100km", style: mainTextStyle),
+                            Text(AppLocalizations.of(context)!.consumption, style: SharedFontStyles.legendTextStyle),
+                            Text("${record.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
 
                             const SizedBox(height: 20),
 
-                            Text(AppLocalizations.of(context)!.efficiency, style: legendTextStyle),
-                            Text("${record.getEfficiency().toStringAsFixed(3)} km/lt", style: mainTextStyle),
+                            Text(AppLocalizations.of(context)!.efficiency, style: SharedFontStyles.legendTextStyle),
+                            Text("${record.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
 
                             const SizedBox(height: 20),
 
-                            Text(AppLocalizations.of(context)!.travel_cost, style: legendTextStyle),
-                            Text("${record.getTravelCost().toStringAsFixed(2)} €/km", style: mainTextStyle),
+                            Text(AppLocalizations.of(context)!.travel_cost, style: SharedFontStyles.legendTextStyle),
+                            Text("${record.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
                           ],
                         ),
                       ),
@@ -201,20 +202,6 @@ class ViewFuelFillRecord extends StatelessWidget {
       ),
     );
   }
-
-  static const TextStyle legendTextStyle = TextStyle(
-    color: CupertinoColors.systemGrey,
-    fontSize: 12
-  );
-
-  static const TextStyle descriptiveTextStyle = TextStyle(
-    fontSize: 20.5,
-  );
-
-  static const TextStyle mainTextStyle = TextStyle(
-      fontSize: 20.5,
-      fontWeight: FontWeight.bold
-  );
 
   String _getFullDateTimeString(BuildContext context) {
     return DateFormat.yMMMMEEEEd(Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()).format(record.dateTime);

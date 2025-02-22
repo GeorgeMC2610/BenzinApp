@@ -1,4 +1,6 @@
 import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/details/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +18,14 @@ class ServiceCard extends StatelessWidget {
     final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
 
     return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ViewService(service: service)
+            )
+        );
+      },
       title: Text(
           "${format.format(service.kilometersDone)} km",
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
@@ -49,7 +59,7 @@ class ServiceCard extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(service.cost == null ? '-' : "${service.cost}", style: const TextStyle(fontSize: 16)),
+          Text(service.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, service.cost!)}", style: const TextStyle(fontSize: 16)),
           Text(service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 12)),
           Text("${AppLocalizations.of(context)!.nextAtKm} ${service.nextServiceKilometers == null ? '-' : format.format(service.nextServiceKilometers)} km", style: const TextStyle(fontSize: 12)),
         ],

@@ -1,9 +1,9 @@
 import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../../../services/language_provider.dart';
 
 class MalfunctionCard extends StatelessWidget {
@@ -17,6 +17,14 @@ class MalfunctionCard extends StatelessWidget {
     final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
 
     return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ViewMalfunction(malfunction: malfunction)
+            )
+        );
+      },
       title: Text(
           malfunction.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)

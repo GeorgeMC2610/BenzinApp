@@ -22,4 +22,7 @@ class Malfunction {
   final double? cost;
   final String? location;
 
+  bool isFixed () {
+    return dateEnded != null;
+  }
 }

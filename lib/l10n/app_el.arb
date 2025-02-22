@@ -77,11 +77,6 @@
     "comments":           "Παρατηρήσεις:",
     "nothingToShowHere":  "Δεν υπάρχουν δεδομένα.",
 
-    "discoveredAt":       "Διαπιστώθηκε στα:",
-    "ongoingMalfunction": "Σε εξέλιξη",
-    "fixedMalfunction":   "Επισκευασμένη",
-    "nextAtKm":           "Επόμενο στα:",
-
     "addFuelFillRecord": "Προσθήκη Γεμίσματος",
     "requiredInfo":      "Υποχρεωτικά Πεδία",
     "mileage":           "Χιλιόμετρα",
@@ -103,6 +98,26 @@
     "commentsHint":      "Οτιδήποτε χρήσιμο σχετικά με αυτό το γέμισμα...",
     "noDateSelected":    "Δεν έχετε επιλέξει ημερομηνία.",
     "cannotBeEmpty":     "Δεν μπορεί να είναι κενό",
-    "cannotBeNegative":  "Μόνο θετικοί αριθμοί"
+    "cannotBeNegative":  "Μόνο θετικοί αριθμοί",
 
+    "discoveredAt":       "Διαπιστώθηκε στα:",
+    "ongoingMalfunction": "Σε εξέλιξη",
+    "fixedMalfunction":   "Επισκευασμένη",
+    "nextAtKm":           "Επόμενο στα:",
+
+    "malfunctionData":      "Στοιχεία Βλάβης",
+    "dateDiscovered":       "Ημερομηνία καταγραφής:",
+    "kilometersDiscovered": "Χιλιόμετρα που ανακαλύφθηκε:",
+    "status":               "Κατάσταση:",
+    "title":                "Τίτλος:",
+    "description":          "Περιγραφή:",
+    "dateFixed":            "Ημερομηνία επισκευής:",
+    "locationFixed":        "Τοποθεσία επισκευής:",
+
+    "serviceData":    "Στοιχεία Σέρβις",
+    "dateDone":       "Ημερομηνία:",
+    "serviceMileage": "Χιλιόμετρα:",
+    "nextServiceAt":  "Χιλιόμετρα επόμενου:",
+    "location":       "Τοποθεσία:",
+    "seeOnMap":       "Προβολή"
 }
