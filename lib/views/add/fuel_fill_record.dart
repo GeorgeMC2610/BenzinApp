@@ -63,9 +63,8 @@ class _AddFuelFillRecordState extends State<AddFuelFillRecord> {
               comments: _commentsController.text,
           );
 
-          setState(() {
-            DataHolder.addFuelFill(record);
-          });
+          DataHolder.addFuelFill(record);
+
 
           Navigator.of(context).pop();
 

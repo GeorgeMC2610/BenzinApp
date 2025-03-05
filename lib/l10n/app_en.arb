@@ -146,6 +146,28 @@
     "serviceMileage": "Service mileage:",
     "nextServiceAt":  "Next service at:",
     "location":       "Location:",
-    "seeOnMap":       "See on map"
+    "seeOnMap":       "See on map",
+
+    "maintenanceCategory": "Maintenance Category",
+    "selectMaintenanceType": "Select maintenance type:",
+    "malfunction": "Malfunction",
+    "service": "Service",
+    "comingSoon": "Coming Soon...",
+
+    "addService": "Add Service",
+    "serviceInfo": "Service Info",
+    "description2": "Description",
+    "serviceMileage2": "Service Mileage",
+    "nextServiceMileage": "Next Service Mileage",
+    "descriptionHint": "What happened in this service?",
+    "serviceMileageHint": "Enter service mileage...",
+    "nextServiceMileageHint": "Enter next service mileage...",
+    "confirmAddService": "Confirm Add Service",
+
+    "addMalfunction": "Add Malfunction",
+    "malfunctionInfo": "Malfunction Info",
+    "malfunctionTitle": "Title",
+    "malfunctionTitleHint": "What's malfunctioning...?",
+    "descriptionHintMalfunction": "Describe what is malfunctioning..."
 
 }

@@ -1,5 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/views/add/malfunction.dart';
+import 'package:benzinapp/views/add/service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceGuidanceMenu extends StatelessWidget {
 
@@ -10,54 +14,136 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(AppLocalizations.of(context)!.maintenanceCategory),
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
             children: [
-
-              SizedBox(
-                height: 110,
-                width: 110,
-                child: FloatingActionButton(
-                  onPressed: () {
-
-                  },
-                  elevation: 0.5,
-                  child: const Icon(FontAwesomeIcons.carBurst, size: 50,),
+              AutoSizeText(
+                maxLines: 1,
+                maxFontSize: 30,
+                minFontSize: 12,
+                AppLocalizations.of(context)!.selectMaintenanceType,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30
                 ),
               ),
 
-              const SizedBox(width: 15),
+              const SizedBox(height: 40),
 
-              SizedBox(
-                height: 110,
-                width: 110,
-                child: FloatingActionButton(
-                  onPressed: () {
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-                  },
-                  elevation: 0.5,
-                  child: const Icon(FontAwesomeIcons.car, size: 50,),
-                ),
-              ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(AppLocalizations.of(context)!.malfunction),
 
-              const SizedBox(width: 15),
+                        const SizedBox(height: 10),
 
-              const SizedBox(
-                height: 110,
-                width: 110,
-                child: FloatingActionButton(
-                  backgroundColor: Colors.white24,
-                  onPressed: null,
-                  elevation: 0.5,
-                  child: Icon(FontAwesomeIcons.wrench, size: 50,),
-                ),
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddMalfunction()
+                                  )
+                              );
+                            },
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Icon(FontAwesomeIcons.carBurst, size: 45),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+
+                  const SizedBox(width: 15),
+
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(AppLocalizations.of(context)!.service),
+
+                        const SizedBox(height: 10),
+
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddService()
+                                  )
+                              );
+                            },
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Icon(FontAwesomeIcons.wrench, size: 40),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+
+                  const SizedBox(width: 15),
+
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(AppLocalizations.of(context)!.comingSoon),
+
+                        const SizedBox(height: 10),
+
+                        Container(
+                          width: 100, // Set square dimensions
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.white24,
+                            onPressed: null,
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Icon(FontAwesomeIcons.question, size: 40),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+                ],
               ),
             ],
-          ),
+          )
         ),
       ),
     );

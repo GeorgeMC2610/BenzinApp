@@ -1,8 +1,13 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
+import 'package:flutter/material.dart';
 
-class DataHolder {
+class DataHolder with ChangeNotifier {
+
+  static final DataHolder _instance = DataHolder._internal();
+  factory DataHolder() => _instance;
+  DataHolder._internal();
 
   static List<FuelFillRecord> _fuelFills = [];
   static List<Malfunction> _malfunctions = [];
@@ -99,6 +104,7 @@ class DataHolder {
 
   static void addFuelFill(FuelFillRecord record) {
     _fuelFills.add(record);
+    _instance.notifyListeners();
   }
 
   static Map<String, List<FuelFillRecord>> getYearMonthFuelFills() {
@@ -209,8 +215,18 @@ class DataHolder {
       ]);
     }
 
-    _services.sort((a, b) => b.dateHappened.compareTo(a.dateHappened));
+    _services.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
     return _services;
+  }
+
+  static void addMalfunction(Malfunction malfunction) {
+    _malfunctions.add(malfunction);
+    _instance.notifyListeners();
+  }
+
+  static void addService(Service service) {
+    _services.add(service);
+    _instance.notifyListeners();
   }
 
 }

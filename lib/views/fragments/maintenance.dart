@@ -3,6 +3,7 @@ import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 
 class MaintenanceFragment extends StatefulWidget {
@@ -39,57 +40,67 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                   child: TabBarView(
                     children: [
 
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          return SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...DataHolder.getMalfunctions().map((malfunction) {
-                                    return DataHolder.getMalfunctions().last != malfunction ?
-                                    Column(
+                      Consumer<DataHolder>(
+                        builder: (context, dataHolder, child) {
+                          return LayoutBuilder(
+                            builder: (context, constraints) {
+                              return SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        MalfunctionCard(malfunction: malfunction),
-                                        const Divider()
-                                      ],
-                                    ) : MalfunctionCard(malfunction: malfunction);
-                                  }),
+                                        ...DataHolder.getMalfunctions().map((malfunction) {
+                                          return DataHolder.getMalfunctions().last != malfunction ?
+                                          Column(
+                                            children: [
+                                              MalfunctionCard(malfunction: malfunction),
+                                              const Divider()
+                                            ],
+                                          ) : MalfunctionCard(malfunction: malfunction);
+                                        }),
 
-                                  const SizedBox(height: 65)
-                                ]
-                              ),
-                            ),
+                                        const SizedBox(height: 65)
+                                      ]
+                                  ),
+                                ),
+                              );
+                            },
                           );
-                        },
+                        }
                       ),
+                      
+                      Consumer<DataHolder>(
+                       builder: (context, dataHolder, child) {
+                         return LayoutBuilder(
+                           builder: (context, constraints) {
+                             return SingleChildScrollView(
+                               child: Padding(
+                                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     ...DataHolder.getServices().map((service) {
+                                       return DataHolder.getServices().last != service ?
+                                       Column(
+                                         children: [
+                                           ServiceCard(service: service),
+                                           const Divider()
+                                         ],
+                                       ) : ServiceCard(service: service);
+                                     }),
 
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          return SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...DataHolder.getServices().map((service) {
-                                    return DataHolder.getServices().last != service ?
-                                    Column(
-                                      children: [
-                                        ServiceCard(service: service),
-                                        const Divider()
-                                      ],
-                                    ) : ServiceCard(service: service);
-                                  }),
+                                     const SizedBox(height: 65)
+                                   ],
+                                 ),
+                               ),
+                             );
+                           },
+                         );
+                       }
+                      )
 
-                                  const SizedBox(height: 65)
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+
                     ],
                   ),
                 ),

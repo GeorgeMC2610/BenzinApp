@@ -119,5 +119,27 @@
     "serviceMileage": "Χιλιόμετρα:",
     "nextServiceAt":  "Χιλιόμετρα επόμενου:",
     "location":       "Τοποθεσία:",
-    "seeOnMap":       "Προβολή"
+    "seeOnMap":       "Προβολή",
+
+    "maintenanceCategory": "Κατηγορία Συντήρησης",
+    "selectMaintenanceType": "Επιλογή κατηγορίας:",
+    "malfunction": "Βλάβη",
+    "service": "Σέρβις",
+    "comingSoon": "Μη διαθέσιμο...",
+
+    "addService": "Προσθήκη Σέρβις",
+    "serviceInfo": "Πληροφορίες Σέρβις",
+    "description2": "Περιγραφή",
+    "serviceMileage2": "Χιλιόμετρα",
+    "nextServiceMileage": "Χιλιόμετρα επόμενου",
+    "descriptionHint": "Περιγράψτε τι έγινε σε αυτό το σέρβις...",
+    "serviceMileageHint": "Εισάγετε χιλιόμετρα...",
+    "nextServiceMileageHint": "Εισάγετε τα χιλιόμετρα του επόμενου...",
+    "confirmAddService": "Επιβεβαίωση Προσθήκης Σέρβις",
+
+    "addMalfunction": "Προσθήκη Βλάβης",
+    "malfunctionInfo": "Στοιχεία Βλάβης",
+    "malfunctionTitle": "Τίτλος",
+    "malfunctionTitleHint": "Τι πήγε στραβά...;",
+    "descriptionHintMalfunction": "Περιγράψτε τι έχει χαλάσει..."
 }

@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/views/start.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,8 +8,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LanguageProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(create: (context) => DataHolder()),
+      ],
       child: const MainApp(),
     ),
   );
