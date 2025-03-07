@@ -36,6 +36,7 @@ class MalfunctionCard extends StatelessWidget {
 
           // EDIT BUTTON
           FloatingActionButton.small(
+            heroTag: null,
             onPressed: () {},
             elevation: 0,
             backgroundColor: Theme.of(context).primaryColor,
@@ -45,6 +46,7 @@ class MalfunctionCard extends StatelessWidget {
 
           // DELETE BUTTON
           FloatingActionButton.small(
+            heroTag: null,
             onPressed: () {},
             elevation: 0,
             backgroundColor: Colors.red,

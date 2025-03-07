@@ -138,6 +138,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ]),
       floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
+        heroTag: null,
         onPressed: _floatingActionButtonPressed,
         tooltip: 'Add',
         elevation: 3,

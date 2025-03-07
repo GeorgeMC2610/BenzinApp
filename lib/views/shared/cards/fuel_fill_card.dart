@@ -40,6 +40,7 @@ class FuelFillCard extends StatelessWidget {
 
           // EDIT BUTTON
           FloatingActionButton.small(
+            heroTag: null,
             onPressed: () {},
             elevation: 0,
             backgroundColor: Theme.of(context).primaryColor,
@@ -49,6 +50,7 @@ class FuelFillCard extends StatelessWidget {
 
           // DELETE BUTTON
           FloatingActionButton.small(
+            heroTag: null,
             onPressed: () {},
             elevation: 0,
             backgroundColor: Colors.red,

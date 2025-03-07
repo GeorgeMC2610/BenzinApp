@@ -56,6 +56,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           child: FloatingActionButton(
+                            heroTag: null,
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -92,6 +93,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           child: FloatingActionButton(
+                            heroTag: null,
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -128,6 +130,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           child: FloatingActionButton(
+                            heroTag: null,
                             backgroundColor: Colors.white24,
                             onPressed: null,
                             elevation: 0.5,
