@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/charts/costs_pie_chart.dart';
 import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
 import 'package:benzinapp/views/shared/status_card.dart';
 import 'package:flutter/material.dart';
@@ -251,6 +253,53 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                           ),
                         ),
 
+                        const SizedBox(height: 20),
+
+                        CostsPieChart(buildContext: context),
+
+                        const SizedBox(height: 20),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "◉ ",
+                              style: TextStyle(
+                                color: Colors.lightGreen.shade500,
+                                fontSize: 25
+                              ),
+                            ),
+                            Text('${AppLocalizations.of(context)!.fuelFills} - €${DataHolder.getTotalFuelFillCosts()}')
+                          ],
+                        ),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "◉ ",
+                              style: TextStyle(
+                                  color: Colors.green.shade700,
+                                  fontSize: 25
+                              ),
+                            ),
+                            Text('${AppLocalizations.of(context)!.malfunctions} - €${DataHolder.getTotalMalfunctionCosts()}')
+                          ],
+                        ),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "◉ ",
+                              style: TextStyle(
+                                  color: Colors.amber,
+                                  fontSize: 25
+                              ),
+                            ),
+                            Text('${AppLocalizations.of(context)!.services} - €${DataHolder.getTotalServiceCosts()}')
+                          ],
+                        ),
                       ],
                     ),
                   )
@@ -258,7 +307,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
             ),
 
             // car consumption container
-            Container(
+            SizedBox(
               width: MediaQuery.sizeOf(context).width,
               child: Card(
                   shape: RoundedRectangleBorder(
@@ -284,27 +333,27 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 15),
 
-                        Text(AppLocalizations.of(context)!.litersPer100km,
+                        Text(AppLocalizations.of(context)!.consumption,
                           style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        const Text('Something something better than the green limo',
-                          style: TextStyle(
+                        Text('${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalConsumption())} lt./100 km',
+                          style: const TextStyle(
                               fontSize: 15,
                           ),
                         ),
 
                         const SizedBox(height: 10),
 
-                        Text(AppLocalizations.of(context)!.kilometersPerLiter,
+                        Text(AppLocalizations.of(context)!.efficiency,
                           style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text('Something something better than the green limo',
+                        Text('${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalEfficiency())} km/lt.',
                           style: const TextStyle(
                             fontSize: 15,
                           ),
@@ -312,13 +361,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                         const SizedBox(height: 10),
 
-                        Text(AppLocalizations.of(context)!.costPerKilometer,
+                        Text(AppLocalizations.of(context)!.travel_cost,
                           style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text('Something something better than the green limo',
+                        Text('€${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalTravelCost())}/km',
                           style: const TextStyle(
                             fontSize: 15,
                           ),
@@ -330,7 +379,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
             ),
 
             // timely manner consumption
-            Container(
+            SizedBox(
               width: MediaQuery.sizeOf(context).width,
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -362,8 +411,8 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      const Text('Something something better than the green limo',
-                        style: TextStyle(
+                      Text('${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalLitersFilled())} lt.',
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
@@ -376,7 +425,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      const Text('Something something better than the green limo',
+                      Text('${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalKilometersTraveled())} km',
                         style: const TextStyle(
                           fontSize: 15,
                         ),
@@ -390,8 +439,8 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             fontWeight: FontWeight.bold
                         ),
                       ),
-                      const Text('Something something better than the green limo',
-                        style: TextStyle(
+                      Text('€${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalCost())}',
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),

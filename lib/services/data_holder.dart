@@ -219,6 +219,28 @@ class DataHolder with ChangeNotifier {
     return _services;
   }
 
+  static double getTotalConsumption() {
+    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+
+    return 100 * totalLiters / totalKilometers;
+  }
+
+  static double getTotalEfficiency() {
+    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+
+    return totalKilometers / totalLiters;
+  }
+
+  static double getTotalTravelCost() {
+    double totalCost = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
+    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+
+    return totalCost / totalKilometers;
+  }
+
+
   static void addMalfunction(Malfunction malfunction) {
     _malfunctions.add(malfunction);
     _instance.notifyListeners();
@@ -227,6 +249,36 @@ class DataHolder with ChangeNotifier {
   static void addService(Service service) {
     _services.add(service);
     _instance.notifyListeners();
+  }
+
+  static double getTotalLitersFilled() {
+    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+  }
+
+  static double getTotalKilometersTraveled() {
+    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+  }
+
+  static double getTotalFuelFillCosts() {
+    return DataHolder.getFuelFillRecords().fold<double>(0, (sum, record) => sum + record.cost);
+  }
+
+  static double getTotalMalfunctionCosts() {
+    return DataHolder.getMalfunctions().fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+  }
+
+  static double getTotalServiceCosts() {
+    return DataHolder.getServices().fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+  }
+
+  static double getTotalCost() {
+    double totalCosts = 0;
+
+    totalCosts += _fuelFills.fold<double>(0, (sum, fuelFill) => sum + fuelFill.cost);
+    totalCosts += _services.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+    totalCosts += _malfunctions.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+
+    return totalCosts;
   }
 
 }

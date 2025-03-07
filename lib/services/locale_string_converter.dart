@@ -23,5 +23,10 @@ class LocaleStringConverter {
     return format.format(number);
   }
 
+  static String formattedDoubleToFivePoints(BuildContext context, double number) {
+    final NumberFormat format = NumberFormat('#,###.#####', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
+    return format.format(number);
+  }
+
 
 }
