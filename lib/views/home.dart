@@ -30,6 +30,14 @@ class _HomePageState extends State<HomePage> {
     _setTitle(context);
   }
 
+  final List<Widget> pages = const [
+    OverviewFragment(),
+    FuelFillsFragment(),
+    MaintenanceFragment(),
+    TripsFragment(),
+    SettingsFragment()
+  ];
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -59,20 +67,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody(int index, BuildContext context) {
-    switch (index) {
-      case 0:
-        return const OverviewFragment();
-      case 1:
-        return const FuelFillsFragment();
-      case 2:
-        return const MaintenanceFragment();
-      case 3:
-        return const TripsFragment();
-      case 4:
-        return const SettingsFragment();
-      default:
-        throw UnimplementedError();
-    }
+    return pages[index];
   }
 
   void _floatingActionButtonPressed() {
