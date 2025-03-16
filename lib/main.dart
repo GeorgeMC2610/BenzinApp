@@ -1,6 +1,7 @@
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/theme_provider.dart';
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/start.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  TokenManager.initialize();
   runApp(
     MultiProvider(
       providers: [
@@ -59,7 +61,7 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      home: const Start(), // TODO: Change to Login Page Later, or another page that decides which page will be displayed.
+      home: const Start(),
     );
   }
 

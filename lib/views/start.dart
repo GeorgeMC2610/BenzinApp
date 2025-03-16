@@ -1,5 +1,9 @@
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
+import '../services/data_holder.dart';
 
 class Start extends StatefulWidget {
   const Start({super.key});
@@ -46,14 +50,19 @@ class _StartState extends State<Start> {
 
   void _load() {
 
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      }
-    });
+    if (TokenManager().isTokenPresent) {
+      _attemptLogin();
+    }
 
+
+  }
+
+  void _attemptLogin() async {
+    var client = http.Client();
+    var uri = Uri.parse('${DataHolder.destination}/');
+
+    client.get(uri,
+      headers: 
+    );
   }
 }
