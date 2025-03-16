@@ -8,6 +8,8 @@ import 'package:benzinapp/services/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/theme_provider.dart';
+
 class SettingsFragment extends StatefulWidget {
   const SettingsFragment({super.key});
 
@@ -43,29 +45,22 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.darkMode),
-                  trailing: Switch.adaptive(
-                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
-                      if (states.contains(WidgetState.selected)) {
-                        return const Icon(Icons.dark_mode, color: Colors.black);
-                      }
-                      return const Icon(Icons.light_mode, color: Colors.white);
-                    }),
-                    value: lightMode,
-                    onChanged: (bool value) {
-
-                      if (lightMode == false)
-                      {
-                        setState(() {
-                          lightMode = true;
-                        });
-                      }
-                      else
-                      {
-                        setState(() {
-                          lightMode = false;
-                        });
-                      }
-                    }),
+                  trailing: Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, child) {
+                      return Switch.adaptive(
+                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
+                          if (states.contains(WidgetState.selected)) {
+                            return const Icon(Icons.dark_mode, color: Colors.black);
+                          }
+                          return const Icon(Icons.light_mode, color: Colors.white);
+                        }),
+                        value: themeProvider.themeMode == ThemeMode.dark,
+                        onChanged: (bool isDarkMode) {
+                          themeProvider.toggleTheme(isDarkMode);
+                        },
+                      );
+                    },
+                  ),
                   leading: const Icon(Icons.dark_mode),
                 ),
                 ListTile(

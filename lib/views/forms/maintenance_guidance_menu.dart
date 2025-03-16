@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/views/add/malfunction.dart';
-import 'package:benzinapp/views/add/service.dart';
+import 'package:benzinapp/views/forms/malfunction.dart';
+import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 
@@ -44,7 +46,36 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                         builder: (context, dataHolder, child) {
                           return LayoutBuilder(
                             builder: (context, constraints) {
-                              return SingleChildScrollView(
+                              return
+                                DataHolder.getMalfunctions().isEmpty ?
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'lib/assets/svg/no_malfunctions.svg',
+                                          semanticsLabel: 'No Malfunctions!',
+                                          width: 200,
+                                        ),
+
+                                        const SizedBox(height: 40),
+
+                                        Text(
+                                          AppLocalizations.of(context)!.noMalfunctions,
+                                          style: const TextStyle(
+                                              fontSize: 29,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                               :
+                                SingleChildScrollView(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                                   child: Column(
@@ -74,7 +105,37 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                        builder: (context, dataHolder, child) {
                          return LayoutBuilder(
                            builder: (context, constraints) {
-                             return SingleChildScrollView(
+                             return
+                               DataHolder.getServices().isEmpty ?
+                               Padding(
+                                 padding: const EdgeInsets.symmetric(horizontal: 15),
+                                 child: Center(
+                                   child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                     mainAxisAlignment: MainAxisAlignment.center,
+                                     children: [
+                                       SvgPicture.asset(
+                                         'lib/assets/svg/no_services.svg',
+                                         semanticsLabel: 'No Services!',
+                                         width: 200,
+                                       ),
+
+                                       const SizedBox(height: 40),
+
+                                       AutoSizeText(
+                                         AppLocalizations.of(context)!.noServices,
+                                         maxLines: 1,
+                                         style: const TextStyle(
+                                             fontSize: 29,
+                                             fontWeight: FontWeight.bold
+                                         ),
+                                       )
+                                     ],
+                                   ),
+                                 ) ,
+                               )
+                               :
+                               SingleChildScrollView(
                                child: Padding(
                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                                  child: Column(

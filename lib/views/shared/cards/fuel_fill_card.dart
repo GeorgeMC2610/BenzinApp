@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
+import 'package:benzinapp/views/forms/fuel_fill_record.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../../../services/language_provider.dart';
 
 class FuelFillCard extends StatelessWidget {
@@ -41,7 +43,14 @@ class FuelFillCard extends StatelessWidget {
           // EDIT BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FuelFillRecordForm(fuelFillRecord: record)
+                  )
+              );
+            },
             elevation: 0,
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
@@ -51,7 +60,7 @@ class FuelFillCard extends StatelessWidget {
           // DELETE BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () => deleteDialog(context),
             elevation: 0,
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -81,9 +90,9 @@ class FuelFillCard extends StatelessWidget {
 
   String _getFuelString() {
 
-    if (record.fuelType == null) {
+    if (record.fuelType == null || record.fuelType!.isEmpty) {
 
-      if (record.gasStation == null) {
+      if (record.gasStation == null || record.gasStation!.isEmpty) {
         return '-';
       }
 
@@ -91,6 +100,43 @@ class FuelFillCard extends StatelessWidget {
     }
 
     return record.gasStation == null? record.fuelType! : "${record.fuelType}, ${record.gasStation}";
+  }
+
+  Future<void> deleteDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.confirmDeleteFuelFill),
+          content: Text(AppLocalizations.of(context)!.confirmDeleteGenericBody),
+          actions: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.red,
+                side: const BorderSide(width: 1.0, color: Colors.red),
+              ),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                DataHolder.deleteFuelFill(record);
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white
+              ),
+              child: Text(AppLocalizations.of(context)!.delete),
+            ),
+          ],
+        );
+      }
+    );
   }
 
 }

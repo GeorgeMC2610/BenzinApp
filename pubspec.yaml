@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: any
   fl_chart: ^0.66.0
   provider: ^6.0.5
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,10 @@ flutter:
   assets:
      - lib/assets/images/benzinapp_logo_round.png
      - lib/assets/lang/
+     - lib/assets/svg/no_malfunctions.svg
+     - lib/assets/svg/no_petrol.svg
+     - lib/assets/svg/no_services.svg
+     - lib/assets/svg/no_trips.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

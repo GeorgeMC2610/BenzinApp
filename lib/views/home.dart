@@ -1,5 +1,5 @@
-import 'package:benzinapp/views/add/fuel_fill_record.dart';
-import 'package:benzinapp/views/add/maintenance_guidance_menu.dart';
+import 'package:benzinapp/views/forms/fuel_fill_record.dart';
+import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/fragments/fuel_fills.dart';
 import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
 
     switch (_selectedTabIndex) {
       case 1:
-        page = const AddFuelFillRecord();
+        page = const FuelFillRecordForm();
         break;
       case 2:
         page = const MaintenanceGuidanceMenu();
@@ -106,13 +106,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _buildBody(_selectedTabIndex, context),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(this.context).colorScheme.primaryFixedDim,
+        backgroundColor: Theme.of(this.context).colorScheme.onPrimary,
         currentIndex: _selectedTabIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-          label:  AppLocalizations.of(context)!.home,
+            label: AppLocalizations.of(context)!.home,
             icon: const Icon(Icons.home),
           ),
           BottomNavigationBarItem(

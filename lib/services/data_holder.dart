@@ -251,6 +251,27 @@ class DataHolder with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  static void deleteFuelFill(FuelFillRecord record) {
+    _fuelFills.remove(record);
+    _instance.notifyListeners();
+  }
+
+  static void deleteMalfunction(Malfunction malfunction) {
+    _malfunctions.remove(malfunction);
+    _instance.notifyListeners();
+  }
+
+  static void deleteService(Service service) {
+    _services.remove(service);
+    _instance.notifyListeners();
+  }
+
+  static void setFuelFill(FuelFillRecord initial, FuelFillRecord modified) {
+    int index = _fuelFills.indexOf(initial);
+    _fuelFills[index] = modified;
+    _instance.notifyListeners();
+  }
+
   static double getTotalLitersFilled() {
     return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
   }

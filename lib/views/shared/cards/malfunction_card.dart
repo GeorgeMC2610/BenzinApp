@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
 
 class MalfunctionCard extends StatelessWidget {
@@ -47,7 +48,7 @@ class MalfunctionCard extends StatelessWidget {
           // DELETE BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () => deleteDialog(context),
             elevation: 0,
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -72,6 +73,43 @@ class MalfunctionCard extends StatelessWidget {
           Text("${AppLocalizations.of(context)!.discoveredAt} ${format.format(malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
+    );
+  }
+
+  Future<void> deleteDialog(BuildContext context) {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext buildContext) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.confirmDeleteMalfunction),
+            content: Text(AppLocalizations.of(context)!.confirmDeleteGenericBody),
+            actions: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                  side: const BorderSide(width: 1.0, color: Colors.red),
+                ),
+                child: Text(AppLocalizations.of(context)!.cancel),
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  DataHolder.deleteMalfunction(malfunction);
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white
+                ),
+                child: Text(AppLocalizations.of(context)!.delete),
+              ),
+            ],
+          );
+        }
     );
   }
 

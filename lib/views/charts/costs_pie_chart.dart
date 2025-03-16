@@ -33,7 +33,7 @@ class CostsPieChart extends StatelessWidget {
   }
 
   PieChartSectionData _buildPieChartSection(double cost, double total, Color color, String title) {
-    if (cost == 0) return PieChartSectionData(); // Hide sections with no cost
+    if (cost == 0) return PieChartSectionData(value: 0); // Hide sections with no cost
 
     return PieChartSectionData(
       value: cost,
