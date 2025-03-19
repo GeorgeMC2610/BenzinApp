@@ -54,7 +54,7 @@ class _StartState extends State<Start> {
       if (TokenManager().isTokenPresent) {
         _attemptLogin();
       } else {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
             builder: (context) => const LoginPage()
