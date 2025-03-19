@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +17,77 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  String? usernameError;
+  String? passwordError;
+
+  bool isLoggingIn = false;
+
+  void sendLoginPayload() {
+
+    setState(() {
+      usernameError = usernameController.text.trim().isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      passwordError = passwordController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+    });
+
+    if (usernameError != null || passwordError != null) {
+      return;
+    }
+
+    setState(() {
+      isLoggingIn = true;
+    });
+
+    var client = http.Client();
+    var url = Uri.parse('${DataHolder.destination}/auth/login');
+
+    client.post(
+      url,
+      body: {
+        'username': usernameController.text,
+        'password': passwordController.text,
+      }
+    ).whenComplete(() {
+      setState(() {
+        isLoggingIn = false;
+      });
+    }).then((response) {
+      switch (response.statusCode) {
+        case 401:
+          setState(() {
+            usernameError = 'Wrong Credentials.';
+            passwordError = 'Wrong Credentials.';
+          });
+          break;
+        case 200:
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('successfully logged in'),
+              )
+          );
+
+          TokenManager().setToken(
+            jsonDecode(response.body)['auth_token']
+          ).whenComplete(() {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePage()
+                ));
+          });
+
+          break;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +116,9 @@ class _LoginPageState extends State<LoginPage> {
           width: MediaQuery.of(context).size.width,
           height: 52,
           child: ElevatedButton.icon(
-            onPressed: () {},
-            style: const ButtonStyle(
-                elevation: WidgetStatePropertyAll(4),
-                backgroundColor: WidgetStatePropertyAll(
-                    Color.fromARGB(255, 184, 134, 59)
-                )
+            onPressed: isLoggingIn? null : sendLoginPayload,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             ),
             label: Text(
               AppLocalizations.of(context)!.login,
@@ -53,7 +127,11 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black
               ),
             ),
-            icon: const Icon(Icons.login, color: Colors.black),
+            icon: isLoggingIn? const CircularProgressIndicator(
+              value: null,
+              strokeWidth: 5,
+              strokeCap: StrokeCap.square,
+            ) : const Icon(Icons.login, color: Colors.black),
           ),
         ),
       ),
@@ -88,8 +166,11 @@ class _LoginPageState extends State<LoginPage> {
 
               // BenzinApp Logo
               TextField(
+                enabled: !isLoggingIn,
+                controller: usernameController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
+                  errorText: usernameError,
                   hintText: AppLocalizations.of(context)!.usernameHint,
                   labelText: AppLocalizations.of(context)!.username,
                   prefixIcon: const Icon(Icons.person),
@@ -103,8 +184,11 @@ class _LoginPageState extends State<LoginPage> {
 
               // Password TextField
               TextField(
+                enabled: !isLoggingIn,
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
+                  errorText: passwordError,
                   hintText: AppLocalizations.of(context)!.passwordHint,
                   labelText: AppLocalizations.of(context)!.password,
                   prefixIcon: const Icon(Icons.lock),
