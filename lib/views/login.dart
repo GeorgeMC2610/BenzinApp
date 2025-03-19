@@ -82,8 +82,8 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialPageRoute(
                     builder: (context) => const HomePage()
                 ));
-          });
 
+          });
           break;
       }
     });

@@ -73,8 +73,24 @@ class _StartState extends State<Start> {
           headers: {
             'Authorization': 'Bearer ${TokenManager().token}'
           }
-      );
+      ).then((response) {
+        switch (response.statusCode) {
+          case 401:
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LoginPage()
+                ));
+            break;
+          case 200:
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePage()
+                ));
+            DataHolder().initializeValues();
+        }
+      });
     }
-
   }
 }
