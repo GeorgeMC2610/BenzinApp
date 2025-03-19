@@ -12,7 +12,7 @@ class DataHolder with ChangeNotifier {
   static List<FuelFillRecord> _fuelFills = [];
   static List<Malfunction> _malfunctions = [];
   static List<Service> _services = [];
-  static const String destination = 'http://192.168.1.83:3000';
+  static const String destination = 'http://0.0.0.0:3000';
 
   static List<FuelFillRecord> getFuelFillRecords() {
     if (_fuelFills.isEmpty) {

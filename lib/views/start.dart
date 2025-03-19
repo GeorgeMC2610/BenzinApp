@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
+import 'package:benzinapp/views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -49,20 +50,31 @@ class _StartState extends State<Start> {
   }
 
   void _load() {
-
-    if (TokenManager().isTokenPresent) {
-      _attemptLogin();
-    }
-
-
+    TokenManager.initialize().then((value) {
+      if (TokenManager().isTokenPresent) {
+        _attemptLogin();
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+            builder: (context) => const LoginPage()
+        ));
+      }
+    });
   }
 
   void _attemptLogin() async {
-    var client = http.Client();
-    var uri = Uri.parse('${DataHolder.destination}/');
 
-    client.get(uri,
-      headers: 
-    );
+    var client = http.Client();
+    var uri = Uri.parse('${DataHolder.destination}/car');
+
+    if (TokenManager().isTokenPresent) {
+      client.get(uri,
+          headers: {
+            'Authorization': 'Bearer ${TokenManager().token}'
+          }
+      );
+    }
+
   }
 }
