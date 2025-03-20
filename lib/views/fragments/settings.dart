@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
@@ -21,6 +22,23 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
   bool lightMode = false;
   bool fastLogin = false;
+
+  void _performLogout() {
+    TokenManager().removeToken().whenComplete(() {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Successfully logged out.'), // TODO: Localize
+        )
+      );
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const LoginPage()
+          )
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +140,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   title: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
                   trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
                   leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()
-                        )
-                    );
-                  },
+                  onTap: _performLogout,
                 ),
 
                 const SizedBox(height: 30),
