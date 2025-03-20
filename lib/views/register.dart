@@ -12,6 +12,77 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController = TextEditingController();
+  final TextEditingController manufacturerController = TextEditingController();
+  final TextEditingController modelController = TextEditingController();
+  final TextEditingController yearController = TextEditingController();
+
+  String? usernameError, passwordError, passwordConfirmError, manufacturerError,
+  modelError, yearError;
+
+  bool isRegistering = false;
+
+  void _sendRegisterPayload() {
+    // empty checks
+    setState(() {
+      usernameError = usernameController.text.trim().isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      passwordError = passwordController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      passwordConfirmError = passwordConfirmController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      manufacturerError = manufacturerController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      modelError = modelController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      yearError = yearController.text.isEmpty?
+      AppLocalizations.of(context)!.cannotBeEmpty :
+      null;
+
+      // other checks
+      yearError ??= int.parse(yearController.text) < 1886 ?
+        "Cars didn't exist back then." : // TODO: Localize
+        null;
+
+      if (passwordConfirmError == null && passwordError == null) {
+        passwordConfirmError = passwordConfirmController.text != passwordController.text ?
+        "Please confirm your password correctly." : // TODO: Localize
+        null;
+      }
+    });
+
+    if (
+    usernameError != null || passwordError != null || passwordConfirmError != null ||
+    manufacturerError != null || modelError != null || yearError != null
+    ) {
+      return;
+    }
+
+    setState(() {
+      isRegistering = true;
+    });
+
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      setState(() {
+        isRegistering = false;
+      });
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -33,34 +104,39 @@ class _RegisterPageState extends State<RegisterPage> {
             )
           ],
         ),
+
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 52,
             child: ElevatedButton.icon(
-              onPressed: () {},
-              style: const ButtonStyle(
-                  elevation: WidgetStatePropertyAll(4),
-                  backgroundColor: WidgetStatePropertyAll(
-                      Color.fromARGB(255, 184, 134, 59)
-                  )
+              onPressed: isRegistering ? null : _sendRegisterPayload,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary
               ),
               label: Text(
                 AppLocalizations.of(context)!.register,
                 style: const TextStyle(
                     fontSize: 18,
-                    color: Colors.black
                 ),
               ),
-              icon: const Icon(Icons.app_registration, color: Colors.black),
+              icon: isRegistering? const SizedBox(
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(
+                  value: null,
+                  strokeWidth: 3,
+                  strokeCap: StrokeCap.square,
+                ),
+              ) : const Icon(Icons.app_registration),
             ),
           ),
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -101,8 +177,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // BenzinApp Logo
                   TextField(
+                    controller: usernameController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
+                      errorText: usernameError,
                       hintText: AppLocalizations.of(context)!.usernameRegisterHint,
                       labelText: AppLocalizations.of(context)!.username,
                       prefixIcon: const Icon(Icons.person),
@@ -120,8 +198,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       Expanded(
                         child: TextField(
+                          controller: passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
+                            errorText: passwordError,
                             hintText: AppLocalizations.of(context)!.passwordHint,
                             labelText: AppLocalizations.of(context)!.password,
                             prefixIcon: const Icon(Icons.lock),
@@ -136,8 +216,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       Expanded(
                         child: TextField(
+                          controller: passwordConfirmController,
                           obscureText: true,
                           decoration: InputDecoration(
+                            errorText: passwordConfirmError,
                             hintText: AppLocalizations.of(context)!.passwordConfirmationHint,
                             labelText: AppLocalizations.of(context)!.passwordConfirmation,
                             suffixIcon: const Icon(Icons.lock_outline),
@@ -164,8 +246,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // BenzinApp Logo
                   TextField(
+                    controller: manufacturerController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
+                      errorText: manufacturerError,
                       hintText: AppLocalizations.of(context)!.carManufacturerHint,
                       labelText: AppLocalizations.of(context)!.carManufacturer,
                       prefixIcon: const Icon(Icons.car_rental),
@@ -184,7 +268,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       Expanded(
                         child: TextField(
+                          controller: modelController,
                           decoration: InputDecoration(
+                            errorText: modelError,
                             hintText: AppLocalizations.of(context)!.carModelHint,
                             labelText: AppLocalizations.of(context)!.carModel,
                             prefixIcon: const Icon(Icons.car_rental_outlined),
@@ -199,8 +285,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       Expanded(
                         child: TextField(
+                          controller: yearController,
                           keyboardType: const TextInputType.numberWithOptions(signed: true),
                           decoration: InputDecoration(
+                            errorText: yearError,
                             hintText: AppLocalizations.of(context)!.carYearHint,
                             labelText: AppLocalizations.of(context)!.carYear,
                             suffixIcon: const Icon(Icons.calendar_month),
