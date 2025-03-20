@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
         case 200:
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('successfully logged in'),
+                content: Text('successfully logged in'), // TODO: Localize
               )
           );
 

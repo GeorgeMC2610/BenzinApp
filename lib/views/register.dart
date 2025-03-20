@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../services/token_manager.dart';
 import 'about/terms_and_conditions.dart';
+import 'package:http/http.dart' as http;
+
+import 'home.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -75,10 +82,50 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = true;
     });
 
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    var client = http.Client();
+    var url = Uri.parse('${DataHolder.destination}/signup');
+
+    client.post(
+      url,
+      body: {
+        'username': usernameController.text,
+        'password': passwordController.text,
+        'password_confirmation': passwordConfirmController.text,
+        'manufacturer': manufacturerController.text,
+        'model': modelController.text,
+        'year': yearController.text,
+      }
+    ).whenComplete(() {
       setState(() {
         isRegistering = false;
       });
+    }).then((response) {
+      switch (response.statusCode) {
+        case 422:
+          setState(() {
+            usernameError = 'Username already taken'; // TODO: Localize
+          });
+          break;
+        case 201:
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('successfully created account'), // TODO: Localize
+              )
+          );
+
+          TokenManager().setToken(
+              jsonDecode(response.body)['auth_token']
+          ).whenComplete(() {
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePage()
+                ));
+
+          });
+          break;
+      }
     });
 
   }
