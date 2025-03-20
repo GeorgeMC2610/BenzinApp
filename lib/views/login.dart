@@ -127,10 +127,14 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black
               ),
             ),
-            icon: isLoggingIn? const CircularProgressIndicator(
-              value: null,
-              strokeWidth: 5,
-              strokeCap: StrokeCap.square,
+            icon: isLoggingIn? const SizedBox(
+              width: 15,
+              height: 15,
+              child: CircularProgressIndicator(
+                value: null,
+                strokeWidth: 5,
+                strokeCap: StrokeCap.square,
+              ),
             ) : const Icon(Icons.login, color: Colors.black),
           ),
         ),
