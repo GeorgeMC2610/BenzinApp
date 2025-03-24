@@ -50,17 +50,21 @@ class _StartState extends State<Start> {
   }
 
   void _load() {
-    TokenManager.initialize().then((value) {
-      if (TokenManager().isTokenPresent) {
-        _attemptLogin();
-      } else {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-            builder: (context) => const LoginPage()
-        ));
-      }
-    });
+    Future.delayed(const Duration(seconds: 1),
+        () {
+          TokenManager.initialize().then((value) {
+            if (TokenManager().isTokenPresent) {
+              _attemptLogin();
+            } else {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LoginPage()
+                  ));
+            }
+          });
+        }
+    );
   }
 
   void _attemptLogin() async {
@@ -75,7 +79,7 @@ class _StartState extends State<Start> {
           }
       ).then((response) {
         switch (response.statusCode) {
-          case 401:
+          case 422:
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
