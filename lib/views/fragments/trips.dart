@@ -16,7 +16,9 @@ class _TripsFragmentState extends State<TripsFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return DataHolder.getServices().isEmpty?
+    return const Column();
+
+    return DataHolder.getServices()!.isEmpty?
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Center(

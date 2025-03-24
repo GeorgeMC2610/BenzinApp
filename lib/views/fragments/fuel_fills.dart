@@ -19,7 +19,18 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
   Widget build(BuildContext context) {
     return Consumer<DataHolder>(
       builder: (context, dataHolder, child) {
-        return DataHolder.getFuelFillRecords().isEmpty?
+        if (DataHolder.getFuelFillRecords() == null) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Center(
+              child: CircularProgressIndicator(
+                value: null,
+              )
+            ),
+          );
+        }
+
+        return DataHolder.getFuelFillRecords()!.isEmpty?
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Center(
@@ -93,9 +104,9 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
                   // TOTAL RECORDS
                   Text(
-                    DataHolder.getFuelFillRecords().length == 1 ?
+                    DataHolder.getFuelFillRecords()!.length == 1 ?
                     AppLocalizations.of(context)!.oneRecord :
-                    AppLocalizations.of(context)!.totalRecords(DataHolder.getFuelFillRecords().length)
+                    AppLocalizations.of(context)!.totalRecords(DataHolder.getFuelFillRecords()!.length)
                   ),
 
                   const SizedBox(height: 10),

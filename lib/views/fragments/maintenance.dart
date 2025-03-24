@@ -44,10 +44,21 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
                       Consumer<DataHolder>(
                         builder: (context, dataHolder, child) {
+                          if (DataHolder.getServices() == null) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: null,
+                                  )
+                              ),
+                            );
+                          }
+
                           return LayoutBuilder(
                             builder: (context, constraints) {
                               return
-                                DataHolder.getMalfunctions().isEmpty ?
+                                DataHolder.getMalfunctions()!.isEmpty ?
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: Center(
@@ -81,8 +92,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        ...DataHolder.getMalfunctions().map((malfunction) {
-                                          return DataHolder.getMalfunctions().last != malfunction ?
+                                        ...DataHolder.getMalfunctions()!.map((malfunction) {
+                                          return DataHolder.getMalfunctions()!.last != malfunction ?
                                           Column(
                                             children: [
                                               MalfunctionCard(malfunction: malfunction),
@@ -103,10 +114,21 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                       
                       Consumer<DataHolder>(
                        builder: (context, dataHolder, child) {
+                         if (DataHolder.getServices() == null) {
+                           return const Padding(
+                             padding: EdgeInsets.symmetric(horizontal: 15),
+                             child: Center(
+                                 child: CircularProgressIndicator(
+                                   value: null,
+                                 )
+                             ),
+                           );
+                         }
+
                          return LayoutBuilder(
                            builder: (context, constraints) {
                              return
-                               DataHolder.getServices().isEmpty ?
+                               DataHolder.getServices()!.isEmpty ?
                                Padding(
                                  padding: const EdgeInsets.symmetric(horizontal: 15),
                                  child: Center(
@@ -141,8 +163,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                  child: Column(
                                    crossAxisAlignment: CrossAxisAlignment.start,
                                    children: [
-                                     ...DataHolder.getServices().map((service) {
-                                       return DataHolder.getServices().last != service ?
+                                     ...DataHolder.getServices()!.map((service) {
+                                       return DataHolder.getServices()!.last != service ?
                                        Column(
                                          children: [
                                            ServiceCard(service: service),

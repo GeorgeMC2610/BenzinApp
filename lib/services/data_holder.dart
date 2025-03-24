@@ -11,10 +11,12 @@ class DataHolder with ChangeNotifier {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static List<FuelFillRecord> _fuelFills = [];
-  static List<Malfunction> _malfunctions = [];
-  static List<Service> _services = [];
-  static const String destination = 'http://0.0.0.0:3000';
+  static List<FuelFillRecord>? _fuelFills;
+  static List<Malfunction>? _malfunctions;
+  static List<Service>? _services;
+
+
+  static const String destination = 'http://localhost:3000';
 
   Future<void> initializeValues() async {
     // assuming the token manager has been initialized and has a token value.
@@ -32,11 +34,15 @@ class DataHolder with ChangeNotifier {
 
     client.get(
       carUri, headers: authHeaders
-    );
+    ).then((response) {
+
+    });
 
     client.get(
-        fuelFillsUri, headers: authHeaders
-    );
+      fuelFillsUri, headers: authHeaders
+    ).then((response) {
+      print(response.body);
+    });
 
     client.get(
         malfunctionsUri, headers: authHeaders
@@ -52,20 +58,24 @@ class DataHolder with ChangeNotifier {
 
   }
 
-  static List<FuelFillRecord> getFuelFillRecords() {
-    _fuelFills.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+  static List<FuelFillRecord>? getFuelFillRecords() {
+    if (_fuelFills == null) {
+      return null;
+    }
+
+    _fuelFills!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return _fuelFills;
   }
 
   static void addFuelFill(FuelFillRecord record) {
-    _fuelFills.add(record);
+    _fuelFills!.add(record);
     _instance.notifyListeners();
   }
 
   static Map<String, List<FuelFillRecord>> getYearMonthFuelFills() {
     Map<String, List<FuelFillRecord>> groupedRecords = {};
 
-    for (var record in getFuelFillRecords()) {
+    for (var record in getFuelFillRecords()!) {
       String key = "${record.dateTime.year}-${record.dateTime.month.toString()
           .padLeft(2, '0')}";
 
@@ -79,95 +89,103 @@ class DataHolder with ChangeNotifier {
     return groupedRecords;
   }
 
-  static List<Malfunction> getMalfunctions() {
-    _malfunctions.sort((a, b) => b.id.compareTo(a.id));
-    return _malfunctions;
+  static List<Malfunction>? getMalfunctions() {
+    if (_malfunctions == null) {
+      return null;
+    }
+
+    _malfunctions!.sort((a, b) => b.id.compareTo(a.id));
+    return _malfunctions!;
   }
 
-  static List<Service> getServices() {
-    _services.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
-    return _services;
+  static List<Service>? getServices() {
+    if (_services == null) {
+      return null;
+    }
+
+    _services!.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
+    return _services!;
   }
 
   static double getTotalConsumption() {
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return 100 * totalLiters / totalKilometers;
   }
 
   static double getTotalEfficiency() {
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return totalKilometers / totalLiters;
   }
 
   static double getTotalTravelCost() {
-    double totalCost = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalCost = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
 
     return totalCost / totalKilometers;
   }
 
 
   static void addMalfunction(Malfunction malfunction) {
-    _malfunctions.add(malfunction);
+    _malfunctions!.add(malfunction);
     _instance.notifyListeners();
   }
 
   static void addService(Service service) {
-    _services.add(service);
+    _services!.add(service);
     _instance.notifyListeners();
   }
 
   static void deleteFuelFill(FuelFillRecord record) {
-    _fuelFills.remove(record);
+    _fuelFills!.remove(record);
     _instance.notifyListeners();
   }
 
   static void deleteMalfunction(Malfunction malfunction) {
-    _malfunctions.remove(malfunction);
+    _malfunctions!.remove(malfunction);
     _instance.notifyListeners();
   }
 
   static void deleteService(Service service) {
-    _services.remove(service);
+    _services!.remove(service);
     _instance.notifyListeners();
   }
 
   static void setFuelFill(FuelFillRecord initial, FuelFillRecord modified) {
-    int index = _fuelFills.indexOf(initial);
-    _fuelFills[index] = modified;
+    int index = _fuelFills!.indexOf(initial);
+    _fuelFills![index] = modified;
     _instance.notifyListeners();
   }
 
   static double getTotalLitersFilled() {
-    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    return _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
   }
 
   static double getTotalKilometersTraveled() {
-    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    return _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
   }
 
   static double getTotalFuelFillCosts() {
-    return DataHolder.getFuelFillRecords().fold<double>(0, (sum, record) => sum + record.cost);
+    return DataHolder.getFuelFillRecords()!.fold<double>(0, (sum, record) => sum + record.cost);
   }
 
   static double getTotalMalfunctionCosts() {
-    return DataHolder.getMalfunctions().fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+    return DataHolder.getMalfunctions()!.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
   }
 
   static double getTotalServiceCosts() {
-    return DataHolder.getServices().fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+    return DataHolder.getServices()!.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
   }
 
   static double getTotalCost() {
     double totalCosts = 0;
 
-    totalCosts += _fuelFills.fold<double>(0, (sum, fuelFill) => sum + fuelFill.cost);
-    totalCosts += _services.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
-    totalCosts += _malfunctions.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+    totalCosts += _fuelFills!.fold<double>(0, (sum, fuelFill) => sum + fuelFill.cost);
+    totalCosts += _services!.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+    totalCosts += _malfunctions!.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
 
     return totalCosts;
   }
