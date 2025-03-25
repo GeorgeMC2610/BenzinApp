@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
+import 'classes/car.dart';
 
 class DataHolder with ChangeNotifier {
 
@@ -14,7 +18,7 @@ class DataHolder with ChangeNotifier {
   static List<FuelFillRecord>? _fuelFills;
   static List<Malfunction>? _malfunctions;
   static List<Service>? _services;
-
+  static Car? _car;
 
   static const String destination = 'http://localhost:3000';
 
@@ -26,36 +30,105 @@ class DataHolder with ChangeNotifier {
     var fuelFillsUri = Uri.parse('${destination}/fuel_fill_record');
     var malfunctionsUri = Uri.parse('${destination}/malfunction');
     var servicesUri = Uri.parse('${destination}/service');
-    var tripsUri = Uri.parse('${destination}/repeated_trip');
+    // var tripsUri = Uri.parse('${destination}/repeated_trip');
 
     Map<String, String> authHeaders = {
       'Authorization': 'Bearer ${TokenManager().token}'
     };
 
+    // send four separate requests to get all the possible data
+    // once the requests are sent, the lists will no longer be null and can be
+    // used inside the views.
+    // if any of the lists are null for whatever reason, the views will turn
+    // into loading screens.
     client.get(
       carUri, headers: authHeaders
     ).then((response) {
+      var jsonResponse = jsonDecode(response.body);
 
+      _car = Car(
+        id: jsonResponse["id"],
+        username: jsonResponse["username"],
+        manufacturer: jsonResponse["manufacturer"],
+        model: jsonResponse["model"],
+        year: jsonResponse["year"]
+      );
     });
 
     client.get(
       fuelFillsUri, headers: authHeaders
     ).then((response) {
-      print(response.body);
+      var jsonResponse = jsonDecode(response.body);
+      _fuelFills = [];
+
+      for (var object in jsonResponse) {
+        var fuelFill = FuelFillRecord(
+            id: object["id"],
+            dateTime: DateTime.parse(object["filled_at"]),
+            liters: object["lt"],
+            cost: object["cost_eur"],
+            kilometers: object["km"],
+            fuelType: object["fuel_type"],
+            gasStation: object["station"],
+            comments: object["notes"]
+        );
+
+        _fuelFills!.add(fuelFill);
+      }
     });
 
     client.get(
         malfunctionsUri, headers: authHeaders
-    );
+    ).then((response) {
+      var jsonResponse = jsonDecode(response.body);
+      _malfunctions = [];
+
+      for (var object in jsonResponse) {
+        var malfunction = Malfunction(
+            id: object["id"],
+            dateStarted: DateTime.parse(object["started"]),
+            dateEnded: object["ended"] == null ? null : DateTime.parse(object["ended"]),
+            title: object["title"],
+            description: object["description"],
+            cost: object["cost_eur"],
+            kilometersDiscovered: object["at_km"],
+            location: object["location"],
+        );
+
+        _malfunctions!.add(malfunction);
+      }
+    });
 
     client.get(
         servicesUri, headers: authHeaders
-    );
+    ).then((response) {
+      var jsonResponse = jsonDecode(response.body);
+      _services = [];
 
-    client.get(
-        tripsUri, headers: authHeaders
-    );
+      for (var object in jsonResponse) {
+        var service = Service(
+          id: object["id"],
+          dateHappened: DateTime.parse(object["date_happened"]),
+          description: object["description"],
+          cost: object["cost_eur"],
+          kilometersDone: object["at_km"],
+          nextServiceKilometers: object["next_km"],
+          location: object["location"],
+        );
 
+        _services!.add(service);
+      }
+    });
+
+    // TODO: Complete the trip shenanigans.
+    // client.get(
+    //     tripsUri, headers: authHeaders
+    // );
+
+  }
+
+  static Car? getCar() {
+    return _car;
   }
 
   static List<FuelFillRecord>? getFuelFillRecords() {

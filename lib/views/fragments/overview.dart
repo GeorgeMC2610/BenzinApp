@@ -30,7 +30,11 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     return Consumer<DataHolder>(
       builder: (context, dataHolder, child) {
 
-        if (DataHolder.getFuelFillRecords() == null || DataHolder.getServices() == null) {
+        if (
+        DataHolder.getFuelFillRecords() == null ||
+        DataHolder.getServices() == null ||
+        DataHolder.getCar() == null
+        ) {
           return const Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: Center(
