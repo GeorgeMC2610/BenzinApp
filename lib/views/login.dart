@@ -68,7 +68,6 @@ class _LoginPageState extends State<LoginPage> {
           });
           break;
         case 200:
-          DataHolder().initializeValues();
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('successfully logged in'), // TODO: Localize
@@ -78,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
           TokenManager().setToken(
             jsonDecode(response.body)['auth_token']
           ).whenComplete(() {
+            DataHolder().initializeValues();
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

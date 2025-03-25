@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/views/charts/costs_pie_chart.dart';
@@ -47,6 +46,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
         final FuelFillRecord? lastRecord = DataHolder.getFuelFillRecords()!.isEmpty ? null : DataHolder.getFuelFillRecords()!.first;
 
+        // TODO: Improve the scroll view cards when it's loading.
+        // Maybe add cards with a small animation of a progress bar, instead
+        // of just a plain circular progress bar.
         return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -55,7 +57,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(AppLocalizations.of(context)!.loggedInAs('polo_despoina')),
+                  Text(AppLocalizations.of(context)!.loggedInAs(DataHolder.getCar()!.username)),
 
                   const SizedBox(height: 10),
 
@@ -74,12 +76,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             children: [
                               Row(
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                       child: AutoSizeText(
-                                          'Audi A1',
+                                          '${DataHolder.getCar()!.manufacturer} ${DataHolder.getCar()!.model}',
                                           maxLines: 1,
                                           maxFontSize: 30,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold
                                           )
@@ -92,9 +94,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                                       color: Colors.amber, // Set exact background color
                                       borderRadius: BorderRadius.circular(20), // Keep shape consistent
                                       elevation: 0, // No shadow
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                        child: Text("2015"),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                        child: Text(DataHolder.getCar()!.year.toString()),
                                       )),
 
                                 ],

@@ -15,6 +15,7 @@ class DataHolder with ChangeNotifier {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
+  // TODO: Make these values not static, since this is a singleton.
   static List<FuelFillRecord>? _fuelFills;
   static List<Malfunction>? _malfunctions;
   static List<Service>? _services;
@@ -26,10 +27,10 @@ class DataHolder with ChangeNotifier {
     // assuming the token manager has been initialized and has a token value.
     var client = http.Client();
 
-    var carUri = Uri.parse('${destination}/car');
-    var fuelFillsUri = Uri.parse('${destination}/fuel_fill_record');
-    var malfunctionsUri = Uri.parse('${destination}/malfunction');
-    var servicesUri = Uri.parse('${destination}/service');
+    var carUri = Uri.parse('$destination/car');
+    var fuelFillsUri = Uri.parse('$destination/fuel_fill_record');
+    var malfunctionsUri = Uri.parse('$destination/malfunction');
+    var servicesUri = Uri.parse('$destination/service');
     // var tripsUri = Uri.parse('${destination}/repeated_trip');
 
     Map<String, String> authHeaders = {
@@ -53,6 +54,7 @@ class DataHolder with ChangeNotifier {
         model: jsonResponse["model"],
         year: jsonResponse["year"]
       );
+      notifyListeners();
     });
 
     client.get(
@@ -75,6 +77,8 @@ class DataHolder with ChangeNotifier {
 
         _fuelFills!.add(fuelFill);
       }
+
+      notifyListeners();
     });
 
     client.get(
@@ -97,6 +101,8 @@ class DataHolder with ChangeNotifier {
 
         _malfunctions!.add(malfunction);
       }
+
+      notifyListeners();
     });
 
     client.get(
@@ -118,6 +124,7 @@ class DataHolder with ChangeNotifier {
 
         _services!.add(service);
       }
+      notifyListeners();
     });
 
     // TODO: Complete the trip shenanigans.
@@ -125,6 +132,13 @@ class DataHolder with ChangeNotifier {
     //     tripsUri, headers: authHeaders
     // );
 
+  }
+
+  void destroyValues() async {
+    _fuelFills = null;
+    _malfunctions = null;
+    _services = null;
+    _car = null;
   }
 
   static Car? getCar() {

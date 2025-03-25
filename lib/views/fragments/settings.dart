@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
@@ -25,6 +26,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
   void _performLogout() {
     TokenManager().removeToken().whenComplete(() {
+      DataHolder().destroyValues();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Successfully logged out.'), // TODO: Localize
