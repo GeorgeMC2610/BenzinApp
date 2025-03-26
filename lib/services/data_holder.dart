@@ -135,6 +135,27 @@ class DataHolder with ChangeNotifier {
     return _car;
   }
 
+  static Future<void> refreshFuelFills() async {
+    var client = http.Client();
+    var fuelFillsUri = Uri.parse('$destination/fuel_fill_record');
+    client.get(
+      fuelFillsUri,
+      headers: {
+        'Authorization': '${TokenManager().token}'
+      }
+    ).then((response) {
+      var jsonResponse = jsonDecode(response.body);
+      _fuelFills = [];
+
+      for (var object in jsonResponse) {
+        var fuelFill = FuelFillRecord.fromJson(object);
+        _fuelFills!.add(fuelFill);
+      }
+
+      _instance.notifyListeners();
+    });
+  }
+
   static List<FuelFillRecord>? getFuelFillRecords() {
     if (_fuelFills == null) {
       return null;
