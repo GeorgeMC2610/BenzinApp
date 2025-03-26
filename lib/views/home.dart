@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _buildBody(_selectedTabIndex, context),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(this.context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(this.context).colorScheme.inversePrimary,
         currentIndex: _selectedTabIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
