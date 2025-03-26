@@ -1,15 +1,20 @@
+import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
 
 class FuelFillRecordForm extends StatefulWidget {
-  const FuelFillRecordForm({super.key, this.fuelFillRecord});
+  const FuelFillRecordForm({super.key, this.fuelFillRecord, this.viewingRecord});
 
   final FuelFillRecord? fuelFillRecord;
+  final bool? viewingRecord;
 
   @override
   State<FuelFillRecordForm> createState() => _FuelFillRecordFormState();
@@ -26,6 +31,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final TextEditingController _commentsController = TextEditingController();
 
   String? _mileageValidator, _costValidator, _literValidator;
+
+  bool _isLoading = false;
 
   // this function is applied when the user clicks "edit" instead of "add".
   // in that case, the fuel fill record is passed in the widget above.
@@ -68,29 +75,92 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             );
           }
 
-          if (_mileageValidator != null || _costValidator != null || _literValidator != null) {
+          if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
             return;
           }
 
-          // when the field checks pass, send the request.
-          FuelFillRecord record = FuelFillRecord(
-            id: 19,
-            dateTime: _selectedDate!,
-            liters: double.parse(_literController.text),
-            cost: double.parse(_costController.text),
-            kilometers: double.parse(_mileageController.text),
-            fuelType: _fuelTypeController.text.isNotEmpty ? _fuelTypeController.text : null,
-            gasStation: _stationController.text.isNotEmpty ? _fuelTypeController.text : null,
-            comments: _commentsController.text.isNotEmpty ? _fuelTypeController.text : null,
-          );
+          setState(() {
+            _isLoading = true;
+          });
+
+          var client = http.Client();
+          var uriString = '${DataHolder.destination}/fuel_fill_record';
 
           if (widget.fuelFillRecord == null) {
-            DataHolder.addFuelFill(record);
-          } else {
-            DataHolder.setFuelFill(widget.fuelFillRecord!, record);
+            var uri = Uri.parse(uriString);
+            client.post(
+              uri,
+              headers: {
+                'Authorization': TokenManager().token!,
+              },
+              body: {
+                  'lt': _literController.text,
+                  'km': _mileageController.text,
+                  'cost_eur': _costController.text,
+                  'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
+                  'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
+                  'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
+                  'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
+              }
+            ).whenComplete(() {
+              setState(() {
+                _isLoading = false;
+              });
+            }).then((response) {
+              var jsonResponse = jsonDecode(response.body);
+              var fuelFill = FuelFillRecord.fromJson(jsonResponse["fuel_fill"]);
+              DataHolder.addFuelFill(fuelFill);
+              Navigator.pop(context);
+            });
           }
+          else {
+            var uri = Uri.parse('$uriString/${widget.fuelFillRecord!.id}');
+            client.put(
+                uri,
+                headers: {
+                  'Authorization': TokenManager().token!,
+                },
+                body: {
+                  'lt': _literController.text,
+                  'km': _mileageController.text,
+                  'cost_eur': _costController.text,
+                  'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
+                  'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
+                  'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
+                  'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
+                }
+            ).whenComplete(() {
+              setState(() {
+                _isLoading = false;
+              });
+            }).then((response) {
 
-          Navigator.of(context).pop();
+              if (response.statusCode == 204) {
+                client.get(
+                  uri,
+                  headers: {
+                    'Authorization': TokenManager().token!,
+                  },
+                ).then((response) {
+                  var jsonObject = jsonDecode(response.body);
+                  var fuelFill = FuelFillRecord.fromJson(jsonObject);
+                  DataHolder.setFuelFill(fuelFill);
+                  Navigator.pop(context);
+
+                  if (widget.viewingRecord == null) return;
+                  if (widget.viewingRecord!) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewFuelFillRecord(record: fuelFill),
+                        )
+                    );
+                  }
+                });
+              }
+            });
+          }
         },
         icon: Icon(
           widget.fuelFillRecord == null ?
@@ -135,7 +205,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _mileageController,
-
+                      enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.inKmHint,
@@ -154,6 +224,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _costController,
+                      enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.costHint,
@@ -172,6 +243,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _literController,
+                      enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.litersHint,
@@ -260,6 +332,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _fuelTypeController,
+                      enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.fuelTypeHint,
@@ -277,6 +350,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _stationController,
+                      enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.stationHint,
@@ -296,6 +370,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
               TextField(
                 keyboardType: TextInputType.multiline,
+                enabled: !_isLoading,
                 controller: _commentsController,
                 minLines: 2,
                 maxLines: 10,

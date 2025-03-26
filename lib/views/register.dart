@@ -116,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
           TokenManager().setToken(
               jsonDecode(response.body)['auth_token']
           ).whenComplete(() {
+            DataHolder().initializeValues();
             Navigator.pop(context);
             Navigator.pushReplacement(
                 context,

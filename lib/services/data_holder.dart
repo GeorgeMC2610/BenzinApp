@@ -64,17 +64,7 @@ class DataHolder with ChangeNotifier {
       _fuelFills = [];
 
       for (var object in jsonResponse) {
-        var fuelFill = FuelFillRecord(
-            id: object["id"],
-            dateTime: DateTime.parse(object["filled_at"]),
-            liters: object["lt"],
-            cost: object["cost_eur"],
-            kilometers: object["km"],
-            fuelType: object["fuel_type"],
-            gasStation: object["station"],
-            comments: object["notes"]
-        );
-
+        var fuelFill = FuelFillRecord.fromJson(object);
         _fuelFills!.add(fuelFill);
       }
 
@@ -241,9 +231,10 @@ class DataHolder with ChangeNotifier {
     _instance.notifyListeners();
   }
 
-  static void setFuelFill(FuelFillRecord initial, FuelFillRecord modified) {
-    int index = _fuelFills!.indexOf(initial);
-    _fuelFills![index] = modified;
+  static void setFuelFill(FuelFillRecord modified) {
+    var initial = _fuelFills!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _fuelFills!.indexOf(initial);
+    _fuelFills![indexOfInitial] = modified;
     _instance.notifyListeners();
   }
 

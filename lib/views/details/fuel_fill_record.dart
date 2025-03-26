@@ -30,7 +30,7 @@ class ViewFuelFillRecord extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FuelFillRecordForm(fuelFillRecord: record)
+                      builder: (context) => FuelFillRecordForm(fuelFillRecord: record, viewingRecord: true)
                   )
               );
             },
