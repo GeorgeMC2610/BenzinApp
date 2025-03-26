@@ -58,7 +58,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton.icon(
-        onPressed: () {
+        onPressed: _isLoading ? null : () {
           // temporary code so it runs
           // add field checks
           setState(() {
@@ -89,11 +89,11 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
           if (widget.fuelFillRecord == null) {
             var uri = Uri.parse(uriString);
             client.post(
-              uri,
-              headers: {
-                'Authorization': TokenManager().token!,
-              },
-              body: {
+                uri,
+                headers: {
+                  'Authorization': TokenManager().token!,
+                },
+                body: {
                   'lt': _literController.text,
                   'km': _mileageController.text,
                   'cost_eur': _costController.text,
@@ -101,7 +101,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
                   'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
                   'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
-              }
+                }
             ).whenComplete(() {
               setState(() {
                 _isLoading = false;
@@ -153,7 +153,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ViewFuelFillRecord(record: fuelFill),
+                          builder: (context) => ViewFuelFillRecord(record: fuelFill),
                         )
                     );
                   }
@@ -162,7 +162,15 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             });
           }
         },
-        icon: Icon(
+        icon: _isLoading ? const SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(
+              value: null,
+              strokeWidth: 5,
+              strokeCap: StrokeCap.square,
+            )
+          ) : Icon(
           widget.fuelFillRecord == null ?
             Icons.add : Icons.check
         ),
@@ -171,11 +179,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             AppLocalizations.of(context)!.confirmAdd :
             AppLocalizations.of(context)!.confirmEdit
         ),
-        style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-            minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-        )
-      ),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
+            minimumSize: const Size(200, 55),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
@@ -277,7 +284,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () async {
+                      onPressed: _isLoading ? null : () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
                             lastDate: DateTime.now(),
@@ -299,7 +306,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () {
+                      onPressed: _isLoading ? null : () {
                         setState(() {
                           _selectedDate = DateTime.now();
                         });
