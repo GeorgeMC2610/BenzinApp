@@ -1,5 +1,18 @@
 class Malfunction {
 
+  static Malfunction fromJson(Map<String, dynamic> object) {
+    return Malfunction(
+      id: object["id"],
+      dateStarted: DateTime.parse(object["started"]),
+      dateEnded: object["ended"] == null ? null : DateTime.parse(object["ended"]),
+      title: object["title"],
+      description: object["description"],
+      cost: object["cost_eur"],
+      kilometersDiscovered: object["at_km"],
+      location: object["location"],
+    );
+  }
+
   const Malfunction({
     required this.id,
     required this.dateStarted,

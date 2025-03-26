@@ -47,13 +47,7 @@ class DataHolder with ChangeNotifier {
     ).then((response) {
       var jsonResponse = jsonDecode(response.body);
 
-      _car = Car(
-        id: jsonResponse["id"],
-        username: jsonResponse["username"],
-        manufacturer: jsonResponse["manufacturer"],
-        model: jsonResponse["model"],
-        year: jsonResponse["year"]
-      );
+      _car = Car.fromJson(jsonResponse);
       notifyListeners();
     });
 
@@ -78,17 +72,7 @@ class DataHolder with ChangeNotifier {
       _malfunctions = [];
 
       for (var object in jsonResponse) {
-        var malfunction = Malfunction(
-            id: object["id"],
-            dateStarted: DateTime.parse(object["started"]),
-            dateEnded: object["ended"] == null ? null : DateTime.parse(object["ended"]),
-            title: object["title"],
-            description: object["description"],
-            cost: object["cost_eur"],
-            kilometersDiscovered: object["at_km"],
-            location: object["location"],
-        );
-
+        var malfunction = Malfunction.fromJson(object);
         _malfunctions!.add(malfunction);
       }
 
@@ -102,16 +86,7 @@ class DataHolder with ChangeNotifier {
       _services = [];
 
       for (var object in jsonResponse) {
-        var service = Service(
-          id: object["id"],
-          dateHappened: DateTime.parse(object["date_happened"]),
-          description: object["description"],
-          cost: object["cost_eur"],
-          kilometersDone: object["at_km"],
-          nextServiceKilometers: object["next_km"],
-          location: object["location"],
-        );
-
+        var service = Service.fromJson(object);
         _services!.add(service);
       }
       notifyListeners();

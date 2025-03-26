@@ -1,5 +1,15 @@
 class Car {
 
+  static Car fromJson(Map<String, dynamic> object) {
+    return Car(
+      id: object["id"],
+      username: object["username"],
+      manufacturer: object["manufacturer"],
+      model: object["model"],
+      year: object["year"]
+    );
+  }
+
   Car({
     required this.id,
     required this.username,

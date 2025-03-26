@@ -1,5 +1,17 @@
 class Service {
 
+  static Service fromJson(Map<String, dynamic> object) {
+    return Service(
+      id: object["id"],
+      dateHappened: DateTime.parse(object["date_happened"]),
+      description: object["description"],
+      cost: object["cost_eur"],
+      kilometersDone: object["at_km"],
+      nextServiceKilometers: object["next_km"],
+      location: object["location"],
+    );
+  }
+
   const Service({
     required this.id,
     required this.kilometersDone,
