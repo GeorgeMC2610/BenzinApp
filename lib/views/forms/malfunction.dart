@@ -1,14 +1,20 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../services/data_holder.dart';
 import '../../services/locale_string_converter.dart';
 import '../shared/divider_with_text.dart';
-
+import 'package:http/http.dart' as http;
 
 class AddMalfunction extends StatefulWidget {
-  const AddMalfunction({super.key});
+  const AddMalfunction({super.key, this.malfunction, this.isViewing});
+
+  final Malfunction? malfunction;
+  final bool? isViewing;
 
   @override
   State<StatefulWidget> createState() => _AddMalfunctionState();
@@ -22,6 +28,7 @@ class _AddMalfunctionState extends State<AddMalfunction> {
   final TextEditingController descriptionController = TextEditingController();
 
   String? _kmValidator, _titleValidator, _descriptionValidator;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +62,44 @@ class _AddMalfunctionState extends State<AddMalfunction> {
           ) {
             return;
           }
+          
+          setState(() {
+            _isLoading = true;
+          });
 
           // when the field checks pass, send the request.
+          var client = http.Client();
+          var uriString = '${DataHolder.destination}/malfunction';
+          var body = {
+            'at_km': kmController.text,
+            'title': titleController.text.trim(),
+            'started': _selectedDate!.toIso8601String().substring(0, 10),
+            'description': descriptionController.text.trim(),
+          };
 
-          Malfunction malfunction = Malfunction(
-              id: 19,
-              dateStarted: _selectedDate!,
-              description: descriptionController.text,
-              kilometersDiscovered: int.parse(kmController.text),
-              title: titleController.text
-          );
+          if (widget.malfunction == null) {
+            var uri = Uri.parse(uriString);
+            client.post(
+              uri,
+              headers: {
+                'Authorization': TokenManager().token!,
+              },
+              body: body
+            ).whenComplete(() {
+              setState(() {
+                _isLoading = false;
+              });
+            }).then((response) {
+              var jsonResponse = jsonDecode(response.body);
+              var malfunction = Malfunction.fromJson(jsonResponse);
+              DataHolder.addMalfunction(malfunction);
+              Navigator.pop(context);
+            });
+          }
+          else {
+            
+          }
 
-          DataHolder.addMalfunction(malfunction);
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         },
