@@ -104,37 +104,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.fastLogin),
-                  trailing: Switch.adaptive(
-                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
-                      if (states.contains(WidgetState.selected)) {
-                        return const Icon(Icons.electric_bolt, color: Colors.black);
-                      }
-                      return null;
-                    }),
-                    value: fastLogin,
-                      onChanged: (bool value) {
-
-                        if (fastLogin == false)
-                        {
-                          setState(() {
-                            fastLogin = true;
-                          });
-                        }
-                        else
-                        {
-                          setState(() {
-                            fastLogin = false;
-                          });
-                        }
-                      },
-
-                  ),
-                  leading: const Icon(Icons.offline_bolt_outlined),
-                ),
-                ListTile(
                   title: Text(AppLocalizations.of(context)!.editAccount),
-                  onTap: () {},
+                  enabled: false,
+                  onTap: null,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.edit),
                 ),
