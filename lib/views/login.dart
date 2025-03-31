@@ -201,6 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                 enabled: !isLoggingIn,
                 controller: usernameController,
                 keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   errorText: usernameError,
                   hintText: AppLocalizations.of(context)!.usernameHint,

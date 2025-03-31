@@ -234,6 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     controller: usernameController,
                     keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       errorText: usernameError,
                       hintText: AppLocalizations.of(context)!.usernameRegisterHint,
@@ -254,6 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: TextField(
                           controller: passwordController,
+                          textInputAction: TextInputAction.next,
                           obscureText: true,
                           decoration: InputDecoration(
                             errorText: passwordError,
@@ -272,6 +274,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: TextField(
                           controller: passwordConfirmController,
+                          textInputAction: TextInputAction.next,
                           obscureText: true,
                           decoration: InputDecoration(
                             errorText: passwordConfirmError,
@@ -303,6 +306,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     controller: manufacturerController,
                     keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       errorText: manufacturerError,
                       hintText: AppLocalizations.of(context)!.carManufacturerHint,
@@ -324,6 +328,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: TextField(
                           controller: modelController,
+                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             errorText: modelError,
                             hintText: AppLocalizations.of(context)!.carModelHint,
