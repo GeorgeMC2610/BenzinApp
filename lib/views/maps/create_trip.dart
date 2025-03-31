@@ -19,29 +19,48 @@ class _CreateTripState extends State<CreateTrip> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Create Trip"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Test"),
-
-            Expanded(
-              child: GoogleMap(
-                onMapCreated: _onGoogleMapCreated,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                mapToolbarEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(0, 0),
-                  zoom: 0,
-                ),
-              ),
-            )
-          ],
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.pop<Map<String, dynamic>>(context);
+          },
+          icon: Icon(Icons.check),
+          label: Text('Confirm Trip'),
+          style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
+              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
+              )
+          ),
         ),
-      )
+      ],
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                const Text("Hi!")
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: GoogleMap(
+              onMapCreated: _onGoogleMapCreated,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              mapToolbarEnabled: true,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(0, 0),
+                zoom: 0,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
