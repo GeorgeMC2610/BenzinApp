@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,6 +33,26 @@ class _TripFormState extends State<TripForm> {
   late double originLongitude;
   late double destinationLatitude;
   late double destinationLongitude;
+
+  String? polyline;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.trip != null) {
+      _titleController.text = widget.trip!.title;
+      _timesRepeatingController.text = widget.trip!.timesRepeating.toString();
+      _isRepeating = widget.trip!.timesRepeating == 1;
+      originAddress = widget.trip!.originAddress;
+      destinationAddress = widget.trip!.destinationAddress;
+      originLatitude = widget.trip!.originLatitude;
+      originLongitude = widget.trip!.originLongitude;
+      destinationLatitude = widget.trip!.destinationLatitude;
+      destinationLongitude = widget.trip!.destinationLongitude;
+      polyline = widget.trip!.polyline;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +138,7 @@ class _TripFormState extends State<TripForm> {
                       },
                       enabled: !_isLoading && !_isRepeating,
                       decoration: InputDecoration(
-                        errorText: _titleValidator,
+                        errorText: _timesRepeatingValidator,
                         hintText: AppLocalizations.of(context)!.descriptionHint,
                         labelText: AppLocalizations.of(context)!.description2,
                         prefixIcon: const Icon(FontAwesomeIcons.repeat),
@@ -149,9 +170,60 @@ class _TripFormState extends State<TripForm> {
                             }
                         ),
 
-                        Text("Doesn't repeat")
+                        AutoSizeText("Doesn't repeat", maxLines: 1, maxFontSize: 19,)
                       ],
                     )
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              AutoSizeText(
+                maxLines: 1,
+                polyline == null ? 'Make Trip...' : getTripString(),
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () async {
+
+                        // open the selecting view for maps.
+
+                      },
+                      label: Text('Make on Maps'),
+                      icon: const Icon(Icons.pin_drop),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () {
+                        setState(() {
+                          polyline = null;
+                        });
+                      },
+                      label: AutoSizeText('Delete Trip', minFontSize: 10),
+                      icon: const Icon(Icons.cancel_outlined),
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context).buttonTheme.colorScheme!.error
+                          ),
+                          foregroundColor: WidgetStatePropertyAll(
+                            Theme.of(context).buttonTheme.colorScheme!.onError
+                          ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -161,6 +233,10 @@ class _TripFormState extends State<TripForm> {
       ),
     );
 
+  }
+
+  String getTripString() {
+    return 'FROM: $originAddress\n\n TO: $destinationAddress';
   }
 
   String? _validator(String field) {
