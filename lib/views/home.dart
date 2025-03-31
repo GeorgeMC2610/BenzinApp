@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     return pages[index];
   }
 
-  void _floatingActionButtonPressed() {
+  void _floatingActionButtonPressed() async {
     Widget page;
 
     switch (_selectedTabIndex) {
@@ -86,6 +86,14 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         return;
+    }
+
+    if (_selectedTabIndex == 3) {
+
+      // CHECK FOR PERMISSION, OTHERWISE DON'T CONTINUE.
+      //var permissionResult = await
+
+      return;
     }
 
     Navigator.push(
