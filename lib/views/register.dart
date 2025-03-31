@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,6 +32,37 @@ class _RegisterPageState extends State<RegisterPage> {
   modelError, yearError;
 
   bool isRegistering = false;
+
+  Future<void> _whenRegisterComplete(http.Response response) async {
+    switch (response.statusCode) {
+      // the only way this payload can fail, is when there is another username
+      case 422:
+        setState(() {
+          usernameError = 'Username already taken'; // TODO: Localize
+        });
+        break;
+      case 201:
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('successfully created account'), // TODO: Localize
+            )
+        );
+
+        TokenManager().setToken(
+            jsonDecode(response.body)['auth_token']
+        ).whenComplete(() {
+          DataHolder().initializeValues();
+          Navigator.pop(context);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePage()
+              ));
+
+        });
+        break;
+    }
+  }
 
   void _sendRegisterPayload() {
     // empty checks
@@ -82,53 +114,27 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = true;
     });
 
-    var client = http.Client();
-    var url = Uri.parse('${DataHolder.destination}/signup');
+    var url = '${DataHolder.destination}/signup';
+    var body = {
+      'username': usernameController.text,
+      'password': passwordController.text,
+      'password_confirmation': passwordConfirmController.text,
+      'manufacturer': manufacturerController.text,
+      'model': modelController.text,
+      'year': yearController.text,
+    };
 
-    client.post(
+    RequestHandler.sendPostRequest(
       url,
-      body: {
-        'username': usernameController.text,
-        'password': passwordController.text,
-        'password_confirmation': passwordConfirmController.text,
-        'manufacturer': manufacturerController.text,
-        'model': modelController.text,
-        'year': yearController.text,
-      }
-    ).whenComplete(() {
-      setState(() {
-        isRegistering = false;
-      });
-    }).then((response) {
-      switch (response.statusCode) {
-        case 422:
-          setState(() {
-            usernameError = 'Username already taken'; // TODO: Localize
-          });
-          break;
-        case 201:
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('successfully created account'), // TODO: Localize
-              )
-          );
-
-          TokenManager().setToken(
-              jsonDecode(response.body)['auth_token']
-          ).whenComplete(() {
-            DataHolder().initializeValues();
-            Navigator.pop(context);
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const HomePage()
-                ));
-
-          });
-          break;
-      }
-    });
-
+      false,
+      body,
+      () {
+        setState(() {
+          isRegistering = false;
+        });
+      },
+      _whenRegisterComplete
+    );
   }
 
   @override
@@ -152,36 +158,37 @@ class _RegisterPageState extends State<RegisterPage> {
             )
           ],
         ),
-
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 52,
-            child: ElevatedButton.icon(
-              onPressed: isRegistering ? null : _sendRegisterPayload,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary
-              ),
-              label: Text(
-                AppLocalizations.of(context)!.register,
-                style: const TextStyle(
+        persistentFooterButtons: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 52,
+              child: ElevatedButton.icon(
+                onPressed: isRegistering ? null : _sendRegisterPayload,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.inversePrimary
+                ),
+                label: Text(
+                  AppLocalizations.of(context)!.register,
+                  style: const TextStyle(
                     fontSize: 18,
+                  ),
                 ),
+                icon: isRegistering? const SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: CircularProgressIndicator(
+                    value: null,
+                    strokeWidth: 3,
+                    strokeCap: StrokeCap.square,
+                  ),
+                ) : const Icon(Icons.app_registration),
               ),
-              icon: isRegistering? const SizedBox(
-                width: 15,
-                height: 15,
-                child: CircularProgressIndicator(
-                  value: null,
-                  strokeWidth: 3,
-                  strokeCap: StrokeCap.square,
-                ),
-              ) : const Icon(Icons.app_registration),
             ),
           ),
-        ),
+        ],
+        persistentFooterAlignment: AlignmentDirectional.center,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
@@ -349,8 +356,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     ],
                   ),
-
-                  const SizedBox(height: 100),
                 ]
             ),
           ),

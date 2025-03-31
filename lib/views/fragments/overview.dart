@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/views/charts/costs_pie_chart.dart';
@@ -31,6 +32,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
         if (
         DataHolder.getFuelFillRecords() == null ||
+        DataHolder.getMalfunctions() == null ||
         DataHolder.getServices() == null ||
         DataHolder.getCar() == null
         ) {
@@ -45,6 +47,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         }
 
         final FuelFillRecord? lastRecord = DataHolder.getFuelFillRecords()!.isEmpty ? null : DataHolder.getFuelFillRecords()!.first;
+        final Service? lastService = DataHolder.getServices()!.isEmpty ? null : DataHolder.getServices()!.first;
 
         // TODO: Improve the scroll view cards when it's loading.
         // Maybe add cards with a small animation of a progress bar, instead
@@ -121,7 +124,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               const StatusCard(
                                   icon: Icon(FontAwesomeIcons.wrench),
-                                  text: "Service overdue by 5 months",
+                                  text: "Next service at",
                                   status: StatusCardIndex.bad
                               ),
 

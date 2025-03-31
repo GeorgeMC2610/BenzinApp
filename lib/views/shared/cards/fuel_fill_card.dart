@@ -11,6 +11,9 @@ import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../services/request_handler.dart';
+import '../dialogs/delete_dialog.dart';
+
 class FuelFillCard extends StatefulWidget {
 
   const FuelFillCard({
@@ -69,7 +72,26 @@ class _FuelFillCardState extends State<FuelFillCard> {
           // DELETE BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () => deleteDialog(context),
+            onPressed: () {
+              DeleteDialog.show(
+                  context,
+                  AppLocalizations.of(context)!.confirmDeleteFuelFill,
+                      (Function(bool) setLoadingState) {
+                    setState(() => _isLoading = true);
+
+                    RequestHandler.sendDeleteRequest(
+                      '${DataHolder.destination}/fuel_fill_record/${widget.record.id}',
+                          () {
+                        setState(() => _isLoading = false);
+                        setLoadingState(true); // Close the dialog
+                      },
+                          (response) {
+                        DataHolder.deleteFuelFill(widget.record);
+                      },
+                    );
+                  }
+              );
+            },
             elevation: 0,
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -111,64 +133,4 @@ class _FuelFillCardState extends State<FuelFillCard> {
     return widget.record.gasStation == null? widget.record.fuelType! : "${widget.record.fuelType}, ${widget.record.gasStation}";
   }
 
-  Future<void> deleteDialog(BuildContext context) {
-    return showDialog<void>(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.confirmDeleteFuelFill),
-            content: Text(
-                AppLocalizations.of(context)!.confirmDeleteGenericBody),
-            actions: [
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.red,
-                  side: const BorderSide(width: 1.0, color: Colors.red),
-                ),
-                child: Text(AppLocalizations.of(context)!.cancel),
-              ),
-
-              ElevatedButton.icon(
-                icon: _isLoading ? const CircularProgressIndicator(value: null) : null,
-                onPressed: () {
-
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  var client = http.Client();
-                  var url = Uri.parse(
-                      '${DataHolder.destination}/fuel_fill_record/${widget.record.id}');
-
-                  client.delete(
-                      url,
-                      headers: {
-                        'Authorization': '${TokenManager().token}'
-                      }
-                  ).whenComplete(() {
-                    setState(() {
-                      _isLoading = false;
-                    });
-
-                    DataHolder.deleteFuelFill(widget.record);
-                    Navigator.pop(context);
-                  });
-
-
-                },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white
-                ),
-                label: Text(AppLocalizations.of(context)!.delete),
-              ),
-            ],
-          );
-        }
-    );
-  }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
@@ -10,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, this.message});
+
+  final String? message;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -25,6 +28,43 @@ class _LoginPageState extends State<LoginPage> {
   String? passwordError;
 
   bool isLoggingIn = false;
+
+  Future<void> _onLoginResponse(http.Response response) async {
+    switch (response.statusCode) {
+      // wrong credentials are shown in the view
+      case 401:
+        setState(() {
+          usernameError = 'Wrong Credentials.';
+          passwordError = 'Wrong Credentials.';
+        });
+        break;
+      // response code 200 means that the user is authorized and the
+      // app can proceed.
+      case 200:
+
+        // show the message that the user is authorized successfully.
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('successfully logged in'), // TODO: Localize
+            )
+        );
+
+        // save the token received by the server in the token manager.
+        TokenManager().setToken(
+            jsonDecode(response.body)['auth_token']
+        ).whenComplete(() {
+          // when the token is saved, initialize the values
+          DataHolder().initializeValues();
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePage()
+              ));
+
+        });
+        break;
+    }
+  }
 
   void sendLoginPayload() {
 
@@ -46,46 +86,31 @@ class _LoginPageState extends State<LoginPage> {
       isLoggingIn = true;
     });
 
-    var client = http.Client();
-    var url = Uri.parse('${DataHolder.destination}/auth/login');
+    var url = '${DataHolder.destination}/auth/login';
+    var body = {
+      'username': usernameController.text,
+      'password': passwordController.text,
+    };
 
-    client.post(
-      url,
-      body: {
-        'username': usernameController.text,
-        'password': passwordController.text,
-      }
-    ).whenComplete(() {
+    // send the payload to the server and all the other things will be handled
+    RequestHandler.sendPostRequest(url, false, body, () {
       setState(() {
         isLoggingIn = false;
       });
-    }).then((response) {
-      switch (response.statusCode) {
-        case 401:
-          setState(() {
-            usernameError = 'Wrong Credentials.';
-            passwordError = 'Wrong Credentials.';
-          });
-          break;
-        case 200:
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('successfully logged in'), // TODO: Localize
-              )
-          );
+    }, _onLoginResponse);
+  }
 
-          TokenManager().setToken(
-            jsonDecode(response.body)['auth_token']
-          ).whenComplete(() {
-            DataHolder().initializeValues();
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const HomePage()
-                ));
+  @override
+  void initState() {
+    super.initState();
 
-          });
-          break;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.message != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(widget.message!), // TODO: Localize
+            )
+        );
       }
     });
   }
@@ -110,36 +135,38 @@ class _LoginPageState extends State<LoginPage> {
 
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 52,
-          child: ElevatedButton.icon(
-            onPressed: isLoggingIn? null : sendLoginPayload,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            label: Text(
-              AppLocalizations.of(context)!.login,
-              style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 52,
+            child: ElevatedButton.icon(
+              onPressed: isLoggingIn? null : sendLoginPayload,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
-            ),
-            icon: isLoggingIn? const SizedBox(
-              width: 15,
-              height: 15,
-              child: CircularProgressIndicator(
-                value: null,
-                strokeWidth: 5,
-                strokeCap: StrokeCap.square,
+              label: Text(
+                AppLocalizations.of(context)!.login,
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black
+                ),
               ),
-            ) : const Icon(Icons.login, color: Colors.black),
+              icon: isLoggingIn? const SizedBox(
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(
+                  value: null,
+                  strokeWidth: 5,
+                  strokeCap: StrokeCap.square,
+                ),
+              ) : const Icon(Icons.login, color: Colors.black),
+            ),
           ),
         ),
-      ),
+      ],
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -224,8 +251,6 @@ class _LoginPageState extends State<LoginPage> {
                   const Icon(Icons.key_off, size: 18,)
                 ],
               ),
-
-              const SizedBox(height: 100),
             ]
           ),
         ),

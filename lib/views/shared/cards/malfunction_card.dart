@@ -1,16 +1,25 @@
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
+import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
+import '../../../services/request_handler.dart';
+import '../dialogs/delete_dialog.dart';
 
-class MalfunctionCard extends StatelessWidget {
+class MalfunctionCard extends StatefulWidget {
   const MalfunctionCard({super.key, required this.malfunction});
 
   final Malfunction malfunction;
+
+  @override
+  State<StatefulWidget> createState() => _MalfunctionCardState();
+}
+
+class _MalfunctionCardState extends State<MalfunctionCard> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +31,12 @@ class MalfunctionCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ViewMalfunction(malfunction: malfunction)
+                builder: (context) => ViewMalfunction(malfunction: widget.malfunction)
             )
         );
       },
       title: Text(
-          malfunction.title,
+          widget.malfunction.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
       trailing: Row(
@@ -38,7 +47,15 @@ class MalfunctionCard extends StatelessWidget {
           // EDIT BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () {
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MalfunctionForm(malfunction: widget.malfunction)
+                  )
+              );
+
+            },
             elevation: 0,
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
@@ -48,7 +65,24 @@ class MalfunctionCard extends StatelessWidget {
           // DELETE BUTTON
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () => deleteDialog(context),
+            onPressed: () {
+              DeleteDialog.show(
+                  context,
+                  AppLocalizations.of(context)!.confirmDeleteMalfunction,
+                      (Function(bool) setLoadingState) {
+
+                    RequestHandler.sendDeleteRequest(
+                      '${DataHolder.destination}/malfunction/${widget.malfunction.id}',
+                          () {
+                        setLoadingState(true); // Close the dialog
+                      },
+                          (response) {
+                        DataHolder.deleteMalfunction(widget.malfunction);
+                      },
+                    );
+                  }
+              );
+            },
             elevation: 0,
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -61,55 +95,18 @@ class MalfunctionCard extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
-          Text(malfunction.dateEnded == null ?
+          Text(widget.malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
+          Text(widget.malfunction.dateEnded == null ?
           AppLocalizations.of(context)!.ongoingMalfunction :
           AppLocalizations.of(context)!.fixedMalfunction,
             style: TextStyle(
               fontSize: 12,
-              color: malfunction.dateEnded == null ? Colors.red : Colors.green,
+              color: widget.malfunction.dateEnded == null ? Colors.red : Colors.green,
             )
           ),
-          Text("${AppLocalizations.of(context)!.discoveredAt} ${format.format(malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
+          Text("${AppLocalizations.of(context)!.discoveredAt} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
-    );
-  }
-
-  Future<void> deleteDialog(BuildContext context) {
-    return showDialog<void>(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.confirmDeleteMalfunction),
-            content: Text(AppLocalizations.of(context)!.confirmDeleteGenericBody),
-            actions: [
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.red,
-                  side: const BorderSide(width: 1.0, color: Colors.red),
-                ),
-                child: Text(AppLocalizations.of(context)!.cancel),
-              ),
-
-              ElevatedButton(
-                onPressed: () {
-                  DataHolder.deleteMalfunction(malfunction);
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white
-                ),
-                child: Text(AppLocalizations.of(context)!.delete),
-              ),
-            ],
-          );
-        }
     );
   }
 

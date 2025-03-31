@@ -1,6 +1,8 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/language_provider.dart';
+import 'package:benzinapp/services/request_handler.dart';
+import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +24,14 @@ class ViewFuelFillRecord extends StatefulWidget {
 }
 
 class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
-  bool _isLoading = false;
+  late FuelFillRecord fuelFillRecord;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fuelFillRecord = widget.record;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +44,19 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
         // EDIT AND DELETE BUTTONS
         persistentFooterButtons: [
           ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                var fuelFillRecord = await Navigator.push<FuelFillRecord>(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => FuelFillRecordForm(fuelFillRecord: widget.record, viewingRecord: true)
+                        builder: (context) => FuelFillRecordForm(fuelFillRecord: this.fuelFillRecord, viewingRecord: true)
                     )
                 );
+
+                if (fuelFillRecord != null) {
+                  setState(() {
+                    this.fuelFillRecord = fuelFillRecord;
+                  });
+                }
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
@@ -52,64 +67,25 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
           ),
           ElevatedButton.icon(
               onPressed: () {
-                showDialog<void>(
-                    context: context,
-                    builder: (BuildContext buildContext) {
-                      return AlertDialog(
-                        title: Text(AppLocalizations.of(context)!.confirmDeleteFuelFill),
-                        content: Text(
-                            AppLocalizations.of(context)!.confirmDeleteGenericBody),
-                        actions: [
-                          OutlinedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              side: const BorderSide(width: 1.0, color: Colors.red),
-                            ),
-                            child: Text(AppLocalizations.of(context)!.cancel),
-                          ),
+                DeleteDialog.show(
+                  context,
+                  AppLocalizations.of(context)!.confirmDeleteFuelFill,
+                      (Function(bool) setLoadingState) {
+                        setState(() => isLoading = true);
 
-                          ElevatedButton.icon(
-                            icon: _isLoading ? const CircularProgressIndicator(value: null) : null,
-                            onPressed: () {
+                    RequestHandler.sendDeleteRequest(
+                      '${DataHolder.destination}/fuel_fill_record/${fuelFillRecord.id}',
+                          () {
+                        setState(() => isLoading = false);
+                        setLoadingState(true); // Close the dialog
+                        },
+                          (response) {
+                        DataHolder.deleteFuelFill(fuelFillRecord);
+                        Navigator.pop(context); // Pops the current view
+                      },
+                    );
 
-                              setState(() {
-                                _isLoading = true;
-                              });
-
-                              var client = http.Client();
-                              var url = Uri.parse(
-                                  '${DataHolder.destination}/fuel_fill_record/${widget.record.id}');
-
-                              client.delete(
-                                  url,
-                                  headers: {
-                                    'Authorization': '${TokenManager().token}'
-                                  }
-                              ).whenComplete(() {
-                                setState(() {
-                                  _isLoading = false;
-                                });
-
-                                DataHolder.deleteFuelFill(widget.record);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              });
-
-
-                            },
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white
-                            ),
-                            label: Text(AppLocalizations.of(context)!.delete),
-                          ),
-                        ],
-                      );
-                    }
+                  }
                 );
               },
               style: ButtonStyle(
@@ -192,17 +168,17 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(AppLocalizations.of(context)!.liters, style: SharedFontStyles.legendTextStyle),
-                                        Text("${widget.record.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
+                                        Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
 
                                         const SizedBox(height: 20),
 
                                         Text(AppLocalizations.of(context)!.kilometers, style: SharedFontStyles.legendTextStyle),
-                                        Text("${widget.record.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
+                                        Text("${fuelFillRecord.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
 
                                         const SizedBox(height: 20),
 
                                         Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
-                                        Text("€${widget.record.cost}", style: SharedFontStyles.descriptiveTextStyle),
+                                        Text("€${fuelFillRecord.cost}", style: SharedFontStyles.descriptiveTextStyle),
                                       ],
                                     ),
                                   ),
@@ -222,17 +198,17 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(AppLocalizations.of(context)!.consumption, style: SharedFontStyles.legendTextStyle),
-                                        Text("${widget.record.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
+                                        Text("${fuelFillRecord.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
 
                                         const SizedBox(height: 20),
 
                                         Text(AppLocalizations.of(context)!.efficiency, style: SharedFontStyles.legendTextStyle),
-                                        Text("${widget.record.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
+                                        Text("${fuelFillRecord.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
 
                                         const SizedBox(height: 20),
 
                                         Text(AppLocalizations.of(context)!.travel_cost, style: SharedFontStyles.legendTextStyle),
-                                        Text("${widget.record.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
+                                        Text("${fuelFillRecord.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
                                       ],
                                     ),
                                   ),
@@ -266,10 +242,10 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                     const SizedBox(height: 10),
 
                                     Text(
-                                      widget.record.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : widget.record.comments!,
+                                      fuelFillRecord.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : fuelFillRecord.comments!,
                                       style: TextStyle(
-                                          color: widget.record.comments == null ? Colors.grey : Colors.black,
-                                          fontStyle: widget.record.comments == null ? FontStyle.italic : FontStyle.normal
+                                          color: fuelFillRecord.comments == null ? Colors.grey : Colors.black,
+                                          fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
                                       ),
                                     )
 
@@ -288,20 +264,20 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
   }
 
   String _getFullDateTimeString(BuildContext context) {
-    return DateFormat.yMMMMEEEEd(Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()).format(widget.record.dateTime);
+    return DateFormat.yMMMMEEEEd(Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()).format(fuelFillRecord.dateTime);
   }
 
   String _getFuelString(BuildContext context) {
 
-    if (widget.record.fuelType == null) {
+    if (fuelFillRecord.fuelType == null) {
 
-      if (widget.record.gasStation == null) {
+      if (fuelFillRecord.gasStation == null) {
         return AppLocalizations.of(context)!.unspecified;
       }
 
-      return widget.record.gasStation!;
+      return fuelFillRecord.gasStation!;
     }
 
-    return widget.record.gasStation == null? widget.record.fuelType! : "${widget.record.fuelType}, ${widget.record.gasStation}";
+    return fuelFillRecord.gasStation == null? fuelFillRecord.fuelType! : "${fuelFillRecord.fuelType}, ${fuelFillRecord.gasStation}";
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -25,72 +26,68 @@ class DataHolder with ChangeNotifier {
 
   Future<void> initializeValues() async {
     // assuming the token manager has been initialized and has a token value.
-    var client = http.Client();
 
-    var carUri = Uri.parse('$destination/car');
-    var fuelFillsUri = Uri.parse('$destination/fuel_fill_record');
-    var malfunctionsUri = Uri.parse('$destination/malfunction');
-    var servicesUri = Uri.parse('$destination/service');
+    var carUri = '$destination/car';
+    var fuelFillsUri = '$destination/fuel_fill_record';
+    var malfunctionsUri = '$destination/malfunction';
+    var servicesUri = '$destination/service';
     // var tripsUri = Uri.parse('${destination}/repeated_trip');
-
-    Map<String, String> authHeaders = {
-      'Authorization': 'Bearer ${TokenManager().token}'
-    };
 
     // send four separate requests to get all the possible data
     // once the requests are sent, the lists will no longer be null and can be
     // used inside the views.
     // if any of the lists are null for whatever reason, the views will turn
     // into loading screens.
-    client.get(
-      carUri, headers: authHeaders
-    ).then((response) {
-      var jsonResponse = jsonDecode(response.body);
+    RequestHandler.sendGetRequest(
+      carUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
 
-      _car = Car.fromJson(jsonResponse);
-      notifyListeners();
-    });
-
-    client.get(
-      fuelFillsUri, headers: authHeaders
-    ).then((response) {
-      var jsonResponse = jsonDecode(response.body);
-      _fuelFills = [];
-
-      for (var object in jsonResponse) {
-        var fuelFill = FuelFillRecord.fromJson(object);
-        _fuelFills!.add(fuelFill);
+        _car = Car.fromJson(jsonResponse);
+        notifyListeners();
       }
+    );
 
-      notifyListeners();
-    });
+    RequestHandler.sendGetRequest(fuelFillsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _fuelFills = [];
 
-    client.get(
-        malfunctionsUri, headers: authHeaders
-    ).then((response) {
-      var jsonResponse = jsonDecode(response.body);
-      _malfunctions = [];
+        for (var object in jsonResponse) {
+          var fuelFill = FuelFillRecord.fromJson(object);
+          _fuelFills!.add(fuelFill);
+        }
 
-      for (var object in jsonResponse) {
-        var malfunction = Malfunction.fromJson(object);
-        _malfunctions!.add(malfunction);
+        notifyListeners();
       }
+    );
 
-      notifyListeners();
-    });
+    RequestHandler.sendGetRequest(malfunctionsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _malfunctions = [];
 
-    client.get(
-        servicesUri, headers: authHeaders
-    ).then((response) {
-      var jsonResponse = jsonDecode(response.body);
-      _services = [];
+        for (var object in jsonResponse) {
+          var malfunction = Malfunction.fromJson(object);
+          _malfunctions!.add(malfunction);
+        }
 
-      for (var object in jsonResponse) {
-        var service = Service.fromJson(object);
-        _services!.add(service);
+        notifyListeners();
       }
-      notifyListeners();
-    });
+    );
+
+    RequestHandler.sendGetRequest(servicesUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _services = [];
+
+        for (var object in jsonResponse) {
+          var service = Service.fromJson(object);
+          _services!.add(service);
+        }
+        notifyListeners();
+      }
+    );
 
     // TODO: Complete the trip shenanigans.
     // client.get(
@@ -110,25 +107,23 @@ class DataHolder with ChangeNotifier {
     return _car;
   }
 
+  // FUEL FILLS
   static Future<void> refreshFuelFills() async {
-    var client = http.Client();
-    var fuelFillsUri = Uri.parse('$destination/fuel_fill_record');
-    client.get(
-      fuelFillsUri,
-      headers: {
-        'Authorization': '${TokenManager().token}'
-      }
-    ).then((response) {
-      var jsonResponse = jsonDecode(response.body);
-      _fuelFills = [];
+    RequestHandler.sendGetRequest(
+      '$destination/fuel_fill_record',
+      () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _fuelFills = [];
 
-      for (var object in jsonResponse) {
-        var fuelFill = FuelFillRecord.fromJson(object);
-        _fuelFills!.add(fuelFill);
-      }
+        for (var object in jsonResponse) {
+          var fuelFill = FuelFillRecord.fromJson(object);
+          _fuelFills!.add(fuelFill);
+        }
 
-      _instance.notifyListeners();
-    });
+        _instance.notifyListeners();
+      }
+    );
   }
 
   static List<FuelFillRecord>? getFuelFillRecords() {
@@ -142,6 +137,18 @@ class DataHolder with ChangeNotifier {
 
   static void addFuelFill(FuelFillRecord record) {
     _fuelFills!.add(record);
+    _instance.notifyListeners();
+  }
+
+  static void setFuelFill(FuelFillRecord modified) {
+    var initial = _fuelFills!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _fuelFills!.indexOf(initial);
+    _fuelFills![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteFuelFill(FuelFillRecord record) {
+    _fuelFills!.remove(record);
     _instance.notifyListeners();
   }
 
@@ -162,15 +169,52 @@ class DataHolder with ChangeNotifier {
     return groupedRecords;
   }
 
+  // MALFUNCTIONS
   static List<Malfunction>? getMalfunctions() {
     if (_malfunctions == null) {
       return null;
     }
 
-    _malfunctions!.sort((a, b) => b.id.compareTo(a.id));
+    _malfunctions!.sort((a, b) => b.dateStarted.compareTo(a.dateStarted));
     return _malfunctions!;
   }
 
+  static Future<void> refreshMalfunctions() async {
+    RequestHandler.sendGetRequest(
+        '$destination/malfunction',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _malfunctions = [];
+
+          for (var object in jsonResponse) {
+            var malfunction = Malfunction.fromJson(object);
+            _malfunctions!.add(malfunction);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addMalfunction(Malfunction malfunction) {
+    _malfunctions!.add(malfunction);
+    _instance.notifyListeners();
+  }
+
+  static void setMalfunction(Malfunction modified) {
+    var initial = _malfunctions!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _malfunctions!.indexOf(initial);
+    _malfunctions![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteMalfunction(Malfunction malfunction) {
+    _malfunctions!.remove(malfunction);
+    _instance.notifyListeners();
+  }
+
+  // SERVICES
   static List<Service>? getServices() {
     if (_services == null) {
       return null;
@@ -180,6 +224,43 @@ class DataHolder with ChangeNotifier {
     return _services!;
   }
 
+  static Future<void> refreshServices() async {
+    RequestHandler.sendGetRequest(
+        '$destination/service',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _services = [];
+
+          for (var object in jsonResponse) {
+            var service = Service.fromJson(object);
+            _services!.add(service);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addService(Service service) {
+    _services!.add(service);
+    _instance.notifyListeners();
+  }
+
+  static void setService(Service modified) {
+    var initial = _services!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _services!.indexOf(initial);
+    _services![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteService(Service service) {
+    _services!.remove(service);
+    _instance.notifyListeners();
+  }
+
+  // GENERAL STATS
+  // TODO: Add calendar filters to them
   static double getTotalConsumption() {
     double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
     double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
@@ -199,39 +280,6 @@ class DataHolder with ChangeNotifier {
     double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
 
     return totalCost / totalKilometers;
-  }
-
-
-  static void addMalfunction(Malfunction malfunction) {
-    _malfunctions!.add(malfunction);
-    _instance.notifyListeners();
-  }
-
-  static void addService(Service service) {
-    _services!.add(service);
-    _instance.notifyListeners();
-  }
-
-  static void deleteFuelFill(FuelFillRecord record) {
-    _fuelFills!.remove(record);
-    _instance.notifyListeners();
-  }
-
-  static void deleteMalfunction(Malfunction malfunction) {
-    _malfunctions!.remove(malfunction);
-    _instance.notifyListeners();
-  }
-
-  static void deleteService(Service service) {
-    _services!.remove(service);
-    _instance.notifyListeners();
-  }
-
-  static void setFuelFill(FuelFillRecord modified) {
-    var initial = _fuelFills!.firstWhere((element) => element.id == modified.id);
-    var indexOfInitial = _fuelFills!.indexOf(initial);
-    _fuelFills![indexOfInitial] = modified;
-    _instance.notifyListeners();
   }
 
   static double getTotalLitersFilled() {

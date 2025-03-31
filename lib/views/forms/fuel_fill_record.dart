@@ -3,12 +3,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/services/token_manager.dart';
-import 'package:benzinapp/views/details/fuel_fill_record.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:http/http.dart' as http;
 
 class FuelFillRecordForm extends StatefulWidget {
   const FuelFillRecordForm({super.key, this.fuelFillRecord, this.viewingRecord});
@@ -29,6 +27,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final TextEditingController _fuelTypeController = TextEditingController();
   final TextEditingController _stationController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
+
+  final FocusNode _mileageFocusNode = FocusNode();
+  final FocusNode _costFocusNode = FocusNode();
+  final FocusNode _literFocusNode = FocusNode();
 
   String? _mileageValidator, _costValidator, _literValidator;
 
@@ -54,137 +56,114 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     }
   }
 
+  void _whenCompleteRequest() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: ElevatedButton.icon(
-        onPressed: _isLoading ? null : () {
-          // temporary code so it runs
-          // add field checks
-          setState(() {
-            _mileageValidator = _validator(_mileageController.text);
-            _costValidator = _validator(_costController.text);
-            _literValidator = _validator(_literController.text);
-          });
-
-          if (_selectedDate == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(AppLocalizations.of(context)!.noDateSelected),
-              )
-            );
-          }
-
-          if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
-            return;
-          }
-
-          setState(() {
-            _isLoading = true;
-          });
-
-          var client = http.Client();
-          var uriString = '${DataHolder.destination}/fuel_fill_record';
-
-          if (widget.fuelFillRecord == null) {
-            var uri = Uri.parse(uriString);
-            client.post(
-                uri,
-                headers: {
-                  'Authorization': TokenManager().token!,
-                },
-                body: {
-                  'lt': _literController.text,
-                  'km': _mileageController.text,
-                  'cost_eur': _costController.text,
-                  'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
-                  'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
-                  'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
-                  'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
-                }
-            ).whenComplete(() {
-              setState(() {
-                _isLoading = false;
-              });
-            }).then((response) {
-              var jsonResponse = jsonDecode(response.body);
-              var fuelFill = FuelFillRecord.fromJson(jsonResponse["fuel_fill"]);
-              DataHolder.addFuelFill(fuelFill);
-              Navigator.pop(context);
+      persistentFooterButtons: [
+        ElevatedButton.icon(
+          onPressed: _isLoading ? null : () {
+            // add field checks
+            // TODO: Add those check when the user exits the fields.
+            setState(() {
+              _mileageValidator = _validator(_mileageController.text);
+              _costValidator = _validator(_costController.text);
+              _literValidator = _validator(_literController.text);
             });
-          }
-          else {
-            var uri = Uri.parse('$uriString/${widget.fuelFillRecord!.id}');
-            client.put(
-                uri,
-                headers: {
-                  'Authorization': TokenManager().token!,
-                },
-                body: {
-                  'lt': _literController.text,
-                  'km': _mileageController.text,
-                  'cost_eur': _costController.text,
-                  'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
-                  'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
-                  'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
-                  'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
-                }
-            ).whenComplete(() {
-              setState(() {
-                _isLoading = false;
-              });
-            }).then((response) {
 
-              if (response.statusCode == 204) {
-                client.get(
-                  uri,
-                  headers: {
-                    'Authorization': TokenManager().token!,
-                  },
-                ).then((response) {
-                  var jsonObject = jsonDecode(response.body);
-                  var fuelFill = FuelFillRecord.fromJson(jsonObject);
-                  DataHolder.setFuelFill(fuelFill);
-                  Navigator.pop(context);
+            if (_selectedDate == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.noDateSelected),
+                  )
+              );
+            }
 
-                  if (widget.viewingRecord == null) return;
-                  if (widget.viewingRecord!) {
+            if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
+              return;
+            }
+
+            setState(() {
+              _isLoading = true;
+            });
+
+            var uriString = '${DataHolder.destination}/fuel_fill_record';
+            var body = {
+              'lt': _literController.text,
+              'km': _mileageController.text,
+              'cost_eur': _costController.text,
+              'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
+              'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
+              'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
+              'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
+            };
+
+            // if the record is non-existent, then ADD is enabled
+            if (widget.fuelFillRecord == null) {
+              RequestHandler.sendPostRequest(
+                  uriString,
+                  true, body,
+                  _whenCompleteRequest,
+                      (response) {
+                    var jsonResponse = jsonDecode(response.body);
+                    var fuelFill = FuelFillRecord.fromJson(jsonResponse["fuel_fill"]);
+                    DataHolder.addFuelFill(fuelFill);
                     Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewFuelFillRecord(record: fuelFill),
-                        )
-                    );
                   }
-                });
-              }
-            });
-          }
-        },
-        icon: _isLoading ? const SizedBox(
-            width: 18,
-            height: 18,
-            child: CircularProgressIndicator(
-              value: null,
-              strokeWidth: 5,
-              strokeCap: StrokeCap.square,
-            )
+              );
+            }
+            // otherwise EDIT is enabled.
+            else {
+              // when editing, we want the patch request to be sent, and then
+              // checkout a new view with the new data.
+              RequestHandler.sendPatchRequest(
+                  '$uriString/${widget.fuelFillRecord!.id}',
+                  body,
+                  _whenCompleteRequest,
+                      (response) {
+                    var jsonObject = jsonDecode(response.body);
+                    var fuelFill = FuelFillRecord.fromJson(jsonObject["fuel_fill"]);
+                    DataHolder.setFuelFill(fuelFill);
+
+                    if (widget.viewingRecord == null) {
+                      Navigator.pop(context);
+                    }
+                    else if (widget.viewingRecord!) {
+                      Navigator.pop<FuelFillRecord>(context, fuelFill);
+                    }
+                  }
+              );
+            }
+          },
+          icon: _isLoading ? const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                value: null,
+                strokeWidth: 5,
+                strokeCap: StrokeCap.square,
+              )
           ) : Icon(
-          widget.fuelFillRecord == null ?
-            Icons.add : Icons.check
-        ),
-        label: Text(
-            widget.fuelFillRecord == null ?
-            AppLocalizations.of(context)!.confirmAdd :
-            AppLocalizations.of(context)!.confirmEdit
-        ),
-        style: ElevatedButton.styleFrom(
+              widget.fuelFillRecord == null ?
+              Icons.add : Icons.check
+          ),
+          label: Text(
+              widget.fuelFillRecord == null ?
+              AppLocalizations.of(context)!.confirmAdd :
+              AppLocalizations.of(context)!.confirmEdit
+          ),
+          style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
             minimumSize: const Size(200, 55),
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      ],
+      persistentFooterAlignment: AlignmentDirectional.center,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
@@ -212,6 +191,14 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _mileageController,
+                      focusNode: _mileageFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(_costFocusNode);
+                        setState(() {
+                          _mileageValidator = _validator(_mileageController.text);
+                        });
+                      },
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -231,6 +218,14 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _costController,
+                      focusNode: _costFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(_literFocusNode);
+                        setState(() {
+                          _costValidator = _validator(_costController.text);
+                        });
+                      },
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -250,8 +245,15 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _literController,
+                      focusNode: _literFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {
+                        setState(() {
+                          _literValidator = _validator(_literController.text);
+                        });
+                      },
                       enabled: !_isLoading,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.litersHint,
                         labelText: AppLocalizations.of(context)!.liters2,
@@ -339,6 +341,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _fuelTypeController,
+                      textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -357,6 +360,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   Expanded(
                     child: TextField(
                       controller: _stationController,
+                      textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
