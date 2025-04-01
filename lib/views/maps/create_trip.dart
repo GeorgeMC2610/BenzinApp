@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateTrip extends StatefulWidget {
@@ -11,6 +12,16 @@ class CreateTrip extends StatefulWidget {
 class _CreateTripState extends State<CreateTrip> {
 
   late GoogleMapController _googleMapController;
+  bool _hasSelectedMarker = false;
+  Set<Marker> markers = {};
+
+  Future<void> _setCameraToCurrentPosition() async {
+    var currentPosition = await Geolocator.getCurrentPosition();
+    var currentLatLng = LatLng(currentPosition.latitude, currentPosition.longitude);
+    _googleMapController.animateCamera(
+        CameraUpdate.newLatLngZoom(currentLatLng, 18.3)
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +50,11 @@ class _CreateTripState extends State<CreateTrip> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               children: [
-                const Text("Hi!")
+
+
               ],
             ),
           ),
@@ -50,10 +62,12 @@ class _CreateTripState extends State<CreateTrip> {
           Expanded(
             child: GoogleMap(
               onMapCreated: _onGoogleMapCreated,
+              onLongPress: _onLongPress,
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               mapToolbarEnabled: true,
-              initialCameraPosition: CameraPosition(
+              markers: markers,
+              initialCameraPosition: const CameraPosition(
                 target: LatLng(0, 0),
                 zoom: 0,
               ),
@@ -66,6 +80,25 @@ class _CreateTripState extends State<CreateTrip> {
 
   void _onGoogleMapCreated(GoogleMapController controller) {
     _googleMapController = controller;
+    if (!_hasSelectedMarker) _setCameraToCurrentPosition();
+  }
+
+  void _onLongPress(LatLng place) async {
+    setState(() {
+      _hasSelectedMarker = true;
+      var marker = Marker(
+          markerId: MarkerId('origin'),
+          position: place,
+          flat: true,
+          visible: true,
+          infoWindow: InfoWindow(title: 'maravosa', ),
+      );
+      markers.add(marker);
+
+    });
+
+    await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
+    await _googleMapController.showMarkerInfoWindow(MarkerId('origin'));
   }
 
 }
