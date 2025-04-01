@@ -19,6 +19,7 @@ class DataHolder with ChangeNotifier {
   static List<FuelFillRecord>? _fuelFills;
   static List<Malfunction>? _malfunctions;
   static List<Service>? _services;
+  static List<Trip>? _trips;
   static Car? _car;
 
   static const String destination = 'http://localhost:3000';
