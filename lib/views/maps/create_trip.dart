@@ -49,17 +49,35 @@ class _CreateTripState extends State<CreateTrip> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          DefaultTabController(
+            length: 2,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-
-
+                TabBar(
+                  labelColor: Theme.of(context).appBarTheme.backgroundColor,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
+                  tabs: [
+                    Tab(text: 'Origin'),
+                    Tab(text: 'Destination'),
+                  ],
+                ),
+                SizedBox( // 🔥 FIX: Define a height
+                  height: 100, // Adjust as needed
+                  child: TabBarView(
+                    children: [
+                      Center(child: Text("Here's the origin")),
+                      Center(child: Text("Here's the destination")),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
 
-          Expanded(
+          Expanded( // Google Map should remain Expanded
             child: GoogleMap(
               onMapCreated: _onGoogleMapCreated,
               onLongPress: _onLongPress,
@@ -72,9 +90,11 @@ class _CreateTripState extends State<CreateTrip> {
                 zoom: 0,
               ),
             ),
-          )
+          ),
         ],
-      ),
+      )
+
+
     );
   }
 

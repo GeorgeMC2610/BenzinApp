@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
       }
 
       initialPermission = await Geolocator.checkPermission();
-      var requestedPermission = null;
+      var requestedPermission;
       switch (initialPermission) {
         case LocationPermission.denied:
           requestedPermission = await Geolocator.requestPermission();
