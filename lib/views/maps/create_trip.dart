@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 
 class CreateTrip extends StatefulWidget {
   const CreateTrip({super.key});
@@ -64,17 +65,76 @@ class _CreateTripState extends State<CreateTrip> {
                     Tab(text: 'Destination'),
                   ],
                 ),
+
+                const SizedBox(height: 10),
+
                 SizedBox( // 🔥 FIX: Define a height
-                  height: 100, // Adjust as needed
+                  height: 60, // Adjust as needed
                   child: TabBarView(
                     children: [
-                      Center(child: Text("Here's the origin")),
-                      Center(child: Text("Here's the destination")),
+
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          child: TextField(
+                            keyboardType: TextInputType.text,
+                            onSubmitted: (value) async {
+
+                              await GeocodingPlatform.instance?.locationFromAddress(value).then(
+                                  (onValue) {
+                                    print(onValue.length);
+
+                                    if (onValue.length == 1) {
+                                      print("${onValue[0].latitude}, ${onValue[0].longitude}");
+                                    }
+                                  }
+                              );
+
+                            },
+                            autofillHints: const [
+                              AutofillHints.addressCity
+                            ],
+                            textInputAction: TextInputAction.search,
+                            decoration: InputDecoration(
+                              hintText: 'Type an address for the origin...',
+                              labelText: 'Search Address',
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                          )
+                        ),
+                      ),
+
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.search,
+                              decoration: InputDecoration(
+                                hintText: 'Type an address for the destination...',
+                                labelText: 'Search Address',
+                                prefixIcon: const Icon(Icons.search),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                            )
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
               ],
             ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            child: Text("Type an address, or long-press on the map."),
           ),
 
           Expanded( // Google Map should remain Expanded
