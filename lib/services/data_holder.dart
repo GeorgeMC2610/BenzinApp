@@ -4,11 +4,10 @@ import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:benzinapp/services/token_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'classes/car.dart';
+import 'classes/trip.dart';
 
 class DataHolder with ChangeNotifier {
 
@@ -31,7 +30,7 @@ class DataHolder with ChangeNotifier {
     var fuelFillsUri = '$destination/fuel_fill_record';
     var malfunctionsUri = '$destination/malfunction';
     var servicesUri = '$destination/service';
-    // var tripsUri = Uri.parse('${destination}/repeated_trip');
+    var tripsUri = '$destination/repeated_trip';
 
     // send four separate requests to get all the possible data
     // once the requests are sent, the lists will no longer be null and can be
@@ -89,10 +88,18 @@ class DataHolder with ChangeNotifier {
       }
     );
 
-    // TODO: Complete the trip shenanigans.
-    // client.get(
-    //     tripsUri, headers: authHeaders
-    // );
+    RequestHandler.sendGetRequest(tripsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _trips = [];
+
+        for (var object in jsonResponse) {
+        var trip = Trip.fromJson(object);
+        _trips!.add(trip);
+        }
+        notifyListeners();
+      }
+    );
 
   }
 
@@ -256,6 +263,51 @@ class DataHolder with ChangeNotifier {
 
   static void deleteService(Service service) {
     _services!.remove(service);
+    _instance.notifyListeners();
+  }
+
+  // TRIPS
+  static List<Trip>? getTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    _services!.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
+    return _trips!;
+  }
+
+  static Future<void> refreshTrips() async {
+    RequestHandler.sendGetRequest(
+        '$destination/repeated_trip',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _trips = [];
+
+          for (var object in jsonResponse) {
+            var trip = Trip.fromJson(object);
+            _trips!.add(trip);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addTrip(Trip trip) {
+    _trips!.add(trip);
+    _instance.notifyListeners();
+  }
+
+  static void setTrip(Trip trip) {
+    var initial = _trips!.firstWhere((element) => element.id == trip.id);
+    var indexOfInitial = _trips!.indexOf(initial);
+    _trips![indexOfInitial] = trip;
+    _instance.notifyListeners();
+  }
+
+  static void deleteTrip(Trip trip) {
+    _trips!.remove(trip);
     _instance.notifyListeners();
   }
 
