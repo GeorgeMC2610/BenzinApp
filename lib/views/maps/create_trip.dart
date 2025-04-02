@@ -15,6 +15,8 @@ class _CreateTripState extends State<CreateTrip> {
   late GoogleMapController _googleMapController;
   int _selectedTab = 0;
   bool _hasSelectedMarker = false;
+  bool _canProceed = false;
+  String? originAddress, destinationAddress, polyLine;
   Set<Marker> markers = {};
 
   Future<void> _setCameraToCurrentPosition() async {
@@ -35,7 +37,7 @@ class _CreateTripState extends State<CreateTrip> {
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         ElevatedButton.icon(
-          onPressed: () {
+          onPressed: !_canProceed ? null : () {
             Navigator.pop<Map<String, dynamic>>(context);
           },
           icon: Icon(Icons.check),
@@ -74,8 +76,8 @@ class _CreateTripState extends State<CreateTrip> {
 
                 const SizedBox(height: 10),
 
-                SizedBox( // 🔥 FIX: Define a height
-                  height: 60, // Adjust as needed
+                SizedBox(
+                  height: 60,
                   child: TabBarView(
                     children: [
 
@@ -166,7 +168,7 @@ class _CreateTripState extends State<CreateTrip> {
 
     await GeocodingPlatform.instance?.placemarkFromCoordinates(place.latitude, place.longitude).then((onValue) async{
 
-      var address;
+      Placemark? address;
       if (onValue.isEmpty) {
         address = null;
       }
@@ -177,6 +179,13 @@ class _CreateTripState extends State<CreateTrip> {
       setState(() {
         _hasSelectedMarker = true;
         String fullAddress = address == null ? '' : '${address.name},\n${address.locality} ${address.postalCode}';
+
+        if (_selectedTab == 0) {
+          originAddress = fullAddress;
+        } else {
+          destinationAddress = fullAddress;
+        }
+
         _googleMapController.animateCamera(
             CameraUpdate.newLatLngZoom(place, 18.3)
         );
@@ -194,6 +203,7 @@ class _CreateTripState extends State<CreateTrip> {
 
     await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
     await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
+    _checkIfCanProceed();
   }
 
   void _addMarkerFromAddress(String value, bool isOrigin) async {
@@ -208,6 +218,13 @@ class _CreateTripState extends State<CreateTrip> {
       setState(() {
         _hasSelectedMarker = true;
         String fullAddress = '${addresses?[0].name},\n${addresses?[0].locality} ${addresses?[0].postalCode}';
+
+        if (_selectedTab == 0) {
+          originAddress = fullAddress;
+        } else {
+          destinationAddress = fullAddress;
+        }
+
         _googleMapController.animateCamera(
             CameraUpdate.newLatLngZoom(place, 18.3)
         );
@@ -224,6 +241,7 @@ class _CreateTripState extends State<CreateTrip> {
       await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
       await _googleMapController.showMarkerInfoWindow(MarkerId(isOrigin ? 'origin' : 'destination'));
 
+
       }
     ).onError((error, stack) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -231,6 +249,15 @@ class _CreateTripState extends State<CreateTrip> {
             content: Text("No places found with this address."),
           )
       );
+    });
+
+    _checkIfCanProceed();
+  }
+
+  void _checkIfCanProceed() {
+
+    setState(() {
+      _canProceed = originAddress != null && destinationAddress != null && polyLine != null && markers.length == 2;
     });
   }
 
