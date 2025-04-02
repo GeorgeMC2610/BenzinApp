@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -203,6 +204,8 @@ class _CreateTripState extends State<CreateTrip> {
 
     await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
     await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
+
+    _checkForPolyLine();
     _checkIfCanProceed();
   }
 
@@ -240,8 +243,6 @@ class _CreateTripState extends State<CreateTrip> {
 
       await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
       await _googleMapController.showMarkerInfoWindow(MarkerId(isOrigin ? 'origin' : 'destination'));
-
-
       }
     ).onError((error, stack) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -251,14 +252,28 @@ class _CreateTripState extends State<CreateTrip> {
       );
     });
 
+    _checkForPolyLine();
     _checkIfCanProceed();
   }
 
   void _checkIfCanProceed() {
-
     setState(() {
       _canProceed = originAddress != null && destinationAddress != null && polyLine != null && markers.length == 2;
     });
+  }
+
+  void _checkForPolyLine() {
+    if (markers.length != 2) {
+      return;
+    }
+
+    RequestHandler.sendGetRequest(
+        '',
+        () {},
+        (response) {
+          var body = response.body;
+        }
+    );
   }
 
 }
