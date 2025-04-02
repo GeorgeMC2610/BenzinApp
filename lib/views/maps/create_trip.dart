@@ -304,7 +304,7 @@ class _CreateTripState extends State<CreateTrip> {
               polylineId: PolylineId('route_$i'),
               points: polylineCoordinates,
               color: isSelected ? Colors.blue : Colors.grey,
-              width: isSelected ? 15 : 10,
+              width: isSelected ? 6 : 4,
               consumeTapEvents: true,
               onTap: () async {
                 setState(() {
