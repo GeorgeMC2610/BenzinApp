@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/maps/create_trip.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
@@ -8,6 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../services/classes/trip.dart';
+import '../../services/data_holder.dart';
+import '../../services/request_handler.dart';
 
 class TripForm extends StatefulWidget {
   const TripForm({super.key, this.trip, this.isViewing});
@@ -70,7 +74,54 @@ class _TripFormState extends State<TripForm> {
       persistentFooterButtons: [
         ElevatedButton.icon(
           onPressed: _isLoading ? null : () {
+            setState(() {
+              _titleValidator = _emptyValidator(_titleController.text);
+              _timesRepeatingValidator = _validator(_timesRepeatingController.text);
+            });
 
+            if (polyline == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Please make a trip.'),
+                  )
+              );
+            }
+
+            if (_timesRepeatingValidator != null || _titleValidator != null || polyline == null) {
+              return;
+            }
+
+            setState(() {
+              _isLoading = true;
+            });
+
+            var uriString = '${DataHolder.destination}/repeated_trip';
+            var body = {
+              'title': _titleController.text,
+              'times_repeating': _timesRepeatingController.text,
+              'total_km': totalKm!.toString(),
+              'origin_latitude': originLatitude!.toString(),
+              'origin_longitude': originLongitude!.toString(),
+              'destination_latitude': destinationLatitude!.toString(),
+              'destination_longitude': destinationLongitude!.toString(),
+              'origin_address': originAddress!,
+              'destination_address': destinationAddress!,
+              'polyline': polyline!,
+            };
+
+            if (widget.trip == null) {
+              RequestHandler.sendPostRequest(
+                  uriString,
+                  true, body,
+                  _whenCompleteRequest,
+                      (response) {
+                    var jsonResponse = jsonDecode(response.body);
+                    var trip = Trip.fromJson(jsonResponse["repeated_trip"]);
+                    DataHolder.addTrip(trip);
+                    Navigator.pop(context);
+                  }
+              );
+            }
           },
           icon: _isLoading ? const SizedBox(
               width: 18,
@@ -233,7 +284,7 @@ class _TripFormState extends State<TripForm> {
 
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
+                      onPressed: _isLoading ? null : polyline == null ? null : () {
 
                         DeleteDialog.show(
                           context, 'Delete Trip',
@@ -256,13 +307,9 @@ class _TripFormState extends State<TripForm> {
                       },
                       label: AutoSizeText('Delete Trip', minFontSize: 10),
                       icon: const Icon(Icons.cancel_outlined),
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).buttonTheme.colorScheme!.error
-                          ),
-                          foregroundColor: WidgetStatePropertyAll(
-                            Theme.of(context).buttonTheme.colorScheme!.onError
-                          ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
+                        foregroundColor: Theme.of(context).buttonTheme.colorScheme!.onError
                       ),
                     ),
                   ),
@@ -307,6 +354,12 @@ class _TripFormState extends State<TripForm> {
     }
 
     return null;
+  }
+
+  void _whenCompleteRequest() {
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
 
