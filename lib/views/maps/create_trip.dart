@@ -13,6 +13,7 @@ class CreateTrip extends StatefulWidget {
 class _CreateTripState extends State<CreateTrip> {
 
   late GoogleMapController _googleMapController;
+  int _selectedTab = 0;
   bool _hasSelectedMarker = false;
   Set<Marker> markers = {};
 
@@ -60,7 +61,12 @@ class _CreateTripState extends State<CreateTrip> {
                   labelColor: Theme.of(context).appBarTheme.backgroundColor,
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
-                  tabs: [
+                  onTap: (tab) {
+                    setState(() {
+                      _selectedTab = tab;
+                    });
+                  },
+                  tabs: const [
                     Tab(text: 'Origin'),
                     Tab(text: 'Destination'),
                   ],
@@ -78,18 +84,8 @@ class _CreateTripState extends State<CreateTrip> {
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextField(
                             keyboardType: TextInputType.text,
-                            onSubmitted: (value) async {
-
-                              await GeocodingPlatform.instance?.locationFromAddress(value).then(
-                                  (onValue) {
-                                    print(onValue.length);
-
-                                    if (onValue.length == 1) {
-                                      print("${onValue[0].latitude}, ${onValue[0].longitude}");
-                                    }
-                                  }
-                              );
-
+                            onSubmitted: (value) {
+                              _addMarkerFromAddress(value, true);
                             },
                             autofillHints: const [
                               AutofillHints.addressCity
@@ -113,6 +109,9 @@ class _CreateTripState extends State<CreateTrip> {
                             child: TextField(
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.search,
+                              onSubmitted: (value) {
+                                _addMarkerFromAddress(value, false);
+                              },
                               decoration: InputDecoration(
                                 hintText: 'Type an address for the destination...',
                                 labelText: 'Search Address',
@@ -164,21 +163,75 @@ class _CreateTripState extends State<CreateTrip> {
   }
 
   void _onLongPress(LatLng place) async {
-    setState(() {
-      _hasSelectedMarker = true;
-      var marker = Marker(
-          markerId: MarkerId('origin'),
+
+    await GeocodingPlatform.instance?.placemarkFromCoordinates(place.latitude, place.longitude).then((onValue) async{
+
+      var address;
+      if (onValue.isEmpty) {
+        address = null;
+      }
+      else {
+        address = onValue[0];
+      }
+
+      setState(() {
+        _hasSelectedMarker = true;
+        String fullAddress = address == null ? '' : '${address.name},\n${address.locality} ${address.postalCode}';
+        _googleMapController.animateCamera(
+            CameraUpdate.newLatLngZoom(place, 18.3)
+        );
+        var marker = Marker(
+          markerId: MarkerId(_selectedTab == 0 ? 'origin' : 'destination'),
           position: place,
           flat: true,
           visible: true,
-          infoWindow: InfoWindow(title: 'maravosa', ),
-      );
-      markers.add(marker);
+          infoWindow: InfoWindow(title: _selectedTab == 0 ? 'Origin' : 'Destination', snippet: fullAddress),
+        );
+        markers.add(marker);
+    });
 
     });
 
     await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
-    await _googleMapController.showMarkerInfoWindow(MarkerId('origin'));
+    await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
+  }
+
+  void _addMarkerFromAddress(String value, bool isOrigin) async {
+    await GeocodingPlatform.instance?.locationFromAddress(value).then((onValue) async {
+      if (onValue.isEmpty) {
+        return;
+      }
+
+      var place = LatLng(onValue[0].latitude, onValue[0].longitude);
+      var addresses = await GeocodingPlatform.instance?.placemarkFromCoordinates(onValue[0].latitude, onValue[0].longitude);
+
+      setState(() {
+        _hasSelectedMarker = true;
+        String fullAddress = '${addresses?[0].name},\n${addresses?[0].locality} ${addresses?[0].postalCode}';
+        _googleMapController.animateCamera(
+            CameraUpdate.newLatLngZoom(place, 18.3)
+        );
+        var marker = Marker(
+          markerId: MarkerId(isOrigin ? 'origin' : 'destination'),
+          position: place,
+          flat: true,
+          visible: true,
+          infoWindow: InfoWindow(title: isOrigin ? 'Origin' : 'Destination', snippet: fullAddress),
+        );
+        markers.add(marker);
+      });
+
+      await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
+      await _googleMapController.showMarkerInfoWindow(MarkerId(isOrigin ? 'origin' : 'destination'));
+
+      }
+    ).onError((error, stack) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("No places found with this address."),
+          )
+      );
+    });
   }
 
 }
