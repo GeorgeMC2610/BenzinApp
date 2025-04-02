@@ -276,7 +276,11 @@ class _CreateTripState extends State<CreateTrip> {
           final decodedBody = json.decode(body);
 
           if (decodedBody['routes'].isEmpty) {
-            debugPrint("No routes found.");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text("There is no route available for the current positions.")
+              )
+            );
             return;
           }
 
