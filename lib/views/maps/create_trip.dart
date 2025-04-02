@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 
 class CreateTrip extends StatefulWidget {
@@ -19,6 +21,8 @@ class _CreateTripState extends State<CreateTrip> {
   bool _canProceed = false;
   String? originAddress, destinationAddress, polyLine;
   Set<Marker> markers = {};
+  int _selectedPolylineIndex = 0;
+  Set<Polyline> polylines = {};
 
   Future<void> _setCameraToCurrentPosition() async {
     var currentPosition = await Geolocator.getCurrentPosition();
@@ -43,10 +47,9 @@ class _CreateTripState extends State<CreateTrip> {
           },
           icon: Icon(Icons.check),
           label: Text('Confirm Trip'),
-          style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-              )
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
+            minimumSize: Size(200, 55),
           ),
         ),
       ],
@@ -147,6 +150,7 @@ class _CreateTripState extends State<CreateTrip> {
               myLocationEnabled: true,
               mapToolbarEnabled: true,
               markers: markers,
+              polylines: polylines,
               initialCameraPosition: const CameraPosition(
                 target: LatLng(0, 0),
                 zoom: 0,
@@ -165,96 +169,88 @@ class _CreateTripState extends State<CreateTrip> {
     if (!_hasSelectedMarker) _setCameraToCurrentPosition();
   }
 
-  void _onLongPress(LatLng place) async {
+  Future<void> _onLongPress(LatLng place) async {
+    try {
+      List<Placemark> placemarks =
+          await GeocodingPlatform.instance?.placemarkFromCoordinates(
+              place.latitude, place.longitude) ?? [];
 
-    await GeocodingPlatform.instance?.placemarkFromCoordinates(place.latitude, place.longitude).then((onValue) async{
-
-      Placemark? address;
-      if (onValue.isEmpty) {
-        address = null;
-      }
-      else {
-        address = onValue[0];
-      }
+      String fullAddress = placemarks.isNotEmpty
+          ? '${placemarks[0].street}, ${placemarks[0].locality} ${placemarks[0].postalCode}'
+          : '';
 
       setState(() {
         _hasSelectedMarker = true;
-        String fullAddress = address == null ? '' : '${address.name},\n${address.locality} ${address.postalCode}';
+        _selectedTab == 0 ? originAddress = fullAddress : destinationAddress = fullAddress;
+        markers.removeWhere((marker) => marker.markerId.value == (_selectedTab == 0 ? 'origin' : 'destination'));
+        markers.add(_createMarker(place, fullAddress, _selectedTab == 0));
+      });
 
-        if (_selectedTab == 0) {
-          originAddress = fullAddress;
-        } else {
-          destinationAddress = fullAddress;
-        }
+      await _googleMapController.animateCamera(
+          CameraUpdate.newLatLngZoom(place, 18.3));
+      await Future.delayed(Duration(milliseconds: 50));
+      await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
 
-        _googleMapController.animateCamera(
-            CameraUpdate.newLatLngZoom(place, 18.3)
-        );
-        var marker = Marker(
-          markerId: MarkerId(_selectedTab == 0 ? 'origin' : 'destination'),
-          position: place,
-          flat: true,
-          visible: true,
-          infoWindow: InfoWindow(title: _selectedTab == 0 ? 'Origin' : 'Destination', snippet: fullAddress),
-        );
-        markers.add(marker);
-    });
-
-    });
-
-    await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
-    await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
-
-    _checkForPolyLine();
-    _checkIfCanProceed();
+      _checkForPolyLine();
+      _checkIfCanProceed();
+    } catch (e) {
+      debugPrint("Error fetching address: $e");
+    }
   }
 
-  void _addMarkerFromAddress(String value, bool isOrigin) async {
-    await GeocodingPlatform.instance?.locationFromAddress(value).then((onValue) async {
-      if (onValue.isEmpty) {
+  Future<void> _addMarkerFromAddress(String value, bool isOrigin) async {
+    try {
+      List<Location> locations =
+          await GeocodingPlatform.instance?.locationFromAddress(value) ?? [];
+
+      if (locations.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No places found with this address.")));
         return;
       }
 
-      var place = LatLng(onValue[0].latitude, onValue[0].longitude);
-      var addresses = await GeocodingPlatform.instance?.placemarkFromCoordinates(onValue[0].latitude, onValue[0].longitude);
+      LatLng place = LatLng(locations[0].latitude, locations[0].longitude);
+      List<Placemark> placemarks =
+          await GeocodingPlatform.instance?.placemarkFromCoordinates(
+              place.latitude, place.longitude) ?? [];
+
+      String fullAddress = placemarks.isNotEmpty
+          ? '${placemarks[0].street}, ${placemarks[0].locality} ${placemarks[0].postalCode}'
+          : '';
 
       setState(() {
         _hasSelectedMarker = true;
-        String fullAddress = '${addresses?[0].name},\n${addresses?[0].locality} ${addresses?[0].postalCode}';
-
-        if (_selectedTab == 0) {
-          originAddress = fullAddress;
-        } else {
-          destinationAddress = fullAddress;
-        }
-
-        _googleMapController.animateCamera(
-            CameraUpdate.newLatLngZoom(place, 18.3)
-        );
-        var marker = Marker(
-          markerId: MarkerId(isOrigin ? 'origin' : 'destination'),
-          position: place,
-          flat: true,
-          visible: true,
-          infoWindow: InfoWindow(title: isOrigin ? 'Origin' : 'Destination', snippet: fullAddress),
-        );
-        markers.add(marker);
+        isOrigin ? originAddress = fullAddress : destinationAddress = fullAddress;
+        markers.removeWhere((marker) => marker.markerId.value == (isOrigin ? 'origin' : 'destination'));
+        markers.add(_createMarker(place, fullAddress, isOrigin));
       });
 
-      await Future.delayed(Duration(milliseconds: 50)); // Small delay to ensure UI updates
+      await _googleMapController.animateCamera(
+          CameraUpdate.newLatLngZoom(place, 18.3));
+      await Future.delayed(Duration(milliseconds: 50));
       await _googleMapController.showMarkerInfoWindow(MarkerId(isOrigin ? 'origin' : 'destination'));
-      }
-    ).onError((error, stack) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("No places found with this address."),
-          )
-      );
-    });
 
-    _checkForPolyLine();
-    _checkIfCanProceed();
+      _checkForPolyLine();
+      _checkIfCanProceed();
+    } catch (e) {
+      debugPrint("Error fetching address: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("No places found with this address.")));
+    }
   }
+
+  Marker _createMarker(LatLng position, String address, bool isOrigin) {
+    return Marker(
+      markerId: MarkerId(isOrigin ? 'origin' : 'destination'),
+      position: position,
+      flat: true,
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+          isOrigin ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
+      visible: true,
+      infoWindow: InfoWindow(title: isOrigin ? 'Origin' : 'Destination', snippet: address),
+    );
+  }
+
 
   void _checkIfCanProceed() {
     setState(() {
@@ -263,17 +259,83 @@ class _CreateTripState extends State<CreateTrip> {
   }
 
   void _checkForPolyLine() {
-    if (markers.length != 2) {
+    debugPrint("Trying to make trip...");
+
+    if (markers.toList().where((marker) => marker.markerId.value == 'origin' || marker.markerId.value == 'destination').length != 2) {
+      debugPrint("Not enough markers. Can't proceed. Current length: ${markers.length}");
       return;
     }
 
     RequestHandler.sendGetRequest(
-        '',
+        'https://maps.googleapis.com/maps/api/directions/json?alternatives=true'
+            '&destination=${markers.last.position.latitude},${markers.last.position.longitude}'
+            '&origin=${markers.first.position.latitude},${markers.first.position.longitude}'
         () {},
         (response) {
           var body = response.body;
+          final decodedBody = json.decode(body);
+
+          if (decodedBody['routes'].isEmpty) {
+            debugPrint("No routes found.");
+            return;
+          }
+
+          Set<Polyline> newPolylines = {};
+
+          for (int i = 0; i < decodedBody['routes'].length; i++) {
+            var route = decodedBody['routes'][i];
+            var encodedPolyline = route['overview_polyline']['points']; // Encoded points
+
+            List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(encodedPolyline)
+                .map((point) => LatLng(point.latitude, point.longitude)).toList();
+
+            // First polyline is blue (selected), others are gray
+            bool isSelected = (i == 0);
+
+            if (isSelected) {
+              polyLine = encodedPolyline;
+            }
+
+            Polyline polyline = Polyline(
+              polylineId: PolylineId('route_$i'),
+              points: polylineCoordinates,
+              color: isSelected ? Colors.blue : Colors.grey,
+              width: isSelected ? 15 : 10,
+              consumeTapEvents: true,
+              onTap: () async {
+                setState(() {
+                  _selectedPolylineIndex = i;
+                  polyLine = encodedPolyline;
+                  _updatePolylineColors();
+                  _checkIfCanProceed();
+                });
+              },
+            );
+
+            newPolylines.add(polyline);
+          }
+
+          setState(() {
+            polylines = newPolylines;
+            _selectedPolylineIndex = 0;
+          });
+
+          _checkIfCanProceed();
         }
     );
+  }
+
+  void _updatePolylineColors() {
+    setState(() {
+      polylines = polylines.map((polyline) {
+        return polyline.copyWith(
+          colorParam: (polyline.polylineId.value == 'route_$_selectedPolylineIndex')
+              ? Colors.blue
+              : Colors.grey,
+          widthParam: (polyline.polylineId.value == 'route_$_selectedPolylineIndex') ? 6 : 4,
+        );
+      }).toSet();
+    });
   }
 
 }
