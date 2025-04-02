@@ -21,6 +21,7 @@ class _CreateTripState extends State<CreateTrip> {
   bool _canProceed = false;
   String? originAddress, destinationAddress, polyLine;
   Set<Marker> markers = {};
+  double? totalKm;
   int _selectedPolylineIndex = 0;
   Set<Polyline> polylines = {};
 
@@ -43,7 +44,16 @@ class _CreateTripState extends State<CreateTrip> {
       persistentFooterButtons: [
         ElevatedButton.icon(
           onPressed: !_canProceed ? null : () {
-            Navigator.pop<Map<String, dynamic>>(context);
+            var data = {
+              'originAddress': originAddress!,
+              'originCoordinates': markers.first.position,
+              'destinationAddress': destinationAddress!,
+              'destinationCoordinates': markers.last.position,
+              'polyline': polyLine!,
+              'totalKm': totalKm!
+            };
+
+            Navigator.pop<Map<String, dynamic>>(context, data);
           },
           icon: Icon(Icons.check),
           label: Text('Confirm Trip'),
@@ -290,6 +300,8 @@ class _CreateTripState extends State<CreateTrip> {
             var route = decodedBody['routes'][i];
             var encodedPolyline = route['overview_polyline']['points']; // Encoded points
 
+            double distance = route["legs"][0]["distance"]["value"] / 1000;
+
             List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(encodedPolyline)
                 .map((point) => LatLng(point.latitude, point.longitude)).toList();
 
@@ -297,6 +309,7 @@ class _CreateTripState extends State<CreateTrip> {
             bool isSelected = (i == 0);
 
             if (isSelected) {
+              totalKm = distance;
               polyLine = encodedPolyline;
             }
 
@@ -309,6 +322,7 @@ class _CreateTripState extends State<CreateTrip> {
               onTap: () async {
                 setState(() {
                   _selectedPolylineIndex = i;
+                  totalKm = distance;
                   polyLine = encodedPolyline;
                   _updatePolylineColors();
                   _checkIfCanProceed();

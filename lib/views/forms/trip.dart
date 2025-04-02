@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/maps/create_trip.dart';
+import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../services/classes/trip.dart';
 
@@ -27,14 +29,15 @@ class _TripFormState extends State<TripForm> {
   bool _isLoading = false;
   bool _isRepeating = false;
 
-  late String originAddress;
-  late String destinationAddress;
+  String? originAddress;
+  String? destinationAddress;
 
-  late double originLatitude;
-  late double originLongitude;
-  late double destinationLatitude;
-  late double destinationLongitude;
+  double? originLatitude;
+  double? originLongitude;
+  double? destinationLatitude;
+  double? destinationLongitude;
 
+  double? totalKm;
   String? polyline;
 
   @override
@@ -94,6 +97,8 @@ class _TripFormState extends State<TripForm> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DividerWithText(
                   text: 'Trip Info',
@@ -166,8 +171,6 @@ class _TripFormState extends State<TripForm> {
                                   _timesRepeatingController.text = '1';
                                 }
                               });
-
-
                             }
                         ),
 
@@ -180,12 +183,13 @@ class _TripFormState extends State<TripForm> {
 
               const SizedBox(height: 20),
 
-              AutoSizeText(
-                maxLines: 1,
-                polyline == null ? 'Make Trip...' : getTripString(),
-                style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
+              Center(
+                child: Text(
+                  polyline == null ? 'Make Trip...' : getTripString(),
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
 
@@ -197,12 +201,27 @@ class _TripFormState extends State<TripForm> {
                     child: ElevatedButton.icon(
                       onPressed: _isLoading ? null : () async {
 
-                        Navigator.push(
+                        var data = await Navigator.push<Map<String, dynamic>>(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const CreateTrip()
                             )
                         );
+
+                        if (data == null) {
+                          return;
+                        }
+
+                        setState(() {
+                          originAddress = data["originAddress"];
+                          destinationAddress = data["destinationAddress"];
+                          polyline = data["polyline"];
+                          originLatitude = data["originCoordinates"].latitude;
+                          originLongitude = data["originCoordinates"].longitude;
+                          destinationLatitude = data["destinationCoordinates"].latitude;
+                          destinationLongitude = data["destinationCoordinates"].longitude;
+                          totalKm = data['totalKm'];
+                        });
 
                       },
                       label: Text('Make on Maps'),
@@ -215,9 +234,25 @@ class _TripFormState extends State<TripForm> {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: _isLoading ? null : () {
-                        setState(() {
-                          polyline = null;
-                        });
+
+                        DeleteDialog.show(
+                          context, 'Delete Trip',
+                          (value) {
+                            setState(() {
+                              originAddress = null;
+                              destinationAddress = null;
+                              polyline = null;
+                              originLatitude = null;
+                              originLongitude = null;
+                              destinationLatitude = null;
+                              destinationLongitude = null;
+                              totalKm = null;
+                            });
+
+                            value(true);
+                          }
+                        );
+
                       },
                       label: AutoSizeText('Delete Trip', minFontSize: 10),
                       icon: const Icon(Icons.cancel_outlined),
@@ -233,6 +268,14 @@ class _TripFormState extends State<TripForm> {
                   ),
                 ],
               ),
+
+              const SizedBox(height: 10),
+
+              totalKm == null ? const SizedBox() :
+              Text(
+                "Total distance: $totalKm km",
+                style: Theme.of(context).textTheme.labelLarge,
+              )
             ],
           ),
         ),
