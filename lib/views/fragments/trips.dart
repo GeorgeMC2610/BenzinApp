@@ -97,7 +97,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Card(
-                            color: Theme.of(context).colorScheme.primaryFixedDim,
+                            color: Theme.of(context).colorScheme.secondaryContainer,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: Column(
@@ -106,7 +106,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                                   Column(
                                     children: [
                                       TripCard(trip: trip),
-                                      Divider(color: Theme.of(context).primaryColor)
+                                      Divider(color: Theme.of(context).colorScheme.primary)
                                     ],
                                   ) : TripCard(trip: trip);
                                 }).toList(),
@@ -129,21 +129,22 @@ class _TripsFragmentState extends State<TripsFragment> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Card(
-                            color: Theme.of(context).colorScheme.primaryFixed,
-                            child: Column(
-                              children: DataHolder.getOneTimeTrips()!.map((trip) {
-                                return DataHolder.getOneTimeTrips()!.last != trip ?
-                                Column(
-                                  children: [
-                                    TripCard(trip: trip),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                      child: Divider(color: Theme.of(context).primaryColor),
-                                    )
-                                  ],
-                                ) : TripCard(trip: trip);
-                              }).toList(),
-                            ),
+                            color: Theme.of(context).colorScheme.surfaceContainer,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              child: Column(
+                                children: DataHolder.getOneTimeTrips()!.map((trip) {
+                                  return DataHolder.getOneTimeTrips()!.last != trip ?
+                                  Column(
+                                    children: [
+                                      TripCard(trip: trip),
+                                      Divider(color: Theme.of(context).colorScheme.primary)
+                                    ],
+                                  ) : TripCard(trip: trip);
+                                }).toList(),
+                              ),
+                            )
+
                           ),
                         ) : Text(AppLocalizations.of(context)!.nothingToShowHere),
 
