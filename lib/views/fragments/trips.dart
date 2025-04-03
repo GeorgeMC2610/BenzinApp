@@ -76,7 +76,8 @@ class _TripsFragmentState extends State<TripsFragment> {
               });
             });
           },
-          child: SingleChildScrollView( // TODO : Implement consumer mode.
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 5, horizontal: 10),
@@ -88,7 +89,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                             text: AppLocalizations.of(context)!.repeatingTrips,
                             lineColor: Colors.blueGrey,
                             textColor: Colors.blueGrey,
-                            textSize: 12.8
+                            textSize: 22
                         ),
 
                         DataHolder.getRepeatingTrips()!.isNotEmpty ?
@@ -109,7 +110,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                             text: AppLocalizations.of(context)!.oneTimeTrips,
                             lineColor: Colors.blueGrey,
                             textColor: Colors.blueGrey,
-                            textSize: 12.8
+                            textSize: 22
                         ),
 
                         DataHolder.getOneTimeTrips()!.isNotEmpty ?
