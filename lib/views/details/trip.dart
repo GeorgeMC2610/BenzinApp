@@ -3,29 +3,31 @@ import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../services/classes/trip.dart';
 import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
 import '../forms/service.dart';
+import '../forms/trip.dart';
 import '../shared/dialogs/delete_dialog.dart';
 import '../shared/shared_font_styles.dart';
 
-class ViewService extends StatefulWidget {
-  const ViewService({super.key, required this.service});
+class ViewTrip extends StatefulWidget {
+  const ViewTrip({super.key, required this.trip});
 
-  final Service service;
+  final Trip trip;
 
   @override
-  State<StatefulWidget> createState() => _ViewServiceState();
+  State<StatefulWidget> createState() => _ViewTripState();
 }
 
-class _ViewServiceState extends State<ViewService> {
+class _ViewTripState extends State<ViewTrip> {
 
-  late Service service;
+  late Trip trip;
 
   @override
   void initState() {
     super.initState();
-    service = widget.service;
+    trip = widget.trip;
   }
 
   @override
@@ -40,16 +42,16 @@ class _ViewServiceState extends State<ViewService> {
       persistentFooterButtons: [
         ElevatedButton.icon(
             onPressed: () async {
-              var service = await Navigator.push<Service>(
+              var trip = await Navigator.push<Trip>(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ServiceForm(service: this.service, isViewing: true)
+                      builder: (context) => TripForm(trip: this.trip, isViewing: true)
                   )
               );
 
-              if (service != null) {
+              if (trip != null) {
                 setState(() {
-                  this.service = service;
+                  this.trip = trip;
                 });
               }
             },
@@ -68,12 +70,12 @@ class _ViewServiceState extends State<ViewService> {
                       (Function(bool) setLoadingState) {
 
                     RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/service/${service.id}',
+                      '${DataHolder.destination}/repeated_trip/${trip.id}',
                           () {
                         setLoadingState(true); // Close the dialog
                       },
                           (response) {
-                        DataHolder.deleteService(service);
+                        DataHolder.deleteTrip(trip);
                         Navigator.pop(context);
                       },
                     );
@@ -110,14 +112,14 @@ class _ViewServiceState extends State<ViewService> {
                       children: [
                         Text(AppLocalizations.of(context)!.dateDone, style: SharedFontStyles.legendTextStyle),
                         Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
+                            LocaleStringConverter.dateDayMonthYearString(context, trip.dateHappened),
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
 
                         const SizedBox(height: 20),
 
                         Text(AppLocalizations.of(context)!.serviceMileage, style: SharedFontStyles.legendTextStyle),
-                        Text('${LocaleStringConverter.formattedBigInt(context, service.kilometersDone)} km', style: SharedFontStyles.descriptiveTextStyle),
+                        Text('${LocaleStringConverter.formattedBigInt(context, trip.kilometersDone)} km', style: SharedFontStyles.descriptiveTextStyle),
                       ],
                     ),
                   ),
@@ -138,7 +140,7 @@ class _ViewServiceState extends State<ViewService> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(AppLocalizations.of(context)!.description, style: SharedFontStyles.legendTextStyle),
-                        Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
+                        Text(trip.description, style: SharedFontStyles.descriptiveTextStyle),
                       ],
                     ),
                   ),
@@ -162,9 +164,9 @@ class _ViewServiceState extends State<ViewService> {
                           children: [
                             Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
                             Text(
-                                service.cost == null ?
+                                trip.cost == null ?
                                 '-' :
-                                '€${LocaleStringConverter.formattedDouble(context, service.cost!)}',
+                                '€${LocaleStringConverter.formattedDouble(context, trip.cost!)}',
                                 style: SharedFontStyles.descriptiveTextStyle
                             ),
 
@@ -172,9 +174,9 @@ class _ViewServiceState extends State<ViewService> {
 
                             Text(AppLocalizations.of(context)!.nextAtKm, style: SharedFontStyles.legendTextStyle),
                             Text(
-                                service.nextServiceKilometers == null ?
+                                trip.nextServiceKilometers == null ?
                                 '-' :
-                                '${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km',
+                                '${LocaleStringConverter.formattedBigInt(context, trip.nextServiceKilometers!)} km',
                                 style: SharedFontStyles.descriptiveTextStyle
                             ),
                           ],
@@ -195,9 +197,9 @@ class _ViewServiceState extends State<ViewService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(AppLocalizations.of(context)!.location, style: SharedFontStyles.legendTextStyle),
-                            Text(service.location ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                            Text(trip.location ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
-                              child: service.location == null ? const SizedBox() : ElevatedButton.icon(
+                              child: trip.location == null ? const SizedBox() : ElevatedButton.icon(
                                 onPressed: () {},
                                 label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
