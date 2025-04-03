@@ -125,7 +125,12 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.coins, size: 18,),
               const SizedBox(width: 5),
-              Text(" €19.99", style: TextStyle(
+              Text(" €${
+                  LocaleStringConverter.formattedDouble(context,
+                      widget.trip.totalKm *
+                      DataHolder.getTotalTravelCost()
+                  )
+              }", style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
               )),
@@ -165,7 +170,13 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            Text(" €19.99 per week", style: TextStyle(
+            Text(" €${
+                  LocaleStringConverter.formattedDouble(context,
+                      widget.trip.totalKm *
+                      DataHolder.getTotalTravelCost() *
+                      widget.trip.timesRepeating
+                  )
+                } per week", style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
             )),
@@ -176,7 +187,13 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
-            Text(" 5.20 lt. per week", style: TextStyle(
+            Text(" ${
+                LocaleStringConverter.formattedDouble(context,
+                    (widget.trip.totalKm *
+                    DataHolder.getTotalEfficiency() / 100) *
+                    widget.trip.timesRepeating
+                )
+            } lt. per week", style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
             )),

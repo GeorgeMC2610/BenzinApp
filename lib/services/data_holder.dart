@@ -385,4 +385,12 @@ class DataHolder with ChangeNotifier {
     return totalCosts;
   }
 
+  static double getBestEfficiency() {
+    return 5;
+  }
+
+  static double getWorstEfficiency() {
+    return 2;
+  }
+
 }
