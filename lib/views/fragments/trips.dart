@@ -97,7 +97,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Card(
-                            color: Theme.of(context).colorScheme.secondaryContainer,
+                            color: Theme.of(context).colorScheme.primaryFixedDim,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: Column(
@@ -129,7 +129,7 @@ class _TripsFragmentState extends State<TripsFragment> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Card(
-                            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                            color: Theme.of(context).colorScheme.primaryFixed,
                             child: Column(
                               children: DataHolder.getOneTimeTrips()!.map((trip) {
                                 return DataHolder.getOneTimeTrips()!.last != trip ?
