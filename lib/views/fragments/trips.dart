@@ -94,17 +94,28 @@ class _TripsFragmentState extends State<TripsFragment> {
 
                         DataHolder.getRepeatingTrips()!.isNotEmpty ?
 
-                        Column(
-                          children: DataHolder.getRepeatingTrips()!.map((trip) {
-                            return DataHolder.getRepeatingTrips()!.last != trip ?
-                            Column(
-                              children: [
-                                TripCard(trip: trip),
-                                const Divider()
-                              ],
-                            ) : TripCard(trip: trip);
-                          }).toList(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Card(
+                            color: Theme.of(context).colorScheme.secondaryContainer,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              child: Column(
+                                children: DataHolder.getRepeatingTrips()!.map((trip) {
+                                  return DataHolder.getRepeatingTrips()!.last != trip ?
+                                  Column(
+                                    children: [
+                                      TripCard(trip: trip),
+                                      Divider(color: Theme.of(context).primaryColor)
+                                    ],
+                                  ) : TripCard(trip: trip);
+                                }).toList(),
+                              ),
+                            ) ,
+                          ),
                         ) : Text(AppLocalizations.of(context)!.nothingToShowHere),
+
+                        const SizedBox(height: 20),
 
                         DividerWithText(
                             text: AppLocalizations.of(context)!.oneTimeTrips,
@@ -115,18 +126,28 @@ class _TripsFragmentState extends State<TripsFragment> {
 
                         DataHolder.getOneTimeTrips()!.isNotEmpty ?
 
-                        Column(
-                          children: DataHolder.getOneTimeTrips()!.map((trip) {
-                          return DataHolder.getOneTimeTrips()!.last != trip ?
-                          Column(
-                            children: [
-                              TripCard(trip: trip),
-                              const Divider()
-                            ],
-                          ) : TripCard(trip: trip);
-                        }).toList(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Card(
+                            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                            child: Column(
+                              children: DataHolder.getOneTimeTrips()!.map((trip) {
+                                return DataHolder.getOneTimeTrips()!.last != trip ?
+                                Column(
+                                  children: [
+                                    TripCard(trip: trip),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Divider(color: Theme.of(context).primaryColor),
+                                    )
+                                  ],
+                                ) : TripCard(trip: trip);
+                              }).toList(),
+                            ),
+                          ),
                         ) : Text(AppLocalizations.of(context)!.nothingToShowHere),
 
+                        const SizedBox(height: 100)
                       ]
                   )
               )

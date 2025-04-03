@@ -189,8 +189,8 @@ class _TripCardState extends State<TripCard> {
             const SizedBox(width: 5),
             Text(" ${
                 LocaleStringConverter.formattedDouble(context,
-                    (widget.trip.totalKm *
-                    DataHolder.getTotalEfficiency() / 100) *
+                    widget.trip.totalKm /
+                    DataHolder.getTotalEfficiency() *
                     widget.trip.timesRepeating
                 )
             } lt. per week", style: const TextStyle(
