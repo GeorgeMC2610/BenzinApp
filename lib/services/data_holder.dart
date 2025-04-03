@@ -273,8 +273,28 @@ class DataHolder with ChangeNotifier {
       return null;
     }
 
-    _services!.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
+    _trips!.sort((a, b) => b.created.compareTo(a.created));
     return _trips!;
+  }
+
+  static List<Trip>? getRepeatingTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating != 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
+  }
+
+  static List<Trip>? getOneTimeTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating == 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
   }
 
   static Future<void> refreshTrips() async {
