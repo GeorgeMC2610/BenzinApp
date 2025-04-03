@@ -41,7 +41,6 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   Future<void> _whenPatchRequestIsComplete(http.Response response) async {
-    print(response.body);
     var jsonObject = jsonDecode(response.body);
     var service = Service.fromJson(jsonObject["service"]);
     DataHolder.setService(service);
