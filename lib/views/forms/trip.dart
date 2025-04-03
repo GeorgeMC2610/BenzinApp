@@ -277,8 +277,15 @@ class _TripFormState extends State<TripForm> {
                         var data = await Navigator.push<Map<String, dynamic>>(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => polyline == null ? CreateTrip() :
-                                    CreateTrip()
+                                builder: (context) => polyline == null ? const CreateTrip() :
+                                    CreateTrip(
+                                      polyline: polyline!,
+                                      originAddress: originAddress!,
+                                      destinationAddress: destinationAddress!,
+                                      originCoordinates: LatLng(originLatitude!, originLongitude!),
+                                      destinationCoordinates: LatLng(destinationLatitude!, destinationLongitude!),
+                                      totalKm: totalKm!,
+                                    )
                             )
                         );
 

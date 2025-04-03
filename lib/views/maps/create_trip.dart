@@ -7,7 +7,19 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 
 class CreateTrip extends StatefulWidget {
-  const CreateTrip({super.key});
+  const CreateTrip({
+    super.key,
+    this.originAddress,
+    this.destinationAddress,
+    this.originCoordinates,
+    this.destinationCoordinates,
+    this.totalKm,
+    this.polyline
+  });
+
+  final String? originAddress, destinationAddress, polyline;
+  final LatLng? originCoordinates, destinationCoordinates;
+  final double? totalKm;
 
   @override
   State<StatefulWidget> createState() => _CreateTripState();
@@ -31,6 +43,47 @@ class _CreateTripState extends State<CreateTrip> {
     _googleMapController.animateCamera(
         CameraUpdate.newLatLngZoom(currentLatLng, 18.3)
     );
+  }
+
+  Future<void> _setCameraToPosition(LatLng latLng) async {
+    _googleMapController.animateCamera(
+        CameraUpdate.newLatLngZoom(latLng, 18.3)
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.polyline != null) {
+      setState(() {
+        _hasSelectedMarker = true;
+        polyLine = widget.polyline!;
+        originAddress = widget.originAddress!;
+        destinationAddress = widget.destinationAddress!;
+        totalKm = widget.totalKm;
+
+        markers.add(
+          _createMarker(widget.originCoordinates!, originAddress!, true)
+        );
+
+        markers.add(
+          _createMarker(widget.destinationCoordinates!, destinationAddress!, false)
+        );
+
+        List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(polyLine!)
+            .map((point) => LatLng(point.latitude, point.longitude)).toList();
+
+        polylines.add(Polyline(
+          polylineId: const PolylineId('route_0'),
+          points: polylineCoordinates,
+          color: Colors.blue,
+          width: 6,
+          consumeTapEvents: false,
+        ));
+      });
+    }
+
+    _checkIfCanProceed();
   }
 
   @override
@@ -176,7 +229,9 @@ class _CreateTripState extends State<CreateTrip> {
 
   void _onGoogleMapCreated(GoogleMapController controller) {
     _googleMapController = controller;
-    if (!_hasSelectedMarker) _setCameraToCurrentPosition();
+
+    if (widget.destinationCoordinates != null) _setCameraToPosition(widget.destinationCoordinates!);
+    else if (!_hasSelectedMarker) _setCameraToCurrentPosition();
   }
 
   Future<void> _onLongPress(LatLng place) async {
