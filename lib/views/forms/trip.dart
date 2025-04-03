@@ -58,6 +58,7 @@ class _TripFormState extends State<TripForm> {
       originLongitude = widget.trip!.originLongitude;
       destinationLatitude = widget.trip!.destinationLatitude;
       destinationLongitude = widget.trip!.destinationLongitude;
+      totalKm = widget.trip!.totalKm;
       polyline = widget.trip!.polyline;
     }
   }
@@ -114,11 +115,31 @@ class _TripFormState extends State<TripForm> {
                   uriString,
                   true, body,
                   _whenCompleteRequest,
-                      (response) {
+                  (response) {
                     var jsonResponse = jsonDecode(response.body);
                     var trip = Trip.fromJson(jsonResponse["repeated_trip"]);
                     DataHolder.addTrip(trip);
                     Navigator.pop(context);
+                  }
+              );
+            }
+            else {
+              uriString = '${DataHolder.destination}/repeated_trip/${widget.trip!.id}';
+              RequestHandler.sendPatchRequest(
+                  uriString,
+                  body,
+                  _whenCompleteRequest,
+                  (response) {
+                    var jsonObject = jsonDecode(response.body);
+                    var trip = Trip.fromJson(jsonObject["repeated_trip"]);
+                    DataHolder.setTrip(trip);
+
+                    if (widget.isViewing == null) {
+                      Navigator.pop(context);
+                    }
+                    else if (widget.isViewing!) {
+                      Navigator.pop<Trip>(context, trip);
+                    }
                   }
               );
             }
@@ -252,10 +273,12 @@ class _TripFormState extends State<TripForm> {
                     child: ElevatedButton.icon(
                       onPressed: _isLoading ? null : () async {
 
+
                         var data = await Navigator.push<Map<String, dynamic>>(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CreateTrip()
+                                builder: (context) => polyline == null ? CreateTrip() :
+                                    CreateTrip()
                             )
                         );
 
