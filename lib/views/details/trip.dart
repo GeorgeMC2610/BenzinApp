@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
 import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
@@ -48,7 +50,7 @@ class _ViewTripState extends State<ViewTrip> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.serviceData),
+        title: Text('Trip Data'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -313,7 +315,22 @@ class _ViewTripState extends State<ViewTrip> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton.icon(
                             onPressed: () {
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ViewTripOnMaps(
+                                        polyline: trip.polyline,
+                                        positions: [
+                                          LatLng(trip.originLatitude, trip.originLongitude),
+                                          LatLng(trip.destinationLatitude, trip.destinationLongitude)
+                                        ],
+                                        addresses: [
+                                          trip.originAddress,
+                                          trip.destinationAddress
+                                        ],
+                                      )
+                                  )
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.secondaryContainer
