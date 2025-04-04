@@ -56,15 +56,21 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
         ));
       });
     } else {
-      markers.add(Marker(
-        markerId: const MarkerId('Origin'),
-        position: widget.positions[0],
-        flat: true,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        visible: true,
-        infoWindow: InfoWindow(title: 'Location', snippet: widget.addresses[0]),
-      ));
+      setState(() {
+        markers.add(Marker(
+          markerId: const MarkerId('Origin'),
+          position: widget.positions[0],
+          flat: true,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          visible: true,
+          infoWindow: InfoWindow(title: 'Location', snippet: widget.addresses[0]),
+        ));
+      });
     }
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _googleMapController.showMarkerInfoWindow(markers.last.markerId);
+    });
 
     _googleMapController.animateCamera(
         CameraUpdate.newLatLngZoom(widget.positions.last, 18)
