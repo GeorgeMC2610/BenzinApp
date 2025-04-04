@@ -4,6 +4,7 @@ import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../services/classes/trip.dart';
 import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
@@ -272,7 +273,45 @@ class _ViewTripState extends State<ViewTrip> {
                 ],
               ),
 
-
+              DividerWithText(
+                text: 'Map Details',
+                lineColor: Colors.grey ,
+                textColor: Theme.of(context).colorScheme.primary,
+                textSize: 17,
+                barThickness: 3,
+              ),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          trip.originAddress,
+                          textAlign: TextAlign.center,
+                          style: SharedFontStyles.mainTextStyle
+                        ),
+                        const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.green,),
+                        const SizedBox(height: 15),
+                        const Icon(FontAwesomeIcons.arrowDownLong, size: 40),
+                        const SizedBox(height: 20),
+                        const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.red,),
+                        Text(
+                            trip.destinationAddress,
+                            textAlign: TextAlign.center,
+                            style: SharedFontStyles.mainTextStyle
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
