@@ -307,6 +307,21 @@ class _ViewTripState extends State<ViewTrip> {
                             textAlign: TextAlign.center,
                             style: SharedFontStyles.mainTextStyle
                         ),
+
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.secondaryContainer
+                            ),
+                            label: Text("Show on maps"),
+                            icon: const Icon(Icons.map),
+                          ),
+                        )
                       ],
                     ),
                   ),
