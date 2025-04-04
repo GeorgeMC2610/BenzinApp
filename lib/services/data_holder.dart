@@ -390,7 +390,7 @@ class DataHolder with ChangeNotifier {
         .toList();
 
     fuelFills.sort();
-    return fuelFills.first;
+    return fuelFills.last;
   }
 
   static double getWorstEfficiency() {
@@ -398,7 +398,7 @@ class DataHolder with ChangeNotifier {
         .toList();
 
     fuelFills.sort();
-    return fuelFills.last;
+    return fuelFills.first;
   }
 
   static double getBestTravelCost() {
