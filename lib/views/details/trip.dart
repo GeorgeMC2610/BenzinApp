@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../services/classes/trip.dart';
@@ -29,6 +30,18 @@ class _ViewTripState extends State<ViewTrip> {
     super.initState();
     trip = widget.trip;
   }
+
+
+  TextStyle mainDescription(Color color) => TextStyle(
+      fontSize: 20.5,
+      fontWeight: FontWeight.bold,
+      color: color
+  );
+
+  TextStyle legendDescription(Color color) => TextStyle(
+      fontSize: 14.5,
+      color: color
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -110,20 +123,40 @@ class _ViewTripState extends State<ViewTrip> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.dateDone, style: SharedFontStyles.legendTextStyle),
+                        Text('Name:', style: SharedFontStyles.legendTextStyle),
                         Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, trip.dateHappened),
+                            trip.title,
+                            style: SharedFontStyles.mainTextStyle
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Text('Weekly Occurance:', style: SharedFontStyles.legendTextStyle),
+                        Text(
+                            trip.timesRepeating == 1 ? "Doesn't repeat" :
+                            'Repeating ${widget.trip.timesRepeating} times per week',
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.serviceMileage, style: SharedFontStyles.legendTextStyle),
-                        Text('${LocaleStringConverter.formattedBigInt(context, trip.kilometersDone)} km', style: SharedFontStyles.descriptiveTextStyle),
+                        Text('Trip Distance:', style: SharedFontStyles.legendTextStyle),
+                        Text(
+                          '${LocaleStringConverter.formattedDouble(context, trip.totalKm)} km',
+                          style: SharedFontStyles.descriptiveTextStyle
+                        ),
                       ],
                     ),
                   ),
                 ),
+              ),
+
+              DividerWithText(
+                  text: 'Analytics Per Time',
+                  lineColor: Colors.grey ,
+                  textColor: Colors.black,
+                  textSize: 17,
+                  barThickness: 3,
               ),
 
               // TITLE AND DESCRIPTION
@@ -139,8 +172,18 @@ class _ViewTripState extends State<ViewTrip> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.description, style: SharedFontStyles.legendTextStyle),
-                        Text(trip.description, style: SharedFontStyles.descriptiveTextStyle),
+                        Text(trip.title, style: mainDescription(Colors.green)),
+                        Text(trip.title, style: legendDescription(Colors.green)),
+
+                        const SizedBox(height: 10),
+
+                        Text(trip.title, style: mainDescription(Colors.grey)),
+                        Text(trip.title, style: legendDescription(Colors.grey)),
+
+                        const SizedBox(height: 10),
+
+                        Text(trip.title, style: mainDescription(Colors.redAccent)),
+                        Text(trip.title, style: legendDescription(Colors.redAccent)),
                       ],
                     ),
                   ),
@@ -164,9 +207,9 @@ class _ViewTripState extends State<ViewTrip> {
                           children: [
                             Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
                             Text(
-                                trip.cost == null ?
+                                trip.totalKm == null ?
                                 '-' :
-                                '€${LocaleStringConverter.formattedDouble(context, trip.cost!)}',
+                                '€${LocaleStringConverter.formattedDouble(context, trip.totalKm)}',
                                 style: SharedFontStyles.descriptiveTextStyle
                             ),
 
@@ -174,9 +217,9 @@ class _ViewTripState extends State<ViewTrip> {
 
                             Text(AppLocalizations.of(context)!.nextAtKm, style: SharedFontStyles.legendTextStyle),
                             Text(
-                                trip.nextServiceKilometers == null ?
+                                trip.totalKm == null ?
                                 '-' :
-                                '${LocaleStringConverter.formattedBigInt(context, trip.nextServiceKilometers!)} km',
+                                '${LocaleStringConverter.formattedBigInt(context, trip.timesRepeating)} km',
                                 style: SharedFontStyles.descriptiveTextStyle
                             ),
                           ],
@@ -197,9 +240,9 @@ class _ViewTripState extends State<ViewTrip> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(AppLocalizations.of(context)!.location, style: SharedFontStyles.legendTextStyle),
-                            Text(trip.location ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                            Text(trip.originAddress ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
-                              child: trip.location == null ? const SizedBox() : ElevatedButton.icon(
+                              child: trip.originAddress == null ? const SizedBox() : ElevatedButton.icon(
                                 onPressed: () {},
                                 label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
@@ -221,5 +264,7 @@ class _ViewTripState extends State<ViewTrip> {
         ),
       ),
     );
+
+
   }
 }

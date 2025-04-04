@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/details/trip.dart';
 import 'package:benzinapp/views/forms/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,7 +32,12 @@ class _TripCardState extends State<TripCard> {
 
     return ListTile(
       onTap: () {
-
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+            builder: (context) => ViewTrip(trip: widget.trip)
+          )
+        );
       },
 
       title: Text(
@@ -130,7 +136,7 @@ class _TripCardState extends State<TripCard> {
                       widget.trip.totalKm *
                       DataHolder.getTotalTravelCost()
                   )
-              }", style: TextStyle(
+              }", style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
               )),
@@ -172,9 +178,7 @@ class _TripCardState extends State<TripCard> {
             const SizedBox(width: 5),
             Text(" €${
                   LocaleStringConverter.formattedDouble(context,
-                      widget.trip.totalKm *
-                      DataHolder.getTotalTravelCost() *
-                      widget.trip.timesRepeating
+                      widget.trip.getAverageTripCost(false)
                   )
                 } per week", style: const TextStyle(
                 fontSize: 18,
@@ -189,9 +193,7 @@ class _TripCardState extends State<TripCard> {
             const SizedBox(width: 5),
             Text(" ${
                 LocaleStringConverter.formattedDouble(context,
-                    widget.trip.totalKm /
-                    DataHolder.getTotalEfficiency() *
-                    widget.trip.timesRepeating
+                    widget.trip.getAverageTripConsumption(false)
                 )
             } lt. per week", style: const TextStyle(
                 fontSize: 18,

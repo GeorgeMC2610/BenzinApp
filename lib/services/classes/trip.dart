@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/data_holder.dart';
+
 class Trip {
   static Trip fromJson(Map<String, dynamic> object) {
     return Trip(
@@ -46,4 +48,38 @@ class Trip {
   final String originAddress;
   final String destinationAddress;
   final String polyline;
+
+  double getBestTripCost(bool perTime) {
+    return perTime ?
+    totalKm * DataHolder.getBestTravelCost() :
+    totalKm * DataHolder.getBestTravelCost() * timesRepeating;  }
+
+  double getAverageTripCost(bool perTime) {
+    return perTime ?
+    totalKm * DataHolder.getTotalTravelCost() :
+    totalKm * DataHolder.getTotalTravelCost() * timesRepeating;  }
+
+  double getWorstTripCost(bool perTime) {
+    return perTime ?
+    totalKm * DataHolder.getWorstTravelCost() :
+    totalKm * DataHolder.getWorstTravelCost() * timesRepeating;
+  }
+
+  double getBestTripConsumption(bool perTime) {
+    return perTime ?
+    totalKm / DataHolder.getBestEfficiency() :
+    totalKm / DataHolder.getBestEfficiency() * timesRepeating;
+  }
+
+  double getAverageTripConsumption(bool perTime) {
+    return perTime ?
+    totalKm / DataHolder.getTotalEfficiency() :
+    totalKm / DataHolder.getTotalEfficiency() * timesRepeating;
+  }
+
+  double getWorstTripConsumption(bool perTime) {
+    return perTime ?
+    totalKm / DataHolder.getWorstEfficiency() :
+    totalKm / DataHolder.getWorstEfficiency() * timesRepeating;
+  }
 }

@@ -386,11 +386,35 @@ class DataHolder with ChangeNotifier {
   }
 
   static double getBestEfficiency() {
-    return 5;
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
   }
 
   static double getWorstEfficiency() {
-    return 2;
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
+  }
+
+  static double getBestTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
+  }
+
+  static double getWorstTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
   }
 
 }
