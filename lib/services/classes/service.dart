@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Service {
 
   static Service fromJson(Map<String, dynamic> object) {
@@ -31,5 +33,21 @@ class Service {
   final int? nextServiceKilometers;
   final double? cost;
   final String? location;
+
+  String? getAddress() {
+    if (location == null) return null;
+    if (!location!.contains('|')) return null;
+
+    return location!.split('|').first;
+  }
+
+  LatLng? getCoordinates() {
+    if (location == null) return null;
+    if (!location!.contains('|')) return null;
+
+    var latitude = double.parse(location!.split('|').last.split(',').first.trim());
+    var longitude = double.parse(location!.split('|').last.split(',').last.trim());
+    return LatLng(latitude, longitude);
+  }
 
 }
