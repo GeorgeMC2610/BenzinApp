@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../services/data_holder.dart';
@@ -195,15 +196,24 @@ class _ViewServiceState extends State<ViewService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(AppLocalizations.of(context)!.location, style: SharedFontStyles.legendTextStyle),
-                            Text(service.location ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                            Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
                               child: service.location == null ? const SizedBox() : ElevatedButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => ViewTripOnMaps(
+                                          positions: [service.getCoordinates()!],
+                                          addresses: [service.getAddress()!]
+                                      )
+                                    )
+                                  );
+                                },
                                 label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
-                                style: const ButtonStyle(
-                                  backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                                  foregroundColor: WidgetStatePropertyAll(Colors.white),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
                                 ),
                               )
                             )
