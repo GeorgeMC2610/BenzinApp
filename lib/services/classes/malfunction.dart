@@ -11,7 +11,7 @@ class Malfunction {
       description: object["description"],
       cost: object["cost_eur"],
       kilometersDiscovered: object["at_km"],
-      location: object["location"],
+      location: object["location"].isEmpty ? null : object["location"],
     );
   }
 
