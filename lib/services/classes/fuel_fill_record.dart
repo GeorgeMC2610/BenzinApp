@@ -1,5 +1,18 @@
 class FuelFillRecord {
 
+  static FuelFillRecord fromJson(Map<String, dynamic> jsonObject) {
+    return FuelFillRecord(
+      id: jsonObject["id"],
+      dateTime: DateTime.parse(jsonObject["filled_at"]),
+      liters: jsonObject["lt"],
+      cost: jsonObject["cost_eur"],
+      kilometers: jsonObject["km"],
+      fuelType: jsonObject["fuel_type"].toString().isEmpty ? null : jsonObject["fuel_type"],
+      gasStation: jsonObject["station"].toString().isEmpty ? null : jsonObject["station"],
+      comments: jsonObject["notes"].toString().isEmpty ? null : jsonObject["notes"]
+    );
+  }
+
   const FuelFillRecord({
     required this.id,
     required this.dateTime,

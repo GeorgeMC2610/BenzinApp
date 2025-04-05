@@ -1,14 +1,33 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../services/data_holder.dart';
+import '../../services/request_handler.dart';
+import '../forms/service.dart';
+import '../shared/dialogs/delete_dialog.dart';
 import '../shared/shared_font_styles.dart';
 
-class ViewService extends StatelessWidget {
+class ViewService extends StatefulWidget {
   const ViewService({super.key, required this.service});
 
   final Service service;
+
+  @override
+  State<StatefulWidget> createState() => _ViewServiceState();
+}
+
+class _ViewServiceState extends State<ViewService> {
+
+  late Service service;
+
+  @override
+  void initState() {
+    super.initState();
+    service = widget.service;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +40,20 @@ class ViewService extends StatelessWidget {
       // EDIT AND DELETE BUTTONS
       persistentFooterButtons: [
         ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              var service = await Navigator.push<Service>(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ServiceForm(service: this.service, isViewing: true)
+                  )
+              );
+
+              if (service != null) {
+                setState(() {
+                  this.service = service;
+                });
+              }
+            },
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
               foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
@@ -30,7 +62,25 @@ class ViewService extends StatelessWidget {
             label: Text(AppLocalizations.of(context)!.edit)
         ),
         ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              DeleteDialog.show(
+                  context,
+                  AppLocalizations.of(context)!.confirmDeleteService,
+                      (Function(bool) setLoadingState) {
+
+                    RequestHandler.sendDeleteRequest(
+                      '${DataHolder.destination}/service/${service.id}',
+                          () {
+                        setLoadingState(true); // Close the dialog
+                      },
+                          (response) {
+                        DataHolder.deleteService(service);
+                        Navigator.pop(context);
+                      },
+                    );
+                  }
+              );
+            },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.error),
               foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
@@ -146,15 +196,24 @@ class ViewService extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(AppLocalizations.of(context)!.location, style: SharedFontStyles.legendTextStyle),
-                            Text(service.location ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                            Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
                               child: service.location == null ? const SizedBox() : ElevatedButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => ViewTripOnMaps(
+                                          positions: [service.getCoordinates()!],
+                                          addresses: [service.getAddress()!]
+                                      )
+                                    )
+                                  );
+                                },
                                 label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
-                                style: const ButtonStyle(
-                                  backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                                  foregroundColor: WidgetStatePropertyAll(Colors.white),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
                                 ),
                               )
                             )

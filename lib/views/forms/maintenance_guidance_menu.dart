@@ -61,7 +61,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const AddMalfunction()
+                                      builder: (context) => const MalfunctionForm()
                                   )
                               );
                             },
@@ -98,7 +98,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const AddService()
+                                      builder: (context) => const ServiceForm()
                                   )
                               );
                             },

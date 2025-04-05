@@ -1,29 +1,76 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/maps/select_location.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import '../../services/data_holder.dart';
+import '../../services/request_handler.dart';
 
-class AddService extends StatefulWidget {
-  const AddService({super.key});
+class ServiceForm extends StatefulWidget {
+  const ServiceForm({super.key, this.service, this.isViewing});
+
+  final Service? service;
+  final bool? isViewing;
 
   @override
-  State<StatefulWidget> createState() => _AddServiceState();
+  State<StatefulWidget> createState() => _ServiceFormState();
 }
 
-class _AddServiceState extends State<AddService> {
+class _ServiceFormState extends State<ServiceForm> {
 
   DateTime? _selectedDate;
+  String? _selectedAddress;
+  LatLng? _selectedCoordinates;
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController kmController = TextEditingController();
   final TextEditingController nextKmController = TextEditingController();
 
+  bool _isLoading = false;
   String? _costValidator, _kmValidator, _nextKmValidator, _descValidator;
+
+  Future<void> _whenPostRequestIsComplete(http.Response response) async {
+    var jsonResponse = jsonDecode(response.body);
+    var service = Service.fromJson(jsonResponse["service"]);
+    DataHolder.addService(service);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
+  Future<void> _whenPatchRequestIsComplete(http.Response response) async {
+    var jsonObject = jsonDecode(response.body);
+    var service = Service.fromJson(jsonObject["service"]);
+    DataHolder.setService(service);
+
+    if (widget.isViewing == null) {
+      Navigator.pop(context);
+    }
+    else if (widget.isViewing!) {
+      Navigator.pop<Service>(context, service);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.service != null) {
+      kmController.text = widget.service!.kilometersDone.toString();
+      nextKmController.text = widget.service!.nextServiceKilometers?.toString() ?? '';
+      costController.text = widget.service!.cost?.toString() ?? '';
+      descriptionController.text = widget.service!.description;
+      _selectedDate = widget.service!.dateHappened;
+      _selectedAddress = widget.service!.getAddress();
+      _selectedCoordinates = widget.service!.getCoordinates();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,59 +79,98 @@ class _AddServiceState extends State<AddService> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(AppLocalizations.of(context)!.addService),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ElevatedButton.icon(
-        onPressed: () {
-          // temporary code so it runs
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        ElevatedButton.icon(
+          onPressed: _isLoading ? null : () {
+            // temporary code so it runs
 
-          // add field checks
-          setState(() {
-            _costValidator = _numValidator(costController.text);
-            _kmValidator = _validator(kmController.text);
-            _nextKmValidator = _numValidator(nextKmController.text);
-            _descValidator = _emptyValidator(descriptionController.text);
-          });
+            // add field checks
+            setState(() {
+              _costValidator = _numValidator(costController.text);
+              _kmValidator = _validator(kmController.text);
+              _nextKmValidator = _numValidator(nextKmController.text);
+              _descValidator = _emptyValidator(descriptionController.text);
+            });
 
-          if (_selectedDate == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context)!.noDateSelected),
-                )
-            );
-          }
+            if (_selectedDate == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.noDateSelected),
+                  )
+              );
+            }
 
-          if (_kmValidator != null ||
-              _costValidator != null ||
-              _nextKmValidator != null ||
-              _descValidator != null ||
-              _selectedDate == null
-          ) {
-            return;
-          }
+            if (_kmValidator != null ||
+                _costValidator != null ||
+                _nextKmValidator != null ||
+                _descValidator != null ||
+                _selectedDate == null
+            ) {
+              return;
+            }
 
-          // when the field checks pass, send the request.
+            // all validations have passed here
+            setState(() {
+              _isLoading  = true;
+            });
 
-          Service service = Service(
-            id: 19,
-            dateHappened: _selectedDate!,
-            description: descriptionController.text,
-            cost: double.parse(costController.text),
-            kilometersDone: int.parse(kmController.text),
-            nextServiceKilometers: int.parse(nextKmController.text)
-          );
+            var uriString = '${DataHolder.destination}/service';
+            var body = {
+              'at_km': kmController.text,
+              'next_km': nextKmController.text,
+              'cost_eur': costController.text,
+              'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
+              'description': descriptionController.text.trim(),
+              'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+            };
 
-          DataHolder.addService(service);
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.add),
-        label: Text(AppLocalizations.of(context)!.confirmAdd),
-        style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-            minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-            )
+            // add-service form
+            if (widget.service == null) {
+              RequestHandler.sendPostRequest(uriString, true, body,
+                      () {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+                  _whenPostRequestIsComplete
+              );
+            }
+            // edit-service form
+            else {
+              var uriString = '${DataHolder.destination}/service/${widget.service!.id}';
+              RequestHandler.sendPatchRequest(uriString, body,
+                      () {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+                  _whenPatchRequestIsComplete
+              );
+            }
+
+          },
+          icon: _isLoading ? const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                value: null,
+                strokeWidth: 5,
+                strokeCap: StrokeCap.square,
+              )
+          ) : Icon(
+              widget.service == null ?
+              Icons.add : Icons.check
+          ),
+          label: widget.service == null ?
+          Text(AppLocalizations.of(context)!.confirmAdd) : Text(AppLocalizations.of(context)!.confirmEdit),
+          style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
+              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
+              )
+          ),
         ),
-      ),
+      ],
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -106,6 +192,12 @@ class _AddServiceState extends State<AddService> {
                     child: TextField(
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
+                      onEditingComplete: () {
+                        setState(() {
+                          _descValidator = _numValidator(descriptionController.text);
+                        });
+                      },
+                      enabled: !_isLoading,
                       minLines: 2,
                       maxLines: 10,
                       decoration: InputDecoration(
@@ -126,7 +218,14 @@ class _AddServiceState extends State<AddService> {
                     flex: 3,
                     child: TextField(
                       controller: costController,
+                      onEditingComplete: () {
+                        setState(() {
+                          _costValidator = _numValidator(costController.text);
+                        });
+                      },
                       keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      enabled: !_isLoading,
                       decoration: InputDecoration(
                         errorText: _costValidator,
                         hintText: AppLocalizations.of(context)!.costHint,
@@ -148,6 +247,13 @@ class _AddServiceState extends State<AddService> {
                   Expanded(
                     child: TextField(
                       keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {
+                        setState(() {
+                          _kmValidator = _validator(kmController.text);
+                        });
+                      },
+                      enabled: !_isLoading,
                       controller: kmController,
                       decoration: InputDecoration(
                         errorText: _kmValidator,
@@ -166,6 +272,13 @@ class _AddServiceState extends State<AddService> {
                   Expanded(
                     child: TextField(
                       keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () {
+                        setState(() {
+                          _nextKmValidator = _numValidator(nextKmController.text);
+                        });
+                      },
+                      enabled: !_isLoading,
                       controller: nextKmController,
                       decoration: InputDecoration(
                         errorText: _nextKmValidator,
@@ -200,7 +313,7 @@ class _AddServiceState extends State<AddService> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () async {
+                      onPressed: _isLoading ? null : () async {
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
                           lastDate: DateTime.now(),
@@ -222,7 +335,7 @@ class _AddServiceState extends State<AddService> {
 
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () {
+                      onPressed: _isLoading ? null : () {
                         setState(() {
                           _selectedDate = DateTime.now();
                         });
@@ -233,6 +346,72 @@ class _AddServiceState extends State<AddService> {
                           backgroundColor: WidgetStatePropertyAll(
                               Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
                           )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+              // === SELECT LOCATION === //
+              const SizedBox(height: 25),
+
+              AutoSizeText(
+                maxLines: 1,
+                _selectedAddress == null ?
+                'Select a location...' :
+                _selectedAddress!,
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () async {
+                        var data = await Navigator.push<Map<String, dynamic>>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => SelectLocationOnMaps(
+                              address: _selectedAddress,
+                              coordinates: _selectedCoordinates,
+                            )
+                          )
+                        );
+
+                        if (data == null) {
+                          return;
+                        }
+
+                        setState(() {
+                          _selectedAddress = data["address"]!;
+                          _selectedCoordinates = data["coordinates"]!;
+                        });
+                      },
+                      label: Text('Pick a place...'),
+                      icon: const Icon(Icons.map),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading || _selectedAddress == null ? null : () {
+                        setState(() {
+                          _selectedAddress = null;
+                          _selectedCoordinates = null;
+                        });
+                      },
+                      label: AutoSizeText(maxLines: 1, 'Remove location', minFontSize: 10),
+                      icon: const Icon(Icons.cancel),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary
                       ),
                     ),
                   )

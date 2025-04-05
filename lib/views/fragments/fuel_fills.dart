@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class FuelFillsFragment extends StatefulWidget {
   const FuelFillsFragment({super.key});
@@ -15,11 +16,24 @@ class FuelFillsFragment extends StatefulWidget {
 
 class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DataHolder>(
       builder: (context, dataHolder, child) {
-        return DataHolder.getFuelFillRecords().isEmpty?
+        if (DataHolder.getFuelFillRecords() == null) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Center(
+              child: CircularProgressIndicator(
+                value: null,
+              )
+            ),
+          );
+        }
+
+        return DataHolder.getFuelFillRecords()!.isEmpty?
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Center(
@@ -49,64 +63,84 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
           )
 
             :
-        SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+        RefreshIndicator(
+          onRefresh: () async {
+            setState(() {
+              _isLoading = true;
+            });
 
-                  // BUTTON FILTERS AND SEARCH
-                  Row(
-                    children: [
+            DataHolder.refreshFuelFills().whenComplete(() {
+              setState(() {
+                _isLoading = false;
+              });
+            });
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                      FilledButton.icon (
-                        onPressed: () {},
-                        label: Text(AppLocalizations.of(context)!.filters),
-                        icon: const Icon(Icons.filter_list),
-                      ),
+                    _isLoading ? const LinearProgressIndicator(
+                      value: null,
+                    ) : const SizedBox(),
 
-                      const SizedBox(width: 5),
+                    SizedBox(height: _isLoading ? 10 : 0),
 
-                      Expanded(
-                        child: TextField(
-                          style: const TextStyle(
-                              height: 1
-                          ),
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40.0),
-                              ),
-                              prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              hintText: AppLocalizations.of(context)!.searchInFuelFills,
-                              fillColor: Theme.of(context).colorScheme.onSecondary
-                          ),
+                    // BUTTON FILTERS AND SEARCH
+                    Row(
+                      children: [
+
+                        FilledButton.icon (
+                          onPressed: () {},
+                          label: Text(AppLocalizations.of(context)!.filters),
+                          icon: const Icon(Icons.filter_list),
                         ),
-                      )
 
-                    ],
-                  ),
+                        const SizedBox(width: 5),
 
-                  const SizedBox(height: 5),
+                        Expanded(
+                          child: TextField(
+                            style: const TextStyle(
+                                height: 1
+                            ),
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                hintText: AppLocalizations.of(context)!.searchInFuelFills,
+                                fillColor: Theme.of(context).colorScheme.onSecondary
+                            ),
+                          ),
+                        )
 
-                  // TOTAL RECORDS
-                  Text(
-                    DataHolder.getFuelFillRecords().length == 1 ?
-                    AppLocalizations.of(context)!.oneRecord :
-                    AppLocalizations.of(context)!.totalRecords(DataHolder.getFuelFillRecords().length)
-                  ),
+                      ],
+                    ),
 
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 5),
 
-                  const YearMonthFuelFillGroups(),
+                    // TOTAL RECORDS
+                    Text(
+                        DataHolder.getFuelFillRecords()!.length == 1 ?
+                        AppLocalizations.of(context)!.oneRecord :
+                        AppLocalizations.of(context)!.totalRecords(DataHolder.getFuelFillRecords()!.length)
+                    ),
 
-                  const SizedBox(height: 75)
+                    const SizedBox(height: 10),
 
-                ],
-              ),
-            )
+                    const YearMonthFuelFillGroups(),
+
+                    const SizedBox(height: 75)
+
+                  ],
+                ),
+              )
+          ),
         );
       }
     );

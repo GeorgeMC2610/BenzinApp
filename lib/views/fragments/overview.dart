@@ -23,13 +23,35 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
-  final FuelFillRecord? _lastRecord = DataHolder.getFuelFillRecords().isEmpty ? null : DataHolder.getFuelFillRecords().first;
 
   @override
   Widget build(BuildContext context) {
 
     return Consumer<DataHolder>(
       builder: (context, dataHolder, child) {
+
+        if (
+        DataHolder.getFuelFillRecords() == null ||
+        DataHolder.getMalfunctions() == null ||
+        DataHolder.getServices() == null ||
+        DataHolder.getCar() == null
+        ) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Center(
+                child: CircularProgressIndicator(
+                  value: null,
+                )
+            ),
+          );
+        }
+
+        final FuelFillRecord? lastRecord = DataHolder.getFuelFillRecords()!.isEmpty ? null : DataHolder.getFuelFillRecords()!.first;
+        final Service? lastService = DataHolder.getServices()!.isEmpty ? null : DataHolder.getServices()!.first;
+
+        // TODO: Improve the scroll view cards when it's loading.
+        // Maybe add cards with a small animation of a progress bar, instead
+        // of just a plain circular progress bar.
         return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -38,7 +60,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(AppLocalizations.of(context)!.loggedInAs('polo_despoina')),
+                  Text(AppLocalizations.of(context)!.loggedInAs(DataHolder.getCar()!.username)),
 
                   const SizedBox(height: 10),
 
@@ -57,12 +79,12 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                             children: [
                               Row(
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                       child: AutoSizeText(
-                                          'Audi A1',
+                                          '${DataHolder.getCar()!.manufacturer} ${DataHolder.getCar()!.model}',
                                           maxLines: 1,
                                           maxFontSize: 30,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold
                                           )
@@ -75,9 +97,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                                       color: Colors.amber, // Set exact background color
                                       borderRadius: BorderRadius.circular(20), // Keep shape consistent
                                       elevation: 0, // No shadow
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                        child: Text("2015"),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                        child: Text(DataHolder.getCar()!.year.toString()),
                                       )),
 
                                 ],
@@ -86,13 +108,13 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                               // fields that show if the car is ok
                               // will be added at a later date
                               // make them customizable pls
-                              _lastRecord != null ?
+                              lastRecord != null ?
                               ListTile(
                                 dense: false,
-                                title: AutoSizeText(maxLines: 1, _getDaysString(context)),
+                                title: AutoSizeText(maxLines: 1, _getDaysString(context, lastRecord)),
                                 subtitle: Text(""
-                                    "${_lastRecord.liters} lt | "
-                                    "€${_lastRecord.cost.toStringAsFixed(2)}"
+                                    "${lastRecord.liters} lt | "
+                                    "€${lastRecord.cost.toStringAsFixed(2)}"
                                 ),
                                 leading: const Icon(FontAwesomeIcons.gasPump),
                               ) :
@@ -102,7 +124,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               const StatusCard(
                                   icon: Icon(FontAwesomeIcons.wrench),
-                                  text: "Service overdue by 5 months",
+                                  text: "Next service at",
                                   status: StatusCardIndex.bad
                               ),
 
@@ -150,7 +172,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   ),
 
                   // graph with consumption container
-                  DataHolder.getFuelFillRecords().length < 2 ?
+                  DataHolder.getFuelFillRecords()!.length < 2 ?
                   const InsufficientDataCard()
                       :
                   SizedBox(
@@ -225,7 +247,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               // graph with consumption container
                               FuelTrendLineChart(
-                                data: DataHolder.getFuelFillRecords(),
+                                data: DataHolder.getFuelFillRecords()!,
                                 size: 300,
                                 focusType: _focus,
                                 context: context,
@@ -317,7 +339,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   ),
 
                   // car average stats container
-                  DataHolder.getFuelFillRecords().isEmpty ? const SizedBox() :
+                  DataHolder.getFuelFillRecords()!.isEmpty ? const SizedBox() :
                   SizedBox(
                     width: MediaQuery.sizeOf(context).width,
                     child: Card(
@@ -390,7 +412,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   ),
 
                   // timely manner consumption
-                  DataHolder.getFuelFillRecords().isEmpty ? const SizedBox() :
+                  DataHolder.getFuelFillRecords()!.isEmpty ? const SizedBox() :
                   SizedBox(
                     width: MediaQuery.sizeOf(context).width,
                     child: Card(
@@ -478,9 +500,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     == 0;
   }
 
-  String _getDaysString(BuildContext context) {
+  String _getDaysString(BuildContext context, FuelFillRecord record) {
 
-    var difference = _lastRecord!.dateTime.difference(DateTime.now());
+    var difference = record.dateTime.difference(DateTime.now());
 
     if (difference.inDays > 0) {
       return AppLocalizations.of(context)!.youPlannedYourFuelFill;
@@ -495,7 +517,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
       return AppLocalizations.of(context)!.lastFilledDaysAgo(difference.inDays.abs());
     }
     else {
-      return AppLocalizations.of(context)!.lastFilledAtDate(_lastRecord.dateTime.toString().substring(0, 10));
+      return AppLocalizations.of(context)!.lastFilledAtDate(record.dateTime.toString().substring(0, 10));
     }
 
   }

@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
+
+import 'classes/car.dart';
+import 'classes/trip.dart';
 
 class DataHolder with ChangeNotifier {
 
@@ -9,108 +15,155 @@ class DataHolder with ChangeNotifier {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static List<FuelFillRecord> _fuelFills = [];
-  static List<Malfunction> _malfunctions = [];
-  static List<Service> _services = [];
+  // TODO: Make these values not static, since this is a singleton.
+  static List<FuelFillRecord>? _fuelFills;
+  static List<Malfunction>? _malfunctions;
+  static List<Service>? _services;
+  static List<Trip>? _trips;
+  static Car? _car;
 
-  static List<FuelFillRecord> getFuelFillRecords() {
-    if (_fuelFills.isEmpty) {
-      _fuelFills.addAll([
-          FuelFillRecord(
-              id: 0,
-              dateTime: DateTime(2024, DateTime.march, 19),
-              cost: 67.9,
-              liters: 39.2,
-              kilometers: 409
-          ),
+  static const String destination = 'http://localhost:3000';
 
-        FuelFillRecord(
-          id: 1,
-          dateTime: DateTime(2024, DateTime.april, 29),
-          cost: 42.1,
-          liters: 24.5,
-          kilometers: 249
-      ),
+  Future<void> initializeValues() async {
+    // assuming the token manager has been initialized and has a token value.
 
-        FuelFillRecord(
-            id: 2,
-            dateTime: DateTime(2024, DateTime.may, 18),
-            cost: 110,
-            liters: 60,
-            kilometers: 728
-        ),
+    var carUri = '$destination/car';
+    var fuelFillsUri = '$destination/fuel_fill_record';
+    var malfunctionsUri = '$destination/malfunction';
+    var servicesUri = '$destination/service';
+    var tripsUri = '$destination/repeated_trip';
 
-        FuelFillRecord(
-            id: 3,
-            dateTime: DateTime(2024, DateTime.june, 27),
-            cost: 56.5,
-            liters: 29.37,
-            kilometers: 419
-        ),
+    // send four separate requests to get all the possible data
+    // once the requests are sent, the lists will no longer be null and can be
+    // used inside the views.
+    // if any of the lists are null for whatever reason, the views will turn
+    // into loading screens.
+    RequestHandler.sendGetRequest(
+      carUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
 
-        FuelFillRecord(
-            id: 4,
-            dateTime: DateTime(2024, DateTime.july, 29),
-            cost: 33.1,
-            liters: 17.27,
-            kilometers: 210
-        ),
+        _car = Car.fromJson(jsonResponse);
+        notifyListeners();
+      }
+    );
 
-        FuelFillRecord(
-            id: 5,
-            dateTime: DateTime(2024, DateTime.august, 19),
-            cost: 67.9,
-            liters: 39.2,
-            kilometers: 409
-        ),
+    RequestHandler.sendGetRequest(fuelFillsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _fuelFills = [];
 
-        FuelFillRecord(
-            id: 6,
-            dateTime: DateTime(2024, DateTime.september, 29),
-            cost: 42.1,
-            liters: 24.5,
-            kilometers: 249
-        ),
+        for (var object in jsonResponse) {
+          var fuelFill = FuelFillRecord.fromJson(object);
+          _fuelFills!.add(fuelFill);
+        }
 
-        FuelFillRecord(
-            id: 7,
-            dateTime: DateTime(2024, DateTime.october, 18),
-            cost: 110,
-            liters: 60,
-            kilometers: 528
-        ),
+        notifyListeners();
+      }
+    );
 
-        FuelFillRecord(
-            id: 8,
-            dateTime: DateTime(2024, DateTime.november, 27),
-            cost: 56.5,
-            liters: 29.37,
-            kilometers: 419
-        ),
+    RequestHandler.sendGetRequest(malfunctionsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _malfunctions = [];
 
-        FuelFillRecord(
-            id: 9,
-            dateTime: DateTime(2024, DateTime.december, 29),
-            cost: 66.1,
-            liters: 33.27,
-            kilometers: 440
-        )]
-      );
+        for (var object in jsonResponse) {
+          var malfunction = Malfunction.fromJson(object);
+          _malfunctions!.add(malfunction);
+        }
+
+        notifyListeners();
+      }
+    );
+
+    RequestHandler.sendGetRequest(servicesUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _services = [];
+
+        for (var object in jsonResponse) {
+          var service = Service.fromJson(object);
+          _services!.add(service);
+        }
+        notifyListeners();
+      }
+    );
+
+    RequestHandler.sendGetRequest(tripsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _trips = [];
+
+        for (var object in jsonResponse) {
+        var trip = Trip.fromJson(object);
+        _trips!.add(trip);
+        }
+        notifyListeners();
+      }
+    );
+
+  }
+
+  void destroyValues() async {
+    _fuelFills = null;
+    _malfunctions = null;
+    _services = null;
+    _car = null;
+  }
+
+  static Car? getCar() {
+    return _car;
+  }
+
+  // FUEL FILLS
+  static Future<void> refreshFuelFills() async {
+    RequestHandler.sendGetRequest(
+      '$destination/fuel_fill_record',
+      () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _fuelFills = [];
+
+        for (var object in jsonResponse) {
+          var fuelFill = FuelFillRecord.fromJson(object);
+          _fuelFills!.add(fuelFill);
+        }
+
+        _instance.notifyListeners();
+      }
+    );
+  }
+
+  static List<FuelFillRecord>? getFuelFillRecords() {
+    if (_fuelFills == null) {
+      return null;
     }
 
-    _fuelFills.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    _fuelFills!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return _fuelFills;
   }
 
   static void addFuelFill(FuelFillRecord record) {
-    _fuelFills.add(record);
+    _fuelFills!.add(record);
+    _instance.notifyListeners();
+  }
+
+  static void setFuelFill(FuelFillRecord modified) {
+    var initial = _fuelFills!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _fuelFills!.indexOf(initial);
+    _fuelFills![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteFuelFill(FuelFillRecord record) {
+    _fuelFills!.remove(record);
     _instance.notifyListeners();
   }
 
   static Map<String, List<FuelFillRecord>> getYearMonthFuelFills() {
     Map<String, List<FuelFillRecord>> groupedRecords = {};
 
-    for (var record in getFuelFillRecords()) {
+    for (var record in getFuelFillRecords()!) {
       String key = "${record.dateTime.year}-${record.dateTime.month.toString()
           .padLeft(2, '0')}";
 
@@ -124,182 +177,244 @@ class DataHolder with ChangeNotifier {
     return groupedRecords;
   }
 
-  static List<Malfunction> getMalfunctions() {
-    if (_malfunctions.isEmpty) {
-      _malfunctions.addAll([
-        Malfunction(
-            id: 5,
-            dateStarted: DateTime(2025, DateTime.january, 16),
-            description: 'Dashcam Broken',
-            title: "it won't record",
-            kilometersDiscovered: 200094,
-            dateEnded: DateTime(2025, DateTime.january, 19),
-            cost: null,
-            location: null,
-        ),
-
-        Malfunction(
-          id: 5,
-          dateStarted: DateTime(2024, DateTime.december, 6),
-          description: 'Window Shield',
-          title: 'brokennn',
-          kilometersDiscovered: 192847,
-          dateEnded: DateTime(2024, DateTime.december, 19),
-          cost: 229.93,
-          location: "Synchro Center"
-        ),
-
-        Malfunction(
-            id: 0,
-            dateStarted: DateTime(2024, DateTime.november, 29),
-            description: 'Ta takakia trizoun',
-            title: 'Braking pads',
-            kilometersDiscovered: 99278
-        ),
-
-        Malfunction(
-            id: 0,
-            dateStarted: DateTime(2024, DateTime.may, 18),
-            description: 'Reverse light is borken',
-            title: 'Reversing light',
-            kilometersDiscovered: 77182
-        ),
-
-        Malfunction(
-            id: 0,
-            dateStarted: DateTime(2024, DateTime.october, 2),
-            description: 'takakeiros trizeiros',
-            title: 'Bad tyres',
-            kilometersDiscovered: 109372
-        ),
-      ]);
+  // MALFUNCTIONS
+  static List<Malfunction>? getMalfunctions() {
+    if (_malfunctions == null) {
+      return null;
     }
 
-    _malfunctions.sort((a, b) => b.id.compareTo(a.id));
-    return _malfunctions;
+    _malfunctions!.sort((a, b) => b.dateStarted.compareTo(a.dateStarted));
+    return _malfunctions!;
   }
 
-  static List<Service> getServices() {
-    if (_services.isEmpty) {
-      _services.addAll([
-        Service(
-            id: 0,
-            dateHappened: DateTime(2024, DateTime.november, 29),
-            description: 'Ta takakia trizoun',
-            kilometersDone: 129402
-        ),
+  static Future<void> refreshMalfunctions() async {
+    RequestHandler.sendGetRequest(
+        '$destination/malfunction',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _malfunctions = [];
 
-        Service(
-            id: 0,
-            dateHappened: DateTime(2024, DateTime.may, 18),
-            description: 'Reverse light is borken',
-            kilometersDone: 118372
-        ),
+          for (var object in jsonResponse) {
+            var malfunction = Malfunction.fromJson(object);
+            _malfunctions!.add(malfunction);
+          }
 
-        Service(
-            id: 0,
-            dateHappened: DateTime(2024, DateTime.january, 2),
-            description: 'takakeiros trizeiros',
-            kilometersDone: 102852
-        ),
+          _instance.notifyListeners();
+        }
+    );
+  }
 
-        Service(
-          id: 3,
-          dateHappened: DateTime(2025, DateTime.january, 29),
-          description: '- bouzi\n- takakia\n- kai kati allo pou den thymamai',
-          kilometersDone: 106538,
-          location: 'Synchronerios Senterios',
-          nextServiceKilometers: 110938,
-          cost: 520.82
-        )
-      ]);
+  static void addMalfunction(Malfunction malfunction) {
+    _malfunctions!.add(malfunction);
+    _instance.notifyListeners();
+  }
+
+  static void setMalfunction(Malfunction modified) {
+    var initial = _malfunctions!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _malfunctions!.indexOf(initial);
+    _malfunctions![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteMalfunction(Malfunction malfunction) {
+    _malfunctions!.remove(malfunction);
+    _instance.notifyListeners();
+  }
+
+  // SERVICES
+  static List<Service>? getServices() {
+    if (_services == null) {
+      return null;
     }
 
-    _services.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
-    return _services;
+    _services!.sort((a, b) => b.kilometersDone.compareTo(a.kilometersDone));
+    return _services!;
   }
 
+  static Future<void> refreshServices() async {
+    RequestHandler.sendGetRequest(
+        '$destination/service',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _services = [];
+
+          for (var object in jsonResponse) {
+            var service = Service.fromJson(object);
+            _services!.add(service);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addService(Service service) {
+    _services!.add(service);
+    _instance.notifyListeners();
+  }
+
+  static void setService(Service modified) {
+    var initial = _services!.firstWhere((element) => element.id == modified.id);
+    var indexOfInitial = _services!.indexOf(initial);
+    _services![indexOfInitial] = modified;
+    _instance.notifyListeners();
+  }
+
+  static void deleteService(Service service) {
+    _services!.remove(service);
+    _instance.notifyListeners();
+  }
+
+  // TRIPS
+  static List<Trip>? getTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    _trips!.sort((a, b) => b.created.compareTo(a.created));
+    return _trips!;
+  }
+
+  static List<Trip>? getRepeatingTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating != 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
+  }
+
+  static List<Trip>? getOneTimeTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating == 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
+  }
+
+  static Future<void> refreshTrips() async {
+    RequestHandler.sendGetRequest(
+        '$destination/repeated_trip',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _trips = [];
+
+          for (var object in jsonResponse) {
+            var trip = Trip.fromJson(object);
+            _trips!.add(trip);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addTrip(Trip trip) {
+    _trips!.add(trip);
+    _instance.notifyListeners();
+  }
+
+  static void setTrip(Trip trip) {
+    var initial = _trips!.firstWhere((element) => element.id == trip.id);
+    var indexOfInitial = _trips!.indexOf(initial);
+    _trips![indexOfInitial] = trip;
+    _instance.notifyListeners();
+  }
+
+  static void deleteTrip(Trip trip) {
+    _trips!.remove(trip);
+    _instance.notifyListeners();
+  }
+
+  // GENERAL STATS
+  // TODO: Add calendar filters to them
   static double getTotalConsumption() {
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return 100 * totalLiters / totalKilometers;
   }
 
   static double getTotalEfficiency() {
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return totalKilometers / totalLiters;
   }
 
   static double getTotalTravelCost() {
-    double totalCost = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
-    double totalKilometers = _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalCost = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
+    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
 
     return totalCost / totalKilometers;
   }
 
-
-  static void addMalfunction(Malfunction malfunction) {
-    _malfunctions.add(malfunction);
-    _instance.notifyListeners();
-  }
-
-  static void addService(Service service) {
-    _services.add(service);
-    _instance.notifyListeners();
-  }
-
-  static void deleteFuelFill(FuelFillRecord record) {
-    _fuelFills.remove(record);
-    _instance.notifyListeners();
-  }
-
-  static void deleteMalfunction(Malfunction malfunction) {
-    _malfunctions.remove(malfunction);
-    _instance.notifyListeners();
-  }
-
-  static void deleteService(Service service) {
-    _services.remove(service);
-    _instance.notifyListeners();
-  }
-
-  static void setFuelFill(FuelFillRecord initial, FuelFillRecord modified) {
-    int index = _fuelFills.indexOf(initial);
-    _fuelFills[index] = modified;
-    _instance.notifyListeners();
-  }
-
   static double getTotalLitersFilled() {
-    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    return _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
   }
 
   static double getTotalKilometersTraveled() {
-    return _fuelFills.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    return _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
   }
 
   static double getTotalFuelFillCosts() {
-    return DataHolder.getFuelFillRecords().fold<double>(0, (sum, record) => sum + record.cost);
+    return DataHolder.getFuelFillRecords()!.fold<double>(0, (sum, record) => sum + record.cost);
   }
 
   static double getTotalMalfunctionCosts() {
-    return DataHolder.getMalfunctions().fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+    return DataHolder.getMalfunctions()!.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
   }
 
   static double getTotalServiceCosts() {
-    return DataHolder.getServices().fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+    return DataHolder.getServices()!.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
   }
 
   static double getTotalCost() {
     double totalCosts = 0;
 
-    totalCosts += _fuelFills.fold<double>(0, (sum, fuelFill) => sum + fuelFill.cost);
-    totalCosts += _services.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
-    totalCosts += _malfunctions.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
+    totalCosts += _fuelFills!.fold<double>(0, (sum, fuelFill) => sum + fuelFill.cost);
+    totalCosts += _services!.fold<double>(0, (sum, service) => sum + (service.cost ?? 0));
+    totalCosts += _malfunctions!.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
 
     return totalCosts;
+  }
+
+  static double getBestEfficiency() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
+  }
+
+  static double getWorstEfficiency() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
+  }
+
+  static double getBestTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
+  }
+
+  static double getWorstTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
   }
 
 }

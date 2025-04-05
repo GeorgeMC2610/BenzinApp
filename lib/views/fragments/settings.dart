@@ -1,4 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
@@ -21,6 +23,24 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
   bool lightMode = false;
   bool fastLogin = false;
+
+  void _performLogout() {
+    TokenManager().removeToken().whenComplete(() {
+      DataHolder().destroyValues();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Successfully logged out.'), // TODO: Localize
+        )
+      );
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const LoginPage()
+          )
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,37 +104,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.fastLogin),
-                  trailing: Switch.adaptive(
-                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
-                      if (states.contains(WidgetState.selected)) {
-                        return const Icon(Icons.electric_bolt, color: Colors.black);
-                      }
-                      return null;
-                    }),
-                    value: fastLogin,
-                      onChanged: (bool value) {
-
-                        if (fastLogin == false)
-                        {
-                          setState(() {
-                            fastLogin = true;
-                          });
-                        }
-                        else
-                        {
-                          setState(() {
-                            fastLogin = false;
-                          });
-                        }
-                      },
-
-                  ),
-                  leading: const Icon(Icons.offline_bolt_outlined),
-                ),
-                ListTile(
                   title: Text(AppLocalizations.of(context)!.editAccount),
-                  onTap: () {},
+                  enabled: false,
+                  onTap: null,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.edit),
                 ),
@@ -122,14 +114,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   title: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
                   trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
                   leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()
-                        )
-                    );
-                  },
+                  onTap: _performLogout,
                 ),
 
                 const SizedBox(height: 30),

@@ -16,6 +16,10 @@ class MaintenanceFragment extends StatefulWidget {
 }
 
 class _MaintenanceFragmentState extends State<MaintenanceFragment> {
+
+  bool _isLoadingServices = false;
+  bool _isLoadingMalfunctions = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,10 +48,21 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
                       Consumer<DataHolder>(
                         builder: (context, dataHolder, child) {
+                          if (DataHolder.getServices() == null) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: null,
+                                  )
+                              ),
+                            );
+                          }
+
                           return LayoutBuilder(
                             builder: (context, constraints) {
                               return
-                                DataHolder.getMalfunctions().isEmpty ?
+                                DataHolder.getMalfunctions()!.isEmpty ?
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: Center(
@@ -75,27 +90,45 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                   ),
                                 )
                                :
-                                SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                                  child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ...DataHolder.getMalfunctions().map((malfunction) {
-                                          return DataHolder.getMalfunctions().last != malfunction ?
-                                          Column(
-                                            children: [
-                                              MalfunctionCard(malfunction: malfunction),
-                                              const Divider()
-                                            ],
-                                          ) : MalfunctionCard(malfunction: malfunction);
-                                        }),
+                                RefreshIndicator(
+                                  onRefresh: () async {
+                                    setState(() {
+                                      _isLoadingMalfunctions = true;
+                                    });
 
-                                        const SizedBox(height: 65)
-                                      ]
+                                    DataHolder.refreshMalfunctions().whenComplete(() {
+                                      setState(() {
+                                        _isLoadingMalfunctions = false;
+                                      });
+                                    });
+                                  },
+                                  child: SingleChildScrollView(
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            _isLoadingMalfunctions ? const LinearProgressIndicator(
+                                              value: null,
+                                            ) : const SizedBox(),
+
+                                            ...DataHolder.getMalfunctions()!.map((malfunction) {
+                                              return DataHolder.getMalfunctions()!.last != malfunction ?
+                                              Column(
+                                                children: [
+                                                  MalfunctionCard(malfunction: malfunction),
+                                                  const Divider()
+                                                ],
+                                              ) : MalfunctionCard(malfunction: malfunction);
+                                            }),
+
+                                            const SizedBox(height: 65)
+                                          ]
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
                             },
                           );
                         }
@@ -103,10 +136,21 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                       
                       Consumer<DataHolder>(
                        builder: (context, dataHolder, child) {
+                         if (DataHolder.getServices() == null) {
+                           return const Padding(
+                             padding: EdgeInsets.symmetric(horizontal: 15),
+                             child: Center(
+                                 child: CircularProgressIndicator(
+                                   value: null,
+                                 )
+                             ),
+                           );
+                         }
+
                          return LayoutBuilder(
                            builder: (context, constraints) {
                              return
-                               DataHolder.getServices().isEmpty ?
+                               DataHolder.getServices()!.isEmpty ?
                                Padding(
                                  padding: const EdgeInsets.symmetric(horizontal: 15),
                                  child: Center(
@@ -135,27 +179,45 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                  ) ,
                                )
                                :
-                               SingleChildScrollView(
-                               child: Padding(
-                                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                                 child: Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                   children: [
-                                     ...DataHolder.getServices().map((service) {
-                                       return DataHolder.getServices().last != service ?
-                                       Column(
-                                         children: [
-                                           ServiceCard(service: service),
-                                           const Divider()
-                                         ],
-                                       ) : ServiceCard(service: service);
-                                     }),
+                               RefreshIndicator(
+                                 onRefresh: () async {
+                                   setState(() {
+                                     _isLoadingServices = true;
+                                   });
 
-                                     const SizedBox(height: 65)
-                                   ],
+                                   DataHolder.refreshServices().whenComplete(() {
+                                     setState(() {
+                                       _isLoadingServices = false;
+                                     });
+                                   });
+                                 },
+                                 child: SingleChildScrollView(
+                                   physics: const AlwaysScrollableScrollPhysics(),
+                                   child: Padding(
+                                     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         _isLoadingServices ? const LinearProgressIndicator(
+                                           value: null,
+                                         ) : const SizedBox(),
+
+                                         ...DataHolder.getServices()!.map((service) {
+                                           return DataHolder.getServices()!.last != service ?
+                                           Column(
+                                             children: [
+                                               ServiceCard(service: service),
+                                               const Divider()
+                                             ],
+                                           ) : ServiceCard(service: service);
+                                         }),
+
+                                         const SizedBox(height: 65)
+                                       ],
+                                     ),
+                                   ),
                                  ),
-                               ),
-                             );
+                               );
                            },
                          );
                        }
