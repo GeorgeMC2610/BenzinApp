@@ -146,7 +146,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
             Navigator.pop<Map<String, dynamic>>(context, data);
           },
           icon: const Icon(Icons.check),
-          label: Text('Confirm Trip'),
+          label: Text('Confirm Location'),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
             minimumSize: const Size(200, 55),

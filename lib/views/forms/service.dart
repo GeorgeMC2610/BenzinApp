@@ -124,6 +124,7 @@ class _ServiceFormState extends State<ServiceForm> {
               'cost_eur': costController.text,
               'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
               'description': descriptionController.text.trim(),
+              'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
             };
 
             // add-service form
