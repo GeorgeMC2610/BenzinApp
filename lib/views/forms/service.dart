@@ -69,8 +69,6 @@ class _ServiceFormState extends State<ServiceForm> {
       _selectedDate = widget.service!.dateHappened;
       _selectedAddress = widget.service!.getAddress();
       _selectedCoordinates = widget.service!.getCoordinates();
-
-      print(widget.service?.location);
     }
   }
 
