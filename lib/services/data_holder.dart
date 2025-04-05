@@ -4,11 +4,10 @@ import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:benzinapp/services/token_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'classes/car.dart';
+import 'classes/trip.dart';
 
 class DataHolder with ChangeNotifier {
 
@@ -20,6 +19,7 @@ class DataHolder with ChangeNotifier {
   static List<FuelFillRecord>? _fuelFills;
   static List<Malfunction>? _malfunctions;
   static List<Service>? _services;
+  static List<Trip>? _trips;
   static Car? _car;
 
   static const String destination = 'http://localhost:3000';
@@ -31,7 +31,7 @@ class DataHolder with ChangeNotifier {
     var fuelFillsUri = '$destination/fuel_fill_record';
     var malfunctionsUri = '$destination/malfunction';
     var servicesUri = '$destination/service';
-    // var tripsUri = Uri.parse('${destination}/repeated_trip');
+    var tripsUri = '$destination/repeated_trip';
 
     // send four separate requests to get all the possible data
     // once the requests are sent, the lists will no longer be null and can be
@@ -89,10 +89,18 @@ class DataHolder with ChangeNotifier {
       }
     );
 
-    // TODO: Complete the trip shenanigans.
-    // client.get(
-    //     tripsUri, headers: authHeaders
-    // );
+    RequestHandler.sendGetRequest(tripsUri, () {},
+      (response) {
+        var jsonResponse = jsonDecode(response.body);
+        _trips = [];
+
+        for (var object in jsonResponse) {
+        var trip = Trip.fromJson(object);
+        _trips!.add(trip);
+        }
+        notifyListeners();
+      }
+    );
 
   }
 
@@ -259,6 +267,71 @@ class DataHolder with ChangeNotifier {
     _instance.notifyListeners();
   }
 
+  // TRIPS
+  static List<Trip>? getTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    _trips!.sort((a, b) => b.created.compareTo(a.created));
+    return _trips!;
+  }
+
+  static List<Trip>? getRepeatingTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating != 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
+  }
+
+  static List<Trip>? getOneTimeTrips() {
+    if (_trips == null) {
+      return null;
+    }
+
+    var repeatingTrips = _trips!.where((trip) => trip.timesRepeating == 1).toList();
+    repeatingTrips.sort((a, b) => b.created.compareTo(a.created));
+    return repeatingTrips;
+  }
+
+  static Future<void> refreshTrips() async {
+    RequestHandler.sendGetRequest(
+        '$destination/repeated_trip',
+            () {},
+            (response) {
+          var jsonResponse = jsonDecode(response.body);
+          _trips = [];
+
+          for (var object in jsonResponse) {
+            var trip = Trip.fromJson(object);
+            _trips!.add(trip);
+          }
+
+          _instance.notifyListeners();
+        }
+    );
+  }
+
+  static void addTrip(Trip trip) {
+    _trips!.add(trip);
+    _instance.notifyListeners();
+  }
+
+  static void setTrip(Trip trip) {
+    var initial = _trips!.firstWhere((element) => element.id == trip.id);
+    var indexOfInitial = _trips!.indexOf(initial);
+    _trips![indexOfInitial] = trip;
+    _instance.notifyListeners();
+  }
+
+  static void deleteTrip(Trip trip) {
+    _trips!.remove(trip);
+    _instance.notifyListeners();
+  }
+
   // GENERAL STATS
   // TODO: Add calendar filters to them
   static double getTotalConsumption() {
@@ -310,6 +383,38 @@ class DataHolder with ChangeNotifier {
     totalCosts += _malfunctions!.fold<double>(0, (sum, malfunction) => sum + (malfunction.cost ?? 0));
 
     return totalCosts;
+  }
+
+  static double getBestEfficiency() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
+  }
+
+  static double getWorstEfficiency() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
+  }
+
+  static double getBestTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.first;
+  }
+
+  static double getWorstTravelCost() {
+    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+        .toList();
+
+    fuelFills.sort();
+    return fuelFills.last;
   }
 
 }

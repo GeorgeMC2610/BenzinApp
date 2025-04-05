@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/maps/select_location.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
@@ -24,6 +26,8 @@ class ServiceForm extends StatefulWidget {
 class _ServiceFormState extends State<ServiceForm> {
 
   DateTime? _selectedDate;
+  String? _selectedAddress;
+  LatLng? _selectedCoordinates;
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController kmController = TextEditingController();
@@ -41,7 +45,6 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   Future<void> _whenPatchRequestIsComplete(http.Response response) async {
-    print(response.body);
     var jsonObject = jsonDecode(response.body);
     var service = Service.fromJson(jsonObject["service"]);
     DataHolder.setService(service);
@@ -64,6 +67,8 @@ class _ServiceFormState extends State<ServiceForm> {
       costController.text = widget.service!.cost?.toString() ?? '';
       descriptionController.text = widget.service!.description;
       _selectedDate = widget.service!.dateHappened;
+      _selectedAddress = widget.service!.getAddress();
+      _selectedCoordinates = widget.service!.getCoordinates();
     }
   }
 
@@ -117,6 +122,7 @@ class _ServiceFormState extends State<ServiceForm> {
               'cost_eur': costController.text,
               'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
               'description': descriptionController.text.trim(),
+              'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
             };
 
             // add-service form
@@ -340,6 +346,72 @@ class _ServiceFormState extends State<ServiceForm> {
                           backgroundColor: WidgetStatePropertyAll(
                               Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
                           )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+              // === SELECT LOCATION === //
+              const SizedBox(height: 25),
+
+              AutoSizeText(
+                maxLines: 1,
+                _selectedAddress == null ?
+                'Select a location...' :
+                _selectedAddress!,
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () async {
+                        var data = await Navigator.push<Map<String, dynamic>>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => SelectLocationOnMaps(
+                              address: _selectedAddress,
+                              coordinates: _selectedCoordinates,
+                            )
+                          )
+                        );
+
+                        if (data == null) {
+                          return;
+                        }
+
+                        setState(() {
+                          _selectedAddress = data["address"]!;
+                          _selectedCoordinates = data["coordinates"]!;
+                        });
+                      },
+                      label: Text('Pick a place...'),
+                      icon: const Icon(Icons.map),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading || _selectedAddress == null ? null : () {
+                        setState(() {
+                          _selectedAddress = null;
+                          _selectedCoordinates = null;
+                        });
+                      },
+                      label: AutoSizeText(maxLines: 1, 'Remove location', minFontSize: 10),
+                      icon: const Icon(Icons.cancel),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary
                       ),
                     ),
                   )

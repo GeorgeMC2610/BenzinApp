@@ -5,12 +5,14 @@ class DividerWithText extends StatelessWidget {
     super.key,
     required this.text,
     required this.lineColor, required this.textColor, required this.textSize,
+    this.barThickness
   });
 
   final String text;
   final double textSize;
   final Color lineColor;
   final Color textColor;
+  final double? barThickness;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class DividerWithText extends StatelessWidget {
                 child: Divider(
                   color: lineColor,
                   height: 36,
+                  thickness: barThickness,
                 )),
           ),
           Text(
@@ -38,6 +41,7 @@ class DividerWithText extends StatelessWidget {
                 child: Divider(
                   color: lineColor,
                   height: 36,
+                  thickness: barThickness,
                 )),
           ),
     ]);
