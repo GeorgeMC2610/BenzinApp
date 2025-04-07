@@ -1,4 +1,4 @@
-import 'package:BenzinApp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

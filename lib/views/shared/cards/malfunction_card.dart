@@ -1,6 +1,6 @@
-import 'package:BenzinApp/services/classes/malfunction.dart';
-import 'package:BenzinApp/views/details/malfunction.dart';
-import 'package:BenzinApp/views/forms/malfunction.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/views/details/malfunction.dart';
+import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';

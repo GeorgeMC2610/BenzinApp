@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:BenzinApp/services/data_holder.dart';
-import 'package:BenzinApp/services/token_manager.dart';
-import 'package:BenzinApp/views/about/app_information.dart';
-import 'package:BenzinApp/views/about/terms_and_conditions.dart';
-import 'package:BenzinApp/views/login.dart';
-import 'package:BenzinApp/views/about/privacy_policy.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/views/about/app_information.dart';
+import 'package:benzinapp/views/about/terms_and_conditions.dart';
+import 'package:benzinapp/views/login.dart';
+import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:flutter/material.dart';
-import 'package:BenzinApp/services/language_provider.dart';
+import 'package:benzinapp/services/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

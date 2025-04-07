@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:BenzinApp/services/request_handler.dart';
+import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

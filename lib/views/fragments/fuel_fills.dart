@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:BenzinApp/services/data_holder.dart';
-import 'package:BenzinApp/views/shared/year_month_fuel_fill_groups.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/views/shared/year_month_fuel_fill_groups.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

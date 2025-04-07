@@ -1,7 +1,7 @@
-import 'package:BenzinApp/services/classes/service.dart';
-import 'package:BenzinApp/services/locale_string_converter.dart';
-import 'package:BenzinApp/views/details/service.dart';
-import 'package:BenzinApp/views/forms/service.dart';
+import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/views/details/service.dart';
+import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:BenzinApp/services/classes/malfunction.dart';
-import 'package:BenzinApp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../services/data_holder.dart';

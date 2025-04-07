@@ -1,14 +1,14 @@
-import 'package:BenzinApp/services/classes/fuel_fill_record.dart';
-import 'package:BenzinApp/services/data_holder.dart';
-import 'package:BenzinApp/services/language_provider.dart';
-import 'package:BenzinApp/services/request_handler.dart';
-import 'package:BenzinApp/views/shared/dialogs/delete_dialog.dart';
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/language_provider.dart';
+import 'package:benzinapp/services/request_handler.dart';
+import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:BenzinApp/views/shared/shared_font_styles.dart';
+import 'package:benzinapp/views/shared/shared_font_styles.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/token_manager.dart';

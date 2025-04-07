@@ -1,5 +1,5 @@
-name: BenzinApp
-description: "BenzinApp's cross platform application"
+name: benzinapp
+description: "BenzinApp's"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -44,7 +44,6 @@ dependencies:
   fl_chart: ^0.66.0
   geolocator: ^13.0.4
   flutter_polyline_points: ^2.1.0
-  flutter_launcher_icons: ^0.14.3
   geocoding: ^3.0.0
   provider: ^6.0.5
   google_maps_flutter: ^2.10.1
@@ -71,12 +70,6 @@ dependency_overrides:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "lib/assets/images/benzinapp_logo_round.png"
-  min_sdk_android: 21
-
 flutter:
 
   generate: true

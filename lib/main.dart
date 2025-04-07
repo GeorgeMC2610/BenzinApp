@@ -1,8 +1,8 @@
-import 'package:BenzinApp/services/data_holder.dart';
-import 'package:BenzinApp/services/language_provider.dart';
-import 'package:BenzinApp/services/theme_provider.dart';
-import 'package:BenzinApp/services/token_manager.dart';
-import 'package:BenzinApp/views/start.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/language_provider.dart';
+import 'package:benzinapp/services/theme_provider.dart';
+import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/views/start.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';

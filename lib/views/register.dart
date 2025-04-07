@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:BenzinApp/services/data_holder.dart';
-import 'package:BenzinApp/services/request_handler.dart';
-import 'package:BenzinApp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/request_handler.dart';
+import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/token_manager.dart';

@@ -1,4 +1,4 @@
-import 'package:BenzinApp/services/token_manager.dart';
+import 'package:benzinapp/services/token_manager.dart';
 import 'package:http/http.dart' as http;
 
 class RequestHandler {

@@ -1,7 +1,7 @@
-import 'package:BenzinApp/services/request_handler.dart';
-import 'package:BenzinApp/services/token_manager.dart';
-import 'package:BenzinApp/views/home.dart';
-import 'package:BenzinApp/views/login.dart';
+import 'package:benzinapp/services/request_handler.dart';
+import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/views/home.dart';
+import 'package:benzinapp/views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
