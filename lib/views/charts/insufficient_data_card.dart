@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/views/forms/fuel_fill_record.dart';
+import 'package:BenzinApp/views/forms/fuel_fill_record.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 

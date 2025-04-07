@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/classes/service.dart';
-import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/views/maps/select_location.dart';
-import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:BenzinApp/services/classes/service.dart';
+import 'package:BenzinApp/services/locale_string_converter.dart';
+import 'package:BenzinApp/views/maps/select_location.dart';
+import 'package:BenzinApp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

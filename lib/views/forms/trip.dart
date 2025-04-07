@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/views/maps/create_trip.dart';
-import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
-import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:BenzinApp/views/maps/create_trip.dart';
+import 'package:BenzinApp/views/shared/dialogs/delete_dialog.dart';
+import 'package:BenzinApp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

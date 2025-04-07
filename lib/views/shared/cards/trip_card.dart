@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/classes/trip.dart';
-import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/views/details/trip.dart';
-import 'package:benzinapp/views/forms/trip.dart';
+import 'package:BenzinApp/services/classes/trip.dart';
+import 'package:BenzinApp/services/locale_string_converter.dart';
+import 'package:BenzinApp/views/details/trip.dart';
+import 'package:BenzinApp/views/forms/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';

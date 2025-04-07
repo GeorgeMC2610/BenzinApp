@@ -1,4 +1,4 @@
-import 'package:benzinapp/services/data_holder.dart';
+import 'package:BenzinApp/services/data_holder.dart';
 
 class Trip {
   static Trip fromJson(Map<String, dynamic> object) {

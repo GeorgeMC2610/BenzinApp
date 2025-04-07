@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/classes/malfunction.dart';
-import 'package:benzinapp/services/classes/service.dart';
-import 'package:benzinapp/services/request_handler.dart';
+import 'package:BenzinApp/services/classes/fuel_fill_record.dart';
+import 'package:BenzinApp/services/classes/malfunction.dart';
+import 'package:BenzinApp/services/classes/service.dart';
+import 'package:BenzinApp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 
 import 'classes/car.dart';

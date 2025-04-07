@@ -1,5 +1,5 @@
-import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/theme_provider.dart';
+import 'package:BenzinApp/services/data_holder.dart';
+import 'package:BenzinApp/services/theme_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
