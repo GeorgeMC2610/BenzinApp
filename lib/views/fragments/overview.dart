@@ -3,6 +3,7 @@ import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/theme_provider.dart';
 import 'package:benzinapp/views/charts/costs_pie_chart.dart';
 import 'package:benzinapp/views/charts/fuel_trend_line_chart.dart';
 import 'package:benzinapp/views/charts/insufficient_data_card.dart';
@@ -94,7 +95,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                                   const SizedBox(width: 15),
 
                                   Material(
-                                      color: Colors.amber, // Set exact background color
+                                      color: Theme.of(context).colorScheme.secondaryContainer, // Set exact background color
                                       borderRadius: BorderRadius.circular(20), // Keep shape consistent
                                       elevation: 0, // No shadow
                                       child: Padding(
@@ -120,13 +121,14 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                               ) :
                               const SizedBox(),
 
-                              const Divider(),
+                              _canServiceBeDisplayed(lastService) ? const Divider()
+                              : const SizedBox(),
 
-                              const StatusCard(
-                                  icon: Icon(FontAwesomeIcons.wrench),
-                                  text: "Next service at",
-                                  status: StatusCardIndex.bad
-                              ),
+                              _canServiceBeDisplayed(lastService) ? StatusCard(
+                                  icon: const Icon(FontAwesomeIcons.wrench),
+                                  text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService!.nextServiceKilometers!)} km',
+                                  status: StatusCardIndex.warning
+                              ) : const SizedBox(),
 
                               // const StatusCard(
                               //     icon: Icon(FontAwesomeIcons.carBattery),
@@ -287,51 +289,58 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               const SizedBox(height: 20),
 
-                              CostsPieChart(buildContext: context),
+                              Consumer<ThemeProvider>
+                                (builder: (BuildContext context, ThemeProvider value, Widget? child) {
+                                return Column(
+                                  children: [
+                                    CostsPieChart(buildContext: context, theme: value.themeMode.name),
 
-                              const SizedBox(height: 20),
+                                    const SizedBox(height: 20),
 
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "◉ ",
-                                    style: TextStyle(
-                                        color: Colors.lightGreen.shade500,
-                                        fontSize: 25
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "◉ ",
+                                          style: TextStyle(
+                                              color:  CostsPieChart.pieChartColors[value.themeMode.name]!['fuel'],
+                                              fontSize: 25
+                                          ),
+                                        ),
+                                        Text('${AppLocalizations.of(context)!.fuelFills} - €${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalFuelFillCosts())}')
+                                      ],
                                     ),
-                                  ),
-                                  Text('${AppLocalizations.of(context)!.fuelFills} - €${DataHolder.getTotalFuelFillCosts()}')
-                                ],
-                              ),
 
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "◉ ",
-                                    style: TextStyle(
-                                        color: Colors.green.shade700,
-                                        fontSize: 25
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "◉ ",
+                                          style: TextStyle(
+                                              color: CostsPieChart.pieChartColors[value.themeMode.name]!['malfunction'],
+                                              fontSize: 25
+                                          ),
+                                        ),
+                                        Text('${AppLocalizations.of(context)!.malfunctions} - €${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalMalfunctionCosts())}')
+                                      ],
                                     ),
-                                  ),
-                                  Text('${AppLocalizations.of(context)!.malfunctions} - €${DataHolder.getTotalMalfunctionCosts()}')
-                                ],
-                              ),
 
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "◉ ",
-                                    style: TextStyle(
-                                        color: Colors.amber,
-                                        fontSize: 25
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "◉ ",
+                                          style: TextStyle(
+                                              color: CostsPieChart.pieChartColors[value.themeMode.name]!['service'],
+                                              fontSize: 25
+                                          ),
+                                        ),
+                                        Text('${AppLocalizations.of(context)!.services} - €${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalServiceCosts())}')
+                                      ],
                                     ),
-                                  ),
-                                  Text('${AppLocalizations.of(context)!.services} - €${DataHolder.getTotalServiceCosts()}')
-                                ],
-                              ),
+                                  ],
+                                );
+                              }),
                             ],
                           ),
                         )
@@ -459,7 +468,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                                     fontWeight: FontWeight.bold
                                 ),
                               ),
-                              Text('${LocaleStringConverter.formattedDouble(context, DataHolder.getTotalKilometersTraveled())} km',
+                              Text('${LocaleStringConverter.formattedDouble(
+                                  context,
+                                  DataHolder.getTotalKilometersTraveled()
+                              )} km',
                                 style: const TextStyle(
                                   fontSize: 15,
                                 ),
@@ -494,10 +506,17 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
   bool _areCostsEmpty() {
     return
-    DataHolder.getTotalFuelFillCosts() +
-    DataHolder.getTotalServiceCosts() +
-    DataHolder.getTotalMalfunctionCosts()
-    == 0;
+      DataHolder.getTotalFuelFillCosts() +
+          DataHolder.getTotalServiceCosts() +
+          DataHolder.getTotalMalfunctionCosts()
+          == 0;
+  }
+
+  bool _canServiceBeDisplayed(Service? service) {
+    if (service == null) return false;
+    if (service.nextServiceKilometers == null) return false;
+
+    return true;
   }
 
   String _getDaysString(BuildContext context, FuelFillRecord record) {

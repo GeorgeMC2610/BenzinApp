@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
@@ -77,7 +76,8 @@ class _ServiceFormState extends State<ServiceForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.addService),
+          title: widget.service != null ? Text(AppLocalizations.of(context)!.editService) :
+          Text(AppLocalizations.of(context)!.addService),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -358,7 +358,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedAddress == null ?
-                'Select a location...' :
+                AppLocalizations.of(context)!.selectLocation :
                 _selectedAddress!,
                 style: const TextStyle(
                     fontSize: 22,
@@ -392,7 +392,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = data["coordinates"]!;
                         });
                       },
-                      label: Text('Pick a place...'),
+                      label: Text(AppLocalizations.of(context)!.pickAPlace),
                       icon: const Icon(Icons.map),
                     ),
                   ),
@@ -407,7 +407,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, 'Remove location', minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.error,

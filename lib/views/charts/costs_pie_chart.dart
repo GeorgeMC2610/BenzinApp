@@ -1,12 +1,27 @@
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/theme_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class CostsPieChart extends StatelessWidget {
 
-  const CostsPieChart({super.key, required this.buildContext});
+  const CostsPieChart({super.key, required this.buildContext, required this.theme});
 
   final BuildContext buildContext;
+  final String theme;
+
+  static const Map<String, Map<String, Color>> pieChartColors = {
+    "dark": {
+      "fuel": Colors.green,
+      "malfunction": Colors.lightGreen,
+      "service": Colors.deepOrange,
+    },
+    "light": {
+      "fuel":  Colors.orange,
+      "malfunction":  Colors.redAccent,
+      "service": Colors.deepOrangeAccent,
+    }
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +36,9 @@ class CostsPieChart extends StatelessWidget {
       child: PieChart(
         PieChartData(
           sections: [
-            _buildPieChartSection(fuelFillCost, totalCost, Colors.lightGreen.shade500, "Fuel"),
-            _buildPieChartSection(malfunctionsCost, totalCost, Colors.green.shade700, "Malfunctions"),
-            _buildPieChartSection(servicesCost, totalCost, Colors.amber, "Services"),
+            _buildPieChartSection(fuelFillCost, totalCost, pieChartColors[theme]!['fuel']!, "fuel"),
+            _buildPieChartSection(malfunctionsCost, totalCost, pieChartColors[theme]!['malfunction']!, "malfunction"),
+            _buildPieChartSection(servicesCost, totalCost, pieChartColors[theme]!['service']!, "service"),
           ],
           sectionsSpace: 2,
           centerSpaceRadius: 50,
@@ -31,6 +46,7 @@ class CostsPieChart extends StatelessWidget {
       ),
     );
   }
+
 
   PieChartSectionData _buildPieChartSection(double cost, double total, Color color, String title) {
     if (cost == 0) return PieChartSectionData(value: 0); // Hide sections with no cost

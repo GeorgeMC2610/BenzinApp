@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:benzinapp/services/request_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -62,13 +63,17 @@ class _CreateTripState extends State<CreateTrip> {
         destinationAddress = widget.destinationAddress!;
         totalKm = widget.totalKm;
 
-        markers.add(
-          _createMarker(widget.originCoordinates!, originAddress!, true)
-        );
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            markers.add(
+                _createMarker(widget.originCoordinates!, originAddress!, true)
+            );
 
-        markers.add(
-          _createMarker(widget.destinationCoordinates!, destinationAddress!, false)
-        );
+            markers.add(
+                _createMarker(widget.destinationCoordinates!, destinationAddress!, false)
+            );
+          });
+        });
 
         List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(polyLine!)
             .map((point) => LatLng(point.latitude, point.longitude)).toList();
@@ -91,7 +96,7 @@ class _CreateTripState extends State<CreateTrip> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Create Trip"),
+        title: Text(AppLocalizations.of(context)!.createTrip),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -108,11 +113,11 @@ class _CreateTripState extends State<CreateTrip> {
 
             Navigator.pop<Map<String, dynamic>>(context, data);
           },
-          icon: Icon(Icons.check),
-          label: Text('Confirm Trip'),
+          icon: const Icon(Icons.check),
+          label: Text(AppLocalizations.of(context)!.confirmTrip),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
-            minimumSize: Size(200, 55),
+            minimumSize: const Size(200, 55),
           ),
         ),
       ],
@@ -135,9 +140,9 @@ class _CreateTripState extends State<CreateTrip> {
                       _selectedTab = tab;
                     });
                   },
-                  tabs: const [
-                    Tab(text: 'Origin'),
-                    Tab(text: 'Destination'),
+                  tabs: [
+                    Tab(text: AppLocalizations.of(context)!.origin),
+                    Tab(text: AppLocalizations.of(context)!.destination),
                   ],
                 ),
 
@@ -161,8 +166,8 @@ class _CreateTripState extends State<CreateTrip> {
                             ],
                             textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
-                              hintText: 'Type an address for the origin...',
-                              labelText: 'Search Address',
+                              hintText: AppLocalizations.of(context)!.searchAddressHintOrigin,
+                              labelText: AppLocalizations.of(context)!.searchAddress,
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.0),
@@ -182,8 +187,8 @@ class _CreateTripState extends State<CreateTrip> {
                                 _addMarkerFromAddress(value, false);
                               },
                               decoration: InputDecoration(
-                                hintText: 'Type an address for the destination...',
-                                labelText: 'Search Address',
+                                hintText: AppLocalizations.of(context)!.searchAddressHintDestination,
+                                labelText: AppLocalizations.of(context)!.searchAddress,
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
@@ -201,8 +206,8 @@ class _CreateTripState extends State<CreateTrip> {
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text("Type an address, or long-press on the map."),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            child: Text(AppLocalizations.of(context)!.typeAnAddress),
           ),
 
           Expanded( // Google Map should remain Expanded
@@ -253,7 +258,7 @@ class _CreateTripState extends State<CreateTrip> {
 
       await _googleMapController.animateCamera(
           CameraUpdate.newLatLngZoom(place, 18.3));
-      await Future.delayed(Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 50));
       await _googleMapController.showMarkerInfoWindow(MarkerId(_selectedTab == 0 ? 'origin' : 'destination'));
 
       _checkForPolyLine();
@@ -270,7 +275,7 @@ class _CreateTripState extends State<CreateTrip> {
 
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("No places found with this address.")));
+            SnackBar(content: Text(AppLocalizations.of(context)!.noPlacesFoundWithThisAddress)));
         return;
       }
 
@@ -292,7 +297,7 @@ class _CreateTripState extends State<CreateTrip> {
 
       await _googleMapController.animateCamera(
           CameraUpdate.newLatLngZoom(place, 18.3));
-      await Future.delayed(Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 50));
       await _googleMapController.showMarkerInfoWindow(MarkerId(isOrigin ? 'origin' : 'destination'));
 
       _checkForPolyLine();
@@ -300,7 +305,10 @@ class _CreateTripState extends State<CreateTrip> {
     } catch (e) {
       debugPrint("Error fetching address: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("No places found with this address.")));
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.noPlacesFoundWithThisAddress)
+        )
+      );
     }
   }
 
@@ -312,7 +320,11 @@ class _CreateTripState extends State<CreateTrip> {
       icon: BitmapDescriptor.defaultMarkerWithHue(
           isOrigin ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
       visible: true,
-      infoWindow: InfoWindow(title: isOrigin ? 'Origin' : 'Destination', snippet: address),
+      infoWindow: InfoWindow(title: isOrigin ?
+      AppLocalizations.of(context)!.origin :
+      AppLocalizations.of(context)!.destination,
+          snippet: address
+      ),
     );
   }
 
@@ -324,10 +336,7 @@ class _CreateTripState extends State<CreateTrip> {
   }
 
   void _checkForPolyLine() {
-    debugPrint("Trying to make trip...");
-
     if (markers.toList().where((marker) => marker.markerId.value == 'origin' || marker.markerId.value == 'destination').length != 2) {
-      debugPrint("Not enough markers. Can't proceed. Current length: ${markers.length}");
       return;
     }
 
@@ -343,7 +352,7 @@ class _CreateTripState extends State<CreateTrip> {
           if (decodedBody['routes'].isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: const Text("There is no route available for the current positions.")
+                content: Text(AppLocalizations.of(context)!.noTripsFound)
               )
             );
             return;

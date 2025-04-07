@@ -50,7 +50,7 @@ class _ViewTripState extends State<ViewTrip> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trip Data'),
+        title: Text(AppLocalizations.of(context)!.tripData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -127,7 +127,7 @@ class _ViewTripState extends State<ViewTrip> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Name:', style: SharedFontStyles.legendTextStyle),
+                        Text(AppLocalizations.of(context)!.tripName, style: SharedFontStyles.legendTextStyle),
                         Text(
                             trip.title,
                             style: SharedFontStyles.mainTextStyle
@@ -135,16 +135,17 @@ class _ViewTripState extends State<ViewTrip> {
 
                         const SizedBox(height: 20),
 
-                        Text('Weekly Occurance:', style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            trip.timesRepeating == 1 ? "Doesn't repeat" :
-                            'Repeating ${trip.timesRepeating} times per week',
+                        Text(AppLocalizations.of(context)!.weeklyOccurrence, style: SharedFontStyles.legendTextStyle),
+                        AutoSizeText(
+                            maxLines: 1,
+                            trip.timesRepeating == 1 ? AppLocalizations.of(context)!.noRepeat :
+                            AppLocalizations.of(context)!.repeatingTimesPerWeek(trip.timesRepeating),
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
 
                         const SizedBox(height: 20),
 
-                        Text('Trip Distance:', style: SharedFontStyles.legendTextStyle),
+                        Text(AppLocalizations.of(context)!.tripDistance, style: SharedFontStyles.legendTextStyle),
                         Text(
                           '${LocaleStringConverter.formattedDouble(context, trip.totalKm)} km',
                           style: SharedFontStyles.descriptiveTextStyle
@@ -157,7 +158,7 @@ class _ViewTripState extends State<ViewTrip> {
 
               // === ANALYTICS PER ONE TIME === //
               DividerWithText(
-                  text: 'Analytics Per Time',
+                  text: AppLocalizations.of(context)!.analyticsPerTime,
                   lineColor: Colors.grey ,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 17,
@@ -176,33 +177,39 @@ class _ViewTripState extends State<ViewTrip> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(true))} per time',
+                          '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(true))} '
+                          '${AppLocalizations.of(context)!.perTime}',
                           style: mainDescription(Colors.green)
                         ),
                         Text(
-                          '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(true))} lt. per time',
+                          '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(true))} lt. '
+                          '${AppLocalizations.of(context)!.perTime}',
                           style: legendDescription(Colors.green)
                         ),
 
                         const SizedBox(height: 10),
 
                         Text(
-                            '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(true))} per time',
+                            '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(true))} '
+                            '${AppLocalizations.of(context)!.perTime}',
                             style: mainDescription(Colors.grey)
                         ),
                         Text(
-                            '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(true))} lt. per time',
+                            '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(true))} lt. '
+                            '${AppLocalizations.of(context)!.perTime}',
                             style: legendDescription(Colors.grey)
                         ),
 
                         const SizedBox(height: 10),
 
                         Text(
-                            '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(true))} per time',
+                            '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(true))} '
+                            '${AppLocalizations.of(context)!.perTime}',
                             style: mainDescription(Colors.redAccent)
                         ),
                         Text(
-                            '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(true))} lt. per time',
+                            '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(true))} lt. '
+                            '${AppLocalizations.of(context)!.perTime}',
                             style: legendDescription(Colors.redAccent)
                         ),
                       ],
@@ -216,7 +223,7 @@ class _ViewTripState extends State<ViewTrip> {
               Column(
                 children: [
                   DividerWithText(
-                    text: 'Weekly Analytics',
+                    text: AppLocalizations.of(context)!.weeklyAnalytics,
                     lineColor: Colors.grey ,
                     textColor: Theme.of(context).colorScheme.primary,
                     textSize: 17,
@@ -238,33 +245,39 @@ class _ViewTripState extends State<ViewTrip> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(false))} per week',
+                                '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(false))} '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.green)
                             ),
                             Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(false))} lt. per week',
+                                '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(false))} lt. '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.green)
                             ),
 
                             const SizedBox(height: 10),
 
                             Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(false))} per week',
+                                '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(false))} '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.grey)
                             ),
                             Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(false))} lt. per week',
+                                '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(false))} lt. '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.grey)
                             ),
 
                             const SizedBox(height: 10),
 
                             Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(false))} per week',
+                                '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(false))} '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.redAccent)
                             ),
                             Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(false))} lt. per week',
+                                '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(false))} lt. '
+                                '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.redAccent)
                             ),
                           ],
@@ -276,7 +289,7 @@ class _ViewTripState extends State<ViewTrip> {
               ),
 
               DividerWithText(
-                text: 'Map Details',
+                text: AppLocalizations.of(context)!.mapDetails,
                 lineColor: Colors.grey ,
                 textColor: Theme.of(context).colorScheme.primary,
                 textSize: 17,
@@ -335,7 +348,7 @@ class _ViewTripState extends State<ViewTrip> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.secondaryContainer
                             ),
-                            label: Text("Show on maps"),
+                            label: Text(AppLocalizations.of(context)!.showOnMaps),
                             icon: const Icon(Icons.map),
                           ),
                         )

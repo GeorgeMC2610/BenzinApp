@@ -187,6 +187,7 @@
     "comingSoon": "Coming Soon...",
 
     "addService": "Add Service",
+    "editService": "Edit Service",
     "serviceInfo": "Service Info",
     "description2": "Description",
     "serviceMileage2": "Service Mileage",
@@ -197,9 +198,93 @@
     "confirmAddService": "Confirm Add Service",
 
     "addMalfunction": "Add Malfunction",
+    "editMalfunction": "Edit Malfunction",
     "malfunctionInfo": "Malfunction Info",
     "malfunctionTitle": "Title",
     "malfunctionTitleHint": "What's malfunctioning...?",
-    "descriptionHintMalfunction": "Describe what is malfunctioning..."
+    "descriptionHintMalfunction": "Describe what is malfunctioning...",
+    "pleaseSelectAnEndDate": "Please select an end date.",
+    "iFixedThisMalfunction": "I fixed this malfunction",
+    "repairData": "Repair Data",
+    "repairCost": "Repair Cost",
+    "repairCostHint": "Enter cost...",
+    "uncheckingTheBox": "Warning! By unchecking the box, you will mark this functions as ongoing.",
+    "selectLocation": "Select Location...",
 
+    "tripData": "Trip Data",
+    "tripName": "Title:",
+    "weeklyOccurrence": "Weekly Occurrence:",
+    "tripDistance": "Trip Distance:",
+    "analyticsPerTime": "Analytics Per Time",
+    "perTime": "per time",
+    "weeklyAnalytics": "Weekly Analytics",
+    "perWeek": "per week",
+    "mapDetails": "Map Details",
+    "showOnMaps": "Show on maps",
+    "repeatingTimesPerWeek": "Repeating {n} times per week",
+    "@repeatingTimesPerWeek": {
+        "description": "A positive number that is at least 2.",
+        "placeholders": {
+            "n": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "repeatingTimesPerWeekShort": "{n} times per week",
+    "@repeatingTimesPerWeekShort": {
+        "description": "A positive number that is at least 2.",
+        "placeholders": {
+            "n": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "noRepeat": "Doesn't Repeat",
+    "createdAt": "Created at: {date}",
+    "@createdAt": {
+        "description": "A formatted date string.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "29 Jul 2024"
+            }
+        }
+    },
+
+    "oneTimeTrip": "One-time trip",
+    "viewLocation": "View Location On Maps",
+    "viewTrip": "View Tip On Maps",
+    "origin": "Origin",
+    "destination": "Destination",
+
+    "addTrip": "Add Trip",
+    "editTrip": "Edit Trip",
+    "tripInfo": "Trip Info",
+    "tripName2": "Trip's Title",
+    "tripNameHint": "E.g.: \"Trip to Florida\" or \"Home to Work\"...",
+    "timesRepeating": "Occurrence",
+    "timesRepeatingHint": "Per Week",
+    "makeTrip": "Make Trip...",
+    "makeOnMaps": "Make on Maps",
+    "pickAPlace": "Pick on Maps",
+    "removeLocation": "Remove location",
+    "deleteTrip": "Delete Trip",
+
+    "createTrip": "Create Trip on Maps",
+    "pickLocationOnMap": "Pick Location on Maps",
+    "typeAnAddress": "Type an address, or long-press on the map.",
+    "searchAddress": "Search Address",
+    "searchAddressHintOrigin": "Type an address for the origin...",
+    "searchAddressHintDestination": "Type an address for the destination...",
+    "searchAddressHintLocation": "Type an address for the location...",
+
+    "from": "FROM",
+    "to": "TO",
+    "pleaseMakeATrip": "Please make a trip.",
+    "noPlacesFoundWithThisAddress": "No places found with this address.",
+    "noTripsFound": "There is no route available for the current positions.",
+    "confirmTrip": "Confirm Trip",
+    "confirmLocation": "Confirm Location"
 }

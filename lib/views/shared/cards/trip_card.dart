@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/views/details/trip.dart';
@@ -121,7 +122,7 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.arrowRight, size: 15,),
               const SizedBox(width: 5),
-              const Text(" One-time trip", )
+              Text(" ${AppLocalizations.of(context)!.oneTimeTrip}", )
             ],
           ),
 
@@ -153,7 +154,7 @@ class _TripCardState extends State<TripCard> {
             ],
           ),
 
-          Text("Created at: ${LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}")
+          AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.createdAt(LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)))
         ],
       );
     }
@@ -166,7 +167,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.arrowRotateRight, size: 15,),
             const SizedBox(width: 5),
-            Text(" ${widget.trip.timesRepeating} times per week", )
+            Text(" ${AppLocalizations.of(context)!.repeatingTimesPerWeekShort(widget.trip.timesRepeating)}", )
           ],
         ),
 
@@ -176,13 +177,14 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            Text(" €${
+            AutoSizeText(" €${
                   LocaleStringConverter.formattedDouble(context,
                       widget.trip.getAverageTripCost(false)
                   )
-                } per week", style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
+                } ${AppLocalizations.of(context)!.perWeek}",
+                maxFontSize: 18,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold
             )),
           ],
         ),
@@ -191,13 +193,14 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
-            Text(" ${
+            AutoSizeText(" ${
                 LocaleStringConverter.formattedDouble(context,
                     widget.trip.getAverageTripConsumption(false)
                 )
-            } lt. per week", style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
+            } lt. ${AppLocalizations.of(context)!.perWeek}",
+                maxFontSize: 18,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold
             )),
           ],
         ),
@@ -212,7 +215,7 @@ class _TripCardState extends State<TripCard> {
           ],
         ),
 
-        Text("Created at: ${LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}")
+        AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.createdAt(LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)))
       ],
     );
   }

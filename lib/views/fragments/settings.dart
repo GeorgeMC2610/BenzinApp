@@ -54,10 +54,10 @@ class _SettingsFragmentState extends State<SettingsFragment> {
               children: [
                 Text(
                   AppLocalizations.of(context)!.applicationAppearance,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500
                   )
                 ),
 
@@ -94,9 +94,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 Text(
                   AppLocalizations.of(context)!.accountSettings,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500
                   )
                 ),
@@ -120,9 +120,9 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 30),
 
                 Text(AppLocalizations.of(context)!.aboutTheApp,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 24,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500
                   )
                 ),

@@ -158,8 +158,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               if (_markAsFixed) {
                 if (_selectedDateEnded == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please select an end date.'), // TODO: Localize
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context)!.pleaseSelectAnEndDate),
                       )
                   );
                 }
@@ -398,12 +398,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                         });
                       }
                   ),
-                  Text("I fixed this malfunction")
+                  Text(AppLocalizations.of(context)!.iFixedThisMalfunction)
                 ],
               ) : const SizedBox(),
 
               !_markAsFixed && _getMalfunctionStatus() ? Text(
-                "Warning! By unchecking the box, you will mark this functions as ongoing.",
+                AppLocalizations.of(context)!.uncheckingTheBox,
                 style: Theme.of(context).textTheme.labelLarge
               ) : const SizedBox(),
 
@@ -428,8 +428,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       children: [
         const SizedBox(height: 10),
 
-        const DividerWithText(
-            text: 'Repair Data',
+        DividerWithText(
+            text: AppLocalizations.of(context)!.repairData,
             lineColor: Colors.black,
             textColor: Colors.black,
             textSize: 16
@@ -448,9 +448,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           },
           enabled: !_isLoading,
           decoration: InputDecoration(
-            hintText: 'Enter cost...',
+            hintText: AppLocalizations.of(context)!.repairCostHint,
             errorText: _costValidator,
-            labelText: 'Repair Cost',
+            labelText: AppLocalizations.of(context)!.repairCost,
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -523,7 +523,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedAddress == null ?
-          'Select a location...' :
+          AppLocalizations.of(context)!.selectLocation :
           _selectedAddress!,
           style: const TextStyle(
               fontSize: 22,
@@ -557,7 +557,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = data["coordinates"]!;
                   });
                 },
-                label: Text('Pick a place...'),
+                label: Text(AppLocalizations.of(context)!.pickAPlace),
                 icon: const Icon(Icons.map),
               ),
             ),
@@ -572,7 +572,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = null;
                   });
                 },
-                label: AutoSizeText(maxLines: 1, 'Remove location', minFontSize: 10),
+                label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
                 icon: const Icon(Icons.cancel),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,

@@ -10,7 +10,7 @@ class Service {
       cost: object["cost_eur"],
       kilometersDone: object["at_km"],
       nextServiceKilometers: object["next_km"],
-      location: object["location"].isEmpty ? null : object["location"],
+      location: object["location"],
     );
   }
 
