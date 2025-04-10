@@ -7,6 +7,7 @@ class FuelFillRecord {
       liters: jsonObject["lt"],
       cost: jsonObject["cost_eur"],
       kilometers: jsonObject["km"],
+      totalKilometers: jsonObject["total_km"].toString().isEmpty ? null : jsonObject["total_km"],
       fuelType: jsonObject["fuel_type"].toString().isEmpty ? null : jsonObject["fuel_type"],
       gasStation: jsonObject["station"].toString().isEmpty ? null : jsonObject["station"],
       comments: jsonObject["notes"].toString().isEmpty ? null : jsonObject["notes"]
@@ -23,6 +24,7 @@ class FuelFillRecord {
     this.gasStation,
     this.fuelType,
     this.comments,
+    this.totalKilometers,
   });
 
   final int id;
@@ -31,6 +33,7 @@ class FuelFillRecord {
   final double cost;
   final double kilometers;
 
+  final int? totalKilometers;
   final String? gasStation;
   final String? fuelType;
   final String? comments;

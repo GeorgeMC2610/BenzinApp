@@ -417,4 +417,11 @@ class DataHolder with ChangeNotifier {
     return fuelFills.last;
   }
 
+  static int? getMostRecentTotalKilometers() {
+    if (_fuelFills == null) return null;
+    if (_fuelFills!.last.totalKilometers == null) return null;
+
+    return _fuelFills!.last.totalKilometers!;
+  }
+
 }
