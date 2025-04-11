@@ -26,6 +26,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   DateTime? _selectedDate, _selectedDateEnded;
   String? _selectedAddress;
   LatLng? _selectedCoordinates;
+  double _severity = 3;
+
   final TextEditingController kmController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -98,13 +100,19 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     });
   }
 
-  Map<String, dynamic> _getOngoingBody() {
+  Map<String, dynamic> _commonBody () {
     return {
       'title': titleController.text.trim(),
       'at_km': kmController.text,
-      'severity': '4',
+      'severity': _severity.round().toString(),
       'description': descriptionController.text.trim(),
       'started': _selectedDate!.toIso8601String().substring(0, 10),
+    };
+  }
+
+  Map<String, dynamic> _getOngoingBody() {
+    return {
+      ..._commonBody(),
       'ended': 'null',
       'cost_eur': 'null',
       'location': 'null'
@@ -113,11 +121,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   Map<String, dynamic> _getFixedBody() {
     return {
-      'title': titleController.text.trim(),
-      'at_km': kmController.text,
-      'severity': '4',
-      'description': descriptionController.text.trim(),
-      'started': _selectedDate!.toIso8601String().substring(0, 10),
+      ..._commonBody(),
       'ended': _selectedDateEnded!.toIso8601String().substring(0, 10),
       'cost_eur': costController.text,
       'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
@@ -324,6 +328,44 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Text(
+                'Malfunction Severity*:',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Slider(
+                    value: _severity,
+                    min: 1,
+                    max: 5,
+                    divisions: 4,
+                    label: _severity.round().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _severity = value;
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text("Lowest", style: TextStyle(fontSize: 12)),
+                        Text("Highest", style: TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 20),
