@@ -116,21 +116,19 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
               ? AppLocalizations.of(context)!.fixedMalfunction
               : AppLocalizations.of(context)!.ongoingMalfunction,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             color: isFixed ? Colors.green : Colors.red,
           ),
         ),
         if (isFixed) ...[
           const SizedBox(width: 4),
-          const Icon(Icons.check_circle, color: Colors.green, size: 14),
+          const Icon(Icons.check_circle, color: Colors.green, size: 18),
         ],
       ],
     );
   }
 
   Widget _getSeverity() {
-    final severity = widget.malfunction.severity; // Expected to be in [1, 5]
-
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -159,16 +157,16 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
     1: Colors.blueAccent,
     2: Colors.lightBlue,
     3: Colors.orange,
-    4: Colors.deepOrange,
-    5: Colors.red
+    4: Colors.red,
+    5: Color.fromARGB(255, 128, 0, 0)
   };
 
   static const Map<int, Icon> severityIconIndex = {
     1: Icon(Icons.arrow_downward, color: Colors.blueAccent, size: 20),
     2: Icon(Icons.keyboard_arrow_down, color: Colors.lightBlue, size: 20),
     3: Icon(Icons.horizontal_rule_sharp, color: Colors.orange, size: 20),
-    4: Icon(Icons.keyboard_arrow_up, color: Colors.deepOrange, size: 20),
-    5: Icon(Icons.arrow_upward, color: Colors.red, size: 20),
+    4: Icon(Icons.keyboard_arrow_up, color: Colors.red, size: 20),
+    5: Icon(Icons.arrow_upward, color:Color.fromARGB(255, 128, 0, 0), size: 20),
   };
 
 }

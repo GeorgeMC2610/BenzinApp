@@ -102,7 +102,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return {
       'title': titleController.text.trim(),
       'at_km': kmController.text,
-      'severity': '5',
+      'severity': '4',
       'description': descriptionController.text.trim(),
       'started': _selectedDate!.toIso8601String().substring(0, 10),
       'ended': 'null',
