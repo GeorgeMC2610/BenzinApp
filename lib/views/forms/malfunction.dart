@@ -46,6 +46,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       titleController.text = widget.malfunction!.title;
       descriptionController.text = widget.malfunction!.description;
       _selectedDate = widget.malfunction!.dateStarted;
+      _severity = widget.malfunction!.severity.toDouble();
 
       if (widget.malfunction!.isFixed()) {
         _markAsFixed = true;
@@ -124,7 +125,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       ..._commonBody(),
       'ended': _selectedDateEnded!.toIso8601String().substring(0, 10),
       'cost_eur': costController.text,
-      'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+      'location': _selectedCoordinates == null ? 'null' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
     };
   }
 
