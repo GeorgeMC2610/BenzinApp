@@ -334,8 +334,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 20),
 
               Text(
-                'Malfunction Severity*:',
-                style: TextStyle(
+                '${AppLocalizations.of(context)!.malfunctionSeverity}*:',
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
                 ),
@@ -360,9 +360,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("Lowest", style: TextStyle(fontSize: 12)),
-                        Text("Highest", style: TextStyle(fontSize: 12)),
+                      children: [
+                        Text(AppLocalizations.of(context)!.severityLowest, style: const TextStyle(fontSize: 12)),
+                        Text(AppLocalizations.of(context)!.severityHighest, style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -428,8 +428,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               ),
 
               // Checkbox only appears when the malfunction is not being edited
-              // TODO: Localize all of the below
-Row(
+              Row(
                 children: [
                   Checkbox(
                       value: _markAsFixed,
@@ -505,7 +504,7 @@ Row(
         AutoSizeText(
           maxLines: 1,
           _selectedDateEnded == null ?
-          AppLocalizations.of(context)!.selectADate :
+          AppLocalizations.of(context)!.malfunctionEnded :
           LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDateEnded!),
           style: const TextStyle(
               fontSize: 22,

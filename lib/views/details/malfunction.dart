@@ -252,7 +252,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
         severityIconIndex[malfunction.severity]!,
         const SizedBox(width: 5),
         Text(
-          severityStringIndex[malfunction.severity]!,
+          severityStringIndex(context)[malfunction.severity]!,
           style: TextStyle(
             fontSize: 20.5,
             fontWeight: FontWeight.bold,
@@ -263,13 +263,15 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
     );
   }
 
-  static const Map<int, String> severityStringIndex = {
-    1: 'Lowest',
-    2: 'Low',
-    3: 'Normal',
-    4: 'High',
-    5: 'Highest'
-  };
+  Map<int, String> severityStringIndex(context) {
+    return {
+      1: AppLocalizations.of(context)!.severityLowest,
+      2: AppLocalizations.of(context)!.severityLow,
+      3: AppLocalizations.of(context)!.severityNormal,
+      4: AppLocalizations.of(context)!.severityHigh,
+      5: AppLocalizations.of(context)!.severityHighest
+    };
+  }
 
   static const Map<int, Color> severityColorIndex = {
     1: Colors.blue,
