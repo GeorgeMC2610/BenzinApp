@@ -12,7 +12,7 @@ class Malfunction {
       severity: object["severity"],
       cost: object["cost_eur"],
       kilometersDiscovered: object["at_km"],
-      location: object["location"],
+      location: ['null', ''].any((test) => test == object['location']) ? null : object["location"],
     );
   }
 
