@@ -24,7 +24,7 @@ class ServiceForm extends StatefulWidget {
 
 class _ServiceFormState extends State<ServiceForm> {
 
-  DateTime? _selectedDate;
+  DateTime? _selectedDate, _selectedNextDate;
   String? _selectedAddress;
   LatLng? _selectedCoordinates;
   final TextEditingController descriptionController = TextEditingController();
@@ -65,6 +65,7 @@ class _ServiceFormState extends State<ServiceForm> {
       nextKmController.text = widget.service!.nextServiceKilometers?.toString() ?? '';
       costController.text = widget.service!.cost?.toString() ?? '';
       descriptionController.text = widget.service!.description;
+      _selectedNextDate = widget.service!.nextServiceDate;
       _selectedDate = widget.service!.dateHappened;
       _selectedAddress = widget.service!.getAddress();
       _selectedCoordinates = widget.service!.getCoordinates();
@@ -122,6 +123,7 @@ class _ServiceFormState extends State<ServiceForm> {
               'cost_eur': costController.text,
               'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
               'description': descriptionController.text.trim(),
+              'next_at_date': _selectedNextDate?.toIso8601String().substring(0, 10) ?? '',
               'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
             };
 
@@ -185,59 +187,26 @@ class _ServiceFormState extends State<ServiceForm> {
 
               const SizedBox(height: 15),
 
-              Row(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: TextField(
-                      controller: descriptionController,
-                      keyboardType: TextInputType.multiline,
-                      onEditingComplete: () {
-                        setState(() {
-                          _descValidator = _numValidator(descriptionController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      minLines: 2,
-                      maxLines: 10,
-                      decoration: InputDecoration(
-                        errorText: _descValidator,
-                        hintText: AppLocalizations.of(context)!.descriptionHint,
-                        labelText: AppLocalizations.of(context)!.description2,
-                        prefixIcon: const Icon(FontAwesomeIcons.wrench),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
+              TextField(
+                controller: descriptionController,
+                keyboardType: TextInputType.multiline,
+                onEditingComplete: () {
+                  setState(() {
+                    _descValidator = _numValidator(descriptionController.text);
+                  });
+                },
+                enabled: !_isLoading,
+                minLines: 2,
+                maxLines: 10,
+                decoration: InputDecoration(
+                  errorText: _descValidator,
+                  hintText: AppLocalizations.of(context)!.descriptionHint,
+                  labelText: AppLocalizations.of(context)!.description2,
+                  prefixIcon: const Icon(FontAwesomeIcons.wrench),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    flex: 3,
-                    child: TextField(
-                      controller: costController,
-                      onEditingComplete: () {
-                        setState(() {
-                          _costValidator = _numValidator(costController.text);
-                        });
-                      },
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      enabled: !_isLoading,
-                      decoration: InputDecoration(
-                        errorText: _costValidator,
-                        hintText: AppLocalizations.of(context)!.costHint,
-                        labelText: AppLocalizations.of(context)!.cost2,
-                        prefixIcon: const Icon(Icons.euro),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
 
               const SizedBox(height: 15),
@@ -271,20 +240,20 @@ class _ServiceFormState extends State<ServiceForm> {
 
                   Expanded(
                     child: TextField(
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
+                      controller: costController,
                       onEditingComplete: () {
                         setState(() {
-                          _nextKmValidator = _numValidator(nextKmController.text);
+                          _costValidator = _numValidator(costController.text);
                         });
                       },
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
-                      controller: nextKmController,
                       decoration: InputDecoration(
-                        errorText: _nextKmValidator,
-                        hintText: AppLocalizations.of(context)!.nextServiceMileageHint,
-                        labelText: AppLocalizations.of(context)!.nextServiceMileage,
-                        prefixIcon: const Icon(Icons.next_plan_outlined),
+                        errorText: _costValidator,
+                        hintText: AppLocalizations.of(context)!.costHint,
+                        labelText: AppLocalizations.of(context)!.cost2,
+                        prefixIcon: const Icon(Icons.euro),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
@@ -412,6 +381,97 @@ class _ServiceFormState extends State<ServiceForm> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.error,
                         foregroundColor: Theme.of(context).colorScheme.onPrimary
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+              // === FIX INFO === //
+              const SizedBox(height: 20),
+
+              DividerWithText(
+                  text: 'Next Service Info',
+                  lineColor: Colors.black,
+                  textColor: Colors.black,
+                  textSize: 16
+              ),
+
+              const SizedBox(height: 15),
+
+              TextField(
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                onEditingComplete: () {
+                  setState(() {
+                    _nextKmValidator = _numValidator(nextKmController.text);
+                  });
+                },
+                enabled: !_isLoading,
+                controller: nextKmController,
+                decoration: InputDecoration(
+                  errorText: _nextKmValidator,
+                  hintText: AppLocalizations.of(context)!.nextServiceMileageHint,
+                  labelText: AppLocalizations.of(context)!.nextServiceMileage,
+                  prefixIcon: const Icon(Icons.next_plan_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              AutoSizeText(
+                maxLines: 1,
+                _selectedNextDate == null ?
+                AppLocalizations.of(context)!.selectADate :
+                LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          lastDate: DateTime.parse('2100-01-01'),
+                          firstDate: _selectedDate != null ? _selectedDate! : DateTime.now(),
+                        );
+
+                        if (pickedDate != null) {
+                          setState(() {
+                            _selectedNextDate = pickedDate;
+                          });
+                        }
+                      },
+                      label: Text(AppLocalizations.of(context)!.pickADate),
+                      icon: const Icon(Icons.date_range),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: _isLoading ? null : () {
+                        setState(() {
+                          _selectedNextDate = DateTime.now();
+                        });
+                      },
+                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
+                      icon: const Icon(Icons.more_time_rounded),
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
+                          )
                       ),
                     ),
                   )

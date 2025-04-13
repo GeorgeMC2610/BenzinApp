@@ -9,6 +9,7 @@ class Service {
       description: object["description"],
       cost: object["cost_eur"],
       kilometersDone: object["at_km"],
+      nextServiceDate: DateTime.tryParse(object["next_at_date"].toString()),
       nextServiceKilometers: object["next_km"],
       location: ['null', ''].any((test) => test == object['location']) ? null : object["location"],
     );
@@ -20,6 +21,7 @@ class Service {
     required this.description,
     required this.dateHappened,
 
+    this.nextServiceDate,
     this.nextServiceKilometers,
     this.cost,
     this.location
@@ -30,6 +32,7 @@ class Service {
   final String description;
   final DateTime dateHappened;
 
+  final DateTime? nextServiceDate;
   final int? nextServiceKilometers;
   final double? cost;
   final String? location;
