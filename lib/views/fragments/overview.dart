@@ -124,11 +124,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                               _canServiceBeDisplayed(lastService) ? const Divider()
                               : const SizedBox(),
 
-                              _canServiceBeDisplayed(lastService) ? StatusCard(
-                                  icon: const Icon(FontAwesomeIcons.wrench),
-                                  text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService!.nextServiceKilometers!)} km',
-                                  status: StatusCardIndex.warning
-                              ) : const SizedBox(),
+                              _canServiceBeDisplayed(lastService) ? getServiceCard(lastService!) : const SizedBox(),
 
                               // const StatusCard(
                               //     icon: Icon(FontAwesomeIcons.carBattery),
@@ -501,6 +497,43 @@ class _OverviewFragmentState extends State<OverviewFragment> {
             )
         );
       },
+    );
+  }
+
+  Widget getServiceCard(Service lastService) {
+    if (DataHolder.getMostRecentTotalKilometers() == null) {
+      return StatusCard(
+          icon: const Icon(FontAwesomeIcons.wrench),
+          text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
+          status: StatusCardIndex.warning
+      );
+    }
+
+    String message;
+    StatusCardIndex status;
+    var difference = lastService.nextServiceKilometers! - DataHolder.getMostRecentTotalKilometers()!;
+
+    if (difference < 0) {
+      message = 'Service overdue by ${LocaleStringConverter.formattedBigInt(context, difference.abs())} km';
+      status = StatusCardIndex.bad;
+    }
+    else if (difference < 200) {
+      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      status = StatusCardIndex.bad;
+    }
+    else if (difference < 600) {
+      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      status = StatusCardIndex.warning;
+    }
+    else {
+      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      status = StatusCardIndex.good;
+    }
+
+    return StatusCard(
+        icon: const Icon(FontAwesomeIcons.wrench),
+        text: message,
+        status: status
     );
   }
 
