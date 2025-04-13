@@ -102,6 +102,7 @@
     "addFuelFillRecord":  "Προσθήκη Γεμίσματος",
     "requiredInfo":       "Υποχρεωτικά Πεδία",
     "mileage":            "Χιλιόμετρα",
+    "totalMileage":       "Συνολικά Χιλιόμετρα",
     "cost2":              "Κόστος",
     "liters2":            "Λίτρα",
     "selectADate":        "Επιλέξτε ημερομηνία...",

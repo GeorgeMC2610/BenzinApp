@@ -1,17 +1,17 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/language_provider.dart';
+import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:benzinapp/views/shared/shared_font_styles.dart';
-import 'package:http/http.dart' as http;
-
-import '../../services/token_manager.dart';
 import '../forms/fuel_fill_record.dart';
 
 class ViewFuelFillRecord extends StatefulWidget {
@@ -125,7 +125,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       children: [
                                         const Icon(Icons.access_time_outlined, size: 30,),
                                         const SizedBox(width: 15),
-                                        Text(_getFullDateTimeString(context), style: const TextStyle(fontSize: 18)),
+                                        AutoSizeText(_getFullDateTimeString(context), maxLines: 1, style: const TextStyle(fontSize: 18)),
                                       ],
                                     ),
 
@@ -135,12 +135,33 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       children: [
                                         const Icon(Icons.local_gas_station_outlined, size: 30,),
                                         const SizedBox(width: 15),
-                                        Text(
+                                        AutoSizeText(
                                           _getFuelString(context),
+                                          maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
                                             fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    fuelFillRecord.totalKilometers == null ?
+                                    const SizedBox() :
+                                    const SizedBox(height: 10),
+
+                                    fuelFillRecord.totalKilometers == null ?
+                                    const SizedBox() :
+                                    Row(
+                                      children: [
+                                        const Icon(FontAwesomeIcons.carSide, size: 25),
+                                        const SizedBox(width: 20),
+                                        Text(
+                                          '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ],

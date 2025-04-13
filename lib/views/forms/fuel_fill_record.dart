@@ -52,6 +52,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       _literController.text = record.liters.toString();
       _selectedDate = record.dateTime;
 
+      _totalMileageController.text = record.totalKilometers?.toString() ?? '';
       _stationController.text = record.gasStation ?? '';
       _fuelTypeController.text = record.fuelType ?? '';
       _commentsController.text = record.comments ?? '';
@@ -227,7 +228,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.inKmHint,
-                        labelText: AppLocalizations.of(context)!.mileage,
+                        labelText: AppLocalizations.of(context)!.totalMileage,
                         errorText: _totalMilageValidator,
                         prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
                         border: OutlineInputBorder(

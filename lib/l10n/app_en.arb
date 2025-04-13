@@ -138,6 +138,7 @@
     "addFuelFillRecord":  "Add Fuel Fill Record",
     "requiredInfo":       "Required Info",
     "mileage":            "Mileage",
+    "totalMileage":       "Total Mileage",
     "cost2":              "Cost",
     "liters2":            "Liters",
     "selectADate":        "Select a date...",
