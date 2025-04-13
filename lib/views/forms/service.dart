@@ -35,6 +35,83 @@ class _ServiceFormState extends State<ServiceForm> {
   bool _isLoading = false;
   String? _costValidator, _kmValidator, _nextKmValidator, _descValidator;
 
+  bool _validateAll() {
+    String? dateValidator;
+
+    setState(() {
+      _descValidator = _emptyValidator(descriptionController.text);
+      _kmValidator = _validator(kmController.text);
+      _costValidator = _validator(costController.text);
+      _nextKmValidator = _numValidator(nextKmController.text);
+      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
+    });
+
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(dateValidator!),
+          )
+      );
+    }
+
+    List<String?> mandatoryFields = [dateValidator, _kmValidator, _costValidator, _descValidator, _nextKmValidator];
+
+    return mandatoryFields.every((validation) => validation == null);
+  }
+
+  Map<String, dynamic> _getBody() {
+    return {
+      'at_km': kmController.text,
+      'next_km': nextKmController.text,
+      'cost_eur': costController.text,
+      'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
+      'description': descriptionController.text.trim(),
+      'next_at_date': _selectedNextDate?.toIso8601String().substring(0, 10) ?? '',
+      'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+    };
+  }
+
+  void _stopLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void _buttonSubmit() {
+    // add field checks
+    bool isValidated = _validateAll();
+    if (!isValidated) return;
+
+    // all validations have passed here
+    setState(() {
+      _isLoading  = true;
+    });
+
+    var uriString = widget.service == null ?
+    '${DataHolder.destination}/service' :
+    '${DataHolder.destination}/service/${widget.service!.id}';
+
+    // add-service form
+    if (widget.service == null) {
+      RequestHandler.sendPostRequest(
+          uriString, true,
+          _getBody(),
+          _stopLoading,
+          _whenPostRequestIsComplete
+      );
+    }
+    // edit-service form
+    else {
+      var uriString = '${DataHolder.destination}/service/${widget.service!.id}';
+      RequestHandler.sendPatchRequest(
+        uriString,
+        _getBody(),
+        _stopLoading,
+        _whenPatchRequestIsComplete
+      );
+    }
+  }
+
   Future<void> _whenPostRequestIsComplete(http.Response response) async {
     var jsonResponse = jsonDecode(response.body);
     var service = Service.fromJson(jsonResponse["service"]);
@@ -83,75 +160,7 @@ class _ServiceFormState extends State<ServiceForm> {
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         ElevatedButton.icon(
-          onPressed: _isLoading ? null : () {
-            // temporary code so it runs
-
-            // add field checks
-            setState(() {
-              _costValidator = _numValidator(costController.text);
-              _kmValidator = _validator(kmController.text);
-              _nextKmValidator = _numValidator(nextKmController.text);
-              _descValidator = _emptyValidator(descriptionController.text);
-            });
-
-            if (_selectedDate == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!.noDateSelected),
-                  )
-              );
-            }
-
-            if (_kmValidator != null ||
-                _costValidator != null ||
-                _nextKmValidator != null ||
-                _descValidator != null ||
-                _selectedDate == null
-            ) {
-              return;
-            }
-
-            // all validations have passed here
-            setState(() {
-              _isLoading  = true;
-            });
-
-            var uriString = '${DataHolder.destination}/service';
-            var body = {
-              'at_km': kmController.text,
-              'next_km': nextKmController.text,
-              'cost_eur': costController.text,
-              'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
-              'description': descriptionController.text.trim(),
-              'next_at_date': _selectedNextDate?.toIso8601String().substring(0, 10) ?? '',
-              'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-            };
-
-            // add-service form
-            if (widget.service == null) {
-              RequestHandler.sendPostRequest(uriString, true, body,
-                      () {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                  _whenPostRequestIsComplete
-              );
-            }
-            // edit-service form
-            else {
-              var uriString = '${DataHolder.destination}/service/${widget.service!.id}';
-              RequestHandler.sendPatchRequest(uriString, body,
-                      () {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                  _whenPatchRequestIsComplete
-              );
-            }
-
-          },
+          onPressed: _isLoading ? null : _buttonSubmit,
           icon: _isLoading ? const SizedBox(
               width: 18,
               height: 18,
@@ -201,7 +210,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 decoration: InputDecoration(
                   errorText: _descValidator,
                   hintText: AppLocalizations.of(context)!.descriptionHint,
-                  labelText: AppLocalizations.of(context)!.description2,
+                  labelText: '${AppLocalizations.of(context)!.description2} *',
                   prefixIcon: const Icon(FontAwesomeIcons.wrench),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -227,7 +236,7 @@ class _ServiceFormState extends State<ServiceForm> {
                       decoration: InputDecoration(
                         errorText: _kmValidator,
                         hintText: AppLocalizations.of(context)!.serviceMileageHint,
-                        labelText: AppLocalizations.of(context)!.serviceMileage2,
+                        labelText: '${AppLocalizations.of(context)!.serviceMileage2} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -243,7 +252,7 @@ class _ServiceFormState extends State<ServiceForm> {
                       controller: costController,
                       onEditingComplete: () {
                         setState(() {
-                          _costValidator = _numValidator(costController.text);
+                          _costValidator = _validator(costController.text);
                         });
                       },
                       keyboardType: TextInputType.number,
@@ -252,7 +261,7 @@ class _ServiceFormState extends State<ServiceForm> {
                       decoration: InputDecoration(
                         errorText: _costValidator,
                         hintText: AppLocalizations.of(context)!.costHint,
-                        labelText: AppLocalizations.of(context)!.cost2,
+                        labelText: '${AppLocalizations.of(context)!.cost2} *',
                         prefixIcon: const Icon(Icons.euro),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -268,7 +277,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                AppLocalizations.of(context)!.selectADate :
+                '${AppLocalizations.of(context)!.selectADate} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -391,7 +400,7 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 20),
 
               DividerWithText(
-                  text: 'Next Service Info',
+                  text: AppLocalizations.of(context)!.nextServiceInfo,
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 16
@@ -490,7 +499,12 @@ class _ServiceFormState extends State<ServiceForm> {
       return AppLocalizations.of(context)!.cannotBeEmpty;
     }
 
-    if (double.parse(field) < 0) {
+    var isParsed = double.tryParse(field);
+    if (isParsed == null) {
+      return AppLocalizations.of(context)!.cannotBeEmpty;
+    }
+
+    if (isParsed < 0) {
       return AppLocalizations.of(context)!.cannotBeNegative;
     }
 

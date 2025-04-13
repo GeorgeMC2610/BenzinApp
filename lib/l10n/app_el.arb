@@ -166,6 +166,7 @@
     "nextServiceMileage": "Χιλιόμετρα επόμενου",
     "descriptionHint": "Περιγράψτε τι έγινε σε αυτό το σέρβις...",
     "serviceMileageHint": "Εισάγετε χιλιόμετρα...",
+    "nextServiceInfo": "Πληροφορίες Επόμενου",
     "nextServiceMileageHint": "Εισάγετε τα χιλιόμετρα του επόμενου...",
     "confirmAddService": "Επιβεβαίωση Προσθήκης Σέρβις",
 

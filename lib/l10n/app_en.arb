@@ -195,6 +195,7 @@
     "nextServiceMileage": "Next Service Mileage",
     "descriptionHint": "What happened in this service?",
     "serviceMileageHint": "Enter service mileage...",
+    "nextServiceInfo": "Next Service Info",
     "nextServiceMileageHint": "Enter next service mileage...",
     "confirmAddService": "Confirm Add Service",
 
