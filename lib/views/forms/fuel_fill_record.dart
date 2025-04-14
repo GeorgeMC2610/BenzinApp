@@ -35,7 +35,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final FocusNode _literFocusNode = FocusNode();
   final FocusNode _totalMileageFocusNode = FocusNode();
 
-  String? _mileageValidator, _totalMilageValidator, _costValidator, _literValidator;
+  String? _mileageValidator, _totalMileageValidator, _costValidator, _literValidator;
 
   bool _isLoading = false;
 
@@ -243,12 +243,35 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       controller: _totalMileageController,
                       textInputAction: TextInputAction.next,
                       focusNode: _totalMileageFocusNode,
+                      onEditingComplete: () {
+                        if (_mileageController.text.isEmpty && _totalMileageController.text.isNotEmpty) {
+                          var lastRecord = DataHolder.getFuelFillRecords()!.firstOrNull;
+                          if (lastRecord?.totalKilometers != null) {
+                            var currentKilometers = double.tryParse(_totalMileageController.text);
+                            if (currentKilometers != null) {
+                              var newKilometers = currentKilometers - lastRecord!.totalKilometers!;
+                              setState(() {
+                                _mileageController.text = newKilometers.toString();
+                              });
+                            }
+                          }
+
+                          FocusScope.of(context).requestFocus(_costFocusNode);
+                        }
+                        else {
+                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
+                        }
+
+                        setState(() {
+                          _mileageValidator = _validator(_mileageController.text);
+                        });
+                      },
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.inKmHint,
                         labelText: AppLocalizations.of(context)!.totalMileage,
-                        errorText: _totalMilageValidator,
+                        errorText: _totalMileageValidator,
                         prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
