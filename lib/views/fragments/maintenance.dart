@@ -151,7 +151,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                          return LayoutBuilder(
                            builder: (context, constraints) {
 
-                             var lastService = DataHolder.getServices()!.first;
+                             var lastService = DataHolder.getServices()!.firstOrNull;
                              var previousServices = DataHolder.getServices()!.where((service) => service != lastService).toList();
 
                              return
@@ -220,7 +220,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                              color: Theme.of(context).colorScheme.primaryContainer,
                                              child: Padding(
                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                              child: ServiceCard(service: lastService)
+                                              child: ServiceCard(service: lastService!)
                                             )
                                            )
                                          ),
