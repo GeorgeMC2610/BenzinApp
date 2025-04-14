@@ -125,7 +125,15 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       children: [
                                         const Icon(Icons.access_time_outlined, size: 30,),
                                         const SizedBox(width: 15),
-                                        AutoSizeText(_getFullDateTimeString(context), maxLines: 1, style: const TextStyle(fontSize: 18)),
+                                        AutoSizeText(
+                                          _getFullDateTimeString(context),
+                                          maxLines: 1,
+                                          maxFontSize: 19,
+                                          style: const TextStyle(
+                                            fontSize: 18
+                                          ),
+
+                                        ),
                                       ],
                                     ),
 
@@ -133,17 +141,20 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
 
                                     Row(
                                       children: [
-                                        const Icon(Icons.local_gas_station_outlined, size: 30,),
+                                        const Icon(Icons.local_gas_station_outlined, size: 30),
                                         const SizedBox(width: 15),
-                                        AutoSizeText(
-                                          _getFuelString(context),
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
-                                            fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            _getFuelString(context),
+                                            maxLines: 1,
+                                            maxFontSize: 19,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
+                                              fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
+                                            ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
 
@@ -157,7 +168,9 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       children: [
                                         const Icon(FontAwesomeIcons.carSide, size: 25),
                                         const SizedBox(width: 20),
-                                        Text(
+                                        AutoSizeText(
+                                          maxLines: 1,
+                                          maxFontSize: 19,
                                           '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
                                           style: const TextStyle(
                                             fontSize: 18,
