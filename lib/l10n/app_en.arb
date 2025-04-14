@@ -10,6 +10,10 @@
         }
     },
 
+    "successfullyLoggedIn": "Successfully logged in.",
+    "sessionEnded": "Your session has ended. Please log in again.",
+    "successfullyLoggedOut": "Successfully logged out.",
+
     "registerToBenzinApp":      "Register to BenzinApp",
     "register":                 "Register",
     "loginToBenzinApp":         "Login to BenzinApp",
@@ -89,7 +93,7 @@
     },
     "serviceDueToday": "Service due today",
     "serviceDueTomorrow": "Service due tomorrow",
-    "serviceDueInDays": "Service due in {amount} day(s)",
+    "serviceDueInDays": "Service due in {amount} days",
     "@serviceDueInDays": {
         "description": "Amount of days expected",
         "placeholders": {
@@ -116,6 +120,26 @@
             "date": {
                 "type": "String",
                 "example": "29 Dec 2019"
+            }
+        }
+    },
+    "nextServiceInKm": "Next service in {amount} km.",
+    "@nextServiceInKm": {
+        "description": "Amount of km in locale string.",
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "44,000"
+            }
+        }
+    },
+    "serviceOverdueInKm": "Service overdue by {amount} km",
+    "@serviceOverdueInKm": {
+        "description": "Amount of km in locale string.",
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "44,000"
             }
         }
     },

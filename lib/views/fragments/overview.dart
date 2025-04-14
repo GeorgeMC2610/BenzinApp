@@ -508,27 +508,27 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     StatusCardIndex index;
 
     if (difference.inDays < 0) {
-      message = 'Service overdue by ${difference.inDays.abs()} days';
+      message = AppLocalizations.of(context)!.serviceOverdueInDays(difference.inDays.abs());
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 1) {
-      message = 'Service due today';
+      message = AppLocalizations.of(context)!.serviceDueToday;
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 2) {
-      message = 'Service due tomorrow';
+      message = AppLocalizations.of(context)!.serviceDueTomorrow;
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 30) {
-      message = 'Next service in ${difference.inDays} days';
+      message = AppLocalizations.of(context)!.serviceDueInDays(difference.inDays);
       index = StatusCardIndex.warning;
     }
     else if (difference.inDays < 365) {
-      message = 'Next service in ${(difference.inDays/30).toInt()} months';
+      message = AppLocalizations.of(context)!.serviceDueInMonths((difference.inDays/30).toInt());
       index = StatusCardIndex.good;
     }
     else {
-      message = 'Next service at ${LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!)}';
+      message = AppLocalizations.of(context)!.serviceDueInDateTime(LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!));
       index = StatusCardIndex.good;
     }
 
@@ -550,22 +550,22 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
     String message;
     StatusCardIndex status;
-    var difference = DataHolder.getMostRecentTotalKilometers()! - lastService.nextServiceKilometers!;
+    var difference = lastService.nextServiceKilometers! - DataHolder.getMostRecentTotalKilometers()!;
 
     if (difference < 0) {
-      message = 'Service overdue by ${LocaleStringConverter.formattedBigInt(context, difference.abs())} km';
+      message = AppLocalizations.of(context)!.serviceOverdueInKm(LocaleStringConverter.formattedBigInt(context, difference.abs()));
       status = StatusCardIndex.bad;
     }
     else if (difference < 200) {
-      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
       status = StatusCardIndex.bad;
     }
     else if (difference < 600) {
-      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
       status = StatusCardIndex.warning;
     }
     else {
-      message = '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, difference)} km';
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
       status = StatusCardIndex.good;
     }
 
