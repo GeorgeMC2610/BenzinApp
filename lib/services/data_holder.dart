@@ -439,9 +439,9 @@ class DataHolder with ChangeNotifier {
 
   static int? getMostRecentTotalKilometers() {
     if (_fuelFills == null) return null;
-    if (_fuelFills!.last.totalKilometers == null) return null;
+    if (_fuelFills!.first.totalKilometers == null) return null;
 
-    return _fuelFills!.last.totalKilometers!;
+    return _fuelFills!.first.totalKilometers!;
   }
 
 }

@@ -33,6 +33,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final FocusNode _mileageFocusNode = FocusNode();
   final FocusNode _costFocusNode = FocusNode();
   final FocusNode _literFocusNode = FocusNode();
+  final FocusNode _totalMileageFocusNode = FocusNode();
 
   String? _mileageValidator, _totalMilageValidator, _costValidator, _literValidator;
 
@@ -199,7 +200,24 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       focusNode: _mileageFocusNode,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(_costFocusNode);
+                        if (_totalMileageController.text.isEmpty && _mileageController.text.isNotEmpty) {
+                          var lastRecord = DataHolder.getFuelFillRecords()!.firstOrNull;
+                          if (lastRecord?.totalKilometers != null) {
+                            var currentKilometers = double.tryParse(_mileageController.text);
+                            if (currentKilometers != null) {
+                              var newTotalKilometers = currentKilometers.round() + lastRecord!.totalKilometers!;
+                              setState(() {
+                                _totalMileageController.text = newTotalKilometers.toString();
+                              });
+                            }
+                          }
+
+                          FocusScope.of(context).requestFocus(_costFocusNode);
+                        }
+                        else {
+                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
+                        }
+
                         setState(() {
                           _mileageValidator = _validator(_mileageController.text);
                         });
@@ -224,6 +242,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     child: TextField(
                       controller: _totalMileageController,
                       textInputAction: TextInputAction.next,
+                      focusNode: _totalMileageFocusNode,
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
