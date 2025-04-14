@@ -1,6 +1,7 @@
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/services/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _StartState extends State<Start> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => const LoginPage(message: 'Your session has ended. Please log in again.'), // TODO: Localize
+                  builder: (context) => LoginPage(message: AppLocalizations.of(context)!.sessionEnded),
               )
           );
 

@@ -38,13 +38,13 @@ class _RegisterPageState extends State<RegisterPage> {
       // the only way this payload can fail, is when there is another username
       case 422:
         setState(() {
-          usernameError = 'Username already taken'; // TODO: Localize
+          usernameError = AppLocalizations.of(context)!.usernameAlreadyTaken;
         });
         break;
       case 201:
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('successfully created account'), // TODO: Localize
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.successfullyCreatedAccount),
             )
         );
 
@@ -93,12 +93,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
       // other checks
       yearError ??= int.parse(yearController.text) < 1886 ?
-        "Cars didn't exist back then." : // TODO: Localize
+      AppLocalizations.of(context)!.carsNotExistingBackThen :
         null;
 
       if (passwordConfirmError == null && passwordError == null) {
         passwordConfirmError = passwordConfirmController.text != passwordController.text ?
-        "Please confirm your password correctly." : // TODO: Localize
+        AppLocalizations.of(context)!.confirmPasswordCorrectly :
         null;
       }
     });

@@ -10,9 +10,19 @@
         }
     },
 
+    "wrongCredentials": "Wrong credentials",
     "successfullyLoggedIn": "Successfully logged in.",
     "sessionEnded": "Your session has ended. Please log in again.",
     "successfullyLoggedOut": "Successfully logged out.",
+    "usernameAlreadyTaken": "Username is already taken.",
+    "successfullyCreatedAccount": "Successfully created account.",
+    "carsNotExistingBackThen": "Huh?? 😭",
+    "confirmPasswordCorrectly": "Wrong password",
+
+    "enableLocationSetting": "Please enable location setting to use this.",
+    "permissionDeniedForever": "Permission is denied permanently. Change it in your settings.",
+    "mustGrantPermissionToUseThis": "You must grant permission to use this.",
+    "unableToDeterminePermissionStatus": "Unable to determine permission status.",
 
     "registerToBenzinApp":      "Register to BenzinApp",
     "register":                 "Register",

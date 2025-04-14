@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please enable location setting to use this.")) // TODO: Localize
+          SnackBar(content: Text(AppLocalizations.of(context)!.enableLocationSetting))
         );
         return;
       }
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
           break;
         case LocationPermission.deniedForever:
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Permission is denied for ever. Change it in your settings.")) // TODO: Localize
+              SnackBar(content: Text(AppLocalizations.of(context)!.permissionDeniedForever))
           );
           break;
         case LocationPermission.whileInUse:
@@ -124,17 +124,17 @@ class _HomePageState extends State<HomePage> {
         switch (requestedPermission) {
           case LocationPermission.denied:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("You must grant permission to use this service.")) // TODO: Localize
+                SnackBar(content: Text(AppLocalizations.of(context)!.mustGrantPermissionToUseThis))
             );
             return;
           case LocationPermission.deniedForever:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Permission is denied for ever. Change it in your settings.")) // TODO: Localize
+                SnackBar(content: Text(AppLocalizations.of(context)!.permissionDeniedForever))
             );
             return;
           case LocationPermission.unableToDetermine:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Unable to determine your permission status.")) // TODO: Localize
+                SnackBar(content: Text(AppLocalizations.of(context)!.unableToDeterminePermissionStatus))
             );
             return;
           default:

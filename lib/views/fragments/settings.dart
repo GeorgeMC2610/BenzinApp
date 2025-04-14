@@ -28,8 +28,8 @@ class _SettingsFragmentState extends State<SettingsFragment> {
     TokenManager().removeToken().whenComplete(() {
       DataHolder().destroyValues();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Successfully logged out.'), // TODO: Localize
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.successfullyLoggedOut),
         )
       );
 

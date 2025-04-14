@@ -34,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       // wrong credentials are shown in the view
       case 401:
         setState(() {
-          usernameError = 'Wrong Credentials.';
-          passwordError = 'Wrong Credentials.';
+          usernameError = AppLocalizations.of(context)!.wrongCredentials;
+          passwordError = AppLocalizations.of(context)!.wrongCredentials;
         });
         break;
       // response code 200 means that the user is authorized and the
@@ -44,8 +44,8 @@ class _LoginPageState extends State<LoginPage> {
 
         // show the message that the user is authorized successfully.
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('successfully logged in'), // TODO: Localize
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.successfullyLoggedIn),
             )
         );
 
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
       if (widget.message != null) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(widget.message!), // TODO: Localize
+              content: Text(widget.message!),
             )
         );
       }
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
             );
 
           }, icon: const Icon(Icons.app_registration)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.key_off)),
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.key_off)),
 
         ],
       ),
@@ -242,16 +242,16 @@ class _LoginPageState extends State<LoginPage> {
                    const Icon(Icons.app_registration, size: 18,)
                  ],
               ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  Expanded(
-                    child: AutoSizeText( maxLines: 1, "• ${AppLocalizations.of(context)!.forgotPassword}"),
-                  ),
-                  const SizedBox(width: 5),
-                  const Icon(Icons.key_off, size: 18,)
-                ],
-              ),
+              // const SizedBox(height: 5),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: AutoSizeText( maxLines: 1, "• ${AppLocalizations.of(context)!.forgotPassword}"),
+              //     ),
+              //     const SizedBox(width: 5),
+              //     const Icon(Icons.key_off, size: 18,)
+              //   ],
+              // ),
             ]
           ),
         ),

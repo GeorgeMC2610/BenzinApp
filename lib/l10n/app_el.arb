@@ -1,9 +1,19 @@
 {
     "loggedInAs": "Συνδέθηκες ως: {username}",
 
-    "successfullyLoggedIn": "Επιτυχής σύνδεση.",
-    "sessionEnded": "Η σύνοδός σας έληξε. Παρακαλώ συνδεθείτε ξανά.",
+    "wrongCredentials":      "Λάθος στοιχεία",
+    "successfullyLoggedIn":  "Επιτυχής σύνδεση.",
+    "sessionEnded":          "Η σύνοδός σας έληξε. Παρακαλώ συνδεθείτε ξανά.",
     "successfullyLoggedOut": "Αποσυνδεθήκατε επιτυχώς.",
+    "usernameAlreadyTaken": "Αυτό το username υπάρχει ήδη.",
+    "successfullyCreatedAccount": "Επιτυχής εγγραφή στο BenzinApp. Καλώς ορίσατε!",
+    "carsNotExistingBackThen": "Συγγνώμη...; 😭",
+    "confirmPasswordCorrectly": "Λάθος επιβεβαίωση.",
+
+    "enableLocationSetting": "Η χρήση της υπηρεσίας αυτής απαιτεί την τοποθεσία σας.",
+    "permissionDeniedForever": "Τα δικαιώματα για την τοποθεσία έχουν απενεργοποιηθεί πλήρως. Παρεμβείτε στις ρυθμίσεις.",
+    "mustGrantPermissionToUseThis": "Θα πρέπει να δώσετε δικαιώματα τοποθεσίας για τη χρήση της υπηρεσίας.",
+    "unableToDeterminePermissionStatus": "Σφάλμα κατά τη διάκριση των δικαιωμάτων χρήσης τοποθεσίας.",
 
     "registerToBenzinApp":      "Εγγραφή στο BenzinApp",
     "register":                 "Εγγραφή",
