@@ -65,7 +65,7 @@
         }
     },
     "insufficientDataTitle":    "Insufficient Data!",
-    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least two fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
+    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least three fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
     "fuelUsageTrend":           "FUEL USAGE TREND",
     "combinedCosts":            "COMBINED COSTS",
     "averageConsumption":       "AVERAGE CONSUMPTION",
@@ -159,6 +159,7 @@
     "noDateSelected":     "You haven't selected a date yet.",
     "cannotBeEmpty":      "Cannot be empty",
     "cannotBeNegative":   "Cannot be negative",
+    "statsCannotBeCalculated": "Once you enter the next fuel fill, the stats of this one will become available.",
 
     "discoveredAt":       "Discovered at:",
     "ongoingMalfunction": "Ongoing",
@@ -226,6 +227,7 @@
     "uncheckingTheBox": "Warning! By unchecking the box, you will mark this functions as ongoing.",
     "selectLocation": "Select location...",
 
+    "pleaseEnterFuelFills": "Trips rely on your data! Please enter at least three fuel fills.",
     "tripData": "Trip Data",
     "tripName": "Title:",
     "weeklyOccurrence": "Weekly Occurrence:",

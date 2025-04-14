@@ -107,6 +107,12 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
+                          fuelFillRecord.getNext() == null?
+                          ListTile(
+                            leading: const Icon(Icons.info),
+                            title: Text(AppLocalizations.of(context)!.statsCannotBeCalculated)
+                          ) : const SizedBox(),
+
                           // singular card with initial data
                           SizedBox(
                             width: MediaQuery.sizeOf(context).width,
@@ -219,6 +225,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 ),
                               ),
 
+                              fuelFillRecord.getNext() == null ? const SizedBox() :
                               Expanded(
                                 flex: 3,
                                 child: Card(

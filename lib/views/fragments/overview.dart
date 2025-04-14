@@ -170,7 +170,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   ),
 
                   // graph with consumption container
-                  DataHolder.getFuelFillRecords()!.length < 2 ?
+                  DataHolder.getFuelFillRecords()!.length < 3 ?
                   const InsufficientDataCard()
                       :
                   SizedBox(
@@ -245,7 +245,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               // graph with consumption container
                               FuelTrendLineChart(
-                                data: DataHolder.getFuelFillRecords()!,
+                                data: DataHolder.getFuelFillRecords()!.where((ffr) => ffr != lastRecord).toList(),
                                 size: 300,
                                 focusType: _focus,
                                 context: context,

@@ -24,7 +24,7 @@ class _TripsFragmentState extends State<TripsFragment> {
     return Consumer<DataHolder>(
         builder: (context, dataHolder, child)
     {
-      if (DataHolder.getTrips() == null) {
+      if (DataHolder.getTrips() == null || DataHolder.getFuelFillRecords() == null) {
         return const Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Center(
@@ -35,36 +35,71 @@ class _TripsFragmentState extends State<TripsFragment> {
         );
       }
 
-      return DataHolder.getTrips()!.isEmpty ?
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'lib/assets/svg/no_trips.svg',
-                semanticsLabel: 'No Trips!',
-                width: 200,
-              ),
-
-              const SizedBox(height: 40),
-
-              AutoSizeText(
-                AppLocalizations.of(context)!.noTrips,
-                maxLines: 1,
-                style: const TextStyle(
-                    fontSize: 29,
-                    fontWeight: FontWeight.bold
+      else if (DataHolder.getFuelFillRecords()!.length < 2) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'lib/assets/svg/no_trips.svg',
+                  semanticsLabel: 'No Trips!',
+                  width: 200,
                 ),
-              )
-            ],
+
+                const SizedBox(height: 40),
+
+                Center(
+                  child: AutoSizeText(
+                    AppLocalizations.of(context)!.pleaseEnterFuelFills,
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 29,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                )
+
+              ],
+            ),
           ),
-        ),
-      )
-          :
-      RefreshIndicator(
+        );
+      }
+
+      else if (DataHolder.getTrips()!.isEmpty) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'lib/assets/svg/no_trips.svg',
+                  semanticsLabel: 'No Trips!',
+                  width: 200,
+                ),
+
+                const SizedBox(height: 40),
+
+                AutoSizeText(
+                  AppLocalizations.of(context)!.noTrips,
+                  maxLines: 1,
+                  style: const TextStyle(
+                      fontSize: 29,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
+
+      return RefreshIndicator(
           onRefresh: () async {
             setState(() {
               _isLoading = true;

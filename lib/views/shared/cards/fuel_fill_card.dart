@@ -109,6 +109,7 @@ class _FuelFillCardState extends State<FuelFillCard> {
           widget.record.totalKilometers == null ? const SizedBox() :
           Text('${LocaleStringConverter.formattedBigInt(context, widget.record.totalKilometers!)} km', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           Text(_getFuelString(), style: const TextStyle(fontSize: 12)),
+          widget.record.getNext() == null ? const SizedBox() :
           Text("${widget.record.getConsumption().toStringAsFixed(3)} lt./100km", style: const TextStyle(fontSize: 12)),
         ],
       ),

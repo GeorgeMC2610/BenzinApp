@@ -1,3 +1,6 @@
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:flutter/cupertino.dart';
+
 class FuelFillRecord {
 
   static FuelFillRecord fromJson(Map<String, dynamic> jsonObject) {
@@ -38,16 +41,34 @@ class FuelFillRecord {
   final String? fuelType;
   final String? comments;
 
+  FuelFillRecord? getNext() {
+    var indexOfNext = DataHolder.getFuelFillRecords()!.indexOf(this) - 1;
+    if (indexOfNext < 0) return null;
+    return DataHolder.getFuelFillRecords()![indexOfNext];
+  }
+
   double getConsumption() {
-    return 100 * liters / kilometers;
+    if (getNext() == null) {
+      return double.nan;
+    }
+
+    return 100 * liters / getNext()!.kilometers;
   }
 
   double getEfficiency() {
-    return kilometers / liters;
+    if (getNext() == null) {
+      return double.nan;
+    }
+
+    return getNext()!.kilometers / liters;
   }
 
   double getTravelCost() {
-    return cost / kilometers;
+    if (getNext() == null) {
+      return double.nan;
+    }
+
+    return cost / getNext()!.kilometers;
   }
   
 }
