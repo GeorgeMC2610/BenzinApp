@@ -151,7 +151,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                          return LayoutBuilder(
                            builder: (context, constraints) {
 
-                             var lastService = DataHolder.getServices()!.removeAt(0);
+                             var lastService = DataHolder.getServices()!.first;
                              var previousServices = DataHolder.getServices()!.where((service) => service != lastService).toList();
 
                              return
@@ -208,7 +208,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                          ) : const SizedBox(),
 
                                          DividerWithText(
-                                             text: 'Last Serivce',
+                                             text: AppLocalizations.of(context)!.lastService,
                                              lineColor: Colors.black,
                                              textColor: Colors.black,
                                              textSize: 16
@@ -226,7 +226,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                          ),
 
                                          DividerWithText(
-                                           text: 'Previous Services',
+                                           text: AppLocalizations.of(context)!.previousServices,
                                            lineColor: Colors.black,
                                            textColor: Colors.black,
                                            textSize: 16
