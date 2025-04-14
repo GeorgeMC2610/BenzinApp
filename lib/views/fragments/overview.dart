@@ -126,6 +126,8 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               _canServiceBeDisplayed(lastService) ? getServiceCard(lastService!) : const SizedBox(),
 
+                              lastService?.nextServiceDate != null ? getServiceCardWithDays(lastService!) : const SizedBox(),
+
                               // const StatusCard(
                               //     icon: Icon(FontAwesomeIcons.carBattery),
                               //     text: "Battery changed 2 and a half years ago",
@@ -500,6 +502,43 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     );
   }
 
+  Widget getServiceCardWithDays(Service lastService) {
+    var difference = lastService.nextServiceDate!.difference(DateTime.now());
+    String message;
+    StatusCardIndex index;
+
+    if (difference.inDays < 0) {
+      message = 'Service overdue by ${difference.inDays.abs()} days';
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 1) {
+      message = 'Service due today';
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 2) {
+      message = 'Service due tomorrow';
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 30) {
+      message = 'Next service in ${difference.inDays} days';
+      index = StatusCardIndex.warning;
+    }
+    else if (difference.inDays < 365) {
+      message = 'Next service in ${(difference.inDays/30).toInt()} months';
+      index = StatusCardIndex.good;
+    }
+    else {
+      message = 'Next service at ${LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!)}';
+      index = StatusCardIndex.good;
+    }
+
+    return StatusCard(
+        icon: const Icon(FontAwesomeIcons.calendar),
+        text: message,
+        status: index,
+    );
+  }
+
   Widget getServiceCard(Service lastService) {
     if (DataHolder.getMostRecentTotalKilometers() == null) {
       return StatusCard(
@@ -511,7 +550,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
     String message;
     StatusCardIndex status;
-    var difference = lastService.nextServiceKilometers! - DataHolder.getMostRecentTotalKilometers()!;
+    var difference = DataHolder.getMostRecentTotalKilometers()! - lastService.nextServiceKilometers!;
 
     if (difference < 0) {
       message = 'Service overdue by ${LocaleStringConverter.formattedBigInt(context, difference.abs())} km';

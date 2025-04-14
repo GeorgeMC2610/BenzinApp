@@ -65,7 +65,7 @@
         }
     },
     "insufficientDataTitle":    "Insufficient Data!",
-    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least three fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
+    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least three  fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
     "fuelUsageTrend":           "FUEL USAGE TREND",
     "combinedCosts":            "COMBINED COSTS",
     "averageConsumption":       "AVERAGE CONSUMPTION",
@@ -76,6 +76,49 @@
     "totalLitersFilled":        "Total Liters Filled:",
     "totalKilometersTravelled": "Total Kilometers Travelled:",
     "totalCosts":               "Total Costs:",
+
+    "serviceOverdueInDays": "Service overdue by {amount} days",
+    "@serviceOverdueInDays": {
+        "description": "Amount of days expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "23"
+            }
+        }
+    },
+    "serviceDueToday": "Service due today",
+    "serviceDueTomorrow": "Service due tomorrow",
+    "serviceDueInDays": "Service due in {amount} day(s)",
+    "@serviceDueInDays": {
+        "description": "Amount of days expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "23"
+            }
+        }
+    },
+    "serviceDueInMonths": "Service due in {amount} month(s)",
+    "@serviceDueInMonths": {
+        "description": "Amount of months expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "serviceDueInDateTime": "Next service in {date}",
+    "@serviceDueInDateTime": {
+        "description": "Date string",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "29 Dec 2019"
+            }
+        }
+    },
 
     "noFuelFillRecords": "No Fuel Fill Records.",
     "noMalfunctions": "No Malfunctions.",

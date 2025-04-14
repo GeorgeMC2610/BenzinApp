@@ -50,6 +50,13 @@
     "totalKilometersTravelled": "Συνολικά Χιλιόμετρα:",
     "totalCosts":               "Συνολικά Κόστη:",
 
+    "serviceOverdueInDays": "Σέρβις εκπρόθεσμο εδώ και {amount} ημέρα(-ες)",
+    "serviceDueToday": "Επόμενο σέρβις σήμερα",
+    "serviceDueTomorrow": "Επόμενο σέρβις αύριο",
+    "serviceDueInDays": "Διορία επόμενου σέρβις σε {amount} ημέρα(-ες)",
+    "serviceDueInMonths": "Διορία επόμενου σέρβις σε {amount} μήνα(-ες)",
+    "serviceDueInDateTime": "Επόμενο σέρβις στις {date}",
+
     "noFuelFillRecords": "Δεν υπάρχουν Γεμίσματα.",
     "noMalfunctions": "Δεν υπάρχουν Βλάβες.",
     "noServices": "Δεν υπάρχουν Σέρβις.",

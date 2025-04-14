@@ -66,7 +66,7 @@ class _ServiceFormState extends State<ServiceForm> {
       'cost_eur': costController.text,
       'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
       'description': descriptionController.text.trim(),
-      'next_at_date': _selectedNextDate?.toIso8601String().substring(0, 10) ?? '',
+      'next_at_date': _selectedNextDate == null ? '' : _selectedNextDate!.toIso8601String().substring(0, 10),
       'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
     };
   }
