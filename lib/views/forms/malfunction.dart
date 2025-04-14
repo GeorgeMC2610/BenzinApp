@@ -268,9 +268,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       controller: kmController,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.serviceMileageHint,
+                        hintText: AppLocalizations.of(context)!.inKmHint,
                         errorText: _kmValidator,
-                        labelText: AppLocalizations.of(context)!.serviceMileage2,
+                        labelText: '${AppLocalizations.of(context)!.serviceMileage2} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -296,7 +296,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.malfunctionTitleHint,
                         errorText: _titleValidator,
-                        labelText: AppLocalizations.of(context)!.malfunctionTitle,
+                        labelText: '${AppLocalizations.of(context)!.malfunctionTitle} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -322,7 +322,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 controller: descriptionController,
                 decoration: InputDecoration(
                   hintText: AppLocalizations.of(context)!.descriptionHintMalfunction,
-                  labelText: AppLocalizations.of(context)!.description2,
+                  labelText: '${AppLocalizations.of(context)!.description2} *',
                   errorText: _descriptionValidator,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
@@ -374,7 +374,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                AppLocalizations.of(context)!.selectADate :
+                '${AppLocalizations.of(context)!.selectADate} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -490,7 +490,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           decoration: InputDecoration(
             hintText: AppLocalizations.of(context)!.repairCostHint,
             errorText: _costValidator,
-            labelText: AppLocalizations.of(context)!.repairCost,
+            labelText: '${AppLocalizations.of(context)!.repairCost} *',
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -504,7 +504,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedDateEnded == null ?
-          AppLocalizations.of(context)!.malfunctionEnded :
+          '${AppLocalizations.of(context)!.malfunctionEnded} *' :
           LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDateEnded!),
           style: const TextStyle(
               fontSize: 22,
