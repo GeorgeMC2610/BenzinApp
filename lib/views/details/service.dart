@@ -118,7 +118,18 @@ class _ViewServiceState extends State<ViewService> {
                         const SizedBox(height: 20),
 
                         Text(AppLocalizations.of(context)!.serviceMileage, style: SharedFontStyles.legendTextStyle),
-                        Text('${LocaleStringConverter.formattedBigInt(context, service.kilometersDone)} km', style: SharedFontStyles.descriptiveTextStyle),
+                        Text(
+                          '${LocaleStringConverter.formattedBigInt(context, service.kilometersDone)} km',
+                          style: SharedFontStyles.descriptiveTextStyle
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                        Text(
+                            '€${LocaleStringConverter.formattedDouble(context, service.cost!)}',
+                            style: SharedFontStyles.descriptiveTextStyle
+                        ),
                       ],
                     ),
                   ),
@@ -161,21 +172,9 @@ class _ViewServiceState extends State<ViewService> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
-                            Text(
-                                service.cost == null ?
-                                '-' :
-                                '€${LocaleStringConverter.formattedDouble(context, service.cost!)}',
-                                style: SharedFontStyles.descriptiveTextStyle
-                            ),
-
-                            const SizedBox(height: 20),
-
                             Text(AppLocalizations.of(context)!.nextAtKm, style: SharedFontStyles.legendTextStyle),
                             Text(
-                                service.nextServiceKilometers == null ?
-                                '-' :
-                                '${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km',
+                                getNextServiceInfo(),
                                 style: SharedFontStyles.descriptiveTextStyle
                             ),
                           ],
@@ -229,5 +228,22 @@ class _ViewServiceState extends State<ViewService> {
         ),
       ),
     );
+  }
+
+  String getNextServiceInfo() {
+    if (service.nextServiceKilometers == null && service.nextServiceDate == null) return '-';
+
+    if (service.nextServiceKilometers == null) {
+      return '${AppLocalizations.of(context)!.before} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+    }
+
+    if (service.nextServiceDate == null) {
+      return '${AppLocalizations.of(context)!.at} ${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km';
+    }
+
+    return '${AppLocalizations.of(context)!.at} '
+        '${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km '
+        '${AppLocalizations.of(context)!.orBefore} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+
   }
 }

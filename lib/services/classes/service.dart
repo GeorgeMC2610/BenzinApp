@@ -20,10 +20,10 @@ class Service {
     required this.kilometersDone,
     required this.description,
     required this.dateHappened,
+    required this.cost,
 
     this.nextServiceDate,
     this.nextServiceKilometers,
-    this.cost,
     this.location
   });
 
@@ -31,10 +31,10 @@ class Service {
   final int kilometersDone;
   final String description;
   final DateTime dateHappened;
+  final double cost;
 
   final DateTime? nextServiceDate;
   final int? nextServiceKilometers;
-  final double? cost;
   final String? location;
 
   String? getAddress() {
