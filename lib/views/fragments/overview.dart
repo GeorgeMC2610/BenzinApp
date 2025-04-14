@@ -124,11 +124,9 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                               _canServiceBeDisplayed(lastService) ? const Divider()
                               : const SizedBox(),
 
-                              _canServiceBeDisplayed(lastService) ? StatusCard(
-                                  icon: const Icon(FontAwesomeIcons.wrench),
-                                  text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService!.nextServiceKilometers!)} km',
-                                  status: StatusCardIndex.warning
-                              ) : const SizedBox(),
+                              _canServiceBeDisplayed(lastService) ? getServiceCard(lastService!) : const SizedBox(),
+
+                              lastService?.nextServiceDate != null ? getServiceCardWithDays(lastService!) : const SizedBox(),
 
                               // const StatusCard(
                               //     icon: Icon(FontAwesomeIcons.carBattery),
@@ -174,7 +172,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
                   ),
 
                   // graph with consumption container
-                  DataHolder.getFuelFillRecords()!.length < 2 ?
+                  DataHolder.getFuelFillRecords()!.length < 3 ?
                   const InsufficientDataCard()
                       :
                   SizedBox(
@@ -249,7 +247,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
 
                               // graph with consumption container
                               FuelTrendLineChart(
-                                data: DataHolder.getFuelFillRecords()!,
+                                data: DataHolder.getFuelFillRecords()!.where((ffr) => ffr != lastRecord).toList(),
                                 size: 300,
                                 focusType: _focus,
                                 context: context,
@@ -501,6 +499,80 @@ class _OverviewFragmentState extends State<OverviewFragment> {
             )
         );
       },
+    );
+  }
+
+  Widget getServiceCardWithDays(Service lastService) {
+    var difference = lastService.nextServiceDate!.difference(DateTime.now());
+    String message;
+    StatusCardIndex index;
+
+    if (difference.inDays < 0) {
+      message = AppLocalizations.of(context)!.serviceOverdueInDays(difference.inDays.abs());
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 1) {
+      message = AppLocalizations.of(context)!.serviceDueToday;
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 2) {
+      message = AppLocalizations.of(context)!.serviceDueTomorrow;
+      index = StatusCardIndex.bad;
+    }
+    else if (difference.inDays < 30) {
+      message = AppLocalizations.of(context)!.serviceDueInDays(difference.inDays);
+      index = StatusCardIndex.warning;
+    }
+    else if (difference.inDays < 365) {
+      message = AppLocalizations.of(context)!.serviceDueInMonths((difference.inDays/30).toInt());
+      index = StatusCardIndex.good;
+    }
+    else {
+      message = AppLocalizations.of(context)!.serviceDueInDateTime(LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!));
+      index = StatusCardIndex.good;
+    }
+
+    return StatusCard(
+        icon: const Icon(FontAwesomeIcons.calendar),
+        text: message,
+        status: index,
+    );
+  }
+
+  Widget getServiceCard(Service lastService) {
+    if (DataHolder.getMostRecentTotalKilometers() == null) {
+      return StatusCard(
+          icon: const Icon(FontAwesomeIcons.wrench),
+          text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
+          status: StatusCardIndex.warning
+      );
+    }
+
+    String message;
+    StatusCardIndex status;
+    var difference = lastService.nextServiceKilometers! - DataHolder.getMostRecentTotalKilometers()!;
+
+    if (difference < 0) {
+      message = AppLocalizations.of(context)!.serviceOverdueInKm(LocaleStringConverter.formattedBigInt(context, difference.abs()));
+      status = StatusCardIndex.bad;
+    }
+    else if (difference < 200) {
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      status = StatusCardIndex.bad;
+    }
+    else if (difference < 600) {
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      status = StatusCardIndex.warning;
+    }
+    else {
+      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      status = StatusCardIndex.good;
+    }
+
+    return StatusCard(
+        icon: const Icon(FontAwesomeIcons.wrench),
+        text: message,
+        status: status
     );
   }
 

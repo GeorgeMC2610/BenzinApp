@@ -7,6 +7,7 @@ import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FuelFillRecordForm extends StatefulWidget {
   const FuelFillRecordForm({super.key, this.fuelFillRecord, this.viewingRecord});
@@ -22,6 +23,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
   DateTime? _selectedDate;
   final TextEditingController _mileageController = TextEditingController();
+  final TextEditingController _totalMileageController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
   final TextEditingController _literController = TextEditingController();
   final TextEditingController _fuelTypeController = TextEditingController();
@@ -31,8 +33,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final FocusNode _mileageFocusNode = FocusNode();
   final FocusNode _costFocusNode = FocusNode();
   final FocusNode _literFocusNode = FocusNode();
+  final FocusNode _totalMileageFocusNode = FocusNode();
 
-  String? _mileageValidator, _costValidator, _literValidator;
+  String? _mileageValidator, _totalMileageValidator, _costValidator, _literValidator;
 
   bool _isLoading = false;
 
@@ -50,6 +53,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       _literController.text = record.liters.toString();
       _selectedDate = record.dateTime;
 
+      _totalMileageController.text = record.totalKilometers?.toString() ?? '';
       _stationController.text = record.gasStation ?? '';
       _fuelTypeController.text = record.fuelType ?? '';
       _commentsController.text = record.comments ?? '';
@@ -99,6 +103,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               'cost_eur': _costController.text,
               'filled_at': _selectedDate!.toIso8601String().substring(0, 10),
               'notes': _commentsController.text.trim().isEmpty ? '' : _commentsController.text.trim(),
+              'total_km': _totalMileageController.text.trim().isEmpty ? '' : _totalMileageController.text.trim(),
               'station': _stationController.text.trim().isEmpty ? '' : _stationController.text.trim(),
               'fuel_type': _fuelTypeController.text.trim().isEmpty ? '' : _fuelTypeController.text.trim()
             };
@@ -176,6 +181,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DividerWithText(
                   text: AppLocalizations.of(context)!.requiredInfo,
@@ -194,7 +200,24 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       focusNode: _mileageFocusNode,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(_costFocusNode);
+                        if (_totalMileageController.text.isEmpty && _mileageController.text.isNotEmpty) {
+                          var lastRecord = DataHolder.getFuelFillRecords()!.firstOrNull;
+                          if (lastRecord?.totalKilometers != null) {
+                            var currentKilometers = double.tryParse(_mileageController.text);
+                            if (currentKilometers != null) {
+                              var newTotalKilometers = currentKilometers.round() + lastRecord!.totalKilometers!;
+                              setState(() {
+                                _totalMileageController.text = newTotalKilometers.toString();
+                              });
+                            }
+                          }
+
+                          FocusScope.of(context).requestFocus(_costFocusNode);
+                        }
+                        else {
+                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
+                        }
+
                         setState(() {
                           _mileageValidator = _validator(_mileageController.text);
                         });
@@ -203,7 +226,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.inKmHint,
-                        labelText: AppLocalizations.of(context)!.mileage,
+                        labelText: '${AppLocalizations.of(context)!.mileage} *',
                         errorText: _mileageValidator,
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -217,68 +240,115 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
                   Expanded(
                     child: TextField(
-                      controller: _costController,
-                      focusNode: _costFocusNode,
+                      controller: _totalMileageController,
                       textInputAction: TextInputAction.next,
+                      focusNode: _totalMileageFocusNode,
                       onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(_literFocusNode);
+                        if (_mileageController.text.isEmpty && _totalMileageController.text.isNotEmpty) {
+                          var lastRecord = DataHolder.getFuelFillRecords()!.firstOrNull;
+                          if (lastRecord?.totalKilometers != null) {
+                            var currentKilometers = double.tryParse(_totalMileageController.text);
+                            if (currentKilometers != null) {
+                              var newKilometers = currentKilometers - lastRecord!.totalKilometers!;
+                              setState(() {
+                                _mileageController.text = newKilometers.toString();
+                              });
+                            }
+                          }
+
+                          FocusScope.of(context).requestFocus(_costFocusNode);
+                        }
+                        else {
+                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
+                        }
+
                         setState(() {
-                          _costValidator = _validator(_costController.text);
+                          _mileageValidator = _validator(_mileageController.text);
                         });
                       },
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.costHint,
-                        labelText: AppLocalizations.of(context)!.cost2,
-                        errorText: _costValidator,
-                        prefixIcon: const Icon(Icons.euro_symbol_sharp),
+                        hintText: AppLocalizations.of(context)!.inKmHint,
+                        labelText: AppLocalizations.of(context)!.totalMileage,
+                        errorText: _totalMileageValidator,
+                        prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
                     ),
                   ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    child: TextField(
-                      controller: _literController,
-                      focusNode: _literFocusNode,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () {
-                        setState(() {
-                          _literValidator = _validator(_literController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.litersHint,
-                        labelText: AppLocalizations.of(context)!.liters2,
-                        errorText: _literValidator,
-                        prefixIcon: const Icon(Icons.water_drop),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  ),
-
                 ],
+              ),
+
+              const SizedBox(height: 10),
+
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.475,
+                child: TextField(
+                  controller: _costController,
+                  focusNode: _costFocusNode,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    FocusScope.of(context).requestFocus(_literFocusNode);
+                    setState(() {
+                      _costValidator = _validator(_costController.text);
+                    });
+                  },
+                  enabled: !_isLoading,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.costHint,
+                    labelText: '${AppLocalizations.of(context)!.cost2} *',
+                    errorText: _costValidator,
+                    prefixIcon: const Icon(Icons.euro_symbol_sharp),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.475,
+                  child: TextField(
+                  controller: _literController,
+                  focusNode: _literFocusNode,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    setState(() {
+                      _literValidator = _validator(_literController.text);
+                    });
+                  },
+                  enabled: !_isLoading,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.litersHint,
+                    labelText: '${AppLocalizations.of(context)!.liters2} *',
+                    errorText: _literValidator,
+                    prefixIcon: const Icon(Icons.water_drop),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 30),
 
-              AutoSizeText(
-                maxLines: 1,
-                _selectedDate == null ?
-                    AppLocalizations.of(context)!.selectADate :
-                    LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold
+              Center(
+                child: AutoSizeText(
+                  maxLines: 1,
+                  _selectedDate == null ?
+                  AppLocalizations.of(context)!.selectADate :
+                  LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
+                  style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
 

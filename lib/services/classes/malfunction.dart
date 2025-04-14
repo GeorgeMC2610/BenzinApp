@@ -9,9 +9,10 @@ class Malfunction {
       dateEnded: object["ended"] == null ? null : DateTime.parse(object["ended"]),
       title: object["title"],
       description: object["description"],
+      severity: object["severity"],
       cost: object["cost_eur"],
       kilometersDiscovered: object["at_km"],
-      location: object["location"],
+      location: ['null', ''].any((test) => test == object['location']) ? null : object["location"],
     );
   }
 
@@ -20,6 +21,7 @@ class Malfunction {
     required this.dateStarted,
     required this.description,
     required this.title,
+    required this.severity,
     required this.kilometersDiscovered,
 
     this.dateEnded,
@@ -32,6 +34,7 @@ class Malfunction {
   final String description;
   final String title;
   final int kilometersDiscovered;
+  final int severity;
 
   final DateTime? dateEnded;
   final double? cost;
@@ -56,4 +59,6 @@ class Malfunction {
     var longitude = double.parse(location!.split('|').last.split(',').last.trim());
     return LatLng(latitude, longitude);
   }
+
+
 }

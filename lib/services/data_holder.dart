@@ -335,22 +335,34 @@ class DataHolder with ChangeNotifier {
   // GENERAL STATS
   // TODO: Add calendar filters to them
   static double getTotalConsumption() {
-    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!
+        .where((fuelFill) => fuelFill != _fuelFills!.first)
+        .fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+
+    double totalLiters = _fuelFills!
+        .fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return 100 * totalLiters / totalKilometers;
   }
 
   static double getTotalEfficiency() {
-    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
-    double totalLiters = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.liters);
+    double totalKilometers = _fuelFills!
+        .where((fuelFill) => fuelFill != _fuelFills!.first)
+        .fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+
+    double totalLiters = _fuelFills!
+        .fold(0, (sum, fuelFill) => sum + fuelFill.liters);
 
     return totalKilometers / totalLiters;
   }
 
   static double getTotalTravelCost() {
-    double totalCost = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.cost);
-    double totalKilometers = _fuelFills!.fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
+    double totalCost = _fuelFills!
+        .fold(0, (sum, fuelFill) => sum + fuelFill.cost);
+
+    double totalKilometers = _fuelFills!
+        .where((fuelFill) => fuelFill != _fuelFills!.first)
+        .fold(0, (sum, fuelFill) => sum + fuelFill.kilometers);
 
     return totalCost / totalKilometers;
   }
@@ -386,7 +398,9 @@ class DataHolder with ChangeNotifier {
   }
 
   static double getBestEfficiency() {
-    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+    var fuelFills = _fuelFills!
+        .where((fuelFill) => fuelFill.getNext() != null)
+        .map((fuelFill) => fuelFill.getEfficiency())
         .toList();
 
     fuelFills.sort();
@@ -394,7 +408,9 @@ class DataHolder with ChangeNotifier {
   }
 
   static double getWorstEfficiency() {
-    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getEfficiency())
+    var fuelFills = _fuelFills!
+        .where((fuelFill) => fuelFill.getNext() != null)
+        .map((fuelFill) => fuelFill.getEfficiency())
         .toList();
 
     fuelFills.sort();
@@ -402,7 +418,9 @@ class DataHolder with ChangeNotifier {
   }
 
   static double getBestTravelCost() {
-    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+    var fuelFills = _fuelFills!
+        .where((fuelFill) => fuelFill.getNext() != null)
+        .map((fuelFill) => fuelFill.getTravelCost())
         .toList();
 
     fuelFills.sort();
@@ -410,11 +428,20 @@ class DataHolder with ChangeNotifier {
   }
 
   static double getWorstTravelCost() {
-    var fuelFills = _fuelFills!.map((fuelFill) => fuelFill.getTravelCost())
+    var fuelFills = _fuelFills!
+        .where((fuelFill) => fuelFill.getNext() != null)
+        .map((fuelFill) => fuelFill.getTravelCost())
         .toList();
 
     fuelFills.sort();
     return fuelFills.last;
+  }
+
+  static int? getMostRecentTotalKilometers() {
+    if (_fuelFills == null) return null;
+    if (_fuelFills!.first.totalKilometers == null) return null;
+
+    return _fuelFills!.first.totalKilometers!;
   }
 
 }

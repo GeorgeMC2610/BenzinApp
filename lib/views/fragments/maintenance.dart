@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
+import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
@@ -149,6 +150,10 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
                          return LayoutBuilder(
                            builder: (context, constraints) {
+
+                             var lastService = DataHolder.getServices()!.firstOrNull;
+                             var previousServices = DataHolder.getServices()!.where((service) => service != lastService).toList();
+
                              return
                                DataHolder.getServices()!.isEmpty ?
                                Padding(
@@ -202,15 +207,43 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                                            value: null,
                                          ) : const SizedBox(),
 
-                                         ...DataHolder.getServices()!.map((service) {
-                                           return DataHolder.getServices()!.last != service ?
-                                           Column(
-                                             children: [
-                                               ServiceCard(service: service),
-                                               const Divider()
-                                             ],
-                                           ) : ServiceCard(service: service);
-                                         }),
+                                         DividerWithText(
+                                             text: AppLocalizations.of(context)!.lastService,
+                                             lineColor: Colors.black,
+                                             textColor: Colors.black,
+                                             textSize: 16
+                                         ),
+
+                                         SizedBox(
+                                         width: MediaQuery.of(context).size.width,
+                                           child: Card(
+                                             color: Theme.of(context).colorScheme.primaryContainer,
+                                             child: Padding(
+                                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                              child: ServiceCard(service: lastService!)
+                                            )
+                                           )
+                                         ),
+
+                                         DividerWithText(
+                                           text: AppLocalizations.of(context)!.previousServices,
+                                           lineColor: Colors.black,
+                                           textColor: Colors.black,
+                                           textSize: 16
+                                         ),
+
+                                         previousServices.isEmpty ? Text(AppLocalizations.of(context)!.nothingToShowHere) :
+                                         Column(
+                                           children: previousServices.map((service) {
+                                             return previousServices.last != service ?
+                                             Column(
+                                               children: [
+                                                 ServiceCard(service: service),
+                                                 const Divider()
+                                               ],
+                                             ) : ServiceCard(service: service);
+                                           }).toList(),
+                                         ),
 
                                          const SizedBox(height: 65)
                                        ],

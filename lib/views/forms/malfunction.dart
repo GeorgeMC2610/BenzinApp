@@ -26,6 +26,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   DateTime? _selectedDate, _selectedDateEnded;
   String? _selectedAddress;
   LatLng? _selectedCoordinates;
+  double _severity = 3;
+
   final TextEditingController kmController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -44,6 +46,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       titleController.text = widget.malfunction!.title;
       descriptionController.text = widget.malfunction!.description;
       _selectedDate = widget.malfunction!.dateStarted;
+      _severity = widget.malfunction!.severity.toDouble();
 
       if (widget.malfunction!.isFixed()) {
         _markAsFixed = true;
@@ -55,8 +58,136 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     }
   }
 
+  void _buttonSubmit() {
+    // validate the fields.
+    bool isValidated = _markAsFixed ? _validateForFixed() : _validateForOngoing();
+    if (!isValidated) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    // when validations are all ok.
+    var uriString = widget.malfunction == null ?
+    '${DataHolder.destination}/malfunction' :
+    '${DataHolder.destination}/malfunction/${widget.malfunction!.id}';
+
+    var body = _markAsFixed ? _getFixedBody() : _getOngoingBody();
+
+    // post request for new malfunction
+    if (widget.malfunction == null) {
+      RequestHandler.sendPostRequest(
+        uriString,
+        true,
+        body,
+        _stopLoading,
+        _whenPostRequestIsComplete
+      );
+    }
+    // patch request for new malfunction
+    else {
+      RequestHandler.sendPatchRequest(
+        uriString,
+        body,
+        _stopLoading,
+        _whenPatchRequestIsComplete
+      );
+    }
+  }
+
+  void _stopLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Map<String, dynamic> _commonBody () {
+    return {
+      'title': titleController.text.trim(),
+      'at_km': kmController.text,
+      'severity': _severity.round().toString(),
+      'description': descriptionController.text.trim(),
+      'started': _selectedDate!.toIso8601String().substring(0, 10),
+    };
+  }
+
+  Map<String, dynamic> _getOngoingBody() {
+    return {
+      ..._commonBody(),
+      'ended': 'null',
+      'cost_eur': 'null',
+      'location': 'null'
+    };
+  }
+
+  Map<String, dynamic> _getFixedBody() {
+    return {
+      ..._commonBody(),
+      'ended': _selectedDateEnded!.toIso8601String().substring(0, 10),
+      'cost_eur': costController.text,
+      'location': _selectedCoordinates == null ? 'null' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+    };
+  }
+
+  bool _validateForOngoing() {
+    String? dateValidator;
+
+    setState(() {
+      _kmValidator = _numberValidator(kmController.text);
+      _titleValidator = _emptyValidator(titleController.text);
+      _descriptionValidator = _emptyValidator(descriptionController.text);
+      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
+    });
+
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(dateValidator!),
+          )
+      );
+    }
+
+    List<String?> mandatoryFields = [dateValidator, _kmValidator, _titleValidator, _descriptionValidator];
+
+    return mandatoryFields.every((validation) => validation == null);
+  }
+
+  bool _validateForFixed() {
+    String? dateValidator, endedDateValidator;
+
+    setState(() {
+      _kmValidator = _numberValidator(kmController.text);
+      _titleValidator = _emptyValidator(titleController.text);
+      _descriptionValidator = _emptyValidator(descriptionController.text);
+      _costValidator = _numberValidator(costController.text);
+      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
+      endedDateValidator = _selectedDateEnded == null ? AppLocalizations.of(context)!.pleaseSelectAnEndDate : null;
+    });
+
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(dateValidator!),
+        )
+      );
+    }
+
+    if (_selectedDateEnded == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(endedDateValidator!),
+        )
+      );
+    }
+
+    List<String?> mandatoryFields = [endedDateValidator, _kmValidator, _titleValidator, _descriptionValidator, dateValidator];
+
+    return mandatoryFields.every((validation) => validation == null);
+  }
+
   Future<void> _whenPostRequestIsComplete(http.Response response) async {
     var jsonResponse = jsonDecode(response.body);
+    debugPrint(jsonResponse.toString());
     var malfunction = Malfunction.fromJson(jsonResponse["malfunction"]);
     DataHolder.addMalfunction(malfunction);
     Navigator.pop(context);
@@ -86,135 +217,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         ElevatedButton.icon(
-          onPressed: _isLoading ? null : () {
-            // TODO: For Donald Knuth's sake, please refactor this...
-            // when adding a malfunction
-            if (widget.malfunction == null) {
-              setState(() {
-                _titleValidator = _emptyValidator(titleController.text);
-                _kmValidator = _numberValidator(kmController.text);
-                _descriptionValidator = _emptyValidator(descriptionController.text);
-              });
-
-              if (_selectedDate == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.noDateSelected),
-                    )
-                );
-              }
-
-              if (_kmValidator != null ||
-                  _titleValidator != null ||
-                  _descriptionValidator != null ||
-                  _selectedDate == null
-              ) {
-                return;
-              }
-
-              setState(() {
-                _isLoading = true;
-              });
-
-              var uriString = '${DataHolder.destination}/malfunction';
-              var body = {
-                'at_km': kmController.text,
-                'title': titleController.text.trim(),
-                'started': _selectedDate!.toIso8601String().substring(0, 10),
-                'description': descriptionController.text.trim(),
-              };
-
-              RequestHandler.sendPostRequest(uriString, true, body,
-                      () {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                  _whenPostRequestIsComplete
-              );
-            }
-            // when editing a malfunction
-            else {
-              setState(() {
-                _titleValidator = _emptyValidator(titleController.text);
-                _kmValidator = _numberValidator(kmController.text);
-                _descriptionValidator = _emptyValidator(descriptionController.text);
-              });
-
-              if (_markAsFixed) {
-                setState(() {
-                  _costValidator = _numberValidator(costController.text);
-                });
-              }
-
-              if (_selectedDate == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.noDateSelected),
-                    )
-                );
-              }
-
-              if (_markAsFixed) {
-                if (_selectedDateEnded == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!.pleaseSelectAnEndDate),
-                      )
-                  );
-                }
-
-                if (_kmValidator != null ||
-                    _titleValidator != null ||
-                    _descriptionValidator != null ||
-                    _selectedDate == null ||
-                    _selectedDateEnded == null ||
-                    _costValidator != null
-                ) {
-                  return;
-                }
-              }
-              else {
-                if (_kmValidator != null ||
-                    _titleValidator != null ||
-                    _descriptionValidator != null ||
-                    _selectedDate == null
-                ) {
-                  return;
-                }
-              }
-
-              setState(() {
-                _isLoading = true;
-              });
-
-              var uriString = '${DataHolder.destination}/malfunction/${widget.malfunction!.id}';
-              var body = {
-                'at_km': kmController.text,
-                'title': titleController.text.trim(),
-                'started': _selectedDate!.toIso8601String().substring(0, 10),
-                'description': descriptionController.text.trim(),
-              };
-
-              if (_markAsFixed) {
-                body = {
-                  ...body,
-                  'ended': _selectedDateEnded!.toIso8601String().substring(0, 10),
-                  'cost_eur': costController.text,
-                  'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-                };
-              }
-
-              RequestHandler.sendPatchRequest(uriString, body,
-                      () {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                  _whenPatchRequestIsComplete
-              );
-            }
-          },
+          onPressed: _isLoading ? null : _buttonSubmit,
           icon: _isLoading ? const SizedBox(
               width: 18,
               height: 18,
@@ -265,9 +268,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       controller: kmController,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.serviceMileageHint,
+                        hintText: AppLocalizations.of(context)!.inKmHint,
                         errorText: _kmValidator,
-                        labelText: AppLocalizations.of(context)!.serviceMileage2,
+                        labelText: '${AppLocalizations.of(context)!.serviceMileage2} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -293,7 +296,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.malfunctionTitleHint,
                         errorText: _titleValidator,
-                        labelText: AppLocalizations.of(context)!.malfunctionTitle,
+                        labelText: '${AppLocalizations.of(context)!.malfunctionTitle} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -319,7 +322,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 controller: descriptionController,
                 decoration: InputDecoration(
                   hintText: AppLocalizations.of(context)!.descriptionHintMalfunction,
-                  labelText: AppLocalizations.of(context)!.description2,
+                  labelText: '${AppLocalizations.of(context)!.description2} *',
                   errorText: _descriptionValidator,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
@@ -330,10 +333,48 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
               const SizedBox(height: 20),
 
+              Text(
+                '${AppLocalizations.of(context)!.malfunctionSeverity}*:',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Slider(
+                    value: _severity,
+                    min: 1,
+                    max: 5,
+                    divisions: 4,
+                    label: _severity.round().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _severity = value;
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context)!.severityLowest, style: const TextStyle(fontSize: 12)),
+                        Text(AppLocalizations.of(context)!.severityHighest, style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                AppLocalizations.of(context)!.selectADate :
+                '${AppLocalizations.of(context)!.selectADate} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -387,8 +428,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               ),
 
               // Checkbox only appears when the malfunction is not being edited
-              // TODO: Localize all of the below
-              widget.malfunction != null ? Row(
+              Row(
                 children: [
                   Checkbox(
                       value: _markAsFixed,
@@ -400,7 +440,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   ),
                   Text(AppLocalizations.of(context)!.iFixedThisMalfunction)
                 ],
-              ) : const SizedBox(),
+              ),
 
               !_markAsFixed && _getMalfunctionStatus() ? Text(
                 AppLocalizations.of(context)!.uncheckingTheBox,
@@ -450,7 +490,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           decoration: InputDecoration(
             hintText: AppLocalizations.of(context)!.repairCostHint,
             errorText: _costValidator,
-            labelText: AppLocalizations.of(context)!.repairCost,
+            labelText: '${AppLocalizations.of(context)!.repairCost} *',
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -464,7 +504,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedDateEnded == null ?
-          AppLocalizations.of(context)!.selectADate :
+          '${AppLocalizations.of(context)!.malfunctionEnded} *' :
           LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDateEnded!),
           style: const TextStyle(
               fontSize: 22,

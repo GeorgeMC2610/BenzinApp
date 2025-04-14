@@ -10,6 +10,10 @@
         }
     },
 
+    "successfullyLoggedIn": "Successfully logged in.",
+    "sessionEnded": "Your session has ended. Please log in again.",
+    "successfullyLoggedOut": "Successfully logged out.",
+
     "registerToBenzinApp":      "Register to BenzinApp",
     "register":                 "Register",
     "loginToBenzinApp":         "Login to BenzinApp",
@@ -65,7 +69,7 @@
         }
     },
     "insufficientDataTitle":    "Insufficient Data!",
-    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least two fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
+    "insufficientDataText":     "Normally, here you will see a chart that displays your fuel fill records' data over the course of time. You must have at least three  fuel fill records added in order for that to display here. Start adding fuel fill records and see the progress of your car's consumption here!",
     "fuelUsageTrend":           "FUEL USAGE TREND",
     "combinedCosts":            "COMBINED COSTS",
     "averageConsumption":       "AVERAGE CONSUMPTION",
@@ -76,6 +80,69 @@
     "totalLitersFilled":        "Total Liters Filled:",
     "totalKilometersTravelled": "Total Kilometers Travelled:",
     "totalCosts":               "Total Costs:",
+
+    "serviceOverdueInDays": "Service overdue by {amount} days",
+    "@serviceOverdueInDays": {
+        "description": "Amount of days expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "23"
+            }
+        }
+    },
+    "serviceDueToday": "Service due today",
+    "serviceDueTomorrow": "Service due tomorrow",
+    "serviceDueInDays": "Service due in {amount} days",
+    "@serviceDueInDays": {
+        "description": "Amount of days expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "23"
+            }
+        }
+    },
+    "serviceDueInMonths": "Service due in {amount} month(s)",
+    "@serviceDueInMonths": {
+        "description": "Amount of months expected",
+        "placeholders": {
+            "amount": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "serviceDueInDateTime": "Next service in {date}",
+    "@serviceDueInDateTime": {
+        "description": "Date string",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "29 Dec 2019"
+            }
+        }
+    },
+    "nextServiceInKm": "Next service in {amount} km.",
+    "@nextServiceInKm": {
+        "description": "Amount of km in locale string.",
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "44,000"
+            }
+        }
+    },
+    "serviceOverdueInKm": "Service overdue by {amount} km",
+    "@serviceOverdueInKm": {
+        "description": "Amount of km in locale string.",
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "44,000"
+            }
+        }
+    },
 
     "noFuelFillRecords": "No Fuel Fill Records.",
     "noMalfunctions": "No Malfunctions.",
@@ -138,6 +205,7 @@
     "addFuelFillRecord":  "Add Fuel Fill Record",
     "requiredInfo":       "Required Info",
     "mileage":            "Mileage",
+    "totalMileage":       "Total Mileage",
     "cost2":              "Cost",
     "liters2":            "Liters",
     "selectADate":        "Select a date...",
@@ -158,11 +226,15 @@
     "noDateSelected":     "You haven't selected a date yet.",
     "cannotBeEmpty":      "Cannot be empty",
     "cannotBeNegative":   "Cannot be negative",
+    "statsCannotBeCalculated": "Once you enter the next fuel fill, the stats of this one will become available.",
 
     "discoveredAt":       "Discovered at:",
     "ongoingMalfunction": "Ongoing",
     "fixedMalfunction":   "Fixed",
-    "nextAtKm":           "Next at:",
+    "nextAtKm":           "Next:",
+    "at": "at",
+    "orBefore": "or before",
+    "before": "before",
 
     "malfunctionData":      "Malfunction data",
     "dateDiscovered":       "Date discovered:",
@@ -173,12 +245,15 @@
     "dateFixed":            "Date fixed:",
     "locationFixed":        "Location:",
 
-    "serviceData":    "Service Data",
-    "dateDone":       "Date done:",
-    "serviceMileage": "Service mileage:",
-    "nextServiceAt":  "Next service at:",
-    "location":       "Location:",
-    "seeOnMap":       "See on map",
+    "serviceData":      "Service Data",
+    "lastService":      "Last Service",
+    "previousServices": "Previous Services",
+    "dateDone":         "Date done:",
+    "serviceMileage":   "Service mileage:",
+    "nextServiceAt":    "Next service at:",
+    "selectNextServiceDate": "Next service date...",
+    "location":         "Location:",
+    "seeOnMap":         "See on map",
 
     "maintenanceCategory": "Maintenance Category",
     "selectMaintenanceType": "Select maintenance type:",
@@ -194,6 +269,7 @@
     "nextServiceMileage": "Next Service Mileage",
     "descriptionHint": "What happened in this service?",
     "serviceMileageHint": "Enter service mileage...",
+    "nextServiceInfo": "Next Service Info",
     "nextServiceMileageHint": "Enter next service mileage...",
     "confirmAddService": "Confirm Add Service",
 
@@ -201,6 +277,13 @@
     "editMalfunction": "Edit Malfunction",
     "malfunctionInfo": "Malfunction Info",
     "malfunctionTitle": "Title",
+    "malfunctionSeverity": "Malfunction Severity",
+    "severityLowest": "Lowest",
+    "severityLow": "Low",
+    "severityNormal": "Normal",
+    "severityHigh": "High",
+    "severityHighest": "Highest",
+    "malfunctionEnded": "Select end date...",
     "malfunctionTitleHint": "What's malfunctioning...?",
     "descriptionHintMalfunction": "Describe what is malfunctioning...",
     "pleaseSelectAnEndDate": "Please select an end date.",
@@ -209,8 +292,9 @@
     "repairCost": "Repair Cost",
     "repairCostHint": "Enter cost...",
     "uncheckingTheBox": "Warning! By unchecking the box, you will mark this functions as ongoing.",
-    "selectLocation": "Select Location...",
+    "selectLocation": "Select location...",
 
+    "pleaseEnterFuelFills": "Trips rely on your data! Please enter at least three fuel fills.",
     "tripData": "Trip Data",
     "tripName": "Title:",
     "weeklyOccurrence": "Weekly Occurrence:",

@@ -9,8 +9,9 @@ class Service {
       description: object["description"],
       cost: object["cost_eur"],
       kilometersDone: object["at_km"],
+      nextServiceDate: DateTime.tryParse(object["next_at_date"].toString()),
       nextServiceKilometers: object["next_km"],
-      location: object["location"],
+      location: ['null', ''].any((test) => test == object['location']) ? null : object["location"],
     );
   }
 
@@ -19,9 +20,10 @@ class Service {
     required this.kilometersDone,
     required this.description,
     required this.dateHappened,
+    required this.cost,
 
+    this.nextServiceDate,
     this.nextServiceKilometers,
-    this.cost,
     this.location
   });
 
@@ -29,9 +31,10 @@ class Service {
   final int kilometersDone;
   final String description;
   final DateTime dateHappened;
+  final double cost;
 
+  final DateTime? nextServiceDate;
   final int? nextServiceKilometers;
-  final double? cost;
   final String? location;
 
   String? getAddress() {
