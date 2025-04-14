@@ -434,7 +434,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedNextDate == null ?
-                AppLocalizations.of(context)!.selectADate :
+                AppLocalizations.of(context)!.selectNextServiceDate :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -470,17 +470,16 @@ class _ServiceFormState extends State<ServiceForm> {
 
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
+                      onPressed: _isLoading || _selectedNextDate == null ? null : () {
                         setState(() {
-                          _selectedNextDate = DateTime.now();
+                          _selectedNextDate = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
-                      icon: const Icon(Icons.more_time_rounded),
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
-                          )
+                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
+                      icon: const Icon(Icons.cancel),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary
                       ),
                     ),
                   )

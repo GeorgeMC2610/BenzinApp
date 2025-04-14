@@ -183,6 +183,7 @@
     "dateDone":         "Date done:",
     "serviceMileage":   "Service mileage:",
     "nextServiceAt":    "Next service at:",
+    "selectNextServiceDate": "Next service date...",
     "location":         "Location:",
     "seeOnMap":         "See on map",
 
@@ -223,7 +224,7 @@
     "repairCost": "Repair Cost",
     "repairCostHint": "Enter cost...",
     "uncheckingTheBox": "Warning! By unchecking the box, you will mark this functions as ongoing.",
-    "selectLocation": "Select Location...",
+    "selectLocation": "Select location...",
 
     "tripData": "Trip Data",
     "tripName": "Title:",
