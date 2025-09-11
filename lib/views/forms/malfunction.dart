@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,10 +13,10 @@ import '../shared/divider_with_text.dart';
 import 'package:http/http.dart' as http;
 
 class MalfunctionForm extends StatefulWidget {
-  const MalfunctionForm({super.key, this.malfunction, this.isViewing});
+  const MalfunctionForm({super.key, this.malfunction, this.isViewing = false});
 
   final Malfunction? malfunction;
-  final bool? isViewing;
+  final bool isViewing;
 
   @override
   State<StatefulWidget> createState() => _MalfunctionFormState();
@@ -58,75 +59,58 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     }
   }
 
-  void _buttonSubmit() {
+  void _buttonSubmit() async {
     // validate the fields.
     bool isValidated = _markAsFixed ? _validateForFixed() : _validateForOngoing();
     if (!isValidated) return;
 
-    setState(() {
-      _isLoading = true;
-    });
-
     // when validations are all ok.
-    var uriString = widget.malfunction == null ?
-    '${DataHolder.destination}/malfunction' :
-    '${DataHolder.destination}/malfunction/${widget.malfunction!.id}';
 
-    var body = _markAsFixed ? _getFixedBody() : _getOngoingBody();
 
     // post request for new malfunction
     if (widget.malfunction == null) {
-      RequestHandler.sendPostRequest(
-        uriString,
-        true,
-        body,
-        _stopLoading,
-        _whenPostRequestIsComplete
+      final malfunction = Malfunction(
+          id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
+          title: titleController.text.trim(), severity: _severity.toInt(),
+          kilometersDiscovered: int.parse(kmController.text), dateEnded: _markAsFixed ? _selectedDateEnded : null,
+          cost: _markAsFixed ? double.tryParse(costController.text) : null,
+          location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
       );
+
+      await MalfunctionManager().create(malfunction);
+      Navigator.pop(context);
+      Navigator.pop(context);
     }
     // patch request for new malfunction
     else {
-      RequestHandler.sendPatchRequest(
-        uriString,
-        body,
-        _stopLoading,
-        _whenPatchRequestIsComplete
-      );
-    }
-  }
+      widget.malfunction!.dateStarted = _selectedDate!;
+      widget.malfunction!.description = descriptionController.text.trim();
+      widget.malfunction!.title = titleController.text.trim();
+      widget.malfunction!.severity = _severity.toInt();
+      widget.malfunction!.kilometersDiscovered = int.parse(kmController.text);
 
-  void _stopLoading() {
+      if (_markAsFixed) {
+        widget.malfunction!.dateEnded = _selectedDateEnded;
+        widget.malfunction!.cost = double.tryParse(costController.text);
+        widget.malfunction!.location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
+      }
+      else {
+        widget.malfunction!.dateEnded = null;
+        widget.malfunction!.cost = null;
+        widget.malfunction!.location = null;
+      }
+
+      await MalfunctionManager().update(widget.malfunction!);
+      if (widget.isViewing) {
+        Navigator.pop(context, widget.malfunction!);
+      } else {
+        Navigator.pop(context);
+      }
+    }
+
     setState(() {
       _isLoading = false;
     });
-  }
-
-  Map<String, dynamic> _commonBody () {
-    return {
-      'title': titleController.text.trim(),
-      'at_km': kmController.text,
-      'severity': _severity.round().toString(),
-      'description': descriptionController.text.trim(),
-      'started': _selectedDate!.toIso8601String().substring(0, 10),
-    };
-  }
-
-  Map<String, dynamic> _getOngoingBody() {
-    return {
-      ..._commonBody(),
-      'ended': 'null',
-      'cost_eur': 'null',
-      'location': 'null'
-    };
-  }
-
-  Map<String, dynamic> _getFixedBody() {
-    return {
-      ..._commonBody(),
-      'ended': _selectedDateEnded!.toIso8601String().substring(0, 10),
-      'cost_eur': costController.text,
-      'location': _selectedCoordinates == null ? 'null' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-    };
   }
 
   bool _validateForOngoing() {
@@ -183,28 +167,6 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     List<String?> mandatoryFields = [endedDateValidator, _kmValidator, _titleValidator, _descriptionValidator, dateValidator];
 
     return mandatoryFields.every((validation) => validation == null);
-  }
-
-  Future<void> _whenPostRequestIsComplete(http.Response response) async {
-    var jsonResponse = jsonDecode(response.body);
-    debugPrint(jsonResponse.toString());
-    var malfunction = Malfunction.fromJson(jsonResponse["malfunction"]);
-    DataHolder.addMalfunction(malfunction);
-    Navigator.pop(context);
-    Navigator.pop(context);
-  }
-
-  Future<void> _whenPatchRequestIsComplete(http.Response response) async {
-    var jsonObject = jsonDecode(response.body);
-    var malfunction = Malfunction.fromJson(jsonObject["malfunction"]);
-    DataHolder.setMalfunction(malfunction);
-
-    if (widget.isViewing == null) {
-      Navigator.pop(context);
-    }
-    else if (widget.isViewing!) {
-      Navigator.pop<Malfunction>(context, malfunction);
-    }
   }
 
   @override

@@ -1,12 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,22 +24,21 @@ class _SettingsFragmentState extends State<SettingsFragment> {
   bool lightMode = false;
   bool fastLogin = false;
 
-  void _performLogout() {
-    TokenManager().removeToken().whenComplete(() {
-      DataHolder().destroyValues();
-      ScaffoldMessenger.of(context).showSnackBar(
+  void _performLogout() async {
+    await TokenManager().removeToken();
+    DataHolder().destroyValues();
+    ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.successfullyLoggedOut),
         )
-      );
+    );
 
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const LoginPage()
-          )
-      );
-    });
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const LoginPage()
+        )
+    );
   }
 
   @override

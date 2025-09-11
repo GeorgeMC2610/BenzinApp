@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/year_month_fuel_fill_groups.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class FuelFillsFragment extends StatefulWidget {
   const FuelFillsFragment({super.key});
@@ -16,134 +15,115 @@ class FuelFillsFragment extends StatefulWidget {
 
 class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
-  bool _isLoading = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<DataHolder>(
-      builder: (context, dataHolder, child) {
-        if (DataHolder.getFuelFillRecords() == null) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Center(
-              child: CircularProgressIndicator(
-                value: null,
-              )
-            ),
-          );
-        }
-
-        return DataHolder.getFuelFillRecords()!.isEmpty?
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'lib/assets/svg/no_petrol.svg',
-                    semanticsLabel: 'No Records!',
-                    width: 200,
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  AutoSizeText(
-                    maxLines: 1,
-                    AppLocalizations.of(context)!.noFuelFillRecords,
-                    style: const TextStyle(
-                        fontSize: 29,
-                        fontWeight: FontWeight.bold
-                    ),
-                  )
-                ],
+  Widget emptyRecordsBody() => RefreshIndicator(
+    onRefresh: refreshFuelFills,
+    child: SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
+        child: Center(
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'lib/assets/svg/no_petrol.svg',
+                semanticsLabel: 'No Records!',
+                width: 200,
               ),
-            ),
-          )
 
-            :
-        RefreshIndicator(
-          onRefresh: () async {
-            setState(() {
-              _isLoading = true;
-            });
+              const SizedBox(height: 40),
 
-            DataHolder.refreshFuelFills().whenComplete(() {
-              setState(() {
-                _isLoading = false;
-              });
-            });
-          },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    _isLoading ? const LinearProgressIndicator(
-                      value: null,
-                    ) : const SizedBox(),
-
-                    SizedBox(height: _isLoading ? 10 : 0),
-
-                    // BUTTON FILTERS AND SEARCH
-                    Row(
-                      children: [
-
-                        FilledButton.icon (
-                          onPressed: () {},
-                          label: Text(AppLocalizations.of(context)!.filters),
-                          icon: const Icon(Icons.filter_list),
-                        ),
-
-                        const SizedBox(width: 5),
-
-                        Expanded(
-                          child: TextField(
-                            style: const TextStyle(
-                                height: 1
-                            ),
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                hintText: AppLocalizations.of(context)!.searchInFuelFills,
-                                fillColor: Theme.of(context).colorScheme.onSecondary
-                            ),
-                          ),
-                        )
-
-                      ],
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    // TOTAL RECORDS
-                    Text(
-                        DataHolder.getFuelFillRecords()!.length == 1 ?
-                        AppLocalizations.of(context)!.oneRecord :
-                        AppLocalizations.of(context)!.totalRecords(DataHolder.getFuelFillRecords()!.length)
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    const YearMonthFuelFillGroups(),
-
-                    const SizedBox(height: 75)
-
-                  ],
+              AutoSizeText(
+                maxLines: 1,
+                AppLocalizations.of(context)!.noFuelFillRecords,
+                style: const TextStyle(
+                    fontSize: 29,
+                    fontWeight: FontWeight.bold
                 ),
               )
+            ],
           ),
-        );
-      }
-    );
+        ),
+      ),
+    )
+  );
+
+  Widget normalBody() => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    child: RefreshIndicator(
+      onRefresh: refreshFuelFills,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            // BUTTON FILTERS AND SEARCH
+            Row(
+              children: [
+
+                FilledButton.icon (
+                  onPressed: () {},
+                  label: Text(AppLocalizations.of(context)!.filters),
+                  icon: const Icon(Icons.filter_list),
+                ),
+
+                const SizedBox(width: 5),
+
+                Expanded(
+                  child: TextField(
+                    style: const TextStyle(
+                        height: 1
+                    ),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        hintText: AppLocalizations.of(context)!.searchInFuelFills,
+                        fillColor: Theme.of(context).colorScheme.onSecondary
+                    ),
+                  ),
+                )
+
+              ],
+            ),
+
+            const SizedBox(height: 5),
+
+            // TOTAL RECORDS
+            Text(
+                fuelFillRecordCount() == 1 ?
+                AppLocalizations.of(context)!.oneRecord :
+                AppLocalizations.of(context)!.totalRecords(FuelFillRecordManager().local.length)
+            ),
+
+            const SizedBox(height: 10),
+
+            YearMonthFuelFillGroups(records: FuelFillRecordManager().local),
+
+            const SizedBox(height: 75)
+
+          ],
+        ),
+      ),
+    ),
+  );
+
+  Future<void> refreshFuelFills() async {
+    await FuelFillRecordManager().index();
   }
 
+  int fuelFillRecordCount() => FuelFillRecordManager().local.length;
+
+  @override
+  Widget build(BuildContext context) => Consumer<FuelFillRecordManager>(
+     builder: (context, manager, _) =>
+     manager.local.isNotEmpty ? normalBody() : emptyRecordsBody(),
+   );
 }

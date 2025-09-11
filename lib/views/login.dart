@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,44 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLoggingIn = false;
 
-  Future<void> _onLoginResponse(http.Response response) async {
-    switch (response.statusCode) {
-      // wrong credentials are shown in the view
-      case 401:
-        setState(() {
-          usernameError = AppLocalizations.of(context)!.wrongCredentials;
-          passwordError = AppLocalizations.of(context)!.wrongCredentials;
-        });
-        break;
-      // response code 200 means that the user is authorized and the
-      // app can proceed.
-      case 200:
-
-        // show the message that the user is authorized successfully.
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.successfullyLoggedIn),
-            )
-        );
-
-        // save the token received by the server in the token manager.
-        TokenManager().setToken(
-            jsonDecode(response.body)['auth_token']
-        ).whenComplete(() {
-          // when the token is saved, initialize the values
-          DataHolder().initializeValues();
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const HomePage()
-              ));
-
-        });
-        break;
-    }
-  }
-
-  void sendLoginPayload() {
+  void sendLoginPayload() async {
 
     setState(() {
       usernameError = usernameController.text.trim().isEmpty?
@@ -86,18 +50,29 @@ class _LoginPageState extends State<LoginPage> {
       isLoggingIn = true;
     });
 
-    var url = '${DataHolder.destination}/auth/login';
-    var body = {
-      'username': usernameController.text,
-      'password': passwordController.text,
-    };
+    final result = await SessionManager().login(usernameController.text, passwordController.text);
+    if (result) {
 
-    // send the payload to the server and all the other things will be handled
-    RequestHandler.sendPostRequest(url, false, body, () {
+      // show the message that the user is authorized successfully.
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.successfullyLoggedIn),
+          )
+      );
+
+      await DataHolder().initializeValues();
+
+      Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) => const HomePage()
+      ));
+    }
+    else {
       setState(() {
+        usernameError = AppLocalizations.of(context)!.wrongCredentials;
+        passwordError = AppLocalizations.of(context)!.wrongCredentials;
         isLoggingIn = false;
       });
-    }, _onLoginResponse);
+    }
   }
 
   @override

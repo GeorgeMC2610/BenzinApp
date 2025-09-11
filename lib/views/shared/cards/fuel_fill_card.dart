@@ -2,7 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/services/token_manager.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -77,19 +78,14 @@ class _FuelFillCardState extends State<FuelFillCard> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteFuelFill,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
                     setState(() => _isLoading = true);
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/fuel_fill_record/${widget.record.id}',
-                          () {
-                        setState(() => _isLoading = false);
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteFuelFill(widget.record);
-                      },
-                    );
+                    await FuelFillRecordManager().delete(widget.record);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    setLoadingState(true);
                   }
               );
             },

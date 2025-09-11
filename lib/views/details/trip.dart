@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,58 @@ class _ViewTripState extends State<ViewTrip> {
 
   late Trip trip;
 
+  double? bestTripCost, averageTripCost, worstTripCost;
+  double? bestConsumption, averageConsumption, worstConsumption;
+
+  double? bestRepeatingTripCost, averageRepeatingTripCost, worstRepeatingTripCost;
+  double? bestRepeatingConsumption, averageRepeatingConsumption, worstRepeatingConsumption;
+
   @override
   void initState() {
     super.initState();
     trip = widget.trip;
+    initialize();
+  }
+
+  initialize() async {
+    final bestTripCost = await trip.getBestTripCost(true);
+    final bestRepeatingTripCost = await trip.getBestTripCost(false);
+
+    final averageTripCost = await trip.getAverageTripCost(true);
+    final averageRepeatingTripCost = await trip.getAverageTripCost(false);
+
+    final worstTripCost = await trip.getWorstTripCost(true);
+    final worstRepeatingTripCost = await trip.getWorstTripCost(false);
+
+    final bestConsumption = await trip.getBestTripConsumption(true);
+    final bestRepeatingConsumption = await trip.getBestTripConsumption(false);
+
+    final averageConsumption = await trip.getAverageTripConsumption(true);
+    final averageRepeatingConsumption = await trip.getAverageTripConsumption(false);
+
+    final worstConsumption = await trip.getWorstTripConsumption(true);
+    final worstRepeatingConsumption = await trip.getWorstTripConsumption(false);
+
+    setState(() {
+      this.bestTripCost = bestTripCost;
+      this.bestRepeatingTripCost = bestRepeatingTripCost;
+
+      this.averageTripCost = averageTripCost;
+      this.averageRepeatingTripCost = averageRepeatingTripCost;
+
+      this.worstTripCost = worstTripCost;
+      this.worstRepeatingTripCost = worstRepeatingTripCost;
+
+      this.bestConsumption = bestConsumption;
+      this.bestRepeatingConsumption = bestRepeatingConsumption;
+
+      this.averageConsumption = averageConsumption;
+      this.averageRepeatingConsumption = averageRepeatingConsumption;
+
+      this.worstConsumption = worstConsumption;
+      this.worstRepeatingConsumption = worstRepeatingConsumption;
+    });
+
   }
 
 
@@ -83,18 +132,11 @@ class _ViewTripState extends State<ViewTrip> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteService,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/repeated_trip/${trip.id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteTrip(trip);
-                        Navigator.pop(context);
-                      },
-                    );
+                    await TripManager().delete(widget.trip);
+                    setLoadingState(true);
+                    Navigator.pop(context);
                   }
               );
             },
@@ -176,39 +218,39 @@ class _ViewTripState extends State<ViewTrip> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(true))} '
+                        bestTripCost == null ? const Text('') : Text(
+                          '€${LocaleStringConverter.formattedDouble(context, bestTripCost!)} '
                           '${AppLocalizations.of(context)!.perTime}',
                           style: mainDescription(Colors.green)
                         ),
-                        Text(
-                          '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(true))} lt. '
+                        bestConsumption == null ? const Text('') : Text(
+                          '${LocaleStringConverter.formattedDouble(context, bestConsumption!)} lt. '
                           '${AppLocalizations.of(context)!.perTime}',
                           style: legendDescription(Colors.green)
                         ),
 
                         const SizedBox(height: 10),
 
-                        Text(
-                            '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(true))} '
+                        averageTripCost == null ? const Text('') : Text(
+                            '€${LocaleStringConverter.formattedDouble(context, averageTripCost!)} '
                             '${AppLocalizations.of(context)!.perTime}',
                             style: mainDescription(Colors.grey)
                         ),
-                        Text(
-                            '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(true))} lt. '
+                        averageConsumption == null ? const Text('') : Text(
+                            '${LocaleStringConverter.formattedDouble(context, averageConsumption!)} lt. '
                             '${AppLocalizations.of(context)!.perTime}',
                             style: legendDescription(Colors.grey)
                         ),
 
                         const SizedBox(height: 10),
 
-                        Text(
-                            '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(true))} '
+                        worstTripCost == null ? const Text('') : Text(
+                            '€${LocaleStringConverter.formattedDouble(context, worstTripCost!)} '
                             '${AppLocalizations.of(context)!.perTime}',
                             style: mainDescription(Colors.redAccent)
                         ),
-                        Text(
-                            '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(true))} lt. '
+                        worstConsumption == null ? const Text('') : Text(
+                            '${LocaleStringConverter.formattedDouble(context, worstConsumption!)} lt. '
                             '${AppLocalizations.of(context)!.perTime}',
                             style: legendDescription(Colors.redAccent)
                         ),
@@ -244,40 +286,40 @@ class _ViewTripState extends State<ViewTrip> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getBestTripCost(false))} '
+                            bestRepeatingTripCost == null ? const Text('') : Text(
+                                '€${LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!)} '
                                 '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.green)
                             ),
-                            Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getBestTripConsumption(false))} lt. '
+                            bestRepeatingConsumption == null ? const Text('') : Text(
+                                '${LocaleStringConverter.formattedDouble(context, bestRepeatingConsumption!)} lt. '
                                 '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.green)
                             ),
 
                             const SizedBox(height: 10),
 
-                            Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getAverageTripCost(false))} '
-                                '${AppLocalizations.of(context)!.perWeek}',
+                            averageRepeatingTripCost == null ? const Text('') : Text(
+                                '${LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!)} lt. '
+                                    '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.grey)
                             ),
-                            Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getAverageTripConsumption(false))} lt. '
-                                '${AppLocalizations.of(context)!.perWeek}',
+                            averageRepeatingConsumption == null ? const Text('') : Text(
+                                '${LocaleStringConverter.formattedDouble(context, averageRepeatingConsumption!)} lt. '
+                                    '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.grey)
                             ),
 
                             const SizedBox(height: 10),
 
-                            Text(
-                                '€${LocaleStringConverter.formattedDouble(context, trip.getWorstTripCost(false))} '
-                                '${AppLocalizations.of(context)!.perWeek}',
+                            worstRepeatingTripCost == null ? const Text('') : Text(
+                                '${LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!)} lt. '
+                                    '${AppLocalizations.of(context)!.perWeek}',
                                 style: mainDescription(Colors.redAccent)
                             ),
-                            Text(
-                                '${LocaleStringConverter.formattedDouble(context, trip.getWorstTripConsumption(false))} lt. '
-                                '${AppLocalizations.of(context)!.perWeek}',
+                            worstRepeatingConsumption == null ? const Text('') : Text(
+                                '${LocaleStringConverter.formattedDouble(context, worstRepeatingConsumption!)} lt. '
+                                    '${AppLocalizations.of(context)!.perWeek}',
                                 style: legendDescription(Colors.redAccent)
                             ),
                           ],

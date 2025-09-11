@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/shared/cards/trip_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/classes/trip.dart';
 
 class TripsFragment extends StatefulWidget {
   const TripsFragment({super.key});
@@ -16,180 +19,155 @@ class TripsFragment extends StatefulWidget {
 
 class _TripsFragmentState extends State<TripsFragment> {
 
-  bool _isLoading = false;
+  getRepeatingTrips() => TripManager().local.where((trip) => trip.timesRepeating != 1).toList();
+  getOneTimeTrips() => TripManager().local.where((trip) => trip.timesRepeating == 1).toList();
+
+  Widget noTripsBody() => Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'lib/assets/svg/no_trips.svg',
+              semanticsLabel: 'No Trips!',
+              width: 200,
+            ),
+            const SizedBox(height: 40),
+            Center(
+              child: AutoSizeText(
+                AppLocalizations.of(context)!.pleaseEnterFuelFills,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style:
+                    const TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+      );
+
+  // TODO: Add special SVG for this!
+  Widget notEnoughFuelFillsBody() => Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'lib/assets/svg/no_trips.svg',
+              semanticsLabel: 'No Trips!',
+              width: 200,
+            ),
+            const SizedBox(height: 40),
+            AutoSizeText(
+              AppLocalizations.of(context)!.noFuelFillRecords,
+              maxLines: 1,
+              style: const TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+      );
+
+  Widget tripsBody() => RefreshIndicator(
+    onRefresh: () => refreshTrips(),
+    child: SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TripSection(
+              title: AppLocalizations.of(context)!.repeatingTrips,
+              trips: getRepeatingTrips(),
+              cardColor:
+              Theme.of(context).colorScheme.secondaryContainer,
+            ),
+            const SizedBox(height: 20),
+            TripSection(
+              title: AppLocalizations.of(context)!.oneTimeTrips,
+              trips: getOneTimeTrips(),
+              cardColor: Theme.of(context).colorScheme.surfaceContainer,
+            ),
+            const SizedBox(height: 100),
+          ],
+        ),
+      ),
+    ),
+  );
+
+
+  Widget buildBody() {
+    return Consumer<TripManager>(
+      builder: (context, manager, _) {
+        if (FuelFillRecordManager().local.length < 2) {
+          return notEnoughFuelFillsBody();
+        }
+
+        if (manager.local.isEmpty) {
+          return noTripsBody();
+        }
+
+        return tripsBody();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => buildBody();
+
+  refreshTrips() async {
+    await TripManager().index();
+  }
+}
+
+class TripSection extends StatelessWidget {
+  final String title;
+  final List<Trip> trips;
+  final Color cardColor;
+
+  const TripSection({
+    super.key,
+    required this.title,
+    required this.trips,
+    required this.cardColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-
-    return Consumer<DataHolder>(
-        builder: (context, dataHolder, child)
-    {
-      if (DataHolder.getTrips() == null || DataHolder.getFuelFillRecords() == null) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Center(
-              child: CircularProgressIndicator(
-                value: null,
-              )
-          ),
-        );
-      }
-
-      else if (DataHolder.getFuelFillRecords()!.length < 2) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'lib/assets/svg/no_trips.svg',
-                  semanticsLabel: 'No Trips!',
-                  width: 200,
-                ),
-
-                const SizedBox(height: 40),
-
-                Center(
-                  child: AutoSizeText(
-                    AppLocalizations.of(context)!.pleaseEnterFuelFills,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 29,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                )
-
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DividerWithText(
+          text: title,
+          lineColor: Colors.blueGrey,
+          textColor: Colors.blueGrey,
+          textSize: 22,
+        ),
+        trips.isNotEmpty
+            ? SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            color: cardColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 5),
+              child: Column(
+                children: [
+                  for (int i = 0; i < trips.length; i++) ...[
+                    TripCard(trip: trips[i]),
+                    if (i < trips.length - 1)
+                      Divider(
+                          color:
+                          Theme.of(context).colorScheme.primary),
+                  ]
+                ],
+              ),
             ),
           ),
-        );
-      }
-
-      else if (DataHolder.getTrips()!.isEmpty) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'lib/assets/svg/no_trips.svg',
-                  semanticsLabel: 'No Trips!',
-                  width: 200,
-                ),
-
-                const SizedBox(height: 40),
-
-                AutoSizeText(
-                  AppLocalizations.of(context)!.noTrips,
-                  maxLines: 1,
-                  style: const TextStyle(
-                      fontSize: 29,
-                      fontWeight: FontWeight.bold
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      }
-
-      return RefreshIndicator(
-          onRefresh: () async {
-            setState(() {
-              _isLoading = true;
-            });
-
-            DataHolder.refreshTrips().whenComplete(() {
-              setState(() {
-                _isLoading = false;
-              });
-            });
-          },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5, horizontal: 10),
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DividerWithText(
-                            text: AppLocalizations.of(context)!.repeatingTrips,
-                            lineColor: Colors.blueGrey,
-                            textColor: Colors.blueGrey,
-                            textSize: 22
-                        ),
-
-                        DataHolder.getRepeatingTrips()!.isNotEmpty ?
-
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Card(
-                            color: Theme.of(context).colorScheme.secondaryContainer,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              child: Column(
-                                children: DataHolder.getRepeatingTrips()!.map((trip) {
-                                  return DataHolder.getRepeatingTrips()!.last != trip ?
-                                  Column(
-                                    children: [
-                                      TripCard(trip: trip),
-                                      Divider(color: Theme.of(context).colorScheme.primary)
-                                    ],
-                                  ) : TripCard(trip: trip);
-                                }).toList(),
-                              ),
-                            ) ,
-                          ),
-                        ) : Text(AppLocalizations.of(context)!.nothingToShowHere),
-
-                        const SizedBox(height: 20),
-
-                        DividerWithText(
-                            text: AppLocalizations.of(context)!.oneTimeTrips,
-                            lineColor: Colors.blueGrey,
-                            textColor: Colors.blueGrey,
-                            textSize: 22
-                        ),
-
-                        DataHolder.getOneTimeTrips()!.isNotEmpty ?
-
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Card(
-                            color: Theme.of(context).colorScheme.surfaceContainer,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              child: Column(
-                                children: DataHolder.getOneTimeTrips()!.map((trip) {
-                                  return DataHolder.getOneTimeTrips()!.last != trip ?
-                                  Column(
-                                    children: [
-                                      TripCard(trip: trip),
-                                      Divider(color: Theme.of(context).colorScheme.primary)
-                                    ],
-                                  ) : TripCard(trip: trip);
-                                }).toList(),
-                              ),
-                            )
-
-                          ),
-                        ) : Text(AppLocalizations.of(context)!.nothingToShowHere),
-
-                        const SizedBox(height: 100)
-                      ]
-                  )
-              )
-          )
-      );
-      }
+        )
+            : Text(AppLocalizations.of(context)!.nothingToShowHere),
+      ],
     );
   }
 }
+

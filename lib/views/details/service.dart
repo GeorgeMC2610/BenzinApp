@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../services/data_holder.dart';
-import '../../services/request_handler.dart';
 import '../forms/service.dart';
 import '../shared/dialogs/delete_dialog.dart';
 import '../shared/shared_font_styles.dart';
@@ -66,18 +65,11 @@ class _ViewServiceState extends State<ViewService> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteService,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/service/${service.id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteService(service);
-                        Navigator.pop(context);
-                      },
-                    );
+                      await ServiceManager().delete(widget.service);
+                      setLoadingState(true);
+                      Navigator.pop(context);
                   }
               );
             },

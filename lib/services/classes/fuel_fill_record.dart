@@ -1,23 +1,42 @@
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../managers/fuel_fill_record_manager.dart';
+
 class FuelFillRecord {
 
-  static FuelFillRecord fromJson(Map<String, dynamic> jsonObject) {
-    return FuelFillRecord(
-      id: jsonObject["id"],
-      dateTime: DateTime.parse(jsonObject["filled_at"]),
-      liters: jsonObject["lt"],
-      cost: jsonObject["cost_eur"],
-      kilometers: jsonObject["km"],
-      totalKilometers: jsonObject["total_km"].toString().isEmpty ? null : jsonObject["total_km"],
-      fuelType: jsonObject["fuel_type"].toString().isEmpty ? null : jsonObject["fuel_type"],
-      gasStation: jsonObject["station"].toString().isEmpty ? null : jsonObject["station"],
-      comments: jsonObject["notes"].toString().isEmpty ? null : jsonObject["notes"]
-    );
-  }
+  static FuelFillRecord fromJson(Map<String, dynamic> object) => FuelFillRecord(
+      id: object[FuelFillRecordFields.id],
+      dateTime: DateTime.parse(object[FuelFillRecordFields.filledAt]),
+      liters: object[FuelFillRecordFields.lt],
+      cost: object[FuelFillRecordFields.costEur],
+      kilometers: object[FuelFillRecordFields.km],
+      totalKilometers: object[FuelFillRecordFields.totalKm].toString().isEmpty ? null : object[FuelFillRecordFields.totalKm],
+      fuelType: object[FuelFillRecordFields.fuelType].toString().isEmpty ? null : object[FuelFillRecordFields.fuelType],
+      gasStation: object[FuelFillRecordFields.station].toString().isEmpty ? null : object[FuelFillRecordFields.station],
+      comments: object[FuelFillRecordFields.notes].toString().isEmpty ? null : object[FuelFillRecordFields.notes]
+  );
 
-  const FuelFillRecord({
+  Map<String, dynamic> toJson() => {
+    FuelFillRecordFields.filledAt: dateTime.toIso8601String().substring(0, 10),
+    FuelFillRecordFields.lt: liters,
+    FuelFillRecordFields.costEur: cost,
+    FuelFillRecordFields.km: kilometers,
+    FuelFillRecordFields.totalKm: totalKilometers,
+    FuelFillRecordFields.fuelType: fuelType,
+    FuelFillRecordFields.station: gasStation,
+    FuelFillRecordFields.notes: comments
+  };
+
+  static FuelFillRecord empty() => FuelFillRecord(
+      id: -1,
+      dateTime: DateTime.now(),
+      liters: -1,
+      cost: -1,
+      kilometers: -1
+  );
+
+  FuelFillRecord({
     required this.id,
     required this.dateTime,
     required this.liters,
@@ -31,20 +50,20 @@ class FuelFillRecord {
   });
 
   final int id;
-  final DateTime dateTime;
-  final double liters;
-  final double cost;
-  final double kilometers;
+  DateTime dateTime;
+  double liters;
+  double cost;
+  double kilometers;
 
-  final int? totalKilometers;
-  final String? gasStation;
-  final String? fuelType;
-  final String? comments;
+  int? totalKilometers;
+  String? gasStation;
+  String? fuelType;
+  String? comments;
 
   FuelFillRecord? getNext() {
-    var indexOfNext = DataHolder.getFuelFillRecords()!.indexOf(this) - 1;
+    var indexOfNext = FuelFillRecordManager().local!.indexOf(this) - 1;
     if (indexOfNext < 0) return null;
-    return DataHolder.getFuelFillRecords()![indexOfNext];
+    return FuelFillRecordManager().local![indexOfNext];
   }
 
   double getConsumption() {
@@ -71,4 +90,16 @@ class FuelFillRecord {
     return cost / getNext()!.kilometers;
   }
   
+}
+
+class FuelFillRecordFields {
+  static const String id = "id";
+  static const String filledAt = "filled_at";
+  static const String lt = "lt";
+  static const String costEur = "cost_eur";
+  static const String km = "km";
+  static const String totalKm = "total_km";
+  static const String station = "station";
+  static const String fuelType = "fuel_type";
+  static const String notes = "notes";
 }

@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
@@ -69,17 +70,10 @@ class _ServiceCardState extends State<ServiceCard> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteService,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/service/${widget.service.id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteService(widget.service);
-                      },
-                    );
+                      await ServiceManager().delete(widget.service);
+                      setLoadingState(true);
                   }
               );
             },

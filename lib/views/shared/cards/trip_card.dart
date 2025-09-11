@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/views/details/trip.dart';
@@ -8,9 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
-import '../../../services/request_handler.dart';
+import '../../../services/managers/trip_manager.dart';
 import '../dialogs/delete_dialog.dart';
 
 class TripCard extends StatefulWidget {
@@ -23,6 +23,22 @@ class TripCard extends StatefulWidget {
 }
 
 class _TripCardState extends State<TripCard> {
+
+  double? totalTravelCost, averageTripCost, averageTripConsumption;
+
+  @override
+  void initState() {
+    super.initState();
+    initialize();
+  }
+
+  initialize() {
+    setState(() {
+      totalTravelCost = Car.getTotalTravelCost();
+      averageTripConsumption = widget.trip.getAverageTripConsumption(false);
+      averageTripCost = widget.trip.getAverageTripConsumption(false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,17 +103,10 @@ class _TripCardState extends State<TripCard> {
               DeleteDialog.show(
                   context,
                   'Delete Trip',
-                      (Function(bool) setLoadingState) {
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/repeated_trip/${widget.trip
-                          .id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteTrip(widget.trip);
-                      },
-                    );
+                      (Function(bool) setLoadingState) async {
+
+                      await TripManager().delete(widget.trip);
+                      setLoadingState(true);
                   }
               );
             },
@@ -132,10 +141,9 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.coins, size: 18,),
               const SizedBox(width: 5),
-              Text(" €${
+              Text( totalTravelCost == null ? '-' : " €${
                   LocaleStringConverter.formattedDouble(context,
-                      widget.trip.totalKm *
-                      DataHolder.getTotalTravelCost()
+                      widget.trip.totalKm * totalTravelCost!
                   )
               }", style: const TextStyle(
                 fontSize: 18,
@@ -177,10 +185,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText(" €${
-                  LocaleStringConverter.formattedDouble(context,
-                      widget.trip.getAverageTripCost(false)
-                  )
+            AutoSizeText(averageTripCost == null ? '-' : " €${LocaleStringConverter.formattedDouble(context, averageTripCost!)
                 } ${AppLocalizations.of(context)!.perWeek}",
                 maxFontSize: 18,
                 style: const TextStyle(
@@ -193,10 +198,8 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText(" ${
-                LocaleStringConverter.formattedDouble(context,
-                    widget.trip.getAverageTripConsumption(false)
-                )
+            AutoSizeText( averageTripConsumption == null ? '-' : " ${
+                LocaleStringConverter.formattedDouble(context, averageTripConsumption!)
             } lt. ${AppLocalizations.of(context)!.perWeek}",
                 maxFontSize: 18,
                 style: const TextStyle(

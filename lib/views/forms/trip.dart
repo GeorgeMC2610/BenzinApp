@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/create_trip.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
@@ -14,10 +15,10 @@ import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
 
 class TripForm extends StatefulWidget {
-  const TripForm({super.key, this.trip, this.isViewing});
+  const TripForm({super.key, this.trip, this.isViewing = false});
 
   final Trip? trip;
-  final bool? isViewing;
+  final bool isViewing;
 
   @override
   State<StatefulWidget> createState() => _TripFormState();
@@ -74,7 +75,7 @@ class _TripFormState extends State<TripForm> {
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         ElevatedButton.icon(
-          onPressed: _isLoading ? null : () {
+          onPressed: _isLoading ? null : () async {
             setState(() {
               _titleValidator = _emptyValidator(_titleController.text);
               _timesRepeatingValidator = _validator(_timesRepeatingController.text);
@@ -96,52 +97,38 @@ class _TripFormState extends State<TripForm> {
               _isLoading = true;
             });
 
-            var uriString = '${DataHolder.destination}/repeated_trip';
-            var body = {
-              'title': _titleController.text,
-              'times_repeating': _timesRepeatingController.text,
-              'total_km': totalKm!.toString(),
-              'origin_latitude': originLatitude!.toString(),
-              'origin_longitude': originLongitude!.toString(),
-              'destination_latitude': destinationLatitude!.toString(),
-              'destination_longitude': destinationLongitude!.toString(),
-              'origin_address': originAddress!,
-              'destination_address': destinationAddress!,
-              'polyline': polyline!,
-            };
-
             if (widget.trip == null) {
-              RequestHandler.sendPostRequest(
-                  uriString,
-                  true, body,
-                  _whenCompleteRequest,
-                  (response) {
-                    var jsonResponse = jsonDecode(response.body);
-                    var trip = Trip.fromJson(jsonResponse["repeated_trip"]);
-                    DataHolder.addTrip(trip);
-                    Navigator.pop(context);
-                  }
+              var newTrip = Trip(
+                  id: -1, title: _titleController.text,
+                  timesRepeating: int.parse(_titleController.text),
+                  totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
+                  originLatitude: originLatitude!, originLongitude: originLongitude!,
+                  destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
+                  originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
               );
+
+              await TripManager().create(newTrip);
+              Navigator.pop(context);
             }
             else {
-              uriString = '${DataHolder.destination}/repeated_trip/${widget.trip!.id}';
-              RequestHandler.sendPatchRequest(
-                  uriString,
-                  body,
-                  _whenCompleteRequest,
-                  (response) {
-                    var jsonObject = jsonDecode(response.body);
-                    var trip = Trip.fromJson(jsonObject["repeated_trip"]);
-                    DataHolder.setTrip(trip);
+              widget.trip!.title = _titleController.text;
+              widget.trip!.timesRepeating = int.parse(_titleController.text);
+              widget.trip!.totalKm = totalKm!;
+              widget.trip!.originLatitude = originLatitude!;
+              widget.trip!.originLongitude = originLongitude!;
+              widget.trip!.originAddress = originAddress!;
+              widget.trip!.destinationLongitude = destinationLongitude!;
+              widget.trip!.destinationLatitude = destinationLatitude!;
+              widget.trip!.polyline = polyline!;
 
-                    if (widget.isViewing == null) {
-                      Navigator.pop(context);
-                    }
-                    else if (widget.isViewing!) {
-                      Navigator.pop<Trip>(context, trip);
-                    }
-                  }
-              );
+              await TripManager().update(widget.trip!);
+
+              if (widget.isViewing) {
+                Navigator.pop(context, widget.trip);
+              }
+              else {
+                Navigator.pop(context);
+              }
             }
           },
           icon: _isLoading ? const SizedBox(

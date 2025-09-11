@@ -1,59 +1,87 @@
-import 'package:benzinapp/services/token_manager.dart';
+import 'dart:convert';
+
+import 'package:benzinapp/services/managers/session_manager.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:http/http.dart' as http;
 
 class RequestHandler {
 
-  static Future<void> sendGetRequest(String uri, Function() whenComplete, Function(http.Response response) onResponse) async {
+  static Map<String, String> basisHeaders = {
+    'Content-Type': 'application/json'
+  };
+
+  static Map<String, String> authorizationHeaders = {
+    ...basisHeaders,
+    'Authorization': TokenManager().token!,
+  };
+
+  static Future<http.Response> sendGetRequest(String uri) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = {
-      'Authorization': TokenManager().token!
-    };
+    var headers = authorizationHeaders;
 
-    client.get(
+    final response = await client.get(
       url,
       headers: headers,
-    ).whenComplete(whenComplete).then(onResponse);
+    );
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    return response;
   }
 
-  static Future<void> sendPostRequest(String uri, bool authorize, Map<String, dynamic> body, Function() whenComplete, Function(http.Response response) onResponse) async {
+  static Future<http.Response> sendPostRequest(String uri, bool authorize, Map<String, dynamic> body) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorize ? {
-      'Authorization': TokenManager().token!
-    } : null;
+    var headers = authorize ? authorizationHeaders : basisHeaders;
 
-    client.post(
+    final response = await client.post(
       url,
       headers: headers,
-      body: body
-    ).whenComplete(whenComplete).then(onResponse);
+      body: json.encode(body)
+    );
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    return response;
   }
 
-  static Future<void> sendPatchRequest(String uri, Map<String, dynamic> body, Function() whenComplete, Function(http.Response response) onResponse) async {
+  static Future<http.Response> sendPatchRequest(String uri, Map<String, dynamic> body) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = {
-      'Authorization': TokenManager().token!
-    };
+    var headers = authorizationHeaders;
 
-    client.patch(
+    final response = await client.put(
         url,
         headers: headers,
-        body: body
-    ).whenComplete(whenComplete).then(onResponse);
+        body: json.encode(body)
+    );
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    return response;
   }
 
-  static Future<void> sendDeleteRequest(String uri, Function() whenComplete, Function(http.Response response) onResponse) async {
+  static Future<http.Response> sendDeleteRequest(String uri) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = {
-      'Authorization': TokenManager().token!
-    };
+    var headers = authorizationHeaders;
 
-    client.delete(
+    final response = await client.delete(
         url,
         headers: headers,
-    ).whenComplete(whenComplete).then(onResponse);
+    );
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    return response;
   }
 }

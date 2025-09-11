@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../services/data_holder.dart';
@@ -66,18 +67,11 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteMalfunction,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/malfunction/${widget.malfunction.id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteMalfunction(widget.malfunction);
+                        await MalfunctionManager().delete(widget.malfunction);
+                        setLoadingState(true);
                         Navigator.pop(context);
-                      },
-                    );
                   }
               );
             },

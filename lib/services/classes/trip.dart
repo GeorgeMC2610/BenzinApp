@@ -1,25 +1,9 @@
+import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 
 class Trip {
-  static Trip fromJson(Map<String, dynamic> object) {
-    return Trip(
-        id: object["id"],
-        title: object["title"],
-        timesRepeating: object["times_repeating"],
-        totalKm: object["total_km"],
-        created: DateTime.parse(object["created_at"]),
-        updated: DateTime.parse(object["updated_at"]),
-        originLatitude: object["origin_latitude"],
-        originLongitude: object["origin_longitude"],
-        destinationLatitude: object["destination_latitude"],
-        destinationLongitude: object["destination_longitude"],
-        originAddress: object["origin_address"],
-        destinationAddress: object["destination_address"],
-        polyline: object["polyline"],
-    );
-  }
-
-  const Trip({
+  Trip({
     required this.id,
     required this.title,
     required this.timesRepeating,
@@ -36,50 +20,121 @@ class Trip {
   });
 
   final int id;
-  final String title;
-  final int timesRepeating;
-  final double totalKm;
+  String title;
+  int timesRepeating;
+  double totalKm;
   final DateTime created;
   final DateTime updated;
-  final double originLatitude;
-  final double originLongitude;
-  final double destinationLatitude;
-  final double destinationLongitude;
-  final String originAddress;
-  final String destinationAddress;
-  final String polyline;
+  double originLatitude;
+  double originLongitude;
+  double destinationLatitude;
+  double destinationLongitude;
+  String originAddress;
+  String destinationAddress;
+  String polyline;
+
+  static Trip fromJson(Map<String, dynamic> object) => Trip(
+    id: object[TripFields.id],
+    title: object[TripFields.title],
+    timesRepeating: object[TripFields.timesRepeating],
+    totalKm: (object[TripFields.totalKm] as num).toDouble(),
+    created: DateTime.parse(object[TripFields.createdAt]),
+    updated: DateTime.parse(object[TripFields.updatedAt]),
+    originLatitude: (object[TripFields.originLatitude] as num).toDouble(),
+    originLongitude: (object[TripFields.originLongitude] as num).toDouble(),
+    destinationLatitude:
+    (object[TripFields.destinationLatitude] as num).toDouble(),
+    destinationLongitude:
+    (object[TripFields.destinationLongitude] as num).toDouble(),
+    originAddress: object[TripFields.originAddress],
+    destinationAddress: object[TripFields.destinationAddress],
+    polyline: object[TripFields.polyline],
+  );
+
+  /// Convert to JSON using keys from TripManager
+  Map<String, dynamic> toJson() => {
+    TripFields.timesRepeating: timesRepeating,
+    TripFields.totalKm: totalKm,
+    TripFields.originLatitude: originLatitude,
+    TripFields.originLongitude: originLongitude,
+    TripFields.destinationLatitude: destinationLatitude,
+    TripFields.destinationLongitude: destinationLongitude,
+    TripFields.originAddress: originAddress,
+    TripFields.destinationAddress: destinationAddress,
+    TripFields.polyline: polyline,
+  };
+
+  static Trip empty() => Trip(
+      id: -1, title: '', timesRepeating: -1,
+      totalKm: -1, created: DateTime.now(), updated: DateTime.now(),
+      originLatitude: -1, originLongitude: -1,
+      destinationLatitude: -1, destinationLongitude: -1,
+      originAddress: '', destinationAddress: '',
+      polyline: ''
+  );
 
   double getBestTripCost(bool perTime) {
-    return perTime ?
-    totalKm * DataHolder.getBestTravelCost() :
-    totalKm * DataHolder.getBestTravelCost() * timesRepeating;  }
+    final bestTravelCost = Car.getBestTravelCost();
+
+    return perTime
+        ? totalKm * bestTravelCost
+        : totalKm * bestTravelCost * timesRepeating;
+  }
 
   double getAverageTripCost(bool perTime) {
-    return perTime ?
-    totalKm * DataHolder.getTotalTravelCost() :
-    totalKm * DataHolder.getTotalTravelCost() * timesRepeating;  }
+    final averageTravelCost = Car.getTotalTravelCost();
+
+    return perTime
+        ? totalKm * averageTravelCost
+        : totalKm * averageTravelCost * timesRepeating;
+  }
 
   double getWorstTripCost(bool perTime) {
-    return perTime ?
-    totalKm * DataHolder.getWorstTravelCost() :
-    totalKm * DataHolder.getWorstTravelCost() * timesRepeating;
+    final worstTravelCost = Car.getWorstTravelCost();
+
+    return perTime
+        ? totalKm * worstTravelCost
+        : totalKm * worstTravelCost * timesRepeating;
   }
 
   double getBestTripConsumption(bool perTime) {
-    return perTime ?
-    totalKm / DataHolder.getBestEfficiency() :
-    totalKm / DataHolder.getBestEfficiency() * timesRepeating;
+    final bestEfficiency = Car.getBestEfficiency();
+
+    return perTime
+        ? totalKm / bestEfficiency
+        : (totalKm / bestEfficiency) * timesRepeating;
   }
 
   double getAverageTripConsumption(bool perTime) {
-    return perTime ?
-    totalKm / DataHolder.getTotalEfficiency() :
-    totalKm / DataHolder.getTotalEfficiency() * timesRepeating;
+    final avgEfficiency = Car.getTotalEfficiency();
+
+    return perTime
+        ? totalKm / avgEfficiency
+        : (totalKm / avgEfficiency) * timesRepeating;
   }
 
   double getWorstTripConsumption(bool perTime) {
-    return perTime ?
-    totalKm / DataHolder.getWorstEfficiency() :
-    totalKm / DataHolder.getWorstEfficiency() * timesRepeating;
+    final worstEfficiency = Car.getWorstEfficiency();
+
+    return perTime
+        ? totalKm / worstEfficiency
+        : (totalKm / worstEfficiency) * timesRepeating;
   }
+
+}
+
+class TripFields {
+  static const String id = 'id';
+  static const String title = 'title';
+  static const String timesRepeating = 'times_repeating';
+  static const String totalKm = 'total_km';
+  static const String createdAt = 'created_at';
+  static const String updatedAt = 'updated_at';
+  static const String originLatitude = 'origin_latitude';
+  static const String originLongitude = 'origin_longitude';
+  static const String destinationLatitude = 'destination_latitude';
+  static const String destinationLongitude = 'destination_longitude';
+  static const String originAddress = 'origin_address';
+  static const String destinationAddress = 'destination_address';
+  static const String polyline = 'polyline';
 }

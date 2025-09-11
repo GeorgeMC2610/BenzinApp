@@ -1,22 +1,19 @@
-import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/maps/select_location.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import '../../services/data_holder.dart';
-import '../../services/request_handler.dart';
 
 class ServiceForm extends StatefulWidget {
-  const ServiceForm({super.key, this.service, this.isViewing});
+  const ServiceForm({super.key, this.service, this.isViewing = false});
 
   final Service? service;
-  final bool? isViewing;
+  final bool isViewing;
 
   @override
   State<StatefulWidget> createState() => _ServiceFormState();
@@ -59,25 +56,7 @@ class _ServiceFormState extends State<ServiceForm> {
     return mandatoryFields.every((validation) => validation == null);
   }
 
-  Map<String, dynamic> _getBody() {
-    return {
-      'at_km': kmController.text,
-      'next_km': nextKmController.text,
-      'cost_eur': costController.text,
-      'date_happened': _selectedDate!.toIso8601String().substring(0, 10),
-      'description': descriptionController.text.trim(),
-      'next_at_date': _selectedNextDate == null ? '' : _selectedNextDate!.toIso8601String().substring(0, 10),
-      'location': _selectedCoordinates == null ? '' : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-    };
-  }
-
-  void _stopLoading() {
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  void _buttonSubmit() {
+  void _buttonSubmit() async {
     // add field checks
     bool isValidated = _validateAll();
     if (!isValidated) return;
@@ -87,50 +66,40 @@ class _ServiceFormState extends State<ServiceForm> {
       _isLoading  = true;
     });
 
-    var uriString = widget.service == null ?
-    '${DataHolder.destination}/service' :
-    '${DataHolder.destination}/service/${widget.service!.id}';
-
     // add-service form
     if (widget.service == null) {
-      RequestHandler.sendPostRequest(
-          uriString, true,
-          _getBody(),
-          _stopLoading,
-          _whenPostRequestIsComplete
+      final service = Service(
+          id: -1, kilometersDone: int.parse(kmController.text),
+          description: descriptionController.text.trim(), dateHappened: _selectedDate!,
+          cost: double.parse(costController.text), nextServiceKilometers: int.tryParse(nextKmController.text),
+          nextServiceDate: _selectedNextDate
       );
+
+      await ServiceManager().create(service);
+      Navigator.pop(context);
+      Navigator.pop(context);
     }
     // edit-service form
     else {
-      var uriString = '${DataHolder.destination}/service/${widget.service!.id}';
-      RequestHandler.sendPatchRequest(
-        uriString,
-        _getBody(),
-        _stopLoading,
-        _whenPatchRequestIsComplete
-      );
-    }
-  }
+      widget.service!.kilometersDone = int.parse(kmController.text);
+      widget.service!.description = descriptionController.text.trim();
+      widget.service!.dateHappened = _selectedDate!;
+      widget.service!.cost = double.parse(costController.text);
+      widget.service!.nextServiceKilometers = int.tryParse(nextKmController.text);
+      widget.service!.nextServiceDate = _selectedNextDate;
 
-  Future<void> _whenPostRequestIsComplete(http.Response response) async {
-    var jsonResponse = jsonDecode(response.body);
-    var service = Service.fromJson(jsonResponse["service"]);
-    DataHolder.addService(service);
-    Navigator.pop(context);
-    Navigator.pop(context);
-  }
-
-  Future<void> _whenPatchRequestIsComplete(http.Response response) async {
-    var jsonObject = jsonDecode(response.body);
-    var service = Service.fromJson(jsonObject["service"]);
-    DataHolder.setService(service);
-
-    if (widget.isViewing == null) {
-      Navigator.pop(context);
+      await ServiceManager().update(widget.service!);
+      if (widget.isViewing) {
+        Navigator.pop(context, widget.service!);
+      }
+      else {
+        Navigator.pop(context);
+      }
     }
-    else if (widget.isViewing!) {
-      Navigator.pop<Service>(context, service);
-    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

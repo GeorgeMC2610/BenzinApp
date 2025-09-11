@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
+import '../../../services/managers/malfunction_manager.dart';
 import '../../../services/request_handler.dart';
 import '../dialogs/delete_dialog.dart';
 
@@ -70,17 +71,10 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
               DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteMalfunction,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/malfunction/${widget.malfunction.id}',
-                          () {
-                        setLoadingState(true); // Close the dialog
-                      },
-                          (response) {
-                        DataHolder.deleteMalfunction(widget.malfunction);
-                      },
-                    );
+                      await MalfunctionManager().delete(widget.malfunction);
+                      setLoadingState(true);
                   }
               );
             },

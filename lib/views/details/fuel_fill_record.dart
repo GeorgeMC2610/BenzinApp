@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:benzinapp/views/shared/shared_font_styles.dart';
+import '../../services/managers/fuel_fill_record_manager.dart';
 import '../forms/fuel_fill_record.dart';
 
 class ViewFuelFillRecord extends StatefulWidget {
@@ -70,21 +71,15 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                 DeleteDialog.show(
                   context,
                   AppLocalizations.of(context)!.confirmDeleteFuelFill,
-                      (Function(bool) setLoadingState) {
+                      (Function(bool) setLoadingState) async {
                         setState(() => isLoading = true);
 
-                    RequestHandler.sendDeleteRequest(
-                      '${DataHolder.destination}/fuel_fill_record/${fuelFillRecord.id}',
-                          () {
-                        setState(() => isLoading = false);
-                        setLoadingState(true); // Close the dialog
-                        },
-                          (response) {
-                        DataHolder.deleteFuelFill(fuelFillRecord);
-                        Navigator.pop(context); // Pops the current view
-                      },
-                    );
-
+                        await FuelFillRecordManager().delete(widget.record);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        setLoadingState(true);
+                        Navigator.pop(context);
                   }
                 );
               },
@@ -96,210 +91,205 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
               label: Text(AppLocalizations.of(context)!.delete)
           )
         ],
-        body: Consumer<DataHolder>(
-            builder: (context, dataHolder, child) {
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-              return SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                    fuelFillRecord.getNext() == null?
+                    ListTile(
+                        leading: const Icon(Icons.info),
+                        title: Text(AppLocalizations.of(context)!.statsCannotBeCalculated)
+                    ) : const SizedBox(),
 
-                          fuelFillRecord.getNext() == null?
-                          ListTile(
-                            leading: const Icon(Icons.info),
-                            title: Text(AppLocalizations.of(context)!.statsCannotBeCalculated)
-                          ) : const SizedBox(),
-
-                          // singular card with initial data
-                          SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.access_time_outlined, size: 30,),
-                                        const SizedBox(width: 15),
-                                        AutoSizeText(
-                                          _getFullDateTimeString(context),
-                                          maxLines: 1,
-                                          maxFontSize: 19,
-                                          style: const TextStyle(
-                                            fontSize: 18
-                                          ),
-
-                                        ),
-                                      ],
-                                    ),
-
-                                    const SizedBox(height: 10),
-
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.local_gas_station_outlined, size: 30),
-                                        const SizedBox(width: 15),
-                                        Expanded(
-                                          child: AutoSizeText(
-                                            _getFuelString(context),
-                                            maxLines: 1,
-                                            maxFontSize: 19,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
-                                              fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-
-                                    fuelFillRecord.totalKilometers == null ?
-                                    const SizedBox() :
-                                    const SizedBox(height: 10),
-
-                                    fuelFillRecord.totalKilometers == null ?
-                                    const SizedBox() :
-                                    Row(
-                                      children: [
-                                        const Icon(FontAwesomeIcons.carSide, size: 25),
-                                        const SizedBox(width: 20),
-                                        AutoSizeText(
-                                          maxLines: 1,
-                                          maxFontSize: 19,
-                                          '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // TWO CARDS WITH THE DATA AND THE STATS
-                          Row(
+                    // singular card with initial data
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              Expanded(
-                                flex: 2,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(AppLocalizations.of(context)!.liters, style: SharedFontStyles.legendTextStyle),
-                                        Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
-
-                                        const SizedBox(height: 20),
-
-                                        Text(AppLocalizations.of(context)!.kilometers, style: SharedFontStyles.legendTextStyle),
-                                        Text("${fuelFillRecord.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
-
-                                        const SizedBox(height: 20),
-
-                                        Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
-                                        Text("€${fuelFillRecord.cost}", style: SharedFontStyles.descriptiveTextStyle),
-                                      ],
+                              Row(
+                                children: [
+                                  const Icon(Icons.access_time_outlined, size: 30,),
+                                  const SizedBox(width: 15),
+                                  AutoSizeText(
+                                    _getFullDateTimeString(context),
+                                    maxLines: 1,
+                                    maxFontSize: 19,
+                                    style: const TextStyle(
+                                        fontSize: 18
                                     ),
+
                                   ),
-                                ),
+                                ],
                               ),
 
-                              fuelFillRecord.getNext() == null ? const SizedBox() :
-                              Expanded(
-                                flex: 3,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(AppLocalizations.of(context)!.consumption, style: SharedFontStyles.legendTextStyle),
-                                        Text("${fuelFillRecord.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
+                              const SizedBox(height: 10),
 
-                                        const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  const Icon(Icons.local_gas_station_outlined, size: 30),
+                                  const SizedBox(width: 15),
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      _getFuelString(context),
+                                      maxLines: 1,
+                                      maxFontSize: 19,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
+                                        fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
 
-                                        Text(AppLocalizations.of(context)!.efficiency, style: SharedFontStyles.legendTextStyle),
-                                        Text("${fuelFillRecord.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
+                              fuelFillRecord.totalKilometers == null ?
+                              const SizedBox() :
+                              const SizedBox(height: 10),
 
-                                        const SizedBox(height: 20),
-
-                                        Text(AppLocalizations.of(context)!.travel_cost, style: SharedFontStyles.legendTextStyle),
-                                        Text("${fuelFillRecord.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
-                                      ],
+                              fuelFillRecord.totalKilometers == null ?
+                              const SizedBox() :
+                              Row(
+                                children: [
+                                  const Icon(FontAwesomeIcons.carSide, size: 25),
+                                  const SizedBox(width: 20),
+                                  AutoSizeText(
+                                    maxLines: 1,
+                                    maxFontSize: 19,
+                                    '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                    ),
 
-                          // singular card with initial data
-                          SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                    // TWO CARDS WITH THE DATA AND THE STATS
+                    Row(
+                      children: [
 
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
-                                        const SizedBox(width: 5),
-                                        Text(AppLocalizations.of(context)!.comments, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
-                                      ],
-                                    ),
+                        Expanded(
+                          flex: 2,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.liters, style: SharedFontStyles.legendTextStyle),
+                                  Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
 
-                                    const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
 
-                                    Text(
-                                      fuelFillRecord.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : fuelFillRecord.comments!,
-                                      style: TextStyle(
-                                          color: fuelFillRecord.comments == null ? Colors.grey : Colors.black,
-                                          fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
-                                      ),
-                                    )
+                                  Text(AppLocalizations.of(context)!.kilometers, style: SharedFontStyles.legendTextStyle),
+                                  Text("${fuelFillRecord.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
 
-                                  ],
-                                ),
+                                  const SizedBox(height: 20),
+
+                                  Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                                  Text("€${fuelFillRecord.cost}", style: SharedFontStyles.descriptiveTextStyle),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      )
-                  )
-              );
-            }
+                        ),
+
+                        fuelFillRecord.getNext() == null ? const SizedBox() :
+                        Expanded(
+                          flex: 3,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.consumption, style: SharedFontStyles.legendTextStyle),
+                                  Text("${fuelFillRecord.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
+
+                                  const SizedBox(height: 20),
+
+                                  Text(AppLocalizations.of(context)!.efficiency, style: SharedFontStyles.legendTextStyle),
+                                  Text("${fuelFillRecord.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
+
+                                  const SizedBox(height: 20),
+
+                                  Text(AppLocalizations.of(context)!.travel_cost, style: SharedFontStyles.legendTextStyle),
+                                  Text("${fuelFillRecord.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // singular card with initial data
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Row(
+                                children: [
+                                  const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
+                                  const SizedBox(width: 5),
+                                  Text(AppLocalizations.of(context)!.comments, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
+                                ],
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              Text(
+                                fuelFillRecord.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : fuelFillRecord.comments!,
+                                style: TextStyle(
+                                    color: fuelFillRecord.comments == null ? Colors.grey : Colors.black,
+                                    fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            )
         )
     );
   }

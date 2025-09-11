@@ -335,76 +335,74 @@ class _CreateTripState extends State<CreateTrip> {
     });
   }
 
-  void _checkForPolyLine() {
+  void _checkForPolyLine() async {
     if (markers.toList().where((marker) => marker.markerId.value == 'origin' || marker.markerId.value == 'destination').length != 2) {
       return;
     }
 
-    RequestHandler.sendGetRequest(
+    final response = await RequestHandler.sendGetRequest(
         'https://maps.googleapis.com/maps/api/directions/json?alternatives=true'
             '&destination=${markers.last.position.latitude},${markers.last.position.longitude}'
             '&origin=${markers.first.position.latitude},${markers.first.position.longitude}'
-        () {},
-        (response) {
-          var body = response.body;
-          final decodedBody = json.decode(body);
-
-          if (decodedBody['routes'].isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.noTripsFound)
-              )
-            );
-            return;
-          }
-
-          Set<Polyline> newPolylines = {};
-
-          for (int i = 0; i < decodedBody['routes'].length; i++) {
-            var route = decodedBody['routes'][i];
-            var encodedPolyline = route['overview_polyline']['points']; // Encoded points
-
-            double distance = route["legs"][0]["distance"]["value"] / 1000;
-
-            List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(encodedPolyline)
-                .map((point) => LatLng(point.latitude, point.longitude)).toList();
-
-            // First polyline is blue (selected), others are gray
-            bool isSelected = (i == 0);
-
-            if (isSelected) {
-              totalKm = distance;
-              polyLine = encodedPolyline;
-            }
-
-            Polyline polyline = Polyline(
-              polylineId: PolylineId('route_$i'),
-              points: polylineCoordinates,
-              color: isSelected ? Colors.blue : Colors.grey,
-              width: isSelected ? 6 : 4,
-              consumeTapEvents: true,
-              onTap: () async {
-                setState(() {
-                  _selectedPolylineIndex = i;
-                  totalKm = distance;
-                  polyLine = encodedPolyline;
-                  _updatePolylineColors();
-                  _checkIfCanProceed();
-                });
-              },
-            );
-
-            newPolylines.add(polyline);
-          }
-
-          setState(() {
-            polylines = newPolylines;
-            _selectedPolylineIndex = 0;
-          });
-
-          _checkIfCanProceed();
-        }
     );
+
+    var body = response.body;
+    final decodedBody = json.decode(body);
+
+    if (decodedBody['routes'].isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.noTripsFound)
+          )
+      );
+      return;
+    }
+
+    Set<Polyline> newPolylines = {};
+
+    for (int i = 0; i < decodedBody['routes'].length; i++) {
+      var route = decodedBody['routes'][i];
+      var encodedPolyline = route['overview_polyline']['points']; // Encoded points
+
+      double distance = route["legs"][0]["distance"]["value"] / 1000;
+
+      List<LatLng> polylineCoordinates = PolylinePoints().decodePolyline(encodedPolyline)
+          .map((point) => LatLng(point.latitude, point.longitude)).toList();
+
+      // First polyline is blue (selected), others are gray
+      bool isSelected = (i == 0);
+
+      if (isSelected) {
+        totalKm = distance;
+        polyLine = encodedPolyline;
+      }
+
+      Polyline polyline = Polyline(
+        polylineId: PolylineId('route_$i'),
+        points: polylineCoordinates,
+        color: isSelected ? Colors.blue : Colors.grey,
+        width: isSelected ? 6 : 4,
+        consumeTapEvents: true,
+        onTap: () async {
+          setState(() {
+            _selectedPolylineIndex = i;
+            totalKm = distance;
+            polyLine = encodedPolyline;
+            _updatePolylineColors();
+            _checkIfCanProceed();
+          });
+        },
+      );
+
+      newPolylines.add(polyline);
+    }
+
+    setState(() {
+      polylines = newPolylines;
+      _selectedPolylineIndex = 0;
+    });
+
+    _checkIfCanProceed();
   }
 
   void _updatePolylineColors() {

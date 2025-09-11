@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../services/token_manager.dart';
+import '../services/managers/token_manager.dart';
 import 'about/terms_and_conditions.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,38 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool isRegistering = false;
 
-  Future<void> _whenRegisterComplete(http.Response response) async {
-    switch (response.statusCode) {
-      // the only way this payload can fail, is when there is another username
-      case 422:
-        setState(() {
-          usernameError = AppLocalizations.of(context)!.usernameAlreadyTaken;
-        });
-        break;
-      case 201:
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.successfullyCreatedAccount),
-            )
-        );
-
-        TokenManager().setToken(
-            jsonDecode(response.body)['auth_token']
-        ).whenComplete(() {
-          DataHolder().initializeValues();
-          Navigator.pop(context);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const HomePage()
-              ));
-
-        });
-        break;
-    }
-  }
-
-  void _sendRegisterPayload() {
+  void _sendRegisterPayload() async {
     // empty checks
     setState(() {
       usernameError = usernameController.text.trim().isEmpty?
@@ -114,27 +84,35 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = true;
     });
 
-    var url = '${DataHolder.destination}/signup';
-    var body = {
-      'username': usernameController.text,
-      'password': passwordController.text,
-      'password_confirmation': passwordConfirmController.text,
-      'manufacturer': manufacturerController.text,
-      'model': modelController.text,
-      'year': yearController.text,
-    };
-
-    RequestHandler.sendPostRequest(
-      url,
-      false,
-      body,
-      () {
-        setState(() {
-          isRegistering = false;
-        });
-      },
-      _whenRegisterComplete
+    var result = await SessionManager().signup(
+        usernameController.text, passwordController.text,
+        passwordConfirmController.text, manufacturerController.text,
+        modelController.text, int.parse(yearController.text)
     );
+
+    setState(() {
+      isRegistering = false;
+    });
+
+    if (result) {
+      setState(() {
+        usernameError = AppLocalizations.of(context)!.usernameAlreadyTaken;
+      });
+    }
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.successfullyCreatedAccount),
+          )
+      );
+
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomePage()
+          ));
+    }
   }
 
   @override
