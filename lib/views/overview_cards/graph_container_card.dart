@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/charts/insufficient_data_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 import '../charts/fuel_trend_line_chart.dart';
 
@@ -37,7 +37,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
             children: [
               Center(
                   child: AutoSizeText(
-                      AppLocalizations.of(context)!.fuelUsageTrend,
+                      translate('fuelUsageTrend'),
                       maxLines: 1,
                       style: const TextStyle(
                           fontSize: 25,
@@ -58,9 +58,9 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
                   value: _selectedFocusValue, // No default selected
                   hint: const Text("Select an option"), // TODO: Localize string
                   items: [
-                    DropdownMenuItem(value: 0, child: Text(AppLocalizations.of(context)!.litersPer100km)),
-                    DropdownMenuItem(value: 1, child: Text(AppLocalizations.of(context)!.kilometersPerLiter)),
-                    DropdownMenuItem(value: 2, child: Text(AppLocalizations.of(context)!.costPerKilometer)),
+                    DropdownMenuItem(value: 0, child: Text(translate('litersPer100km'))),
+                    DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter'))),
+                    DropdownMenuItem(value: 2, child: Text(translate('costPerKilometer'))),
                   ],
                   onChanged: (int? value) {
                     setState(() {

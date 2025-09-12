@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 import 'package:benzinapp/views/shared/shared_font_styles.dart';
 import '../../services/managers/fuel_fill_record_manager.dart';
@@ -38,7 +38,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.fuelFillRecordData),
+          title: Text(translate('fuelFillRecordData')),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -64,13 +64,13 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                 foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
               ),
               icon: const Icon(Icons.edit),
-              label: Text(AppLocalizations.of(context)!.edit)
+              label: Text(translate('edit'))
           ),
           ElevatedButton.icon(
               onPressed: () {
                 DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteFuelFill,
+                  translate('confirmDeleteFuelFill'),
                       (Function(bool) setLoadingState) async {
                         setState(() => isLoading = true);
 
@@ -88,7 +88,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                 foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
               ),
               icon: const Icon(Icons.delete),
-              label: Text(AppLocalizations.of(context)!.delete)
+              label: Text(translate('delete'))
           )
         ],
         body: SingleChildScrollView(
@@ -102,7 +102,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                     fuelFillRecord.getNext() == null?
                     ListTile(
                         leading: const Icon(Icons.info),
-                        title: Text(AppLocalizations.of(context)!.statsCannotBeCalculated)
+                        title: Text(translate('statsCannotBeCalculated'))
                     ) : const SizedBox(),
 
                     // singular card with initial data
@@ -148,8 +148,8 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       maxFontSize: 19,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? Colors.grey : Colors.black,
-                                        fontStyle: _getFuelString(context) == AppLocalizations.of(context)!.unspecified ? FontStyle.italic : FontStyle.normal,
+                                        color: _getFuelString(context) == translate('unspecified') ? Colors.grey : Colors.black,
+                                        fontStyle: _getFuelString(context) == translate('unspecified') ? FontStyle.italic : FontStyle.normal,
                                       ),
                                     ),
                                   )
@@ -199,17 +199,17 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(AppLocalizations.of(context)!.liters, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('liters'), style: SharedFontStyles.legendTextStyle),
                                   Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
 
                                   const SizedBox(height: 20),
 
-                                  Text(AppLocalizations.of(context)!.kilometers, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('kilometers'), style: SharedFontStyles.legendTextStyle),
                                   Text("${fuelFillRecord.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
 
                                   const SizedBox(height: 20),
 
-                                  Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
                                   Text("€${fuelFillRecord.cost}", style: SharedFontStyles.descriptiveTextStyle),
                                 ],
                               ),
@@ -230,17 +230,17 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(AppLocalizations.of(context)!.consumption, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('consumption'), style: SharedFontStyles.legendTextStyle),
                                   Text("${fuelFillRecord.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
 
                                   const SizedBox(height: 20),
 
-                                  Text(AppLocalizations.of(context)!.efficiency, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('efficiency'), style: SharedFontStyles.legendTextStyle),
                                   Text("${fuelFillRecord.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
 
                                   const SizedBox(height: 20),
 
-                                  Text(AppLocalizations.of(context)!.travel_cost, style: SharedFontStyles.legendTextStyle),
+                                  Text(translate('travel_cost'), style: SharedFontStyles.legendTextStyle),
                                   Text("${fuelFillRecord.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
                                 ],
                               ),
@@ -268,14 +268,14 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 children: [
                                   const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
                                   const SizedBox(width: 5),
-                                  Text(AppLocalizations.of(context)!.comments, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
+                                  Text(translate('comments'), style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
                                 ],
                               ),
 
                               const SizedBox(height: 10),
 
                               Text(
-                                fuelFillRecord.comments == null ? AppLocalizations.of(context)!.nothingToShowHere : fuelFillRecord.comments!,
+                                fuelFillRecord.comments == null ? translate('nothingToShowHere') : fuelFillRecord.comments!,
                                 style: TextStyle(
                                     color: fuelFillRecord.comments == null ? Colors.grey : Colors.black,
                                     fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
@@ -303,7 +303,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
     if (fuelFillRecord.fuelType == null) {
 
       if (fuelFillRecord.gasStation == null) {
-        return AppLocalizations.of(context)!.unspecified;
+        return translate('unspecified');
       }
 
       return fuelFillRecord.gasStation!;

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/trip_manager.dart';
 import '../dialogs/delete_dialog.dart';
@@ -131,7 +131,7 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.arrowRight, size: 15,),
               const SizedBox(width: 5),
-              Text(" ${AppLocalizations.of(context)!.oneTimeTrip}", )
+              Text(" ${translate('oneTimeTrip')}", )
             ],
           ),
 
@@ -162,7 +162,7 @@ class _TripCardState extends State<TripCard> {
             ],
           ),
 
-          AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.createdAt(LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)))
+          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
         ],
       );
     }
@@ -175,7 +175,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.arrowRotateRight, size: 15,),
             const SizedBox(width: 5),
-            Text(" ${AppLocalizations.of(context)!.repeatingTimesPerWeekShort(widget.trip.timesRepeating)}", )
+            Text(" ${translate('repeatingTimesPerWeekShort', args: {'n': widget.trip.timesRepeating})}", )
           ],
         ),
 
@@ -186,7 +186,7 @@ class _TripCardState extends State<TripCard> {
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
             AutoSizeText(averageTripCost == null ? '-' : " €${LocaleStringConverter.formattedDouble(context, averageTripCost!)
-                } ${AppLocalizations.of(context)!.perWeek}",
+                } ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold
@@ -200,7 +200,7 @@ class _TripCardState extends State<TripCard> {
             const SizedBox(width: 5),
             AutoSizeText( averageTripConsumption == null ? '-' : " ${
                 LocaleStringConverter.formattedDouble(context, averageTripConsumption!)
-            } lt. ${AppLocalizations.of(context)!.perWeek}",
+            } lt. ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold
@@ -218,7 +218,7 @@ class _TripCardState extends State<TripCard> {
           ],
         ),
 
-        AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.createdAt(LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)))
+        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
       ],
     );
   }

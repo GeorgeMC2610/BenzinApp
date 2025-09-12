@@ -5,7 +5,7 @@ import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +43,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         const SizedBox(height: 40),
 
         Text(
-          AppLocalizations.of(context)!.noMalfunctions,
+          translate('noMalfunctions'),
           style: const TextStyle(
               fontSize: 29,
               fontWeight: FontWeight.bold
@@ -67,7 +67,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         const SizedBox(height: 40),
 
         AutoSizeText(
-          AppLocalizations.of(context)!.noServices,
+          translate('noServices'),
           maxLines: 1,
           style: const TextStyle(
               fontSize: 29,
@@ -115,7 +115,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
           children: [
 
             DividerWithText(
-                text: AppLocalizations.of(context)!.lastService,
+                text: translate('lastService'),
                 lineColor: Colors.black,
                 textColor: Colors.black,
                 textSize: 16
@@ -133,13 +133,13 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
             ),
 
             DividerWithText(
-                text: AppLocalizations.of(context)!.previousServices,
+                text: translate('previousServices'),
                 lineColor: Colors.black,
                 textColor: Colors.black,
                 textSize: 16
             ),
 
-            ServiceManager().local.skip(1).isEmpty ? Text(AppLocalizations.of(context)!.nothingToShowHere) :
+            ServiceManager().local.skip(1).isEmpty ? Text(translate('nothingToShowHere')) :
             Column(
               children: ServiceManager().local.skip(1).map((service) {
                 return ServiceManager().local.skip(1).last != service ?
@@ -185,8 +185,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
                 tabs: [
-                  Tab(text: AppLocalizations.of(context)!.malfunctions),
-                  Tab(text: AppLocalizations.of(context)!.services),
+                  Tab(text: translate('malfunctions')),
+                  Tab(text: translate('services')),
                 ],
               ),
 

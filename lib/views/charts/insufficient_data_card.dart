@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 
 class InsufficientDataCard extends StatelessWidget {
@@ -21,7 +21,7 @@ class InsufficientDataCard extends StatelessWidget {
               Center(
                 child: AutoSizeText(
                   maxLines: 1,
-                  AppLocalizations.of(context)!.insufficientDataTitle,
+                  translate('insufficientDataTitle'),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25
@@ -32,7 +32,7 @@ class InsufficientDataCard extends StatelessWidget {
               const SizedBox(height: 15),
 
               Text(
-                AppLocalizations.of(context)!.insufficientDataText,
+                translate('insufficientDataText'),
                 textAlign: TextAlign.justify,
               ),
 
@@ -49,7 +49,7 @@ class InsufficientDataCard extends StatelessWidget {
                         )
                     );
                   },
-                  label: Text(AppLocalizations.of(context)!.addFuelFillRecord),
+                  label: Text(translate('addFuelFillRecord')),
                   icon: const Icon(Icons.add),
                   style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primaryFixed)

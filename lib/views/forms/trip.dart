@@ -6,7 +6,7 @@ import 'package:benzinapp/views/maps/create_trip.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -70,7 +70,7 @@ class _TripFormState extends State<TripForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.trip != null ? AppLocalizations.of(context)!.editTrip : AppLocalizations.of(context)!.addTrip),
+        title: Text(widget.trip != null ? translate('editTrip') : translate('addTrip')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -84,7 +84,7 @@ class _TripFormState extends State<TripForm> {
             if (polyline == null) {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(AppLocalizations.of(context)!.pleaseMakeATrip),
+                    content: Text(translate('pleaseMakeATrip')),
                   )
               );
             }
@@ -144,7 +144,7 @@ class _TripFormState extends State<TripForm> {
               Icons.add : Icons.check
           ),
           label: widget.trip == null ?
-          Text(AppLocalizations.of(context)!.confirmAdd) : Text(AppLocalizations.of(context)!.confirmEdit),
+          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
           style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
               minimumSize: const WidgetStatePropertyAll(Size(200, 55),
@@ -160,7 +160,7 @@ class _TripFormState extends State<TripForm> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DividerWithText(
-                  text: AppLocalizations.of(context)!.tripInfo,
+                  text: translate('tripInfo'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 16
@@ -178,8 +178,8 @@ class _TripFormState extends State<TripForm> {
                 enabled: !_isLoading,
                 decoration: InputDecoration(
                   errorText: _titleValidator,
-                  hintText: AppLocalizations.of(context)!.tripNameHint,
-                  labelText: AppLocalizations.of(context)!.tripName2,
+                  hintText: translate('tripNameHint'),
+                  labelText: translate('tripName2'),
                   prefixIcon: const Icon(FontAwesomeIcons.tag),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -204,8 +204,8 @@ class _TripFormState extends State<TripForm> {
                       enabled: !_isLoading && !_isRepeating,
                       decoration: InputDecoration(
                         errorText: _timesRepeatingValidator,
-                        hintText: AppLocalizations.of(context)!.timesRepeatingHint,
-                        labelText: AppLocalizations.of(context)!.timesRepeating,
+                        hintText: translate('timesRepeatingHint'),
+                        labelText: translate('timesRepeating'),
                         prefixIcon: const Icon(FontAwesomeIcons.repeat),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -233,7 +233,7 @@ class _TripFormState extends State<TripForm> {
                             }
                         ),
 
-                        AutoSizeText(AppLocalizations.of(context)!.noRepeat, maxLines: 1, maxFontSize: 19,)
+                        AutoSizeText(translate('noRepeat'), maxLines: 1, maxFontSize: 19,)
                       ],
                     )
                   ),
@@ -244,7 +244,7 @@ class _TripFormState extends State<TripForm> {
 
               Center(
                 child: Text(
-                  polyline == null ? AppLocalizations.of(context)!.makeTrip : getTripString(),
+                  polyline == null ? translate('makeTrip') : getTripString(),
                   style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold
@@ -292,7 +292,7 @@ class _TripFormState extends State<TripForm> {
                         });
 
                       },
-                      label: Text(AppLocalizations.of(context)!.makeOnMaps),
+                      label: Text(translate('makeOnMaps')),
                       icon: const Icon(Icons.pin_drop),
                     ),
                   ),
@@ -304,7 +304,7 @@ class _TripFormState extends State<TripForm> {
                       onPressed: _isLoading ? null : polyline == null ? null : () {
 
                         DeleteDialog.show(
-                          context, AppLocalizations.of(context)!.deleteTrip,
+                          context, translate('deleteTrip'),
                           (value) {
                             setState(() {
                               originAddress = null;
@@ -322,7 +322,7 @@ class _TripFormState extends State<TripForm> {
                         );
 
                       },
-                      label: AutoSizeText(AppLocalizations.of(context)!.deleteTrip, minFontSize: 10),
+                      label: AutoSizeText(translate('deleteTrip'), minFontSize: 10),
                       icon: const Icon(Icons.cancel_outlined),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
@@ -337,7 +337,7 @@ class _TripFormState extends State<TripForm> {
 
               totalKm == null ? const SizedBox() :
               Text(
-                "${AppLocalizations.of(context)!.tripDistance} $totalKm km",
+                "${translate('tripDistance')} $totalKm km",
                 style: Theme.of(context).textTheme.labelLarge,
               )
             ],
@@ -349,17 +349,17 @@ class _TripFormState extends State<TripForm> {
   }
 
   String getTripString() {
-    return '${AppLocalizations.of(context)!.from}: $originAddress\n\n ${AppLocalizations.of(context)!.to}: $destinationAddress';
+    return '${translate('from')}: $originAddress\n\n ${translate('to')}: $destinationAddress';
   }
 
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     if (double.parse(field) < 0) {
-      return AppLocalizations.of(context)!.cannotBeNegative;
+      return translate('cannotBeNegative');
     }
 
     return null;
@@ -367,7 +367,7 @@ class _TripFormState extends State<TripForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     return null;

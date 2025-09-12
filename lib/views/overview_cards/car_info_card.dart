@@ -4,7 +4,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/classes/fuel_fill_record.dart';
@@ -166,19 +166,19 @@ class _CarInfoCardState extends State<CarInfoCard> {
     var difference = record.dateTime.difference(DateTime.now());
 
     if (difference.inDays > 0) {
-      return AppLocalizations.of(context)!.youPlannedYourFuelFill;
+      return translate('youPlannedYourFuelFill');
     }
     else if (difference.inDays == 0) {
-      return AppLocalizations.of(context)!.lastFilledToday;
+      return translate('lastFilledToday');
     }
     else if (difference.inDays == -1) {
-      return AppLocalizations.of(context)!.lastFilledYesterday;
+      return translate('lastFilledYesterday');
     }
     else if (difference.inDays >= -30) {
-      return AppLocalizations.of(context)!.lastFilledDaysAgo(difference.inDays.abs());
+      return translate('lastFilledDaysAgo', args: {'amountOfDays': difference.inDays.abs()});
     }
     else {
-      return AppLocalizations.of(context)!.lastFilledAtDate(record.dateTime.toString().substring(0, 10));
+      return translate('lastFilledAtDate', args: {'date': record.dateTime.toString().substring(0, 10)});
     }
 
   }
@@ -187,7 +187,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
     if (mostRecentTotalKilometers == null) {
       return StatusCard(
           icon: const Icon(FontAwesomeIcons.wrench),
-          text: '${AppLocalizations.of(context)!.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
+          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
           status: StatusCardIndex.warning
       );
     }
@@ -197,19 +197,19 @@ class _CarInfoCardState extends State<CarInfoCard> {
     var difference = lastService.nextServiceKilometers! - mostRecentTotalKilometers!;
 
     if (difference < 0) {
-      message = AppLocalizations.of(context)!.serviceOverdueInKm(LocaleStringConverter.formattedBigInt(context, difference.abs()));
+      message = translate('serviceOverdueInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference.abs())} );
       status = StatusCardIndex.bad;
     }
     else if (difference < 200) {
-      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
       status = StatusCardIndex.bad;
     }
     else if (difference < 600) {
-      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
       status = StatusCardIndex.warning;
     }
     else {
-      message = AppLocalizations.of(context)!.nextServiceInKm(LocaleStringConverter.formattedBigInt(context, difference));
+      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
       status = StatusCardIndex.good;
     }
 
@@ -226,27 +226,27 @@ class _CarInfoCardState extends State<CarInfoCard> {
     StatusCardIndex index;
 
     if (difference.inDays < 0) {
-      message = AppLocalizations.of(context)!.serviceOverdueInDays(difference.inDays.abs());
+      message = translate('serviceOverdueInDays', args: {'amount': difference.inDays.abs()});
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 1) {
-      message = AppLocalizations.of(context)!.serviceDueToday;
+      message = translate('serviceDueToday');
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 2) {
-      message = AppLocalizations.of(context)!.serviceDueTomorrow;
+      message = translate('serviceDueTomorrow');
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 30) {
-      message = AppLocalizations.of(context)!.serviceDueInDays(difference.inDays);
+      message = translate('serviceDueInDays', args: {'amount': difference.inDays});
       index = StatusCardIndex.warning;
     }
     else if (difference.inDays < 365) {
-      message = AppLocalizations.of(context)!.serviceDueInMonths((difference.inDays/30).toInt());
+      message = translate('serviceDueInMonths', args: {'amount': difference.inDays~/30});
       index = StatusCardIndex.good;
     }
     else {
-      message = AppLocalizations.of(context)!.serviceDueInDateTime(LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!));
+      message = translate('serviceDueInDateTime', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!)});
       index = StatusCardIndex.good;
     }
 

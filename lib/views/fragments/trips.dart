@@ -3,7 +3,7 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/shared/cards/trip_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ class _TripsFragmentState extends State<TripsFragment> {
             const SizedBox(height: 40),
             Center(
               child: AutoSizeText(
-                AppLocalizations.of(context)!.pleaseEnterFuelFills,
+                translate('pleaseEnterFuelFills'),
                 maxLines: 3,
                 textAlign: TextAlign.center,
                 style:
@@ -59,7 +59,7 @@ class _TripsFragmentState extends State<TripsFragment> {
             ),
             const SizedBox(height: 40),
             AutoSizeText(
-              AppLocalizations.of(context)!.noFuelFillRecords,
+              translate('noFuelFillRecords'),
               maxLines: 1,
               style: const TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
             )
@@ -77,14 +77,14 @@ class _TripsFragmentState extends State<TripsFragment> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TripSection(
-              title: AppLocalizations.of(context)!.repeatingTrips,
+              title: translate('repeatingTrips'),
               trips: getRepeatingTrips(),
               cardColor:
               Theme.of(context).colorScheme.secondaryContainer,
             ),
             const SizedBox(height: 20),
             TripSection(
-              title: AppLocalizations.of(context)!.oneTimeTrips,
+              title: translate('oneTimeTrips'),
               trips: getOneTimeTrips(),
               cardColor: Theme.of(context).colorScheme.surfaceContainer,
             ),
@@ -165,7 +165,7 @@ class TripSection extends StatelessWidget {
             ),
           ),
         )
-            : Text(AppLocalizations.of(context)!.nothingToShowHere),
+            : Text(translate('nothingToShowHere')),
       ],
     );
   }

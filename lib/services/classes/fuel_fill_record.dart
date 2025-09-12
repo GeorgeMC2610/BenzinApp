@@ -89,7 +89,7 @@ class FuelFillRecord {
 
     return cost / getNext()!.kilometers;
   }
-  
+
 }
 
 class FuelFillRecordFields {

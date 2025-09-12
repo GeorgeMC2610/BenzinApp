@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 import '../../services/theme_provider.dart';
 
@@ -29,7 +29,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
     DataHolder().destroyValues();
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.successfullyLoggedOut),
+          content: Text(translate('successfullyLoggedOut')),
         )
     );
 
@@ -52,7 +52,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.applicationAppearance,
+                  translate('applicationAppearance'),
                   style: TextStyle(
                       fontSize: 24,
                       color: Theme.of(context).colorScheme.primary,
@@ -63,7 +63,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.darkMode),
+                  title: Text(translate('darkMode')),
                   trailing: Consumer<ThemeProvider>(
                     builder: (context, themeProvider, child) {
                       return Switch.adaptive(
@@ -83,7 +83,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.dark_mode),
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.language),
+                  title: Text(translate('language')),
                   onTap: _showLanguageModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
@@ -92,7 +92,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 30),
 
                 Text(
-                  AppLocalizations.of(context)!.accountSettings,
+                  translate('accountSettings'),
                   style: TextStyle(
                     fontSize: 24,
                     color: Theme.of(context).colorScheme.primary,
@@ -103,14 +103,14 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.editAccount),
+                  title: Text(translate('editAccount')),
                   enabled: false,
                   onTap: null,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.edit),
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+                  title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
                   trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
                   leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
                   onTap: _performLogout,
@@ -118,7 +118,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 const SizedBox(height: 30),
 
-                Text(AppLocalizations.of(context)!.aboutTheApp,
+                Text(translate('aboutTheApp'),
                   style: TextStyle(
                       fontSize: 24,
                       color: Theme.of(context).colorScheme.primary,
@@ -129,7 +129,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 const SizedBox(height: 12),
 
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.privacyPolicy),
+                  title: Text(translate('privacyPolicy')),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -142,7 +142,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.security_outlined),
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.termsAndConditions),
+                  title: Text(translate('termsAndConditions')),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -155,7 +155,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.newspaper),
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.appInformation),
+                  title: Text(translate('appInformation')),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -207,9 +207,10 @@ class _SettingsFragmentState extends State<SettingsFragment> {
       title: Text(title),
       value: locale,
       groupValue: languageProvider.currentLocale,
-      onChanged: (Locale? value) {
+      onChanged: (Locale? value) async {
         if (value != null) {
           languageProvider.changeLocale(value);
+          await changeLocale(context, value.languageCode);
           Navigator.pop(context); // Close modal after selection
         }
       },

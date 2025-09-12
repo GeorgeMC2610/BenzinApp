@@ -6,7 +6,7 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class _FuelFillCardState extends State<FuelFillCard> {
             onPressed: () {
               DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteFuelFill,
+                  translate('confirmDeleteFuelFill'),
                       (Function(bool) setLoadingState) async {
                     setState(() => _isLoading = true);
 

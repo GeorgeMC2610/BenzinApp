@@ -6,7 +6,7 @@ import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/fragments/trips.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -48,19 +48,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       switch (_selectedTabIndex) {
         case 0:
-          _title = AppLocalizations.of(context)!.home;
+          _title = translate('home');
           break;
         case 1:
-          _title = AppLocalizations.of(context)!.fuelFills;
+          _title = translate('fuelFills');
           break;
         case 2:
-          _title = AppLocalizations.of(context)!.maintenance;
+          _title = translate('maintenance');
           break;
         case 3:
-          _title = AppLocalizations.of(context)!.trips;
+          _title = translate('trips');
           break;
         case 4:
-          _title = AppLocalizations.of(context)!.settings;
+          _title = translate('settings');
           break;
       }
     });
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.enableLocationSetting))
+          SnackBar(content: Text(translate('enableLocationSetting')))
         );
         return;
       }
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
           break;
         case LocationPermission.deniedForever:
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppLocalizations.of(context)!.permissionDeniedForever))
+              SnackBar(content: Text(translate('permissionDeniedForever')))
           );
           break;
         case LocationPermission.whileInUse:
@@ -124,17 +124,17 @@ class _HomePageState extends State<HomePage> {
         switch (requestedPermission) {
           case LocationPermission.denied:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context)!.mustGrantPermissionToUseThis))
+                SnackBar(content: Text(translate('mustGrantPermissionToUseThis')))
             );
             return;
           case LocationPermission.deniedForever:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context)!.permissionDeniedForever))
+                SnackBar(content: Text(translate('permissionDeniedForever')))
             );
             return;
           case LocationPermission.unableToDetermine:
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context)!.unableToDeterminePermissionStatus))
+                SnackBar(content: Text(translate('unableToDeterminePermissionStatus')))
             );
             return;
           default:
@@ -168,23 +168,23 @@ class _HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            label: AppLocalizations.of(context)!.home,
+            label: translate('home'),
             icon: const Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-              label: AppLocalizations.of(context)!.fuelFills,
+              label: translate('fuelFills'),
               icon: const Icon(Icons.local_gas_station)
           ),
           BottomNavigationBarItem(
-              label: AppLocalizations.of(context)!.maintenance,
+              label: translate('maintenance'),
               icon: const Icon(Icons.car_repair)
           ),
           BottomNavigationBarItem(
-              label: AppLocalizations.of(context)!.trips,
+              label: translate('trips'),
               icon: const Icon(Icons.pin_drop)
           ),
           BottomNavigationBarItem(
-            label: AppLocalizations.of(context)!.settings,
+            label: translate('settings'),
             icon: const Icon(Icons.settings),
           ),
         ]),

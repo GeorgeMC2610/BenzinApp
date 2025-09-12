@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../../services/locale_string_converter.dart';
 import  '../charts/costs_pie_chart.dart';
 
@@ -46,7 +46,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
             children: [
               Center(
                 child: AutoSizeText(
-                    AppLocalizations.of(context)!.combinedCosts,
+                    translate('combinedCosts'),
                     maxLines: 1,
                     style: const TextStyle(
                         fontSize: 25,
@@ -75,7 +75,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                               fontSize: 25
                           ),
                         ),
-                        Text('${AppLocalizations.of(context)!.fuelFills} - €${LocaleStringConverter.formattedDouble(context, totalFuelFillCosts!)}')
+                        Text('${translate('fuelFills')} - €${LocaleStringConverter.formattedDouble(context, totalFuelFillCosts!)}')
                       ],
                     ),
 
@@ -89,7 +89,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                               fontSize: 25
                           ),
                         ),
-                        Text('${AppLocalizations.of(context)!.malfunctions} - €${LocaleStringConverter.formattedDouble(context, totalMalfunctionCosts!)}')
+                        Text('${translate('malfunctions')} - €${LocaleStringConverter.formattedDouble(context, totalMalfunctionCosts!)}')
                       ],
                     ),
 
@@ -103,7 +103,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                               fontSize: 25
                           ),
                         ),
-                        Text('${AppLocalizations.of(context)!.services} - €${LocaleStringConverter.formattedDouble(context, totalServiceCosts!)}')
+                        Text('${translate('services')} - €${LocaleStringConverter.formattedDouble(context, totalServiceCosts!)}')
                       ],
                     ),
                   ],

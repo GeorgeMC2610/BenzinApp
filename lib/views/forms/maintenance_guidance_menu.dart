@@ -3,7 +3,7 @@ import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class MaintenanceGuidanceMenu extends StatelessWidget {
 
@@ -14,7 +14,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.maintenanceCategory),
+        title: Text(translate('maintenanceCategory')),
       ),
       body: Center(
         child: Padding(
@@ -28,7 +28,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                 maxLines: 1,
                 maxFontSize: 30,
                 minFontSize: 12,
-                AppLocalizations.of(context)!.selectMaintenanceType,
+                translate('selectMaintenanceType'),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30
@@ -44,7 +44,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(AppLocalizations.of(context)!.malfunction),
+                        Text(translate('malfunction')),
 
                         const SizedBox(height: 10),
 
@@ -81,7 +81,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(AppLocalizations.of(context)!.service),
+                        Text(translate('service')),
 
                         const SizedBox(height: 10),
 
@@ -118,7 +118,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(AppLocalizations.of(context)!.comingSoon),
+                        Text(translate('comingSoon')),
 
                         const SizedBox(height: 10),
 

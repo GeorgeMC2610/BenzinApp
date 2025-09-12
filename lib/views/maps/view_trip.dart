@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class ViewTripOnMaps extends StatefulWidget {
   const ViewTripOnMaps({super.key, required this.positions, required this.addresses, this.polyline});
@@ -44,7 +44,7 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
           flat: true,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           visible: true,
-          infoWindow: InfoWindow(title: AppLocalizations.of(context)!.origin, snippet: widget.addresses[0]),
+          infoWindow: InfoWindow(title: translate('origin'), snippet: widget.addresses[0]),
         ));
 
         markers.add(Marker(
@@ -53,7 +53,7 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
           flat: true,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           visible: true,
-          infoWindow: InfoWindow(title: AppLocalizations.of(context)!.destination, snippet: widget.addresses[1]),
+          infoWindow: InfoWindow(title: translate('destination'), snippet: widget.addresses[1]),
         ));
       });
     } else {
@@ -64,7 +64,7 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
           flat: true,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           visible: true,
-          infoWindow: InfoWindow(title: AppLocalizations.of(context)!.location, snippet: widget.addresses[0]),
+          infoWindow: InfoWindow(title: translate('location'), snippet: widget.addresses[0]),
         ));
       });
     }
@@ -82,7 +82,7 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.viewLocation),
+        title: Text(translate('viewLocation')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(

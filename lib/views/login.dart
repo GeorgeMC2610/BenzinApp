@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
-import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, this.message});
@@ -34,11 +29,11 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() {
       usernameError = usernameController.text.trim().isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       passwordError = passwordController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
     });
 
@@ -56,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       // show the message that the user is authorized successfully.
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.successfullyLoggedIn),
+            content: Text(translate('successfullyLoggedIn')),
           )
       );
 
@@ -68,8 +63,8 @@ class _LoginPageState extends State<LoginPage> {
     }
     else {
       setState(() {
-        usernameError = AppLocalizations.of(context)!.wrongCredentials;
-        passwordError = AppLocalizations.of(context)!.wrongCredentials;
+        usernameError = translate('wrongCredentials');
+        passwordError = translate('wrongCredentials');
         isLoggingIn = false;
       });
     }
@@ -95,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.loginToBenzinApp),
+        title: Text(translate('loginToBenzinApp')),
         actions: [
           IconButton(onPressed: () {
             Navigator.push(
@@ -123,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                AppLocalizations.of(context)!.login,
+                translate('login'),
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -150,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Center(
                   child: AutoSizeText(
-                    AppLocalizations.of(context)!.welcomeBack,
+                    translate('welcomeBack'),
                     maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -179,8 +174,8 @@ class _LoginPageState extends State<LoginPage> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   errorText: usernameError,
-                  hintText: AppLocalizations.of(context)!.usernameHint,
-                  labelText: AppLocalizations.of(context)!.username,
+                  hintText: translate('usernameHint'),
+                  labelText: translate('username'),
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -197,8 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   errorText: passwordError,
-                  hintText: AppLocalizations.of(context)!.passwordHint,
-                  labelText: AppLocalizations.of(context)!.password,
+                  hintText: translate('passwordHint'),
+                  labelText: translate('password'),
                   prefixIcon: const Icon(Icons.lock),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -211,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                  children: [
                    Expanded(
-                     child: AutoSizeText(maxLines: 1, "• ${AppLocalizations.of(context)!.dontHaveAnAccount}"),
+                     child: AutoSizeText(maxLines: 1, "• ${translate('dontHaveAnAccount')}"),
                    ),
                    const SizedBox(width: 5),
                    const Icon(Icons.app_registration, size: 18,)
@@ -221,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
               // Row(
               //   children: [
               //     Expanded(
-              //       child: AutoSizeText( maxLines: 1, "• ${AppLocalizations.of(context)!.forgotPassword}"),
+              //       child: AutoSizeText( maxLines: 1, "• ${translate('forgotPassword')}"),
               //     ),
               //     const SizedBox(width: 5),
               //     const Icon(Icons.key_off, size: 18,)

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 import '../../services/locale_string_converter.dart';
 
@@ -44,7 +44,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
             children: [
               Center(
                   child: AutoSizeText(
-                      AppLocalizations.of(context)!.averageConsumption,
+                      translate('averageConsumption'),
                       maxLines: 1,
                       maxFontSize: 25,
                       style: const TextStyle(
@@ -56,7 +56,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
               const SizedBox(height: 15),
 
-              Text(AppLocalizations.of(context)!.consumption,
+              Text(translate('consumption'),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold
@@ -70,7 +70,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
               const SizedBox(height: 10),
 
-              Text(AppLocalizations.of(context)!.efficiency,
+              Text(translate('efficiency'),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold
@@ -84,7 +84,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
               const SizedBox(height: 10),
 
-              Text(AppLocalizations.of(context)!.travel_cost,
+              Text(translate('travel_cost'),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold

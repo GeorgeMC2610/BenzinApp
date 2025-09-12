@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/year_month_fuel_fill_groups.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
               AutoSizeText(
                 maxLines: 1,
-                AppLocalizations.of(context)!.noFuelFillRecords,
+                translate('noFuelFillRecords'),
                 style: const TextStyle(
                     fontSize: 29,
                     fontWeight: FontWeight.bold
@@ -68,7 +68,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
                 FilledButton.icon (
                   onPressed: () {},
-                  label: Text(AppLocalizations.of(context)!.filters),
+                  label: Text(translate('filters')),
                   icon: const Icon(Icons.filter_list),
                 ),
 
@@ -85,7 +85,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
                         ),
                         prefixIcon: const Icon(Icons.search, color: Colors.grey),
                         hintStyle: const TextStyle(color: Colors.grey),
-                        hintText: AppLocalizations.of(context)!.searchInFuelFills,
+                        hintText: translate('searchInFuelFills'),
                         fillColor: Theme.of(context).colorScheme.onSecondary
                     ),
                   ),
@@ -99,8 +99,8 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
             // TOTAL RECORDS
             Text(
                 fuelFillRecordCount() == 1 ?
-                AppLocalizations.of(context)!.oneRecord :
-                AppLocalizations.of(context)!.totalRecords(FuelFillRecordManager().local.length)
+                translate('oneRecord') :
+                translate('totalRecords', args: {'totalRecords': FuelFillRecordManager().local.length})
             ),
 
             const SizedBox(height: 10),

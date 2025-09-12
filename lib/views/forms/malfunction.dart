@@ -4,7 +4,7 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/data_holder.dart';
 import '../../services/locale_string_converter.dart';
@@ -120,7 +120,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       _kmValidator = _numberValidator(kmController.text);
       _titleValidator = _emptyValidator(titleController.text);
       _descriptionValidator = _emptyValidator(descriptionController.text);
-      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
+      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
     });
 
     if (_selectedDate == null) {
@@ -144,8 +144,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       _titleValidator = _emptyValidator(titleController.text);
       _descriptionValidator = _emptyValidator(descriptionController.text);
       _costValidator = _numberValidator(costController.text);
-      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
-      endedDateValidator = _selectedDateEnded == null ? AppLocalizations.of(context)!.pleaseSelectAnEndDate : null;
+      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
+      endedDateValidator = _selectedDateEnded == null ? translate('pleaseSelectAnEndDate') : null;
     });
 
     if (_selectedDate == null) {
@@ -174,7 +174,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.addMalfunction), // TODO: Change to be edit.
+        title: Text(translate('addMalfunction')), // TODO: Change to be edit.
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -193,7 +193,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               Icons.add : Icons.check
           ),
           label: widget.malfunction == null ?
-          Text(AppLocalizations.of(context)!.confirmAdd) : Text(AppLocalizations.of(context)!.confirmEdit),
+          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
           style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
               minimumSize: const WidgetStatePropertyAll(Size(200, 55),
@@ -207,7 +207,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           child: Column(
             children: [
               DividerWithText(
-                  text: AppLocalizations.of(context)!.malfunctionData,
+                  text: translate('malfunctionData'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 16
@@ -230,9 +230,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       controller: kmController,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.inKmHint,
+                        hintText: translate('inKmHint'),
                         errorText: _kmValidator,
-                        labelText: '${AppLocalizations.of(context)!.serviceMileage2} *',
+                        labelText: '${translate('serviceMileage2')} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -256,9 +256,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       enabled: !_isLoading,
                       controller: titleController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.malfunctionTitleHint,
+                        hintText: translate('malfunctionTitleHint'),
                         errorText: _titleValidator,
-                        labelText: '${AppLocalizations.of(context)!.malfunctionTitle} *',
+                        labelText: '${translate('malfunctionTitle')} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -283,8 +283,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 enabled: !_isLoading,
                 controller: descriptionController,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.descriptionHintMalfunction,
-                  labelText: '${AppLocalizations.of(context)!.description2} *',
+                  hintText: translate('descriptionHintMalfunction'),
+                  labelText: '${translate('description2')} *',
                   errorText: _descriptionValidator,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
@@ -296,7 +296,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 20),
 
               Text(
-                '${AppLocalizations.of(context)!.malfunctionSeverity}*:',
+                '${translate('malfunctionSeverity')}*:',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
@@ -323,8 +323,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(AppLocalizations.of(context)!.severityLowest, style: const TextStyle(fontSize: 12)),
-                        Text(AppLocalizations.of(context)!.severityHighest, style: const TextStyle(fontSize: 12)),
+                        Text(translate('severityLowest'), style: const TextStyle(fontSize: 12)),
+                        Text(translate('severityHighest'), style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -336,7 +336,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                '${AppLocalizations.of(context)!.selectADate} *' :
+                '${translate('selectADate')} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -363,7 +363,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                           });
                         }
                       },
-                      label: Text(AppLocalizations.of(context)!.pickADate),
+                      label: Text(translate('pickADate')),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -377,7 +377,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(
@@ -400,12 +400,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                         });
                       }
                   ),
-                  Text(AppLocalizations.of(context)!.iFixedThisMalfunction)
+                  Text(translate('iFixedThisMalfunction'))
                 ],
               ),
 
               !_markAsFixed && _getMalfunctionStatus() ? Text(
-                AppLocalizations.of(context)!.uncheckingTheBox,
+                translate('uncheckingTheBox'),
                 style: Theme.of(context).textTheme.labelLarge
               ) : const SizedBox(),
 
@@ -431,7 +431,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         const SizedBox(height: 10),
 
         DividerWithText(
-            text: AppLocalizations.of(context)!.repairData,
+            text: translate('repairData'),
             lineColor: Colors.black,
             textColor: Colors.black,
             textSize: 16
@@ -450,9 +450,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           },
           enabled: !_isLoading,
           decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.repairCostHint,
+            hintText: translate('repairCostHint'),
             errorText: _costValidator,
-            labelText: '${AppLocalizations.of(context)!.repairCost} *',
+            labelText: '${translate('repairCost')} *',
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -466,7 +466,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedDateEnded == null ?
-          '${AppLocalizations.of(context)!.malfunctionEnded} *' :
+          '${translate('malfunctionEnded')} *' :
           LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDateEnded!),
           style: const TextStyle(
               fontSize: 22,
@@ -495,7 +495,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     });
                   }
                 },
-                label: Text(AppLocalizations.of(context)!.pickADate),
+                label: Text(translate('pickADate')),
                 icon: const Icon(Icons.date_range),
               ),
             ),
@@ -509,7 +509,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedDateEnded = DateTime.now();
                   });
                 },
-                label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
+                label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                 icon: const Icon(Icons.more_time_rounded),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).buttonTheme.colorScheme!.inversePrimary
@@ -525,7 +525,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedAddress == null ?
-          AppLocalizations.of(context)!.selectLocation :
+          translate('selectLocation') :
           _selectedAddress!,
           style: const TextStyle(
               fontSize: 22,
@@ -559,7 +559,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = data["coordinates"]!;
                   });
                 },
-                label: Text(AppLocalizations.of(context)!.pickAPlace),
+                label: Text(translate('pickAPlace')),
                 icon: const Icon(Icons.map),
               ),
             ),
@@ -574,7 +574,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = null;
                   });
                 },
-                label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
+                label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
                 icon: const Icon(Icons.cancel),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,
@@ -591,11 +591,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   String? _numberValidator(String field) {
 
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     if (double.parse(field) < 0) {
-      return AppLocalizations.of(context)!.cannotBeNegative;
+      return translate('cannotBeNegative');
     }
 
     return null;
@@ -603,7 +603,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     return null;

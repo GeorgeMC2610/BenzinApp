@@ -7,7 +7,7 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FuelFillRecordForm extends StatefulWidget {
@@ -78,7 +78,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             if (_selectedDate == null) {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(AppLocalizations.of(context)!.noDateSelected),
+                    content: Text(translate('noDateSelected')),
                   )
               );
             }
@@ -157,8 +157,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
           ),
           label: Text(
               widget.fuelFillRecord == null ?
-              AppLocalizations.of(context)!.confirmAdd :
-              AppLocalizations.of(context)!.confirmEdit
+              translate('confirmAdd') :
+              translate('confirmEdit')
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
@@ -171,8 +171,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           widget.fuelFillRecord == null?
-          AppLocalizations.of(context)!.addFuelFillRecord :
-          AppLocalizations.of(context)!.editFuelFillRecord
+          translate('addFuelFillRecord') :
+          translate('editFuelFillRecord')
         ),
       ),
       body: SingleChildScrollView(
@@ -182,7 +182,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DividerWithText(
-                  text: AppLocalizations.of(context)!.requiredInfo,
+                  text: translate('requiredInfo'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 13
@@ -223,8 +223,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.inKmHint,
-                        labelText: '${AppLocalizations.of(context)!.mileage} *',
+                        hintText: translate('inKmHint'),
+                        labelText: '${translate('mileage')} *',
                         errorText: _mileageValidator,
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -267,8 +267,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       enabled: !_isLoading,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.inKmHint,
-                        labelText: AppLocalizations.of(context)!.totalMileage,
+                        hintText: translate('inKmHint'),
+                        labelText: translate('totalMileage'),
                         errorText: _totalMileageValidator,
                         prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
                         border: OutlineInputBorder(
@@ -297,8 +297,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   enabled: !_isLoading,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.costHint,
-                    labelText: '${AppLocalizations.of(context)!.cost2} *',
+                    hintText: translate('costHint'),
+                    labelText: '${translate('cost2')} *',
                     errorText: _costValidator,
                     prefixIcon: const Icon(Icons.euro_symbol_sharp),
                     border: OutlineInputBorder(
@@ -324,8 +324,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   enabled: !_isLoading,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.litersHint,
-                    labelText: '${AppLocalizations.of(context)!.liters2} *',
+                    hintText: translate('litersHint'),
+                    labelText: '${translate('liters2')} *',
                     errorText: _literValidator,
                     prefixIcon: const Icon(Icons.water_drop),
                     border: OutlineInputBorder(
@@ -341,7 +341,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 child: AutoSizeText(
                   maxLines: 1,
                   _selectedDate == null ?
-                  AppLocalizations.of(context)!.selectADate :
+                  translate('selectADate') :
                   LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                   style: const TextStyle(
                       fontSize: 30,
@@ -367,7 +367,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           });
                         }
                       },
-                      label: Text(AppLocalizations.of(context)!.pickADate),
+                      label: Text(translate('pickADate')),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -381,7 +381,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
@@ -396,7 +396,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 15),
 
               DividerWithText(
-                  text: AppLocalizations.of(context)!.optionalInfo,
+                  text: translate('optionalInfo'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 13
@@ -413,8 +413,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.fuelTypeHint,
-                        labelText: AppLocalizations.of(context)!.fuelType,
+                        hintText: translate('fuelTypeHint'),
+                        labelText: translate('fuelType'),
                         prefixIcon: const Icon(Icons.gas_meter),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -432,8 +432,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.stationHint,
-                        labelText: AppLocalizations.of(context)!.station,
+                        hintText: translate('stationHint'),
+                        labelText: translate('station'),
                         prefixIcon: const Icon(Icons.local_gas_station),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -454,8 +454,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 minLines: 2,
                 maxLines: 10,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.commentsHint,
-                  labelText: AppLocalizations.of(context)!.comments2,
+                  hintText: translate('commentsHint'),
+                  labelText: translate('comments2'),
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -475,11 +475,11 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     if (double.parse(field) < 0) {
-      return AppLocalizations.of(context)!.cannotBeNegative;
+      return translate('cannotBeNegative');
     }
 
     return null;

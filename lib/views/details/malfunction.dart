@@ -3,7 +3,7 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../../services/data_holder.dart';
 import '../../services/request_handler.dart';
 import '../forms/malfunction.dart';
@@ -34,7 +34,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.malfunctionData),
+        title: Text(translate('malfunctionData')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -60,13 +60,13 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
               foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.edit),
-            label: Text(AppLocalizations.of(context)!.edit)
+            label: Text(translate('edit'))
         ),
         ElevatedButton.icon(
             onPressed: () {
               DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteMalfunction,
+                  translate('confirmDeleteMalfunction'),
                       (Function(bool) setLoadingState) async {
 
                         await MalfunctionManager().delete(widget.malfunction);
@@ -80,7 +80,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
               foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.delete),
-            label: Text(AppLocalizations.of(context)!.delete)
+            label: Text(translate('delete'))
         )
       ],
       body: SingleChildScrollView(
@@ -106,7 +106,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       children: [
 
                         // DATE DISCOVERED
-                        Text(AppLocalizations.of(context)!.dateDiscovered, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('dateDiscovered'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateStarted),
                             style: SharedFontStyles.descriptiveTextStyle
@@ -115,7 +115,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                         const SizedBox(height: 20),
 
                         // KM DISCOVERED
-                        Text(AppLocalizations.of(context)!.kilometersDiscovered, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('kilometersDiscovered'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             '${
                           LocaleStringConverter.formattedBigInt(
@@ -127,11 +127,11 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                         const SizedBox(height: 20),
 
                         // STATUS (FIXED/UNFIXED)
-                        Text(AppLocalizations.of(context)!.status, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('status'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             malfunction.isFixed() ?
-                            AppLocalizations.of(context)!.fixedMalfunction :
-                            AppLocalizations.of(context)!.ongoingMalfunction,
+                            translate('fixedMalfunction') :
+                            translate('ongoingMalfunction'),
                             style: TextStyle(
                               fontSize: 20.5,
                               fontWeight: FontWeight.bold,
@@ -163,12 +163,12 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.title, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('title'), style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.title, style: SharedFontStyles.descriptiveTextStyle),
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.description, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('description'), style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.description, style: SharedFontStyles.descriptiveTextStyle),
                       ],
                     ),
@@ -190,7 +190,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.dateFixed, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('dateFixed'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateEnded!),
                             style: SharedFontStyles.descriptiveTextStyle
@@ -198,7 +198,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.locationFixed, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('locationFixed'), style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
 
                         malfunction.location == null ? const SizedBox() : ElevatedButton.icon(
@@ -213,7 +213,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                                 )
                             );
                           },
-                          label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
+                          label: AutoSizeText(translate('seeOnMap'), maxLines: 1, minFontSize: 8),
                           icon: const Icon(Icons.pin_drop, size: 20.3,),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -222,7 +222,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             malfunction.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, malfunction.cost!)}",
                             style: SharedFontStyles.descriptiveTextStyle
@@ -259,11 +259,11 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
   Map<int, String> severityStringIndex(context) {
     return {
-      1: AppLocalizations.of(context)!.severityLowest,
-      2: AppLocalizations.of(context)!.severityLow,
-      3: AppLocalizations.of(context)!.severityNormal,
-      4: AppLocalizations.of(context)!.severityHigh,
-      5: AppLocalizations.of(context)!.severityHighest
+      1: translate('severityLowest'),
+      2: translate('severityLow'),
+      3: translate('severityNormal'),
+      4: translate('severityHigh'),
+      5: translate('severityHighest')
     };
   }
 

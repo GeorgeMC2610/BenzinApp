@@ -6,7 +6,7 @@ import 'package:benzinapp/views/maps/select_location.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ServiceForm extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ServiceFormState extends State<ServiceForm> {
       _kmValidator = _validator(kmController.text);
       _costValidator = _validator(costController.text);
       _nextKmValidator = _numValidator(nextKmController.text);
-      dateValidator = _selectedDate == null ? AppLocalizations.of(context)!.noDateSelected : null;
+      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
     });
 
     if (_selectedDate == null) {
@@ -123,8 +123,8 @@ class _ServiceFormState extends State<ServiceForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: widget.service != null ? Text(AppLocalizations.of(context)!.editService) :
-          Text(AppLocalizations.of(context)!.addService),
+          title: widget.service != null ? Text(translate('editService')) :
+          Text(translate('addService')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -143,7 +143,7 @@ class _ServiceFormState extends State<ServiceForm> {
               Icons.add : Icons.check
           ),
           label: widget.service == null ?
-          Text(AppLocalizations.of(context)!.confirmAdd) : Text(AppLocalizations.of(context)!.confirmEdit),
+          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
           style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
               minimumSize: const WidgetStatePropertyAll(Size(200, 55),
@@ -157,7 +157,7 @@ class _ServiceFormState extends State<ServiceForm> {
           child: Column(
             children: [
               DividerWithText(
-                  text: AppLocalizations.of(context)!.serviceInfo,
+                  text: translate('serviceInfo'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 16
@@ -178,8 +178,8 @@ class _ServiceFormState extends State<ServiceForm> {
                 maxLines: 10,
                 decoration: InputDecoration(
                   errorText: _descValidator,
-                  hintText: AppLocalizations.of(context)!.descriptionHint,
-                  labelText: '${AppLocalizations.of(context)!.description2} *',
+                  hintText: translate('descriptionHint'),
+                  labelText: '${translate('description2')} *',
                   prefixIcon: const Icon(FontAwesomeIcons.wrench),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -204,8 +204,8 @@ class _ServiceFormState extends State<ServiceForm> {
                       controller: kmController,
                       decoration: InputDecoration(
                         errorText: _kmValidator,
-                        hintText: AppLocalizations.of(context)!.serviceMileageHint,
-                        labelText: '${AppLocalizations.of(context)!.serviceMileage2} *',
+                        hintText: translate('serviceMileageHint'),
+                        labelText: '${translate('serviceMileage2')} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -229,8 +229,8 @@ class _ServiceFormState extends State<ServiceForm> {
                       enabled: !_isLoading,
                       decoration: InputDecoration(
                         errorText: _costValidator,
-                        hintText: AppLocalizations.of(context)!.costHint,
-                        labelText: '${AppLocalizations.of(context)!.cost2} *',
+                        hintText: translate('costHint'),
+                        labelText: '${translate('cost2')} *',
                         prefixIcon: const Icon(Icons.euro),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -246,7 +246,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                '${AppLocalizations.of(context)!.selectADate} *' :
+                '${translate('selectADate')} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -273,7 +273,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           });
                         }
                       },
-                      label: Text(AppLocalizations.of(context)!.pickADate),
+                      label: Text(translate('pickADate')),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -287,7 +287,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.todayDate, minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(
@@ -305,7 +305,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedAddress == null ?
-                AppLocalizations.of(context)!.selectLocation :
+                translate('selectLocation') :
                 _selectedAddress!,
                 style: const TextStyle(
                     fontSize: 22,
@@ -339,7 +339,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = data["coordinates"]!;
                         });
                       },
-                      label: Text(AppLocalizations.of(context)!.pickAPlace),
+                      label: Text(translate('pickAPlace')),
                       icon: const Icon(Icons.map),
                     ),
                   ),
@@ -354,7 +354,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.error,
@@ -369,7 +369,7 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 20),
 
               DividerWithText(
-                  text: AppLocalizations.of(context)!.nextServiceInfo,
+                  text: translate('nextServiceInfo'),
                   lineColor: Colors.black,
                   textColor: Colors.black,
                   textSize: 16
@@ -389,8 +389,8 @@ class _ServiceFormState extends State<ServiceForm> {
                 controller: nextKmController,
                 decoration: InputDecoration(
                   errorText: _nextKmValidator,
-                  hintText: AppLocalizations.of(context)!.nextServiceMileageHint,
-                  labelText: AppLocalizations.of(context)!.nextServiceMileage,
+                  hintText: translate('nextServiceMileageHint'),
+                  labelText: translate('nextServiceMileage'),
                   prefixIcon: const Icon(Icons.next_plan_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -403,7 +403,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedNextDate == null ?
-                AppLocalizations.of(context)!.selectNextServiceDate :
+                translate('selectNextServiceDate') :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -430,7 +430,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           });
                         }
                       },
-                      label: Text(AppLocalizations.of(context)!.pickADate),
+                      label: Text(translate('pickADate')),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -444,7 +444,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedNextDate = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, AppLocalizations.of(context)!.removeLocation, minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.error,
@@ -464,16 +464,16 @@ class _ServiceFormState extends State<ServiceForm> {
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     var isParsed = double.tryParse(field);
     if (isParsed == null) {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     if (isParsed < 0) {
-      return AppLocalizations.of(context)!.cannotBeNegative;
+      return translate('cannotBeNegative');
     }
 
     return null;
@@ -484,7 +484,7 @@ class _ServiceFormState extends State<ServiceForm> {
       return null;
     }
     else if (double.parse(field) < 0) {
-      return AppLocalizations.of(context)!.cannotBeNegative;
+      return translate('cannotBeNegative');
     }
 
     return null;
@@ -492,7 +492,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return AppLocalizations.of(context)!.cannotBeEmpty;
+      return translate('cannotBeEmpty');
     }
 
     return null;

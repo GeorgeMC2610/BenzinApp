@@ -6,7 +6,7 @@ import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../services/managers/token_manager.dart';
 import 'about/terms_and_conditions.dart';
 import 'package:http/http.dart' as http;
@@ -38,37 +38,37 @@ class _RegisterPageState extends State<RegisterPage> {
     // empty checks
     setState(() {
       usernameError = usernameController.text.trim().isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       passwordError = passwordController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       passwordConfirmError = passwordConfirmController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       manufacturerError = manufacturerController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       modelError = modelController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       yearError = yearController.text.isEmpty?
-      AppLocalizations.of(context)!.cannotBeEmpty :
+      translate('cannotBeEmpty') :
       null;
 
       // other checks
       yearError ??= int.parse(yearController.text) < 1886 ?
-      AppLocalizations.of(context)!.carsNotExistingBackThen :
+      translate('carsNotExistingBackThen') :
         null;
 
       if (passwordConfirmError == null && passwordError == null) {
         passwordConfirmError = passwordConfirmController.text != passwordController.text ?
-        AppLocalizations.of(context)!.confirmPasswordCorrectly :
+        translate('confirmPasswordCorrectly') :
         null;
       }
     });
@@ -96,13 +96,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (result) {
       setState(() {
-        usernameError = AppLocalizations.of(context)!.usernameAlreadyTaken;
+        usernameError = translate('usernameAlreadyTaken');
       });
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.successfullyCreatedAccount),
+            content: Text(translate('successfullyCreatedAccount')),
           )
       );
 
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(AppLocalizations.of(context)!.registerToBenzinApp),
+          title: Text(translate('registerToBenzinApp')),
           actions: [
             IconButton(
               onPressed: () {
@@ -148,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: Theme.of(context).colorScheme.inversePrimary
                 ),
                 label: Text(
-                  AppLocalizations.of(context)!.register,
+                  translate('register'),
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -175,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Center(
                       child: AutoSizeText(
-                        AppLocalizations.of(context)!.welcome,
+                        translate('welcome'),
                         maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
@@ -196,12 +196,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 20),
 
-                  Text(AppLocalizations.of(context)!.agreeToTheTandC),
+                  Text(translate('agreeToTheTandC')),
 
                   const SizedBox(height: 20),
 
                   DividerWithText(
-                    text: AppLocalizations.of(context)!.accountDetails,
+                    text: translate('accountDetails'),
                     textSize: 17,
                     lineColor: Colors.black, textColor: Colors.black,
                   ),
@@ -215,8 +215,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       errorText: usernameError,
-                      hintText: AppLocalizations.of(context)!.usernameRegisterHint,
-                      labelText: AppLocalizations.of(context)!.username,
+                      hintText: translate('usernameRegisterHint'),
+                      labelText: translate('username'),
                       prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -237,8 +237,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: true,
                           decoration: InputDecoration(
                             errorText: passwordError,
-                            hintText: AppLocalizations.of(context)!.passwordHint,
-                            labelText: AppLocalizations.of(context)!.password,
+                            hintText: translate('passwordHint'),
+                            labelText: translate('password'),
                             prefixIcon: const Icon(Icons.lock),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -256,8 +256,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: true,
                           decoration: InputDecoration(
                             errorText: passwordConfirmError,
-                            hintText: AppLocalizations.of(context)!.passwordConfirmationHint,
-                            labelText: AppLocalizations.of(context)!.passwordConfirmation,
+                            hintText: translate('passwordConfirmationHint'),
+                            labelText: translate('passwordConfirmation'),
                             suffixIcon: const Icon(Icons.lock_outline),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -273,7 +273,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 50),
 
                   DividerWithText(
-                    text: AppLocalizations.of(context)!.carDetails,
+                    text: translate('carDetails'),
                     textSize: 17,
                     lineColor: Colors.black, textColor: Colors.black,
                   ),
@@ -287,8 +287,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       errorText: manufacturerError,
-                      hintText: AppLocalizations.of(context)!.carManufacturerHint,
-                      labelText: AppLocalizations.of(context)!.carManufacturer,
+                      hintText: translate('carManufacturerHint'),
+                      labelText: translate('carManufacturer'),
                       prefixIcon: const Icon(Icons.car_rental),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -309,8 +309,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             errorText: modelError,
-                            hintText: AppLocalizations.of(context)!.carModelHint,
-                            labelText: AppLocalizations.of(context)!.carModel,
+                            hintText: translate('carModelHint'),
+                            labelText: translate('carModel'),
                             prefixIcon: const Icon(Icons.car_rental_outlined),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -327,8 +327,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           keyboardType: const TextInputType.numberWithOptions(signed: true),
                           decoration: InputDecoration(
                             errorText: yearError,
-                            hintText: AppLocalizations.of(context)!.carYearHint,
-                            labelText: AppLocalizations.of(context)!.carYear,
+                            hintText: translate('carYearHint'),
+                            labelText: translate('carYear'),
                             suffixIcon: const Icon(Icons.calendar_month),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),

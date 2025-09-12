@@ -7,7 +7,7 @@ import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
 import 'package:benzinapp/views/overview_cards/total_cost_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
 
@@ -49,7 +49,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
           children: [
 
             // logged in as <username> text.
-            Text(AppLocalizations.of(context)!.loggedInAs(username ?? '-')),
+            Text(translate('loggedInAs', args: {'username': username ?? '-'})),
 
             const SizedBox(height: 10),
 

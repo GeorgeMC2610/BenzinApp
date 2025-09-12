@@ -7,7 +7,7 @@ import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/home.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -101,7 +101,7 @@ class _StartState extends State<Start> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                LoginPage(message: AppLocalizations.of(context)!.sessionEnded),
+                LoginPage(message: translate('sessionEnded')),
           )
       );
     }

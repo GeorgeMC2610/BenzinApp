@@ -4,7 +4,7 @@ import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../forms/service.dart';
 import '../shared/dialogs/delete_dialog.dart';
 import '../shared/shared_font_styles.dart';
@@ -32,7 +32,7 @@ class _ViewServiceState extends State<ViewService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.serviceData),
+        title: Text(translate('serviceData')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -58,13 +58,13 @@ class _ViewServiceState extends State<ViewService> {
               foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.edit),
-            label: Text(AppLocalizations.of(context)!.edit)
+            label: Text(translate('edit'))
         ),
         ElevatedButton.icon(
             onPressed: () {
               DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteService,
+                  translate('confirmDeleteService'),
                       (Function(bool) setLoadingState) async {
 
                       await ServiceManager().delete(widget.service);
@@ -78,7 +78,7 @@ class _ViewServiceState extends State<ViewService> {
               foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
             ),
             icon: const Icon(Icons.delete),
-            label: Text(AppLocalizations.of(context)!.delete)
+            label: Text(translate('delete'))
         )
       ],
       body: SingleChildScrollView(
@@ -101,7 +101,7 @@ class _ViewServiceState extends State<ViewService> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.dateDone, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('dateDone'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
                             style: SharedFontStyles.descriptiveTextStyle
@@ -109,7 +109,7 @@ class _ViewServiceState extends State<ViewService> {
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.serviceMileage, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('serviceMileage'), style: SharedFontStyles.legendTextStyle),
                         Text(
                           '${LocaleStringConverter.formattedBigInt(context, service.kilometersDone)} km',
                           style: SharedFontStyles.descriptiveTextStyle
@@ -117,7 +117,7 @@ class _ViewServiceState extends State<ViewService> {
 
                         const SizedBox(height: 20),
 
-                        Text(AppLocalizations.of(context)!.cost, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
                         Text(
                             '€${LocaleStringConverter.formattedDouble(context, service.cost!)}',
                             style: SharedFontStyles.descriptiveTextStyle
@@ -141,7 +141,7 @@ class _ViewServiceState extends State<ViewService> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.description, style: SharedFontStyles.legendTextStyle),
+                        Text(translate('description'), style: SharedFontStyles.legendTextStyle),
                         Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
                       ],
                     ),
@@ -164,7 +164,7 @@ class _ViewServiceState extends State<ViewService> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizations.of(context)!.nextAtKm, style: SharedFontStyles.legendTextStyle),
+                            Text(translate('nextAtKm'), style: SharedFontStyles.legendTextStyle),
                             Text(
                                 getNextServiceInfo(),
                                 style: SharedFontStyles.descriptiveTextStyle
@@ -186,7 +186,7 @@ class _ViewServiceState extends State<ViewService> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocalizations.of(context)!.location, style: SharedFontStyles.legendTextStyle),
+                            Text(translate('location'), style: SharedFontStyles.legendTextStyle),
                             Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
                               child: service.location == null ? const SizedBox() : ElevatedButton.icon(
@@ -201,7 +201,7 @@ class _ViewServiceState extends State<ViewService> {
                                     )
                                   );
                                 },
-                                label: AutoSizeText(AppLocalizations.of(context)!.seeOnMap, maxLines: 1, minFontSize: 8),
+                                label: AutoSizeText(translate('seeOnMap'), maxLines: 1, minFontSize: 8),
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -226,16 +226,16 @@ class _ViewServiceState extends State<ViewService> {
     if (service.nextServiceKilometers == null && service.nextServiceDate == null) return '-';
 
     if (service.nextServiceKilometers == null) {
-      return '${AppLocalizations.of(context)!.before} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+      return '${translate('before')} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
     }
 
     if (service.nextServiceDate == null) {
-      return '${AppLocalizations.of(context)!.at} ${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km';
+      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km';
     }
 
-    return '${AppLocalizations.of(context)!.at} '
+    return '${translate('at')} '
         '${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km '
-        '${AppLocalizations.of(context)!.orBefore} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+        '${translate('orBefore')} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
 
   }
 }

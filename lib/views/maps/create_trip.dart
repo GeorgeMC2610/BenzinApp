@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -96,7 +96,7 @@ class _CreateTripState extends State<CreateTrip> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.createTrip),
+        title: Text(translate('createTrip')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -114,7 +114,7 @@ class _CreateTripState extends State<CreateTrip> {
             Navigator.pop<Map<String, dynamic>>(context, data);
           },
           icon: const Icon(Icons.check),
-          label: Text(AppLocalizations.of(context)!.confirmTrip),
+          label: Text(translate('confirmTrip')),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
             minimumSize: const Size(200, 55),
@@ -141,8 +141,8 @@ class _CreateTripState extends State<CreateTrip> {
                     });
                   },
                   tabs: [
-                    Tab(text: AppLocalizations.of(context)!.origin),
-                    Tab(text: AppLocalizations.of(context)!.destination),
+                    Tab(text: translate('origin')),
+                    Tab(text: translate('destination')),
                   ],
                 ),
 
@@ -166,8 +166,8 @@ class _CreateTripState extends State<CreateTrip> {
                             ],
                             textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
-                              hintText: AppLocalizations.of(context)!.searchAddressHintOrigin,
-                              labelText: AppLocalizations.of(context)!.searchAddress,
+                              hintText: translate('searchAddressHintOrigin'),
+                              labelText: translate('searchAddress'),
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.0),
@@ -187,8 +187,8 @@ class _CreateTripState extends State<CreateTrip> {
                                 _addMarkerFromAddress(value, false);
                               },
                               decoration: InputDecoration(
-                                hintText: AppLocalizations.of(context)!.searchAddressHintDestination,
-                                labelText: AppLocalizations.of(context)!.searchAddress,
+                                hintText: translate('searchAddressHintDestination'),
+                                labelText: translate('searchAddress'),
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
@@ -207,7 +207,7 @@ class _CreateTripState extends State<CreateTrip> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text(AppLocalizations.of(context)!.typeAnAddress),
+            child: Text(translate('typeAnAddress')),
           ),
 
           Expanded( // Google Map should remain Expanded
@@ -275,7 +275,7 @@ class _CreateTripState extends State<CreateTrip> {
 
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context)!.noPlacesFoundWithThisAddress)));
+            SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
         return;
       }
 
@@ -306,7 +306,7 @@ class _CreateTripState extends State<CreateTrip> {
       debugPrint("Error fetching address: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.noPlacesFoundWithThisAddress)
+          content: Text(translate('noPlacesFoundWithThisAddress'))
         )
       );
     }
@@ -321,8 +321,8 @@ class _CreateTripState extends State<CreateTrip> {
           isOrigin ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
       visible: true,
       infoWindow: InfoWindow(title: isOrigin ?
-      AppLocalizations.of(context)!.origin :
-      AppLocalizations.of(context)!.destination,
+      translate('origin') :
+      translate('destination'),
           snippet: address
       ),
     );
@@ -352,7 +352,7 @@ class _CreateTripState extends State<CreateTrip> {
     if (decodedBody['routes'].isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(AppLocalizations.of(context)!.noTripsFound)
+              content: Text(translate('noTripsFound'))
           )
       );
       return;

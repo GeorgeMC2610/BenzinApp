@@ -2,7 +2,7 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +70,7 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
             onPressed: () {
               DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteMalfunction,
+                  translate('confirmDeleteMalfunction'),
                       (Function(bool) setLoadingState) async {
 
                       await MalfunctionManager().delete(widget.malfunction);
@@ -93,7 +93,7 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           Text(widget.malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
           _getStatus(),
           _getSeverity(),
-          Text("${AppLocalizations.of(context)!.discoveredAt} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
+          Text("${translate('discoveredAt')} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
@@ -107,8 +107,8 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
       children: [
         Text(
           isFixed
-              ? AppLocalizations.of(context)!.fixedMalfunction
-              : AppLocalizations.of(context)!.ongoingMalfunction,
+              ? translate('fixedMalfunction')
+              : translate('ongoingMalfunction'),
           style: TextStyle(
             fontSize: 14,
             color: isFixed ? Colors.green : Colors.red,
@@ -141,11 +141,11 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
 
   Map<int, String> severityStringIndex(context) {
     return {
-      1: AppLocalizations.of(context)!.severityLowest,
-      2: AppLocalizations.of(context)!.severityLow,
-      3: AppLocalizations.of(context)!.severityNormal,
-      4: AppLocalizations.of(context)!.severityHigh,
-      5: AppLocalizations.of(context)!.severityHighest
+      1: translate('severityLowest'),
+      2: translate('severityLow'),
+      3: translate('severityNormal'),
+      4: translate('severityHigh'),
+      5: translate('severityHighest')
     };
   }
 

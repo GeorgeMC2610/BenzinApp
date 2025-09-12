@@ -4,7 +4,7 @@ import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/data_holder.dart';
@@ -69,7 +69,7 @@ class _ServiceCardState extends State<ServiceCard> {
             onPressed: () {
               DeleteDialog.show(
                   context,
-                  AppLocalizations.of(context)!.confirmDeleteService,
+                  translate('confirmDeleteService'),
                       (Function(bool) setLoadingState) async {
 
                       await ServiceManager().delete(widget.service);
@@ -91,7 +91,7 @@ class _ServiceCardState extends State<ServiceCard> {
         children: [
           Text(widget.service.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, widget.service.cost!)}", style: const TextStyle(fontSize: 16)),
           Text(widget.service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 15)),
-          Text("${AppLocalizations.of(context)!.nextAtKm} ${getNextServiceInfo()}", style: const TextStyle(fontSize: 12)),
+          Text("${translate('nextAtKm')} ${getNextServiceInfo()}", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
@@ -101,16 +101,16 @@ class _ServiceCardState extends State<ServiceCard> {
     if (widget.service.nextServiceKilometers == null && widget.service.nextServiceDate == null) return '-';
 
     if (widget.service.nextServiceKilometers == null) {
-      return '${AppLocalizations.of(context)!.before} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+      return '${translate('before')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
     }
 
     if (widget.service.nextServiceDate == null) {
-      return '${AppLocalizations.of(context)!.at} ${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km';
+      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km';
     }
 
-    return '${AppLocalizations.of(context)!.at} '
+    return '${translate('at')} '
         '${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km '
-        '${AppLocalizations.of(context)!.orBefore} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+        '${translate('orBefore')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
 
   }
 
