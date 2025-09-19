@@ -54,7 +54,7 @@ class RequestHandler {
     var url = Uri.parse(uri);
     var headers = authorizationHeaders();
 
-    final response = await client.put(
+    final response = await client.patch(
         url,
         headers: headers,
         body: json.encode(body)

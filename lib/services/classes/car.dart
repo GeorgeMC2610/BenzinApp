@@ -16,9 +16,9 @@ class Car {
 
   final int id;
   final String username;
-  final String manufacturer;
-  final String model;
-  final int year;
+  String manufacturer;
+  String model;
+  int year;
 
   static Car fromJson(Map<String, dynamic> object) => Car(
     id: object[CarFields.id],
@@ -36,7 +36,7 @@ class Car {
 
   /// Total Consumption (Liters / 100 km)
   static double getTotalConsumption() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
 
     if (fuelFills.length <= 1) return 0;
 
@@ -52,7 +52,7 @@ class Car {
 
   /// Efficiency (km / L)
   static double getTotalEfficiency() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
 
     if (fuelFills.length <= 1) return 0;
 
@@ -67,7 +67,7 @@ class Car {
 
   /// Travel cost per km (EUR / km)
   static double getTotalTravelCost() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
 
     if (fuelFills.length <= 1) return 0;
 
@@ -82,41 +82,41 @@ class Car {
 
   /// Total liters filled
   static double getTotalLitersFilled() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     return fuelFills.fold<double>(0, (sum, f) => sum + f.liters);
   }
 
   /// Total kilometers traveled
   static double getTotalKilometersTraveled() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     return fuelFills.fold<double>(0, (sum, f) => sum + f.kilometers);
   }
 
   /// Total costs: Fuel only
   static double getTotalFuelFillCosts() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     return fuelFills.fold<double>(0, (sum, f) => sum + f.cost);
   }
 
   /// Total costs: Malfunctions only
   static double getTotalMalfunctionCosts() {
-    final malfunctions = MalfunctionManager().local!;
+    final malfunctions = MalfunctionManager().local;
     return malfunctions.fold<double>(
         0, (sum, m) => sum + (m.cost ?? 0));
   }
 
   /// Total costs: Services only
   static double getTotalServiceCosts() {
-    final services = ServiceManager().local!;
+    final services = ServiceManager().local;
     return services.fold<double>(
         0, (sum, s) => sum + (s.cost ?? 0));
   }
 
   /// Total costs: Fuel + Services + Malfunctions
   static double getTotalCost() {
-    final fuelFills = FuelFillRecordManager().local!;
-    final services = ServiceManager().local!;
-    final malfunctions = MalfunctionManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
+    final services = ServiceManager().local;
+    final malfunctions = MalfunctionManager().local;
 
     return fuelFills.fold<double>(0, (sum, f) => sum + f.cost) +
         services.fold<double>(0, (sum, s) => sum + (s.cost ?? 0)) +
@@ -125,7 +125,7 @@ class Car {
 
   /// Best efficiency (max km/L)
   static double getBestEfficiency() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     final efficiencies = fuelFills
         .where((f) => f.getNext() != null)
         .map((f) => f.getEfficiency());
@@ -135,7 +135,7 @@ class Car {
 
   /// Worst efficiency (min km/L)
   static double getWorstEfficiency() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     final efficiencies = fuelFills
         .where((f) => f.getNext() != null)
         .map((f) => f.getEfficiency());
@@ -145,7 +145,7 @@ class Car {
 
   /// Best travel cost (min EUR/km)
   static double getBestTravelCost() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     final travelCosts = fuelFills
         .where((f) => f.getNext() != null)
         .map((f) => f.getTravelCost());
@@ -155,7 +155,7 @@ class Car {
 
   /// Worst travel cost (max EUR/km)
   static double getWorstTravelCost() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     final travelCosts = fuelFills
         .where((f) => f.getNext() != null)
         .map((f) => f.getTravelCost());
@@ -165,7 +165,7 @@ class Car {
 
   /// Most recent odometer reading
   static int? getMostRecentTotalKilometers() {
-    final fuelFills = FuelFillRecordManager().local!;
+    final fuelFills = FuelFillRecordManager().local;
     if (fuelFills.isEmpty) return null;
     return fuelFills.first.totalKilometers;
   }

@@ -2,6 +2,7 @@ import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
+import 'package:benzinapp/views/forms/car_edit.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -101,8 +102,15 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
                 ListTile(
                   title: Text(translate('editAccount')),
-                  enabled: false,
-                  onTap: null,
+                  enabled: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditCar()
+                        )
+                    );
+                  },
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.edit),
                 ),

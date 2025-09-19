@@ -296,5 +296,8 @@
   "startCost": "From cost",
   "endCost": "To cost",
   "discard": "Discard",
-  "apply": "Apply"
+  "apply": "Apply",
+
+  "editCar": "Edit Car",
+  "successfullyUpdatedCar": "Successfully updated Car info."
 }

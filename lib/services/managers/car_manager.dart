@@ -31,7 +31,12 @@ class CarManager with ChangeNotifier {
     car = Car.fromJson(jsonResponse);
   }
 
-  Future<Car> update(Car modified) async {
-    throw UnimplementedError();
+  Future<void> update(Car modified) async {
+    final response = await RequestHandler.sendPatchRequest(uri, car!.toJson());
+    final jsonResponse = json.decode(response.body);
+    final updated = Car.fromJson(jsonResponse);
+
+    car = updated;
+    notifyListeners();
   }
 }
