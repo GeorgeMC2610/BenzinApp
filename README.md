@@ -1,16 +1,12 @@
-# benzinapp
+# BenzinApp
 
-BenzinApp's
+BenzinApp's official repository for the **X-Platform Mobile App** version, written in Dart using Flutter.
 
 ## Getting Started
+Currently, the app is **unavailable** to be installed from any official store (Google Play Store/Apple Store). So, in order to install it, you must download the .apk version, which is only **available for Android**. To install it in your Android Device, navigate to the [Releases](https://github.com/GeorgeMC2610/BenzinApp/releases) and download the **latest version**.
 
-This project is a starting point for a Flutter application.
+### 1. Logging in or Signing up
+If you haven't already, created an account, navigate to the Register page of the app and create an account. **Currently, an account consists of a username-password combination**.
+Enter you car's info and you'll be navigated to the home page.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 
