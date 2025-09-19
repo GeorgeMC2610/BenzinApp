@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,8 @@ class _RegisterPageState extends State<RegisterPage> {
             content: Text(translate('successfullyCreatedAccount')),
           )
       );
+
+      await DataHolder().initializeValues();
 
       Navigator.pop(context);
       Navigator.pushReplacement(

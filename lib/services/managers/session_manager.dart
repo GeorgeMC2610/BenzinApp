@@ -64,6 +64,7 @@ class SessionManager {
     final response = await RequestHandler.sendPostRequest(signupUri, false, body);
 
     if (response.statusCode == 201) {
+      await TokenManager().removeToken();
       await TokenManager().setToken(jsonDecode(response.body)['auth_token']);
 
       isLoggedIn = true;
