@@ -1,3 +1,4 @@
+import 'package:benzinapp/views/drawer/fuel_fill_drawer.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/forms/trip.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _title = '';
   int _selectedTabIndex = 0;
@@ -95,6 +97,7 @@ class _HomePageState extends State<HomePage> {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
+          // TODO: Convert to new notification.
           SnackBar(content: Text(translate('enableLocationSetting')))
         );
         return;
@@ -108,6 +111,7 @@ class _HomePageState extends State<HomePage> {
           break;
         case LocationPermission.deniedForever:
           ScaffoldMessenger.of(context).showSnackBar(
+            // TODO: Convert to new notification.
               SnackBar(content: Text(translate('permissionDeniedForever')))
           );
           break;
@@ -124,16 +128,19 @@ class _HomePageState extends State<HomePage> {
         switch (requestedPermission) {
           case LocationPermission.denied:
             ScaffoldMessenger.of(context).showSnackBar(
+              // TODO: Convert to new notification.
                 SnackBar(content: Text(translate('mustGrantPermissionToUseThis')))
             );
             return;
           case LocationPermission.deniedForever:
             ScaffoldMessenger.of(context).showSnackBar(
+              // TODO: Convert to new notification.
                 SnackBar(content: Text(translate('permissionDeniedForever')))
             );
             return;
           case LocationPermission.unableToDetermine:
             ScaffoldMessenger.of(context).showSnackBar(
+              // TODO: Convert to new notification.
                 SnackBar(content: Text(translate('unableToDeterminePermissionStatus')))
             );
             return;
@@ -151,6 +158,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  List<Widget> getActions() {
+    switch (_selectedTabIndex) {
+      case 1:
+        return [
+          IconButton(
+              onPressed: () {
+                _scaffoldKey.currentState?.openEndDrawer();
+                },
+              icon: const Icon(Icons.filter_alt_sharp))
+        ];
+      case 2:
+      case 3:
+      default:
+        return [];
+    }
+  }
+
+  Widget? endDrawer() {
+    switch (_selectedTabIndex) {
+      case 1:
+        return const FuelFillDrawer();
+      case 2:
+      case 3:
+      default:
+        return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +192,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: getActions(),
         title: Text(_title),
       ),
+      key: _scaffoldKey,
+      endDrawer: endDrawer(),
       body: _buildBody(_selectedTabIndex, context),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(this.context).colorScheme.inversePrimary,

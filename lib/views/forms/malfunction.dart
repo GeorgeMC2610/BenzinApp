@@ -1,16 +1,13 @@
-import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../services/data_holder.dart';
 import '../../services/locale_string_converter.dart';
 import '../maps/select_location.dart';
+import '../shared/buttons/persistent_add_or_edit_button.dart';
 import '../shared/divider_with_text.dart';
-import 'package:http/http.dart' as http;
 
 class MalfunctionForm extends StatefulWidget {
   const MalfunctionForm({super.key, this.malfunction, this.isViewing = false});
@@ -125,6 +122,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
           SnackBar(
             content: Text(dateValidator!),
           )
@@ -150,6 +148,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
         SnackBar(
           content: Text(dateValidator!),
         )
@@ -158,6 +157,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
     if (_selectedDateEnded == null) {
       ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
         SnackBar(
           content: Text(endedDateValidator!),
         )
@@ -178,28 +178,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
-        ElevatedButton.icon(
-          onPressed: _isLoading ? null : _buttonSubmit,
-          icon: _isLoading ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(
-                value: null,
-                strokeWidth: 5,
-                strokeCap: StrokeCap.square,
-              )
-          ) : Icon(
-              widget.malfunction == null ?
-              Icons.add : Icons.check
-          ),
-          label: widget.malfunction == null ?
-          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
-          style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-              )
-          ),
-        ),
+        PersistentAddOrEditButton(
+          onPressed: _buttonSubmit,
+          isEditing: widget.malfunction != null,
+          isLoading: _isLoading,
+        )
       ],
       body: SingleChildScrollView(
         child: Padding(
@@ -208,8 +191,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
             children: [
               DividerWithText(
                   text: translate('malfunctionData'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
               ),
 
@@ -379,10 +362,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       },
                       label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
-                          )
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
                       ),
                     ),
                   ),
@@ -432,8 +414,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
         DividerWithText(
             text: translate('repairData'),
-            lineColor: Colors.black,
-            textColor: Colors.black,
+            lineColor: Colors.grey,
+            textColor: Theme.of(context).colorScheme.primary,
             textSize: 16
         ),
 
@@ -512,8 +494,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                 icon: const Icon(Icons.more_time_rounded),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).buttonTheme.colorScheme!.inversePrimary
-
+                    backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
                 ),
               ),
             ),
@@ -578,7 +560,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 icon: const Icon(Icons.cancel),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary
+                    foregroundColor: Theme.of(context).colorScheme.onError
                 ),
               ),
             )

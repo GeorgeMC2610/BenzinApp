@@ -69,6 +69,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
       List<Location> locations =
           await GeocodingPlatform.instance?.locationFromAddress(value) ?? [];
 
+      // TODO: Convert to new notification.
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
@@ -102,6 +103,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
       await Future.delayed(const Duration(milliseconds: 50));
       await _googleMapController.showMarkerInfoWindow(const MarkerId('Location'));
     } catch (e) {
+      // TODO: Convert to new notification.
       debugPrint("Error fetching address: $e");
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));

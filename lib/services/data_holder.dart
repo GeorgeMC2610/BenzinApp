@@ -10,7 +10,7 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'http://192.168.68.71:3000';
+  static const String destination = 'https://benzin-app.fly.dev';
 
   Future<void> initializeValues() async {
     await FuelFillRecordManager().index();
@@ -27,4 +27,6 @@ class DataHolder {
     TripManager().destroyValues();
     CarManager().car = null;
   }
+
+  String getPlacesApiKey() => const String.fromEnvironment("BENZINAPP_PLACES_KEY");
 }

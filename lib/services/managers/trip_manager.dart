@@ -21,5 +21,8 @@ class TripManager extends AbstractManager<Trip> {
   String get responseKeyword => "repeated_trip";
 
   @override
+  int compare(Trip a, Trip b) => b.created.compareTo(a.created);
+
+  @override
   Map<String, dynamic> toJson(Trip model) => model.toJson();
 }

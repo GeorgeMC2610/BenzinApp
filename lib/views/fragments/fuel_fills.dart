@@ -51,68 +51,38 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
     )
   );
 
-  Widget normalBody() => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    child: RefreshIndicator(
+  Widget normalBody() => RefreshIndicator(
       onRefresh: refreshFuelFills,
       child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            // BUTTON FILTERS AND SEARCH
-            Row(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                FilledButton.icon (
-                  onPressed: () {},
-                  label: Text(translate('filters')),
-                  icon: const Icon(Icons.filter_list),
+                // TOTAL RECORDS
+                Text(
+                    fuelFillRecordCount() == 1 ?
+                    translate('oneRecord') :
+                    translate('totalRecords', args: {'totalRecords': fuelFillRecordCount()})
                 ),
 
-                const SizedBox(width: 5),
-
-                Expanded(
-                  child: TextField(
-                    style: const TextStyle(
-                        height: 1
-                    ),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        hintText: translate('searchInFuelFills'),
-                        fillColor: Theme.of(context).colorScheme.onSecondary
-                    ),
+                if (FuelFillRecordManager().filter != null)
+                  Text(
+                      FuelFillRecordManager().localOrFiltered.length == 1 ?
+                      translate('oneRecordWithFilters') :
+                      translate('totalFilteredRecords', args: {'totalRecords': FuelFillRecordManager().localOrFiltered.length})
                   ),
-                )
+
+                YearMonthFuelFillGroups(records: FuelFillRecordManager().localOrFiltered),
+
+                const SizedBox(height: 75)
 
               ],
             ),
-
-            const SizedBox(height: 5),
-
-            // TOTAL RECORDS
-            Text(
-                fuelFillRecordCount() == 1 ?
-                translate('oneRecord') :
-                translate('totalRecords', args: {'totalRecords': FuelFillRecordManager().local.length})
-            ),
-
-            const SizedBox(height: 10),
-
-            YearMonthFuelFillGroups(records: FuelFillRecordManager().local),
-
-            const SizedBox(height: 75)
-
-          ],
+          )
         ),
-      ),
-    ),
   );
 
   Future<void> refreshFuelFills() async {

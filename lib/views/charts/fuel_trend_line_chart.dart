@@ -1,15 +1,17 @@
-import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 
 class FuelTrendLineChart extends StatelessWidget {
   const FuelTrendLineChart({
-      super.key,
-      required this.data,
-      required this.size,
-      required this.focusType,
-      required this.context,
+    super.key,
+    required this.data,
+    required this.size,
+    required this.focusType,
+    required this.context,
   });
 
   final List<FuelFillRecord> data;
@@ -21,124 +23,73 @@ class FuelTrendLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-            child: Text(
-          _getMetric(),
-          style: const TextStyle(
-            letterSpacing: 0,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
-
-        const SizedBox(height: 15),
-
         SizedBox(
+          key: ValueKey(focusType),
           height: size,
-          child: LineChart(
-            LineChartData(
-              gridData: const FlGridData(show: true),
-              titlesData: FlTitlesData(
-                leftTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: true, reservedSize: 50),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: true, reservedSize: 50),
-                ),
-                topTitles: const AxisTitles(),
-                bottomTitles: AxisTitles(
-                  axisNameSize: 50,
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 77,
-                    getTitlesWidget: (value, meta) {
-                      return SideTitleWidget(
-                        axisSide: AxisSide.top,
-                        angle: 1.2,
-                        space: 50,
-                        child: Text(
-                          _formatDate(value.toInt()),
-                          style: const TextStyle(fontSize: 10),
-                        ),
-                      );
-                    },
+          child: SfCartesianChart(
+            primaryXAxis: DateTimeAxis(
+              edgeLabelPlacement: EdgeLabelPlacement.shift,
+              dateFormat: DateFormat("yyyy-MM-dd"),
+              intervalType: DateTimeIntervalType.days,
+              majorGridLines: const MajorGridLines(width: 0.5),
+            ),
+            primaryYAxis: const NumericAxis(
+              opposedPosition: true,
+              labelFormat: '{value}',
+              majorGridLines: MajorGridLines(width: 0.5),
+            ),
+            zoomPanBehavior: ZoomPanBehavior(
+              enablePinching: true,      // pinch to zoom
+              enablePanning: true,       // drag to move
+              zoomMode: ZoomMode.x,      // zoom horizontally (or ZoomMode.xy)
+              enableDoubleTapZooming: true
+            ),
+            title: ChartTitle(text: _getMetric()),
+            tooltipBehavior: TooltipBehavior(
+              enable: true,
+              canShowMarker: true,
+              format: 'point.x : point.y',
+              builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _getLineColor(),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                ),
-              ),
-              borderData: FlBorderData(
-                show: true,
-                border: Border.all(color: Colors.black),
-              ),
-              lineTouchData: LineTouchData(
-                touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: _getLineColor(),
-                    tooltipPadding: const EdgeInsets.all(5),
-                    fitInsideHorizontally: true,
-                    fitInsideVertically: true,
-                    getTooltipItems: (spots) {
-                      return spots.map((spot) {
-                        return LineTooltipItem(
-                            'Date: ${_formatDate(spot.x.toInt())}\n\n '
-                            '${_getStringifiedFocusType()}: ${spot.y.toStringAsFixed(5)}',
-                            const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ));
-                      }).toList();
-                    }),
-                touchCallback:
-                    (FlTouchEvent event, LineTouchResponse? response) {
-                  if (event is FlPanStartEvent) {
-                    // Handle panning start
+                  child: Text(
+                    '${DateFormat("yyyy-MM-dd").format(data.dateTime)}\n\n'
+                        '${_getStringifiedFocusType()}\n '
+                        '${point.y.toStringAsFixed(3)} ${_getMetric()}',
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                );
+              },
+            ),
+            series: <CartesianSeries<FuelFillRecord, DateTime>>[
+              AreaSeries<FuelFillRecord, DateTime>(
+                dataSource: data,
+                xValueMapper: (ffr, _) => ffr.dateTime,
+                yValueMapper: (ffr, _) {
+                  switch (focusType) {
+                    case ChartDisplayFocus.consumption:
+                      return ffr.getConsumption();
+                    case ChartDisplayFocus.efficiency:
+                      return ffr.getEfficiency();
+                    case ChartDisplayFocus.travelCost:
+                      return ffr.getTravelCost();
                   }
                 },
-                handleBuiltInTouches: true,
-              ),
-              extraLinesData: const ExtraLinesData(),
-              lineBarsData: [
-                LineChartBarData(
-                  spots: _formatData(),
-                  isCurved: true,
-                  color: _getLineColor(),
-                  curveSmoothness: 0,
-                  barWidth: 2,
-                  isStrokeCapRound: false,
-                  belowBarData: BarAreaData(show: false),
+                color: _getLineColor().withOpacity(0.5),
+                borderColor: _getLineColor(),
+                markerSettings: const MarkerSettings(
+                  isVisible: true,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
-  }
-
-  String _formatDate(int timestamp) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return DateFormat("yyyy-MM-dd").format(date);
-  }
-
-  List<FlSpot> _formatData() {
-    switch (focusType) {
-      case ChartDisplayFocus.consumption:
-        return data.map((ffr) {
-          double xValue = ffr.dateTime.millisecondsSinceEpoch.toDouble();
-          double yValue = ffr.getConsumption();
-          return FlSpot(xValue, yValue);
-        }).toList();
-      case ChartDisplayFocus.efficiency:
-        return data.map((ffr) {
-          double xValue = ffr.dateTime.millisecondsSinceEpoch.toDouble();
-          double yValue = ffr.getEfficiency();
-          return FlSpot(xValue, yValue);
-        }).toList();
-      case ChartDisplayFocus.travelCost:
-        return data.map((ffr) {
-          double xValue = ffr.dateTime.millisecondsSinceEpoch.toDouble();
-          double yValue = ffr.getTravelCost();
-          return FlSpot(xValue, yValue);
-        }).toList();
-    }
   }
 
   Color _getLineColor() {
@@ -152,15 +103,14 @@ class FuelTrendLineChart extends StatelessWidget {
     }
   }
 
-  // TODO: Strings must be somehow localized
   String _getStringifiedFocusType() {
     switch (focusType) {
       case ChartDisplayFocus.consumption:
-        return 'Consumption';
+        return translate('consumption');
       case ChartDisplayFocus.efficiency:
-        return 'Efficiency';
+        return translate('efficiency');
       case ChartDisplayFocus.travelCost:
-        return 'Travel Cost';
+        return translate('travel_cost');
     }
   }
 

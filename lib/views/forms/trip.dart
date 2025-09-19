@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/create_trip.dart';
@@ -9,10 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../services/classes/trip.dart';
-import '../../services/data_holder.dart';
-import '../../services/request_handler.dart';
+import '../shared/buttons/persistent_add_or_edit_button.dart';
 
 class TripForm extends StatefulWidget {
   const TripForm({super.key, this.trip, this.isViewing = false});
@@ -64,6 +60,64 @@ class _TripFormState extends State<TripForm> {
     }
   }
 
+  submit() async {
+    setState(() {
+      _titleValidator = _emptyValidator(_titleController.text);
+      _timesRepeatingValidator = _validator(_timesRepeatingController.text);
+    });
+
+    if (polyline == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
+          SnackBar(
+            content: Text(translate('pleaseMakeATrip')),
+          )
+      );
+    }
+
+    if (_timesRepeatingValidator != null || _titleValidator != null || polyline == null) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (widget.trip == null) {
+      var newTrip = Trip(
+          id: -1, title: _titleController.text,
+          timesRepeating: int.parse(_titleController.text),
+          totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
+          originLatitude: originLatitude!, originLongitude: originLongitude!,
+          destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
+          originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
+      );
+
+      await TripManager().create(newTrip);
+      Navigator.pop(context);
+    }
+    else {
+      widget.trip!.title = _titleController.text;
+      widget.trip!.timesRepeating = int.parse(_titleController.text);
+      widget.trip!.totalKm = totalKm!;
+      widget.trip!.originLatitude = originLatitude!;
+      widget.trip!.originLongitude = originLongitude!;
+      widget.trip!.originAddress = originAddress!;
+      widget.trip!.destinationLongitude = destinationLongitude!;
+      widget.trip!.destinationLatitude = destinationLatitude!;
+      widget.trip!.polyline = polyline!;
+
+      await TripManager().update(widget.trip!);
+
+      if (widget.isViewing) {
+        Navigator.pop(context, widget.trip);
+      }
+      else {
+        Navigator.pop(context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -74,83 +128,11 @@ class _TripFormState extends State<TripForm> {
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
-        ElevatedButton.icon(
-          onPressed: _isLoading ? null : () async {
-            setState(() {
-              _titleValidator = _emptyValidator(_titleController.text);
-              _timesRepeatingValidator = _validator(_timesRepeatingController.text);
-            });
-
-            if (polyline == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(translate('pleaseMakeATrip')),
-                  )
-              );
-            }
-
-            if (_timesRepeatingValidator != null || _titleValidator != null || polyline == null) {
-              return;
-            }
-
-            setState(() {
-              _isLoading = true;
-            });
-
-            if (widget.trip == null) {
-              var newTrip = Trip(
-                  id: -1, title: _titleController.text,
-                  timesRepeating: int.parse(_titleController.text),
-                  totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
-                  originLatitude: originLatitude!, originLongitude: originLongitude!,
-                  destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
-                  originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
-              );
-
-              await TripManager().create(newTrip);
-              Navigator.pop(context);
-            }
-            else {
-              widget.trip!.title = _titleController.text;
-              widget.trip!.timesRepeating = int.parse(_titleController.text);
-              widget.trip!.totalKm = totalKm!;
-              widget.trip!.originLatitude = originLatitude!;
-              widget.trip!.originLongitude = originLongitude!;
-              widget.trip!.originAddress = originAddress!;
-              widget.trip!.destinationLongitude = destinationLongitude!;
-              widget.trip!.destinationLatitude = destinationLatitude!;
-              widget.trip!.polyline = polyline!;
-
-              await TripManager().update(widget.trip!);
-
-              if (widget.isViewing) {
-                Navigator.pop(context, widget.trip);
-              }
-              else {
-                Navigator.pop(context);
-              }
-            }
-          },
-          icon: _isLoading ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(
-                value: null,
-                strokeWidth: 5,
-                strokeCap: StrokeCap.square,
-              )
-          ) : Icon(
-              widget.trip == null ?
-              Icons.add : Icons.check
-          ),
-          label: widget.trip == null ?
-          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
-          style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-              )
-          ),
-        ),
+        PersistentAddOrEditButton(
+          onPressed: submit,
+          isEditing: widget.trip != null,
+          isLoading: _isLoading,
+        )
       ],
       body: SingleChildScrollView(
         child: Padding(
@@ -161,8 +143,8 @@ class _TripFormState extends State<TripForm> {
             children: [
               DividerWithText(
                   text: translate('tripInfo'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
               ),
 
@@ -371,12 +353,6 @@ class _TripFormState extends State<TripForm> {
     }
 
     return null;
-  }
-
-  void _whenCompleteRequest() {
-    setState(() {
-      _isLoading = false;
-    });
   }
 }
 

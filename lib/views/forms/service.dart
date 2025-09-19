@@ -9,6 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../shared/buttons/persistent_add_or_edit_button.dart';
+
 class ServiceForm extends StatefulWidget {
   const ServiceForm({super.key, this.service, this.isViewing = false});
 
@@ -45,6 +47,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
           SnackBar(
             content: Text(dateValidator!),
           )
@@ -128,28 +131,11 @@ class _ServiceFormState extends State<ServiceForm> {
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
-        ElevatedButton.icon(
-          onPressed: _isLoading ? null : _buttonSubmit,
-          icon: _isLoading ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(
-                value: null,
-                strokeWidth: 5,
-                strokeCap: StrokeCap.square,
-              )
-          ) : Icon(
-              widget.service == null ?
-              Icons.add : Icons.check
-          ),
-          label: widget.service == null ?
-          Text(translate('confirmAdd')) : Text(translate('confirmEdit')),
-          style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondaryFixed),
-              minimumSize: const WidgetStatePropertyAll(Size(200, 55),
-              )
-          ),
-        ),
+        PersistentAddOrEditButton(
+          onPressed: _buttonSubmit,
+          isEditing: widget.service != null,
+          isLoading: _isLoading,
+        )
       ],
       body: SingleChildScrollView(
         child: Padding(
@@ -158,8 +144,8 @@ class _ServiceFormState extends State<ServiceForm> {
             children: [
               DividerWithText(
                   text: translate('serviceInfo'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
               ),
 
@@ -289,10 +275,9 @@ class _ServiceFormState extends State<ServiceForm> {
                       },
                       label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
-                          )
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
                       ),
                     ),
                   )
@@ -358,7 +343,7 @@ class _ServiceFormState extends State<ServiceForm> {
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.error,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary
+                        foregroundColor: Theme.of(context).colorScheme.onError
                       ),
                     ),
                   )
@@ -370,8 +355,8 @@ class _ServiceFormState extends State<ServiceForm> {
 
               DividerWithText(
                   text: translate('nextServiceInfo'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
               ),
 
@@ -448,7 +433,7 @@ class _ServiceFormState extends State<ServiceForm> {
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.error,
-                          foregroundColor: Theme.of(context).colorScheme.onPrimary
+                          foregroundColor: Theme.of(context).colorScheme.onError
                       ),
                     ),
                   )

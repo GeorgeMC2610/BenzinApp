@@ -6,11 +6,9 @@ import 'package:benzinapp/views/details/trip.dart';
 import 'package:benzinapp/views/forms/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import '../../../services/language_provider.dart';
 import '../../../services/managers/trip_manager.dart';
+import '../buttons/card_edit_delete_buttons.dart';
 import '../dialogs/delete_dialog.dart';
 
 class TripCard extends StatefulWidget {
@@ -42,11 +40,6 @@ class _TripCardState extends State<TripCard> {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat format = NumberFormat('#,###', Provider
-        .of<LanguageProvider>(context)
-        .currentLocale
-        .toLanguageTag());
-
     return ListTile(
       onTap: () {
         Navigator.push(
@@ -72,50 +65,9 @@ class _TripCardState extends State<TripCard> {
           .style,
 
       // --- === EDIT AND DELETE BUTTONS === ---
-      trailing: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          // EDIT BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TripForm(trip: widget.trip)
-                  )
-              );
-            },
-            elevation: 0,
-            backgroundColor: Theme
-                .of(context)
-                .primaryColor,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.edit),
-          ),
-
-          // DELETE BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  'Delete Trip',
-                      (Function(bool) setLoadingState) async {
-
-                      await TripManager().delete(widget.trip);
-                      setLoadingState(true);
-                  }
-              );
-            },
-            elevation: 0,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.delete),
-          ),
-        ],
+      trailing: CardEditDeleteButtons(
+        onEditButtonPressed: edit,
+        onDeleteButtonPressed: delete,
       ),
 
     );
@@ -220,6 +172,27 @@ class _TripCardState extends State<TripCard> {
 
         AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
       ],
+    );
+  }
+
+  edit() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TripForm(trip: widget.trip)
+        )
+    );
+  }
+
+  delete() {
+    DeleteDialog.show(
+        context,
+        'Delete Trip',
+            (Function(bool) setLoadingState) async {
+
+          await TripManager().delete(widget.trip);
+          setLoadingState(true);
+        }
     );
   }
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
@@ -275,6 +276,7 @@ class _CreateTripState extends State<CreateTrip> {
 
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
+          // TODO: Convert to new notification.
             SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
         return;
       }
@@ -304,6 +306,7 @@ class _CreateTripState extends State<CreateTrip> {
       _checkIfCanProceed();
     } catch (e) {
       debugPrint("Error fetching address: $e");
+      // TODO: Convert to new notification.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(translate('noPlacesFoundWithThisAddress'))
@@ -344,12 +347,14 @@ class _CreateTripState extends State<CreateTrip> {
         'https://maps.googleapis.com/maps/api/directions/json?alternatives=true'
             '&destination=${markers.last.position.latitude},${markers.last.position.longitude}'
             '&origin=${markers.first.position.latitude},${markers.first.position.longitude}'
+            '&key=${DataHolder().getPlacesApiKey()}',
     );
 
     var body = response.body;
     final decodedBody = json.decode(body);
 
     if (decodedBody['routes'].isEmpty) {
+      // TODO: Convert to new notification.
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(translate('noTripsFound'))

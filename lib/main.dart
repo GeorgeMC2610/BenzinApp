@@ -13,6 +13,7 @@ import 'package:benzinapp/views/start.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -29,20 +30,22 @@ void main() {
     );
 
     runApp(
-      LocalizedApp(
-          delegate,
-          MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (context) => LanguageProvider()),
-              ChangeNotifierProvider(create: (context) => FuelFillRecordManager()),
-              ChangeNotifierProvider(create: (context) => MalfunctionManager()),
-              ChangeNotifierProvider(create: (context) => ServiceManager()),
-              ChangeNotifierProvider(create: (context) => TripManager()),
-              ChangeNotifierProvider(create: (context) => CarManager()),
-              ChangeNotifierProvider(create: (context) => ThemeProvider()),
-            ],
-            child: const MainApp(),
-          ),
+      OverlaySupport.global(
+          child: LocalizedApp(
+            delegate,
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider(create: (context) => LanguageProvider()),
+                ChangeNotifierProvider(create: (context) => FuelFillRecordManager()),
+                ChangeNotifierProvider(create: (context) => MalfunctionManager()),
+                ChangeNotifierProvider(create: (context) => ServiceManager()),
+                ChangeNotifierProvider(create: (context) => TripManager()),
+                ChangeNotifierProvider(create: (context) => CarManager()),
+                ChangeNotifierProvider(create: (context) => ThemeProvider()),
+              ],
+              child: const MainApp(),
+            ),
+          )
       )
     );
   }, (error, stackTrace) {

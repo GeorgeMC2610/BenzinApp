@@ -98,50 +98,61 @@ class _ViewTripState extends State<ViewTrip> {
         title: Text(translate('tripData')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      persistentFooterAlignment: AlignmentDirectional.centerStart,
+      persistentFooterAlignment: AlignmentDirectional.topStart,
       // EDIT AND DELETE BUTTONS
       persistentFooterButtons: [
-        ElevatedButton.icon(
-            onPressed: () async {
-              var trip = await Navigator.push<Trip>(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TripForm(trip: this.trip, isViewing: true)
-                  )
-              );
+        Row(
+          children: [
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () async {
+                    var trip = await Navigator.push<Trip>(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TripForm(trip: this.trip, isViewing: true)
+                        )
+                    );
 
-              if (trip != null) {
-                setState(() {
-                  this.trip = trip;
-                });
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
-              foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
+                    if (trip != null) {
+                      setState(() {
+                        this.trip = trip;
+                      });
+                    }
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  icon: const Icon(Icons.edit),
+                  label: Text(translate('edit'))
+              ),
             ),
-            icon: const Icon(Icons.edit),
-            label: Text(translate('edit'))
-        ),
-        ElevatedButton.icon(
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteService'),
-                      (Function(bool) setLoadingState) async {
 
-                    await TripManager().delete(widget.trip);
-                    setLoadingState(true);
-                    Navigator.pop(context);
-                  }
-              );
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.error),
-              foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
-            ),
-            icon: const Icon(Icons.delete),
-            label: Text(translate('delete'))
+            const SizedBox(width: 10),
+
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () {
+                    DeleteDialog.show(
+                        context,
+                        translate('confirmDeleteTrip'), // This doesn't exist?
+                            (Function(bool) setLoadingState) async {
+
+                          await TripManager().delete(widget.trip);
+                          setLoadingState(true);
+                          Navigator.pop(context);
+                        }
+                    );
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.error),
+                    foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  icon: const Icon(Icons.delete),
+                  label: Text(translate('delete'))
+              ),
+            )
+          ],
         )
       ],
       body: SingleChildScrollView(
@@ -208,12 +219,15 @@ class _ViewTripState extends State<ViewTrip> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)
                   ),
+
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // @note: These colors look just fine both in dark and light mode.
+
                         bestTripCost == null ? const Text('') : Text(
                           '€${LocaleStringConverter.formattedDouble(context, bestTripCost!)} '
                           '${translate('perTime')}',
@@ -256,8 +270,58 @@ class _ViewTripState extends State<ViewTrip> {
                 ),
               ),
 
+              const SizedBox(height: 10),
+
+              // best case material
+              Row(
+                children: [
+                  const Material(
+                    color: Colors.green,
+                    child: SizedBox(height: 15, width: 15,),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Text(translate("bestCase")),
+                  ),
+                ],
+              ),
+
+              // average case material
+              Row(
+                children: [
+                  const Material(
+                    color: Colors.grey,
+                    child: SizedBox(height: 15, width: 15),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Text(translate("averageCase")),
+                  ),
+                ],
+              ),
+
+              // worst case material
+              Row(
+                children: [
+                  const Material(
+                    color: Colors.red,
+                    child: SizedBox(height: 15, width: 15),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Text(translate("worstCase")),
+                  ),
+                ],
+              ),
+
               // === ANALYTICS PER WEEK === //
-              trip.timesRepeating == 1 ? const SizedBox() :
+              if (trip.timesRepeating != 1)
               Column(
                 children: [
                   DividerWithText(
@@ -364,7 +428,7 @@ class _ViewTripState extends State<ViewTrip> {
                         const SizedBox(height: 10),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton.icon(
+                          child: FilledButton.tonalIcon(
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -384,7 +448,7 @@ class _ViewTripState extends State<ViewTrip> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.secondaryContainer
+                              foregroundColor: Theme.of(context).colorScheme.primary
                             ),
                             label: Text(translate('showOnMaps')),
                             icon: const Icon(Icons.map),

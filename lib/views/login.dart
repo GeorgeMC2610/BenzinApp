@@ -3,6 +3,7 @@ import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 
@@ -49,12 +50,7 @@ class _LoginPageState extends State<LoginPage> {
     if (result) {
 
       // show the message that the user is authorized successfully.
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(translate('successfullyLoggedIn')),
-          )
-      );
-
+      SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
       await DataHolder().initializeValues();
 
       Navigator.pushReplacement(context, MaterialPageRoute(
@@ -76,11 +72,7 @@ class _LoginPageState extends State<LoginPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.message != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(widget.message!),
-            )
-        );
+        SnackbarNotification.show(MessageType.info, widget.message!);
       }
     });
   }

@@ -1,9 +1,9 @@
 import 'package:benzinapp/services/classes/car.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CostsPieChart extends StatefulWidget {
-
+class CostsPieChart extends StatelessWidget {
   const CostsPieChart({super.key, required this.theme});
   final String theme;
 
@@ -21,80 +21,54 @@ class CostsPieChart extends StatefulWidget {
   };
 
   @override
-  State<StatefulWidget> createState() => _CostPieChartState();
-}
+  Widget build(BuildContext context) {
+    final double fuelFillCost = Car.getTotalFuelFillCosts();
+    final double malfunctionsCost = Car.getTotalMalfunctionCosts();
+    final double servicesCost = Car.getTotalServiceCosts();
+    final double totalCost = fuelFillCost + malfunctionsCost + servicesCost;
 
-class _CostPieChartState extends State<CostsPieChart> {
+    if (totalCost == 0) return const SizedBox();
 
-  bool isLoading = true;
-  double? fuelFillCost, malfunctionsCost, servicesCost, totalCost;
+    final chartData = [
+      _CostData(translate('fuelFills'), fuelFillCost,
+          pieChartColors[theme]!["fuel"]!),
+      _CostData(translate('malfunctions'), malfunctionsCost,
+          pieChartColors[theme]!["malfunction"]!),
+      _CostData(translate('services'), servicesCost,
+          pieChartColors[theme]!["service"]!),
+    ].where((d) => d.value > 0).toList(); // filter out empty slices
 
-  @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  initialize() async {
-    var fuelFillCost = await Car.getTotalFuelFillCosts();
-    var malfunctionsCost = await Car.getTotalMalfunctionCosts();
-    var servicesCost = await Car.getTotalServiceCosts();
-
-    setState(() {
-      this.fuelFillCost = fuelFillCost;
-      this.malfunctionsCost = malfunctionsCost;
-      this.servicesCost = servicesCost;
-      totalCost = fuelFillCost + malfunctionsCost + servicesCost;
-      isLoading = false;
-    });
-  }
-
-  Widget loadingBody() => const Center(
-      child: CircularProgressIndicator(
-        value: null,
-      )
-  );
-
-  Widget normalBody() => SizedBox(
-    height: 250,
-    child: PieChart(
-      PieChartData(
-        sections: [
-          _buildPieChartSection(fuelFillCost!, totalCost!, CostsPieChart.pieChartColors[widget.theme]!['fuel']!, "fuel"),
-          _buildPieChartSection(malfunctionsCost!, totalCost!, CostsPieChart.pieChartColors[widget.theme]!['malfunction']!, "malfunction"),
-          _buildPieChartSection(servicesCost!, totalCost!, CostsPieChart.pieChartColors[widget.theme]!['service']!, "service"),
+    return SizedBox(
+      height: 250,
+      child: SfCircularChart(
+        legend: const Legend(isVisible: true, position: LegendPosition.bottom),
+        series: <CircularSeries>[
+          PieSeries<_CostData, String>(
+            dataSource: chartData,
+            xValueMapper: (d, _) => d.title,
+            yValueMapper: (d, _) => d.value,
+            pointColorMapper: (d, _) => d.color,
+            dataLabelMapper: (d, _) {
+              // Example: translated + percentage
+              final percent = (d.value / totalCost * 100).toStringAsFixed(1);
+              return "${d.title}\n$percent%";
+            },
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+            ),
+            radius: '80%',
+            explode: true,
+            explodeOffset: '5%',
+          )
         ],
-        sectionsSpace: 2,
-        centerSpaceRadius: 50,
       ),
-    ),
-  );
-
-  Widget getBody() {
-    if (isLoading) {
-      return loadingBody();
-    }
-
-    if (totalCost! == 0) {
-      return const SizedBox();
-    }
-
-    return normalBody();
-  }
-
-  @override
-  Widget build(BuildContext context) => getBody();
-
-  PieChartSectionData _buildPieChartSection(double cost, double total, Color color, String title) {
-    if (cost == 0) return PieChartSectionData(value: 0); // Hide sections with no cost
-
-    return PieChartSectionData(
-      value: cost,
-      title: "${(cost / total * 100).toStringAsFixed(1)}%",
-      color: color,
-      radius: 80,
-      titleStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
     );
   }
+}
 
+class _CostData {
+  final String title;
+  final double value;
+  final Color color;
+  _CostData(this.title, this.value, this.color);
 }

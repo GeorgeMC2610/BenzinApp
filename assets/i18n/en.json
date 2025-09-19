@@ -100,8 +100,10 @@
 
   "filters": "Filters",
   "searchInFuelFills": "Search in fuel fills...",
-  "totalRecords": "{totalRecords} Total Records",
-  "oneRecord": "Only one record. Singular and lonely...",
+  "totalRecords": "• {totalRecords} Total Records",
+  "totalFilteredRecords": "• {totalRecords} with current filters",
+  "oneRecord": "• Only one record. Singular and lonely...",
+  "oneRecordWithFilters": "• One record with current filters",
 
   "confirmDeleteFuelFill": "Confirm Delete Fuel Fill",
   "confirmDeleteService": "Confirm Delete Service",
@@ -147,6 +149,9 @@
   "cannotBeEmpty":      "Cannot be empty",
   "cannotBeNegative":   "Cannot be negative",
   "statsCannotBeCalculated": "Once you enter the next fuel fill, the stats of this one will become available.",
+  "successfullyAddedFuelFill": "Successfully added Fuel Fill Record.",
+  "successfullyUpdatedFuelFill": "Successfully updated Fuel Fill Record.",
+  "successfullyDeletedFuelFill": "Successfully deleted Fuel Fill Record.",
 
   "discoveredAt":       "Discovered at:",
   "ongoingMalfunction": "Ongoing",
@@ -164,6 +169,9 @@
   "description":          "Description:",
   "dateFixed":            "Date fixed:",
   "locationFixed":        "Location:",
+  "successfullyAddedMalfunction": "Successfully added Malfunction.",
+  "successfullyUpdatedMalfunction": "Successfully updated Malfunction.",
+  "successfullyDeletedMalfunction": "Successfully deleted Malfunction.",
 
   "serviceData":      "Service Data",
   "lastService":      "Last Service",
@@ -192,6 +200,9 @@
   "nextServiceInfo": "Next Service Info",
   "nextServiceMileageHint": "Enter next service mileage...",
   "confirmAddService": "Confirm Add Service",
+  "successfullyAddedService": "Successfully added Service.",
+  "successfullyUpdatedService": "Successfully updated Service.",
+  "successfullyDeletedService": "Successfully deleted Service.",
 
   "addMalfunction": "Add Malfunction",
   "editMalfunction": "Edit Malfunction",
@@ -229,6 +240,9 @@
   "repeatingTimesPerWeekShort": "{n} times per week",
   "noRepeat": "Doesn't Repeat",
   "createdAt": "Created at: {date}",
+  "bestCase": "Best case",
+  "averageCase": "Average case",
+  "worstCase": "Worst case",
 
   "oneTimeTrip": "One-time trip",
   "viewLocation": "View Location On Maps",
@@ -256,6 +270,9 @@
   "searchAddressHintOrigin": "Type an address for the origin...",
   "searchAddressHintDestination": "Type an address for the destination...",
   "searchAddressHintLocation": "Type an address for the location...",
+  "successfullyAddedTrip": "Successfully added Trip.",
+  "successfullyUpdatedTrip": "Successfully updated Trip.",
+  "successfullyDeletedTrip": "Successfully deleted Trip.",
 
   "from": "FROM",
   "to": "TO",
@@ -263,5 +280,21 @@
   "noPlacesFoundWithThisAddress": "No places found with this address.",
   "noTripsFound": "There is no route available for the current positions.",
   "confirmTrip": "Confirm Trip",
-  "confirmLocation": "Confirm Location"
+  "confirmLocation": "Confirm Location",
+
+  "fuelFilters": "Fuel Filters",
+  "searchHint": "Station, fuel type or ID",
+  "fromDate": "From:",
+  "toDate": "To:",
+  "notSelected": "<not selected>",
+  "startKm": "From km.",
+  "endKm": "To km.",
+  "startLt": "From lt.",
+  "endLt": "To lt.",
+  "startTotalKm": "From total km.",
+  "endTotalKm": "To total km.",
+  "startCost": "From cost",
+  "endCost": "To cost",
+  "discard": "Discard",
+  "apply": "Apply"
 }

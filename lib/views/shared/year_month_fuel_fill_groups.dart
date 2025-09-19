@@ -1,5 +1,4 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +28,7 @@ class _YearMonthFuelFillGroupsState extends State<YearMonthFuelFillGroups> {
     mainAxisSize: MainAxisSize.min,
     children: getYearMonthFuelFills().entries.map((entry) {
       String yearMonth = entry.key;
-      List<FuelFillRecord> records = widget.records;
+      List<FuelFillRecord> records = entry.value;
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +97,7 @@ class _YearMonthFuelFillGroupsState extends State<YearMonthFuelFillGroups> {
   Map<String, List<FuelFillRecord>> getYearMonthFuelFills() {
     Map<String, List<FuelFillRecord>> groupedRecords = {};
 
-    for (var record in FuelFillRecordManager().local) {
+    for (var record in widget.records) {
       String key = "${record.dateTime.year}-${record.dateTime.month.toString()
           .padLeft(2, '0')}";
 

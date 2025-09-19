@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
+import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -65,106 +64,11 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       persistentFooterButtons: [
-        ElevatedButton.icon(
-          onPressed: _isLoading ? null : () async {
-            // add field checks
-            // TODO: Add those check when the user exits the fields.
-            setState(() {
-              _mileageValidator = _validator(_mileageController.text);
-              _costValidator = _validator(_costController.text);
-              _literValidator = _validator(_literController.text);
-            });
-
-            if (_selectedDate == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(translate('noDateSelected')),
-                  )
-              );
-            }
-
-            if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
-              return;
-            }
-
-            setState(() {
-              _isLoading = true;
-            });
-
-            double liters = double.parse(_literController.text);
-            double cost = double.parse(_costController.text);
-            double kilometers = double.parse(_mileageController.text);
-
-            String? comments = _commentsController.text.trim().isEmpty ? null : _commentsController.text.trim();
-            String? station = _stationController.text.trim().isEmpty ? null : _stationController.text.trim();
-            String? fuelType = _fuelTypeController.text.trim().isEmpty ? null : _fuelTypeController.text.trim();
-            int? totalKm = int.tryParse(_totalMileageController.text);
-
-            // if the record is non-existent, then ADD is enabled
-            if (widget.fuelFillRecord == null) {
-              var newRecord = FuelFillRecord(
-                  id: -1, dateTime: _selectedDate!, liters: liters,
-                  cost: cost, kilometers: kilometers, comments: comments,
-                  gasStation: station, fuelType: fuelType, totalKilometers: totalKm,
-              );
-
-              try {
-                await FuelFillRecordManager().create(newRecord);
-                Navigator.pop(context);
-              }
-              on Exception {
-                print("Something went wrong");
-              }
-            }
-            // otherwise EDIT is enabled.
-            else {
-              // when editing, we want the patch request to be sent, and then
-              // checkout a new view with the new data.
-              widget.fuelFillRecord!.liters = liters;
-              widget.fuelFillRecord!.cost = cost;
-              widget.fuelFillRecord!.kilometers = kilometers;
-              widget.fuelFillRecord!.comments = comments;
-              widget.fuelFillRecord!.gasStation = station;
-              widget.fuelFillRecord!.fuelType = fuelType;
-              widget.fuelFillRecord!.totalKilometers = totalKm;
-              widget.fuelFillRecord!.dateTime = _selectedDate!;
-
-              try {
-                await FuelFillRecordManager().update(widget.fuelFillRecord!);
-                if (widget.viewingRecord) {
-                  Navigator.pop(context, widget.fuelFillRecord);
-                }
-                else {
-                  Navigator.pop(context);
-                }
-              }
-              on Exception {
-                print("Something went wrong");
-              }
-            }
-          },
-          icon: _isLoading ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(
-                value: null,
-                strokeWidth: 5,
-                strokeCap: StrokeCap.square,
-              )
-          ) : Icon(
-              widget.fuelFillRecord == null ?
-              Icons.add : Icons.check
-          ),
-          label: Text(
-              widget.fuelFillRecord == null ?
-              translate('confirmAdd') :
-              translate('confirmEdit')
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
-            minimumSize: const Size(200, 55),
-          ),
-        ),
+        PersistentAddOrEditButton(
+          onPressed: onButtonPressed,
+          isEditing: widget.fuelFillRecord != null,
+          isLoading: _isLoading,
+        )
       ],
       persistentFooterAlignment: AlignmentDirectional.center,
       appBar: AppBar(
@@ -183,8 +87,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             children: [
               DividerWithText(
                   text: translate('requiredInfo'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 13
               ),
 
@@ -243,7 +147,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       focusNode: _totalMileageFocusNode,
                       onEditingComplete: () async {
                         if (_mileageController.text.isEmpty && _totalMileageController.text.isNotEmpty) {
-                          var lastRecord = FuelFillRecordManager().local?.firstOrNull;
+                          var lastRecord = FuelFillRecordManager().local.firstOrNull;
                           if (lastRecord?.totalKilometers != null) {
                             var currentKilometers = double.tryParse(_totalMileageController.text);
                             if (currentKilometers != null) {
@@ -383,10 +287,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       },
                       label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                            Theme.of(context).buttonTheme.colorScheme!.primaryFixedDim
-                        )
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
                       ),
                     ),
                   )
@@ -397,8 +300,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
               DividerWithText(
                   text: translate('optionalInfo'),
-                  lineColor: Colors.black,
-                  textColor: Colors.black,
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
                   textSize: 13
               ),
 
@@ -470,6 +373,77 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         ),
       ),
     );
+  }
+
+  onButtonPressed() async {
+    // add field checks
+    // TODO: Add those check when the user exits the fields.
+    setState(() {
+      _mileageValidator = _validator(_mileageController.text);
+      _costValidator = _validator(_costController.text);
+      _literValidator = _validator(_literController.text);
+    });
+
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
+          SnackBar(
+            content: Text(translate('noDateSelected')),
+          )
+      );
+    }
+
+    if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    double liters = double.parse(_literController.text);
+    double cost = double.parse(_costController.text);
+    double kilometers = double.parse(_mileageController.text);
+
+    String? comments = _commentsController.text.trim().isEmpty ? null : _commentsController.text.trim();
+    String? station = _stationController.text.trim().isEmpty ? null : _stationController.text.trim();
+    String? fuelType = _fuelTypeController.text.trim().isEmpty ? null : _fuelTypeController.text.trim();
+    int? totalKm = int.tryParse(_totalMileageController.text);
+
+    // if the record is non-existent, then ADD is enabled
+    if (widget.fuelFillRecord == null) {
+      var newRecord = FuelFillRecord(
+        id: -1, dateTime: _selectedDate!, liters: liters,
+        cost: cost, kilometers: kilometers, comments: comments,
+        gasStation: station, fuelType: fuelType, totalKilometers: totalKm,
+      );
+
+      await FuelFillRecordManager().create(newRecord);
+      SnackbarNotification.show(MessageType.success, translate('successfullyAddedFuelFill'));
+      Navigator.pop(context);
+    }
+    // otherwise EDIT is enabled.
+    else {
+      // when editing, we want the patch request to be sent, and then
+      // checkout a new view with the new data.
+      widget.fuelFillRecord!.liters = liters;
+      widget.fuelFillRecord!.cost = cost;
+      widget.fuelFillRecord!.kilometers = kilometers;
+      widget.fuelFillRecord!.comments = comments;
+      widget.fuelFillRecord!.gasStation = station;
+      widget.fuelFillRecord!.fuelType = fuelType;
+      widget.fuelFillRecord!.totalKilometers = totalKm;
+      widget.fuelFillRecord!.dateTime = _selectedDate!;
+
+      await FuelFillRecordManager().update(widget.fuelFillRecord!);
+      SnackbarNotification.show(MessageType.success, translate('successfullyUpdatedFuelFill'));
+      if (widget.viewingRecord) {
+        Navigator.pop(context, widget.fuelFillRecord);
+      }
+      else {
+        Navigator.pop(context);
+      }
+    }
   }
 
   String? _validator(String field) {

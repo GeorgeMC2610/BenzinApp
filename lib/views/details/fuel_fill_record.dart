@@ -1,9 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,51 +42,62 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
         persistentFooterAlignment: AlignmentDirectional.centerStart,
         // EDIT AND DELETE BUTTONS
         persistentFooterButtons: [
-          ElevatedButton.icon(
-              onPressed: () async {
-                var fuelFillRecord = await Navigator.push<FuelFillRecord>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FuelFillRecordForm(fuelFillRecord: this.fuelFillRecord, viewingRecord: true)
-                    )
-                );
 
-                if (fuelFillRecord != null) {
-                  setState(() {
-                    this.fuelFillRecord = fuelFillRecord;
-                  });
-                }
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
-                foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
-              ),
-              icon: const Icon(Icons.edit),
-              label: Text(translate('edit'))
-          ),
-          ElevatedButton.icon(
-              onPressed: () {
-                DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteFuelFill'),
-                      (Function(bool) setLoadingState) async {
-                        setState(() => isLoading = true);
 
-                        await FuelFillRecordManager().delete(widget.record);
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.tonalIcon(
+                    onPressed: () async {
+                      var fuelFillRecord = await Navigator.push<FuelFillRecord>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FuelFillRecordForm(fuelFillRecord: this.fuelFillRecord, viewingRecord: true)
+                          )
+                      );
+
+                      if (fuelFillRecord != null) {
                         setState(() {
-                          isLoading = false;
+                          this.fuelFillRecord = fuelFillRecord;
                         });
-                        setLoadingState(true);
-                        Navigator.pop(context);
-                  }
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.error),
-                foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
+                      }
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                    icon: const Icon(Icons.edit),
+                    label: Text(translate('edit'))
+                ),
               ),
-              icon: const Icon(Icons.delete),
-              label: Text(translate('delete'))
+              const SizedBox(width: 10),
+              Expanded(
+                  child: FilledButton.tonalIcon(
+                      onPressed: () {
+                        DeleteDialog.show(
+                            context,
+                            translate('confirmDeleteFuelFill'),
+                                (Function(bool) setLoadingState) async {
+                              setState(() => isLoading = true);
+
+                              await FuelFillRecordManager().delete(widget.record);
+                              setState(() {
+                                isLoading = false;
+                              });
+                              setLoadingState(true);
+                              Navigator.pop(context);
+                            }
+                        );
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(context).colorScheme.onError,
+                      ),
+                      icon: const Icon(Icons.delete),
+                      label: Text(translate('delete'))
+                  )
+              )
+            ],
           )
         ],
         body: SingleChildScrollView(
@@ -99,11 +108,11 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    fuelFillRecord.getNext() == null?
-                    ListTile(
-                        leading: const Icon(Icons.info),
-                        title: Text(translate('statsCannotBeCalculated'))
-                    ) : const SizedBox(),
+                    // fuelFillRecord.getNext() == null?
+                    // ListTile(
+                    //     leading: const Icon(Icons.info),
+                    //     title: Text(translate('statsCannotBeCalculated'))
+                    // ) : const SizedBox(),
 
                     // singular card with initial data
                     SizedBox(
@@ -148,7 +157,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                       maxFontSize: 19,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: _getFuelString(context) == translate('unspecified') ? Colors.grey : Colors.black,
+                                        color: _getFuelString(context) == translate('unspecified') ? Colors.grey : Theme.of(context).colorScheme.onSurface,
                                         fontStyle: _getFuelString(context) == translate('unspecified') ? FontStyle.italic : FontStyle.normal,
                                       ),
                                     ),
@@ -170,9 +179,9 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                     maxLines: 1,
                                     maxFontSize: 19,
                                     '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 18,
-                                      color: Colors.black,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                     ),
                                   ),
                                 ],
@@ -217,7 +226,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                           ),
                         ),
 
-                        fuelFillRecord.getNext() == null ? const SizedBox() :
+                        // fuelFillRecord.getNext() == null ? const SizedBox() :
                         Expanded(
                           flex: 3,
                           child: Card(
@@ -277,7 +286,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                               Text(
                                 fuelFillRecord.comments == null ? translate('nothingToShowHere') : fuelFillRecord.comments!,
                                 style: TextStyle(
-                                    color: fuelFillRecord.comments == null ? Colors.grey : Colors.black,
+                                    color: fuelFillRecord.comments == null ? Colors.grey : Theme.of(context).colorScheme.onSurface,
                                     fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
                                 ),
                               )

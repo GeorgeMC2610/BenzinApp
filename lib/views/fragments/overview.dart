@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 
 import '../overview_cards/graph_container_card.dart';
+import '../shared/notification.dart';
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -47,7 +48,6 @@ class _OverviewFragmentState extends State<OverviewFragment> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // logged in as <username> text.
             Text(translate('loggedInAs', args: {'username': username ?? '-'})),
 

@@ -1,24 +1,23 @@
 import 'dart:convert';
-
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:http/http.dart' as http;
 
 class RequestHandler {
 
-  static Map<String, String> basisHeaders = {
+  static Map<String, String> basisHeaders() => {
     'Content-Type': 'application/json'
   };
 
-  static Map<String, String> authorizationHeaders = {
-    ...basisHeaders,
+  static Map<String, String> authorizationHeaders() => {
+    ...basisHeaders(),
     'Authorization': TokenManager().token!,
   };
 
   static Future<http.Response> sendGetRequest(String uri) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorizationHeaders;
+    var headers = authorizationHeaders();
 
     final response = await client.get(
       url,
@@ -35,7 +34,7 @@ class RequestHandler {
   static Future<http.Response> sendPostRequest(String uri, bool authorize, Map<String, dynamic> body) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorize ? authorizationHeaders : basisHeaders;
+    var headers = authorize ? authorizationHeaders() : basisHeaders();
 
     final response = await client.post(
       url,
@@ -43,7 +42,7 @@ class RequestHandler {
       body: json.encode(body)
     );
 
-    if (response.statusCode == 401) {
+    if (response.statusCode == 401 && authorize) {
       throw UnauthorizedException();
     }
 
@@ -53,7 +52,7 @@ class RequestHandler {
   static Future<http.Response> sendPatchRequest(String uri, Map<String, dynamic> body) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorizationHeaders;
+    var headers = authorizationHeaders();
 
     final response = await client.put(
         url,
@@ -71,7 +70,7 @@ class RequestHandler {
   static Future<http.Response> sendDeleteRequest(String uri) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorizationHeaders;
+    var headers = authorizationHeaders();
 
     final response = await client.delete(
         url,

@@ -1,15 +1,13 @@
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/forms/malfunction.dart';
+import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/malfunction_manager.dart';
-import '../../../services/request_handler.dart';
 import '../dialogs/delete_dialog.dart';
 
 class MalfunctionCard extends StatefulWidget {
@@ -41,49 +39,9 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           widget.malfunction.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
-      trailing: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          // EDIT BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MalfunctionForm(malfunction: widget.malfunction)
-                  )
-              );
-
-            },
-            elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.edit),
-          ),
-
-          // DELETE BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteMalfunction'),
-                      (Function(bool) setLoadingState) async {
-
-                      await MalfunctionManager().delete(widget.malfunction);
-                      setLoadingState(true);
-                  }
-              );
-            },
-            elevation: 0,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.delete),
-          ),
-        ],
+      trailing: CardEditDeleteButtons(
+        onEditButtonPressed: edit,
+        onDeleteButtonPressed: delete,
       ),
 
       // MALFUNCTION DATA
@@ -96,6 +54,27 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           Text("${translate('discoveredAt')} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
         ],
       ),
+    );
+  }
+
+  edit() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MalfunctionForm(malfunction: widget.malfunction)
+        )
+    );
+  }
+
+  delete() {
+    DeleteDialog.show(
+        context,
+        translate('confirmDeleteMalfunction'),
+            (Function(bool) setLoadingState) async {
+
+          await MalfunctionManager().delete(widget.malfunction);
+          setLoadingState(true);
+        }
     );
   }
 

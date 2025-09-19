@@ -116,8 +116,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
             DividerWithText(
                 text: translate('lastService'),
-                lineColor: Colors.black,
-                textColor: Colors.black,
+                lineColor: Colors.grey,
+                textColor: Theme.of(context).colorScheme.primary,
                 textSize: 16
             ),
 
@@ -134,8 +134,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
             DividerWithText(
                 text: translate('previousServices'),
-                lineColor: Colors.black,
-                textColor: Colors.black,
+                lineColor: Colors.grey,
+                textColor: Theme.of(context).colorScheme.primary,
                 textSize: 16
             ),
 
@@ -180,18 +180,19 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
           child: Column(
             children: [
 
-              TabBar(
-                labelColor: Theme.of(context).appBarTheme.backgroundColor,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Theme.of(context).appBarTheme.backgroundColor,
+              Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: TabBar(
                 tabs: [
                   Tab(text: translate('malfunctions')),
                   Tab(text: translate('services')),
-                ],
+                  ],
+                )
               ),
 
               Expanded(
                 child: TabBarView(
+
                   children: <Widget>[
                     getMalfunctions(),
                     getServices(),

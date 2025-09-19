@@ -100,8 +100,10 @@
 
   "filters": "Φίλτρα",
   "searchInFuelFills": "Αναζήτηση γεμισμάτων...",
-  "totalRecords": "{totalRecords} Συνολικά Γεμίσματα",
-  "oneRecord": "Μόνο ένα γέμισμα. Μόνο του... μοναχικό...",
+  "totalRecords": "• {totalRecords} Συνολικά Γεμίσματα",
+  "totalFilteredRecords": "• {totalRecords} φιλτραρισμένα γεμίσματα",
+  "oneRecord": "• Μόνο ένα γέμισμα. Μόνο του... μοναχικό...",
+  "oneRecordWithFilters": "• Μονάχα ένα γέμισμα με τα τρέχοντα φίλτρα",
 
   "confirmDeleteFuelFill": "Διαγραφή Γεμίσματος",
   "confirmDeleteService": "Διαγραφή Σέρβις",
@@ -147,6 +149,9 @@
   "cannotBeEmpty":      "Δεν μπορεί να είναι κενό",
   "cannotBeNegative":   "Μόνο θετικοί αριθμοί",
   "statsCannotBeCalculated": "Τα στατιστικά αυτού του γεμίσματος θα εμφανιστούν, όταν βάλετε το επόμενο γέμισμα.",
+  "successfullyAddedFuelFill": "Επιτυχής προσθήκη γεμίσματος.",
+  "successfullyUpdatedFuelFill": "Επιτυχής επεξεργασία γεμίσματος.",
+  "successfullyDeletedFuelFill": "Επιτυχής διαγραφή γεμίσματος.",
 
   "discoveredAt":       "Διαπιστώθηκε στα:",
   "ongoingMalfunction": "Σε εξέλιξη",
@@ -171,6 +176,9 @@
   "description":          "Περιγραφή:",
   "dateFixed":            "Ημερομηνία επισκευής:",
   "locationFixed":        "Τοποθεσία επισκευής:",
+  "successfullyAddedMalfunction": "Επιτυχής προσθήκη βλάβης.",
+  "successfullyUpdatedMalfunction": "Επιτυχής επεξεργασία βλάβης.",
+  "successfullyDeletedMalfunction": "Επιτυχής διαγραφή βλάβης.",
 
   "serviceData":      "Στοιχεία Σέρβις",
   "lastService":      "Τελευταίο Σέρβις",
@@ -199,6 +207,9 @@
   "nextServiceInfo": "Πληροφορίες Επόμενου",
   "nextServiceMileageHint": "Εισάγετε τα χιλιόμετρα του επόμενου...",
   "confirmAddService": "Επιβεβαίωση Προσθήκης Σέρβις",
+  "successfullyAddedService": "Επιτυχής προσθήκη σέρβις.",
+  "successfullyUpdatedService": "Επιτυχής επεξεργασία σέρβις.",
+  "successfullyDeletedService": "Επιτυχής διαγραφή σέρβις.",
 
   "addMalfunction": "Προσθήκη Βλάβης",
   "editMalfunction": "Επεξεργασία Βλάβης",
@@ -230,6 +241,9 @@
   "oneTimeTrip": "Ταξίδι",
   "noRepeat": "Δεν επαναλαμβάνεται",
   "createdAt": "Δημιουργήθηκε: {date}",
+  "bestCase": "Καλύτερη περίπτωση",
+  "averageCase": "Μέση Περίπτωση",
+  "worstCase": "Χειρότερη Περίπτωση",
 
   "viewLocation": "Προβολή Τοποθεσίας",
   "viewTrip": "Προβολή Διαδρομής",
@@ -256,6 +270,9 @@
   "searchAddressHintOrigin": "Γράψτε την διεύθυνση της αφετηρίας...",
   "searchAddressHintDestination": "Γράψτε την διεύθυνση του τέρματος...",
   "searchAddressHintLocation": "Γράψτε την διεύθυνση της τοποθεσίας...",
+  "successfullyAddedTrip": "Επιτυχής προσθήκη διαδρομής.",
+  "successfullyUpdatedTrip": "Επιτυχής επεξεργασία διαδρομής.",
+  "successfullyDeletedTrip": "Επιτυχής διαγραφή διαδρομής.",
 
   "from": "ΑΠΟ",
   "to": "ΠΡΟΣ",
@@ -263,5 +280,21 @@
   "noPlacesFoundWithThisAddress": "Δεν βρέθηκε κάποιο μέρος με αυτήν τη διεύθυνση.",
   "noTripsFound": "Δεν υπάρχει κάποια διαδρομή με αυτές τις τοποθεσίες.",
   "confirmTrip": "Επιβεβαίωση Διαδρομής",
-  "confirmLocation": "Επιβεβαίωση Τοποθεσίας"
+  "confirmLocation": "Επιβεβαίωση Τοποθεσίας",
+
+  "fuelFilters": "Φίλτρα Γεμισμάτων",
+  "searchHint": "Πρατήριο, καύσιμα ή #ID",
+  "fromDate": "Από:",
+  "toDate": "Έως:",
+  "notSelected": "<μη επιλεγμένη>",
+  "startKm": "Από χλμ.",
+  "endKm": "Έως χλμ.",
+  "startLt": "Από λίτρα",
+  "endLt": "Έως λίτρα",
+  "startTotalKm": "Από συνολικά χλμ.",
+  "endTotalKm": "Έως συνολικά χλμ.",
+  "startCost": "Από κόστος",
+  "endCost": "Έως κόστος",
+  "discard": "Διαγραφή",
+  "apply": "Εφαρμογή"
 }

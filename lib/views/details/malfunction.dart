@@ -40,47 +40,58 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
       persistentFooterAlignment: AlignmentDirectional.centerStart,
       // EDIT AND DELETE BUTTONS
       persistentFooterButtons: [
-        ElevatedButton.icon(
-            onPressed: () async {
-              var malfunction = await Navigator.push<Malfunction>(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MalfunctionForm(malfunction: this.malfunction, isViewing: true)
-                  )
-              );
+        Row(
+          children: [
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () async {
+                    var malfunction = await Navigator.push<Malfunction>(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MalfunctionForm(malfunction: this.malfunction, isViewing: true)
+                        )
+                    );
 
-              if (malfunction != null) {
-                setState(() {
-                  this.malfunction = malfunction;
-                });
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
-              foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
+                    if (malfunction != null) {
+                      setState(() {
+                        this.malfunction = malfunction;
+                      });
+                    }
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  icon: const Icon(Icons.edit),
+                  label: Text(translate('edit'))
+              ),
             ),
-            icon: const Icon(Icons.edit),
-            label: Text(translate('edit'))
-        ),
-        ElevatedButton.icon(
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteMalfunction'),
-                      (Function(bool) setLoadingState) async {
 
-                        await MalfunctionManager().delete(widget.malfunction);
-                        setLoadingState(true);
-                        Navigator.pop(context);
-                  }
-              );
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.error),
-              foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
-            ),
-            icon: const Icon(Icons.delete),
-            label: Text(translate('delete'))
+            const SizedBox(width: 10),
+
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () {
+                    DeleteDialog.show(
+                        context,
+                        translate('confirmDeleteMalfunction'),
+                            (Function(bool) setLoadingState) async {
+
+                          await MalfunctionManager().delete(widget.malfunction);
+                          setLoadingState(true);
+                          Navigator.pop(context);
+                        }
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: Theme.of(context).colorScheme.onError,
+                  ),
+                  icon: const Icon(Icons.delete),
+                  label: Text(translate('delete'))
+              ),
+            )
+          ],
         )
       ],
       body: SingleChildScrollView(

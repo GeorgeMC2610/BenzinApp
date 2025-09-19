@@ -21,5 +21,8 @@ class MalfunctionManager extends AbstractManager<Malfunction> {
   String get responseKeyword => "malfunction";
 
   @override
+  int compare(Malfunction a, Malfunction b) => b.dateStarted.compareTo(a.dateStarted);
+
+  @override
   Map<String, dynamic> toJson(Malfunction model) => model.toJson();
 }

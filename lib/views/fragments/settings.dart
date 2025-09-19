@@ -4,6 +4,7 @@ import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -27,11 +28,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
   void _performLogout() async {
     await TokenManager().removeToken();
     DataHolder().destroyValues();
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(translate('successfullyLoggedOut')),
-        )
-    );
+    SnackbarNotification.show(MessageType.info, translate('successfullyLoggedOut'));
 
     Navigator.pushReplacement(
         context,

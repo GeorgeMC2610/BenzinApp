@@ -1,19 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
-import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
+import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
-import 'package:http/http.dart' as http;
-
-import '../../../services/request_handler.dart';
 import '../dialogs/delete_dialog.dart';
 
 class FuelFillCard extends StatefulWidget {
@@ -44,57 +41,39 @@ class _FuelFillCardState extends State<FuelFillCard> {
             )
         );
       },
-      title: AutoSizeText(
-          maxLines: 1,
-          getLocalizedDate(context, widget.record.dateTime),
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-      ),
-      trailing: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
+      title: Row(
         children: [
-
-          // EDIT BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FuelFillRecordForm(fuelFillRecord: widget.record)
-                  )
-              );
-            },
-            elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.edit),
+          AutoSizeText(
+              getLocalizedDate(context, widget.record.dateTime),
+              maxLines: 1,
+              maxFontSize: 19,
+              minFontSize: 12,
+              style: const TextStyle(fontWeight: FontWeight.bold)
           ),
 
-          // DELETE BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteFuelFill'),
-                      (Function(bool) setLoadingState) async {
-                    setState(() => _isLoading = true);
+          const SizedBox(width: 5),
 
-                    await FuelFillRecordManager().delete(widget.record);
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    setLoadingState(true);
-                  }
-              );
-            },
-            elevation: 0,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.delete),
-          ),
+          Material(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)
+            ),
+            color: Theme.of(context).colorScheme.primaryFixedDim,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Text(
+                "#${widget.record.id.toString()}",
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: Theme.of(context).colorScheme.onPrimaryFixed
+                ),
+              ),
+            )
+          )
         ],
+      ),
+      trailing: CardEditDeleteButtons(
+        onEditButtonPressed: edit,
+        onDeleteButtonPressed: delete,
       ),
 
       // FUEL-FILL RECORD DATA
@@ -105,12 +84,37 @@ class _FuelFillCardState extends State<FuelFillCard> {
           widget.record.totalKilometers == null ? const SizedBox() :
           Text('${LocaleStringConverter.formattedBigInt(context, widget.record.totalKilometers!)} km', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           Text(_getFuelString(), style: const TextStyle(fontSize: 12)),
-          widget.record.getNext() == null ? const SizedBox() :
           Text("${widget.record.getConsumption().toStringAsFixed(3)} lt./100km", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
 
+  }
+
+  edit() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FuelFillRecordForm(fuelFillRecord: widget.record)
+        )
+    );
+  }
+
+  delete() {
+    DeleteDialog.show(
+        context,
+        translate('confirmDeleteFuelFill'),
+            (Function(bool) setLoadingState) async {
+          setState(() => _isLoading = true);
+
+          await FuelFillRecordManager().delete(widget.record);
+          SnackbarNotification.show(MessageType.info, translate('successfullyDeletedFuelFill'));
+          setState(() {
+            _isLoading = false;
+          });
+          setLoadingState(true);
+        }
+    );
   }
 
   String getLocalizedDate(BuildContext context, DateTime date) {

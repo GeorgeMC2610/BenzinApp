@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AppInformation extends StatelessWidget {
+class AppInformation extends StatefulWidget {
   const AppInformation({super.key});
+
+  @override
+  State<AppInformation> createState() => _AppInformationState();
+}
+
+class _AppInformationState extends State<AppInformation> {
+
+  PackageInfo? packageInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((info) {
+      setState(() {
+        packageInfo = info;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +36,27 @@ class AppInformation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text("About the app"),
+              Center(
+                child: Image.asset(
+                  "lib/assets/images/benzinapp_logo_round.png",
+                  height: 150,
+                  width: 150,
+                ),
+              ),
+
+              const Center(
+                child: Text(
+                  "BenzinApp",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30
+                  ),
+                ),
+              ),
+
+              Center(
+                child: Text("Version ${packageInfo?.version ?? '-'}"),
+              )
             ],
           ),
         ),

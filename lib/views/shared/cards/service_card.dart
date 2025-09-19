@@ -3,13 +3,12 @@ import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/forms/service.dart';
+import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../../services/data_holder.dart';
 import '../../../services/language_provider.dart';
-import '../../../services/request_handler.dart';
 import '../dialogs/delete_dialog.dart';
 
 class ServiceCard extends StatefulWidget {
@@ -41,48 +40,9 @@ class _ServiceCardState extends State<ServiceCard> {
           "${format.format(widget.service.kilometersDone)} km",
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
-      trailing: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          // EDIT BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ServiceForm(service: widget.service)
-                  )
-              );
-            },
-            elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.edit),
-          ),
-
-          // DELETE BUTTON
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteService'),
-                      (Function(bool) setLoadingState) async {
-
-                      await ServiceManager().delete(widget.service);
-                      setLoadingState(true);
-                  }
-              );
-            },
-            elevation: 0,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.delete),
-          ),
-        ],
+      trailing: CardEditDeleteButtons(
+        onEditButtonPressed: edit,
+        onDeleteButtonPressed: edit,
       ),
 
       // SERVICE DATA
@@ -94,6 +54,27 @@ class _ServiceCardState extends State<ServiceCard> {
           Text("${translate('nextAtKm')} ${getNextServiceInfo()}", style: const TextStyle(fontSize: 12)),
         ],
       ),
+    );
+  }
+
+  edit() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ServiceForm(service: widget.service)
+        )
+    );
+  }
+
+  delete() {
+    DeleteDialog.show(
+        context,
+        translate('confirmDeleteService'),
+            (Function(bool) setLoadingState) async {
+
+          await ServiceManager().delete(widget.service);
+          setLoadingState(true);
+        }
     );
   }
 

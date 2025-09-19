@@ -1,15 +1,9 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import '../services/managers/token_manager.dart';
 import 'about/terms_and_conditions.dart';
-import 'package:http/http.dart' as http;
 
 import 'home.dart';
 
@@ -94,12 +88,13 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = false;
     });
 
-    if (result) {
+    if (!result) {
       setState(() {
         usernameError = translate('usernameAlreadyTaken');
       });
     }
     else {
+      // TODO: Convert to new notification.
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(translate('successfullyCreatedAccount')),
@@ -203,7 +198,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   DividerWithText(
                     text: translate('accountDetails'),
                     textSize: 17,
-                    lineColor: Colors.black, textColor: Colors.black,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
                   ),
 
                   const SizedBox(height: 10),
@@ -275,7 +271,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   DividerWithText(
                     text: translate('carDetails'),
                     textSize: 17,
-                    lineColor: Colors.black, textColor: Colors.black,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
                   ),
 
                   const SizedBox(height: 10),

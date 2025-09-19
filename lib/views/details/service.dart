@@ -38,47 +38,58 @@ class _ViewServiceState extends State<ViewService> {
       persistentFooterAlignment: AlignmentDirectional.centerStart,
       // EDIT AND DELETE BUTTONS
       persistentFooterButtons: [
-        ElevatedButton.icon(
-            onPressed: () async {
-              var service = await Navigator.push<Service>(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ServiceForm(service: this.service, isViewing: true)
-                  )
-              );
+        Row(
+          children: [
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () async {
+                    var service = await Navigator.push<Service>(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ServiceForm(service: this.service, isViewing: true)
+                        )
+                    );
 
-              if (service != null) {
-                setState(() {
-                  this.service = service;
-                });
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.primary),
-              foregroundColor: WidgetStatePropertyAll(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
+                    if (service != null) {
+                      setState(() {
+                        this.service = service;
+                      });
+                    }
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  icon: const Icon(Icons.edit),
+                  label: Text(translate('edit'))
+              ),
             ),
-            icon: const Icon(Icons.edit),
-            label: Text(translate('edit'))
-        ),
-        ElevatedButton.icon(
-            onPressed: () {
-              DeleteDialog.show(
-                  context,
-                  translate('confirmDeleteService'),
-                      (Function(bool) setLoadingState) async {
 
-                      await ServiceManager().delete(widget.service);
-                      setLoadingState(true);
-                      Navigator.pop(context);
-                  }
-              );
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.error),
-              foregroundColor: WidgetStateProperty.all(Theme.of(context).buttonTheme.colorScheme?.onPrimary),
-            ),
-            icon: const Icon(Icons.delete),
-            label: Text(translate('delete'))
+            const SizedBox(width: 10),
+
+            Expanded(
+              child: FilledButton.tonalIcon(
+                  onPressed: () {
+                    DeleteDialog.show(
+                        context,
+                        translate('confirmDeleteService'),
+                            (Function(bool) setLoadingState) async {
+
+                          await ServiceManager().delete(widget.service);
+                          setLoadingState(true);
+                          Navigator.pop(context);
+                        }
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: Theme.of(context).colorScheme.onError,
+                  ),
+                  icon: const Icon(Icons.delete),
+                  label: Text(translate('delete'))
+              ),
+            )
+          ],
         )
       ],
       body: SingleChildScrollView(
@@ -189,7 +200,7 @@ class _ViewServiceState extends State<ViewService> {
                             Text(translate('location'), style: SharedFontStyles.legendTextStyle),
                             Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
                             Center(
-                              child: service.location == null ? const SizedBox() : ElevatedButton.icon(
+                              child: service.getAddress() == null ? const SizedBox() : ElevatedButton.icon(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
@@ -205,6 +216,7 @@ class _ViewServiceState extends State<ViewService> {
                                 icon: const Icon(Icons.pin_drop, size: 20.3,),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                                  foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
                                 ),
                               )
                             )

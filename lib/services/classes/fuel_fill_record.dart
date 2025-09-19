@@ -1,6 +1,3 @@
-import 'package:benzinapp/services/data_holder.dart';
-import 'package:flutter/cupertino.dart';
-
 import '../managers/fuel_fill_record_manager.dart';
 
 class FuelFillRecord {
@@ -61,33 +58,38 @@ class FuelFillRecord {
   String? comments;
 
   FuelFillRecord? getNext() {
-    var indexOfNext = FuelFillRecordManager().local!.indexOf(this) - 1;
+    var indexOfNext = FuelFillRecordManager().local.indexOf(this) - 1;
     if (indexOfNext < 0) return null;
-    return FuelFillRecordManager().local![indexOfNext];
+    return FuelFillRecordManager().local[indexOfNext];
   }
 
   double getConsumption() {
-    if (getNext() == null) {
-      return double.nan;
-    }
+    // if (getNext() == null) {
+    //   return double.nan;
+    // }
+    //
+    // return 100 * liters / getNext()!.kilometers;
 
-    return 100 * liters / getNext()!.kilometers;
+    return 100 * liters / kilometers;
   }
 
   double getEfficiency() {
-    if (getNext() == null) {
-      return double.nan;
-    }
+    // if (getNext() == null) {
+    //   return double.nan;
+    // }
 
-    return getNext()!.kilometers / liters;
+    // return getNext()!.kilometers / liters;
+    return kilometers / liters;
   }
 
   double getTravelCost() {
-    if (getNext() == null) {
-      return double.nan;
-    }
+    // if (getNext() == null) {
+    //   return double.nan;
+    // }
+    //
+    // return cost / getNext()!.kilometers;
 
-    return cost / getNext()!.kilometers;
+    return cost / kilometers;
   }
 
 }

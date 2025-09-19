@@ -50,9 +50,9 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 247, 240), // Background color
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
-                  border: Border.all(color: Colors.black26, width: 1), // Optional border
+                  color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Theme.of(context).colorScheme.onSurface.withAlpha(77), width: 1),
                 ),
                 child: DropdownButton<int>(
                   value: _selectedFocusValue, // No default selected
@@ -79,9 +79,9 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
                       _selectedFocusValue = value;
                     });
                   },
-                  dropdownColor: const Color.fromARGB(255, 255, 247, 240),
-                  style: const TextStyle(fontSize: 13, color: Colors.black),
-                  icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+                  dropdownColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                  style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurface),
+                  icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurface),
 
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   borderRadius: BorderRadius.circular(15), // Rounded corners
@@ -95,7 +95,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
               // graph with consumption container
               FuelTrendLineChart(
-                data: FuelFillRecordManager().local.skip(1).toList(),
+                data: FuelFillRecordManager().local,
                 size: 300,
                 focusType: _focus,
                 context: context,

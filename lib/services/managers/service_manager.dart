@@ -21,5 +21,8 @@ class ServiceManager extends AbstractManager<Service> {
   String get responseKeyword => "service";
 
   @override
+  int compare(Service a, Service b) => b.dateHappened.compareTo(a.dateHappened);
+
+  @override
   Map<String, dynamic> toJson(Service model) => model.toJson();
 }
