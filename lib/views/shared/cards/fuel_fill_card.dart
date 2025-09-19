@@ -41,35 +41,12 @@ class _FuelFillCardState extends State<FuelFillCard> {
             )
         );
       },
-      title: Row(
-        children: [
-          AutoSizeText(
-              getLocalizedDate(context, widget.record.dateTime),
-              maxLines: 1,
-              maxFontSize: 19,
-              minFontSize: 12,
-              style: const TextStyle(fontWeight: FontWeight.bold)
-          ),
-
-          const SizedBox(width: 5),
-
-          Material(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)
-            ),
-            color: Theme.of(context).colorScheme.primaryFixedDim,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Text(
-                "#${widget.record.id.toString()}",
-                style: TextStyle(
-                  fontSize: 11.5,
-                  color: Theme.of(context).colorScheme.onPrimaryFixed
-                ),
-              ),
-            )
-          )
-        ],
+      title: AutoSizeText(
+          getLocalizedDate(context, widget.record.dateTime),
+          maxLines: 1,
+          maxFontSize: 18,
+          minFontSize: 12,
+          style: const TextStyle(fontWeight: FontWeight.bold)
       ),
       trailing: CardEditDeleteButtons(
         onEditButtonPressed: edit,
