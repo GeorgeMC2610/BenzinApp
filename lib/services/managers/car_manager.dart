@@ -1,42 +1,29 @@
-import 'dart:convert';
-
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
-import 'package:flutter/material.dart';
+import 'package:benzinapp/services/managers/abstract_manager.dart';
 
-class CarManager with ChangeNotifier {
+
+class CarManager extends AbstractManager<Car> {
 
   static final CarManager _instance = CarManager._internal();
   factory CarManager() => _instance;
   CarManager._internal();
 
-  Car? car;
+  @override
+  String get baseUrl => '${DataHolder.destination}/car';
 
-  final uri = '${DataHolder.destination}/car';
+  @override
+  Car fromJson(Map<String, dynamic> json) => Car.fromJson(json);
 
-  Future<void> get({bool forceBackend = false}) async {
-    if (car != null && !forceBackend) {
-      return;
-    }
+  @override
+  int getId(Car model) => model.id;
 
-    final response = await RequestHandler.sendGetRequest(uri);
-    if (response.statusCode != 200) {
-      throw UnauthorizedException();
-    }
+  @override
+  String get responseKeyword => "car";
 
-    var jsonResponse = jsonDecode(response.body);
+  @override
+  int compare(Car a, Car b) => b.username.compareTo(a.username);
 
-    car = Car.fromJson(jsonResponse);
-  }
-
-  Future<void> update(Car modified) async {
-    final response = await RequestHandler.sendPatchRequest(uri, car!.toJson());
-    final jsonResponse = json.decode(response.body);
-    final updated = Car.fromJson(jsonResponse);
-
-    car = updated;
-    notifyListeners();
-  }
+  @override
+  Map<String, dynamic> toJson(Car model) => model.toJson();
 }
