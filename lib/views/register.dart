@@ -18,16 +18,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController = TextEditingController();
-  final TextEditingController manufacturerController = TextEditingController();
-  final TextEditingController modelController = TextEditingController();
-  final TextEditingController yearController = TextEditingController();
 
-  String? usernameError, passwordError, passwordConfirmError, manufacturerError,
-  modelError, yearError;
-
+  String? usernameError, passwordError, passwordConfirmError, emailError;
   bool isRegistering = false;
 
   void _sendRegisterPayload() async {
@@ -45,22 +41,9 @@ class _RegisterPageState extends State<RegisterPage> {
       translate('cannotBeEmpty') :
       null;
 
-      manufacturerError = manufacturerController.text.isEmpty?
+      emailError = emailController.text.isEmpty?
       translate('cannotBeEmpty') :
       null;
-
-      modelError = modelController.text.isEmpty?
-      translate('cannotBeEmpty') :
-      null;
-
-      yearError = yearController.text.isEmpty?
-      translate('cannotBeEmpty') :
-      null;
-
-      // other checks
-      yearError ??= int.parse(yearController.text) < 1886 ?
-      translate('carsNotExistingBackThen') :
-        null;
 
       if (passwordConfirmError == null && passwordError == null) {
         passwordConfirmError = passwordConfirmController.text != passwordController.text ?
@@ -71,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (
     usernameError != null || passwordError != null || passwordConfirmError != null ||
-    manufacturerError != null || modelError != null || yearError != null
+    emailError != null
     ) {
       return;
     }
@@ -81,8 +64,8 @@ class _RegisterPageState extends State<RegisterPage> {
     });
 
     var result = await SessionManager().signup(
-        usernameController.text, passwordController.text,
-        passwordConfirmController.text, manufacturerController.text,
+        emailController.text, usernameController.text,
+        passwordController.text, passwordConfirmController.text,
     );
 
     setState(() {
@@ -199,17 +182,22 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40),
 
-                  Text(translate('agreeToTheTandC')),
-
-                  const SizedBox(height: 20),
-
-                  DividerWithText(
-                    text: translate('accountDetails'),
-                    textSize: 17,
-                    lineColor: Colors.grey,
-                    textColor: Theme.of(context).colorScheme.primary,
+                  // BenzinApp Logo
+                  TextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      errorText: emailError,
+                      hintText: translate('carManufacturerHint'),
+                      labelText: translate('carManufacturer'),
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 10),
@@ -230,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 10),
 
                   // ACCOUNT DETAILS REGION
                   Row(
@@ -275,77 +263,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
 
-                  // CAR DETAILS REGION
-                  const SizedBox(height: 50),
-
-                  DividerWithText(
-                    text: translate('carDetails'),
-                    textSize: 17,
-                    lineColor: Colors.grey,
-                    textColor: Theme.of(context).colorScheme.primary,
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // BenzinApp Logo
-                  TextField(
-                    controller: manufacturerController,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      errorText: manufacturerError,
-                      hintText: translate('carManufacturerHint'),
-                      labelText: translate('carManufacturer'),
-                      prefixIcon: const Icon(Icons.car_rental),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16.0),
-
                   // Password TextField
-
-                  Row(
-                    children: [
-
-                      Expanded(
-                        child: TextField(
-                          controller: modelController,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            errorText: modelError,
-                            hintText: translate('carModelHint'),
-                            labelText: translate('carModel'),
-                            prefixIcon: const Icon(Icons.car_rental_outlined),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 7.5),
-
-                      Expanded(
-                        child: TextField(
-                          controller: yearController,
-                          keyboardType: const TextInputType.numberWithOptions(signed: true),
-                          decoration: InputDecoration(
-                            errorText: yearError,
-                            hintText: translate('carYearHint'),
-                            labelText: translate('carYear'),
-                            suffixIcon: const Icon(Icons.calendar_month),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
-                      )
-
-                    ],
-                  ),
                 ]
             ),
           ),
