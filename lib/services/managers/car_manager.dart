@@ -9,6 +9,8 @@ class CarManager extends AbstractManager<Car> {
   factory CarManager() => _instance;
   CarManager._internal();
 
+  Car? watchingCar;
+
   @override
   String get baseUrl => '${DataHolder.destination}/car';
 

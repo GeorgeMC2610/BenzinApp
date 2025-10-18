@@ -33,7 +33,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
   }
 
   initialize() {
-    final car = CarManager().car;
+    final car = CarManager().watchingCar;
     final lastService = ServiceManager().local.firstOrNull;
     final lastRecord = FuelFillRecordManager().local.firstOrNull;
     final mostRecentTotalKilometers = Car.getMostRecentTotalKilometers();

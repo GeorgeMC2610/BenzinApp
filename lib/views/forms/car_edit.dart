@@ -47,7 +47,7 @@ class _EditCarState extends State<EditCar> {
       isLoading = true;
     });
 
-    var car = CarManager().car!;
+    var car = CarManager().watchingCar!;
     car.manufacturer = manufacturerController.text;
     car.model = modelController.text;
     car.year = int.parse(yearController.text);
@@ -65,9 +65,9 @@ class _EditCarState extends State<EditCar> {
   @override
   void initState() {
     super.initState();
-    manufacturerController.text = CarManager().car!.manufacturer;
-    modelController.text = CarManager().car!.model;
-    yearController.text = CarManager().car!.year.toString();
+    manufacturerController.text = CarManager().watchingCar!.manufacturer;
+    modelController.text = CarManager().watchingCar!.model;
+    yearController.text = CarManager().watchingCar!.year.toString();
   }
 
   @override

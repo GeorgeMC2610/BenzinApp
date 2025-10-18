@@ -32,7 +32,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   }
 
   initialize() async {
-    final car = CarManager().car;
+    final car = CarManager().watchingCar;
 
     setState(() {
       username = car?.username;
