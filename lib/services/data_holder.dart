@@ -10,7 +10,7 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'https://benzin-app.fly.dev';
+  static const String destination = 'http://localhost:3000';
 
   Future<void> initializeValues() async {
     await CarManager().index();

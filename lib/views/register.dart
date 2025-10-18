@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'about/terms_and_conditions.dart';
@@ -82,34 +83,40 @@ class _RegisterPageState extends State<RegisterPage> {
     var result = await SessionManager().signup(
         usernameController.text, passwordController.text,
         passwordConfirmController.text, manufacturerController.text,
-        modelController.text, int.parse(yearController.text)
     );
 
     setState(() {
       isRegistering = false;
     });
 
-    if (!result) {
-      setState(() {
-        usernameError = translate('usernameAlreadyTaken');
-      });
-    }
-    else {
-      // TODO: Convert to new notification.
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(translate('successfullyCreatedAccount')),
-          )
-      );
+    switch (result) {
+      case SessionStatus.success:
+        SnackbarNotification.show(MessageType.success, translate('successfullyCreatedAccount'));
 
-      await DataHolder().initializeValues();
+        await DataHolder().initializeValues();
 
-      Navigator.pop(context);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const HomePage()
-          ));
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const HomePage()
+        ));
+        break;
+      case SessionStatus.usernameTaken:
+        setState(() {
+          usernameError = translate('usernameAlreadyTaken');
+        });
+        break;
+      case SessionStatus.emailTaken:
+        setState(() {
+          usernameError = translate('EMAIL ALREADY TAKEN');
+        });
+        break;
+      case SessionStatus.serverError:
+        SnackbarNotification.show(MessageType.success, translate('SERVER ERROR!!!'));
+        break;
+      default:
+        break;
     }
   }
 

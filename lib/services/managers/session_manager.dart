@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
+import 'package:http/http.dart';
 
 import '../data_holder.dart';
 import 'car_manager.dart';
@@ -12,7 +13,7 @@ class SessionManager {
   factory SessionManager() => _instance;
   SessionManager._internal();
 
-  final loginUri = '${DataHolder.destination}/auth/login';
+  final loginUri = '${DataHolder.destination}/login';
   final signupUri = '${DataHolder.destination}/signup';
 
   bool isLoggedIn = false;
@@ -21,7 +22,7 @@ class SessionManager {
     return false;
   }
 
-  Future<int> login(String email, String password) async {
+  Future<SessionStatus> login(String email, String password) async {
     final Map<String, dynamic> body = {
       "user": {
         "email": email,
@@ -32,16 +33,24 @@ class SessionManager {
     final response = await RequestHandler.sendPostRequest(loginUri, false, body);
 
     if (response.statusCode == 200) {
-      await TokenManager().removeToken();
-      await TokenManager().setToken(response.headers['Authorization']!);
 
-      isLoggedIn = true;
     }
 
-    return response.statusCode;
+    switch (response.statusCode) {
+      case 200:
+        await TokenManager().removeToken();
+        print(response.headers);
+        await TokenManager().setToken(response.headers['authorization']!);
+        isLoggedIn = true;
+        return SessionStatus.success;
+      case 401:
+        return SessionStatus.wrongCredentials;
+      default:
+        return SessionStatus.blank;
+    }
   }
 
-  Future<int> signup(
+  Future<SessionStatus> signup(
       String email, String username, String password,
       String confirmPassword) async {
     final Map<String, dynamic> body = {
@@ -55,15 +64,29 @@ class SessionManager {
 
     final response = await RequestHandler.sendPostRequest(signupUri, false, body);
 
-    if (response.statusCode == 201) {
-      await TokenManager().removeToken();
-      await TokenManager().setToken(jsonDecode(response.body)['auth_token']);
-
-      isLoggedIn = true;
+    switch (response.statusCode) {
+      case 201:
+        await TokenManager().removeToken();
+        await TokenManager().setToken(response.headers['authorization']!);
+        isLoggedIn = true;
+        return SessionStatus.success;
+      case 422:
+        return response.body.contains("Email") ? SessionStatus.emailTaken : SessionStatus.usernameTaken;
+      case 500:
+        return SessionStatus.serverError;
+      default:
+        return SessionStatus.blank;
     }
-
-    return response.statusCode;
   }
+}
+
+enum SessionStatus {
+  success,
+  wrongCredentials,
+  usernameTaken,
+  emailTaken,
+  serverError,
+  blank
 }
 
 class UnauthorizedException implements Exception {

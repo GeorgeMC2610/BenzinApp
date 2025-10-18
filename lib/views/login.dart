@@ -18,10 +18,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String? usernameError;
+  String? emailError;
   String? passwordError;
 
   bool isLoggingIn = false;
@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   void sendLoginPayload() async {
 
     setState(() {
-      usernameError = usernameController.text.trim().isEmpty?
+      emailError = emailController.text.trim().isEmpty?
       translate('cannotBeEmpty') :
       null;
 
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       null;
     });
 
-    if (usernameError != null || passwordError != null) {
+    if (emailError != null || passwordError != null) {
       return;
     }
 
@@ -46,23 +46,35 @@ class _LoginPageState extends State<LoginPage> {
       isLoggingIn = true;
     });
 
-    final result = await SessionManager().login(usernameController.text, passwordController.text);
-    if (result) {
+    final result = await SessionManager().login(emailController.text, passwordController.text);
 
-      // show the message that the user is authorized successfully.
-      SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-      await DataHolder().initializeValues();
+    setState(() {
+      isLoggingIn = false;
+    });
 
-      Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) => const HomePage()
-      ));
-    }
-    else {
-      setState(() {
-        usernameError = translate('wrongCredentials');
-        passwordError = translate('wrongCredentials');
-        isLoggingIn = false;
-      });
+    switch (result) {
+      case SessionStatus.success:
+        // show the message that the user is authorized successfully.
+        SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
+        await DataHolder().initializeValues();
+
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => const HomePage()
+        ));
+
+
+        break;
+      case SessionStatus.wrongCredentials:
+        setState(() {
+          emailError = translate('wrongCredentials');
+          passwordError = translate('wrongCredentials');
+        });
+        break;
+      case SessionStatus.serverError:
+        SnackbarNotification.show(MessageType.danger, "SERVER ERROR");
+        break;
+      default:
+        break;
     }
   }
 
@@ -161,11 +173,11 @@ class _LoginPageState extends State<LoginPage> {
               // BenzinApp Logo
               TextField(
                 enabled: !isLoggingIn,
-                controller: usernameController,
+                controller: emailController,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  errorText: usernameError,
+                  errorText: emailError,
                   hintText: translate('usernameHint'),
                   labelText: translate('username'),
                   prefixIcon: const Icon(Icons.person),
