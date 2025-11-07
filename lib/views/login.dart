@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
+import 'package:benzinapp/views/confirmations/confirm_email.dart';
+import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -58,10 +63,15 @@ class _LoginPageState extends State<LoginPage> {
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
         await DataHolder().initializeValues();
 
-        Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => const HomePage()
-        ));
+        Widget screen = const HomePage();
 
+        if (!UserManager().currentUser!.isConfirmed()) {
+          screen = const ConfirmEmail();
+        }
+
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => screen
+        ));
 
         break;
       case SessionStatus.wrongCredentials:
@@ -104,8 +114,19 @@ class _LoginPageState extends State<LoginPage> {
                 )
             );
 
-          }, icon: const Icon(Icons.app_registration)),
-          // IconButton(onPressed: () {}, icon: const Icon(Icons.key_off)),
+            }, icon: const Icon(Icons.settings)
+          ),
+
+          IconButton(onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RegisterPage()
+                )
+            );
+
+          }, icon: const Icon(Icons.add_box_outlined)
+          ),
 
         ],
       ),
@@ -174,13 +195,13 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 enabled: !isLoggingIn,
                 controller: emailController,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: translate('usernameHint'),
                   labelText: translate('username'),
-                  prefixIcon: const Icon(Icons.person),
+                  prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -207,15 +228,53 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 75),
 
-              Row(
-                 children: [
-                   Expanded(
-                     child: AutoSizeText(maxLines: 1, "• ${translate('dontHaveAnAccount')}"),
-                   ),
-                   const SizedBox(width: 5),
-                   const Icon(Icons.app_registration, size: 18,)
-                 ],
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResetPasswordFirstStep()
+                        )
+                    );
+                  },
+                  child: Text(
+                    translate('forgotPassword'),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue
+                    ),
+                  ),
+                )
               ),
+
+              const SizedBox(height: 30),
+
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()
+                        )
+                    );
+                  },
+                  child: Text(
+                    translate("dontHaveAnAccount"),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue
+                    ),
+                  ),
+                )
+              ),
+
+
               // const SizedBox(height: 5),
               // Row(
               //   children: [

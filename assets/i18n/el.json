@@ -299,5 +299,39 @@
   "apply": "Εφαρμογή",
 
   "editCar": "Επεξεργασία Αυτοκινήτου",
-  "successfullyUpdatedCar": "Επιτυχής ενημέρωση στοιχείων Αυτοκινήτου."
+  "successfullyUpdatedCar": "Επιτυχής ενημέρωση στοιχείων Αυτοκινήτου.",
+
+  "checkYourEmail": "Ρίξτε μια ματιά στα E-Mail σας. Θα βρείτε έναν κωδικό.",
+  "enterCode": "Όταν τον βρείτε, γράψτε τον εδώ:",
+  "resendButton": "Επαναποστολή",
+  "wrongCode": "Ο κωδικός είναι λάθος ή έχει λήξει",
+  "emptyCode": "Παρακαλώ εισάγετε τον κωδικό",
+
+  "confirmAccount": "Επιβεβαίωση Λογαριασμού",
+  "confirmButton": "Επιβεβαίωση",
+  "confirmAccountTitle": "Ας επιβεβαιώσουμε τον λογαριασμό σας",
+  "skipVerification": "Παράλειψη επιβεβαίωσης για τώρα.",
+  "skipConsequences": "Τι θα γίνει αν δεν επιβεβαιώσω τον λογαριασμό μου;",
+
+  "forgotPasswordMenu": "Ανάκτηση Κωδικού",
+  "resetPasswordMenu": "Επαναφορά Κωδικού",
+
+  "forgotPasswordTitle": "Ξεχάσατε τον κωδικό σας;",
+  "forgotPasswordSubtitle": "Σκληρό. Αλλά συμβαίνει και στους καλύτερους.",
+  "forgotPasswordEmailPrompt": "Παρακαλώ εισάγετε το e-mail του λογαριασμού σας.",
+  "forgotPasswordEmailLabel": "E-Mail",
+  "forgotPasswordEmailHint": "Το e-mail του λογαριασμού σας",
+  "forgotPasswordNextStep": "Επόμενο Βήμα",
+
+  "forgotPasswordSecondStepTitle": "Σχεδόν φτάσαμε!",
+  "forgotPasswordSecondStepEnterPassword": "Μετά, επιλέξτε έναν καινούριο κωδικό",
+  "forgotPasswordSecondStepPasswordLabel": "Καινούριος Κωδικός",
+  "forgotPasswordSecondStepPasswordHint": "Εισάγετε κωδικό...",
+  "forgotPasswordSecondStepPasswordConfirmLabel": "Επιβεβαίωση Κωδικού",
+  "forgotPasswordSecondStepPasswordConfirmHint": "Επιβεβαιώστε τον κωδικό...",
+
+  "forgotPasswordErrorSomethingElse": "Κάτι άλλο πήγε στραβά. Κωδικός σφάλματος: {code}",
+  "forgotPasswordSuccessfullyReset": "Επιτυχής αλλαγή κωδικού",
+  "forgotPasswordErrorTooEarly": "Πρέπει να περάσουν 2 λεπτά για να αιτηθείτε για καινούριο κωδικό",
+  "forgotPasswordFinishButton": "Ολοκλήρωση"
 }

@@ -49,10 +49,10 @@ class RequestHandler {
     return response;
   }
 
-  static Future<http.Response> sendPatchRequest(String uri, Map<String, dynamic> body) async {
+  static Future<http.Response> sendPatchRequest(String uri, Map<String, dynamic> body, { bool authorize = true }) async {
     var client = http.Client();
     var url = Uri.parse(uri);
-    var headers = authorizationHeaders();
+    var headers = authorize ? authorizationHeaders() : basisHeaders();
 
     final response = await client.patch(
         url,

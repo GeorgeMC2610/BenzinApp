@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/managers/user_manager.dart';
+
 import 'managers/car_manager.dart';
 import 'managers/fuel_fill_record_manager.dart';
 import 'managers/malfunction_manager.dart';
@@ -14,6 +16,7 @@ class DataHolder {
 
   Future<void> initializeValues() async {
     await CarManager().index();
+    await UserManager().getCurrentUser();
   }
 
   /// Since all these data belong to separate cars, they will have to wait

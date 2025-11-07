@@ -299,5 +299,39 @@
   "apply": "Apply",
 
   "editCar": "Edit Car",
-  "successfullyUpdatedCar": "Successfully updated Car info."
+  "successfullyUpdatedCar": "Successfully updated Car info.",
+
+  "checkYourEmail": "Check your E-Mail. You should find a code.",
+  "enterCode": "Once you find it, enter it here:",
+  "resendButton": "Resend",
+  "wrongCode": "Wrong or expired code",
+  "emptyCode": "Please enter the code",
+
+  "confirmAccount": "Confirm Account",
+  "confirmButton": "Confirm",
+  "confirmAccountTitle": "Let's verify your account",
+  "skipVerification": "Skip verification for now.",
+  "skipConsequences": "What happens if I skip?",
+
+  "forgotPasswordMenu": "Forgot Password",
+  "resetPasswordMenu": "Reset Password",
+
+  "forgotPasswordTitle": "Forgot your password?",
+  "forgotPasswordSubtitle": "Tough one. But, it happens to the best of us.",
+  "forgotPasswordEmailPrompt": "Please provide the e-mail associated with your account.",
+  "forgotPasswordEmailLabel": "E-Mail",
+  "forgotPasswordEmailHint": "Your account's email address...",
+  "forgotPasswordNextStep": "Next Step",
+
+  "forgotPasswordSecondStepTitle": "You're almost there!",
+  "forgotPasswordSecondStepEnterPassword": "Then, enter a new password",
+  "forgotPasswordSecondStepPasswordLabel": "New password",
+  "forgotPasswordSecondStepPasswordHint": "Enter your new password...",
+  "forgotPasswordSecondStepPasswordConfirmLabel": "Confirm Password",
+  "forgotPasswordSecondStepPasswordConfirmHint": "Confirm your new password...",
+
+  "forgotPasswordErrorSomethingElse": "Something else went wrong. Error code: {code}",
+  "forgotPasswordSuccessfullyReset": "Successfully reset password",
+  "forgotPasswordErrorTooEarly": "Requested a new code too early",
+  "forgotPasswordFinishButton": "Finish"
 }
