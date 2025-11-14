@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -224,8 +225,12 @@ class CarCard extends StatelessWidget {
       leading: const Icon(Icons.share),
       title: Text(translate('carMenuShare')),
       onTap: () {
-        // TODO: Handle 'share_car'
         Navigator.of(buildContext).pop();
+        Navigator.of(buildContext).push(
+          MaterialPageRoute(
+            builder: (context) => InviteUserToCar(car: car!),
+          ),
+        );
       },
     ),
     ListTile(

@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 
 import 'managers/car_manager.dart';
@@ -17,7 +18,8 @@ class DataHolder {
   Future<void> initializeValues() async {
     List<Future<void>> futures = [
       CarManager().index(),
-      UserManager().getCurrentUser()
+      UserManager().getCurrentUser(),
+      CarUserInvitationManager().index(),
     ];
 
     await Future.wait(futures);
@@ -32,7 +34,8 @@ class DataHolder {
       FuelFillRecordManager().index(),
       ServiceManager().index(),
       MalfunctionManager().index(),
-      TripManager().index()
+      TripManager().index(),
+      CarUserInvitationManager().index(),
     ];
 
     await Future.wait(futures);
@@ -45,6 +48,7 @@ class DataHolder {
     TripManager().destroyValues();
     CarManager().destroyValues();
     UserManager().destroyValues();
+    CarUserInvitationManager().destroyValues();
   }
 
   // TODO: Stop using this logic here. This will be migrated to the API.

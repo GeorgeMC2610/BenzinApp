@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 import '../../services/classes/car.dart';
+import '../../services/managers/user_manager.dart';
 
 class InviteUserToCar extends StatefulWidget {
   const InviteUserToCar({super.key, required this.car});
@@ -125,26 +128,43 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
   bool buttonLocked() => _usernameEmpty || _isSending;
 
   void _sendInvitation() async {
+    if (_usernameController.text == UserManager().currentUser!.username) {
+      setState(() {
+        _usernameError = '🤯';
+      });
+      return;
+    }
+
     setState(() {
       _isSending = true;
       _usernameError = null;
     });
 
-    final result = await CarManager().inviteUserToCar(_usernameController.text);
+    try {
+      final invitation = CarUserInvitation(
+          recipientUsername: _usernameController.text,
+          carId: widget.car.id,
+          access: 1, id: -1, senderUsername: '', isAccepted: false, createdAt: DateTime.now(),
+          updatedAt: DateTime.now()
+      );
+      await CarUserInvitationManager().create(invitation);
 
-    setState(() {
-      _isSending = false;
-    });
-
-    if (success) {
       SnackbarNotification.show(MessageType.success, 'Invitation sent to ${_usernameController.text}');
       setState(() {
         _usernameController.clear();
         _usernameEmpty = true;
       });
-    } else {
+    }
+    catch (e, stack) {
+      print(e.toString());
+      print(stack.toString());
       setState(() {
-        _usernameError = 'User not found'; // Example error message
+        _usernameError = 'User not found';
+      });
+    }
+    finally {
+      setState(() {
+        _isSending = false;
       });
     }
   }
