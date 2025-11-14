@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
@@ -41,6 +42,7 @@ void main() {
                 ChangeNotifierProvider(create: (context) => ServiceManager()),
                 ChangeNotifierProvider(create: (context) => TripManager()),
                 ChangeNotifierProvider(create: (context) => CarManager()),
+                ChangeNotifierProvider(create: (context) => CarUserInvitationManager()),
                 ChangeNotifierProvider(create: (context) => ThemeProvider()),
               ],
               child: const MainApp(),

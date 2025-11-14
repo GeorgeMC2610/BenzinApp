@@ -33,6 +33,7 @@ class CarUserInvitationManager extends AbstractManager<CarUserInvitation> {
   Future<bool> accept(int id) async {
     final response = await RequestHandler.sendPatchRequest("$baseUrl/$id", {});
     return response.statusCode == 204;
+
   }
 
 
