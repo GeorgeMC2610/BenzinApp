@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
+import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/use_case_register.dart';
@@ -109,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UseCaseRegister()
+                    builder: (context) => const SettingsScreen()
                 )
             );
 

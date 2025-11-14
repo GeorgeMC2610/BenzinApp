@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/shared/car_list.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,11 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen())),
+              icon: const Icon(Icons.settings))
+        ],
         title: Text(translate('dashboardAppBar')),
       ),
       body: RefreshIndicator(

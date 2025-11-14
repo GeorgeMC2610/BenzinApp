@@ -44,6 +44,7 @@ class DataHolder {
     MalfunctionManager().destroyValues();
     TripManager().destroyValues();
     CarManager().destroyValues();
+    UserManager().destroyValues();
   }
 
   // TODO: Stop using this logic here. This will be migrated to the API.

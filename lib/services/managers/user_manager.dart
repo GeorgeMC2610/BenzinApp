@@ -17,6 +17,11 @@ class UserManager with ChangeNotifier {
     currentUser = user;
   }
 
+  Future<void> destroyValues() async {
+    currentUser = null;
+    notifyListeners();
+  }
+
   Future<void> getCurrentUser() async {
     // prepare the send data
     const url = '${DataHolder.destination}/user';
