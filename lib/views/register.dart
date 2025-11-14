@@ -2,13 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
-import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'about/terms_and_conditions.dart';
-
-import 'home.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -77,7 +74,10 @@ class _RegisterPageState extends State<RegisterPage> {
       case SessionStatus.success:
         SnackbarNotification.show(MessageType.success, translate('successfullyCreatedAccount'));
 
+        await DataHolder().initializeValues();
+
         if (mounted) {
+          Navigator.pop(context);
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -92,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
         break;
       case SessionStatus.emailTaken:
         setState(() {
-          usernameError = translate('EMAIL ALREADY TAKEN');
+          emailError = translate('emailAlreadyTaken');
         });
         break;
       case SessionStatus.serverError:
@@ -191,8 +191,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       errorText: emailError,
-                      hintText: translate('carManufacturerHint'),
-                      labelText: translate('carManufacturer'),
+                      hintText: translate('emailHint'),
+                      labelText: translate('email'),
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),

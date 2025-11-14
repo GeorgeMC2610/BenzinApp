@@ -2,6 +2,7 @@ import 'package:benzinapp/filters/fuel_fill_filter.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 
 
 class FuelFillRecordManager extends AbstractManager<FuelFillRecord> {
@@ -11,7 +12,7 @@ class FuelFillRecordManager extends AbstractManager<FuelFillRecord> {
   FuelFillRecordManager._internal();
 
   @override
-  String get baseUrl => '${DataHolder.destination}/fuel_fill_record';
+  String get baseUrl => '${DataHolder.destination}/car/${CarManager().watchingCar!.id}/fuel_fill_record';
 
   @override
   FuelFillFilter? get filter => super.filter as FuelFillFilter?;

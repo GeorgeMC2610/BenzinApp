@@ -4,22 +4,26 @@ import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
+import '../../services/classes/car.dart';
 import '../shared/notification.dart';
 
-class EditCar extends StatefulWidget {
-  const EditCar({super.key});
+class CarForm extends StatefulWidget {
+  const CarForm({super.key, this.car});
+
+  final Car? car;
 
   @override
-  State<StatefulWidget> createState() => _EditCarState();
+  State<StatefulWidget> createState() => _CarFormState();
 }
 
-class _EditCarState extends State<EditCar> {
+class _CarFormState extends State<CarForm> {
 
   final TextEditingController manufacturerController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController modelController = TextEditingController();
   final TextEditingController yearController = TextEditingController();
 
-  String? manufacturerError, modelError, yearError;
+  String? usernameError, manufacturerError, modelError, yearError;
   bool isLoading = false;
 
   _sendCarEditPayload() async {
@@ -47,27 +51,46 @@ class _EditCarState extends State<EditCar> {
       isLoading = true;
     });
 
-    var car = CarManager().watchingCar!;
-    car.manufacturer = manufacturerController.text;
-    car.model = modelController.text;
-    car.year = int.parse(yearController.text);
+    String successMessage;
 
-    await CarManager().update(car);
+    if (widget.car == null) {
+      var newCar = Car(
+          id: -1, username: usernameController.text, ownerUsername: '',
+          manufacturer: manufacturerController.text, model: modelController.text,
+          year: int.parse(yearController.text), isShared: false,
+          createdAt: DateTime.now(), updatedAt: DateTime.now()
+      );
+
+      await CarManager().create(newCar);
+      successMessage = translate('successfullyCreatedCar');
+    }
+    else {
+      widget.car!.username = usernameController.text;
+      widget.car!.manufacturer = manufacturerController.text;
+      widget.car!.model = modelController.text;
+      widget.car!.year = int.parse(yearController.text);
+
+      await CarManager().update(widget.car!);
+      successMessage = translate('successfullyUpdatedCar');
+    }
 
     setState(() {
       isLoading = false;
     });
 
-    SnackbarNotification.show(MessageType.success, translate('successfullyUpdatedCar'));
+    SnackbarNotification.show(MessageType.success, successMessage);
     Navigator.pop(context);
   }
 
   @override
   void initState() {
     super.initState();
-    manufacturerController.text = CarManager().watchingCar!.manufacturer;
-    modelController.text = CarManager().watchingCar!.model;
-    yearController.text = CarManager().watchingCar!.year.toString();
+    if (widget.car != null) {
+      modelController.text = widget.car!.model;
+      usernameController.text = widget.car!.username;
+      manufacturerController.text = widget.car!.manufacturer;
+      yearController.text = widget.car!.year.toString();
+    }
   }
 
   @override
@@ -100,9 +123,29 @@ class _EditCarState extends State<EditCar> {
             const SizedBox(height: 10),
 
             TextField(
+              controller: usernameController,
+              keyboardType: TextInputType.text,
+              enabled: !isLoading,
+              maxLength: 30,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                errorText: manufacturerError,
+                hintText: translate('carUsernameHint'),
+                labelText: translate('carUsername'),
+                prefixIcon: const Icon(Icons.directions_car_outlined),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            TextField(
               controller: manufacturerController,
               keyboardType: TextInputType.text,
               enabled: !isLoading,
+              maxLength: 30,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 errorText: manufacturerError,
@@ -127,6 +170,7 @@ class _EditCarState extends State<EditCar> {
                     controller: modelController,
                     textInputAction: TextInputAction.next,
                     enabled: !isLoading,
+                    maxLength: 30,
                     decoration: InputDecoration(
                       errorText: modelError,
                       hintText: translate('carModelHint'),
@@ -146,6 +190,7 @@ class _EditCarState extends State<EditCar> {
                     controller: yearController,
                     keyboardType: const TextInputType.numberWithOptions(signed: true),
                     enabled: !isLoading,
+                    maxLength: 4,
                     decoration: InputDecoration(
                       errorText: yearError,
                       hintText: translate('carYearHint'),

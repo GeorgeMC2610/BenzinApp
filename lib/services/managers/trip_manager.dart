@@ -2,6 +2,8 @@ import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
 
+import 'car_manager.dart';
+
 class TripManager extends AbstractManager<Trip> {
 
   static final TripManager _instance = TripManager._internal();
@@ -9,7 +11,7 @@ class TripManager extends AbstractManager<Trip> {
   TripManager._internal();
 
   @override
-  String get baseUrl => '${DataHolder.destination}/repeated_trip';
+  String get baseUrl => '${DataHolder.destination}/car/${CarManager().watchingCar!.id}/repeated_trip';
 
   @override
   Trip fromJson(Map<String, dynamic> json) => Trip.fromJson(json);

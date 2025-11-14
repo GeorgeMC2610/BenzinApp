@@ -88,6 +88,12 @@ abstract class AbstractManager<T> with ChangeNotifier {
     notifyListeners();
   }
 
+  @protected
+  void manualInsert(T model) {
+    int index = _findIndex(model);
+    _local.insert(index, model);
+  }
+
   int _findIndex(T item) {
     for (int i = 0; i < _local.length; i++) {
       if (compare(item, _local[i]) < 0) {

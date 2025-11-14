@@ -3,36 +3,54 @@ import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'dart:math';
 
 import 'package:benzinapp/services/managers/service_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 
 class Car {
 
   Car({
     required this.id,
     required this.username,
+    required this.ownerUsername,
     required this.manufacturer,
     required this.model,
-    required this.year
+    required this.year,
+    required this.isShared,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final int id;
-  final String username;
+  String username;
+  String ownerUsername;
   String manufacturer;
   String model;
+  bool isShared;
   int year;
+  final DateTime createdAt;
+  DateTime updatedAt;
 
   static Car fromJson(Map<String, dynamic> object) => Car(
     id: object[CarFields.id],
     username: object[CarFields.username],
+    ownerUsername: object[CarFields.ownerUsername],
     manufacturer: object[CarFields.manufacturer],
     model: object[CarFields.model],
-    year: object[CarFields.year]
+    year: object[CarFields.year],
+    isShared: object[CarFields.isShared] ?? false,
+    createdAt: DateTime.parse(object[CarFields.createdAt]),
+    updatedAt: DateTime.parse(object[CarFields.createdAt]),
   );
 
   Map<String, dynamic> toJson() => {
     CarFields.manufacturer: manufacturer,
+    CarFields.username: username,
     CarFields.model: model,
     CarFields.year: year
   };
+
+  bool isOwned() {
+    return UserManager().currentUser!.username == ownerUsername;
+  }
 
   /// Total Consumption (Liters / 100 km)
   static double getTotalConsumption() {
@@ -177,4 +195,8 @@ class CarFields {
   static const String manufacturer = "manufacturer";
   static const String model = "model";
   static const String year = "year";
+  static const String ownerUsername = "owner_username";
+  static const String createdAt = "created_at";
+  static const String updatedAt = "updated_at";
+  static const String isShared = "shared";
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/views/car/dashboard.dart';
+import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -148,8 +150,12 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
     switch (result) {
       case UserPayloadStatus.confirmedOk:
-        SnackbarNotification.show(MessageType.alert, 'SUCCESSFULLY CONFIRMED!');
-        // redirect back to the car page.
+        SnackbarNotification.show(MessageType.success, translate('confirmAccountOkay'));
+        Widget redirectScreen = widget.fromRegister ? const UseCaseRegister() : const Dashboard();
+
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => redirectScreen
+        ));
         break;
       case UserPayloadStatus.confirmTokenWrong:
         setState(() {
@@ -157,7 +163,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, 'SOMETHING ELSE WENT WRONG!');
+        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
         break;
     }
   }
@@ -208,9 +214,11 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             Center(
               child: AutoSizeText(
                 translate('confirmAccountTitle'),
+                maxLines: 1,
                 minFontSize: 20,
                 maxFontSize: 35,
                 style: TextStyle(
+                    fontSize: 35,
                     color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.bold,
                 ),
@@ -332,7 +340,9 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             Center(
                 child: InkWell(
                   onTap: () {
-
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) => const Dashboard()
+                    ));
                   },
                   child: Text(
                     translate('skipVerification'),

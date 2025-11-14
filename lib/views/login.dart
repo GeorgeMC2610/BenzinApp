@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
+import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
-import 'package:benzinapp/views/home.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 
@@ -53,17 +52,13 @@ class _LoginPageState extends State<LoginPage> {
 
     final result = await SessionManager().login(emailController.text, passwordController.text);
 
-    setState(() {
-      isLoggingIn = false;
-    });
-
     switch (result) {
       case SessionStatus.success:
         // show the message that the user is authorized successfully.
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
         await DataHolder().initializeValues();
 
-        Widget screen = const HomePage();
+        Widget screen = const Dashboard();
 
         if (!UserManager().currentUser!.isConfirmed()) {
           screen = const ConfirmEmail();
@@ -86,6 +81,10 @@ class _LoginPageState extends State<LoginPage> {
       default:
         break;
     }
+
+    setState(() {
+      isLoggingIn = false;
+    });
   }
 
   @override
@@ -110,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const RegisterPage()
+                    builder: (context) => const UseCaseRegister()
                 )
             );
 
@@ -125,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
             );
 
-          }, icon: const Icon(Icons.add_box_outlined)
+          }, icon: const Icon(Icons.person_add_rounded)
           ),
 
         ],
@@ -189,7 +188,24 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 80),
+              const SizedBox(height: 40),
+
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterPage()
+                    )
+                  );
+                },
+                leading: const Icon(Icons.person_add_rounded),
+                title: Text(translate('dontHaveAnAccount')),
+                subtitle: Text(translate('registerToBenzinApp')),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              ),
+
+              const SizedBox(height: 60),
 
               // BenzinApp Logo
               TextField(
@@ -199,8 +215,8 @@ class _LoginPageState extends State<LoginPage> {
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   errorText: emailError,
-                  hintText: translate('usernameHint'),
-                  labelText: translate('username'),
+                  hintText: translate('emailHint'),
+                  labelText: translate('email'),
                   prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -249,31 +265,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 )
               ),
-
-              const SizedBox(height: 30),
-
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()
-                        )
-                    );
-                  },
-                  child: Text(
-                    translate("dontHaveAnAccount"),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
-                  ),
-                )
-              ),
-
 
               // const SizedBox(height: 5),
               // Row(
