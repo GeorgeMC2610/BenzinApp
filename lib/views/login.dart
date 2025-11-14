@@ -246,8 +246,16 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 75),
 
               Center(
-                child: InkWell(
-                  onTap: () {
+                child: TextButton.icon(
+                  icon: const Icon(Icons.lock_reset_rounded),
+                  label: Text(translate('forgotPassword')),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blueAccent,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -255,16 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                     );
                   },
-                  child: Text(
-                    translate('forgotPassword'),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
-                  ),
-                )
+                ),
               ),
 
               // const SizedBox(height: 5),
