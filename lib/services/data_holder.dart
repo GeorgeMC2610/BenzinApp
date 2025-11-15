@@ -35,10 +35,16 @@ class DataHolder {
       ServiceManager().index(),
       MalfunctionManager().index(),
       TripManager().index(),
-      CarUserInvitationManager().index(),
     ];
 
     await Future.wait(futures);
+  }
+
+  void destroyCarValues() {
+    FuelFillRecordManager().destroyValues();
+    ServiceManager().destroyValues();
+    MalfunctionManager().destroyValues();
+    TripManager().destroyValues();
   }
 
   void destroyValues() async {
