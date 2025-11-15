@@ -1,4 +1,5 @@
 
+import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class InviteesFragment extends StatefulWidget {
 }
 
 class _InviteesFragmentState extends State<InviteesFragment> {
+
+  Future<void> _refreshInvitations() async {
+    await CarUserInvitationManager().index();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CarUserInvitationManager>(
@@ -22,15 +28,23 @@ class _InviteesFragmentState extends State<InviteesFragment> {
         ).toList();
 
         return RefreshIndicator(
-          onRefresh: () => _refreshInvitations(),
-          child: ListView.builder(
+          onRefresh: _refreshInvitations,
+          child: invitations.isEmpty ?
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.mail_outlined),
+                const Text("Nooooo!")
+              ],
+            )
+          )
+              :
+          ListView.builder(
             itemCount: invitations.length,
             itemBuilder: (context, index) {
               final invitation = invitations[index];
-              return ListTile(
-                title: Text(invitation.recipientUsername),
-                subtitle: Text(invitation.isAccepted ? translate('accepted') : translate('pending')),
-              );
+              return _buildListTile(invitation);
             },
           ),
         );
@@ -38,8 +52,20 @@ class _InviteesFragmentState extends State<InviteesFragment> {
     );
   }
 
-  Future<void> _refreshInvitations() async {
-    await CarUserInvitationManager().index();
+  ListTile _buildListTile(CarUserInvitation invitation) =>  ListTile(
+    title: Text(invitation.recipientUsername),
+    leading: Icon(invitation.isAccepted ? Icons.person : Icons.access_time_outlined),
+    subtitle: Text("${invitation.createdAt}"),
+    trailing: TextButton.icon(
+      style: TextButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.error
+      ),
+      icon: const Icon(Icons.close),
+      label: Text(invitation.isAccepted ? translate('revoke') : translate('cancel')),
+      onPressed: () async {
+        await CarUserInvitationManager().delete(invitation);
+      },
+    ),
+  );
 
-  }
 }

@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/drawer/fuel_fill_drawer.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
@@ -86,6 +88,10 @@ class _HomePageState extends State<HomePage> {
         break;
       case 3:
         page = const TripForm();
+        break;
+      case 4:
+        if (!CarManager().watchingCar!.isOwned()) return;
+        page = InviteUserToCar(car: CarManager().watchingCar!);
         break;
       default:
         return;
@@ -230,12 +236,13 @@ class _HomePageState extends State<HomePage> {
               label: translate('trips'),
               icon: const Icon(Icons.pin_drop)
           ),
+         if (CarManager().watchingCar!.isOwned())
            BottomNavigationBarItem(
-              label: translate('invitations'),
-              icon: const Icon(Icons.mail)
-          ),
+               label: translate('invitations'),
+               icon: const Icon(Icons.mail)
+           ),
         ]),
-      floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
+      floatingActionButton: _selectedTabIndex == 0 ? null : FloatingActionButton(
         heroTag: null,
         onPressed: _floatingActionButtonPressed,
         tooltip: 'Add',
