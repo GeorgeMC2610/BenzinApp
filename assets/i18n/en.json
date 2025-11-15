@@ -364,5 +364,22 @@
   "forgotPasswordErrorSomethingElse": "Something else went wrong. Error code: {code}",
   "forgotPasswordSuccessfullyReset": "Successfully reset password",
   "forgotPasswordErrorTooEarly": "Requested a new code too early",
-  "forgotPasswordFinishButton": "Finish"
+  "forgotPasswordFinishButton": "Finish",
+
+  "general_invitations": "Invitations",
+  "incoming": "Incoming",
+  "outgoing": "Outgoing",
+  "accepted_invitations": "Accepted Invitations",
+  "pending_invitations": "Pending Invitations",
+  "revoke": "Revoke",
+  "sent_at": "Sent at",
+
+  "inviteUserToCarAppBar": "Invite User to Car",
+  "inviteUserToCarTitle": "Share car details with friends",
+  "inviteUserToCarSubtitle": "They'll love to see your statistics! No?",
+  "enterUsernameToInvite": "Enter the associated username:",
+  "sharedUsername": "Username",
+  "sharedUsernameHint": "Enter your friend's username...",
+  "sendInvitationButton": "Send Invitation"
+
 }

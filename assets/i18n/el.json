@@ -364,5 +364,21 @@
   "forgotPasswordErrorSomethingElse": "Κάτι άλλο πήγε στραβά. Κωδικός σφάλματος: {code}",
   "forgotPasswordSuccessfullyReset": "Επιτυχής αλλαγή κωδικού",
   "forgotPasswordErrorTooEarly": "Πρέπει να περάσουν 2 λεπτά για να αιτηθείτε για καινούριο κωδικό",
-  "forgotPasswordFinishButton": "Ολοκλήρωση"
+  "forgotPasswordFinishButton": "Ολοκλήρωση",
+
+  "general_invitations": "Προσκλήσεις",
+  "incoming": "Εισερχόμενες",
+  "outgoing": "Απεσταλμένες",
+  "accepted_invitations": "Επιβεβαιωμένες Προσκλήσεις",
+  "pending_invitations": "Εκκρεμείς Προσκλήσεις",
+  "revoke": "Ανάκληση",
+  "sent_at": "Στάλθηκε στις",
+
+  "inviteUserToCarAppBar": "Πρόσκληση Χρήστη",
+  "inviteUserToCarTitle": "Μοιραστείτε τα στοιχεία με άλλους",
+  "inviteUserToCarSubtitle": "Πολύ θα ήθελαν να δουν τα στατιστικά σας οι φίλοι σας! Τι, όχι;",
+  "enterUsernameToInvite": "Εισάγετε το Username του χρήστη:",
+  "sharedUsername": "Username",
+  "sharedUsernameHint": "Το Username του φίλου σας...",
+  "sendInvitationButton": "Αποστολή Πρόσκλησης"
 }

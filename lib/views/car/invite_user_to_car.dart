@@ -88,7 +88,10 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                 ),
               ),
               Center(
-                child: Text(translate('inviteUserToCarSubtitle')),
+                child: Text(
+                  translate('inviteUserToCarSubtitle'),
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 30),
               Center(
@@ -110,8 +113,8 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   errorText: _usernameError,
-                  hintText: translate('usernameHint'),
-                  labelText: translate('username'),
+                  hintText: translate('sharedUsernameHint'),
+                  labelText: translate('sharedUsername'),
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
