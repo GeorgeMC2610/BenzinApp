@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
 import '../../services/managers/user_manager.dart';
@@ -21,7 +22,6 @@ class InviteUserToCar extends StatefulWidget {
 class _InviteUserToCarState extends State<InviteUserToCar> {
   final TextEditingController _usernameController = TextEditingController();
   bool _isSending = false;
-  String? _usernameError;
   bool _usernameEmpty = true;
 
   @override
@@ -101,26 +101,28 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                 ),
               ),
               const SizedBox(height: 15),
-              TextField(
-                enabled: !_isSending,
-                controller: _usernameController,
-                onChanged: (value) {
-                  setState(() {
-                    _usernameEmpty = value.isEmpty;
-                  });
-                },
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  errorText: _usernameError,
-                  hintText: translate('sharedUsernameHint'),
-                  labelText: translate('sharedUsername'),
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+              Consumer<CarUserInvitationManager>(
+                builder: (context, manager, child) => TextField(
+                  enabled: !_isSending,
+                  controller: _usernameController,
+                  onChanged: (value) {
+                    setState(() {
+                      _usernameEmpty = value.isEmpty;
+                    });
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    errorText: manager.errors["recipient"]?.join(', '),
+                    hintText: translate('sharedUsernameHint'),
+                    labelText: translate('sharedUsername'),
+                    prefixIcon: const Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -131,16 +133,15 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
   bool buttonLocked() => _usernameEmpty || _isSending;
 
   void _sendInvitation() async {
-    if (_usernameController.text == UserManager().currentUser!.username) {
-      setState(() {
-        _usernameError = '🤯';
-      });
-      return;
-    }
+    // if (_usernameController.text == UserManager().currentUser!.username) {
+    //   setState(() {
+    //     _usernameError = '🤯';
+    //   });
+    //   return;
+    // }
 
     setState(() {
       _isSending = true;
-      _usernameError = null;
     });
 
     try {
@@ -151,19 +152,18 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
           updatedAt: DateTime.now()
       );
       await CarUserInvitationManager().create(invitation);
-
-      SnackbarNotification.show(MessageType.success, 'Invitation sent to ${_usernameController.text}');
-      setState(() {
-        _usernameController.clear();
-        _usernameEmpty = true;
-      });
+      if (CarUserInvitationManager().errors.keys.isEmpty) {
+        // TODO: Translate!
+        SnackbarNotification.show(MessageType.success, 'Invitation sent to ${_usernameController.text}');
+        setState(() {
+          _usernameController.clear();
+          _usernameEmpty = true;
+        });
+      }
     }
     catch (e, stack) {
-      print(e.toString());
-      print(stack.toString());
-      setState(() {
-        _usernameError = 'User not found';
-      });
+      print(e);
+      print(stack);
     }
     finally {
       setState(() {
