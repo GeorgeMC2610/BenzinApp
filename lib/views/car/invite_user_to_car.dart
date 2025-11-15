@@ -143,7 +143,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
     try {
       final invitation = CarUserInvitation(
           recipientUsername: _usernameController.text,
-          carId: widget.car.id,
+          carId: widget.car.id, carUsername: '',
           access: 1, id: -1, senderUsername: '', isAccepted: false, createdAt: DateTime.now(),
           updatedAt: DateTime.now()
       );

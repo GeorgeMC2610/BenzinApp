@@ -6,6 +6,7 @@ class CarUserInvitation {
     required this.recipientUsername,
     required this.senderUsername,
     required this.carId,
+    required this.carUsername,
     required this.access,
     required this.isAccepted,
     required this.createdAt,
@@ -16,8 +17,9 @@ class CarUserInvitation {
   final String recipientUsername;
   final String senderUsername;
   final int carId;
+  final String carUsername;
   int access;
-  final bool isAccepted;
+  bool isAccepted;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -26,6 +28,7 @@ class CarUserInvitation {
     recipientUsername: json[CarUserInvitationFields.recipientUsername],
     senderUsername: json[CarUserInvitationFields.senderUsername],
     carId: json[CarUserInvitationFields.carId],
+    carUsername: json[CarUserInvitationFields.carUsername],
     access: json[CarUserInvitationFields.access],
     isAccepted: json[CarUserInvitationFields.isAccepted],
     createdAt: DateTime.parse(json[CarUserInvitationFields.createdAt]),
@@ -49,6 +52,7 @@ class CarUserInvitationFields {
   static const String recipientUsername = "recipient_username";
   static const String senderUsername = "sender_username";
   static const String carId = "car_id";
+  static const String carUsername = "car_username";
   static const String access = "access";
   static const String isAccepted = "is_accepted";
   static const String createdAt = "created_at";

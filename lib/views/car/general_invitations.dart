@@ -1,8 +1,12 @@
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 import '../../services/classes/car_user_invitation.dart';
+import '../fragments/settings.dart';
+import '../shared/divider_with_text.dart';
 
 class GeneralInvitations extends StatefulWidget {
   const GeneralInvitations({super.key});
@@ -43,6 +47,11 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('general_invitations')),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen())),
+              icon: const Icon(Icons.settings)),
+        ],
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         bottom: TabBar(
           controller: _tabController,
@@ -52,17 +61,22 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildInvitationList(incoming, true),
-          _buildInvitationList(outgoing, false),
-        ],
-      ),
+      body: Consumer<CarUserInvitationManager>(
+        builder: (context, manager, child) => TabBarView(
+          controller: _tabController,
+          children: [
+            _buildInvitationList(incoming, true),
+            _buildInvitationList(outgoing, false),
+          ],
+        ),
+      )
     );
   }
 
   Widget _buildInvitationList(List<CarUserInvitation> invitations, bool isIncoming) {
+    final accepted = invitations.where((i) => i.isAccepted).toList();
+    final unaccepted = invitations.where((i) => !i.isAccepted).toList();
+
     return RefreshIndicator(
       onRefresh: refresh,
       child: invitations.isEmpty
@@ -74,13 +88,32 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                 Center(child: Text(translate('no_invitations'))),
               ],
             )
-          : ListView.builder(
+          : ListView(
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: invitations.length,
-              itemBuilder: (context, index) {
-                final invitation = invitations[index];
-                return _buildInvitationListTile(invitation, isIncoming);
-              },
+              children: [
+                if (unaccepted.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: DividerWithText(
+                        text: translate('pending_invitations'),
+                        lineColor: Colors.grey,
+                        textColor: Theme.of(context).colorScheme.primary,
+                        textSize: 16
+                    ),
+                  ),
+                ...unaccepted.map((invitation) => _buildInvitationListTile(invitation, isIncoming)),
+                if (accepted.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: DividerWithText(
+                        text: translate('accepted_invitations'),
+                        lineColor: Colors.grey,
+                        textColor: Theme.of(context).colorScheme.primary,
+                        textSize: 16
+                    ),
+                  ),
+                ...accepted.map((invitation) => _buildInvitationListTile(invitation, isIncoming)),
+              ],
             ),
     );
   }
@@ -88,69 +121,88 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
   ListTile _buildInvitationListTile(CarUserInvitation invitation, bool isIncoming) {
     if (isIncoming) {
       return ListTile(
-        leading: const Icon(Icons.call_received),
-        trailing: invitation.isAccepted ?
-        TextButton.icon(
-          onPressed: () {},
-          label: Text("Leave"),
-          icon: const Icon(Icons.logout),
-          iconAlignment: IconAlignment.end,
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
+          leading: Icon(
+            invitation.isAccepted ? Icons.check_circle : Icons.call_received,
+            color: invitation.isAccepted ? Theme.of(context).colorScheme.primary : null,
           ),
-        )
-            :
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton.filledTonal(
-              onPressed: () {}, icon: const Icon(Icons.check),
-              style: IconButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-                foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer
+          trailing: invitation.isAccepted
+              ? TextButton.icon(
+                  onPressed: () {},
+                  label: Text(translate("leave")),
+                  icon: const Icon(Icons.logout),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton.filledTonal(
+                      onPressed: () async {
+                        await CarUserInvitationManager().accept(invitation.id);
+                        SnackbarNotification.show(MessageType.info, translate('invitation_accepted'));
+                      },
+                      icon: const Icon(Icons.check),
+                      style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                          foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer),
+                    ),
+                    IconButton.filledTonal(
+                      onPressed: () async {
+                        await CarUserInvitationManager().delete(invitation);
+                        SnackbarNotification.show(MessageType.info, translate('invitation_rejected'));
+                      },
+                      icon: const Icon(Icons.close),
+                      style: IconButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                          foregroundColor: Theme.of(context).colorScheme.onErrorContainer),
+                    ),
+                  ],
+                ),
+          title: Text(invitation.senderUsername),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.directions_car),
+                  const SizedBox(width: 5),
+                  Text(invitation.carUsername)
+                ],
               ),
-            ),
-
-            IconButton.filledTonal(
-              onPressed: () {}, icon: const Icon(Icons.close),
-              style: IconButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                  foregroundColor: Theme.of(context).colorScheme.onErrorContainer
-              ),
-            ),
-          ],
-        ),
-        title: Text(invitation.senderUsername),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.directions_car),
-                const SizedBox(width: 5),
-                Text(invitation.carId.toString())
-              ],
-            ),
-
-            Text("Sent at ${invitation.createdAt.toIso8601String().substring(0, 10)}")
-          ],
-        )
-      );
-    }
-    else {
+              Text(
+                  '''${translate('sent_at')} ${invitation.createdAt.toIso8601String().substring(0, 10)}''')
+            ],
+          ));
+    } else {
       return ListTile(
-        leading: const Icon(Icons.call_made),
+          leading: Icon(
+            invitation.isAccepted ? Icons.check_circle : Icons.call_made,
+            color: invitation.isAccepted ? Theme.of(context).colorScheme.primary : null,
+          ),
         title: Text(invitation.recipientUsername),
         subtitle: Row(
           children: [
             const Icon(Icons.directions_car),
             const SizedBox(width: 5),
-            Text(invitation.carId.toString())
+            Text(invitation.carUsername)
           ],
         ),
+        trailing: TextButton.icon(
+          onPressed: () async {
+            // TODO: Confirm dialog
+            await CarUserInvitationManager().delete(invitation);
+            SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+          },
+          label: Text(invitation.isAccepted ? translate("revoke") : translate("cancel")),
+          icon: Icon(invitation.isAccepted ? Icons.person_off_outlined : Icons.close),
+          iconAlignment: IconAlignment.start,
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.error,
+          ),
+        )
       );
     }
-
   }
 }

@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import '../data_holder.dart';
 
@@ -31,9 +32,14 @@ class CarUserInvitationManager extends AbstractManager<CarUserInvitation> {
   Future<void> update(CarUserInvitation model) => throw UnimplementedError();
 
   Future<bool> accept(int id) async {
-    final response = await RequestHandler.sendPatchRequest("$baseUrl/$id", {});
-    return response.statusCode == 204;
+    final response = await RequestHandler.sendPatchRequest("$baseUrl/$id/accept", {});
+    if (response.statusCode == 204) {
+      local.where((element) => element.id == id).firstOrNull?.isAccepted = true;
+      await CarManager().index();
+      notifyListeners();
+    }
 
+    return response.statusCode == 204;
   }
 
 
