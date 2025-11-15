@@ -121,13 +121,21 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           ],
         ),
         title: Text(invitation.senderUsername),
-        subtitle: Row(
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.directions_car),
-            const SizedBox(width: 5),
-            Text(invitation.carId.toString())
+            Row(
+              children: [
+                const Icon(Icons.directions_car),
+                const SizedBox(width: 5),
+                Text(invitation.carId.toString())
+              ],
+            ),
+
+            Text("Sent at ${invitation.createdAt.toIso8601String().substring(0, 10)}")
           ],
-        ),
+        )
       );
     }
     else {
