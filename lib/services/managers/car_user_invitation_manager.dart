@@ -31,6 +31,13 @@ class CarUserInvitationManager extends AbstractManager<CarUserInvitation> {
   @override
   Future<void> update(CarUserInvitation model) => throw UnimplementedError();
 
+  @override
+  Future<void> delete(CarUserInvitation model) async {
+    super.delete(model);
+    await CarManager().index();
+    notifyListeners();
+  }
+
   Future<bool> accept(int id) async {
     final response = await RequestHandler.sendPatchRequest("$baseUrl/$id/accept", {});
     if (response.statusCode == 204) {

@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -38,38 +39,40 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
 
   @override
   Widget build(BuildContext context) {
-    final invitations = CarUserInvitationManager().local;
-    final currentUser = UserManager().currentUser;
+    return Consumer<CarUserInvitationManager>(
+      builder: (context, manager, child) {
+        final invitations = CarUserInvitationManager().local;
+        final currentUser = UserManager().currentUser;
 
-    final incoming = invitations.where((i) => i.recipientUsername == currentUser!.username).toList();
-    final outgoing = invitations.where((i) => i.senderUsername == currentUser!.username).toList();
+        final incoming = invitations.where((i) => i.recipientUsername == currentUser!.username).toList();
+        final outgoing = invitations.where((i) => i.senderUsername == currentUser!.username).toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(translate('general_invitations')),
-        actions: [
-          IconButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen())),
-              icon: const Icon(Icons.settings)),
-        ],
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: translate('incoming')),
-            Tab(text: translate('outgoing')),
-          ],
-        ),
-      ),
-      body: Consumer<CarUserInvitationManager>(
-        builder: (context, manager, child) => TabBarView(
-          controller: _tabController,
-          children: [
-            _buildInvitationList(incoming, true),
-            _buildInvitationList(outgoing, false),
-          ],
-        ),
-      )
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(translate('general_invitations')),
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen())),
+                  icon: const Icon(Icons.settings)),
+            ],
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            bottom: TabBar(
+              controller: _tabController,
+              tabs: [
+                Tab(text: translate('incoming')),
+                Tab(text: translate('outgoing')),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildInvitationList(incoming, true),
+              _buildInvitationList(outgoing, false),
+            ],
+          ),
+        );
+      }
     );
   }
 
@@ -127,7 +130,10 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           ),
           trailing: invitation.isAccepted
               ? TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await CarUserInvitationManager().delete(invitation);
+                    SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+                  },
                   label: Text(translate("leave")),
                   icon: const Icon(Icons.logout),
                   style: TextButton.styleFrom(
