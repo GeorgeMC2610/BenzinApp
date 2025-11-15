@@ -58,6 +58,7 @@ class CarCard extends StatelessWidget {
       SizedBox(
           child: Card(
             elevation: 0,
+            color: !car!.isOwned() ? Theme.of(context).colorScheme.primaryFixedDim : null,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -121,10 +122,12 @@ class CarCard extends StatelessWidget {
                               child: Text(car!.year.toString()),
                             )),
                         const Spacer(),
-                        (car!.isOwned() && car!.isShared)
-                            ? const Icon(Icons.supervised_user_circle,
-                                size: 40)
-                            : const Icon(Icons.directions_car, size: 40),
+                        if (!car!.isOwned() && car!.isShared)
+                          const Icon(Icons.people, size: 40),
+                        if (car!.isOwned() && car!.isShared)
+                          const Icon(Icons.supervised_user_circle, size: 40),
+                        if (car!.isOwned() && !car!.isShared)
+                          const Icon(Icons.directions_car, size: 40),
                       ],
                     ),
                     FilledButton.tonal(
