@@ -58,7 +58,7 @@ class CarCard extends StatelessWidget {
       SizedBox(
           child: Card(
             elevation: 0,
-            color: !car!.isOwned() ? Theme.of(context).colorScheme.primaryFixedDim : null,
+            color: !car!.isOwned() ? Theme.of(context).colorScheme.tertiaryContainer : null,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -114,7 +114,9 @@ class CarCard extends StatelessWidget {
                     Row(
                       children: [
                         Material(
-                            color: Theme.of(context).colorScheme.tertiaryContainer,
+                            color:
+                            car!.isOwned() ?
+                            Theme.of(context).colorScheme.tertiaryContainer : null,
                             borderRadius: BorderRadius.circular(20),
                             elevation: 0,
                             child: Padding(
@@ -122,7 +124,7 @@ class CarCard extends StatelessWidget {
                               child: Text(car!.year.toString()),
                             )),
                         const Spacer(),
-                        if (!car!.isOwned() && car!.isShared)
+                        if (!car!.isOwned())
                           const Icon(Icons.people, size: 40),
                         if (car!.isOwned() && car!.isShared)
                           const Icon(Icons.supervised_user_circle, size: 40),
