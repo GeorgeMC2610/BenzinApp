@@ -23,6 +23,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
   final TextEditingController _usernameController = TextEditingController();
   bool _isSending = false;
   bool _usernameEmpty = true;
+  int _selectedAccessLevel = 1;
 
   @override
   void dispose() {
@@ -122,6 +123,68 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(height: 30),
+              Center(
+                child: Text(
+                  translate('selectAccessLevel'),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 15),
+              DropdownButtonFormField<int>(
+                value: _selectedAccessLevel,
+                items: [
+                  DropdownMenuItem(
+                    value: 1,
+                    child: Text(translate('accessViewer')),
+                  ),
+                  DropdownMenuItem(
+                    value: 2,
+                    child: Text(translate('accessContributor')),
+                  ),
+                  DropdownMenuItem(
+                    value: 3,
+                    child: Text(translate('accessModerator')),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      _selectedAccessLevel = value;
+                    });
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: translate('accessLevel'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.amber
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning_amber),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text("Any users you invite with this access level "
+                          "will be able to edit/delete data. Make sure that you trust "
+                          "any moderators/viewers you invite."),
+                    )
+                  ],
+                ),
               )
             ],
           ),
@@ -148,7 +211,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
       final invitation = CarUserInvitation(
           recipientUsername: _usernameController.text,
           carId: widget.car.id, carUsername: '',
-          access: 1, id: -1, senderUsername: '', isAccepted: false, createdAt: DateTime.now(),
+          access: _selectedAccessLevel, id: -1, senderUsername: '', isAccepted: false, createdAt: DateTime.now(),
           updatedAt: DateTime.now()
       );
       await CarUserInvitationManager().create(invitation);
