@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
 import '../../services/managers/user_manager.dart';
+import '../fragments/settings.dart';
 
 class InviteUserToCar extends StatefulWidget {
   const InviteUserToCar({super.key, required this.car});
@@ -31,12 +32,33 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
     super.dispose();
   }
 
+  String _getAccessDescription() {
+    switch (_selectedAccessLevel) {
+      case 1:
+        return translate('accessViewerDesc');
+      case 2:
+        return translate('accessContributorDesc');
+      case 3:
+        return translate('accessModeratorDesc');
+      default:
+        return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(translate('inviteUserToCarAppBar')),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+              },
+              icon: const Icon(Icons.settings)
+          ),
+        ],
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -168,24 +190,27 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.amber.shade100,
+                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.amber
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.warning_amber),
-                    SizedBox(width: 10),
+                    Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary),
+                    const SizedBox(width: 10),
                     Expanded(
-                      child: Text("Any users you invite with this access level "
-                          "will be able to edit/delete data. Make sure that you trust "
-                          "any moderators/viewers you invite."),
+                      child: Text(
+                        _getAccessDescription(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
                     )
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

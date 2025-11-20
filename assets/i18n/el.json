@@ -380,5 +380,15 @@
   "enterUsernameToInvite": "Εισάγετε το Username του χρήστη:",
   "sharedUsername": "Username",
   "sharedUsernameHint": "Το Username του φίλου σας...",
-  "sendInvitationButton": "Αποστολή Πρόσκλησης"
+  "sendInvitationButton": "Αποστολή Πρόσκλησης",
+
+  "selectAccessLevel": "Επιλογή ρόλου πρόσβασης:",
+  "accessModerator": "Συντονιστής (Moderator)",
+  "accessViewer": "Θεατής (Viewer)",
+  "accessContributor": "Συνεργάτης (Contributor)",
+  "accessLevel": "Ρόλος Προσκεκλημένου",
+
+  "accessViewerDesc": "Οι «Θεατές» μπορούν να δουν τα δεδομένα του αυτοκινήτου, αλλά όχι να τα επεξεργαστούν (π.χ., να τα σβήσουν, ή να βάλουν καινούρια).",
+  "accessContributorDesc": "Οι «Συνεργάτες» μπορούν να δουν τα δεδομένα σας, και επιπλέον να προσθέσουν/επεξεργαστούν τα ήδη υπάρχοντα/διαγράψουν.",
+  "accessModeratorDesc": "Οι «Συντονιστές» μπορούν να δουν τα δεδομένα σας, και επιπλέον να προσθέσουν/επεξεργαστούν τα ήδη υπάρχοντα/διαγράψουν, αλλά και να προσκαλέσουν κι άλλους χρήστες στο αμάξι."
 }

@@ -380,6 +380,15 @@
   "enterUsernameToInvite": "Enter the associated username:",
   "sharedUsername": "Username",
   "sharedUsernameHint": "Enter your friend's username...",
-  "sendInvitationButton": "Send Invitation"
+  "sendInvitationButton": "Send Invitation",
 
+  "selectAccessLevel": "Select access level:",
+  "accessModerator": "Moderator",
+  "accessViewer": "Viewer",
+  "accessContributor": "Contributor",
+  "accessLevel": "Access Level",
+
+  "accessViewerDesc": "Viewers can see the data but not modify them.",
+  "accessContributorDesc": "Contributors can see the data, add/update/delete them.",
+  "accessModeratorDesc": "Moderators can see the data, add/update/delete them, and also invite other users to this car."
 }
