@@ -36,11 +36,8 @@ class CarUserInvitation {
   );
 
   Map<String, dynamic> toJson() => {
-    "car_user_invitation": {
-      CarUserInvitationFields.access: access,
-      CarUserInvitationFields.recipientUsername: recipientUsername,
-      CarUserInvitationFields.carId: carId,
-    }
+    CarUserInvitationFields.recipientUsername: recipientUsername,
+    CarUserInvitationFields.carId: carId,
   };
 
   bool incoming() => recipientUsername == (UserManager().currentUser?.username ?? '');

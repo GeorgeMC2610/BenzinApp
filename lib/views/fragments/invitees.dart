@@ -4,6 +4,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class InviteesFragment extends StatefulWidget {
@@ -55,7 +56,13 @@ class _InviteesFragmentState extends State<InviteesFragment> {
   ListTile _buildListTile(CarUserInvitation invitation) =>  ListTile(
     title: Text(invitation.recipientUsername),
     leading: Icon(invitation.isAccepted ? Icons.person : Icons.access_time_outlined),
-    subtitle: Text("${invitation.createdAt}"),
+    subtitle: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Sent: ${DateFormat.yMMMd().add_Hm().format(invitation.createdAt)}"),
+        Text(invitation.isAccepted ? translate('accepted') : translate('pending')),
+      ],
+    ),
     trailing: TextButton.icon(
       style: TextButton.styleFrom(
         foregroundColor: Theme.of(context).colorScheme.error

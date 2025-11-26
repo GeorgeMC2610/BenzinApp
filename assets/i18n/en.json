@@ -369,6 +369,8 @@
   "general_invitations": "Invitations",
   "incoming": "Incoming",
   "outgoing": "Outgoing",
+  "pending": "Pending",
+  "accepted": "Accepted",
   "accepted_invitations": "Accepted Invitations",
   "pending_invitations": "Pending Invitations",
   "revoke": "Revoke",

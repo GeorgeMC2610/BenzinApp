@@ -369,6 +369,8 @@
   "general_invitations": "Προσκλήσεις",
   "incoming": "Εισερχόμενες",
   "outgoing": "Απεσταλμένες",
+  "pending": "Εκκρεμεί",
+  "accepted": "Επιβεβαιωμένη",
   "accepted_invitations": "Επιβεβαιωμένες Προσκλήσεις",
   "pending_invitations": "Εκκρεμείς Προσκλήσεις",
   "revoke": "Ανάκληση",
