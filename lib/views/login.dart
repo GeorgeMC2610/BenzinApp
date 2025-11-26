@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
+import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/use_case_register.dart';
@@ -109,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UseCaseRegister()
+                    builder: (context) => const SettingsScreen()
                 )
             );
 
@@ -245,8 +246,16 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 75),
 
               Center(
-                child: InkWell(
-                  onTap: () {
+                child: TextButton.icon(
+                  icon: const Icon(Icons.lock_reset_rounded),
+                  label: Text(translate('forgotPassword')),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blueAccent,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -254,16 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                     );
                   },
-                  child: Text(
-                    translate('forgotPassword'),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
-                  ),
-                )
+                ),
               ),
 
               // const SizedBox(height: 5),

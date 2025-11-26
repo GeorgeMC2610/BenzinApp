@@ -14,12 +14,20 @@ class SessionManager {
   SessionManager._internal();
 
   final loginUri = '${DataHolder.destination}/login';
+  final logoutUri = '${DataHolder.destination}/logout';
   final signupUri = '${DataHolder.destination}/signup';
 
   bool isLoggedIn = false;
 
   Future<bool> testConnection() async {
     return false;
+  }
+
+  Future<void> logout() async {
+    await RequestHandler.sendDeleteRequest(logoutUri);
+    await TokenManager().removeToken();
+    isLoggedIn = false;
+    DataHolder().destroyValues();
   }
 
   Future<SessionStatus> login(String email, String password) async {

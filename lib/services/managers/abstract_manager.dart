@@ -12,8 +12,11 @@ abstract class AbstractManager<T> with ChangeNotifier {
   List<T>? _filtered;
   List<T> get local => _local;
   List<T> get localOrFiltered => _filtered ?? _local;
+  late Map<String, dynamic> _errors;
+  Map<String, dynamic> get errors => _errors;
 
   AbstractManager() {
+    _errors = {};
     _local = [];
   }
 
@@ -60,24 +63,36 @@ abstract class AbstractManager<T> with ChangeNotifier {
   }
 
   Future<void> create(T model) async {
-    final response = await RequestHandler.sendPostRequest(baseUrl, true, toJson(model));
-    final jsonResponse = json.decode(response.body)[responseKeyword];
-    final newModel = fromJson(jsonResponse);
+    _errors = {};
+    final response = await RequestHandler.sendPostRequest(baseUrl, true, { responseKeyword: toJson(model) } );
+    final jsonResponse = json.decode(response.body);
 
-    int index = _findIndex(newModel);
-    _local.insert(index, newModel);
+    if (response.ok) {
+      final newModel = fromJson(jsonResponse[responseKeyword]);
+      int index = _findIndex(newModel);
+      _local.insert(index, newModel);
+    }
+    else {
+      _errors = jsonResponse["errors"];
+    }
 
     notifyListeners();
   }
 
   Future<void> update(T model) async {
+    _errors = {};
     final response = await RequestHandler.sendPatchRequest("$baseUrl/${getId(model)})", toJson(model));
-    final jsonResponse = json.decode(response.body)[responseKeyword];
-    final updated = fromJson(jsonResponse);
+    final jsonResponse = json.decode(response.body);
 
-    _local.removeWhere((e) => getId(e) == getId(model));
-    int index = _findIndex(updated);
-    _local.insert(index, updated);
+    if (response.ok) {
+      final updated = fromJson(jsonResponse[responseKeyword]);
+      _local.removeWhere((e) => getId(e) == getId(model));
+      int index = _findIndex(updated);
+      _local.insert(index, updated);
+    }
+    else {
+      _errors = jsonResponse["errors"];
+    }
 
     notifyListeners();
   }

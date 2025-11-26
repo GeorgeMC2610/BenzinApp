@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -57,6 +58,7 @@ class CarCard extends StatelessWidget {
       SizedBox(
           child: Card(
             elevation: 0,
+            color: !car!.isOwned() ? Theme.of(context).colorScheme.tertiaryContainer : null,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -112,7 +114,9 @@ class CarCard extends StatelessWidget {
                     Row(
                       children: [
                         Material(
-                            color: Theme.of(context).colorScheme.tertiaryContainer,
+                            color:
+                            car!.isOwned() ?
+                            Theme.of(context).colorScheme.tertiaryContainer : null,
                             borderRadius: BorderRadius.circular(20),
                             elevation: 0,
                             child: Padding(
@@ -120,10 +124,12 @@ class CarCard extends StatelessWidget {
                               child: Text(car!.year.toString()),
                             )),
                         const Spacer(),
-                        (car!.isOwned() && car!.isShared)
-                            ? const Icon(Icons.supervised_user_circle,
-                                size: 40)
-                            : const Icon(Icons.directions_car, size: 40),
+                        if (!car!.isOwned())
+                          const Icon(Icons.people, size: 40),
+                        if (car!.isOwned() && car!.isShared)
+                          const Icon(Icons.supervised_user_circle, size: 40),
+                        if (car!.isOwned() && !car!.isShared)
+                          const Icon(Icons.directions_car, size: 40),
                       ],
                     ),
                     FilledButton.tonal(
@@ -224,8 +230,12 @@ class CarCard extends StatelessWidget {
       leading: const Icon(Icons.share),
       title: Text(translate('carMenuShare')),
       onTap: () {
-        // TODO: Handle 'share_car'
         Navigator.of(buildContext).pop();
+        Navigator.of(buildContext).push(
+          MaterialPageRoute(
+            builder: (context) => InviteUserToCar(car: car!),
+          ),
+        );
       },
     ),
     ListTile(

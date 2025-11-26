@@ -30,7 +30,7 @@ class FuelFillRecordManager extends AbstractManager<FuelFillRecord> {
   int compare(FuelFillRecord a, FuelFillRecord b) => b.dateTime.compareTo(a.dateTime);
 
   @override
-  String get responseKeyword => "fuel_fill";
+  String get responseKeyword => "fuel_fill_record";
 
   @override
   Map<String, dynamic> toJson(FuelFillRecord model) => model.toJson();
