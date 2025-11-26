@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car_user_invitation.dart';
-import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
-import '../../services/managers/user_manager.dart';
 import '../fragments/settings.dart';
 
 class InviteUserToCar extends StatefulWidget {
@@ -24,25 +22,11 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
   final TextEditingController _usernameController = TextEditingController();
   bool _isSending = false;
   bool _usernameEmpty = true;
-  int _selectedAccessLevel = 1;
 
   @override
   void dispose() {
     _usernameController.dispose();
     super.dispose();
-  }
-
-  String _getAccessDescription() {
-    switch (_selectedAccessLevel) {
-      case 1:
-        return translate('accessViewerDesc');
-      case 2:
-        return translate('accessContributorDesc');
-      case 3:
-        return translate('accessModeratorDesc');
-      default:
-        return "";
-    }
   }
 
   @override
@@ -147,46 +131,6 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                 ),
               ),
               const SizedBox(height: 30),
-              Center(
-                child: Text(
-                  translate('selectAccessLevel'),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              DropdownButtonFormField<int>(
-                value: _selectedAccessLevel,
-                items: [
-                  DropdownMenuItem(
-                    value: 1,
-                    child: Text(translate('accessViewer')),
-                  ),
-                  DropdownMenuItem(
-                    value: 2,
-                    child: Text(translate('accessContributor')),
-                  ),
-                  DropdownMenuItem(
-                    value: 3,
-                    child: Text(translate('accessModerator')),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      _selectedAccessLevel = value;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  labelText: translate('accessLevel'),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 decoration: BoxDecoration(
@@ -202,7 +146,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        _getAccessDescription(),
+                        "WAIT!!",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -211,6 +155,8 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                   ],
                 ),
               ),
+
+
             ],
           ),
         ),
@@ -234,9 +180,9 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
 
     try {
       final invitation = CarUserInvitation(
-          recipientUsername: _usernameController.text,
-          carId: widget.car.id, carUsername: '',
-          access: _selectedAccessLevel, id: -1, senderUsername: '', isAccepted: false, createdAt: DateTime.now(),
+          recipientUsername: _usernameController.text, access: 1,
+          carId: widget.car.id, carUsername: '', id: -1, senderUsername: '',
+          isAccepted: false, createdAt: DateTime.now(),
           updatedAt: DateTime.now()
       );
       await CarUserInvitationManager().create(invitation);
