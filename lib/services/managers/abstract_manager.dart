@@ -64,7 +64,7 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   Future<void> create(T model) async {
     _errors = {};
-    final response = await RequestHandler.sendPostRequest(baseUrl, true, toJson(model));
+    final response = await RequestHandler.sendPostRequest(baseUrl, true, { responseKeyword: toJson(model) } );
     final jsonResponse = json.decode(response.body);
 
     if (response.ok) {
