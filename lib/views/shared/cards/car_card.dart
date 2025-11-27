@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/views/car/delete_car_screen.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
+import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -241,12 +242,15 @@ class CarCard extends StatelessWidget {
     ListTile(
       leading: const Icon(Icons.swap_horiz),
       title: Text(translate('carMenuTransferOwnership')),
-      textColor: Colors.red,
-      iconColor: Colors.red,
-      onTap: () {
-        // TODO: Handle 'transfer_ownership'
+      enabled: car!.isShared,
+      onTap: car!.isShared ? () {
         Navigator.of(buildContext).pop();
-      },
+        Navigator.of(buildContext).push(
+          MaterialPageRoute(
+            builder: (context) => TransferCarOwnershipScreen(car: car!),
+          ),
+        );
+      } : null,
     ),
     ListTile(
       leading: const Icon(Icons.delete),
@@ -260,6 +264,7 @@ class CarCard extends StatelessWidget {
             builder: (context) => DeleteCarScreen(car: car!),
           ),
         );
+
       },
     ),
   ];
