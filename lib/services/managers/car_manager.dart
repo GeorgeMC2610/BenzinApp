@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/car.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
 
+import '../data_holder.dart';
 import '../request_handler.dart';
 
 
@@ -26,6 +26,13 @@ class CarManager extends AbstractManager<Car> {
 
   @override
   String get responseKeyword => "car";
+
+  @override
+  Future<void> delete(Car model, { Map<String, dynamic> body = const {} }) async {
+    if (!body.containsKey('username')) return;
+    if (body["username"] != model.username) return;
+    super.delete(model, body: { responseKeyword: body });
+  }
 
   Future<String?> claimCar(String username, String password) async {
     final response = await RequestHandler.sendPostRequest("$baseUrl/claim", true, {

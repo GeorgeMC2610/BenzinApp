@@ -32,7 +32,7 @@ class CarUserInvitationManager extends AbstractManager<CarUserInvitation> {
   Future<void> update(CarUserInvitation model) => throw UnimplementedError();
 
   @override
-  Future<void> delete(CarUserInvitation model) async {
+  Future<void> delete(CarUserInvitation model, { Map<String, dynamic> body = const {} }) async {
     super.delete(model);
     await CarManager().index();
     notifyListeners();

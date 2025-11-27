@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/car/delete_car_screen.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
@@ -254,8 +254,12 @@ class CarCard extends StatelessWidget {
       textColor: Colors.red,
       iconColor: Colors.red,
       onTap: () {
-        // TODO: Handle 'delete_car'
         Navigator.of(buildContext).pop();
+        Navigator.of(buildContext).push(
+          MaterialPageRoute(
+            builder: (context) => DeleteCarScreen(car: car!),
+          ),
+        );
       },
     ),
   ];

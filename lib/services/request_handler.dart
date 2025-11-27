@@ -77,7 +77,7 @@ class RequestHandler {
     return response;
   }
 
-  static Future<http.Response> sendDeleteRequest(String uri) async {
+  static Future<http.Response> sendDeleteRequest(String uri, { Map<String, dynamic> body = const {}, bool authorize = true }) async {
     var client = http.Client();
     var url = Uri.parse(uri);
     var headers = await authorizationHeaders();
@@ -85,6 +85,7 @@ class RequestHandler {
     final response = await client.delete(
         url,
         headers: headers,
+        body: json.encode(body)
     );
 
     if (response.statusCode == 401) {
