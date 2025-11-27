@@ -243,6 +243,8 @@ class CarCard extends StatelessWidget {
       leading: const Icon(Icons.swap_horiz),
       title: Text(translate('carMenuTransferOwnership')),
       enabled: car!.isShared,
+      textColor: car!.isShared ? Colors.red : null,
+      iconColor: car!.isShared ? Colors.red : null,
       onTap: car!.isShared ? () {
         Navigator.of(buildContext).pop();
         Navigator.of(buildContext).push(

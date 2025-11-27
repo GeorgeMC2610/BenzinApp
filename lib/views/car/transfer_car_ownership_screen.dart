@@ -18,25 +18,12 @@ class TransferCarOwnershipScreen extends StatefulWidget {
       _TransferCarOwnershipScreenState();
 }
 
-class _TransferCarOwnershipScreenState
-    extends State<TransferCarOwnershipScreen> {
+class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen> {
+
   final TextEditingController _carNameController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   bool _isSending = false;
   CarUserInvitation? _selectedInvitation;
-
-  late Future<List<CarUserInvitation>> _fetchInvitations;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchInvitations = _getSharedUsers();
-  }
-
-  Future<List<CarUserInvitation>> _getSharedUsers() async {
-    await CarUserInvitationManager().index();
-    return CarUserInvitationManager().local.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList();
-  }
 
   @override
   void dispose() {
@@ -113,40 +100,37 @@ class _TransferCarOwnershipScreenState
                 ),
               ),
               const SizedBox(height: 30),
-              FutureBuilder<List<CarUserInvitation>>(
-                future: _fetchInvitations,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text(translate('noUsersToTransferTo')));
-                  }
+              DropdownButtonFormField<CarUserInvitation>(
+                decoration: InputDecoration(
+                  labelText: translate('selectUser'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                value: _selectedInvitation,
+                onChanged: (CarUserInvitation? newValue) {
+                  setState(() {
+                    _selectedInvitation = newValue;
+                  });
+                },
+                dropdownColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurface),
 
-                  final invitations = snapshot.data!;
-
-                  return DropdownButtonFormField<CarUserInvitation>(
-                    decoration: InputDecoration(
-                      labelText: translate('selectUser'),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                    value: _selectedInvitation,
-                    onChanged: (CarUserInvitation? newValue) {
-                      setState(() {
-                        _selectedInvitation = newValue;
-                      });
-                    },
-                    items: invitations.map<DropdownMenuItem<CarUserInvitation>>(
+                borderRadius: BorderRadius.circular(15), // Rounded corners
+                isExpanded: true,
+                items: CarUserInvitationManager().local.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList().map<DropdownMenuItem<CarUserInvitation>>(
                         (CarUserInvitation invitation) {
                       return DropdownMenuItem<CarUserInvitation>(
                         value: invitation,
-                        child: Text(invitation.recipientUsername),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.person_outline),
+                            const SizedBox(width: 10),
+                            Text(invitation.recipientUsername),
+                          ],
+                        ),
                       );
                     }).toList(),
-                  );
-                },
               ),
               if (_selectedInvitation != null)
                 Column(
