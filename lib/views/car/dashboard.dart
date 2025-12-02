@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/shared/car_list.dart';
@@ -71,6 +72,7 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> refreshCars() async {
     await CarManager().index();
+    await CarUserInvitationManager().index();
   }
 
   bool isLoading = false;
