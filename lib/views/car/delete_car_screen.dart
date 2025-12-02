@@ -46,7 +46,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
                   backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
               label: Text(
-                translate('deleteButton'),
+                translate('deleteCarButton'),
                 style: TextStyle(fontSize: 18, color: buttonLocked() ? null : Theme.of(context).colorScheme.onErrorContainer),
               ),
               iconAlignment: IconAlignment.start,
@@ -72,7 +72,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
             children: [
               Center(
                 child: AutoSizeText(
-                  translate('deleteCarTitle'),
+                  translate('deleteCarTitle', args: { 'carName': widget.car.username }),
                   minFontSize: 20,
                   maxLines: 1,
                   maxFontSize: 35,
@@ -92,7 +92,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
               const SizedBox(height: 30),
               Center(
                 child: Text(
-                  translate('enterCarNameToDelete'),
+                  translate('deleteCarEnterCarNameToDelete', args: { 'carName': widget.car.username }),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -107,7 +107,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   hintText: widget.car.username,
-                  labelText: translate('carName'),
+                  labelText: translate('deleteCarEnterCarName'),
                   prefixIcon: const Icon(Icons.directions_car),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),

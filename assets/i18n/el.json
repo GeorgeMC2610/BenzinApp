@@ -392,5 +392,30 @@
 
   "accessViewerDesc": "Οι «Θεατές» μπορούν να δουν τα δεδομένα του αυτοκινήτου, αλλά όχι να τα επεξεργαστούν (π.χ., να τα σβήσουν, ή να βάλουν καινούρια).",
   "accessContributorDesc": "Οι «Συνεργάτες» μπορούν να δουν τα δεδομένα σας, και επιπλέον να προσθέσουν/επεξεργαστούν τα ήδη υπάρχοντα/διαγράψουν.",
-  "accessModeratorDesc": "Οι «Συντονιστές» μπορούν να δουν τα δεδομένα σας, και επιπλέον να προσθέσουν/επεξεργαστούν τα ήδη υπάρχοντα/διαγράψουν, αλλά και να προσκαλέσουν κι άλλους χρήστες στο αμάξι."
+  "accessModeratorDesc": "Οι «Συντονιστές» μπορούν να δουν τα δεδομένα σας, και επιπλέον να προσθέσουν/επεξεργαστούν τα ήδη υπάρχοντα/διαγράψουν, αλλά και να προσκαλέσουν κι άλλους χρήστες στο αμάξι.",
+
+  "deleteCarAppBar": "Διαγραφή Αμαξιού",
+  "deleteCarTitle": "Διαγραφή του αμαξιού {carName}",
+  "deleteCarSubtitle": "και όλων του των δεδομένων.",
+  "deleteCarEnterCarNameToDelete": "Για επιβεβαίωση, παρακαλώ γράψτε \"{carName}\":",
+  "deleteCarEnterCarName": "Όνομα Αμαξιού",
+  "deleteCarWarning": "Προσοχή! Αν επιβεβαιώσετε την διαγραφή, δεν υπάρχει τρόπος να επαναφερθεί. Όλα τα δεδομένα του αμαξιού (γεμίσματα, βλάβες, σέρβις κτλ) θα διαγραφούν για πάντα.",
+  "deleteCarButton": "Διαγραφή Αμαξιού",
+  "carDeletedSuccessfully": "Επιτυχής διαγραφή αμαξιού",
+  "carDeletionFailed": "Αποτυχής διαγραφή αμαξιού",
+
+  "transferCarOwnershipAppBar": "Μεταβίβαση Ιδιοκτησίας",
+  "transferCarOwnershipTitle": "Μεταβίβαση ιδιοκτησίας του αμαξιού",
+  "transferCarOwnershipSubtitle": "Δεν θα αναλαμβάνετε χρέη διαχειριστή πια γι' αυτό το αμάξι.",
+  "transferCarOwnershipWarning": "Προσοχή! Όταν επιβεβαιώσετε την μεταβίβαση, δεν υπάρχει τρόπος να «ξε-γίνει». Θα σας ζητηθεί να επιβεβαιώσετε την μεταβίβαση, μόλις επιλέξετε χρήστη.",
+  "transferCarOwnershipSelectUser": "Επιλογή χρήστη",
+  "transferCarOwnershipSelectUserTitle": "Παρακαλώ επιλέξτε χρήστη για να γίνει η μεταβίβαση:",
+  "transferCarOwnershipDangerZone": "Μπήκατε στον χώρο κινδύνου!",
+  "transferCarOwnershipRetypeUsername": "Username",
+  "transferCarOwnershipRetypeUsernameTitle": "Για να επιβεβαιώσετε την μεταβίβαση, γράψτε \"{username}\":",
+  "transferCarOwnershipRetypeCarName": "Όνομα αμαξιού",
+  "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
+  "transferCarOwnershipButton": "Ολοκλήρωση Μεταβίβασης",
+  "carTransferredSuccessfully": "Επιτυχής μεταβίβαση ιδιοκτησίας αυτοκινήτου",
+  "carTransferFailed": "Η μεταβίβαση απέτυχε"
 }

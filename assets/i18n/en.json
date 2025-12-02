@@ -392,5 +392,30 @@
 
   "accessViewerDesc": "Viewers can see the data but not modify them.",
   "accessContributorDesc": "Contributors can see the data, add/update/delete them.",
-  "accessModeratorDesc": "Moderators can see the data, add/update/delete them, and also invite other users to this car."
+  "accessModeratorDesc": "Moderators can see the data, add/update/delete them, and also invite other users to this car.",
+
+  "deleteCarAppBar": "Delete Car",
+  "deleteCarTitle": "Delete the car {carName}",
+  "deleteCarSubtitle": "...and all of its data",
+  "deleteCarEnterCarNameToDelete": "To confirm, please type \"{carName}\":",
+  "deleteCarEnterCarName": "Retype car name",
+  "deleteCarWarning": "Be careful! If you confirm the deletion, there's no way of redoing it. All of the car's fuel fill records, malfunctions, services, etc. will be permanently deleted.",
+  "deleteCarButton": "Delete Car",
+  "carDeletedSuccessfully": "Successfully deleted car",
+  "carDeletionFailed": "Failed to delete car",
+
+  "transferCarOwnershipAppBar": "Transfer Car Ownership",
+  "transferCarOwnershipTitle": "Transfer the ownership",
+  "transferCarOwnershipSubtitle": "You'll no longer be the owner of this car",
+  "transferCarOwnershipWarning": "Be careful! If you confirm the ownership transfer, there's no way of redoing it. You'll be asked to confirm multiple times, once you select a user.",
+  "transferCarOwnershipSelectUser": "Select a user",
+  "transferCarOwnershipSelectUserTitle": "Please select the user you want to transfer the car to:",
+  "transferCarOwnershipDangerZone": "You're entering the danger zone!",
+  "transferCarOwnershipRetypeUsername": "Retype the username",
+  "transferCarOwnershipRetypeUsernameTitle": "To confirm the transfer, please type \"{username}\":",
+  "transferCarOwnershipRetypeCarName": "Retype the car's name",
+  "transferCarOwnershipRetypeCarNameTitle": "Confirm the transfer again and type \"{carName}\":",
+  "transferCarOwnershipButton": "Transfer Ownership",
+  "carTransferredSuccessfully": "Successfully transferred car's ownership",
+  "carTransferFailed": "Failed to transfer car's ownership"
 }

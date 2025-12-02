@@ -52,7 +52,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
               label: Text(
-                translate('transferButton'),
+                translate('transferCarOwnershipButton'),
                 style: TextStyle(
                     fontSize: 18,
                     color: buttonLocked()
@@ -100,9 +100,43 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                 ),
               ),
               const SizedBox(height: 30),
+              Container(
+                padding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        color: Theme.of(context).colorScheme.error),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        translate('transferCarOwnershipWarning'),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              Center(
+                child: Text(
+                  translate('transferCarOwnershipSelectUserTitle'),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 15),
               DropdownButtonFormField<CarUserInvitation>(
                 decoration: InputDecoration(
-                  labelText: translate('selectUser'),
+                  labelText: translate('transferCarOwnershipSelectUser'),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -135,7 +169,31 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
               if (_selectedInvitation != null)
                 Column(
                   children: [
+                    const SizedBox(height: 30),
+                    Center(
+                      child: AutoSizeText(
+                        translate('transferCarOwnershipDangerZone'),
+                        minFontSize: 20,
+                        maxLines: 1,
+                        maxFontSize: 25,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 15),
+                    Center(
+                      child: Text(
+                        translate('transferCarOwnershipRetypeUsernameTitle', args: { 'username': _selectedInvitation!.recipientUsername }),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     TextField(
                       enabled: !_isSending,
                       controller: _userNameController,
@@ -146,14 +204,24 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: _selectedInvitation!.recipientUsername,
-                        labelText: translate('retypeUsername'),
+                        labelText: translate('transferCarOwnershipRetypeUsername'),
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 25),
+                    Center(
+                      child: Text(
+                        translate('transferCarOwnershipRetypeCarNameTitle', args: { 'carName': _selectedInvitation!.carUsername }),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     TextField(
                       enabled: !_isSending,
                       controller: _carNameController,
@@ -164,7 +232,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         hintText: widget.car.username,
-                        labelText: translate('retypeCarName'),
+                        labelText: translate('transferCarOwnershipRetypeCarName'),
                         prefixIcon: const Icon(Icons.directions_car),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -173,33 +241,6 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     ),
                   ],
                 ),
-              const SizedBox(height: 30),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning_amber_rounded,
-                        color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        translate('transferCarOwnershipWarning'),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
             ],
           ),
         ),
