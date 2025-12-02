@@ -134,7 +134,14 @@ class CarCard extends StatelessWidget {
                       ],
                     ),
                     FilledButton.tonal(
-                        onPressed: () {},
+                        onPressed: () {
+                          DataHolder().getCarData(car!.id);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        },
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(double.infinity, 30),
                           shape: RoundedRectangleBorder(
