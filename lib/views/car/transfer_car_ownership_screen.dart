@@ -219,11 +219,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
     });
 
     try {
-      final carManager = CarManager();
-      // await carManager.update(widget.car, body: {
-      //   'new_owner_username': _selectedInvitation!.recipientUsername,
-      //   'car_username': _carNameController.text,
-      // });
+      await CarManager().transferOwnership(widget.car, _userNameController.text, _carNameController.text);
       if (mounted) {
         SnackbarNotification.show(MessageType.success,
             translate('carTransferredSuccessfully'));

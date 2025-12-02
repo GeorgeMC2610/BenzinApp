@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 
 import '../data_holder.dart';
 import '../request_handler.dart';
@@ -32,6 +33,21 @@ class CarManager extends AbstractManager<Car> {
     if (!body.containsKey('username')) return;
     if (body["username"] != model.username) return;
     super.delete(model, body: { responseKeyword: body });
+  }
+
+  Future<void> transferOwnership(Car car, String username, String carUsername) async {
+    final response = await RequestHandler.sendPatchRequest("$baseUrl/${car.id}/transfer_ownership", {
+      "username": username,
+      "car_username": carUsername
+    });
+
+    if (response.ok) {
+      await index();
+      await CarUserInvitationManager().index();
+    }
+    else {
+      throw Error();
+    }
   }
 
   Future<String?> claimCar(String username, String password) async {
