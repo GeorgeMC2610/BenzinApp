@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benzinapp/services/classes/user.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 
@@ -141,7 +142,13 @@ class UserManager with ChangeNotifier {
 
     final response = await RequestHandler.sendDeleteRequest(url, body: body);
 
-    return response.ok;
+    if (response.ok) {
+      TokenManager().removeToken();
+      DataHolder().destroyValues();
+      return true;
+    }
+
+    return false;
   }
 
 }
