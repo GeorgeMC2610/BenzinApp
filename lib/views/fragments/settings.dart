@@ -10,6 +10,7 @@ import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
 import 'package:benzinapp/views/forms/car_form.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
+import 'package:benzinapp/views/profile/delete_account_screen.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
@@ -267,6 +268,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
       trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
       leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
       onTap: _performLogout,
+    ),
+
+    ListTile(
+      title: Text(translate('deleteAccount'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+      trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+      leading: const Icon(Icons.person_remove, color: Color.fromARGB(255, 200, 0, 0)),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const DeleteAccountScreen()
+            )
+        );
+      },
     ),
   ];
 

@@ -132,6 +132,18 @@ class UserManager with ChangeNotifier {
     return null;
   }
 
+  Future<bool> deleteAccount(String username, String password) async {
+    const url = '${DataHolder.destination}/users';
+    final body = {
+      'username': username,
+      'password': password,
+    };
+
+    final response = await RequestHandler.sendDeleteRequest(url, body: body);
+
+    return response.ok;
+  }
+
 }
 
 enum UserPayloadStatus {

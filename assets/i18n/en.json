@@ -120,6 +120,7 @@
   "inviteUserToCar":       "Invite a User to this Car",
   "transferOwnership":     "Transfer Car Ownership",
   "deleteCar":             "Delete Car",
+  "deleteAccount":         "Delete Account",
   "invitations":           "Invitations",
   "logout":                "Logout",
   "aboutTheApp":           "About the App",
