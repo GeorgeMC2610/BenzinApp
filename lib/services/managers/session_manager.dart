@@ -49,7 +49,6 @@ class SessionManager {
     switch (response.statusCode) {
       case 200:
         await TokenManager().removeToken();
-        print(response.headers);
         await TokenManager().setToken(response.headers['authorization']!);
         isLoggedIn = true;
         return SessionStatus.success;
