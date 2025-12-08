@@ -24,7 +24,7 @@ class UserManager with ChangeNotifier {
 
   Future<void> getCurrentUser() async {
     // prepare the send data
-    const url = '${DataHolder.destination}/user';
+    const url = '${DataHolder.destination}/users';
 
     final response = await RequestHandler.sendGetRequest(url);
     final jsonResponse = jsonDecode(response.body)['user'];

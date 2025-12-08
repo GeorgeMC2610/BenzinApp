@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:benzinapp/services/managers/token_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:http/http.dart';
-
 import '../data_holder.dart';
-import 'car_manager.dart';
 
 class SessionManager {
 
@@ -20,7 +16,13 @@ class SessionManager {
   bool isLoggedIn = false;
 
   Future<bool> testConnection() async {
-    return false;
+    try {
+      await UserManager().getCurrentUser();
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
   }
 
   Future<void> logout() async {

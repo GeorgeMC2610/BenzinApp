@@ -56,6 +56,8 @@ class RequestHandler {
       throw UnauthorizedException();
     }
 
+    print(response.body);
+
     return response;
   }
 
@@ -73,6 +75,8 @@ class RequestHandler {
     if (response.statusCode == 401) {
       throw UnauthorizedException();
     }
+
+    print(response.body);
 
     return response;
   }

@@ -95,8 +95,11 @@ class _CarFormState extends State<CarForm> {
         manufacturerError = CarManager().errors['manufacturer']?.join(', ');
         yearError = CarManager().errors['year']?.join(', ');
         usernameError = CarManager().errors['username']?.join(', ');
-        print(usernameError);
       });
+
+      if (CarManager().errors.containsKey('base')) {
+        SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
+      }
     }
   }
 
@@ -130,6 +133,38 @@ class _CarFormState extends State<CarForm> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
+            if (CarManager().local.length >= 7)
+              Container(
+                padding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        color: Theme.of(context).colorScheme.error),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // TRANSLATEADDDD
+                        "You've reached the limit of 7 cars. Chances are that "
+                        "the request to create a new car is going to fail. You must delete "
+                        "and/or transfer the ownership to another user.",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+
             DividerWithText(
               text: translate('carDetails'),
               textColor: Theme.of(context).colorScheme.primary,

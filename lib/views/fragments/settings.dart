@@ -1,10 +1,12 @@
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
+import 'package:benzinapp/views/car/delete_car_screen.dart';
+import 'package:benzinapp/views/car/general_invitations.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
+import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
 import 'package:benzinapp/views/forms/car_form.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
@@ -13,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 
 import '../../services/theme_provider.dart';
 
@@ -162,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     const SizedBox(height: 30),
 
     Text(
-        translate('CAR OPTIONES!!!'),
+        translate('carOptions'),
         style: TextStyle(
             fontSize: 24,
             color: Theme.of(context).colorScheme.primary,
@@ -173,13 +174,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     const SizedBox(height: 12),
 
     ListTile(
-      title: Text("INVITE SOMEONE"),
+      title: Text(translate('inviteUserToCar')),
       enabled: true,
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const CarForm()
+                builder: (context) => InviteUserToCar(car: CarManager().watchingCar!)
             )
         );
       },
@@ -188,13 +189,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
 
     ListTile(
-      title: Text('TRANSFER CAR OWNERSHIP', style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+      title: Text(translate('transferOwnership'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
       enabled: true,
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const CarForm()
+                builder: (context) => TransferCarOwnershipScreen(car: CarManager().watchingCar!)
             )
         );
       },
@@ -203,10 +204,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
 
     ListTile(
-      title: Text(translate('DELETE CAR!!'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+      title: Text(translate('deleteCar'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
       trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-      leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
-      onTap: _performLogout,
+      leading: const Icon(Icons.car_crash, color: Color.fromARGB(255, 200, 0, 0)),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DeleteCarScreen(car: CarManager().watchingCar!)
+            )
+        );
+      },
     ),
   ];
 
@@ -225,7 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     const SizedBox(height: 12),
 
     ListTile(
-      title: Text(translate('editAccount') + "NEEDS CHANGE!!!"),
+      title: Text(translate('editAccount')),
       enabled: true,
       onTap: () {
         Navigator.push(
@@ -240,13 +248,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
 
     ListTile(
-      title: Text('INVITATIONS!!!'),
+      title: Text(translate('invitations')),
       enabled: true,
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const CarForm()
+                builder: (context) => const GeneralInvitations()
             )
         );
       },
