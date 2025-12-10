@@ -29,7 +29,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   final bool loggedIn = UserManager().currentUser != null;
-  final bool isWatchingCar = CarManager().watchingCar != null;
+  final bool isWatchingCar = CarManager().watchingCar != null && (CarManager().watchingCar?.isOwned() ?? false);
 
   void _performLogout() {
     SessionManager().logout();

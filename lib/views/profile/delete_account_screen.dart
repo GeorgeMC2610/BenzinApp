@@ -137,7 +137,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               const SizedBox(height: 15),
               Center(
                 child: Text(
-                  translate('deleteAccountRetypeUsernameTitle'),
+                  translate('deleteAccountRetypeUsernameTitle', args: {'username': UserManager().currentUser!.username}),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.error,
@@ -199,6 +199,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   bool buttonLocked() =>
       _isSending ||
       _userNameController.text.isEmpty ||
+      _userNameController.text != UserManager().currentUser!.username ||
       _passwordController.text.isEmpty;
 
   void _deleteAccount() async {
