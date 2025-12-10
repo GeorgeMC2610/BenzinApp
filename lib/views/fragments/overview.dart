@@ -7,12 +7,9 @@ import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
 import 'package:benzinapp/views/overview_cards/total_cost_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
-
 import '../overview_cards/graph_container_card.dart';
-import '../shared/notification.dart';
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -44,15 +41,11 @@ class _OverviewFragmentState extends State<OverviewFragment> {
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(
-        builder: (_, __, ___, ____, _____) => Column(
+        builder: (_, __, ___, ____, _____) => const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // logged in as <username> text.
-            Text(translate('loggedInAs', args: {'username': username ?? '-'})),
-
-            const SizedBox(height: 10),
-
             // car info container
             CarInfoCard(),
 

@@ -99,7 +99,6 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   Future<void> delete(T model, { Map<String, dynamic> body = const {} }) async {
     await RequestHandler.sendDeleteRequest("$baseUrl/${getId(model)}", body: body);
-    print("BODY IS $body!!!!");
     _local.removeWhere((e) => getId(e) == getId(model));
     notifyListeners();
   }

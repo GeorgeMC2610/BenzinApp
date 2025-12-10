@@ -72,6 +72,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
       )
   ),
 
+
   const SizedBox(width: 15),
 
                 Material(
@@ -84,7 +85,16 @@ class _CarInfoCardState extends State<CarInfoCard> {
                     )),
 
               ],
+
               ),
+
+                    Row(
+                      children: [
+                        const Icon(Icons.directions_car, size: 25),
+                        const SizedBox(width: 10),
+                        Text(CarManager().watchingCar!.username),
+                      ],
+                    ),
 
                     // fields that show if the car is ok
                     // will be added at a later date
