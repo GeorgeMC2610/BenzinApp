@@ -46,7 +46,8 @@ class CarManager extends AbstractManager<Car> {
       await CarUserInvitationManager().index();
     }
     else {
-      throw Error();
+      final jsonResponse = json.decode(response.body);
+      notifyListeners();
     }
   }
 
@@ -67,6 +68,12 @@ class CarManager extends AbstractManager<Car> {
     else {
       return jsonResponse["message"];
     }
+  }
+
+  @override
+  void destroyValues() {
+    super.destroyValues();
+    watchingCar = null;
   }
 
   @override
