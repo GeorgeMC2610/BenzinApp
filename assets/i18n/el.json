@@ -59,7 +59,7 @@
   "dashboardMyCars":       "Τα αυτοκίνητά μου",
   "dashboardSharedWithMe": "Κοινοποιημένα",
   "addNewCar":             "Προσθήκη αμαξιού",
-  "viewDetails":           "Προβολή Στοιχείων",
+  "viewDetails":           "Προβολή",
 
   "carMenuDetails":           "Πληροφορίες για {car}",
   "carMenuView":              "Πληροφορίες",
