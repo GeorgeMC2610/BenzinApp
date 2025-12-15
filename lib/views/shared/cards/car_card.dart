@@ -6,6 +6,7 @@ import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../services/classes/car.dart';
 import '../../forms/car_form.dart';
@@ -102,7 +103,7 @@ class CarCard extends StatelessWidget {
                     ),
                     AutoSizeText(
                       maxLines: 1,
-                      car!.createdAt.toIso8601String().substring(0, 10),
+                      DateFormat.yMMMd().format(car!.createdAt),
                       style: SharedFontStyles.legendTextStyle,
                     ),
                     const SizedBox(height: 8),
@@ -160,26 +161,42 @@ class CarCard extends StatelessWidget {
     showDialog(
         context: context,
         builder: (buildContext) => AlertDialog(
-            content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(children: [
-              Text(
-                translate('carMenuDetails', args: {'car': car!.username}),
-                style: const TextStyle(fontWeight: FontWeight.bold),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          translate(
+                            'carMenuDetails',
+                            args: {'car': car!.username},
+                          ),
+                          maxLines: 1,
+                          minFontSize: 10,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(buildContext).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                  if (car!.isOwned()) ...getOwnedSettings(buildContext),
+                  if (!car!.isOwned()) ...getSharedSettings(buildContext)
+                ],
               ),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.of(buildContext).pop();
-                },
-              ),
-            ]),
-            if (car!.isOwned()) ...getOwnedSettings(buildContext),
-            if (!car!.isOwned()) ...getSharedSettings(buildContext)
-          ],
-        )));
+            )
+        )
+    );
   }
 
   getSharedSettings(buildContext) => [
