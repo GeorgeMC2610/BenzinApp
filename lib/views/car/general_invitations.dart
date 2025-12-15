@@ -1,4 +1,3 @@
-import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../services/classes/car_user_invitation.dart';
-import '../fragments/settings.dart';
 import '../shared/divider_with_text.dart';
 
 class GeneralInvitations extends StatefulWidget {
