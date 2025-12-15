@@ -113,6 +113,20 @@ class CarCard extends StatelessWidget {
                       style: SharedFontStyles.descriptiveTextStyle,
                     ),
                     const Spacer(),
+                    if (!car!.isOwned())
+                      Row(
+                        children: [
+                          const Icon(Icons.person, size: 18),
+                          const SizedBox(width: 3),
+                          Expanded(
+                            child: AutoSizeText(
+                              car!.ownerUsername,
+                              maxLines: 1,
+                              minFontSize: 8,
+                            ),
+                          )
+                        ],
+                      ),
                     Row(
                       children: [
                         Material(
@@ -134,7 +148,7 @@ class CarCard extends StatelessWidget {
                           const Icon(Icons.directions_car, size: 40),
                       ],
                     ),
-                    FilledButton.tonal(
+                    FilledButton.tonalIcon(
                         onPressed: () {
                           DataHolder().getCarData(car!.id);
                           Navigator.of(context).push(
@@ -149,7 +163,8 @@ class CarCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        child: AutoSizeText(translate('viewDetails'), maxLines: 1)
+                        icon: const Icon(Icons.remove_red_eye, size: 17),
+                        label: AutoSizeText(translate('viewDetails'), maxLines: 1, minFontSize: 10)
                     )
                   ],
                 ),
