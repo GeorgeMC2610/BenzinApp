@@ -381,6 +381,7 @@
   "accepted_invitations": "Επιβεβαιωμένες Προσκλήσεις",
   "pending_invitations": "Εκκρεμείς Προσκλήσεις",
   "revoke": "Ανάκληση",
+  "leave": "Αποχώρηση",
   "sent_at": "Στάλθηκε στις",
 
   "inviteUserToCarAppBar": "Πρόσκληση Χρήστη",

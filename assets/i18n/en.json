@@ -381,6 +381,7 @@
   "accepted_invitations": "Accepted Invitations",
   "pending_invitations": "Pending Invitations",
   "revoke": "Revoke",
+  "leave": "Leave",
   "sent_at": "Sent at",
 
   "inviteUserToCarAppBar": "Invite User to Car",

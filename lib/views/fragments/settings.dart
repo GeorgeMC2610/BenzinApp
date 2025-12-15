@@ -7,10 +7,10 @@ import 'package:benzinapp/views/car/delete_car_screen.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
-import 'package:benzinapp/views/forms/car_form.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/profile/delete_account_screen.dart';
+import 'package:benzinapp/views/profile/edit_account_screen.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
@@ -240,7 +240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const CarForm()
+                builder: (context) => const EditAccountScreen()
             )
         );
       },

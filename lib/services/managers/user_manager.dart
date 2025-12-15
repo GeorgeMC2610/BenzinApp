@@ -34,6 +34,28 @@ class UserManager with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<UserPayloadStatus> update(String username) async {
+    // FOR NOW ONLY UPDATES THE USERNAME
+    // prepare the sending data
+    const url = '${DataHolder.destination}/users';
+    final body = { 'user': {
+        'username': username
+      }
+    };
+
+    // send the data
+    final response = await RequestHandler.sendPatchRequest(url, body);
+    if (response.ok) {
+      final jsonResponse = jsonDecode(response.body)['user'];
+      currentUser = User.fromJson(jsonResponse);
+      notifyListeners();
+      return UserPayloadStatus.confirmedOk;
+    }
+    else {
+      return UserPayloadStatus.usernameAlreadyTaken;
+    }
+  }
+
   Future<UserPayloadStatus> sendResetPasswordToken(String email) async {
     // prepare the sending data
     const url = '${DataHolder.destination}/password';
@@ -160,6 +182,7 @@ enum UserPayloadStatus {
   resetTokenEmailNotFound,
   resetTokenWrong,
   resetTokenCurrentPassword,
+  usernameAlreadyTaken,
 
   confirmTokenSent,
   confirmTokenEarly,
