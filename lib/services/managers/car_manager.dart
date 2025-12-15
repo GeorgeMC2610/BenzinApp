@@ -47,6 +47,7 @@ class CarManager extends AbstractManager<Car> {
     }
     else {
       final jsonResponse = json.decode(response.body);
+      setErrors(jsonResponse);
       notifyListeners();
     }
   }

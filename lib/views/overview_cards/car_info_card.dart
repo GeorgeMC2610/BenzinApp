@@ -88,11 +88,22 @@ class _CarInfoCardState extends State<CarInfoCard> {
 
               ),
 
+                    // info with the user owner
+                    if (!car!.isOwned())
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.person, size: 25),
+                          const SizedBox(width: 10),
+                          Text(car!.ownerUsername.toString())
+                        ],
+                      ),
+
                     Row(
                       children: [
                         const Icon(Icons.directions_car, size: 25),
                         const SizedBox(width: 10),
-                        Text(CarManager().watchingCar!.username),
+                        Text(car!.username),
                       ],
                     ),
 

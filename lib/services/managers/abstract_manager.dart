@@ -109,6 +109,11 @@ abstract class AbstractManager<T> with ChangeNotifier {
     _local.insert(index, model);
   }
 
+  @protected
+  void setErrors(Map<String, dynamic> json) {
+    _errors = json;
+  }
+
   int _findIndex(T item) {
     for (int i = 0; i < _local.length; i++) {
       if (compare(item, _local[i]) < 0) {
