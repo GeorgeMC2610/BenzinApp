@@ -382,7 +382,9 @@
   "pending_invitations": "Εκκρεμείς Προσκλήσεις",
   "revoke": "Ανάκληση",
   "leave": "Αποχώρηση",
-  "sent_at": "Στάλθηκε στις",
+  "noInvitations": "Δεν υπάρχουν προσκλήσεις",
+  "sentAt": "Στάλθηκε στις: {date}",
+
 
   "inviteUserToCarAppBar": "Πρόσκληση Χρήστη",
   "inviteUserToCarTitle": "Μοιραστείτε τα στοιχεία με άλλους",

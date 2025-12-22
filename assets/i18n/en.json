@@ -382,7 +382,8 @@
   "pending_invitations": "Pending Invitations",
   "revoke": "Revoke",
   "leave": "Leave",
-  "sent_at": "Sent at",
+  "noInvitations": "No invitations",
+  "sentAt": "Sent at: {date}",
 
   "inviteUserToCarAppBar": "Invite User to Car",
   "inviteUserToCarTitle": "Share car details with friends",

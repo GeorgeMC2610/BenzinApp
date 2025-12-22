@@ -172,7 +172,7 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                 ],
               ),
               Text(
-                  "${translate('sent_at')} ${DateFormat.yMMMd().format(invitation.createdAt)}",
+                  translate('sentAt', args: {'date': DateFormat.yMMMd().format(invitation.createdAt)}),
                   style: Theme.of(context).textTheme.labelSmall
               )
             ],
