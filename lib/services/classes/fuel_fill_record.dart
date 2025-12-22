@@ -11,7 +11,8 @@ class FuelFillRecord {
       totalKilometers: object[FuelFillRecordFields.totalKm].toString().isEmpty ? null : object[FuelFillRecordFields.totalKm],
       fuelType: object[FuelFillRecordFields.fuelType].toString().isEmpty ? null : object[FuelFillRecordFields.fuelType],
       gasStation: object[FuelFillRecordFields.station].toString().isEmpty ? null : object[FuelFillRecordFields.station],
-      comments: object[FuelFillRecordFields.notes].toString().isEmpty ? null : object[FuelFillRecordFields.notes]
+      comments: object[FuelFillRecordFields.notes].toString().isEmpty ? null : object[FuelFillRecordFields.notes],
+      createdByUsername: object[FuelFillRecordFields.createdByUsername],
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,7 +31,8 @@ class FuelFillRecord {
       dateTime: DateTime.now(),
       liters: -1,
       cost: -1,
-      kilometers: -1
+      kilometers: -1,
+      createdByUsername: ''
   );
 
   FuelFillRecord({
@@ -39,6 +41,7 @@ class FuelFillRecord {
     required this.liters,
     required this.cost,
     required this.kilometers,
+    required this.createdByUsername,
 
     this.gasStation,
     this.fuelType,
@@ -51,6 +54,7 @@ class FuelFillRecord {
   double liters;
   double cost;
   double kilometers;
+  String createdByUsername;
 
   int? totalKilometers;
   String? gasStation;
@@ -104,4 +108,5 @@ class FuelFillRecordFields {
   static const String station = "station";
   static const String fuelType = "fuel_type";
   static const String notes = "notes";
+  static const String createdByUsername = "created_by_username";
 }
