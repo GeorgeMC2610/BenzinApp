@@ -67,7 +67,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
     subtitle: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Sent: ${DateFormat.yMMMd().add_Hm().format(invitation.createdAt)}"),
+        Text(translate('sentAt', args: { 'date': DateFormat.yMMMd().add_Hm().format(invitation.createdAt)} )),
         Text(invitation.isAccepted ? translate('accepted') : translate('pending')),
       ],
     ),

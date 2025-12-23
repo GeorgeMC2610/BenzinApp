@@ -20,28 +20,14 @@ class OverviewFragment extends StatefulWidget {
 
 class _OverviewFragmentState extends State<OverviewFragment> {
 
-  String? username;
-
-  @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  initialize() async {
-    final car = CarManager().watchingCar;
-
-    setState(() {
-      username = car?.username;
-    });
-  }
+  String? username = CarManager().watchingCar?.username;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(
-        builder: (_, __, ___, ____, _____) => const Column(
+        builder: (_, __, ___, ____, _____) => Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
