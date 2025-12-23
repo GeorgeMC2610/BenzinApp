@@ -72,6 +72,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
       )
   ),
 
+
   const SizedBox(width: 15),
 
                 Material(
@@ -84,7 +85,27 @@ class _CarInfoCardState extends State<CarInfoCard> {
                     )),
 
               ],
+
               ),
+
+                    // info with the user owner
+                    if (!car!.isOwned())
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.person, size: 25),
+                          const SizedBox(width: 10),
+                          Text(car!.ownerUsername.toString())
+                        ],
+                      ),
+
+                    Row(
+                      children: [
+                        const Icon(Icons.directions_car, size: 25),
+                        const SizedBox(width: 10),
+                        Text(car!.username),
+                      ],
+                    ),
 
                     // fields that show if the car is ok
                     // will be added at a later date

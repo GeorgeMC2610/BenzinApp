@@ -27,21 +27,28 @@ class _CarFormState extends State<CarForm> {
   bool isLoading = false;
 
   _sendCarEditPayload() async {
-    manufacturerError = manufacturerController.text.isEmpty?
-    translate('cannotBeEmpty') :
-    null;
+    setState(() {
+      manufacturerError = null;
+      modelError = null;
+      yearError = null;
+      usernameError = null;
 
-    modelError = modelController.text.isEmpty?
-    translate('cannotBeEmpty') :
-    null;
+      manufacturerError = manufacturerController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
 
-    yearError = yearController.text.isEmpty?
-    translate('cannotBeEmpty') :
-    null;
+      modelError = modelController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
 
-    yearError ??= int.parse(yearController.text) < 1886 ?
-    translate('carsNotExistingBackThen') :
-    null;
+      yearError = yearController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      yearError ??= int.parse(yearController.text) < 1900 ?
+      translate('carsNotExistingBackThen') :
+      null;
+    });
 
     if (manufacturerError != null || modelError != null || yearError != null) {
       return;
@@ -78,8 +85,22 @@ class _CarFormState extends State<CarForm> {
       isLoading = false;
     });
 
-    SnackbarNotification.show(MessageType.success, successMessage);
-    Navigator.pop(context);
+    if (CarManager().errors.isEmpty) {
+      SnackbarNotification.show(MessageType.success, successMessage);
+      Navigator.pop(context);
+    }
+    else {
+      setState(() {
+        modelError = CarManager().errors['model']?.join(', ');
+        manufacturerError = CarManager().errors['manufacturer']?.join(', ');
+        yearError = CarManager().errors['year']?.join(', ');
+        usernameError = CarManager().errors['username']?.join(', ');
+      });
+
+      if (CarManager().errors.containsKey('base')) {
+        SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
+      }
+    }
   }
 
   @override
@@ -112,6 +133,38 @@ class _CarFormState extends State<CarForm> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
+            if (CarManager().local.length >= 7)
+              Container(
+                padding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        color: Theme.of(context).colorScheme.error),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // TRANSLATEADDDD
+                        "You've reached the limit of 7 cars. Chances are that "
+                        "the request to create a new car is going to fail. You must delete "
+                        "and/or transfer the ownership to another user.",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+
             DividerWithText(
               text: translate('carDetails'),
               textColor: Theme.of(context).colorScheme.primary,
@@ -129,7 +182,8 @@ class _CarFormState extends State<CarForm> {
               maxLength: 30,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                errorText: manufacturerError,
+                errorMaxLines: 3,
+                errorText: usernameError,
                 hintText: translate('carUsernameHint'),
                 labelText: translate('carUsername'),
                 prefixIcon: const Icon(Icons.directions_car_outlined),
@@ -139,7 +193,7 @@ class _CarFormState extends State<CarForm> {
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
             TextField(
               controller: manufacturerController,
@@ -195,6 +249,7 @@ class _CarFormState extends State<CarForm> {
                       errorText: yearError,
                       hintText: translate('carYearHint'),
                       labelText: translate('carYear'),
+                      errorMaxLines: 4,
                       suffixIcon: const Icon(Icons.calendar_month),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),

@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/car.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 
+import '../data_holder.dart';
 import '../request_handler.dart';
 
 
@@ -27,6 +28,30 @@ class CarManager extends AbstractManager<Car> {
   @override
   String get responseKeyword => "car";
 
+  @override
+  Future<void> delete(Car model, { Map<String, dynamic> body = const {} }) async {
+    if (!body.containsKey('username')) return;
+    if (body["username"] != model.username) return;
+    super.delete(model, body: { responseKeyword: body });
+  }
+
+  Future<void> transferOwnership(Car car, String username, String carUsername) async {
+    final response = await RequestHandler.sendPatchRequest("$baseUrl/${car.id}/transfer_ownership", {
+      "username": username,
+      "car_username": carUsername
+    });
+
+    if (response.ok) {
+      await index();
+      await CarUserInvitationManager().index();
+    }
+    else {
+      final jsonResponse = json.decode(response.body);
+      setErrors(jsonResponse);
+      notifyListeners();
+    }
+  }
+
   Future<String?> claimCar(String username, String password) async {
     final response = await RequestHandler.sendPostRequest("$baseUrl/claim", true, {
       "username": username,
@@ -44,6 +69,12 @@ class CarManager extends AbstractManager<Car> {
     else {
       return jsonResponse["message"];
     }
+  }
+
+  @override
+  void destroyValues() {
+    super.destroyValues();
+    watchingCar = null;
   }
 
   @override

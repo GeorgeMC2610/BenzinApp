@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benzinapp/services/classes/user.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +25,35 @@ class UserManager with ChangeNotifier {
 
   Future<void> getCurrentUser() async {
     // prepare the send data
-    const url = '${DataHolder.destination}/user';
+    const url = '${DataHolder.destination}/users';
 
     final response = await RequestHandler.sendGetRequest(url);
     final jsonResponse = jsonDecode(response.body)['user'];
 
     currentUser = User.fromJson(jsonResponse);
     notifyListeners();
+  }
+
+  Future<UserPayloadStatus> update(String username) async {
+    // FOR NOW ONLY UPDATES THE USERNAME
+    // prepare the sending data
+    const url = '${DataHolder.destination}/users';
+    final body = { 'user': {
+        'username': username
+      }
+    };
+
+    // send the data
+    final response = await RequestHandler.sendPatchRequest(url, body);
+    if (response.ok) {
+      final jsonResponse = jsonDecode(response.body)['user'];
+      currentUser = User.fromJson(jsonResponse);
+      notifyListeners();
+      return UserPayloadStatus.confirmedOk;
+    }
+    else {
+      return UserPayloadStatus.usernameAlreadyTaken;
+    }
   }
 
   Future<UserPayloadStatus> sendResetPasswordToken(String email) async {
@@ -132,6 +155,24 @@ class UserManager with ChangeNotifier {
     return null;
   }
 
+  Future<bool> deleteAccount(String username, String password) async {
+    const url = '${DataHolder.destination}/users';
+    final body = {
+      'username': username,
+      'password': password,
+    };
+
+    final response = await RequestHandler.sendDeleteRequest(url, body: body);
+
+    if (response.ok) {
+      TokenManager().removeToken();
+      DataHolder().destroyValues();
+      return true;
+    }
+
+    return false;
+  }
+
 }
 
 enum UserPayloadStatus {
@@ -141,6 +182,7 @@ enum UserPayloadStatus {
   resetTokenEmailNotFound,
   resetTokenWrong,
   resetTokenCurrentPassword,
+  usernameAlreadyTaken,
 
   confirmTokenSent,
   confirmTokenEarly,

@@ -1,4 +1,5 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
@@ -35,8 +36,15 @@ class _InviteesFragmentState extends State<InviteesFragment> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.mail_outlined),
-                const Text("Nooooo!")
+                const Icon(Icons.mail_outlined, size: 150,),
+                AutoSizeText(
+                  maxLines: 1,
+                  translate('noInvitations'),
+                  style: const TextStyle(
+                      fontSize: 29,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
               ],
             )
           )
@@ -59,7 +67,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
     subtitle: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Sent: ${DateFormat.yMMMd().add_Hm().format(invitation.createdAt)}"),
+        Text(translate('sentAt', args: { 'date': DateFormat.yMMMd().add_Hm().format(invitation.createdAt)} )),
         Text(invitation.isAccepted ? translate('accepted') : translate('pending')),
       ],
     ),

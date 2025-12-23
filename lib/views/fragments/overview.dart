@@ -7,12 +7,9 @@ import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
 import 'package:benzinapp/views/overview_cards/total_cost_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
-
 import '../overview_cards/graph_container_card.dart';
-import '../shared/notification.dart';
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -23,21 +20,7 @@ class OverviewFragment extends StatefulWidget {
 
 class _OverviewFragmentState extends State<OverviewFragment> {
 
-  String? username;
-
-  @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  initialize() async {
-    final car = CarManager().watchingCar;
-
-    setState(() {
-      username = car?.username;
-    });
-  }
+  String? username = CarManager().watchingCar?.username;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -49,10 +32,6 @@ class _OverviewFragmentState extends State<OverviewFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // logged in as <username> text.
-            Text(translate('loggedInAs', args: {'username': username ?? '-'})),
-
-            const SizedBox(height: 10),
-
             // car info container
             CarInfoCard(),
 

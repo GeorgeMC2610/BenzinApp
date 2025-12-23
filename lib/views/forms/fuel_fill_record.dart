@@ -414,7 +414,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     if (widget.fuelFillRecord == null) {
       var newRecord = FuelFillRecord(
         id: -1, dateTime: _selectedDate!, liters: liters,
-        cost: cost, kilometers: kilometers, comments: comments,
+        cost: cost, kilometers: kilometers, comments: comments, createdByUsername: '',
         gasStation: station, fuelType: fuelType, totalKilometers: totalKm,
       );
 

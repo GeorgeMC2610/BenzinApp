@@ -1,12 +1,11 @@
-import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../services/classes/car_user_invitation.dart';
-import '../fragments/settings.dart';
 import '../shared/divider_with_text.dart';
 
 class GeneralInvitations extends StatefulWidget {
@@ -50,17 +49,12 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
         return Scaffold(
           appBar: AppBar(
             title: Text(translate('general_invitations')),
-            actions: [
-              IconButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen())),
-                  icon: const Icon(Icons.settings)),
-            ],
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             bottom: TabBar(
               controller: _tabController,
               tabs: [
-                Tab(text: translate('incoming')),
-                Tab(text: translate('outgoing')),
+                Tab(text: translate('incoming'), icon: const Icon(Icons.call_received)),
+                Tab(text: translate('outgoing'), icon: const Icon(Icons.call_made)),
               ],
             ),
           ),
@@ -178,7 +172,9 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                 ],
               ),
               Text(
-                  '''${translate('sent_at')} ${invitation.createdAt.toIso8601String().substring(0, 10)}''')
+                  translate('sentAt', args: {'date': DateFormat.yMMMd().format(invitation.createdAt)}),
+                  style: Theme.of(context).textTheme.labelSmall
+              )
             ],
           ));
     } else {
@@ -188,11 +184,21 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
             color: invitation.isAccepted ? Theme.of(context).colorScheme.primary : null,
           ),
         title: Text(invitation.recipientUsername),
-        subtitle: Row(
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.directions_car),
-            const SizedBox(width: 5),
-            Text(invitation.carUsername)
+            Row(
+              children: [
+                const Icon(Icons.directions_car),
+                const SizedBox(width: 5),
+                Text(invitation.carUsername)
+              ],
+            ),
+            Text(
+                "${translate('sent_at')} ${DateFormat.yMMMd().format(invitation.createdAt)}",
+                style: Theme.of(context).textTheme.labelSmall
+            )
           ],
         ),
         trailing: TextButton.icon(

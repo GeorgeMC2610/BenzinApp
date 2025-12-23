@@ -146,7 +146,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "WAIT!!",
+                        translate('accessContributorDesc'),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),

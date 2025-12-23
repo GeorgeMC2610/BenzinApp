@@ -81,7 +81,7 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   Future<void> update(T model) async {
     _errors = {};
-    final response = await RequestHandler.sendPatchRequest("$baseUrl/${getId(model)})", toJson(model));
+    final response = await RequestHandler.sendPatchRequest("$baseUrl/${getId(model)})", { responseKeyword: toJson(model) });
     final jsonResponse = json.decode(response.body);
 
     if (response.ok) {
@@ -97,8 +97,8 @@ abstract class AbstractManager<T> with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> delete(T model) async {
-    await RequestHandler.sendDeleteRequest("$baseUrl/${getId(model)}");
+  Future<void> delete(T model, { Map<String, dynamic> body = const {} }) async {
+    await RequestHandler.sendDeleteRequest("$baseUrl/${getId(model)}", body: body);
     _local.removeWhere((e) => getId(e) == getId(model));
     notifyListeners();
   }
@@ -107,6 +107,11 @@ abstract class AbstractManager<T> with ChangeNotifier {
   void manualInsert(T model) {
     int index = _findIndex(model);
     _local.insert(index, model);
+  }
+
+  @protected
+  void setErrors(Map<String, dynamic> json) {
+    _errors = json;
   }
 
   int _findIndex(T item) {
@@ -120,5 +125,8 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   void destroyValues() {
     _local = [];
+    _filtered = null;
+    _errors = {};
+    notifyListeners();
   }
 }

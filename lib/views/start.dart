@@ -1,17 +1,9 @@
-import 'package:benzinapp/services/managers/car_manager.dart';
-import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
-import 'package:benzinapp/services/managers/malfunction_manager.dart';
-import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/services/managers/trip_manager.dart';
-import 'package:benzinapp/services/request_handler.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
-import 'package:benzinapp/views/home.dart';
+import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:benzinapp/views/login.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
 import '../services/data_holder.dart';
 
 class Start extends StatefulWidget {
@@ -93,7 +85,7 @@ class _StartState extends State<Start> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => const HomePage()
+              builder: (context) => const Dashboard()
           ));
     }
     else {
