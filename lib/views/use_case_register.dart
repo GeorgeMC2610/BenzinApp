@@ -21,7 +21,7 @@ class UseCaseRegister extends StatelessWidget {
                   Center(
                     child: AutoSizeText(
                       translate('welcomeUseCase'),
-                      minFontSize: 20,
+                      minFontSize: 15,
                       maxLines: 1,
                       maxFontSize: 35,
                       style: TextStyle(
