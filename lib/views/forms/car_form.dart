@@ -118,13 +118,13 @@ class _CarFormState extends State<CarForm> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('editCar')), // TODO: Translate
+      title: Text(widget.car == null ? translate('addCar') : translate('editCar')),
     ),
     persistentFooterAlignment: AlignmentDirectional.center,
     persistentFooterButtons: [
       PersistentAddOrEditButton(
           onPressed: _sendCarEditPayload,
-          isEditing: true,
+          isEditing: widget.car != null,
           isLoading: isLoading,
       )
     ],
