@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -82,7 +83,22 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                 ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                 ),
-                Center(child: Text(translate('no_invitations'))),
+                Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.mail_outline, size: 150,),
+                        AutoSizeText(
+                          maxLines: 1,
+                          translate('noInvitations'),
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
+                    )
+                )
               ],
             )
           : ListView(
