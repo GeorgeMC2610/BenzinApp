@@ -151,10 +151,7 @@ class _CarFormState extends State<CarForm> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        // TRANSLATEADDDD
-                        "You've reached the limit of 7 cars. Chances are that "
-                        "the request to create a new car is going to fail. You must delete "
-                        "and/or transfer the ownership to another user.",
+                        translate('tooManyCars'),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -183,6 +180,7 @@ class _CarFormState extends State<CarForm> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 errorMaxLines: 3,
+                counterText: '',
                 errorText: usernameError,
                 hintText: translate('carUsernameHint'),
                 labelText: translate('carUsername'),
@@ -203,6 +201,7 @@ class _CarFormState extends State<CarForm> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 errorText: manufacturerError,
+                counterText: '',
                 hintText: translate('carManufacturerHint'),
                 labelText: translate('carManufacturer'),
                 prefixIcon: const Icon(Icons.car_rental),
@@ -218,7 +217,6 @@ class _CarFormState extends State<CarForm> {
 
             Row(
               children: [
-
                 Expanded(
                   child: TextField(
                     controller: modelController,
@@ -227,6 +225,7 @@ class _CarFormState extends State<CarForm> {
                     maxLength: 30,
                     decoration: InputDecoration(
                       errorText: modelError,
+                      counterText: '',
                       hintText: translate('carModelHint'),
                       labelText: translate('carModel'),
                       prefixIcon: const Icon(Icons.car_rental_outlined),
@@ -247,6 +246,7 @@ class _CarFormState extends State<CarForm> {
                     maxLength: 4,
                     decoration: InputDecoration(
                       errorText: yearError,
+                      counterText: '',
                       hintText: translate('carYearHint'),
                       labelText: translate('carYear'),
                       errorMaxLines: 4,
