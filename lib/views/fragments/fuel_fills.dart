@@ -45,38 +45,32 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
     ),
   );
 
-  Widget normalBody(FuelFillRecordManager manager) => RefreshIndicator(
-    onRefresh: manager.index,
-    child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // TOTAL RECORDS
-              Text(
-                  manager.local.length == 1 ?
-                  translate('oneRecord') :
-                  translate('totalRecords', args: {'totalRecords': manager.local.length})
-              ),
+  Widget normalBody(FuelFillRecordManager manager) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // TOTAL RECORDS
+        Text(
+            manager.local.length == 1 ?
+            translate('oneRecord') :
+            translate('totalRecords', args: {'totalRecords': manager.local.length})
+        ),
 
-              if (manager.filter != null)
-                Text(
-                    manager.localOrFiltered.length == 1 ?
-                    translate('oneRecordWithFilters') :
-                    translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered.length})
-                ),
-
-              YearMonthFuelFillGroups(records: manager.localOrFiltered),
-
-              const SizedBox(height: 75)
-
-            ],
+        if (manager.filter != null)
+          Text(
+              manager.localOrFiltered.length == 1 ?
+              translate('oneRecordWithFilters') :
+              translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered.length})
           ),
-        )
-      ),
+
+        YearMonthFuelFillGroups(records: manager.localOrFiltered),
+
+        const SizedBox(height: 75)
+
+      ],
+    ),
   );
 
   @override
