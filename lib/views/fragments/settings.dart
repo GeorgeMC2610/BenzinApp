@@ -18,6 +18,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/theme_provider.dart';
+import '../car/claim_old_car.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -261,6 +262,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       trailing: const Icon(Icons.arrow_forward_ios),
       leading: const Icon(Icons.mail_outlined),
+    ),
+
+    ListTile(
+      title: Text(translate('claimCarSettings')),
+      enabled: true,
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ClaimOldCar(fromSettings: true)
+            )
+        );
+      },
+      trailing: const Icon(Icons.arrow_forward_ios),
+      leading: const Icon(Icons.car_rental_outlined),
     ),
 
     ListTile(
