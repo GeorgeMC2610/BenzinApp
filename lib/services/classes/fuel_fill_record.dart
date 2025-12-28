@@ -12,7 +12,7 @@ class FuelFillRecord {
       fuelType: object[FuelFillRecordFields.fuelType].toString().isEmpty ? null : object[FuelFillRecordFields.fuelType],
       gasStation: object[FuelFillRecordFields.station].toString().isEmpty ? null : object[FuelFillRecordFields.station],
       comments: object[FuelFillRecordFields.notes].toString().isEmpty ? null : object[FuelFillRecordFields.notes],
-      createdByUsername: object[FuelFillRecordFields.createdByUsername],
+      createdByUsername: object[FuelFillRecordFields.createdByUsername].toString().isEmpty ? null : object[FuelFillRecordFields.createdByUsername],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,8 +41,8 @@ class FuelFillRecord {
     required this.liters,
     required this.cost,
     required this.kilometers,
-    required this.createdByUsername,
 
+    this.createdByUsername,
     this.gasStation,
     this.fuelType,
     this.comments,
@@ -54,8 +54,8 @@ class FuelFillRecord {
   double liters;
   double cost;
   double kilometers;
-  String createdByUsername;
 
+  String? createdByUsername;
   int? totalKilometers;
   String? gasStation;
   String? fuelType;
