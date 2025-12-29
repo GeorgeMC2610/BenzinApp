@@ -35,7 +35,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final FocusNode _literFocusNode = FocusNode();
   final FocusNode _totalMileageFocusNode = FocusNode();
 
-  String? _mileageValidator, _totalMileageValidator, _costValidator, _literValidator;
+  String? mileageError, totalMileageError, costError, literError,
+          fuelTypeError, stationError, commentsError;
 
   bool _isLoading = false;
 
@@ -121,7 +122,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                         }
 
                         setState(() {
-                          _mileageValidator = _validator(_mileageController.text);
+                          mileageError = _validator(_mileageController.text);
                         });
                       },
                       enabled: !_isLoading,
@@ -129,7 +130,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
                         labelText: '${translate('mileage')} *',
-                        errorText: _mileageValidator,
+                        errorText: mileageError,
+                        errorMaxLines: 4,
+                        counterText: '',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -165,7 +168,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                         }
 
                         setState(() {
-                          _mileageValidator = _validator(_mileageController.text);
+                          mileageError = _validator(_mileageController.text);
                         });
                       },
                       enabled: !_isLoading,
@@ -173,7 +176,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
                         labelText: translate('totalMileage'),
-                        errorText: _totalMileageValidator,
+                        errorText: totalMileageError,
+                        errorMaxLines: 4,
+                        counterText: '',
                         prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -195,7 +200,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(_literFocusNode);
                     setState(() {
-                      _costValidator = _validator(_costController.text);
+                      costError = _validator(_costController.text);
                     });
                   },
                   enabled: !_isLoading,
@@ -203,7 +208,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   decoration: InputDecoration(
                     hintText: translate('costHint'),
                     labelText: '${translate('cost2')} *',
-                    errorText: _costValidator,
+                    errorText: costError,
                     prefixIcon: const Icon(Icons.euro_symbol_sharp),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -222,7 +227,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   textInputAction: TextInputAction.next,
                   onEditingComplete: () {
                     setState(() {
-                      _literValidator = _validator(_literController.text);
+                      literError = _validator(_literController.text);
                     });
                   },
                   enabled: !_isLoading,
@@ -230,7 +235,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                   decoration: InputDecoration(
                     hintText: translate('litersHint'),
                     labelText: '${translate('liters2')} *',
-                    errorText: _literValidator,
+                    errorText: literError,
+                    errorMaxLines: 4,
+                    counterText: '',
                     prefixIcon: const Icon(Icons.water_drop),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -315,9 +322,13 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
+                      maxLength: 50,
                       decoration: InputDecoration(
                         hintText: translate('fuelTypeHint'),
+                        errorMaxLines: 4,
+                        counterText: '',
                         labelText: translate('fuelType'),
+                        errorText: fuelTypeError,
                         prefixIcon: const Icon(Icons.gas_meter),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -334,9 +345,13 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       keyboardType: TextInputType.text,
+                      maxLength: 50,
                       decoration: InputDecoration(
                         hintText: translate('stationHint'),
                         labelText: translate('station'),
+                        errorText: stationError,
+                        errorMaxLines: 4,
+                        counterText: '',
                         prefixIcon: const Icon(Icons.local_gas_station),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -356,9 +371,12 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 controller: _commentsController,
                 minLines: 2,
                 maxLines: 10,
+                maxLength: 2048,
                 decoration: InputDecoration(
                   hintText: translate('commentsHint'),
                   labelText: translate('comments2'),
+                  errorText: commentsError,
+                  errorMaxLines: 4,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -379,9 +397,16 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     // add field checks
     // TODO: Add those check when the user exits the fields.
     setState(() {
-      _mileageValidator = _validator(_mileageController.text);
-      _costValidator = _validator(_costController.text);
-      _literValidator = _validator(_literController.text);
+      mileageError = null;
+      costError = null;
+      literError = null;
+      fuelTypeError = null;
+      stationError = null;
+      commentsError = null;
+
+      mileageError = _validator(_mileageController.text);
+      costError = _validator(_costController.text);
+      literError = _validator(_literController.text);
     });
 
     if (_selectedDate == null) {
@@ -393,13 +418,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       );
     }
 
-    if (_mileageValidator != null || _costValidator != null || _literValidator != null || _selectedDate == null) {
+    if (mileageError != null || costError != null || literError != null || _selectedDate == null) {
       return;
     }
-
-    setState(() {
-      _isLoading = true;
-    });
 
     double liters = double.parse(_literController.text);
     double cost = double.parse(_costController.text);
@@ -410,44 +431,97 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     String? fuelType = _fuelTypeController.text.trim().isEmpty ? null : _fuelTypeController.text.trim();
     int? totalKm = int.tryParse(_totalMileageController.text);
 
-    // if the record is non-existent, then ADD is enabled
+    final manager = FuelFillRecordManager();
+
     if (widget.fuelFillRecord == null) {
       var newRecord = FuelFillRecord(
-        id: -1, dateTime: _selectedDate!, liters: liters,
-        cost: cost, kilometers: kilometers, comments: comments, createdByUsername: '',
-        gasStation: station, fuelType: fuelType, totalKilometers: totalKm,
+        id: -1,
+        dateTime: _selectedDate!,
+        liters: liters,
+        cost: cost,
+        kilometers: kilometers,
+        comments: comments,
+        createdByUsername: '',
+        gasStation: station,
+        fuelType: fuelType,
+        totalKilometers: totalKm,
       );
 
-      await FuelFillRecordManager().create(newRecord);
-      SnackbarNotification.show(MessageType.success, translate('successfullyAddedFuelFill'));
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.create(newRecord);
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedFuelFill'),
+      );
       Navigator.pop(context);
     }
-    // otherwise EDIT is enabled.
     else {
-      // when editing, we want the patch request to be sent, and then
-      // checkout a new view with the new data.
-      widget.fuelFillRecord!.liters = liters;
-      widget.fuelFillRecord!.cost = cost;
-      widget.fuelFillRecord!.kilometers = kilometers;
-      widget.fuelFillRecord!.comments = comments;
-      widget.fuelFillRecord!.gasStation = station;
-      widget.fuelFillRecord!.fuelType = fuelType;
-      widget.fuelFillRecord!.totalKilometers = totalKm;
-      widget.fuelFillRecord!.dateTime = _selectedDate!;
+      widget.fuelFillRecord!
+        ..liters = liters
+        ..cost = cost
+        ..kilometers = kilometers
+        ..comments = comments
+        ..gasStation = station
+        ..fuelType = fuelType
+        ..totalKilometers = totalKm
+        ..dateTime = _selectedDate!;
 
-      await FuelFillRecordManager().update(widget.fuelFillRecord!);
-      SnackbarNotification.show(MessageType.success, translate('successfullyUpdatedFuelFill'));
-      if (widget.viewingRecord) {
-        Navigator.pop(context, widget.fuelFillRecord);
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.update(widget.fuelFillRecord!);
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
       }
-      else {
-        Navigator.pop(context);
-      }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedFuelFill'),
+      );
+
+      Navigator.pop(
+        context,
+        widget.viewingRecord ? widget.fuelFillRecord : null,
+      );
+    }
+  }
+
+  void _handleErrors(FuelFillRecordManager manager) {
+    setState(() {
+      mileageError = manager.errors['km']?.join(', ');
+      totalMileageError = manager.errors['total_km']?.join(', ');
+      costError = manager.errors['cost_eur']?.join(', ');
+      literError = manager.errors['lt']?.join(', ');
+      fuelTypeError = manager.errors['fuel_type']?.join(', ');
+      stationError = manager.errors['station']?.join(', ');
+      commentsError = manager.errors['notes']?.join(', ');
+    });
+
+    if (manager.errors.containsKey('base')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['base']!.join(', '),
+      );
     }
   }
 
   String? _validator(String field) {
-
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
     }
