@@ -199,7 +199,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   bool buttonLocked() =>
       _isSending ||
       _userNameController.text.isEmpty ||
-      _userNameController.text != UserManager().currentUser!.username ||
+      _userNameController.text != UserManager().currentUser?.username ||
       _passwordController.text.isEmpty;
 
   void _deleteAccount() async {
