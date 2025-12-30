@@ -21,41 +21,52 @@ class _InviteesFragmentState extends State<InviteesFragment> {
     await CarUserInvitationManager().index();
   }
 
+  _emptyBody() => Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.mail_outlined, size: 150,),
+          AutoSizeText(
+            maxLines: 1,
+            translate('noInvitations'),
+            style: const TextStyle(
+                fontSize: 29,
+                fontWeight: FontWeight.bold
+            ),
+          )
+        ],
+      )
+  );
+
+  _normalBody(List<CarUserInvitation> invitations) => ListView.builder(
+    itemCount: invitations.length,
+    itemBuilder: (context, index) {
+      final invitation = invitations[index];
+      return _buildListTile(invitation);
+    },
+  );
+
+  _loadingBody() => const LinearProgressIndicator(
+    value: null,
+  );
+
+  _decideBody(List<CarUserInvitation>? invitations) {
+    if (invitations == null) return _loadingBody();
+    if (invitations.isEmpty) return _emptyBody();
+    return _normalBody(invitations);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CarUserInvitationManager>(
       builder: (context, invitationManager, _) {
-        final invitations = invitationManager.local.where(
+        final invitations = invitationManager.local?.where(
           (invitation) => invitation.carId == CarManager().watchingCar!.id
         ).toList();
 
         return RefreshIndicator(
           onRefresh: _refreshInvitations,
-          child: invitations.isEmpty ?
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.mail_outlined, size: 150,),
-                AutoSizeText(
-                  maxLines: 1,
-                  translate('noInvitations'),
-                  style: const TextStyle(
-                      fontSize: 29,
-                      fontWeight: FontWeight.bold
-                  ),
-                )
-              ],
-            )
-          )
-              :
-          ListView.builder(
-            itemCount: invitations.length,
-            itemBuilder: (context, index) {
-              final invitation = invitations[index];
-              return _buildListTile(invitation);
-            },
-          ),
+          child: _decideBody(invitations)
         );
       },
     );

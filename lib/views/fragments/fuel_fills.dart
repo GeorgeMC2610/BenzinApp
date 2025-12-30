@@ -15,6 +15,10 @@ class FuelFillsFragment extends StatefulWidget {
 
 class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
+  Widget loadingBody() => const LinearProgressIndicator(
+    value: null,
+  );
+
   Widget emptyRecordsBody() => ConstrainedBox(
     constraints: BoxConstraints(
       minHeight: MediaQuery.of(context).size.height * 0.8,
@@ -53,25 +57,31 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
       children: [
         // TOTAL RECORDS
         Text(
-            manager.local.length == 1 ?
+            manager.local!.length == 1 ?
             translate('oneRecord') :
-            translate('totalRecords', args: {'totalRecords': manager.local.length})
+            translate('totalRecords', args: {'totalRecords': manager.local!.length})
         ),
 
         if (manager.filter != null)
           Text(
-              manager.localOrFiltered.length == 1 ?
+              manager.localOrFiltered!.length == 1 ?
               translate('oneRecordWithFilters') :
-              translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered.length})
+              translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered!.length})
           ),
 
-        YearMonthFuelFillGroups(records: manager.localOrFiltered),
+        YearMonthFuelFillGroups(records: manager.localOrFiltered!),
 
         const SizedBox(height: 75)
 
       ],
     ),
   );
+
+  Widget decideBody(FuelFillRecordManager manager) {
+    if (manager.local == null) return loadingBody();
+    if (manager.local!.isEmpty) return emptyRecordsBody();
+    return normalBody(manager);
+  }
 
   @override
   Widget build(BuildContext context) => Consumer<FuelFillRecordManager>(
@@ -80,7 +90,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
         onRefresh: manager.index,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: manager.local.isEmpty ? emptyRecordsBody() : normalBody(manager),
+          child: decideBody(manager),
         ),
       ),
    );

@@ -19,8 +19,8 @@ class TripsFragment extends StatefulWidget {
 
 class _TripsFragmentState extends State<TripsFragment> {
 
-  getRepeatingTrips() => TripManager().local.where((trip) => trip.timesRepeating != 1).toList();
-  getOneTimeTrips() => TripManager().local.where((trip) => trip.timesRepeating == 1).toList();
+  getRepeatingTrips() => TripManager().local!.where((trip) => trip.timesRepeating != 1).toList();
+  getOneTimeTrips() => TripManager().local!.where((trip) => trip.timesRepeating == 1).toList();
 
   Widget noTripsBody() => Center(
         child: Column(
@@ -95,15 +95,22 @@ class _TripsFragmentState extends State<TripsFragment> {
     ),
   );
 
+  Widget loadingBody() => const LinearProgressIndicator(
+    value: null,
+  );
 
   Widget buildBody() {
     return Consumer<TripManager>(
       builder: (context, manager, _) {
-        if (FuelFillRecordManager().local.length < 2) {
+        if (manager.local == null) {
+          return loadingBody();
+        }
+
+        if (manager.local!.length < 2) {
           return notEnoughFuelFillsBody();
         }
 
-        if (manager.local.isEmpty) {
+        if (manager.local!.isEmpty) {
           return noTripsBody();
         }
 
