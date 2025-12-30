@@ -44,8 +44,8 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
         final invitations = CarUserInvitationManager().local;
         final currentUser = UserManager().currentUser;
 
-        final incoming = invitations.where((i) => i.recipientUsername == currentUser!.username).toList();
-        final outgoing = invitations.where((i) => i.senderUsername == currentUser!.username).toList();
+        final incoming = invitations?.where((i) => i.recipientUsername == currentUser!.username).toList();
+        final outgoing = invitations?.where((i) => i.senderUsername == currentUser!.username).toList();
 
         return Scaffold(
           appBar: AppBar(
@@ -62,8 +62,8 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           body: TabBarView(
             controller: _tabController,
             children: [
-              _buildInvitationList(incoming, true),
-              _buildInvitationList(outgoing, false),
+              _buildInvitationList(incoming ?? [], true),
+              _buildInvitationList(outgoing ?? [], false),
             ],
           ),
         );

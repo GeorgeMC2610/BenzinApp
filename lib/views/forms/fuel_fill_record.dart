@@ -104,7 +104,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () async {
                         if (_totalMileageController.text.isEmpty && _mileageController.text.isNotEmpty) {
-                          var lastRecord = FuelFillRecordManager().local.firstOrNull;
+                          var lastRecord = FuelFillRecordManager().local?.firstOrNull;
                           if (lastRecord?.totalKilometers != null) {
                             var currentKilometers = double.tryParse(_mileageController.text);
                             if (currentKilometers != null) {
@@ -150,7 +150,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                       focusNode: _totalMileageFocusNode,
                       onEditingComplete: () async {
                         if (_mileageController.text.isEmpty && _totalMileageController.text.isNotEmpty) {
-                          var lastRecord = FuelFillRecordManager().local.firstOrNull;
+                          var lastRecord = FuelFillRecordManager().local?.firstOrNull;
                           if (lastRecord?.totalKilometers != null) {
                             var currentKilometers = double.tryParse(_totalMileageController.text);
                             if (currentKilometers != null) {

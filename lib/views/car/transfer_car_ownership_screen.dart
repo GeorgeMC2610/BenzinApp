@@ -152,7 +152,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
 
                 borderRadius: BorderRadius.circular(15), // Rounded corners
                 isExpanded: true,
-                items: CarUserInvitationManager().local.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList().map<DropdownMenuItem<CarUserInvitation>>(
+                items: CarUserInvitationManager().local?.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList().map<DropdownMenuItem<CarUserInvitation>>(
                         (CarUserInvitation invitation) {
                       return DropdownMenuItem<CarUserInvitation>(
                         value: invitation,

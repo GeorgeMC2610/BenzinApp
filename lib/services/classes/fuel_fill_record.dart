@@ -62,9 +62,10 @@ class FuelFillRecord {
   String? comments;
 
   FuelFillRecord? getNext() {
-    var indexOfNext = FuelFillRecordManager().local.indexOf(this) - 1;
+    if (FuelFillRecordManager().local == null) return null;
+    var indexOfNext = FuelFillRecordManager().local!.indexOf(this) - 1;
     if (indexOfNext < 0) return null;
-    return FuelFillRecordManager().local[indexOfNext];
+    return FuelFillRecordManager().local![indexOfNext];
   }
 
   double getConsumption() {

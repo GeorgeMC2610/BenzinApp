@@ -133,7 +133,7 @@ class _CarFormState extends State<CarForm> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
-            if (CarManager().local.length >= 7)
+            if ((CarManager().local?.length ?? 0) >= 7) // TODO: Needs revision
               Container(
                 padding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),

@@ -8,10 +8,10 @@ import '../request_handler.dart';
 abstract class AbstractManager<T> with ChangeNotifier {
 
   /// Backing list that widgets can listen to
-  late List<T> _local;
+  late List<T>? _local;
   List<T>? _filtered;
-  List<T> get local => _local;
-  List<T> get localOrFiltered => _filtered ?? _local;
+  List<T>? get local => _local;
+  List<T>? get localOrFiltered => _filtered ?? _local;
   late Map<String, dynamic> _errors;
   Map<String, dynamic> get errors => _errors;
 
@@ -50,9 +50,9 @@ abstract class AbstractManager<T> with ChangeNotifier {
   }
 
   void applyFilters() {
-    if (this.filter == null) return;
+    if (this.filter == null || _local == null) return;
 
-    this._filtered = _local.where((element) => this.filter!.matches(element)).toList();
+    this._filtered = _local!.where((element) => this.filter!.matches(element)).toList();
     notifyListeners();
   }
 
@@ -68,9 +68,11 @@ abstract class AbstractManager<T> with ChangeNotifier {
     final jsonResponse = json.decode(response.body);
 
     if (response.ok) {
-      final newModel = fromJson(jsonResponse[responseKeyword]);
-      int index = _findIndex(newModel);
-      _local.insert(index, newModel);
+      if (_local != null) {
+        final newModel = fromJson(jsonResponse[responseKeyword]);
+        int index = _findIndex(newModel);
+        _local!.insert(index, newModel);
+      }
     }
     else {
       _errors = jsonResponse["errors"];
@@ -85,10 +87,12 @@ abstract class AbstractManager<T> with ChangeNotifier {
     final jsonResponse = json.decode(response.body);
 
     if (response.ok) {
-      final updated = fromJson(jsonResponse[responseKeyword]);
-      _local.removeWhere((e) => getId(e) == getId(model));
-      int index = _findIndex(updated);
-      _local.insert(index, updated);
+      if (_local != null) {
+        final updated = fromJson(jsonResponse[responseKeyword]);
+        _local!.removeWhere((e) => getId(e) == getId(model));
+        int index = _findIndex(updated);
+        _local!.insert(index, updated);
+      }
     }
     else {
       _errors = jsonResponse["errors"];
@@ -99,14 +103,16 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   Future<void> delete(T model, { Map<String, dynamic> body = const {} }) async {
     await RequestHandler.sendDeleteRequest("$baseUrl/${getId(model)}", body: body);
-    _local.removeWhere((e) => getId(e) == getId(model));
+    _local?.removeWhere((e) => getId(e) == getId(model));
     notifyListeners();
   }
 
   @protected
   void manualInsert(T model) {
-    int index = _findIndex(model);
-    _local.insert(index, model);
+    if (_local != null) {
+      int index = _findIndex(model);
+      _local!.insert(index, model);
+    }
   }
 
   @protected
@@ -115,12 +121,17 @@ abstract class AbstractManager<T> with ChangeNotifier {
   }
 
   int _findIndex(T item) {
-    for (int i = 0; i < _local.length; i++) {
-      if (compare(item, _local[i]) < 0) {
-        return i;
+    if (_local != null) {
+      for (int i = 0; i < _local!.length; i++) {
+        if (compare(item, _local![i]) < 0) {
+          return i;
+        }
       }
+      return _local!.length;
     }
-    return _local.length;
+    else {
+      return -1;
+    }
   }
 
   void destroyValues() {
