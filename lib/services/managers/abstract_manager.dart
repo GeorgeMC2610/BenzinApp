@@ -135,9 +135,8 @@ abstract class AbstractManager<T> with ChangeNotifier {
   }
 
   void destroyValues() {
-    _local = [];
+    _local = null;
     _filtered = null;
     _errors = {};
-    notifyListeners();
   }
 }
