@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
       case SessionStatus.success:
         // show the message that the user is authorized successfully.
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-        await DataHolder().initializeValues();
+        DataHolder().initializeValues();
 
         Widget screen = const Dashboard();
 
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
         });
         break;
       case SessionStatus.serverError:
-        SnackbarNotification.show(MessageType.danger, "SERVER ERROR");
+        SnackbarNotification.show(MessageType.danger, "SERVER ERROR"); // TODO: Localize
         break;
       default:
         break;
