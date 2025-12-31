@@ -17,7 +17,7 @@ abstract class AbstractManager<T> with ChangeNotifier {
 
   AbstractManager() {
     _errors = {};
-    _local = [];
+    _local = null;
   }
 
   AbstractFilter? filter;
