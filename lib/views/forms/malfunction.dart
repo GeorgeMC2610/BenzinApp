@@ -79,6 +79,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       setState(() {
         _isLoading = false;
       });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -111,6 +117,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       setState(() {
         _isLoading = false;
       });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
       if (widget.isViewing) {
         Navigator.pop(context, widget.malfunction!);
       } else {
@@ -226,6 +238,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 15),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 2,
@@ -242,6 +255,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
                         errorText: kmError,
+                        errorMaxLines: 4,
                         labelText: '${translate('serviceMileage2')} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -268,6 +282,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       decoration: InputDecoration(
                         hintText: translate('malfunctionTitleHint'),
                         errorText: titleError,
+                        errorMaxLines: 4,
                         labelText: '${translate('malfunctionTitle')} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
@@ -296,6 +311,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   hintText: translate('descriptionHintMalfunction'),
                   labelText: '${translate('description2')} *',
                   errorText: descriptionError,
+                  errorMaxLines: 4,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -461,6 +477,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           decoration: InputDecoration(
             hintText: translate('repairCostHint'),
             errorText: costError,
+            errorMaxLines: 4,
             labelText: '${translate('repairCost')} *',
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
