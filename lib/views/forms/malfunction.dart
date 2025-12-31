@@ -129,8 +129,6 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         Navigator.pop(context);
       }
     }
-
-    _handleErrors(manager);
   }
 
   bool _validateForOngoing() {
