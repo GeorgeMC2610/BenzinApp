@@ -10,6 +10,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../shared/buttons/persistent_add_or_edit_button.dart';
+import '../shared/notification.dart';
 
 class ServiceForm extends StatefulWidget {
   const ServiceForm({super.key, this.service, this.isViewing = false});
@@ -32,78 +33,7 @@ class _ServiceFormState extends State<ServiceForm> {
   final TextEditingController nextKmController = TextEditingController();
 
   bool _isLoading = false;
-  String? _costValidator, _kmValidator, _nextKmValidator, _descValidator;
-
-  bool _validateAll() {
-    String? dateValidator;
-
-    setState(() {
-      _descValidator = _emptyValidator(descriptionController.text);
-      _kmValidator = _validator(kmController.text);
-      _costValidator = _validator(costController.text);
-      _nextKmValidator = _numValidator(nextKmController.text);
-      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
-    });
-
-    if (_selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        // TODO: Convert to new notification.
-          SnackBar(
-            content: Text(dateValidator!),
-          )
-      );
-    }
-
-    List<String?> mandatoryFields = [dateValidator, _kmValidator, _costValidator, _descValidator, _nextKmValidator];
-
-    return mandatoryFields.every((validation) => validation == null);
-  }
-
-  void _buttonSubmit() async {
-    // add field checks
-    bool isValidated = _validateAll();
-    if (!isValidated) return;
-
-    // all validations have passed here
-    setState(() {
-      _isLoading  = true;
-    });
-
-    // add-service form
-    if (widget.service == null) {
-      final service = Service(
-          id: -1, kilometersDone: int.parse(kmController.text),
-          description: descriptionController.text.trim(), dateHappened: _selectedDate!,
-          cost: double.parse(costController.text), nextServiceKilometers: int.tryParse(nextKmController.text),
-          nextServiceDate: _selectedNextDate
-      );
-
-      await ServiceManager().create(service);
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-    // edit-service form
-    else {
-      widget.service!.kilometersDone = int.parse(kmController.text);
-      widget.service!.description = descriptionController.text.trim();
-      widget.service!.dateHappened = _selectedDate!;
-      widget.service!.cost = double.parse(costController.text);
-      widget.service!.nextServiceKilometers = int.tryParse(nextKmController.text);
-      widget.service!.nextServiceDate = _selectedNextDate;
-
-      await ServiceManager().update(widget.service!);
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.service!);
-      }
-      else {
-        Navigator.pop(context);
-      }
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  String? costError, kmError, nextKmError, descError;
 
   @override
   void initState() {
@@ -118,6 +48,111 @@ class _ServiceFormState extends State<ServiceForm> {
       _selectedDate = widget.service!.dateHappened;
       _selectedAddress = widget.service!.getAddress();
       _selectedCoordinates = widget.service!.getCoordinates();
+    }
+  }
+
+  bool _validateAll() {
+    String? dateValidator;
+
+    setState(() {
+      descError = _emptyValidator(descriptionController.text);
+      kmError = _validator(kmController.text);
+      costError = _validator(costController.text);
+      nextKmError = _numValidator(nextKmController.text);
+      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
+    });
+
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        // TODO: Convert to new notification.
+          SnackBar(
+            content: Text(dateValidator!),
+          )
+      );
+    }
+
+    List<String?> mandatoryFields = [dateValidator, kmError, costError, descError, nextKmError];
+
+    return mandatoryFields.every((validation) => validation == null);
+  }
+
+  void _buttonSubmit() async {
+    // add field checks
+    bool isValidated = _validateAll();
+    if (!isValidated) return;
+
+    // all validations have passed here
+    // add-service form
+    final manager = ServiceManager();
+    if (widget.service == null) {
+      final service = Service(
+          id: -1, kilometersDone: int.parse(kmController.text),
+          description: descriptionController.text.trim(), dateHappened: _selectedDate!,
+          cost: double.parse(costController.text), nextServiceKilometers: int.tryParse(nextKmController.text),
+          nextServiceDate: _selectedNextDate
+      );
+
+      setState(() {
+        _isLoading  = true;
+      });
+      await manager.create(service);
+      setState(() {
+        _isLoading = false;
+      });
+
+      // server errors from back-end
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+    // edit-service form
+    else {
+      widget.service!.kilometersDone = int.parse(kmController.text);
+      widget.service!.description = descriptionController.text.trim();
+      widget.service!.dateHappened = _selectedDate!;
+      widget.service!.cost = double.parse(costController.text);
+      widget.service!.nextServiceKilometers = int.tryParse(nextKmController.text);
+      widget.service!.nextServiceDate = _selectedNextDate;
+
+      setState(() {
+        _isLoading  = true;
+      });
+      await manager.update(widget.service!);
+      setState(() {
+        _isLoading = false;
+      });
+
+      // server errors from back-end
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
+      if (widget.isViewing) {
+        Navigator.pop(context, widget.service!);
+      }
+      else {
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  _handleErrors(ServiceManager manager) {
+    setState(() {
+      kmError = manager.errors['at_km']?.join(', ');
+      descError = manager.errors['description']?.join(', ');
+      costError = manager.errors['cost_eur']?.join(', ');
+    });
+
+    if (manager.errors.containsKey('base')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['base']!.join(', '),
+      );
     }
   }
 
@@ -156,14 +191,15 @@ class _ServiceFormState extends State<ServiceForm> {
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () {
                   setState(() {
-                    _descValidator = _numValidator(descriptionController.text);
+                    descError = _numValidator(descriptionController.text);
                   });
                 },
                 enabled: !_isLoading,
                 minLines: 2,
                 maxLines: 10,
                 decoration: InputDecoration(
-                  errorText: _descValidator,
+                  errorText: descError,
+                  errorMaxLines: 4,
                   hintText: translate('descriptionHint'),
                   labelText: '${translate('description2')} *',
                   prefixIcon: const Icon(FontAwesomeIcons.wrench),
@@ -183,14 +219,15 @@ class _ServiceFormState extends State<ServiceForm> {
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () {
                         setState(() {
-                          _kmValidator = _validator(kmController.text);
+                          kmError = _validator(kmController.text);
                         });
                       },
                       enabled: !_isLoading,
                       controller: kmController,
                       decoration: InputDecoration(
-                        errorText: _kmValidator,
+                        errorText: kmError,
                         hintText: translate('serviceMileageHint'),
+                        errorMaxLines: 4,
                         labelText: '${translate('serviceMileage2')} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -207,15 +244,16 @@ class _ServiceFormState extends State<ServiceForm> {
                       controller: costController,
                       onEditingComplete: () {
                         setState(() {
-                          _costValidator = _validator(costController.text);
+                          costError = _validator(costController.text);
                         });
                       },
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
-                        errorText: _costValidator,
+                        errorText: costError,
                         hintText: translate('costHint'),
+                        errorMaxLines: 4,
                         labelText: '${translate('cost2')} *',
                         prefixIcon: const Icon(Icons.euro),
                         border: OutlineInputBorder(
@@ -367,13 +405,14 @@ class _ServiceFormState extends State<ServiceForm> {
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {
                   setState(() {
-                    _nextKmValidator = _numValidator(nextKmController.text);
+                    nextKmError = _numValidator(nextKmController.text);
                   });
                 },
                 enabled: !_isLoading,
                 controller: nextKmController,
                 decoration: InputDecoration(
-                  errorText: _nextKmValidator,
+                  errorText: nextKmError,
+                  errorMaxLines: 4,
                   hintText: translate('nextServiceMileageHint'),
                   labelText: translate('nextServiceMileage'),
                   prefixIcon: const Icon(Icons.next_plan_outlined),
