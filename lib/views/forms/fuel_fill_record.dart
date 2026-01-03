@@ -96,6 +96,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 10),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
@@ -525,6 +526,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   String? _validator(String field) {
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
+    }
+
+    if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
     }
 
     if (double.parse(field) < 0) {
