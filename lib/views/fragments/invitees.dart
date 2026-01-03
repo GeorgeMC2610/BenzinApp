@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
+import 'package:benzinapp/views/shared/dialogs/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -88,8 +89,19 @@ class _InviteesFragmentState extends State<InviteesFragment> {
       ),
       icon: const Icon(Icons.close),
       label: Text(invitation.isAccepted ? translate('revoke') : translate('cancel')),
-      onPressed: () async {
-        await CarUserInvitationManager().delete(invitation);
+      onPressed: () {
+        ConfirmationDialog.show(
+          context,
+          invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
+          invitation.isAccepted
+              ? translate('areYouSureYouWantToRevokeAccess')
+              : translate('areYouSureYouWantToCancelInvitationForThisUser'),
+              (confirmed) async {
+            if (confirmed) {
+              await CarUserInvitationManager().delete(invitation);
+            }
+          },
+        );
       },
     ),
   );
