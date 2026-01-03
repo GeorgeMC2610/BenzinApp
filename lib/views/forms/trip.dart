@@ -376,6 +376,10 @@ class _TripFormState extends State<TripForm> {
       return translate('cannotBeEmpty');
     }
 
+    if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
+    }
+
     if (double.parse(field) < 0) {
       return translate('cannotBeNegative');
     }

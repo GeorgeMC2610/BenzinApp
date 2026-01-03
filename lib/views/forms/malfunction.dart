@@ -623,9 +623,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   }
 
   String? _numberValidator(String field) {
-
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
+    }
+
+    if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
     }
 
     if (double.parse(field) < 0) {

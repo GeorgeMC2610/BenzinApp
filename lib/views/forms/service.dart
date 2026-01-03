@@ -501,7 +501,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
     var isParsed = double.tryParse(field);
     if (isParsed == null) {
-      return translate('cannotBeEmpty');
+      return translate('invalidNumber');
     }
 
     if (isParsed < 0) {
@@ -515,6 +515,11 @@ class _ServiceFormState extends State<ServiceForm> {
     if (field == '' || field.isEmpty) {
       return null;
     }
+
+    else if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
+    }
+
     else if (double.parse(field) < 0) {
       return translate('cannotBeNegative');
     }
