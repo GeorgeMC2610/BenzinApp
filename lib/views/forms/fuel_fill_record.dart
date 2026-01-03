@@ -315,6 +315,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 15),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
