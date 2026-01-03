@@ -59,6 +59,13 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   void _buttonSubmit() async {
     // validate the fields.
+    setState(() {
+      kmError = null;
+      titleError = null;
+      descriptionError = null;
+      costError = null;
+    });
+
     bool isValidated = _markAsFixed ? _validateForFixed() : _validateForOngoing();
     if (!isValidated) return;
 
@@ -277,10 +284,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       },
                       enabled: !_isLoading,
                       controller: titleController,
+                      maxLength: 30,
                       decoration: InputDecoration(
                         hintText: translate('malfunctionTitleHint'),
                         errorText: titleError,
                         errorMaxLines: 4,
+                        counterText: '',
                         labelText: '${translate('malfunctionTitle')} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
@@ -303,6 +312,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 },
                 minLines: 2,
                 maxLines: 10,
+                maxLength: 2048,
                 enabled: !_isLoading,
                 controller: descriptionController,
                 decoration: InputDecoration(

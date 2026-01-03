@@ -77,7 +77,13 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   void _buttonSubmit() async {
-    // add field checks
+    setState(() {
+      descError = null;
+      kmError = null;
+      costError = null;
+      nextKmError = null;
+    });
+
     bool isValidated = _validateAll();
     if (!isValidated) return;
 
@@ -197,6 +203,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 enabled: !_isLoading,
                 minLines: 2,
                 maxLines: 10,
+                maxLength: 1024,
                 decoration: InputDecoration(
                   errorText: descError,
                   errorMaxLines: 4,
@@ -212,6 +219,7 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
