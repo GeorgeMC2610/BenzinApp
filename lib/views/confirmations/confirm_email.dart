@@ -375,8 +375,6 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
     )
   );
 
-  // @todo: fill this up with a regular text cover.
-  // don't keep this as a bottom modal sheet.
   skipModal() => showModalBottomSheet(
     context: context,
     builder: (buildContext) => SizedBox(
