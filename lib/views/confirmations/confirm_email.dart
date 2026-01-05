@@ -115,7 +115,9 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         break;
       case UserPayloadStatus.confirmedAlready:
         SnackbarNotification.show(MessageType.success, translate('confirmAccountAlreadyConfirmed'));
-        // todo: redirect to the cars page.
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => const Dashboard()
+        ));
         break;
       default:
         SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
