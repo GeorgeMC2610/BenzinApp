@@ -60,6 +60,7 @@
   "enterExistingCarData": "Εισάγετε τα στοιχεία του παλιού σας λογαρισμού:",
   "claimCarBackToDashboard": "Πίσω στην αρχική",
   "claimCarButton":       "Ανάκτηση Αυτοκινήτου",
+  "claimCarSuccess":      "Επιτυχής καταχώρηση παλαιού αμαξιού.",
 
   "dashboardAppBar":       "Αρχική",
   "dashboardMyCars":       "Τα αυτοκίνητά μου",

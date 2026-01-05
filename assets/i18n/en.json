@@ -56,10 +56,11 @@
   "claimCarTitle":        "Of course we remember!",
   "claimCarTitleAlt":     "You have an old car, after all",
   "claimCarSubtitle":     "How could we possibly forget?",
-  "claimCarSubtitleAlt":  "Interesting! Don't forget about it agian, though...",
+  "claimCarSubtitleAlt":  "Interesting! Don't forget about it again, though...",
   "enterExistingCarData": "Please enter your old car's account data:",
   "claimCarBackToDashboard": "Back to Dashboard",
   "claimCarButton":       "Claim Car",
+  "claimCarSuccess":      "Successfully claimed old car.",
 
   "dashboardAppBar":       "Dashboard",
   "dashboardMyCars":       "My Cars",

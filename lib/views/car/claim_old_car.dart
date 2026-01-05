@@ -187,7 +187,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
       });
     }
     else {
-      SnackbarNotification.show(MessageType.success, 'SUCCESSFULLY CLAIMED OLD CAR!');
+      SnackbarNotification.show(MessageType.success, translate('claimCarSuccess'));
       setState(() {
         carUsername.text = '';
         passwordController.text = '';
