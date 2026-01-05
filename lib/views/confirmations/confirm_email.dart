@@ -111,14 +111,14 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         });
         break;
       case UserPayloadStatus.confirmTokenEarly:
-        SnackbarNotification.show(MessageType.alert, 'PLEASE WAIT TWO MINUTES!');
+        SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));
         break;
       case UserPayloadStatus.confirmedAlready:
-        SnackbarNotification.show(MessageType.success, 'YOU WERE ALREADY CONFIRMED! SORRY!');
+        SnackbarNotification.show(MessageType.success, translate('confirmAccountAlreadyConfirmed'));
         // todo: redirect to the cars page.
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, 'SOMETHING ELSE WENT WRONG!');
+        SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
         break;
     }
   }
