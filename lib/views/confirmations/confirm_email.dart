@@ -379,15 +379,34 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   // don't keep this as a bottom modal sheet.
   skipModal() => showModalBottomSheet(
     context: context,
-    builder: (buildContext) => Container(
+    builder: (buildContext) => SizedBox(
       height: MediaQuery.of(context).size.height * 0.75,
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hi!")
+              Center(
+                child: Text(
+                  translate("skipConsequencesTitle1"),
+                  style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                translate("skipConsequencesText1"),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 15),
+              Text(
+                translate("skipConsequencesText2"),
+                style: Theme.of(context).textTheme.bodyMedium,
+              )
             ],
           ),
         ),

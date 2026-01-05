@@ -356,6 +356,9 @@
   "confirmAccountTitle": "Let's verify your account",
   "skipVerification": "Skip verification for now.",
   "skipConsequences": "What happens if I skip?",
+  "skipConsequencesTitle1": "What happens if you skip?",
+  "skipConsequencesText1": "Without confirming your account, your experience is limited. You can only have one car and one fuel fill, you can't use sharing or advanced features, and old BenzinApp users can't retrieve their previous cars.",
+  "skipConsequencesText2": "You can confirm your account anytime from Settings --> User Settings --> Confirm Account. Unconfirmed users are reminded at every login.",
 
   "confirmAccountOkay": "Successfully confirmed your account",
 
