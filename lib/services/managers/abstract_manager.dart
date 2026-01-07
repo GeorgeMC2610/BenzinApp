@@ -75,7 +75,12 @@ abstract class AbstractManager<T> with ChangeNotifier {
       }
     }
     else {
-      _errors = jsonResponse["errors"];
+      if (jsonResponse.containsKey("errors")) {
+        _errors = jsonResponse["errors"];
+      }
+      else if (jsonResponse.containsKey("error")){
+        _errors = jsonResponse["error"];
+      }
     }
 
     notifyListeners();
@@ -95,7 +100,12 @@ abstract class AbstractManager<T> with ChangeNotifier {
       }
     }
     else {
-      _errors = jsonResponse["errors"];
+      if (jsonResponse.containsKey("errors")) {
+        _errors = jsonResponse["errors"];
+      }
+      else if (jsonResponse.containsKey("error")){
+        _errors = jsonResponse["error"];
+      }
     }
 
     notifyListeners();

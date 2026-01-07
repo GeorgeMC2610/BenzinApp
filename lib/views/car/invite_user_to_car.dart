@@ -194,6 +194,9 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
           _usernameEmpty = true;
         });
       }
+      else if (CarUserInvitationManager().errors.containsKey('base')) {
+        SnackbarNotification.show(MessageType.danger, CarUserInvitationManager().errors["base"].join(', '));
+      }
     }
     catch (e, stack) {
       print(e);
