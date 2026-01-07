@@ -21,7 +21,7 @@ class ConfirmEmail extends StatefulWidget {
 
 class _ConfirmEmailState extends State<ConfirmEmail> {
 
-  static const int totalSeconds = 120; // wait 1 minute
+  static const int totalSeconds = 120; // wait 2 minutes
   int remainingSeconds = totalSeconds;
   double get progress => 1 - (remainingSeconds / totalSeconds);
 
@@ -38,15 +38,16 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   @override
   void initState() {
     super.initState();
-    _startTimer();
-    if (!widget.fromRegister) {
+    if (widget.fromRegister) {
+      _startTimer();
+    } else {
       defineSeconds();
     }
   }
 
-  void _startTimer() {
+  void _startTimer({int? startValue}) {
+    remainingSeconds = startValue ?? totalSeconds;
     _timer?.cancel();
-    remainingSeconds = totalSeconds;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds == 0) {
         timer.cancel();
@@ -73,20 +74,20 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       isLoading = true;
     });
 
-    final result = await UserManager().getConfirmationDateSent();
+    final sentAt = await UserManager().getConfirmationDateSent();
 
-    if (result == null) {
+    if (sentAt == null) {
       requestNewToken();
-    }
-    else {
-      final remainingSeconds = result.difference(DateTime.now()).inSeconds;
-      if (remainingSeconds == 600) {
+    } else {
+      final elapsedSeconds =
+          DateTime.now().difference(sentAt).inSeconds;
+
+      final remaining = totalSeconds - elapsedSeconds;
+
+      if (remaining <= 0) {
         requestNewToken();
-      }
-      else {
-        setState(() {
-          this.remainingSeconds = remainingSeconds < 0 ? 0 : remainingSeconds;
-        });
+      } else {
+        _startTimer(startValue: remaining);
       }
     }
 
@@ -94,6 +95,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       isLoading = false;
     });
   }
+
 
   void requestNewToken() async {
     setState(() {
@@ -106,9 +108,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
     switch (result) {
       case UserPayloadStatus.confirmTokenSent:
-        setState(() {
-          remainingSeconds = totalSeconds;
-        });
+        _startTimer();
         break;
       case UserPayloadStatus.confirmTokenEarly:
         SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));

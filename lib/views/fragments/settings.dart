@@ -7,6 +7,7 @@ import 'package:benzinapp/views/car/delete_car_screen.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
+import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/profile/delete_account_screen.dart';
@@ -226,86 +227,108 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ];
   }
 
-  List<Widget> getUserOptions() => [
-    const SizedBox(height: 30),
+  List<Widget> getUserOptions() {
+    final isConfirmed = UserManager().currentUser?.isConfirmed() ?? false;
 
-    Text(
-        translate('accountSettings'),
-        style: TextStyle(
-            fontSize: 24,
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w500
-        )
-    ),
+    return [
+      const SizedBox(height: 30),
 
-    const SizedBox(height: 12),
+      Text(
+          translate('accountSettings'),
+          style: TextStyle(
+              fontSize: 24,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500
+          )
+      ),
 
-    ListTile(
-      title: Text(translate('editAccount')),
-      enabled: true,
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const EditAccountScreen()
-            )
-        );
-      },
-      trailing: const Icon(Icons.arrow_forward_ios),
-      leading: const Icon(Icons.person),
-    ),
+      const SizedBox(height: 12),
 
-    ListTile(
-      title: Text(translate('invitations')),
-      enabled: true,
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const GeneralInvitations()
-            )
-        );
-      },
-      trailing: const Icon(Icons.arrow_forward_ios),
-      leading: const Icon(Icons.mail_outlined),
-    ),
+      ListTile(
+        title: Text(translate('editAccount')),
+        enabled: true,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const EditAccountScreen()
+              )
+          );
+        },
+        trailing: const Icon(Icons.arrow_forward_ios),
+        leading: const Icon(Icons.person),
+      ),
 
-    ListTile(
-      title: Text(translate('claimCarSettings')),
-      enabled: true,
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const ClaimOldCar(fromSettings: true)
-            )
-        );
-      },
-      trailing: const Icon(Icons.arrow_forward_ios),
-      leading: const Icon(Icons.car_rental_outlined),
-    ),
+      if (isConfirmed)
+        ListTile(
+          title: Text(translate('invitations')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const GeneralInvitations()
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.mail_outlined),
+        ),
 
-    ListTile(
-      title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-      leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
-      onTap: _performLogout,
-    ),
+      if (isConfirmed)
+        ListTile(
+          title: Text(translate('claimCarSettings')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ClaimOldCar(fromSettings: true)
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.car_rental_outlined),
+        ),
 
-    ListTile(
-      title: Text(translate('deleteAccount'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-      leading: const Icon(Icons.person_remove, color: Color.fromARGB(255, 200, 0, 0)),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const DeleteAccountScreen()
-            )
-        );
-      },
-    ),
-  ];
+      if (!isConfirmed)
+        ListTile(
+          title: Text(translate('confirmAccount')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConfirmEmail()
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.verified_user_outlined),
+        ),
+
+      ListTile(
+        title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: _performLogout,
+      ),
+
+      ListTile(
+        title: Text(translate('deleteAccount'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.person_remove, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const DeleteAccountScreen()
+              )
+          );
+        },
+      ),
+    ];
+  }
 
   void _showLanguageModal() {
     showDialog(
