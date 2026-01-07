@@ -161,64 +161,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
   );
 
-  List<Widget> getCarOptions() => [
-    const SizedBox(height: 30),
+  List<Widget> getCarOptions() {
+    final isConfirmed = UserManager().currentUser?.isConfirmed() ?? false;
 
-    Text(
-        translate('carOptions'),
-        style: TextStyle(
-            fontSize: 24,
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w500
-        )
-    ),
+    return [
+      const SizedBox(height: 30),
 
-    const SizedBox(height: 12),
+      Text(
+          translate('carOptions'),
+          style: TextStyle(
+              fontSize: 24,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500
+          )
+      ),
 
-    ListTile(
-      title: Text(translate('inviteUserToCar')),
-      enabled: true,
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => InviteUserToCar(car: CarManager().watchingCar!)
-            )
-        );
-      },
-      trailing: const Icon(Icons.arrow_forward_ios),
-      leading: const Icon(Icons.outgoing_mail),
-    ),
+      const SizedBox(height: 12),
 
-    ListTile(
-      title: Text(translate('transferOwnership'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-      enabled: true,
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TransferCarOwnershipScreen(car: CarManager().watchingCar!)
-            )
-        );
-      },
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-      leading: const Icon(Icons.compare_arrows, color: Color.fromARGB(255, 200, 0, 0)),
-    ),
+      ListTile(
+        title: Text(translate('inviteUserToCar')),
+        enabled: UserManager().currentUser?.confirmedAt != null,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InviteUserToCar(car: CarManager().watchingCar!)
+              )
+          );
+        },
+        trailing: const Icon(Icons.arrow_forward_ios),
+        leading: const Icon(Icons.outgoing_mail),
+      ),
 
-    ListTile(
-      title: Text(translate('deleteCar'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-      leading: const Icon(Icons.car_crash, color: Color.fromARGB(255, 200, 0, 0)),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DeleteCarScreen(car: CarManager().watchingCar!)
-            )
-        );
-      },
-    ),
-  ];
+      ListTile(
+        title: Text(translate('transferOwnership'), style: TextStyle(
+            color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0))
+        ),
+        enabled: UserManager().currentUser?.confirmedAt != null,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TransferCarOwnershipScreen(car: CarManager().watchingCar!)
+              )
+          );
+        },
+        trailing: Icon(Icons.arrow_forward_ios, color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0)),
+        leading: Icon(Icons.compare_arrows, color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0)),
+      ),
+
+      ListTile(
+        title: Text(translate('deleteCar'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.car_crash, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DeleteCarScreen(car: CarManager().watchingCar!)
+              )
+          );
+        },
+      ),
+    ];
+  }
 
   List<Widget> getUserOptions() => [
     const SizedBox(height: 30),
