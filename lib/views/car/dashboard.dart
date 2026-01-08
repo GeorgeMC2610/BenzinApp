@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/shared/car_list.dart';
@@ -27,6 +28,35 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (!(UserManager().currentUser?.isConfirmed() ?? false))
+            Container(
+              padding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.warning_amber_rounded,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      translate('dashboardConfirmAccount'),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             DividerWithText(
               text: translate('dashboardMyCars'),
               lineColor: Colors.grey,

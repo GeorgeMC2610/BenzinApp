@@ -11,9 +11,10 @@ import '../../services/managers/user_manager.dart';
 import '../shared/notification.dart';
 
 class ConfirmEmail extends StatefulWidget {
-  const ConfirmEmail({super.key, this.fromRegister = false});
+  const ConfirmEmail({super.key, this.fromRegister = false, this.fromSettings = false});
 
   final bool fromRegister;
+  final bool fromSettings;
 
   @override
   State<StatefulWidget> createState() => _ConfirmEmailState();
@@ -83,12 +84,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           DateTime.now().difference(sentAt).inSeconds;
 
       final remaining = totalSeconds - elapsedSeconds;
-
-      if (remaining <= 0) {
-        requestNewToken();
-      } else {
-        _startTimer(startValue: remaining);
-      }
+      _startTimer(startValue: remaining < 0 ? 0 : remaining);
     }
 
     setState(() {
@@ -337,9 +333,11 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
               ],
             ),
 
-            const SizedBox(height: 75),
+            if (!widget.fromSettings)
+              const SizedBox(height: 75),
 
-            Center(
+            if (!widget.fromSettings)
+              Center(
                 child: InkWell(
                   onTap: () {
                     Navigator.pushReplacement(context, MaterialPageRoute(
@@ -356,7 +354,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                     ),
                   ),
                 )
-            ),
+              ),
 
             const SizedBox(height: 55),
 

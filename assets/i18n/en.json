@@ -67,6 +67,7 @@
   "dashboardSharedWithMe": "Shared With Me",
   "addNewCar":             "Add a new car",
   "viewDetails":           "View Details",
+  "dashboardConfirmAccount": "Your account is not confirmed yet. You have limited features.",
 
   "carMenuDetails":           "Details for {car}",
   "carMenuView":              "View Details",
