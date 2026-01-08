@@ -57,6 +57,8 @@ class SessionManager {
         return SessionStatus.success;
       case 401:
         return SessionStatus.wrongCredentials;
+      case 423:
+        return SessionStatus.locked;
       default:
         return SessionStatus.blank;
     }
@@ -95,6 +97,7 @@ class SessionManager {
 enum SessionStatus {
   success,
   wrongCredentials,
+  locked,
   usernameTaken,
   emailTaken,
   serverError,

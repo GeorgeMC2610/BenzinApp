@@ -299,7 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ConfirmEmail()
+                    builder: (context) => const ConfirmEmail(fromSettings: true)
                 )
             );
           },
