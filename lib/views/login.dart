@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
+import 'package:benzinapp/views/confirmations/unlock_account.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
@@ -30,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   String? passwordError;
 
   bool isLoggingIn = false;
+  bool showUnlockButton = false;
 
   void sendLoginPayload() async {
 
@@ -70,6 +72,11 @@ class _LoginPageState extends State<LoginPage> {
         ));
 
         break;
+      case SessionStatus.locked:
+        SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
+        setState(() {
+          showUnlockButton = true;
+        });
       case SessionStatus.wrongCredentials:
         setState(() {
           emailError = translate('wrongCredentials');
@@ -243,11 +250,36 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 75),
+              const SizedBox(height: 25),
+
+              if (showUnlockButton)
+              Center(
+                child: TextButton.icon(
+                  icon: const Icon(Icons.lock_reset),
+                  label: Text(translate('unlockAccountButton')),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.tertiary,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UnlockAccountScreen(email: emailController.text)
+                        )
+                    );
+                  },
+                ),
+              ),
+
+              if (showUnlockButton)
+              const SizedBox(height: 15),
 
               Center(
                 child: TextButton.icon(
-                  icon: const Icon(Icons.lock_reset_rounded),
+                  icon: const Icon(Icons.password),
                   label: Text(translate('forgotPassword')),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.blueAccent,
