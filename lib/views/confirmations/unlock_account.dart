@@ -37,7 +37,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _startTimer(startValue: 0);
   }
 
   void _startTimer({int? startValue}) {

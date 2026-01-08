@@ -62,8 +62,8 @@ class RequestHandler {
     return response;
   }
 
-  static Future<http.Response> sendGetRequest(String uri) async {
-    return _sendRequest('GET', uri);
+  static Future<http.Response> sendGetRequest(String uri, { bool authorize = true }) async {
+    return _sendRequest('GET', uri, authorize: authorize);
   }
 
   static Future<http.Response> sendPostRequest(String uri, bool authorize, Map<String, dynamic> body) async {

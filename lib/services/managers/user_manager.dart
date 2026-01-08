@@ -180,7 +180,7 @@ class UserManager with ChangeNotifier {
       'code': otp,
     };
 
-    final response = await RequestHandler.sendPatchRequest(url, body, authorize: false);
+    final response = await RequestHandler.sendPostRequest(url, false, body);
 
     switch (response.statusCode) {
       case 200:
@@ -193,13 +193,13 @@ class UserManager with ChangeNotifier {
   }
 
   Future<UserPayloadStatus> resendUnlockAccountToken(String email) async {
-    const url = '${DataHolder.destination}/users/unlock/resend';
+    const url = '${DataHolder.destination}/users/unlock/send_code';
     final body = { 'email': email };
 
     final response = await RequestHandler.sendPostRequest(url, false, body);
 
     switch (response.statusCode) {
-      case 204:
+      case 200:
         return UserPayloadStatus.unlockTokenSent;
       case 403:
         return UserPayloadStatus.unlockTokenEarly;
