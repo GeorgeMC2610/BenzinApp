@@ -425,6 +425,7 @@
   "sharedUsername": "Username",
   "sharedUsernameHint": "Το Username του φίλου σας...",
   "sendInvitationButton": "Αποστολή Πρόσκλησης",
+  "invitationSent": "Η πρόσκληση απεστάλη στον χρήστη {user}.",
 
   "selectAccessLevel": "Επιλογή ρόλου πρόσβασης:",
   "accessModerator": "Συντονιστής (Moderator)",

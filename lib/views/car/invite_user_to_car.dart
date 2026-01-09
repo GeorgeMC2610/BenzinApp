@@ -188,7 +188,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
       await CarUserInvitationManager().create(invitation);
       if (CarUserInvitationManager().errors.keys.isEmpty) {
         // TODO: Translate!
-        SnackbarNotification.show(MessageType.success, 'Invitation sent to ${_usernameController.text}');
+        SnackbarNotification.show(MessageType.success, translate('invitationSent', args: {'user': _usernameController.text}));
         setState(() {
           _usernameController.clear();
           _usernameEmpty = true;

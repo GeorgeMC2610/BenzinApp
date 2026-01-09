@@ -425,6 +425,7 @@
   "sharedUsername": "Username",
   "sharedUsernameHint": "Enter your friend's username...",
   "sendInvitationButton": "Send Invitation",
+  "invitationSent": "Invitation sent to {user}.",
 
   "selectAccessLevel": "Select access level:",
   "accessModerator": "Moderator",
