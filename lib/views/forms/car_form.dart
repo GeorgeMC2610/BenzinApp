@@ -100,6 +100,12 @@ class _CarFormState extends State<CarForm> {
       if (CarManager().errors.containsKey('base')) {
         SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
       }
+      else if (CarManager().errors.containsKey('error')) {
+        SnackbarNotification.show(
+          MessageType.danger,
+          CarManager().errors['error']!,
+        );
+      }
     }
   }
 
@@ -133,7 +139,7 @@ class _CarFormState extends State<CarForm> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
-            if ((CarManager().local?.length ?? 0) >= 7) // TODO: Needs revision
+            if (((CarManager().local?.where((car) => car.isOwned()).length) ?? 0) >= 7)
               Container(
                 padding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
