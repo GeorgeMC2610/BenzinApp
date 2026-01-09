@@ -215,12 +215,17 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 60),
 
-              // BenzinApp Logo
+              // E-mail text field
               TextField(
                 enabled: !isLoggingIn,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                onChanged: (value) {
+                  setState(() {
+                    showUnlockButton = false;
+                  });
+                },
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: translate('emailHint'),
@@ -254,11 +259,11 @@ class _LoginPageState extends State<LoginPage> {
 
               if (showUnlockButton)
               Center(
-                child: TextButton.icon(
+                child: FilledButton.tonalIcon(
                   icon: const Icon(Icons.lock_reset),
                   label: Text(translate('unlockAccountButton')),
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.tertiary,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
                     textStyle: const TextStyle(
                       fontSize: 16,
                     ),
