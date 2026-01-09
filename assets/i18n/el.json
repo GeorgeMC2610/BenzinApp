@@ -407,6 +407,16 @@
   "noInvitations": "Δεν υπάρχουν προσκλήσεις",
   "sentAt": "Στάλθηκε στις: {date}",
 
+  "confirm": "Επιβεβαίωση",
+  "invitationAccepted": "Αποδεχτήκατε την πρόσκληση.",
+  "invitationCanceled": "Η πρόσκληση ανακλήθηκε.",
+  "rejectInvitation": "Απόρριψη Πρόσκλησης",
+  "revokeInvitation": "Ανάκληση Πρόσκλησης",
+  "cancelInvitation": "Ακύρωση Πρόσκλησης",
+  "areYouSureYouWantToLeaveThisCar": "Είστε σίγουροι ότι θέλετε να φύγετε από το αμάξι {car};",
+  "areYouSureYouWantToRejectThisInvitation": "Είστε σίγουροι ότι θέλετε να απορρίψετε αυτήν την πρόσκληση;",
+  "areYouSureYouWantToRevokeAccess": "Είστε σίγουροι ότι θέλετε να ανακαλέσετε την πρόσκληση στον χρήστη {user} από το αμάξι {car}; (Δεν θα μπορεί πια να το δει ή να επεξεργαστεί τα δεδομένα του)",
+  "areYouSureYouWantToCancelInvitationForThisUser": "Ο χρήστης {user} δεν έχει αποδεχτεί ακόμη την πρόσκληση για το αμάξι {car}. Είστε σίγουροι ότι θέλετε να την ανακαλέσετε;",
 
   "inviteUserToCarAppBar": "Πρόσκληση Χρήστη",
   "inviteUserToCarTitle": "Μοιραστείτε τα στοιχεία με άλλους",

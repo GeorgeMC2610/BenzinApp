@@ -407,6 +407,17 @@
   "noInvitations": "No invitations",
   "sentAt": "Sent at: {date}",
 
+  "confirm": "Confirm",
+  "invitationAccepted": "Invitation Accepted.",
+  "invitationCanceled": "Invitation Revoked.",
+  "rejectInvitation": "Reject Invitation",
+  "revokeInvitation": "Invoke Invitation",
+  "cancelInvitation": "Cancel Invitation",
+  "areYouSureYouWantToLeaveThisCar": "Are you sure you want to leave from the car {car}?",
+  "areYouSureYouWantToRejectThisInvitation": "Are you sure you want to reject this invitation?",
+  "areYouSureYouWantToRevokeAccess": "Are you sure you want to revoke access from {user} regarding the car {car}; (This user will no longer be able to see or edit the car's data)",
+  "areYouSureYouWantToCancelInvitationForThisUser": "{user} has yet to accept the invitation for the car {car}. Are you sure you want to invoke this invitation?",
+
   "inviteUserToCarAppBar": "Invite User to Car",
   "inviteUserToCarTitle": "Share car details with friends",
   "inviteUserToCarSubtitle": "They'll love to see your statistics! No?",

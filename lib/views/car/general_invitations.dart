@@ -146,11 +146,11 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                     ConfirmationDialog.show(
                         context,
                         translate('leave'),
-                        translate('areYouSureYouWantToLeaveThisCar'),
+                        translate('areYouSureYouWantToLeaveThisCar', args: {'car': invitation.carUsername}),
                         (confirmed) async {
                           if (confirmed) {
                             await CarUserInvitationManager().delete(invitation);
-                            SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+                            SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
                           }
                         });
                   },
@@ -166,7 +166,7 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                     IconButton.filledTonal(
                       onPressed: () async {
                         await CarUserInvitationManager().accept(invitation.id);
-                        SnackbarNotification.show(MessageType.info, translate('invitation_accepted'));
+                        SnackbarNotification.show(MessageType.info, translate('invitationAccepted'));
                       },
                       icon: const Icon(Icons.check),
                       style: IconButton.styleFrom(
@@ -177,12 +177,12 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                       onPressed: () {
                         ConfirmationDialog.show(
                             context,
-                            translate('reject_invitation'),
+                            translate('rejectInvitation'),
                             translate('areYouSureYouWantToRejectThisInvitation'),
                             (confirmed) async {
                               if (confirmed) {
                                 await CarUserInvitationManager().delete(invitation);
-                                SnackbarNotification.show(MessageType.info, translate('invitation_rejected'));
+                                SnackbarNotification.show(MessageType.info, translate('invitationRejected'));
                               }
                             });
                       },
@@ -230,7 +230,7 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
               ],
             ),
             Text(
-                "${translate('sent_at')} ${DateFormat.yMMMd().format(invitation.createdAt)}",
+                translate('sentAt', args: {'date': DateFormat.yMMMd().format(invitation.createdAt)}),
                 style: Theme.of(context).textTheme.labelSmall
             )
           ],
@@ -241,12 +241,12 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
               context,
               invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
               invitation.isAccepted
-                  ? translate('areYouSureYouWantToRevokeAccess')
-                  : translate('areYouSureYouWantToCancelInvitationForThisUser'),
+                  ? translate('areYouSureYouWantToRevokeAccess', args: {'user': invitation.recipientUsername, 'car': invitation.carUsername})
+                  : translate('areYouSureYouWantToCancelInvitationForThisUser', args: {'user': invitation.recipientUsername, 'car': invitation.carUsername}),
                   (confirmed) async {
                 if (confirmed) {
                   await CarUserInvitationManager().delete(invitation);
-                  SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+                  SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
                 }
               },
             );
