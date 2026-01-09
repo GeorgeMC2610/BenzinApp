@@ -9,7 +9,6 @@ import 'package:benzinapp/views/confirmations/unlock_account.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
-import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 
