@@ -43,7 +43,10 @@
   "carDetails":               "Car Details",
   "dontHaveAnAccount":        "Create an account",
   "forgotPassword":           "I forgot my password",
-  "agreeToTheTandC":          "By making an account to BenzinApp, you agree to the Terms and Conditions. Press the button on the top-right of your screen to read them.",
+  "termsPart1":               "I agree to the ",
+  "termsPart2":               "Terms and Conditions",
+  "termsPart3":               " and ",
+  "termsPart4":               "Privacy Policy",
 
   "accountLockedNotification": "You have locked your account after several failed attempts.",
   "unlockAccountButton":       "Unlock my account",
