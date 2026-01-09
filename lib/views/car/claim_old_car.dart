@@ -7,7 +7,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import '../shared/notification.dart';
 
 class ClaimOldCar extends StatefulWidget {
-  const ClaimOldCar({super.key});
+  const ClaimOldCar({super.key, this.fromSettings = false});
+
+  final bool fromSettings;
 
   @override
   State<StatefulWidget> createState() => _ClaimOldCarState();
@@ -60,7 +62,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                   children: [
                     Center(
                       child: AutoSizeText(
-                        translate('claimCarTitle'),
+                        widget.fromSettings ? translate('claimCarTitleAlt') : translate('claimCarTitle'),
                         minFontSize: 20,
                         maxLines: 1,
                         maxFontSize: 35,
@@ -74,7 +76,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
 
                     Center(
                       child: Text(
-                          translate('claimCarSubtitle')
+                          widget.fromSettings ? translate('claimCarSubtitleAlt') : translate('claimCarSubtitle')
                       ),
                     ),
 
@@ -137,18 +139,19 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
 
                     const SizedBox(height: 60),
 
-                    ListTile(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const Dashboard(),
-                          ),
-                        );
-                      },
-                      title: Text(translate('claimCarBackToDashboard')),
-                      trailing: const Icon(Icons.arrow_forward_ios),
-                      leading: const Icon(Icons.dashboard),
-                    )
+                    if (!widget.fromSettings)
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const Dashboard(),
+                            ),
+                          );
+                        },
+                        title: Text(translate('claimCarBackToDashboard')),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                        leading: const Icon(Icons.dashboard),
+                      )
                   ]
               )
           )
@@ -184,7 +187,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
       });
     }
     else {
-      SnackbarNotification.show(MessageType.success, 'SUCCESSFULLY CLAIMED OLD CAR!');
+      SnackbarNotification.show(MessageType.success, translate('claimCarSuccess'));
       setState(() {
         carUsername.text = '';
         passwordController.text = '';

@@ -2,8 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/locale_string_converter.dart';
+import '../../services/managers/fuel_fill_record_manager.dart';
+import '../../services/managers/malfunction_manager.dart';
+import '../../services/managers/service_manager.dart';
+import '../shared/cards/loading_data_card.dart';
 
 class TimelyMannerConsumptionCard extends StatefulWidget {
   const TimelyMannerConsumptionCard({super.key});
@@ -15,20 +20,6 @@ class TimelyMannerConsumptionCard extends StatefulWidget {
 class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCard> {
 
   double? totalLitersFilled, totalCost, totalKilometersTravelled;
-
-  @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  initialize() {
-    setState(() {
-      totalLitersFilled = Car.getTotalLitersFilled();
-      totalCost = Car.getTotalCost();
-      totalKilometersTravelled = Car.getTotalKilometersTraveled();
-    });
-  }
 
   Widget normalBody() => SizedBox(
     width: MediaQuery.sizeOf(context).width,
@@ -106,6 +97,18 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
   );
 
   @override
-  Widget build(BuildContext context) => normalBody();
+  Widget build(BuildContext context) => Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(
+    builder: (context, fuelManager, malfunctionManager, serviceManager, _) {
+      if (fuelManager.local == null || malfunctionManager.local == null || serviceManager.local == null) {
+        return const LoadingDataCard();
+      }
+
+      totalLitersFilled = Car.getTotalLitersFilled();
+      totalCost = Car.getTotalCost();
+      totalKilometersTravelled = Car.getTotalKilometersTraveled();
+
+      return normalBody();
+    },
+  );
 
 }

@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/views/car/dashboard.dart';
-import 'package:benzinapp/views/use_case_register.dart';
+import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -10,17 +9,16 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../services/managers/user_manager.dart';
 import '../shared/notification.dart';
 
-class ConfirmEmail extends StatefulWidget {
-  const ConfirmEmail({super.key, this.fromRegister = false, this.fromSettings = false});
+class UnlockAccountScreen extends StatefulWidget {
+  const UnlockAccountScreen({super.key, required this.email});
 
-  final bool fromRegister;
-  final bool fromSettings;
+  final String email;
 
   @override
-  State<StatefulWidget> createState() => _ConfirmEmailState();
+  State<StatefulWidget> createState() => _UnlockAccountScreenState();
 }
 
-class _ConfirmEmailState extends State<ConfirmEmail> {
+class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
 
   static const int totalSeconds = 120; // wait 2 minutes
   int remainingSeconds = totalSeconds;
@@ -39,11 +37,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   @override
   void initState() {
     super.initState();
-    if (widget.fromRegister) {
-      _startTimer();
-    } else {
-      defineSeconds();
-    }
+    _startTimer(startValue: 0);
   }
 
   void _startTimer({int? startValue}) {
@@ -70,50 +64,21 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
     });
   }
 
-  defineSeconds() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final sentAt = await UserManager().getConfirmationDateSent();
-
-    if (sentAt == null) {
-      requestNewToken();
-    } else {
-      final elapsedSeconds =
-          DateTime.now().difference(sentAt).inSeconds;
-
-      final remaining = totalSeconds - elapsedSeconds;
-      _startTimer(startValue: remaining < 0 ? 0 : remaining);
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-
   void requestNewToken() async {
     setState(() {
       isSendingNewToken = true;
     });
-    final result = await UserManager().resendConfirmationToken();
+    final result = await UserManager().resendUnlockAccountToken(widget.email);
     setState(() {
       isSendingNewToken = false;
     });
 
     switch (result) {
-      case UserPayloadStatus.confirmTokenSent:
+      case UserPayloadStatus.unlockTokenSent:
         _startTimer();
         break;
-      case UserPayloadStatus.confirmTokenEarly:
+      case UserPayloadStatus.unlockTokenEarly:
         SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));
-        break;
-      case UserPayloadStatus.confirmedAlready:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountAlreadyConfirmed'));
-        Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => const Dashboard()
-        ));
         break;
       default:
         SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
@@ -141,21 +106,19 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       wrongCode = false;
       isLoading = true;
     });
-    final result = await UserManager().confirmUser(code!);
+    final result = await UserManager().unlockAccount(widget.email, code!);
     setState(() {
       isLoading = false;
     });
 
     switch (result) {
-      case UserPayloadStatus.confirmedOk:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountOkay'));
-        Widget redirectScreen = widget.fromRegister ? const UseCaseRegister() : const Dashboard();
-
+      case UserPayloadStatus.unlockSuccess:
+        SnackbarNotification.show(MessageType.success, translate('unlockAccountSuccess'));
         Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => redirectScreen
+            builder: (context) => const LoginPage()
         ));
         break;
-      case UserPayloadStatus.confirmTokenWrong:
+      case UserPayloadStatus.unlockTokenWrong:
         setState(() {
           wrongCode = true;
         });
@@ -170,7 +133,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('confirmAccount')),
+      title: Text(translate('unlockAccount')),
     ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -211,7 +174,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           children: [
             Center(
               child: AutoSizeText(
-                translate('confirmAccountTitle'),
+                translate('unlockAccountTitle'),
                 maxLines: 1,
                 minFontSize: 20,
                 maxFontSize: 35,
@@ -245,7 +208,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             const SizedBox(height: 15),
 
             PinCodeTextField(
-              length: 6,
+              length: 8,
               appContext: context,
 
               keyboardType: TextInputType.text,
@@ -255,7 +218,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 shape: PinCodeFieldShape.box,
                 borderRadius: BorderRadius.circular(8),
                 fieldHeight: 45,
-                fieldWidth: 45,
+                fieldWidth: 35,
                 activeColor: Theme.of(context).colorScheme.primary,
                 inactiveColor: Colors.grey.shade400,
                 selectedColor: Theme.of(context).colorScheme.secondary,
@@ -332,87 +295,13 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 )
               ],
             ),
-
-            if (!widget.fromSettings)
-              const SizedBox(height: 75),
-
-            if (!widget.fromSettings)
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => const Dashboard()
-                    ));
-                  },
-                  child: Text(
-                    translate('skipVerification'),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
-                  ),
-                )
-              ),
-
-            const SizedBox(height: 55),
-
-            Center(
-              child: ListTile(
-                onTap: skipModal,
-                leading: const Icon(Icons.question_mark_rounded),
-                title: AutoSizeText(
-                  translate('skipConsequences'),
-                ),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-              )
-            ),
-
           ],
         ),
       ),
     )
   );
 
-  skipModal() => showModalBottomSheet(
-    context: context,
-    builder: (buildContext) => SizedBox(
-      height: MediaQuery.of(context).size.height * 0.75,
-      width: MediaQuery.of(context).size.width,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  translate("skipConsequencesTitle1"),
-                  style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                translate("skipConsequencesText1"),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 15),
-              Text(
-                translate("skipConsequencesText2"),
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
-            ],
-          ),
-        ),
-      ),
-    )
-  );
-
   bool canResendTokenButtonBePressed() => !(isLoading || isSendingNewToken || remainingSeconds > 0);
-  bool canFinishButtonBePressed() => !(isLoading || isSendingNewToken || codeLength != 6);
+  bool canFinishButtonBePressed() => !(isLoading || isSendingNewToken || codeLength != 8);
 
 }

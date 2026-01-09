@@ -28,7 +28,7 @@ class DataHolder {
   /// Since all these data belong to separate cars, they will have to wait
   /// until the `watchingCar` value is initialized.
   Future<void> getCarData(int id) async {
-    CarManager().watchingCar = CarManager().local.firstWhere((car) => car.id == id);
+    CarManager().watchingCar = CarManager().local?.firstWhere((car) => car.id == id);
 
     List<Future<void>> futures = [
       FuelFillRecordManager().index(),

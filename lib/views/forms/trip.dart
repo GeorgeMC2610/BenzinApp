@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
+import '../shared/notification.dart';
 
 class TripForm extends StatefulWidget {
   const TripForm({super.key, this.trip, this.isViewing = false});
@@ -25,7 +26,7 @@ class _TripFormState extends State<TripForm> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _timesRepeatingController = TextEditingController();
 
-  String? _titleValidator, _timesRepeatingValidator;
+  String? titleError, timesRepeatingError;
 
   bool _isLoading = false;
   bool _isRepeating = false;
@@ -62,8 +63,8 @@ class _TripFormState extends State<TripForm> {
 
   submit() async {
     setState(() {
-      _titleValidator = _emptyValidator(_titleController.text);
-      _timesRepeatingValidator = _validator(_timesRepeatingController.text);
+      titleError = _emptyValidator(_titleController.text);
+      timesRepeatingError = _validator(_timesRepeatingController.text);
     });
 
     if (polyline == null) {
@@ -75,13 +76,11 @@ class _TripFormState extends State<TripForm> {
       );
     }
 
-    if (_timesRepeatingValidator != null || _titleValidator != null || polyline == null) {
+    if (timesRepeatingError != null || titleError != null || polyline == null) {
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
+    TripManager manager = TripManager();
 
     if (widget.trip == null) {
       var newTrip = Trip(
@@ -93,7 +92,13 @@ class _TripFormState extends State<TripForm> {
           originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
       );
 
-      await TripManager().create(newTrip);
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.create(newTrip);
+      setState(() {
+        _isLoading = false;
+      });
       Navigator.pop(context);
     }
     else {
@@ -107,7 +112,19 @@ class _TripFormState extends State<TripForm> {
       widget.trip!.destinationLatitude = destinationLatitude!;
       widget.trip!.polyline = polyline!;
 
-      await TripManager().update(widget.trip!);
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.update(widget.trip!);
+      setState(() {
+        _isLoading = false;
+      });
+
+      // server errors from back-end
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.trip);
@@ -115,6 +132,27 @@ class _TripFormState extends State<TripForm> {
       else {
         Navigator.pop(context);
       }
+    }
+  }
+
+  _handleErrors(TripManager manager) {
+    setState(() {
+      titleError = manager.errors["title"]?.join(', ');
+      timesRepeatingError = manager.errors["times_repeating"]?.join(', ');
+    });
+
+    if (manager.errors.containsKey('base')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['base']!.join(', '),
+      );
+    }
+
+    else if (manager.errors.containsKey('error')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['error']!,
+      );
     }
   }
 
@@ -154,12 +192,15 @@ class _TripFormState extends State<TripForm> {
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {
                   setState(() {
-                    _titleValidator = _emptyValidator(_titleController.text);
+                    titleError = _emptyValidator(_titleController.text);
                   });
                 },
                 enabled: !_isLoading,
+                maxLength: 127,
                 decoration: InputDecoration(
-                  errorText: _titleValidator,
+                  errorText: titleError,
+                  errorMaxLines: 4,
+                  counterText: '',
                   hintText: translate('tripNameHint'),
                   labelText: translate('tripName2'),
                   prefixIcon: const Icon(FontAwesomeIcons.tag),
@@ -172,6 +213,7 @@ class _TripFormState extends State<TripForm> {
               const SizedBox(height: 20),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 2,
@@ -180,12 +222,13 @@ class _TripFormState extends State<TripForm> {
                       keyboardType: TextInputType.number,
                       onEditingComplete: () {
                         setState(() {
-                          _timesRepeatingValidator = _validator(_timesRepeatingController.text);
+                          timesRepeatingError = _validator(_timesRepeatingController.text);
                         });
                       },
                       enabled: !_isLoading && !_isRepeating,
                       decoration: InputDecoration(
-                        errorText: _timesRepeatingValidator,
+                        errorText: timesRepeatingError,
+                        errorMaxLines: 4,
                         hintText: translate('timesRepeatingHint'),
                         labelText: translate('timesRepeating'),
                         prefixIcon: const Icon(FontAwesomeIcons.repeat),
@@ -338,6 +381,10 @@ class _TripFormState extends State<TripForm> {
 
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
+    }
+
+    if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
     }
 
     if (double.parse(field) < 0) {

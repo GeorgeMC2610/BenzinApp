@@ -23,33 +23,30 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   String? username = CarManager().watchingCar?.username;
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
+  Widget build(BuildContext context) => const SingleChildScrollView(
     child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(
-        builder: (_, __, ___, ____, _____) => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // logged in as <username> text.
-            // car info container
-            CarInfoCard(),
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // logged in as <username> text.
+          // car info container
+          CarInfoCard(),
 
-            // graph with consumption container
-            GraphContainerCard(),
+          // graph with consumption container
+          GraphContainerCard(),
 
-            // cost pie chart
-            // might not be available to show if there are no data
-            CostPieChartCard(),
+          // cost pie chart
+          // might not be available to show if there are no data
+          CostPieChartCard(),
 
-            // car average stats container
-            TotalCostCardContainer(),
+          // car average stats container
+          TotalCostCardContainer(),
 
-            // timely manner consumption
-            TimelyMannerConsumptionCard(),
-          ],
-        ),
-
+          // timely manner consumption
+          TimelyMannerConsumptionCard(),
+        ],
       )
     )
   );

@@ -64,7 +64,7 @@ class _FuelFillCardState extends State<FuelFillCard> {
           Text(_getFuelString(), style: const TextStyle(fontSize: 12)),
           Text("${widget.record.getConsumption().toStringAsFixed(3)} lt./100km", style: const TextStyle(fontSize: 12)),
           const SizedBox(height: 4),
-          if (widget.record.createdByUsername != UserManager().currentUser!.username)
+          if (widget.record.createdByUsername != null && widget.record.createdByUsername != UserManager().currentUser!.username)
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -75,7 +75,7 @@ class _FuelFillCardState extends State<FuelFillCard> {
               ),
               const SizedBox(width: 4),
               Text(
-                widget.record.createdByUsername,
+                widget.record.createdByUsername!,
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],

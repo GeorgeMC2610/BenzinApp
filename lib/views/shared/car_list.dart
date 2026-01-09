@@ -26,6 +26,6 @@ class CarList extends StatelessWidget {
   );
 
   List<CarCard> getCarCards() =>
-      CarManager().local.where((car) => car.isOwned() == owned).map((car) => CarCard(car: car)).toList();
+      CarManager().local!.where((car) => car.isOwned() == owned).map((car) => CarCard(car: car)).toList();
 
 }

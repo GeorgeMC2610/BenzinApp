@@ -87,8 +87,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ...MalfunctionManager().local.map((malfunction) {
-                return MalfunctionManager().local.last != malfunction ?
+              ...MalfunctionManager().local!.map((malfunction) {
+                return MalfunctionManager().local!.last != malfunction ?
                 Column(
                   children: [
                     MalfunctionCard(malfunction: malfunction),
@@ -127,7 +127,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                     color: Theme.of(context).colorScheme.primaryContainer,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: ServiceCard(service: ServiceManager().local.first)
+                        child: ServiceCard(service: ServiceManager().local!.first)
                     )
                 )
             ),
@@ -139,10 +139,10 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                 textSize: 16
             ),
 
-            ServiceManager().local.skip(1).isEmpty ? Text(translate('nothingToShowHere')) :
+            ServiceManager().local!.skip(1).isEmpty ? Text(translate('nothingToShowHere')) :
             Column(
-              children: ServiceManager().local.skip(1).map((service) {
-                return ServiceManager().local.skip(1).last != service ?
+              children: ServiceManager().local!.skip(1).map((service) {
+                return ServiceManager().local!.skip(1).last != service ?
                 Column(
                   children: [
                     ServiceCard(service: service),
@@ -160,13 +160,19 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
   );
 
   Widget getServices() => Consumer<ServiceManager>(
-    builder: (context, manager, _) =>
-    manager.local.isEmpty ? noServicesBody() : serviceListBody(),
+    builder: (context, manager, _) {
+      if (manager.local == null) return loadingBody();
+      if (manager.local!.isEmpty) return noServicesBody();
+      return serviceListBody();
+    }
   );
 
   Widget getMalfunctions() => Consumer<MalfunctionManager>(
-    builder: (context, manager, _) =>
-    manager.local.isEmpty ? noMalfunctionsBody() : malfunctionListBody(),
+    builder: (context, manager, _) {
+      if (manager.local == null) return loadingBody();
+      if (manager.local!.isEmpty) return noMalfunctionsBody();
+      return malfunctionListBody();
+    }
   );
 
   @override

@@ -5,10 +5,10 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
+import 'package:benzinapp/views/confirmations/unlock_account.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
-import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +30,8 @@ class _LoginPageState extends State<LoginPage> {
   String? passwordError;
 
   bool isLoggingIn = false;
+  bool showUnlockButton = false;
+  bool _passwordVisible = false;
 
   void sendLoginPayload() async {
 
@@ -57,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
       case SessionStatus.success:
         // show the message that the user is authorized successfully.
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-        await DataHolder().initializeValues();
+        DataHolder().initializeValues();
 
         Widget screen = const Dashboard();
 
@@ -70,6 +72,11 @@ class _LoginPageState extends State<LoginPage> {
         ));
 
         break;
+      case SessionStatus.locked:
+        SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
+        setState(() {
+          showUnlockButton = true;
+        });
       case SessionStatus.wrongCredentials:
         setState(() {
           emailError = translate('wrongCredentials');
@@ -77,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
         });
         break;
       case SessionStatus.serverError:
-        SnackbarNotification.show(MessageType.danger, "SERVER ERROR");
+        SnackbarNotification.show(MessageType.danger, "SERVER ERROR"); // TODO: Localize
         break;
       default:
         break;
@@ -208,12 +215,17 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 60),
 
-              // BenzinApp Logo
+              // E-mail text field
               TextField(
                 enabled: !isLoggingIn,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                onChanged: (value) {
+                  setState(() {
+                    showUnlockButton = false;
+                  });
+                },
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: translate('emailHint'),
@@ -231,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 enabled: !isLoggingIn,
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: translate('passwordHint'),
@@ -240,14 +252,51 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 75),
+              const SizedBox(height: 25),
+
+              if (showUnlockButton)
+              Center(
+                child: FilledButton.tonalIcon(
+                  icon: const Icon(Icons.lock_reset),
+                  label: Text(translate('unlockAccountButton')),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UnlockAccountScreen(email: emailController.text)
+                        )
+                    );
+                  },
+                ),
+              ),
+
+              if (showUnlockButton)
+              const SizedBox(height: 15),
 
               Center(
                 child: TextButton.icon(
-                  icon: const Icon(Icons.lock_reset_rounded),
+                  icon: const Icon(Icons.password),
                   label: Text(translate('forgotPassword')),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.blueAccent,

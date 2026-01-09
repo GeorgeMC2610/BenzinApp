@@ -128,7 +128,7 @@ class UserManager with ChangeNotifier {
     switch (response.statusCode) {
       case 200:
       case 422:
-      // store when the user was confirmed.
+        await UserManager().getCurrentUser();
         return UserPayloadStatus.confirmedOk;
       case 403:
         return UserPayloadStatus.confirmTokenWrong;
@@ -173,6 +173,40 @@ class UserManager with ChangeNotifier {
     return false;
   }
 
+  Future<UserPayloadStatus> unlockAccount(String email, String otp) async {
+    const url = '${DataHolder.destination}/users/unlock';
+    final body = {
+      'email': email,
+      'code': otp,
+    };
+
+    final response = await RequestHandler.sendPostRequest(url, false, body);
+
+    switch (response.statusCode) {
+      case 200:
+        return UserPayloadStatus.unlockSuccess;
+      case 422:
+        return UserPayloadStatus.unlockTokenWrong;
+      default:
+        return UserPayloadStatus.undefined;
+    }
+  }
+
+  Future<UserPayloadStatus> resendUnlockAccountToken(String email) async {
+    const url = '${DataHolder.destination}/users/unlock/send_code';
+    final body = { 'email': email };
+
+    final response = await RequestHandler.sendPostRequest(url, false, body);
+
+    switch (response.statusCode) {
+      case 200:
+        return UserPayloadStatus.unlockTokenSent;
+      case 403:
+        return UserPayloadStatus.unlockTokenEarly;
+      default:
+        return UserPayloadStatus.undefined;
+    }
+  }
 }
 
 enum UserPayloadStatus {
@@ -189,6 +223,11 @@ enum UserPayloadStatus {
   confirmTokenWrong,
   confirmedAlready,
   confirmedOk,
+
+  unlockSuccess,
+  unlockTokenWrong,
+  unlockTokenSent,
+  unlockTokenEarly,
 
   undefined
 }

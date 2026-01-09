@@ -8,6 +8,7 @@ import '../../services/locale_string_converter.dart';
 import '../maps/select_location.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
 import '../shared/divider_with_text.dart';
+import '../shared/notification.dart';
 
 class MalfunctionForm extends StatefulWidget {
   const MalfunctionForm({super.key, this.malfunction, this.isViewing = false});
@@ -31,7 +32,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController costController = TextEditingController();
 
-  String? _kmValidator, _titleValidator, _descriptionValidator, _costValidator;
+  String? kmError, titleError, descriptionError, costError;
   bool _isLoading = false;
   bool _markAsFixed = false;
 
@@ -58,13 +59,17 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   void _buttonSubmit() async {
     // validate the fields.
+    setState(() {
+      kmError = null;
+      titleError = null;
+      descriptionError = null;
+      costError = null;
+    });
+
     bool isValidated = _markAsFixed ? _validateForFixed() : _validateForOngoing();
     if (!isValidated) return;
 
-    // when validations are all ok.
-
-
-    // post request for new malfunction
+    final manager = MalfunctionManager();
     if (widget.malfunction == null) {
       final malfunction = Malfunction(
           id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
@@ -74,49 +79,72 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
       );
 
-      await MalfunctionManager().create(malfunction);
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.create(malfunction);
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
       Navigator.pop(context);
       Navigator.pop(context);
     }
     // patch request for new malfunction
     else {
-      widget.malfunction!.dateStarted = _selectedDate!;
-      widget.malfunction!.description = descriptionController.text.trim();
-      widget.malfunction!.title = titleController.text.trim();
-      widget.malfunction!.severity = _severity.toInt();
-      widget.malfunction!.kilometersDiscovered = int.parse(kmController.text);
+      widget.malfunction!
+        ..dateStarted = _selectedDate!
+        ..description = descriptionController.text.trim()
+        ..title = titleController.text.trim()
+        ..severity = _severity.toInt()
+        ..kilometersDiscovered = int.parse(kmController.text);
 
       if (_markAsFixed) {
-        widget.malfunction!.dateEnded = _selectedDateEnded;
-        widget.malfunction!.cost = double.tryParse(costController.text);
-        widget.malfunction!.location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
+        widget.malfunction!
+            ..dateEnded = _selectedDateEnded
+            ..cost = double.tryParse(costController.text)
+            ..location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
       }
       else {
-        widget.malfunction!.dateEnded = null;
-        widget.malfunction!.cost = null;
-        widget.malfunction!.location = null;
+        widget.malfunction!
+          ..dateEnded = null
+          ..cost = null
+          ..location = null;
       }
 
-      await MalfunctionManager().update(widget.malfunction!);
+      setState(() {
+        _isLoading = true;
+      });
+      await manager.update(widget.malfunction!);
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (manager.errors.isNotEmpty) {
+        _handleErrors(manager);
+        return;
+      }
+
       if (widget.isViewing) {
         Navigator.pop(context, widget.malfunction!);
       } else {
         Navigator.pop(context);
       }
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   bool _validateForOngoing() {
     String? dateValidator;
 
     setState(() {
-      _kmValidator = _numberValidator(kmController.text);
-      _titleValidator = _emptyValidator(titleController.text);
-      _descriptionValidator = _emptyValidator(descriptionController.text);
+      kmError = _numberValidator(kmController.text);
+      titleError = _emptyValidator(titleController.text);
+      descriptionError = _emptyValidator(descriptionController.text);
       dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
     });
 
@@ -129,19 +157,42 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       );
     }
 
-    List<String?> mandatoryFields = [dateValidator, _kmValidator, _titleValidator, _descriptionValidator];
+    List<String?> mandatoryFields = [dateValidator, kmError, titleError, descriptionError];
 
     return mandatoryFields.every((validation) => validation == null);
+  }
+
+  _handleErrors(MalfunctionManager manager) {
+    setState(() {
+      kmError = manager.errors['at_km']?.join(', ');
+      titleError = manager.errors['title']?.join(', ');
+      descriptionError = manager.errors['description']?.join(', ');
+      costError = manager.errors['cost_eur']?.join(', ');
+    });
+
+    if (manager.errors.containsKey('base')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['base']!.join(', '),
+      );
+    }
+
+    else if (manager.errors.containsKey('error')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['error']!,
+      );
+    }
   }
 
   bool _validateForFixed() {
     String? dateValidator, endedDateValidator;
 
     setState(() {
-      _kmValidator = _numberValidator(kmController.text);
-      _titleValidator = _emptyValidator(titleController.text);
-      _descriptionValidator = _emptyValidator(descriptionController.text);
-      _costValidator = _numberValidator(costController.text);
+      kmError = _numberValidator(kmController.text);
+      titleError = _emptyValidator(titleController.text);
+      descriptionError = _emptyValidator(descriptionController.text);
+      costError = _numberValidator(costController.text);
       dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
       endedDateValidator = _selectedDateEnded == null ? translate('pleaseSelectAnEndDate') : null;
     });
@@ -164,7 +215,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       );
     }
 
-    List<String?> mandatoryFields = [endedDateValidator, _kmValidator, _titleValidator, _descriptionValidator, dateValidator];
+    List<String?> mandatoryFields = [endedDateValidator, kmError, titleError, descriptionError, dateValidator];
 
     return mandatoryFields.every((validation) => validation == null);
   }
@@ -199,6 +250,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 15),
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 2,
@@ -206,7 +258,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       keyboardType: TextInputType.number,
                       onEditingComplete: () async {
                         setState(() {
-                          _titleValidator = _emptyValidator(titleController.text);
+                          titleError = _emptyValidator(titleController.text);
                         });
                       },
                       textInputAction: TextInputAction.next,
@@ -214,7 +266,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       enabled: !_isLoading,
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
-                        errorText: _kmValidator,
+                        errorText: kmError,
+                        errorMaxLines: 4,
                         labelText: '${translate('serviceMileage2')} *',
                         prefixIcon: const Icon(Icons.speed),
                         border: OutlineInputBorder(
@@ -233,14 +286,17 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () async {
                         setState(() {
-                          _kmValidator = _numberValidator(kmController.text);
+                          kmError = _numberValidator(kmController.text);
                         });
                       },
                       enabled: !_isLoading,
                       controller: titleController,
+                      maxLength: 30,
                       decoration: InputDecoration(
                         hintText: translate('malfunctionTitleHint'),
-                        errorText: _titleValidator,
+                        errorText: titleError,
+                        errorMaxLines: 4,
+                        counterText: '',
                         labelText: '${translate('malfunctionTitle')} *',
                         prefixIcon: const Icon(Icons.next_plan_outlined),
                         border: OutlineInputBorder(
@@ -258,17 +314,19 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () async {
                   setState(() {
-                    _descriptionValidator = _emptyValidator(descriptionController.text);
+                    descriptionError = _emptyValidator(descriptionController.text);
                   });
                 },
                 minLines: 2,
                 maxLines: 10,
+                maxLength: 2048,
                 enabled: !_isLoading,
                 controller: descriptionController,
                 decoration: InputDecoration(
                   hintText: translate('descriptionHintMalfunction'),
                   labelText: '${translate('description2')} *',
-                  errorText: _descriptionValidator,
+                  errorText: descriptionError,
+                  errorMaxLines: 4,
                   prefixIcon: const Icon(Icons.comment),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -427,13 +485,14 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           controller: costController,
           onEditingComplete: () async {
             setState(() {
-              _costValidator = _numberValidator(costController.text);
+              costError = _numberValidator(costController.text);
             });
           },
           enabled: !_isLoading,
           decoration: InputDecoration(
             hintText: translate('repairCostHint'),
-            errorText: _costValidator,
+            errorText: costError,
+            errorMaxLines: 4,
             labelText: '${translate('repairCost')} *',
             prefixIcon: const Icon(Icons.euro),
             border: OutlineInputBorder(
@@ -571,9 +630,12 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   }
 
   String? _numberValidator(String field) {
-
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
+    }
+
+    if (double.tryParse(field) == null) {
+      return translate('invalidNumber');
     }
 
     if (double.parse(field) < 0) {

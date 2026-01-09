@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/drawer/fuel_fill_drawer.dart';
@@ -34,6 +35,11 @@ class _HomePageState extends State<HomePage> {
     });
 
     _setTitle(context);
+  }
+
+  @override void dispose() {
+    super.dispose();
+    DataHolder().destroyCarValues();
   }
 
   final List<Widget> pages = const [

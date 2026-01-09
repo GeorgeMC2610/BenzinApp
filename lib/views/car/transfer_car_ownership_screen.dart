@@ -152,7 +152,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
 
                 borderRadius: BorderRadius.circular(15), // Rounded corners
                 isExpanded: true,
-                items: CarUserInvitationManager().local.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList().map<DropdownMenuItem<CarUserInvitation>>(
+                items: CarUserInvitationManager().local?.where((invitation) => invitation.carId == widget.car.id && invitation.isAccepted).toList().map<DropdownMenuItem<CarUserInvitation>>(
                         (CarUserInvitation invitation) {
                       return DropdownMenuItem<CarUserInvitation>(
                         value: invitation,
@@ -262,11 +262,23 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
     try {
       await CarManager().transferOwnership(widget.car, _userNameController.text, _carNameController.text);
       if (mounted) {
-        SnackbarNotification.show(MessageType.success,
-            translate('carTransferredSuccessfully'));
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const Dashboard()),
-            (Route<dynamic> route) => false);
+        if (CarManager().errors.isEmpty) {
+          SnackbarNotification.show(MessageType.success,
+              translate('carTransferredSuccessfully'));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const Dashboard()),
+                  (Route<dynamic> route) => false);
+        }
+        else {
+          if (CarManager().errors.containsKey('base')) {
+            SnackbarNotification.show(
+                MessageType.danger, CarManager().errors["base"]!.join(', '));
+          }
+          else if (CarManager().errors.containsKey('error')) {
+            SnackbarNotification.show(
+                MessageType.danger, CarManager().errors['error']);
+          }
+        }
       }
     } catch (e) {
       SnackbarNotification.show(

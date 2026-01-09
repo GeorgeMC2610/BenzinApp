@@ -40,8 +40,8 @@ class CarUserInvitationManager extends AbstractManager<CarUserInvitation> {
 
   Future<bool> accept(int id) async {
     final response = await RequestHandler.sendPatchRequest("$baseUrl/$id/accept", {});
-    if (response.statusCode == 204) {
-      local.where((element) => element.id == id).firstOrNull?.isAccepted = true;
+    if (response.statusCode == 204 && CarManager().local != null) {
+      local!.where((element) => element.id == id).firstOrNull?.isAccepted = true;
       await CarManager().index();
       notifyListeners();
     }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:benzinapp/services/classes/user.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
@@ -42,18 +45,20 @@ class SessionManager {
 
     final response = await RequestHandler.sendPostRequest(loginUri, false, body);
 
-    if (response.statusCode == 200) {
-
-    }
-
     switch (response.statusCode) {
       case 200:
         await TokenManager().removeToken();
         await TokenManager().setToken(response.headers['authorization']!);
+
+        final jsonResponse = json.decode(response.body);
+        final user = User.fromJson(jsonResponse['user']);
+        UserManager().setCurrentUser(user);
         isLoggedIn = true;
         return SessionStatus.success;
       case 401:
         return SessionStatus.wrongCredentials;
+      case 423:
+        return SessionStatus.locked;
       default:
         return SessionStatus.blank;
     }
@@ -92,6 +97,7 @@ class SessionManager {
 enum SessionStatus {
   success,
   wrongCredentials,
+  locked,
   usernameTaken,
   emailTaken,
   serverError,

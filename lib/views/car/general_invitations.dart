@@ -1,5 +1,8 @@
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
+import 'package:benzinapp/views/shared/dialogs/confirmation_dialog.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -43,8 +46,8 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
         final invitations = CarUserInvitationManager().local;
         final currentUser = UserManager().currentUser;
 
-        final incoming = invitations.where((i) => i.recipientUsername == currentUser!.username).toList();
-        final outgoing = invitations.where((i) => i.senderUsername == currentUser!.username).toList();
+        final incoming = invitations?.where((i) => i.recipientUsername == currentUser!.username).toList();
+        final outgoing = invitations?.where((i) => i.senderUsername == currentUser!.username).toList();
 
         return Scaffold(
           appBar: AppBar(
@@ -61,8 +64,8 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           body: TabBarView(
             controller: _tabController,
             children: [
-              _buildInvitationList(incoming, true),
-              _buildInvitationList(outgoing, false),
+              _buildInvitationList(incoming ?? [], true),
+              _buildInvitationList(outgoing ?? [], false),
             ],
           ),
         );
@@ -82,7 +85,22 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                 ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                 ),
-                Center(child: Text(translate('no_invitations'))),
+                Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.mail_outline, size: 150,),
+                        AutoSizeText(
+                          maxLines: 1,
+                          translate('noInvitations'),
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
+                    )
+                )
               ],
             )
           : ListView(
@@ -124,9 +142,17 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
           ),
           trailing: invitation.isAccepted
               ? TextButton.icon(
-                  onPressed: () async {
-                    await CarUserInvitationManager().delete(invitation);
-                    SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+                  onPressed: () {
+                    ConfirmationDialog.show(
+                        context,
+                        translate('leave'),
+                        translate('areYouSureYouWantToLeaveThisCar', args: {'car': invitation.carUsername}),
+                        (confirmed) async {
+                          if (confirmed) {
+                            await CarUserInvitationManager().delete(invitation);
+                            SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
+                          }
+                        });
                   },
                   label: Text(translate("leave")),
                   icon: const Icon(Icons.logout),
@@ -140,7 +166,7 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                     IconButton.filledTonal(
                       onPressed: () async {
                         await CarUserInvitationManager().accept(invitation.id);
-                        SnackbarNotification.show(MessageType.info, translate('invitation_accepted'));
+                        SnackbarNotification.show(MessageType.info, translate('invitationAccepted'));
                       },
                       icon: const Icon(Icons.check),
                       style: IconButton.styleFrom(
@@ -148,9 +174,17 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
                           foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer),
                     ),
                     IconButton.filledTonal(
-                      onPressed: () async {
-                        await CarUserInvitationManager().delete(invitation);
-                        SnackbarNotification.show(MessageType.info, translate('invitation_rejected'));
+                      onPressed: () {
+                        ConfirmationDialog.show(
+                            context,
+                            translate('rejectInvitation'),
+                            translate('areYouSureYouWantToRejectThisInvitation'),
+                            (confirmed) async {
+                              if (confirmed) {
+                                await CarUserInvitationManager().delete(invitation);
+                                SnackbarNotification.show(MessageType.info, translate('invitationRejected'));
+                              }
+                            });
                       },
                       icon: const Icon(Icons.close),
                       style: IconButton.styleFrom(
@@ -196,16 +230,26 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
               ],
             ),
             Text(
-                "${translate('sent_at')} ${DateFormat.yMMMd().format(invitation.createdAt)}",
+                translate('sentAt', args: {'date': DateFormat.yMMMd().format(invitation.createdAt)}),
                 style: Theme.of(context).textTheme.labelSmall
             )
           ],
         ),
         trailing: TextButton.icon(
-          onPressed: () async {
-            // TODO: Confirm dialog
-            await CarUserInvitationManager().delete(invitation);
-            SnackbarNotification.show(MessageType.info, translate('invitation_canceled'));
+          onPressed: () {
+            ConfirmationDialog.show(
+              context,
+              invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
+              invitation.isAccepted
+                  ? translate('areYouSureYouWantToRevokeAccess', args: {'user': invitation.recipientUsername, 'car': invitation.carUsername})
+                  : translate('areYouSureYouWantToCancelInvitationForThisUser', args: {'user': invitation.recipientUsername, 'car': invitation.carUsername}),
+                  (confirmed) async {
+                if (confirmed) {
+                  await CarUserInvitationManager().delete(invitation);
+                  SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
+                }
+              },
+            );
           },
           label: Text(invitation.isAccepted ? translate("revoke") : translate("cancel")),
           icon: Icon(invitation.isAccepted ? Icons.person_off_outlined : Icons.close),

@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/charts/insufficient_data_card.dart';
+import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 
 import '../charts/fuel_trend_line_chart.dart';
 
@@ -18,14 +20,9 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget normalBody() => SizedBox(
+  Widget normalBody(FuelFillRecordManager manager) => SizedBox(
     width: MediaQuery.sizeOf(context).width,
-    child: FuelFillRecordManager().local.length < 2 ? const InsufficientDataCard() : Card(
+    child: manager.local!.length < 2 ? const InsufficientDataCard() : Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)
         ),
@@ -95,7 +92,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
               // graph with consumption container
               FuelTrendLineChart(
-                data: FuelFillRecordManager().local,
+                data: manager.local!,
                 size: 300,
                 focusType: _focus,
                 context: context,
@@ -108,6 +105,11 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
   );
 
   @override
-  Widget build(BuildContext context) => normalBody();
+  Widget build(BuildContext context) => Consumer<FuelFillRecordManager>(
+    builder: (context, fuelFillManager, _) {
+      if (fuelFillManager.local == null) return const LoadingDataCard();
+      return normalBody(fuelFillManager);
+    }
+  );
 
 }

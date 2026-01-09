@@ -9,7 +9,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../services/classes/car.dart';
+import '../../../services/managers/car_user_invitation_manager.dart';
 import '../../forms/car_form.dart';
+import '../notification.dart';
 import '../shared_font_styles.dart';
 
 class CarCard extends StatelessWidget {
@@ -233,8 +235,10 @@ class CarCard extends StatelessWidget {
       title: Text(translate('carMenuLeaveCar')),
       textColor: Colors.red,
       iconColor: Colors.red,
-      onTap: () {
-        // TODO: Handle 'delete_car'
+      onTap: () async {
+        final invitation = CarUserInvitationManager().local!.firstWhere((inv) => inv.carUsername == car!.username);
+        await CarUserInvitationManager().delete(invitation);
+        SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
         Navigator.of(buildContext).pop();
       },
     ),
