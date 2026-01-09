@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLoggingIn = false;
   bool showUnlockButton = false;
+  bool _passwordVisible = false;
 
   void sendLoginPayload() async {
 
@@ -243,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 enabled: !isLoggingIn,
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: translate('passwordHint'),
@@ -251,6 +252,18 @@ class _LoginPageState extends State<LoginPage> {
                   prefixIcon: const Icon(Icons.lock),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
                   ),
                 ),
               ),

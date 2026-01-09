@@ -23,6 +23,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? usernameError, passwordError, passwordConfirmError, emailError;
   bool isRegistering = false;
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   void _sendRegisterPayload() async {
     // empty checks
@@ -228,7 +230,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextField(
                           controller: passwordController,
                           textInputAction: TextInputAction.next,
-                          obscureText: true,
+                          obscureText: !_passwordVisible,
                           decoration: InputDecoration(
                             errorText: passwordError,
                             hintText: translate('passwordHint'),
@@ -236,6 +238,18 @@ class _RegisterPageState extends State<RegisterPage> {
                             prefixIcon: const Icon(Icons.lock),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
                             ),
                           ),
                         ),
@@ -247,14 +261,26 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextField(
                           controller: passwordConfirmController,
                           textInputAction: TextInputAction.next,
-                          obscureText: true,
+                          obscureText: !_confirmPasswordVisible,
                           decoration: InputDecoration(
                             errorText: passwordConfirmError,
                             hintText: translate('passwordConfirmationHint'),
                             labelText: translate('passwordConfirmation'),
-                            suffixIcon: const Icon(Icons.lock_outline),
+                            prefixIcon: const Icon(Icons.lock_outline),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _confirmPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _confirmPasswordVisible = !_confirmPasswordVisible;
+                                });
+                              },
                             ),
                           ),
                         ),
