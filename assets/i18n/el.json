@@ -47,6 +47,9 @@
 
   "accountLockedNotification": "Έχετε κλειδώσει τον λογαριασμό σας, μετά από πολλές προσπάθειες.",
   "unlockAccountButton":       "Ξεκλείδωμα Λογαριασμού",
+  "unlockAccountSuccess":      "Ο λογαριασμός σας ξεκλειδώθηκε επιτυχώς",
+  "unlockAccount":             "Ξεκλείδωμα Λογαριασμού",
+  "unlockAccountTitle":        "Πολλές προσπάθειες, κανένα αποτέλεσμα.",
 
   "welcomeUseCaseAppBar":    "Χρήση Εφαρμογής",
   "welcomeUseCase":          "Καλώς Ορίσατε! Χαρήκαμε για τη γνωριμία. ",

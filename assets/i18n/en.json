@@ -45,6 +45,12 @@
   "forgotPassword":           "I forgot my password",
   "agreeToTheTandC":          "By making an account to BenzinApp, you agree to the Terms and Conditions. Press the button on the top-right of your screen to read them.",
 
+  "accountLockedNotification": "You have locked your account after several failed attempts.",
+  "unlockAccountButton":       "Unlock my account",
+  "unlockAccountSuccess":      "Your account is now unlocked.",
+  "unlockAccount":             "Unlock Account",
+  "unlockAccountTitle":        "Too many tries... No result.",
+
   "welcomeUseCaseAppBar":    "Old BenzinApp User",
   "welcomeUseCase":          "Welcome! Good to have you.",
   "welcomeUseCaseSubtitle":  "You look familiar. Do we know you from somewhere?",
