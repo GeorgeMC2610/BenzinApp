@@ -521,6 +521,13 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         manager.errors['base']!.join(', '),
       );
     }
+
+    else if (manager.errors.containsKey('error')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['error']!,
+      );
+    }
   }
 
   String? _validator(String field) {

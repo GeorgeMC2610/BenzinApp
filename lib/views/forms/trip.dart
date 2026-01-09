@@ -147,6 +147,13 @@ class _TripFormState extends State<TripForm> {
         manager.errors['base']!.join(', '),
       );
     }
+
+    else if (manager.errors.containsKey('error')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['error']!,
+      );
+    }
   }
 
   @override

@@ -176,6 +176,13 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         manager.errors['base']!.join(', '),
       );
     }
+
+    else if (manager.errors.containsKey('error')) {
+      SnackbarNotification.show(
+        MessageType.danger,
+        manager.errors['error']!,
+      );
+    }
   }
 
   bool _validateForFixed() {

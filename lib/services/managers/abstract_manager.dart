@@ -79,7 +79,7 @@ abstract class AbstractManager<T> with ChangeNotifier {
         _errors = jsonResponse["errors"];
       }
       else if (jsonResponse.containsKey("error")){
-        _errors = jsonResponse["error"];
+        _errors = jsonResponse;
       }
     }
 
