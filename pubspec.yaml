@@ -43,6 +43,7 @@ dependencies:
   fl_chart: ^0.66.0
   package_info_plus: ^8.3.1
   geolocator: ^13.0.4
+  flutter_markdown: ^0.7.2
   flutter_polyline_points: ^2.1.0
   flutter_translate: ^4.0.3
   flutter_translate_annotations: ^2.0.0
@@ -91,6 +92,8 @@ flutter:
      - lib/assets/svg/no_services.svg
      - lib/assets/svg/no_trips.svg
      - assets/i18n/
+     - assets/long_screens/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
