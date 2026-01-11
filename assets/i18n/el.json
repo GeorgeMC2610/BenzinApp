@@ -46,7 +46,7 @@
   "termsPart1":               "Συμφωνώ με τους ",
   "termsPart2":               "Όρους Χρήσης",
   "termsPart3":               " και την ",
-  "termsPart4":               "Πολιτική Απορρίτου",
+  "termsPart4":               "Πολιτική Απορρήτου",
 
   "accountLockedNotification": "Έχετε κλειδώσει τον λογαριασμό σας, μετά από πολλές προσπάθειες.",
   "unlockAccountButton":       "Ξεκλείδωμα Λογαριασμού",
@@ -141,7 +141,7 @@
   "invitations":           "Προσκλήσεις",
   "logout":                "Αποσύνδεση",
   "aboutTheApp":           "Σχετικά με την Εφαρμογή",
-  "privacyPolicy":         "Πολιτική Απορρίτου",
+  "privacyPolicy":         "Πολιτική Απορρήτου",
   "termsAndConditions":    "Όροι Χρήσης",
   "appInformation":        "Πληροφορίες Εφαρμογής",
 
