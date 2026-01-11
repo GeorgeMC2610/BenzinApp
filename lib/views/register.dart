@@ -96,6 +96,11 @@ class _RegisterPageState extends State<RegisterPage> {
           usernameError = translate('usernameAlreadyTaken');
         });
         break;
+      case SessionStatus.usernameBad:
+        setState(() {
+          usernameError = translate('usernameBad');
+        });
+        break;
       case SessionStatus.emailTaken:
         setState(() {
           emailError = translate('emailAlreadyTaken');
@@ -203,6 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   errorText: usernameError,
                   hintText: translate('usernameRegisterHint'),
+                  errorMaxLines: 4,
                   labelText: translate('username'),
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(

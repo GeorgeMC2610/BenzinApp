@@ -6,6 +6,7 @@
   "sessionEnded":          "Η σύνοδός σας έληξε. Παρακαλώ συνδεθείτε ξανά.",
   "successfullyLoggedOut": "Αποσυνδεθήκατε επιτυχώς.",
   "usernameAlreadyTaken": "Αυτό το username υπάρχει ήδη.",
+  "usernameBad": "Επιτρέπονται (λατινικοί) χαρακτήρες, νούμερα, παύλες και κάτω-παύλες.",
   "successfullyCreatedAccount": "Επιτυχής εγγραφή στο BenzinApp. Καλώς ορίσατε!",
   "carsNotExistingBackThen": "Συγγνώμη...; 😭",
   "confirmPasswordCorrectly": "Λάθος επιβεβαίωση.",
