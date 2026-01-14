@@ -41,6 +41,7 @@
   "welcome":                  "Welcome to BenzinApp!",
   "welcomeBack":              "Welcome Back!",
   "accountDetails":           "Account Details",
+  "passwordTooShort":         "A password must be of at least 6 characters of length.",
   "carDetails":               "Car Details",
   "dontHaveAnAccount":        "Create an account",
   "forgotPassword":           "I forgot my password",

@@ -37,7 +37,10 @@ class _RegisterPageState extends State<RegisterPage> {
           : null;
 
       passwordError =
-          passwordController.text.isEmpty ? translate('cannotBeEmpty') : null;
+        passwordController.text.isEmpty ? translate('cannotBeEmpty') : null;
+
+      passwordError =
+        passwordController.text.length < 6 ? translate('passwordTooShort') : null;
 
       passwordConfirmError = passwordConfirmController.text.isEmpty
           ? translate('cannotBeEmpty')
@@ -218,14 +221,18 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 10),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
                       controller: passwordController,
                       textInputAction: TextInputAction.next,
                       obscureText: !_passwordVisible,
+                      maxLength: 128,
                       decoration: InputDecoration(
                         errorText: passwordError,
+                        errorMaxLines: 4,
+                        counterText: '',
                         hintText: translate('passwordHint'),
                         labelText: translate('password'),
                         prefixIcon: const Icon(Icons.lock),
@@ -253,11 +260,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: passwordConfirmController,
                       textInputAction: TextInputAction.next,
                       obscureText: !_confirmPasswordVisible,
+                      maxLength: 128,
                       decoration: InputDecoration(
                         errorText: passwordConfirmError,
                         hintText: translate('passwordConfirmationHint'),
                         labelText: translate('passwordConfirmation'),
                         prefixIcon: const Icon(Icons.lock_outline),
+                        counterText: '',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),

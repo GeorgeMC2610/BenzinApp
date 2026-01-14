@@ -42,6 +42,7 @@
   "welcomeBack":              "Καλωσήρθατε!",
   "accountDetails":           "Στοιχεία Λογαριασμού",
   "carDetails":               "Στοιχεία Οχήματος",
+  "passwordTooShort":         "Ο κωδικός σας πρέπει να έχει τουλάχιστον 6 χαρακτήρες.",
   "dontHaveAnAccount":        "Δημιουργία λογαριασμού",
   "forgotPassword":           "Ξέχασα τον κωδικό μου",
   "termsPart1":               "Συμφωνώ με τους ",
