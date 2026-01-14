@@ -80,6 +80,7 @@
   "viewDetails":           "View Details",
   "dashboardConfirmAccount": "Your account is not confirmed yet. You have limited features.",
 
+  "successfullyCreatedCar":   "Your car was successfully created.",
   "carMenuDetails":           "Details for {car}",
   "carMenuView":              "View Details",
   "carMenuEdit":              "Edit Car Data",

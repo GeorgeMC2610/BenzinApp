@@ -80,6 +80,7 @@
   "viewDetails":           "Προβολή",
   "dashboardConfirmAccount": "Δεν έχετε επιβεβαιώσει τον λογαριασμό σας ακόμη. Έχετε περιορισμένες δυνατότητες.",
 
+  "successfullyCreatedCar":   "Επιτυχής προσθήκη αμαξιού.",
   "carMenuDetails":           "Πληροφορίες για {car}",
   "carMenuView":              "Πληροφορίες",
   "carMenuEdit":              "Επεξεργασία",
