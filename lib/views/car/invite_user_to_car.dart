@@ -7,7 +7,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
-import '../fragments/settings.dart';
 
 class InviteUserToCar extends StatefulWidget {
   const InviteUserToCar({super.key, required this.car});
