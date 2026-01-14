@@ -14,6 +14,7 @@ class Car {
     required this.manufacturer,
     required this.model,
     required this.year,
+    this.currency = '€',
     required this.isShared,
     required this.createdAt,
     required this.updatedAt,
@@ -24,6 +25,7 @@ class Car {
   String ownerUsername;
   String manufacturer;
   String model;
+  String currency;
   bool isShared;
   int year;
   final DateTime createdAt;
