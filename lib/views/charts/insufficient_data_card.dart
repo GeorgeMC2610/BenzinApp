@@ -51,8 +51,9 @@ class InsufficientDataCard extends StatelessWidget {
                   },
                   label: Text(translate('addFuelFillRecord')),
                   icon: const Icon(Icons.add),
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primaryFixed)
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primaryFixed,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimaryFixed
                   ),
                 ),
               )

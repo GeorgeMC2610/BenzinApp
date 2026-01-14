@@ -7,7 +7,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
-import '../fragments/settings.dart';
 
 class InviteUserToCar extends StatefulWidget {
   const InviteUserToCar({super.key, required this.car});
@@ -35,14 +34,6 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(translate('inviteUserToCarAppBar')),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
-              },
-              icon: const Icon(Icons.settings)
-          ),
-        ],
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [

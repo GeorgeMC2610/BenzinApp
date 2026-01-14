@@ -85,7 +85,15 @@ class SessionManager {
         isLoggedIn = true;
         return SessionStatus.success;
       case 422:
-        return response.body.contains("Email") ? SessionStatus.emailTaken : SessionStatus.usernameTaken;
+        print(response.body);
+        if (response.body.contains("E-Mail")) {
+          return SessionStatus.emailTaken;
+        }
+        if (response.body.contains('(') || response.body.contains('special characters')) {
+          return SessionStatus.usernameBad;
+        } else {
+          return SessionStatus.usernameTaken;
+        }
       case 500:
         return SessionStatus.serverError;
       default:
@@ -99,6 +107,7 @@ enum SessionStatus {
   wrongCredentials,
   locked,
   usernameTaken,
+  usernameBad,
   emailTaken,
   serverError,
   blank

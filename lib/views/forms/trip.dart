@@ -103,7 +103,7 @@ class _TripFormState extends State<TripForm> {
     }
     else {
       widget.trip!.title = _titleController.text;
-      widget.trip!.timesRepeating = int.parse(_titleController.text);
+      widget.trip!.timesRepeating = int.parse(_timesRepeatingController.text);
       widget.trip!.totalKm = totalKm!;
       widget.trip!.originLatitude = originLatitude!;
       widget.trip!.originLongitude = originLongitude!;

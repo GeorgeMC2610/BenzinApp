@@ -6,6 +6,7 @@
   "sessionEnded": "Your session has ended. Please log in again.",
   "successfullyLoggedOut": "Successfully logged out.",
   "usernameAlreadyTaken": "Username is already taken.",
+  "usernameBad": "Only (latin) letters, numerals, underscores and dashes are allowed",
   "successfullyCreatedAccount": "Successfully created account.",
   "carsNotExistingBackThen": "Huh?? 😭",
   "confirmPasswordCorrectly": "Wrong password",
@@ -40,6 +41,7 @@
   "welcome":                  "Welcome to BenzinApp!",
   "welcomeBack":              "Welcome Back!",
   "accountDetails":           "Account Details",
+  "passwordTooShort":         "A password must be of at least 6 characters of length.",
   "carDetails":               "Car Details",
   "dontHaveAnAccount":        "Create an account",
   "forgotPassword":           "I forgot my password",
@@ -78,6 +80,7 @@
   "viewDetails":           "View Details",
   "dashboardConfirmAccount": "Your account is not confirmed yet. You have limited features.",
 
+  "successfullyCreatedCar":   "Your car was successfully created.",
   "carMenuDetails":           "Details for {car}",
   "carMenuView":              "View Details",
   "carMenuEdit":              "Edit Car Data",
