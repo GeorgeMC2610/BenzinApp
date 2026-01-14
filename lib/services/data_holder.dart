@@ -1,3 +1,6 @@
+import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
+
 import 'managers/car_manager.dart';
 import 'managers/fuel_fill_record_manager.dart';
 import 'managers/malfunction_manager.dart';
@@ -10,14 +13,38 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'https://benzin-app.fly.dev';
+  static const String destination = 'http://localhost:3000';
 
   Future<void> initializeValues() async {
-    await FuelFillRecordManager().index();
-    await ServiceManager().index();
-    await MalfunctionManager().index();
-    await TripManager().index();
-    await CarManager().get(forceBackend: true);
+    List<Future<void>> futures = [
+      CarManager().index(),
+      UserManager().getCurrentUser(),
+      CarUserInvitationManager().index(),
+    ];
+
+    await Future.wait(futures);
+  }
+
+  /// Since all these data belong to separate cars, they will have to wait
+  /// until the `watchingCar` value is initialized.
+  Future<void> getCarData(int id) async {
+    CarManager().watchingCar = CarManager().local?.firstWhere((car) => car.id == id);
+
+    List<Future<void>> futures = [
+      FuelFillRecordManager().index(),
+      ServiceManager().index(),
+      MalfunctionManager().index(),
+      TripManager().index(),
+    ];
+
+    await Future.wait(futures);
+  }
+
+  void destroyCarValues() {
+    FuelFillRecordManager().destroyValues();
+    ServiceManager().destroyValues();
+    MalfunctionManager().destroyValues();
+    TripManager().destroyValues();
   }
 
   void destroyValues() async {
@@ -25,8 +52,11 @@ class DataHolder {
     ServiceManager().destroyValues();
     MalfunctionManager().destroyValues();
     TripManager().destroyValues();
-    CarManager().car = null;
+    CarManager().destroyValues();
+    UserManager().destroyValues();
+    CarUserInvitationManager().destroyValues();
   }
 
+  // TODO: Stop using this logic here. This will be migrated to the API.
   String getPlacesApiKey() => const String.fromEnvironment("BENZINAPP_PLACES_KEY");
 }

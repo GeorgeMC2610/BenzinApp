@@ -1,7 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
-import 'package:benzinapp/views/home.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
+import 'package:benzinapp/views/car/dashboard.dart';
+import 'package:benzinapp/views/confirmations/confirm_email.dart';
+import 'package:benzinapp/views/confirmations/reset_password_first_step.dart';
+import 'package:benzinapp/views/confirmations/unlock_account.dart';
+import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -18,18 +23,20 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String? usernameError;
+  String? emailError;
   String? passwordError;
 
   bool isLoggingIn = false;
+  bool showUnlockButton = false;
+  bool _passwordVisible = false;
 
   void sendLoginPayload() async {
 
     setState(() {
-      usernameError = usernameController.text.trim().isEmpty?
+      emailError = emailController.text.trim().isEmpty?
       translate('cannotBeEmpty') :
       null;
 
@@ -38,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       null;
     });
 
-    if (usernameError != null || passwordError != null) {
+    if (emailError != null || passwordError != null) {
       return;
     }
 
@@ -46,24 +53,46 @@ class _LoginPageState extends State<LoginPage> {
       isLoggingIn = true;
     });
 
-    final result = await SessionManager().login(usernameController.text, passwordController.text);
-    if (result) {
+    final result = await SessionManager().login(emailController.text, passwordController.text);
 
-      // show the message that the user is authorized successfully.
-      SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-      await DataHolder().initializeValues();
+    switch (result) {
+      case SessionStatus.success:
+        // show the message that the user is authorized successfully.
+        SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
+        DataHolder().initializeValues();
 
-      Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) => const HomePage()
-      ));
+        Widget screen = const Dashboard();
+
+        if (!UserManager().currentUser!.isConfirmed()) {
+          screen = const ConfirmEmail();
+        }
+
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => screen
+        ));
+
+        break;
+      case SessionStatus.locked:
+        SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
+        setState(() {
+          showUnlockButton = true;
+        });
+      case SessionStatus.wrongCredentials:
+        setState(() {
+          emailError = translate('wrongCredentials');
+          passwordError = translate('wrongCredentials');
+        });
+        break;
+      case SessionStatus.serverError:
+        SnackbarNotification.show(MessageType.danger, "SERVER ERROR"); // TODO: Localize
+        break;
+      default:
+        break;
     }
-    else {
-      setState(() {
-        usernameError = translate('wrongCredentials');
-        passwordError = translate('wrongCredentials');
-        isLoggingIn = false;
-      });
-    }
+
+    setState(() {
+      isLoggingIn = false;
+    });
   }
 
   @override
@@ -88,12 +117,23 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
+                    builder: (context) => const SettingsScreen()
+                )
+            );
+
+            }, icon: const Icon(Icons.settings)
+          ),
+
+          IconButton(onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
                     builder: (context) => const RegisterPage()
                 )
             );
 
-          }, icon: const Icon(Icons.app_registration)),
-          // IconButton(onPressed: () {}, icon: const Icon(Icons.key_off)),
+          }, icon: const Icon(Icons.person_add_rounded)
+          ),
 
         ],
       ),
@@ -156,19 +196,41 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 80),
+              const SizedBox(height: 40),
 
-              // BenzinApp Logo
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterPage()
+                    )
+                  );
+                },
+                leading: const Icon(Icons.person_add_rounded),
+                title: Text(translate('dontHaveAnAccount')),
+                subtitle: Text(translate('registerToBenzinApp')),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              ),
+
+              const SizedBox(height: 60),
+
+              // E-mail text field
               TextField(
                 enabled: !isLoggingIn,
-                controller: usernameController,
-                keyboardType: TextInputType.text,
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                onChanged: (value) {
+                  setState(() {
+                    showUnlockButton = false;
+                  });
+                },
                 decoration: InputDecoration(
-                  errorText: usernameError,
-                  hintText: translate('usernameHint'),
-                  labelText: translate('username'),
-                  prefixIcon: const Icon(Icons.person),
+                  errorText: emailError,
+                  hintText: translate('emailHint'),
+                  labelText: translate('email'),
+                  prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -181,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 enabled: !isLoggingIn,
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: translate('passwordHint'),
@@ -190,20 +252,69 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 75),
+              const SizedBox(height: 25),
 
-              Row(
-                 children: [
-                   Expanded(
-                     child: AutoSizeText(maxLines: 1, "• ${translate('dontHaveAnAccount')}"),
-                   ),
-                   const SizedBox(width: 5),
-                   const Icon(Icons.app_registration, size: 18,)
-                 ],
+              if (showUnlockButton)
+              Center(
+                child: FilledButton.tonalIcon(
+                  icon: const Icon(Icons.lock_reset),
+                  label: Text(translate('unlockAccountButton')),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UnlockAccountScreen(email: emailController.text)
+                        )
+                    );
+                  },
+                ),
               ),
+
+              if (showUnlockButton)
+              const SizedBox(height: 15),
+
+              Center(
+                child: TextButton.icon(
+                  icon: const Icon(Icons.password),
+                  label: Text(translate('forgotPassword')),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blueAccent,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResetPasswordFirstStep()
+                        )
+                    );
+                  },
+                ),
+              ),
+
               // const SizedBox(height: 5),
               // Row(
               //   children: [

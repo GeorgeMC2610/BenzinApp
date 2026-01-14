@@ -65,17 +65,17 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
 
   _selectDate(bool endDate) async {
     final leastDate = FuelFillRecordManager().local
-        .map((record) => record.dateTime)
+        ?.map((record) => record.dateTime)
         .reduce((a, b) => a.isBefore(b) ? a : b);
 
     final mostDate = FuelFillRecordManager().local
-        .map((record) => record.dateTime)
+        ?.map((record) => record.dateTime)
         .reduce((a, b) => a.isAfter(b) ? a : b);
 
     final date = await showDatePicker(
         context: context,
-        firstDate: leastDate,
-        lastDate: mostDate
+        firstDate: leastDate ?? DateTime.parse('1970-01-01'),
+        lastDate: mostDate ?? DateTime.now()
     );
 
     setState(() {

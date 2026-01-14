@@ -1,35 +1,45 @@
-import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/managers/token_manager.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/session_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/about/app_information.dart';
 import 'package:benzinapp/views/about/terms_and_conditions.dart';
-import 'package:benzinapp/views/forms/car_edit.dart';
+import 'package:benzinapp/views/car/delete_car_screen.dart';
+import 'package:benzinapp/views/car/general_invitations.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
+import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
+import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
+import 'package:benzinapp/views/profile/delete_account_screen.dart';
+import 'package:benzinapp/views/profile/edit_account_screen.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 
 import '../../services/theme_provider.dart';
+import '../car/claim_old_car.dart';
 
-class SettingsFragment extends StatefulWidget {
-  const SettingsFragment({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<SettingsFragment> createState() => _SettingsFragmentState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsFragmentState extends State<SettingsFragment> {
+class _SettingsScreenState extends State<SettingsScreen> {
 
-  bool lightMode = false;
-  bool fastLogin = false;
+  final bool loggedIn = UserManager().currentUser != null;
+  final bool isWatchingCar = CarManager().watchingCar != null && (CarManager().watchingCar?.isOwned() ?? false);
 
-  void _performLogout() async {
-    await TokenManager().removeToken();
-    DataHolder().destroyValues();
+  void _performLogout() {
+    SessionManager().logout();
     SnackbarNotification.show(MessageType.info, translate('successfullyLoggedOut'));
+
+    while (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
 
     Navigator.pushReplacement(
         context,
@@ -40,9 +50,12 @@ class _SettingsFragmentState extends State<SettingsFragment> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return SingleChildScrollView(
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: Text(translate('settings')),
+    ),
+    body: SingleChildScrollView(
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child:
@@ -50,12 +63,12 @@ class _SettingsFragmentState extends State<SettingsFragment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  translate('applicationAppearance'),
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500
-                  )
+                    translate('applicationAppearance'),
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500
+                    )
                 ),
 
                 const SizedBox(height: 12),
@@ -87,48 +100,20 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   leading: const Icon(Icons.language_outlined),
                 ),
 
-                const SizedBox(height: 30),
+                if (isWatchingCar)
+                  ...getCarOptions(),
 
-                Text(
-                  translate('accountSettings'),
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w500
-                  )
-                ),
-
-                const SizedBox(height: 12),
-
-                ListTile(
-                  title: Text(translate('editAccount')),
-                  enabled: true,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditCar()
-                        )
-                    );
-                  },
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  leading: const Icon(Icons.edit),
-                ),
-                ListTile(
-                  title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
-                  trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
-                  leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
-                  onTap: _performLogout,
-                ),
+                if (loggedIn)
+                  ...getUserOptions(),
 
                 const SizedBox(height: 30),
 
                 Text(translate('aboutTheApp'),
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500
-                  )
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500
+                    )
                 ),
 
                 const SizedBox(height: 12),
@@ -174,8 +159,175 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                 ),
               ])
       ),
-    );
+    ),
+  );
 
+  List<Widget> getCarOptions() {
+    final isConfirmed = UserManager().currentUser?.isConfirmed() ?? false;
+
+    return [
+      const SizedBox(height: 30),
+
+      Text(
+          translate('carOptions'),
+          style: TextStyle(
+              fontSize: 24,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500
+          )
+      ),
+
+      const SizedBox(height: 12),
+
+      ListTile(
+        title: Text(translate('inviteUserToCar')),
+        enabled: UserManager().currentUser?.confirmedAt != null,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InviteUserToCar(car: CarManager().watchingCar!)
+              )
+          );
+        },
+        trailing: const Icon(Icons.arrow_forward_ios),
+        leading: const Icon(Icons.outgoing_mail),
+      ),
+
+      ListTile(
+        title: Text(translate('transferOwnership'), style: TextStyle(
+            color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0))
+        ),
+        enabled: UserManager().currentUser?.confirmedAt != null,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TransferCarOwnershipScreen(car: CarManager().watchingCar!)
+              )
+          );
+        },
+        trailing: Icon(Icons.arrow_forward_ios, color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0)),
+        leading: Icon(Icons.compare_arrows, color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0)),
+      ),
+
+      ListTile(
+        title: Text(translate('deleteCar'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.car_crash, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DeleteCarScreen(car: CarManager().watchingCar!)
+              )
+          );
+        },
+      ),
+    ];
+  }
+
+  List<Widget> getUserOptions() {
+    final isConfirmed = UserManager().currentUser?.isConfirmed() ?? false;
+
+    return [
+      const SizedBox(height: 30),
+
+      Text(
+          translate('accountSettings'),
+          style: TextStyle(
+              fontSize: 24,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500
+          )
+      ),
+
+      const SizedBox(height: 12),
+
+      ListTile(
+        title: Text(translate('editAccount')),
+        enabled: true,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const EditAccountScreen()
+              )
+          );
+        },
+        trailing: const Icon(Icons.arrow_forward_ios),
+        leading: const Icon(Icons.person),
+      ),
+
+      if (isConfirmed)
+        ListTile(
+          title: Text(translate('invitations')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const GeneralInvitations()
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.mail_outlined),
+        ),
+
+      if (isConfirmed)
+        ListTile(
+          title: Text(translate('claimCarSettings')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ClaimOldCar(fromSettings: true)
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.car_rental_outlined),
+        ),
+
+      if (!isConfirmed)
+        ListTile(
+          title: Text(translate('confirmAccount')),
+          enabled: true,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConfirmEmail(fromSettings: true)
+                )
+            );
+          },
+          trailing: const Icon(Icons.arrow_forward_ios),
+          leading: const Icon(Icons.verified_user_outlined),
+        ),
+
+      ListTile(
+        title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: _performLogout,
+      ),
+
+      ListTile(
+        title: Text(translate('deleteAccount'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
+        leading: const Icon(Icons.person_remove, color: Color.fromARGB(255, 200, 0, 0)),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const DeleteAccountScreen()
+              )
+          );
+        },
+      ),
+    ];
   }
 
   void _showLanguageModal() {

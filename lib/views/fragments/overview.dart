@@ -7,12 +7,9 @@ import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
 import 'package:benzinapp/views/overview_cards/total_cost_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
 
-
 import '../overview_cards/graph_container_card.dart';
-import '../shared/notification.dart';
 
 class OverviewFragment extends StatefulWidget {
   const OverviewFragment({super.key});
@@ -23,54 +20,33 @@ class OverviewFragment extends StatefulWidget {
 
 class _OverviewFragmentState extends State<OverviewFragment> {
 
-  String? username;
+  String? username = CarManager().watchingCar?.username;
 
   @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
-
-  initialize() async {
-    final car = CarManager().car;
-
-    setState(() {
-      username = car?.username;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => SingleChildScrollView(
+  Widget build(BuildContext context) => const SingleChildScrollView(
     child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(
-        builder: (_, __, ___, ____, _____) => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // logged in as <username> text.
-            Text(translate('loggedInAs', args: {'username': username ?? '-'})),
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // logged in as <username> text.
+          // car info container
+          CarInfoCard(),
 
-            const SizedBox(height: 10),
+          // graph with consumption container
+          GraphContainerCard(),
 
-            // car info container
-            CarInfoCard(),
+          // cost pie chart
+          // might not be available to show if there are no data
+          CostPieChartCard(),
 
-            // graph with consumption container
-            GraphContainerCard(),
+          // car average stats container
+          TotalCostCardContainer(),
 
-            // cost pie chart
-            // might not be available to show if there are no data
-            CostPieChartCard(),
-
-            // car average stats container
-            TotalCostCardContainer(),
-
-            // timely manner consumption
-            TimelyMannerConsumptionCard(),
-          ],
-        ),
-
+          // timely manner consumption
+          TimelyMannerConsumptionCard(),
+        ],
       )
     )
   );

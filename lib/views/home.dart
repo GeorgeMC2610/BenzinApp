@@ -1,8 +1,13 @@
+import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/drawer/fuel_fill_drawer.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/forms/trip.dart';
+import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/fragments/fuel_fills.dart';
+import 'package:benzinapp/views/fragments/invitees.dart';
 import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
@@ -32,12 +37,17 @@ class _HomePageState extends State<HomePage> {
     _setTitle(context);
   }
 
+  @override void dispose() {
+    super.dispose();
+    DataHolder().destroyCarValues();
+  }
+
   final List<Widget> pages = const [
     OverviewFragment(),
     FuelFillsFragment(),
     MaintenanceFragment(),
     TripsFragment(),
-    SettingsFragment()
+    InviteesFragment(),
   ];
 
   @override
@@ -62,7 +72,7 @@ class _HomePageState extends State<HomePage> {
           _title = translate('trips');
           break;
         case 4:
-          _title = translate('settings');
+          _title = translate('invitations');
           break;
       }
     });
@@ -84,6 +94,10 @@ class _HomePageState extends State<HomePage> {
         break;
       case 3:
         page = const TripForm();
+        break;
+      case 4:
+        if (!CarManager().watchingCar!.isOwned()) return;
+        page = InviteUserToCar(car: CarManager().watchingCar!);
         break;
       default:
         return;
@@ -192,7 +206,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: getActions(),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+              },
+              icon: const Icon(Icons.settings)
+          ),
+          ...getActions()
+        ],
         title: Text(_title),
       ),
       key: _scaffoldKey,
@@ -220,12 +242,13 @@ class _HomePageState extends State<HomePage> {
               label: translate('trips'),
               icon: const Icon(Icons.pin_drop)
           ),
-          BottomNavigationBarItem(
-            label: translate('settings'),
-            icon: const Icon(Icons.settings),
-          ),
+         if (CarManager().watchingCar!.isOwned())
+           BottomNavigationBarItem(
+               label: translate('invitations'),
+               icon: const Icon(Icons.mail)
+           ),
         ]),
-      floatingActionButton: _selectedTabIndex == 0 || _selectedTabIndex == 4 ? null : FloatingActionButton(
+      floatingActionButton: _selectedTabIndex == 0 ? null : FloatingActionButton(
         heroTag: null,
         onPressed: _floatingActionButtonPressed,
         tooltip: 'Add',

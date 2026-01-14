@@ -15,85 +15,83 @@ class FuelFillsFragment extends StatefulWidget {
 
 class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
-  Widget emptyRecordsBody() => RefreshIndicator(
-    onRefresh: refreshFuelFills,
-    child: SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: MediaQuery.of(context).size.height * 0.8,
-        ),
-        child: Center(
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'lib/assets/svg/no_petrol.svg',
-                semanticsLabel: 'No Records!',
-                width: 200,
-              ),
-
-              const SizedBox(height: 40),
-
-              AutoSizeText(
-                maxLines: 1,
-                translate('noFuelFillRecords'),
-                style: const TextStyle(
-                    fontSize: 29,
-                    fontWeight: FontWeight.bold
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    )
+  Widget loadingBody() => const LinearProgressIndicator(
+    value: null,
   );
 
-  Widget normalBody() => RefreshIndicator(
-      onRefresh: refreshFuelFills,
-      child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // TOTAL RECORDS
-                Text(
-                    fuelFillRecordCount() == 1 ?
-                    translate('oneRecord') :
-                    translate('totalRecords', args: {'totalRecords': fuelFillRecordCount()})
-                ),
+  Widget emptyRecordsBody() => ConstrainedBox(
+    constraints: BoxConstraints(
+      minHeight: MediaQuery.of(context).size.height * 0.8,
+    ),
+    child: Center(
+      child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'lib/assets/svg/no_petrol.svg',
+            semanticsLabel: 'No Records!',
+            width: 200,
+          ),
 
-                if (FuelFillRecordManager().filter != null)
-                  Text(
-                      FuelFillRecordManager().localOrFiltered.length == 1 ?
-                      translate('oneRecordWithFilters') :
-                      translate('totalFilteredRecords', args: {'totalRecords': FuelFillRecordManager().localOrFiltered.length})
-                  ),
+          const SizedBox(height: 40),
 
-                YearMonthFuelFillGroups(records: FuelFillRecordManager().localOrFiltered),
-
-                const SizedBox(height: 75)
-
-              ],
+          AutoSizeText(
+            maxLines: 1,
+            translate('noFuelFillRecords'),
+            style: const TextStyle(
+                fontSize: 29,
+                fontWeight: FontWeight.bold
             ),
           )
-        ),
+        ],
+      ),
+    ),
   );
 
-  Future<void> refreshFuelFills() async {
-    await FuelFillRecordManager().index();
-  }
+  Widget normalBody(FuelFillRecordManager manager) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // TOTAL RECORDS
+        Text(
+            manager.local!.length == 1 ?
+            translate('oneRecord') :
+            translate('totalRecords', args: {'totalRecords': manager.local!.length})
+        ),
 
-  int fuelFillRecordCount() => FuelFillRecordManager().local.length;
+        if (manager.filter != null)
+          Text(
+              manager.localOrFiltered!.length == 1 ?
+              translate('oneRecordWithFilters') :
+              translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered!.length})
+          ),
+
+        YearMonthFuelFillGroups(records: manager.localOrFiltered!),
+
+        const SizedBox(height: 75)
+
+      ],
+    ),
+  );
+
+  Widget decideBody(FuelFillRecordManager manager) {
+    if (manager.local == null) return loadingBody();
+    if (manager.local!.isEmpty) return emptyRecordsBody();
+    return normalBody(manager);
+  }
 
   @override
   Widget build(BuildContext context) => Consumer<FuelFillRecordManager>(
      builder: (context, manager, _) =>
-     manager.local.isNotEmpty ? normalBody() : emptyRecordsBody(),
+      RefreshIndicator(
+        onRefresh: manager.index,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: decideBody(manager),
+        ),
+      ),
    );
 }

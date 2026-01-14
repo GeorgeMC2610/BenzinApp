@@ -1,0 +1,275 @@
+import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
+import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+
+import '../../services/classes/car.dart';
+import '../shared/notification.dart';
+
+class CarForm extends StatefulWidget {
+  const CarForm({super.key, this.car});
+
+  final Car? car;
+
+  @override
+  State<StatefulWidget> createState() => _CarFormState();
+}
+
+class _CarFormState extends State<CarForm> {
+
+  final TextEditingController manufacturerController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController modelController = TextEditingController();
+  final TextEditingController yearController = TextEditingController();
+
+  String? usernameError, manufacturerError, modelError, yearError;
+  bool isLoading = false;
+
+  _sendCarEditPayload() async {
+    setState(() {
+      manufacturerError = null;
+      modelError = null;
+      yearError = null;
+      usernameError = null;
+
+      manufacturerError = manufacturerController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      modelError = modelController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      yearError = yearController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      yearError ??= int.parse(yearController.text) < 1900 ?
+      translate('carsNotExistingBackThen') :
+      null;
+    });
+
+    if (manufacturerError != null || modelError != null || yearError != null) {
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    String successMessage;
+
+    if (widget.car == null) {
+      var newCar = Car(
+          id: -1, username: usernameController.text, ownerUsername: '',
+          manufacturer: manufacturerController.text, model: modelController.text,
+          year: int.parse(yearController.text), isShared: false,
+          createdAt: DateTime.now(), updatedAt: DateTime.now()
+      );
+
+      await CarManager().create(newCar);
+      successMessage = translate('successfullyCreatedCar');
+    }
+    else {
+      widget.car!.username = usernameController.text;
+      widget.car!.manufacturer = manufacturerController.text;
+      widget.car!.model = modelController.text;
+      widget.car!.year = int.parse(yearController.text);
+
+      await CarManager().update(widget.car!);
+      successMessage = translate('successfullyUpdatedCar');
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (CarManager().errors.isEmpty) {
+      SnackbarNotification.show(MessageType.success, successMessage);
+      Navigator.pop(context);
+    }
+    else {
+      setState(() {
+        modelError = CarManager().errors['model']?.join(', ');
+        manufacturerError = CarManager().errors['manufacturer']?.join(', ');
+        yearError = CarManager().errors['year']?.join(', ');
+        usernameError = CarManager().errors['username']?.join(', ');
+      });
+
+      if (CarManager().errors.containsKey('base')) {
+        SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
+      }
+      else if (CarManager().errors.containsKey('error')) {
+        SnackbarNotification.show(
+          MessageType.danger,
+          CarManager().errors['error']!,
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.car != null) {
+      modelController.text = widget.car!.model;
+      usernameController.text = widget.car!.username;
+      manufacturerController.text = widget.car!.manufacturer;
+      yearController.text = widget.car!.year.toString();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: Text(widget.car == null ? translate('addCar') : translate('editCar')),
+    ),
+    persistentFooterAlignment: AlignmentDirectional.center,
+    persistentFooterButtons: [
+      PersistentAddOrEditButton(
+          onPressed: _sendCarEditPayload,
+          isEditing: widget.car != null,
+          isLoading: isLoading,
+      )
+    ],
+    body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        child: Column(
+          children: [
+            if (((CarManager().local?.where((car) => car.isOwned()).length) ?? 0) >= 7)
+              Container(
+                padding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        color: Theme.of(context).colorScheme.error),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        translate('tooManyCars'),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+
+            DividerWithText(
+              text: translate('carDetails'),
+              textColor: Theme.of(context).colorScheme.primary,
+              textSize: 17,
+              barThickness: 3,
+              lineColor: Colors.grey,
+            ),
+
+            const SizedBox(height: 10),
+
+            TextField(
+              controller: usernameController,
+              keyboardType: TextInputType.text,
+              enabled: !isLoading,
+              maxLength: 30,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                errorMaxLines: 3,
+                counterText: '',
+                errorText: usernameError,
+                hintText: translate('carUsernameHint'),
+                labelText: translate('carUsername'),
+                prefixIcon: const Icon(Icons.directions_car_outlined),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              controller: manufacturerController,
+              keyboardType: TextInputType.text,
+              enabled: !isLoading,
+              maxLength: 30,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                errorText: manufacturerError,
+                counterText: '',
+                hintText: translate('carManufacturerHint'),
+                labelText: translate('carManufacturer'),
+                prefixIcon: const Icon(Icons.car_rental),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16.0),
+
+            // Password TextField
+
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: modelController,
+                    textInputAction: TextInputAction.next,
+                    enabled: !isLoading,
+                    maxLength: 30,
+                    decoration: InputDecoration(
+                      errorText: modelError,
+                      counterText: '',
+                      hintText: translate('carModelHint'),
+                      labelText: translate('carModel'),
+                      prefixIcon: const Icon(Icons.car_rental_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 7.5),
+
+                Expanded(
+                  child: TextField(
+                    controller: yearController,
+                    keyboardType: const TextInputType.numberWithOptions(signed: true),
+                    enabled: !isLoading,
+                    maxLength: 4,
+                    decoration: InputDecoration(
+                      errorText: yearError,
+                      counterText: '',
+                      hintText: translate('carYearHint'),
+                      labelText: translate('carYear'),
+                      errorMaxLines: 4,
+                      suffixIcon: const Icon(Icons.calendar_month),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                )
+
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+
+}

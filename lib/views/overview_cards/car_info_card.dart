@@ -6,10 +6,12 @@ import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/classes/fuel_fill_record.dart';
 import '../../services/classes/service.dart';
 import '../../services/locale_string_converter.dart';
+import '../shared/cards/loading_data_card.dart';
 import '../shared/status_card.dart';
 
 class CarInfoCard extends StatefulWidget {
@@ -27,24 +29,20 @@ class _CarInfoCardState extends State<CarInfoCard> {
   int? mostRecentTotalKilometers;
 
   @override
-  void initState() {
-    super.initState();
-    initialize();
-  }
+  Widget build(BuildContext context) => Consumer2<FuelFillRecordManager, ServiceManager>(
+    builder: (context, fuelManager, serviceManager, _) {
+      if (fuelManager.local == null || serviceManager.local == null) {
+        return const LoadingDataCard();
+      }
 
-  initialize() {
-    final car = CarManager().car;
-    final lastService = ServiceManager().local.firstOrNull;
-    final lastRecord = FuelFillRecordManager().local.firstOrNull;
-    final mostRecentTotalKilometers = Car.getMostRecentTotalKilometers();
+      car = CarManager().watchingCar;
+      lastService = ServiceManager().local?.firstOrNull;
+      lastRecord = FuelFillRecordManager().local?.firstOrNull;
+      mostRecentTotalKilometers = Car.getMostRecentTotalKilometers();
 
-    setState(() {
-      this.car = car;
-      this.lastService = lastService;
-      this.lastRecord = lastRecord;
-      this.mostRecentTotalKilometers = mostRecentTotalKilometers;
-    });
-  }
+      return normalBody();
+    },
+  );
 
   Widget normalBody() => SizedBox(
       width: MediaQuery.sizeOf(context).width,
@@ -84,7 +82,27 @@ class _CarInfoCardState extends State<CarInfoCard> {
                     )),
 
               ],
+
               ),
+
+                    // info with the user owner
+                    if (!car!.isOwned())
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.person, size: 25),
+                          const SizedBox(width: 10),
+                          Text(car!.ownerUsername.toString())
+                        ],
+                      ),
+
+                    Row(
+                      children: [
+                        const Icon(Icons.directions_car, size: 25),
+                        const SizedBox(width: 10),
+                        Text(car!.username),
+                      ],
+                    ),
 
                     // fields that show if the car is ok
                     // will be added at a later date
@@ -150,9 +168,6 @@ class _CarInfoCardState extends State<CarInfoCard> {
           )
       ),
   );
-
-  @override
-  Widget build(BuildContext context) => normalBody();
 
   bool _canServiceBeDisplayed(Service? service) {
     if (service == null) return false;
