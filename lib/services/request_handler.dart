@@ -57,8 +57,6 @@ class RequestHandler {
       throw UnauthorizedException();
     }
 
-    print(response.body);
-
     return response;
   }
 
