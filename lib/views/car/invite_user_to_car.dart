@@ -35,14 +35,6 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(translate('inviteUserToCarAppBar')),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
-              },
-              icon: const Icon(Icons.settings)
-          ),
-        ],
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
