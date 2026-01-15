@@ -58,5 +58,5 @@ class DataHolder {
   }
 
   // TODO: Stop using this logic here. This will be migrated to the API.
-  String getPlacesApiKey() => const String.fromEnvironment("BENZINAPP_PLACES_KEY");
+  String getPlacesApiKey() => "AIzaSyC27rZCw8dDWAnJR73mIaVDKJP6nP4T50o";
 }
