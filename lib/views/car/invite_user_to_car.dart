@@ -108,6 +108,9 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                       _usernameEmpty = value.isEmpty;
                     });
                   },
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
