@@ -85,7 +85,7 @@ class _TripFormState extends State<TripForm> {
     if (widget.trip == null) {
       var newTrip = Trip(
           id: -1, title: _titleController.text,
-          timesRepeating: int.parse(_titleController.text),
+          timesRepeating: int.parse(_timesRepeatingController.text),
           totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
           originLatitude: originLatitude!, originLongitude: originLongitude!,
           destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
