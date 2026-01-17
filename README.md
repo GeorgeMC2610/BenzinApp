@@ -1,4 +1,4 @@
-# BenzinApp (README UNDER CONSTRUCTION)
+# BenzinApp
 BenzinApp's official repository for the **X-Platform Mobile App** version, written in Dart using Flutter. Development starts and ends here! Anything related to the app will be found in this very repository! Read about the app below, for more info!
 
 ## Getting Started
@@ -41,12 +41,24 @@ Once you've successfully registered and confirmed your account, share your usern
 ## Data Input
 
 ### Fuel Fills
+Log every fuel refill, including date, quantity, cost, and mileage. This helps track fuel consumption, expenses, and efficiency over time. You'll be asked to input:
+- The mileage the car has since the last time you topped up
+- The **total** mileage the car has at the moment (optional, helps with calculating the metric above more accurately)
+- The cost of the fuel
+- The amount of liters you topped up
+After that, you may see your data being immediately calculated, about this specific fuel fill
 
 ### Malfunctions
+Record vehicle issues or breakdowns as they occur. This section helps users monitor recurring problems and maintain a history of reported malfunctions.
 
 ### Services
+Track maintenance and service activities such as oil changes, inspections, or repairs. Keeping this information up to date helps ensure vehicle reliability and timely servicing. You can also track:
+- When the next one will be (mileage)
+- How much mileage the car has left before the next service
+- What happened in this specific service
 
 ### Trips
+Log individual trips with relevant details such as **distance**, **places**, and **purpose**. This section supports travel history tracking and usage analysis. You'll be **prompted to select locations in Google Maps, ** by entering the address or by long-pressing on the map.
 
 ## Feedback
 I'd love to hear feedback from anybody that uses the App. Anything you like/don't like, or perhaps something you'd love to see in the future. Head to the [discussions page](https://github.com/GeorgeMC2610/BenzinApp/discussions/85) and leave a comment!
