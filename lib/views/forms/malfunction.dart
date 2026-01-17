@@ -255,6 +255,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.number,
                       onEditingComplete: () async {
                         setState(() {
@@ -282,6 +285,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   Expanded(
                     flex: 3,
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () async {
@@ -311,6 +317,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () async {
                   setState(() {
@@ -481,6 +490,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
 
         TextField(
+          onTapOutside: (value) {
+            FocusScope.of(context).unfocus();
+          },
           keyboardType: TextInputType.number,
           controller: costController,
           onEditingComplete: () async {
