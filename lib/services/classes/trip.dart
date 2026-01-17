@@ -1,6 +1,4 @@
 import 'package:benzinapp/services/classes/car.dart';
-import 'package:benzinapp/services/data_holder.dart';
-import 'package:benzinapp/services/managers/car_manager.dart';
 
 class Trip {
   Trip({
