@@ -58,7 +58,7 @@ Track maintenance and service activities such as oil changes, inspections, or re
 - What happened in this specific service
 
 ### Trips
-Log individual trips with relevant details such as **distance**, **places**, and **purpose**. This section supports travel history tracking and usage analysis. You'll be **prompted to select locations in Google Maps, ** by entering the address or by long-pressing on the map.
+Log individual trips with relevant details such as **distance**, **places**, and **purpose**. This section supports travel history tracking and usage analysis. You'll be **prompted to select locations in Google Maps,** by entering the address or by long-pressing on the map.
 
 ## Feedback
 I'd love to hear feedback from anybody that uses the App. Anything you like/don't like, or perhaps something you'd love to see in the future. Head to the [discussions page](https://github.com/GeorgeMC2610/BenzinApp/discussions/85) and leave a comment!
