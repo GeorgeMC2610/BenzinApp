@@ -53,6 +53,7 @@ class Trip {
 
   /// Convert to JSON using keys from TripManager
   Map<String, dynamic> toJson() => {
+    TripFields.title: title,
     TripFields.timesRepeating: timesRepeating,
     TripFields.totalKm: totalKm,
     TripFields.originLatitude: originLatitude,
