@@ -282,7 +282,8 @@
   "uncheckingTheBox": "Warning! By unchecking the box, you will mark this functions as ongoing.",
   "selectLocation": "Select location...",
 
-  "pleaseEnterFuelFills": "Trips rely on your data! Please enter at least three fuel fills.",
+  "pleaseEnterFuelFills": "Trips rely on your data!",
+  "atlEastThreeFuelFills": "Please enter at least 3 fuel fills to see the cost and consumption of your trips.",
   "tripData": "Trip Data",
   "tripName": "Title:",
   "weeklyOccurrence": "Weekly Occurrence:",
