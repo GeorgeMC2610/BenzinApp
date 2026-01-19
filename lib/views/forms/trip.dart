@@ -85,7 +85,7 @@ class _TripFormState extends State<TripForm> {
     if (widget.trip == null) {
       var newTrip = Trip(
           id: -1, title: _titleController.text,
-          timesRepeating: int.parse(_titleController.text),
+          timesRepeating: int.parse(_timesRepeatingController.text),
           totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
           originLatitude: originLatitude!, originLongitude: originLongitude!,
           destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
@@ -187,6 +187,9 @@ class _TripFormState extends State<TripForm> {
               ),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 controller: _titleController,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
@@ -218,6 +221,9 @@ class _TripFormState extends State<TripForm> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _timesRepeatingController,
                       keyboardType: TextInputType.number,
                       onEditingComplete: () {
@@ -402,4 +408,3 @@ class _TripFormState extends State<TripForm> {
     return null;
   }
 }
-

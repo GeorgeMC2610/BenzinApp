@@ -199,6 +199,9 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () {
@@ -229,6 +232,9 @@ class _ServiceFormState extends State<ServiceForm> {
                 children: [
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () {
@@ -255,6 +261,9 @@ class _ServiceFormState extends State<ServiceForm> {
 
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: costController,
                       onEditingComplete: () {
                         setState(() {
@@ -415,6 +424,9 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {
