@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/malfunction_manager.dart';
+import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
 
 class MalfunctionCard extends StatefulWidget {
@@ -52,6 +53,22 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           _getStatus(),
           _getSeverity(),
           Text("${translate('discoveredAt')} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
+          if (widget.malfunction.createdByUsername != null && widget.malfunction.createdByUsername != UserManager().currentUser!.username)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.person,
+                  size: 14,
+                  color: Colors.blueGrey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  widget.malfunction.createdByUsername!,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       ),
     );

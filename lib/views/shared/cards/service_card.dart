@@ -9,6 +9,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
+import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
 
 class ServiceCard extends StatefulWidget {
@@ -52,6 +53,22 @@ class _ServiceCardState extends State<ServiceCard> {
           Text(widget.service.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, widget.service.cost!)}", style: const TextStyle(fontSize: 16)),
           Text(widget.service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 15)),
           Text("${translate('nextAtKm')} ${getNextServiceInfo()}", style: const TextStyle(fontSize: 12)),
+          if (widget.service.createdByUsername != null && widget.service.createdByUsername != UserManager().currentUser!.username)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.person,
+                  size: 14,
+                  color: Colors.blueGrey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  widget.service.createdByUsername!,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       ),
     );

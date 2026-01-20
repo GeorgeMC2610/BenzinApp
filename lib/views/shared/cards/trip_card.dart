@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import '../../../services/managers/trip_manager.dart';
+import '../../../services/managers/user_manager.dart';
 import '../buttons/card_edit_delete_buttons.dart';
 import '../dialogs/delete_dialog.dart';
 
@@ -113,7 +114,23 @@ class _TripCardState extends State<TripCard> {
             ],
           ),
 
-          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
+          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+          if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.person,
+                  size: 14,
+                  color: Colors.blueGrey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  widget.trip.createdByUsername!,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       );
     }
@@ -169,7 +186,23 @@ class _TripCardState extends State<TripCard> {
           ],
         ),
 
-        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
+        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+        if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.person,
+                size: 14,
+                color: Colors.blueGrey,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                widget.trip.createdByUsername!,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
       ],
     );
   }
