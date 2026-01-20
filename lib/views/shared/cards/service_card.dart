@@ -43,7 +43,7 @@ class _ServiceCardState extends State<ServiceCard> {
       ),
       trailing: CardEditDeleteButtons(
         onEditButtonPressed: edit,
-        onDeleteButtonPressed: edit,
+        onDeleteButtonPressed: delete,
       ),
 
       // SERVICE DATA
