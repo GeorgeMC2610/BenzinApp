@@ -219,7 +219,7 @@ class _TripCardState extends State<TripCard> {
   delete() {
     DeleteDialog.show(
         context,
-        'Delete Trip',
+        translate('deleteTrip'),
             (Function(bool) setLoadingState) async {
 
           await TripManager().delete(widget.trip);
