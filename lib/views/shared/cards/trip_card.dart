@@ -22,20 +22,22 @@ class TripCard extends StatefulWidget {
 
 class _TripCardState extends State<TripCard> {
 
-  double? totalTravelCost, averageTripCost, averageTripConsumption;
+  double totalTravelCost = Car.getTotalTravelCost();
+
+  late double averageTripCost;
+  late double averageTripConsumption;
+
+  late double repeatingAverageTripCost;
+  late double repeatingAverageTripConsumption;
 
   @override
   void initState() {
     super.initState();
-    initialize();
-  }
+    averageTripCost = widget.trip.getAverageTripCost(true);
+    averageTripConsumption = widget.trip.getAverageTripConsumption(true);
 
-  initialize() {
-    setState(() {
-      totalTravelCost = Car.getTotalTravelCost();
-      averageTripConsumption = widget.trip.getAverageTripConsumption(false);
-      averageTripCost = widget.trip.getAverageTripConsumption(false);
-    });
+    repeatingAverageTripCost = widget.trip.getAverageTripCost(false);
+    repeatingAverageTripConsumption = widget.trip.getAverageTripConsumption(false);
   }
 
   @override
@@ -93,11 +95,8 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.coins, size: 18,),
               const SizedBox(width: 5),
-              Text( totalTravelCost == null ? '-' : " €${
-                  LocaleStringConverter.formattedDouble(context,
-                      widget.trip.totalKm * totalTravelCost!
-                  )
-              }", style: const TextStyle(
+              Text(" €${LocaleStringConverter.formattedDouble(context, widget.trip.totalKm * totalTravelCost)}",
+                style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
               )),
@@ -137,7 +136,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText(averageTripCost == null ? '-' : " €${LocaleStringConverter.formattedDouble(context, averageTripCost!)
+            AutoSizeText("€${LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost)
                 } ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
@@ -150,8 +149,8 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText( averageTripConsumption == null ? '-' : " ${
-                LocaleStringConverter.formattedDouble(context, averageTripConsumption!)
+            AutoSizeText(" ${
+                LocaleStringConverter.formattedDouble(context, repeatingAverageTripConsumption)
             } lt. ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
