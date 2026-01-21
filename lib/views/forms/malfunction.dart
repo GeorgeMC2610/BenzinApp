@@ -502,7 +502,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           onTapOutside: (value) {
             FocusScope.of(context).unfocus();
           },
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
           controller: costController,
           onEditingComplete: () async {
             setState(() {

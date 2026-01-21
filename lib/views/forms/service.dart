@@ -280,7 +280,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           costError = _validator(costController.text);
                         });
                       },
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
