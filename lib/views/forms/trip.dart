@@ -99,6 +99,11 @@ class _TripFormState extends State<TripForm> {
       setState(() {
         _isLoading = false;
       });
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedTrip'),
+      );
       Navigator.pop(context);
     }
     else {
@@ -125,6 +130,11 @@ class _TripFormState extends State<TripForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedTrip'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.trip);

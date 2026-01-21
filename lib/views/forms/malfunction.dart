@@ -92,6 +92,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         return;
       }
 
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedMalfunction'),
+      );
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -129,6 +133,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedMalfunction'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.malfunction!);
