@@ -234,7 +234,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('addMalfunction')), // TODO: Change to be edit.
+        title: Text(widget.malfunction == null ? translate('addMalfunction') : translate('editMalfunction')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
