@@ -11,6 +11,7 @@ import '../../../services/managers/trip_manager.dart';
 import '../../../services/managers/user_manager.dart';
 import '../buttons/card_edit_delete_buttons.dart';
 import '../dialogs/delete_dialog.dart';
+import '../notification.dart';
 
 class TripCard extends StatefulWidget {
   const TripCard({super.key, required this.trip});
@@ -223,6 +224,10 @@ class _TripCardState extends State<TripCard> {
             (Function(bool) setLoadingState) async {
 
           await TripManager().delete(widget.trip);
+          SnackbarNotification.show(
+            MessageType.info,
+            translate('successfullyDeletedTrip'),
+          );
           setLoadingState(true);
         }
     );

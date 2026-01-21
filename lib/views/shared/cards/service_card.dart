@@ -6,12 +6,12 @@ import 'package:benzinapp/views/forms/service.dart';
 import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
+import '../notification.dart';
 
 class ServiceCard extends StatefulWidget {
   const ServiceCard({super.key, required this.service});
@@ -125,6 +125,10 @@ class _ServiceCardState extends State<ServiceCard> {
             (Function(bool) setLoadingState) async {
 
           await ServiceManager().delete(widget.service);
+          SnackbarNotification.show(
+            MessageType.info,
+            translate('successfullyDeletedService'),
+          );
           setLoadingState(true);
         }
     );

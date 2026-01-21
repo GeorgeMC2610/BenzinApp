@@ -10,6 +10,7 @@ import '../../../services/language_provider.dart';
 import '../../../services/managers/malfunction_manager.dart';
 import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
+import '../notification.dart';
 
 class MalfunctionCard extends StatefulWidget {
   const MalfunctionCard({super.key, required this.malfunction});
@@ -90,6 +91,10 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
             (Function(bool) setLoadingState) async {
 
           await MalfunctionManager().delete(widget.malfunction);
+          SnackbarNotification.show(
+            MessageType.info,
+            translate('successfullyDeletedMalfunction'),
+          );
           setLoadingState(true);
         }
     );
