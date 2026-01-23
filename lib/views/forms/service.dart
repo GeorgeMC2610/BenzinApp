@@ -112,6 +112,11 @@ class _ServiceFormState extends State<ServiceForm> {
         return;
       }
 
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedService'),
+      );
+
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -137,6 +142,11 @@ class _ServiceFormState extends State<ServiceForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedService'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.service!);
@@ -199,6 +209,9 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () {
@@ -229,6 +242,9 @@ class _ServiceFormState extends State<ServiceForm> {
                 children: [
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () {
@@ -255,13 +271,16 @@ class _ServiceFormState extends State<ServiceForm> {
 
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: costController,
                       onEditingComplete: () {
                         setState(() {
                           costError = _validator(costController.text);
                         });
                       },
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       decoration: InputDecoration(
@@ -415,6 +434,9 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () {

@@ -200,6 +200,9 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                       onChanged: (value) {
                         setState(() {});
                       },
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
@@ -225,6 +228,9 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     TextField(
                       enabled: !_isSending,
                       controller: _carNameController,
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       onChanged: (value) {
                         setState(() {});
                       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppInformation extends StatefulWidget {
@@ -27,7 +28,7 @@ class _AppInformationState extends State<AppInformation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("App Information")
+        title: Text(translate('appInformation'))
       ),
       body: SingleChildScrollView(
         child: Padding(

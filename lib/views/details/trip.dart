@@ -360,7 +360,7 @@ class _ViewTripState extends State<ViewTrip> {
                             const SizedBox(height: 10),
 
                             averageRepeatingTripCost == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!)} lt. '
+                                '€${LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!)} '
                                     '${translate('perWeek')}',
                                 style: mainDescription(Colors.grey)
                             ),
@@ -373,7 +373,7 @@ class _ViewTripState extends State<ViewTrip> {
                             const SizedBox(height: 10),
 
                             worstRepeatingTripCost == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!)} lt. '
+                                '€${LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!)} '
                                     '${translate('perWeek')}',
                                 style: mainDescription(Colors.redAccent)
                             ),

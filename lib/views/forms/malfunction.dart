@@ -92,6 +92,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         return;
       }
 
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedMalfunction'),
+      );
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -129,6 +133,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedMalfunction'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.malfunction!);
@@ -225,7 +234,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('addMalfunction')), // TODO: Change to be edit.
+        title: Text(widget.malfunction == null ? translate('addMalfunction') : translate('editMalfunction')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -255,6 +264,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.number,
                       onEditingComplete: () async {
                         setState(() {
@@ -282,6 +294,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   Expanded(
                     flex: 3,
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () async {
@@ -311,6 +326,9 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 keyboardType: TextInputType.multiline,
                 onEditingComplete: () async {
                   setState(() {
@@ -481,7 +499,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
 
         TextField(
-          keyboardType: TextInputType.number,
+          onTapOutside: (value) {
+            FocusScope.of(context).unfocus();
+          },
+          keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
           controller: costController,
           onEditingComplete: () async {
             setState(() {

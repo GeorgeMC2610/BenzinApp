@@ -35,7 +35,7 @@ class _TripsFragmentState extends State<TripsFragment> {
             const SizedBox(height: 40),
             Center(
               child: AutoSizeText(
-                translate('pleaseEnterFuelFills'),
+                translate('noTrips'),
                 maxLines: 3,
                 textAlign: TextAlign.center,
                 style:
@@ -46,26 +46,33 @@ class _TripsFragmentState extends State<TripsFragment> {
         ),
       );
 
-  // TODO: Add special SVG for this!
   Widget notEnoughFuelFillsBody() => Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'lib/assets/svg/no_trips.svg',
-              semanticsLabel: 'No Trips!',
-              width: 200,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.gas_meter_outlined, size: 150,),
+          AutoSizeText(
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            translate('pleaseEnterFuelFills'),
+            style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold
             ),
-            const SizedBox(height: 40),
-            AutoSizeText(
-              translate('noFuelFillRecords'),
-              maxLines: 1,
-              style: const TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-      );
+          ),
+          AutoSizeText(
+            translate('atlEastThreeFuelFills'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
+          )
+        ],
+      )
+    ),
+  );
 
   Widget tripsBody() => RefreshIndicator(
     onRefresh: () => refreshTrips(),
@@ -100,18 +107,18 @@ class _TripsFragmentState extends State<TripsFragment> {
   );
 
   Widget buildBody() {
-    return Consumer<TripManager>(
-      builder: (context, manager, _) {
-        if (manager.local == null) {
+    return Consumer2<TripManager, FuelFillRecordManager>(
+      builder: (context, tripManager, fuelManager, _) {
+        if (tripManager.local == null || fuelManager.local == null) {
           return loadingBody();
         }
 
-        if (manager.local!.length < 2) {
-          return notEnoughFuelFillsBody();
+        if (tripManager.local!.isEmpty) {
+          return noTripsBody();
         }
 
-        if (manager.local!.isEmpty) {
-          return noTripsBody();
+        if (fuelManager.local!.length < 2) {
+          return notEnoughFuelFillsBody();
         }
 
         return tripsBody();

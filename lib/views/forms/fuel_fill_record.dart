@@ -100,6 +100,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 children: [
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _mileageController,
                       focusNode: _mileageFocusNode,
                       textInputAction: TextInputAction.next,
@@ -127,7 +130,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                         });
                       },
                       enabled: !_isLoading,
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
                         labelText: '${translate('mileage')} *',
@@ -146,6 +149,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _totalMileageController,
                       textInputAction: TextInputAction.next,
                       focusNode: _totalMileageFocusNode,
@@ -195,6 +201,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.475,
                 child: TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
                   controller: _costController,
                   focusNode: _costFocusNode,
                   textInputAction: TextInputAction.next,
@@ -205,7 +214,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     });
                   },
                   enabled: !_isLoading,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   decoration: InputDecoration(
                     hintText: translate('costHint'),
                     labelText: '${translate('cost2')} *',
@@ -223,6 +232,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               SizedBox(
                   width: MediaQuery.of(context).size.width * 0.475,
                   child: TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
                   controller: _literController,
                   focusNode: _literFocusNode,
                   textInputAction: TextInputAction.next,
@@ -232,7 +244,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     });
                   },
                   enabled: !_isLoading,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   decoration: InputDecoration(
                     hintText: translate('litersHint'),
                     labelText: '${translate('liters2')} *',
@@ -320,6 +332,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 children: [
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _fuelTypeController,
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
@@ -343,6 +358,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
                   Expanded(
                     child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: _stationController,
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
@@ -368,6 +386,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 15),
 
               TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
                 keyboardType: TextInputType.multiline,
                 enabled: !_isLoading,
                 controller: _commentsController,
