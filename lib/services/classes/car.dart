@@ -14,7 +14,7 @@ class Car {
     required this.manufacturer,
     required this.model,
     required this.year,
-    this.currency = 'USD',
+    required this.currency,
     required this.isShared,
     required this.createdAt,
     required this.updatedAt,
@@ -38,6 +38,7 @@ class Car {
     manufacturer: object[CarFields.manufacturer],
     model: object[CarFields.model],
     year: object[CarFields.year],
+    currency: object[CarFields.currency] ?? '€',
     isShared: object[CarFields.isShared] ?? false,
     createdAt: DateTime.parse(object[CarFields.createdAt]),
     updatedAt: DateTime.parse(object[CarFields.createdAt]),
@@ -47,7 +48,8 @@ class Car {
     CarFields.manufacturer: manufacturer,
     CarFields.username: username,
     CarFields.model: model,
-    CarFields.year: year
+    CarFields.year: year,
+    CarFields.currency: currency,
   };
 
   bool isOwned() {
@@ -219,6 +221,7 @@ class CarFields {
   static const String manufacturer = "manufacturer";
   static const String model = "model";
   static const String year = "year";
+  static const String currency = "currency";
   static const String ownerUsername = "owner_username";
   static const String createdAt = "created_at";
   static const String updatedAt = "updated_at";
