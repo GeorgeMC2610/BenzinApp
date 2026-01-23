@@ -14,7 +14,7 @@ class Car {
     required this.manufacturer,
     required this.model,
     required this.year,
-    this.currency = '€',
+    this.currency = 'USD',
     required this.isShared,
     required this.createdAt,
     required this.updatedAt,
@@ -52,6 +52,13 @@ class Car {
 
   bool isOwned() {
     return UserManager().currentUser!.username == ownerUsername;
+  }
+
+  String toCurrency(String value) {
+    if (currency.length == 1) {
+      return currency + value;
+    }
+    return '$value $currency';
   }
 
   /// Total Consumption (Liters / 100 km)
