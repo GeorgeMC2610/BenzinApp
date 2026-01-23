@@ -112,6 +112,11 @@ class _ServiceFormState extends State<ServiceForm> {
         return;
       }
 
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedService'),
+      );
+
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -137,6 +142,11 @@ class _ServiceFormState extends State<ServiceForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedService'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.service!);
@@ -270,7 +280,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           costError = _validator(costController.text);
                         });
                       },
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       textInputAction: TextInputAction.next,
                       enabled: !_isLoading,
                       decoration: InputDecoration(

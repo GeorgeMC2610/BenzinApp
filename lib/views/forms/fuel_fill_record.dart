@@ -130,7 +130,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                         });
                       },
                       enabled: !_isLoading,
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       decoration: InputDecoration(
                         hintText: translate('inKmHint'),
                         labelText: '${translate('mileage')} *',
@@ -214,7 +214,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     });
                   },
                   enabled: !_isLoading,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   decoration: InputDecoration(
                     hintText: translate('costHint'),
                     labelText: '${translate('cost2')} *',
@@ -244,7 +244,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                     });
                   },
                   enabled: !_isLoading,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   decoration: InputDecoration(
                     hintText: translate('litersHint'),
                     labelText: '${translate('liters2')} *',

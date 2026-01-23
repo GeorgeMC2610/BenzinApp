@@ -503,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-RC2";
+				MARKETING_VERSION = "1.0.0-RC4";
 				PRODUCT_BUNDLE_IDENTIFIER = com.georgemc2610.benzinapp.xplatform.benzinapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -718,7 +718,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-RC2";
+				MARKETING_VERSION = "1.0.0-RC4";
 				PRODUCT_BUNDLE_IDENTIFIER = com.georgemc2610.benzinapp.xplatform.benzinapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -751,7 +751,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-RC2";
+				MARKETING_VERSION = "1.0.0-RC4";
 				PRODUCT_BUNDLE_IDENTIFIER = com.georgemc2610.benzinapp.xplatform.benzinapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -14,7 +14,7 @@ android {
 
     namespace = "com.georgemc2610.benzinapp.xplatform.benzinapp"
     compileSdk = 36
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "29.0.13113456"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -29,7 +29,7 @@ android {
         applicationId = "com.georgemc2610.benzinapp.xplatform.benzinapp"
         minSdk = 21
         targetSdk = 36
-        versionCode = 5
+        versionCode = 6
         versionName = flutter.versionName
     }
 

@@ -92,6 +92,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         return;
       }
 
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyAddedMalfunction'),
+      );
       Navigator.pop(context);
       Navigator.pop(context);
     }
@@ -129,6 +133,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         _handleErrors(manager);
         return;
       }
+
+      SnackbarNotification.show(
+        MessageType.success,
+        translate('successfullyUpdatedMalfunction'),
+      );
 
       if (widget.isViewing) {
         Navigator.pop(context, widget.malfunction!);
@@ -225,7 +234,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('addMalfunction')), // TODO: Change to be edit.
+        title: Text(widget.malfunction == null ? translate('addMalfunction') : translate('editMalfunction')),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -493,7 +502,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           onTapOutside: (value) {
             FocusScope.of(context).unfocus();
           },
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
           controller: costController,
           onEditingComplete: () async {
             setState(() {

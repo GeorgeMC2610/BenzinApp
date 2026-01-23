@@ -15,6 +15,8 @@ class Trip {
     required this.originAddress,
     required this.destinationAddress,
     required this.polyline,
+
+    this.createdByUsername
   });
 
   final int id;
@@ -30,6 +32,8 @@ class Trip {
   String originAddress;
   String destinationAddress;
   String polyline;
+
+  String? createdByUsername;
 
   static Trip fromJson(Map<String, dynamic> object) => Trip(
     id: object[TripFields.id],
@@ -47,6 +51,7 @@ class Trip {
     originAddress: object[TripFields.originAddress],
     destinationAddress: object[TripFields.destinationAddress],
     polyline: object[TripFields.polyline],
+    createdByUsername: object[TripFields.createdByUsername]
   );
 
   /// Convert to JSON using keys from TripManager
@@ -136,4 +141,5 @@ class TripFields {
   static const String originAddress = 'origin_address';
   static const String destinationAddress = 'destination_address';
   static const String polyline = 'polyline';
+  static const String createdByUsername = 'created_by_username';
 }
