@@ -5,8 +5,6 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import '../../services/data_holder.dart';
-import '../../services/request_handler.dart';
 import '../forms/malfunction.dart';
 import '../maps/view_trip.dart';
 import '../shared/dialogs/delete_dialog.dart';
