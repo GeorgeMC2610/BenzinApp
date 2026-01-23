@@ -3,6 +3,7 @@ import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dar
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/classes/car.dart';
 import '../shared/notification.dart';
@@ -22,8 +23,9 @@ class _CarFormState extends State<CarForm> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController modelController = TextEditingController();
   final TextEditingController yearController = TextEditingController();
+  final TextEditingController currencyController = TextEditingController();
 
-  String? usernameError, manufacturerError, modelError, yearError;
+  String? usernameError, manufacturerError, modelError, yearError, currencyError;
   bool isLoading = false;
 
   _sendCarEditPayload() async {
@@ -32,8 +34,17 @@ class _CarFormState extends State<CarForm> {
       modelError = null;
       yearError = null;
       usernameError = null;
+      currencyError = null;
 
       manufacturerError = manufacturerController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      usernameError = usernameController.text.isEmpty?
+      translate('cannotBeEmpty') :
+      null;
+
+      currencyError = currencyController.text.isEmpty?
       translate('cannotBeEmpty') :
       null;
 
@@ -50,7 +61,7 @@ class _CarFormState extends State<CarForm> {
       null;
     });
 
-    if (manufacturerError != null || modelError != null || yearError != null) {
+    if (manufacturerError != null || modelError != null || yearError != null || currencyError != null) {
       return;
     }
 
@@ -65,6 +76,7 @@ class _CarFormState extends State<CarForm> {
           id: -1, username: usernameController.text, ownerUsername: '',
           manufacturer: manufacturerController.text, model: modelController.text,
           year: int.parse(yearController.text), isShared: false,
+          currency: currencyController.text,
           createdAt: DateTime.now(), updatedAt: DateTime.now()
       );
 
@@ -76,6 +88,7 @@ class _CarFormState extends State<CarForm> {
       widget.car!.manufacturer = manufacturerController.text;
       widget.car!.model = modelController.text;
       widget.car!.year = int.parse(yearController.text);
+      widget.car!.currency = currencyController.text;
 
       await CarManager().update(widget.car!);
       successMessage = translate('successfullyUpdatedCar');
@@ -117,6 +130,7 @@ class _CarFormState extends State<CarForm> {
       usernameController.text = widget.car!.username;
       manufacturerController.text = widget.car!.manufacturer;
       yearController.text = widget.car!.year.toString();
+      currencyController.text = widget.car!.currency;
     }
   }
 
@@ -263,6 +277,33 @@ class _CarFormState extends State<CarForm> {
                     ),
                   ),
                 )
+
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  child: TextField(
+                    controller: currencyController,
+                    textInputAction: TextInputAction.next,
+                    enabled: !isLoading,
+                    maxLength: 3,
+                    decoration: InputDecoration(
+                      errorText: currencyError,
+                      hintText: translate('carCurrencyHint'),
+                      labelText: translate('carCurrency'),
+                      prefixIcon: const Icon(FontAwesomeIcons.coins, size: 17),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+
 
               ],
             ),
