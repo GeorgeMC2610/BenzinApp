@@ -38,7 +38,7 @@ class Car {
     manufacturer: object[CarFields.manufacturer],
     model: object[CarFields.model],
     year: object[CarFields.year],
-    currency: object[CarFields.currency] ?? '€',
+    currency: object[CarFields.currency],
     isShared: object[CarFields.isShared] ?? false,
     createdAt: DateTime.parse(object[CarFields.createdAt]),
     updatedAt: DateTime.parse(object[CarFields.createdAt]),
