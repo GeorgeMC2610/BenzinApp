@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -121,7 +122,7 @@ class FuelTrendLineChart extends StatelessWidget {
       case ChartDisplayFocus.efficiency:
         return 'km/lt';
       case ChartDisplayFocus.travelCost:
-        return '€/km';
+        return '${CarManager().watchingCar!.currency}/km';
     }
   }
 }

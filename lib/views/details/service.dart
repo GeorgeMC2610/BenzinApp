@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,7 @@ class _ViewServiceState extends State<ViewService> {
 
                         Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
                         Text(
-                            '€${LocaleStringConverter.formattedDouble(context, service.cost!)}',
+                            CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, service.cost!)),
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
                       ],

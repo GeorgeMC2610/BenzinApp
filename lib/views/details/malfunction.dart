@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -235,7 +236,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
                         Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
                         Text(
-                            malfunction.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, malfunction.cost!)}",
+                            malfunction.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunction.cost!)),
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
                       ],
