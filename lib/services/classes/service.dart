@@ -11,7 +11,8 @@ class Service {
 
     this.nextServiceDate,
     this.nextServiceKilometers,
-    this.location
+    this.location,
+    this.createdByUsername
   });
 
   final int id;
@@ -23,6 +24,7 @@ class Service {
   DateTime? nextServiceDate;
   int? nextServiceKilometers;
   String? location;
+  String? createdByUsername;
 
   static Service fromJson(Map<String, dynamic> object) => Service(
     id: object[ServiceFields.id],
@@ -32,6 +34,7 @@ class Service {
     kilometersDone: object[ServiceFields.atKm],
     nextServiceDate: DateTime.tryParse(object[ServiceFields.nextAtDate] ?? ''),
     nextServiceKilometers: object[ServiceFields.nextKm],
+    createdByUsername: object[ServiceFields.createdByUsername],
     location: ['null', ''].any((test) => test == object[ServiceFields.location]) ? null : object[ServiceFields.location],
   );
 
@@ -80,4 +83,5 @@ class ServiceFields {
   static const String nextAtDate = "next_at_date";
   static const String nextKm = "next_km";
   static const String location = "location";
+  static const String createdByUsername = 'created_by_username';
 }

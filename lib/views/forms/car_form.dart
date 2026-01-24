@@ -193,6 +193,9 @@ class _CarFormState extends State<CarForm> {
             const SizedBox(height: 10),
 
             TextField(
+              onTapOutside: (value) {
+                FocusScope.of(context).unfocus();
+              },
               controller: usernameController,
               keyboardType: TextInputType.text,
               enabled: !isLoading,
@@ -214,6 +217,9 @@ class _CarFormState extends State<CarForm> {
             const SizedBox(height: 20),
 
             TextField(
+              onTapOutside: (value) {
+                FocusScope.of(context).unfocus();
+              },
               controller: manufacturerController,
               keyboardType: TextInputType.text,
               enabled: !isLoading,
@@ -239,6 +245,9 @@ class _CarFormState extends State<CarForm> {
               children: [
                 Expanded(
                   child: TextField(
+                    onTapOutside: (value) {
+                      FocusScope.of(context).unfocus();
+                    },
                     controller: modelController,
                     textInputAction: TextInputAction.next,
                     enabled: !isLoading,
@@ -260,6 +269,9 @@ class _CarFormState extends State<CarForm> {
 
                 Expanded(
                   child: TextField(
+                    onTapOutside: (value) {
+                      FocusScope.of(context).unfocus();
+                    },
                     controller: yearController,
                     keyboardType: const TextInputType.numberWithOptions(signed: true),
                     enabled: !isLoading,

@@ -10,7 +10,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
+import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
+import '../notification.dart';
 
 class ServiceCard extends StatefulWidget {
   const ServiceCard({super.key, required this.service});
@@ -43,7 +45,7 @@ class _ServiceCardState extends State<ServiceCard> {
       ),
       trailing: CardEditDeleteButtons(
         onEditButtonPressed: edit,
-        onDeleteButtonPressed: edit,
+        onDeleteButtonPressed: delete,
       ),
 
       // SERVICE DATA
@@ -52,7 +54,57 @@ class _ServiceCardState extends State<ServiceCard> {
         children: [
           Text(widget.service.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, widget.service.cost!)), style: const TextStyle(fontSize: 16)),
           Text(widget.service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 15)),
-          Text("${translate('nextAtKm')} ${getNextServiceInfo()}", style: const TextStyle(fontSize: 12)),
+
+          if (widget.service.nextServiceKilometers != null && widget.service.nextServiceDate != null)
+            Column(
+              children: [
+                const SizedBox(height: 5),
+
+                Text(
+                  translate("nextAtKm"),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ],
+            ),
+
+          if (widget.service.nextServiceKilometers != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.speed, size: 17,),
+              const SizedBox(width: 5),
+              Text("${translate('at')} ${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km")
+            ],
+          ),
+
+          if (widget.service.nextServiceDate != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.date_range, size: 17,),
+              const SizedBox(width: 5),
+              Text("${translate('before')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}")
+            ],
+          ),
+
+          if (widget.service.createdByUsername != null && widget.service.createdByUsername != UserManager().currentUser!.username)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.person,
+                  size: 14,
+                  color: Colors.blueGrey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  widget.service.createdByUsername!,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -74,26 +126,12 @@ class _ServiceCardState extends State<ServiceCard> {
             (Function(bool) setLoadingState) async {
 
           await ServiceManager().delete(widget.service);
+          SnackbarNotification.show(
+            MessageType.info,
+            translate('successfullyDeletedService'),
+          );
           setLoadingState(true);
         }
     );
   }
-
-  String getNextServiceInfo() {
-    if (widget.service.nextServiceKilometers == null && widget.service.nextServiceDate == null) return '-';
-
-    if (widget.service.nextServiceKilometers == null) {
-      return '${translate('before')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
-    }
-
-    if (widget.service.nextServiceDate == null) {
-      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km';
-    }
-
-    return '${translate('at')} '
-        '${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km '
-        '${translate('orBefore')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}';
-
-  }
-
 }

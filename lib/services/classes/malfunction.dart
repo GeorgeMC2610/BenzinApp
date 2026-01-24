@@ -13,6 +13,7 @@ class Malfunction {
     this.dateEnded,
     this.cost,
     this.location,
+    this.createdByUsername,
   });
 
   final int id;
@@ -25,6 +26,7 @@ class Malfunction {
   DateTime? dateEnded;
   double? cost;
   String? location;
+  String? createdByUsername;
 
   static Malfunction fromJson(Map<String, dynamic> object) => Malfunction(
     id: object[MalfunctionFields.id],
@@ -35,6 +37,7 @@ class Malfunction {
     severity: object[MalfunctionFields.severity],
     cost: object[MalfunctionFields.costEur],
     kilometersDiscovered: object[MalfunctionFields.atKm],
+    createdByUsername: object[MalfunctionFields.createdByUsername],
     location: ['null', ''].any((test) => test == object[MalfunctionFields.location]) ? null : object[MalfunctionFields.location],
   );
 
@@ -89,4 +92,5 @@ class MalfunctionFields {
   static const String costEur = 'cost_eur';
   static const String atKm = 'at_km';
   static const String location = 'location';
+  static const String createdByUsername = 'created_by_username';
 }

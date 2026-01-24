@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import '../../../services/managers/trip_manager.dart';
+import '../../../services/managers/user_manager.dart';
 import '../buttons/card_edit_delete_buttons.dart';
 import '../dialogs/delete_dialog.dart';
+import '../notification.dart';
 
 class TripCard extends StatefulWidget {
   const TripCard({super.key, required this.trip});
@@ -23,20 +25,22 @@ class TripCard extends StatefulWidget {
 
 class _TripCardState extends State<TripCard> {
 
-  double? totalTravelCost, averageTripCost, averageTripConsumption;
+  double totalTravelCost = Car.getTotalTravelCost();
+
+  late double averageTripCost;
+  late double averageTripConsumption;
+
+  late double repeatingAverageTripCost;
+  late double repeatingAverageTripConsumption;
 
   @override
   void initState() {
     super.initState();
-    initialize();
-  }
+    averageTripCost = widget.trip.getAverageTripCost(true);
+    averageTripConsumption = widget.trip.getAverageTripConsumption(true);
 
-  initialize() {
-    setState(() {
-      totalTravelCost = Car.getTotalTravelCost();
-      averageTripConsumption = widget.trip.getAverageTripConsumption(false);
-      averageTripCost = widget.trip.getAverageTripConsumption(false);
-    });
+    repeatingAverageTripCost = widget.trip.getAverageTripCost(false);
+    repeatingAverageTripConsumption = widget.trip.getAverageTripConsumption(false);
   }
 
   @override
@@ -114,7 +118,23 @@ class _TripCardState extends State<TripCard> {
             ],
           ),
 
-          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
+          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+          if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.person,
+                  size: 14,
+                  color: Colors.blueGrey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  widget.trip.createdByUsername!,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       );
     }
@@ -137,7 +157,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText(averageTripCost == null ? '-' : " ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageTripCost!))} ${translate('perWeek')}",
+            AutoSizeText(averageTripCost == null ? '-' : " ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost!))} ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold
@@ -149,8 +169,8 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText( averageTripConsumption == null ? '-' : " ${
-                LocaleStringConverter.formattedDouble(context, averageTripConsumption!)
+            AutoSizeText(" ${
+                LocaleStringConverter.formattedDouble(context, repeatingAverageTripConsumption)
             } lt. ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
@@ -169,7 +189,23 @@ class _TripCardState extends State<TripCard> {
           ],
         ),
 
-        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)}))
+        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+        if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.person,
+                size: 14,
+                color: Colors.blueGrey,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                widget.trip.createdByUsername!,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -186,10 +222,14 @@ class _TripCardState extends State<TripCard> {
   delete() {
     DeleteDialog.show(
         context,
-        'Delete Trip',
+        translate('deleteTrip'),
             (Function(bool) setLoadingState) async {
 
           await TripManager().delete(widget.trip);
+          SnackbarNotification.show(
+            MessageType.info,
+            translate('successfullyDeletedTrip'),
+          );
           setLoadingState(true);
         }
     );
