@@ -37,6 +37,8 @@
   "carModelHint":             "Enter your car's model",
   "carYear":                  "Car Year",
   "carYearHint":              "Enter manufacturing year",
+  "carCurrency":              "Currency",
+  "carCurrencyHint":          "E.g. € ή $",
   "tooManyCars":              "You've reached the limit of 7 cars. Chances are that the request to create a new car is going to fail. You must delete and/or transfer the ownership to another user.",
   "welcome":                  "Welcome to BenzinApp!",
   "welcomeBack":              "Welcome Back!",

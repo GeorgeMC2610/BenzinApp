@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -219,7 +220,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                   const SizedBox(height: 20),
 
                                   Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
-                                  Text("€${fuelFillRecord.cost}", style: SharedFontStyles.descriptiveTextStyle),
+                                  Text(CarManager().watchingCar!.toCurrency(fuelFillRecord.cost.toString()), style: SharedFontStyles.descriptiveTextStyle),
                                 ],
                               ),
                             ),
@@ -250,7 +251,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                   const SizedBox(height: 20),
 
                                   Text(translate('travel_cost'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.getTravelCost().toStringAsFixed(2)} €/km", style: SharedFontStyles.mainTextStyle),
+                                  Text("${CarManager().watchingCar!.toCurrency(fuelFillRecord.getTravelCost().toStringAsFixed(2))}/km", style: SharedFontStyles.mainTextStyle),
                                 ],
                               ),
                             ),
