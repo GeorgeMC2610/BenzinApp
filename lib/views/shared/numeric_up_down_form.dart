@@ -43,8 +43,15 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
     return double.tryParse(widget.controller.text) ?? 0;
   }
 
+  /// Formats the value to remove trailing zeros and fix floating point precision issues.
   String _formatValue(double value) {
-    return value % 1 == 0 ? value.toInt().toString() : value.toString();
+    // Round to 10 decimal places to handle the "mantissa" problem (e.g. 0.30000000000000004)
+    String s = value.toStringAsFixed(10);
+    if (s.contains('.')) {
+      // Remove trailing zeros and the decimal point if it's no longer needed
+      s = s.replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
+    }
+    return s;
   }
 
   void _setValue(double value) {
@@ -107,9 +114,10 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                           color: Theme.of(context).colorScheme.onError,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.error,
-                            minimumSize: const Size(30, 30),
-                            maximumSize: const Size(30, 30),
+                            fixedSize: const Size(28, 28),
+                            minimumSize: const Size(28, 28),
                             padding: EdgeInsets.zero,
+                            shape: const CircleBorder(),
                           ),
                           onPressed: () => _decrement(1),
                         ),
@@ -122,9 +130,10 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                           color: Theme.of(context).colorScheme.onTertiary,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.tertiary,
-                            minimumSize: const Size(30, 30),
-                            maximumSize: const Size(30, 30),
+                            fixedSize: const Size(28, 28),
+                            minimumSize: const Size(28, 28),
                             padding: EdgeInsets.zero,
+                            shape: const CircleBorder(),
                           ),
                           onPressed: () => _increment(1),
                         ),
@@ -176,7 +185,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                   ),
                   onPressed: () => _increment(value),
-                  child: Text('${value > 0 ? '+' : ''} ${_formatValue(value)}'),
+                  child: Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
                 );
               }).toList(),
             ),
