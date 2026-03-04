@@ -106,6 +106,12 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       errorMaxLines: 4,
                       counterText: '',
                       icon: widget.icon,
+                      prefixIconConstraints: const BoxConstraints(
+                        minWidth: 42,
+                        minHeight: 42,
+                        maxHeight: 42,
+                        maxWidth: 42,
+                      ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: IconButton(
@@ -114,13 +120,16 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                           color: Theme.of(context).colorScheme.onError,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.error,
-                            fixedSize: const Size(28, 28),
-                            minimumSize: const Size(28, 28),
-                            padding: EdgeInsets.zero,
                             shape: const CircleBorder(),
                           ),
                           onPressed: () => _decrement(1),
                         ),
+                      ),
+                      suffixIconConstraints: const BoxConstraints(
+                        minWidth: 42,
+                        minHeight: 42,
+                        maxHeight: 42,
+                        maxWidth: 42,
                       ),
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(right: 8),
@@ -130,9 +139,6 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                           color: Theme.of(context).colorScheme.onTertiary,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.tertiary,
-                            fixedSize: const Size(28, 28),
-                            minimumSize: const Size(28, 28),
-                            padding: EdgeInsets.zero,
                             shape: const CircleBorder(),
                           ),
                           onPressed: () => _increment(1),
