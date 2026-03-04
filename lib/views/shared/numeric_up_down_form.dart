@@ -30,8 +30,12 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
     super.initState();
 
     if (widget.controller.text.isEmpty) {
-      widget.controller.text =
-          (widget.startingValue ?? 0).toString();
+      _setValue(widget.startingValue ?? 0);
+    } else {
+      final parsed = double.tryParse(widget.controller.text);
+      if (parsed != null) {
+        _setValue(parsed);
+      }
     }
   }
 
@@ -39,12 +43,15 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
     return double.tryParse(widget.controller.text) ?? 0;
   }
 
+  String _formatValue(double value) {
+    return value % 1 == 0 ? value.toInt().toString() : value.toString();
+  }
+
   void _setValue(double value) {
     if (!widget.canBeNegative && value < 0) {
       value = 0;
     }
-    // Format to remove trailing zeros if it's an integer
-    widget.controller.text = value % 1 == 0 ? value.toInt().toString() : value.toString();
+    widget.controller.text = _formatValue(value);
     setState(() {});
   }
 
@@ -83,33 +90,41 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 26,
+                      fontSize: 20,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     decoration: InputDecoration(
                       labelText: widget.title,
-                      labelStyle: const TextStyle(fontSize: 20),
+                      labelStyle: const TextStyle(fontSize: 18),
                       errorMaxLines: 4,
                       counterText: '',
                       icon: widget.icon,
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.only(left: 8),
                         child: IconButton(
+                          iconSize: 18,
                           icon: const Icon(Icons.remove),
                           color: Theme.of(context).colorScheme.onError,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.error,
+                            minimumSize: const Size(30, 30),
+                            maximumSize: const Size(30, 30),
+                            padding: EdgeInsets.zero,
                           ),
                           onPressed: () => _decrement(1),
                         ),
                       ),
                       suffixIcon: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.only(right: 8),
                         child: IconButton(
+                          iconSize: 18,
                           icon: const Icon(Icons.add),
                           color: Theme.of(context).colorScheme.onTertiary,
                           style: IconButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.tertiary,
+                            minimumSize: const Size(30, 30),
+                            maximumSize: const Size(30, 30),
+                            padding: EdgeInsets.zero,
                           ),
                           onPressed: () => _increment(1),
                         ),
@@ -152,12 +167,16 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
             ),
             const SizedBox(height: 10),
             Wrap(
-              spacing: 3,
-              runSpacing: 5,
+              spacing: 6,
+              runSpacing: 6,
               children: widget.quickValues.map((value) {
                 return FilledButton.tonal(
+                  style: FilledButton.styleFrom(
+                    visualDensity: VisualDensity.standard,
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                  ),
                   onPressed: () => _increment(value),
-                  child: Text('+$value'),
+                  child: Text('${value > 0 ? '+' : ''} ${_formatValue(value)}'),
                 );
               }).toList(),
             ),
