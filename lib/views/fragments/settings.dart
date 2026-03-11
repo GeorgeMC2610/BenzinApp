@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
@@ -98,6 +100,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: _showLanguageModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
+                ),
+                ListTile(
+                  title: Text(translate('distanceMetric')),
+                  onTap: _showDistanceMetricModal,
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  leading: const Icon(Icons.straighten),
+                ),
+                ListTile(
+                  title: Text(translate('volumeMetric')),
+                  onTap: _showVolumeMetricModal,
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  leading: const Icon(Icons.opacity),
                 ),
 
                 if (isWatchingCar)
@@ -328,6 +342,92 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
       ),
     ];
+  }
+
+  void _showDistanceMetricModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(translate('selectDistanceMetric')),
+          content: Consumer<DistanceMetricProvider>(
+            builder: (context, distanceMetricProvider, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildDistanceMetricOption(context, translate('kilometers'), DistanceMetric.kilometers),
+                  _buildDistanceMetricOption(context, translate('miles'), DistanceMetric.miles),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(translate("cancel")),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildDistanceMetricOption(BuildContext context, String title, DistanceMetric metric) {
+    final distanceMetricProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    return RadioListTile<DistanceMetric>(
+      title: Text(title),
+      value: metric,
+      groupValue: distanceMetricProvider.metric,
+      onChanged: (DistanceMetric? value) {
+        if (value != null) {
+          distanceMetricProvider.setMetric(value);
+          Navigator.pop(context);
+        }
+      },
+    );
+  }
+
+  void _showVolumeMetricModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(translate('selectVolumeMetric')),
+          content: Consumer<VolumeMetricProvider>(
+            builder: (context, volumeMetricProvider, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildVolumeMetricOption(context, translate('liters'), VolumeMetric.liters),
+                  _buildVolumeMetricOption(context, translate('gallons'), VolumeMetric.gallons),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(translate("cancel")),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildVolumeMetricOption(BuildContext context, String title, VolumeMetric metric) {
+    final volumeMetricProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
+    return RadioListTile<VolumeMetric>(
+      title: Text(title),
+      value: metric,
+      groupValue: volumeMetricProvider.metric,
+      onChanged: (VolumeMetric? value) {
+        if (value != null) {
+          volumeMetricProvider.setMetric(value);
+          Navigator.pop(context);
+        }
+      },
+    );
   }
 
   void _showLanguageModal() {

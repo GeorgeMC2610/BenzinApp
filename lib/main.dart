@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
@@ -44,6 +46,8 @@ void main() {
                 ChangeNotifierProvider(create: (context) => CarManager()),
                 ChangeNotifierProvider(create: (context) => CarUserInvitationManager()),
                 ChangeNotifierProvider(create: (context) => ThemeProvider()),
+                ChangeNotifierProvider(create: (context) => DistanceMetricProvider()),
+                ChangeNotifierProvider(create: (context) => VolumeMetricProvider()),
               ],
               child: const MainApp(),
             ),

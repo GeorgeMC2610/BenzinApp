@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
@@ -23,7 +25,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   String? username = CarManager().watchingCar?.username;
 
   @override
-  Widget build(BuildContext context) => const SingleChildScrollView(
+  Widget build(BuildContext context) => SingleChildScrollView(
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Column(
@@ -32,6 +34,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         children: [
           // logged in as <username> text.
           // car info container
+          Text("Current Metrics: ${getCurrentMetrics(context)}"),
           CarInfoCard(),
 
           // graph with consumption container
@@ -50,4 +53,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
       )
     )
   );
+
+  String getCurrentMetrics(BuildContext context) {
+    final distanceLabel = Provider.of<DistanceMetricProvider>(context).label;
+    final volumeLabel = Provider.of<VolumeMetricProvider>(context).label;
+    return "$distanceLabel, $volumeLabel";
+  }
 }
