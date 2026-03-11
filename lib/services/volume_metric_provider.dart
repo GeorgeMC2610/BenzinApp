@@ -42,4 +42,5 @@ class VolumeMetricProvider extends ChangeNotifier {
 
   String get label => _metric == VolumeMetric.gallons ? 'gal' : 'lt';
   String get longLabel => _metric == VolumeMetric.gallons ? 'gallons' : 'liters';
+  String get translatableCode => _metric == VolumeMetric.gallons ? 'gallonsSetting' : 'litersSetting';
 }

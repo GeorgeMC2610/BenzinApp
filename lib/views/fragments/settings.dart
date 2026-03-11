@@ -97,18 +97,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 ListTile(
                   title: Text(translate('language')),
+                  subtitle: Text(
+                      Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()
+                  ),
                   onTap: _showLanguageModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.language_outlined),
                 ),
                 ListTile(
                   title: Text(translate('distanceMetric')),
+                  subtitle: Text(
+                      translate(Provider.of<DistanceMetricProvider>(context).translatableCode)
+                  ),
                   onTap: _showDistanceMetricModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.straighten),
                 ),
                 ListTile(
                   title: Text(translate('volumeMetric')),
+                  subtitle: Text(
+                    translate(Provider.of<VolumeMetricProvider>(context).translatableCode)
+                  ),
                   onTap: _showVolumeMetricModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.opacity),
@@ -349,14 +358,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(translate('selectDistanceMetric')),
+          title: Text(translate('distanceMetric')),
           content: Consumer<DistanceMetricProvider>(
             builder: (context, distanceMetricProvider, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildDistanceMetricOption(context, translate('kilometers'), DistanceMetric.kilometers),
-                  _buildDistanceMetricOption(context, translate('miles'), DistanceMetric.miles),
+                  _buildDistanceMetricOption(context, translate('kilometersSetting'), DistanceMetric.kilometers),
+                  _buildDistanceMetricOption(context, translate('milesSetting'), DistanceMetric.miles),
                 ],
               );
             },
@@ -392,14 +401,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(translate('selectVolumeMetric')),
+          title: Text(translate('volumeMetric')),
           content: Consumer<VolumeMetricProvider>(
             builder: (context, volumeMetricProvider, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildVolumeMetricOption(context, translate('liters'), VolumeMetric.liters),
-                  _buildVolumeMetricOption(context, translate('gallons'), VolumeMetric.gallons),
+                  _buildVolumeMetricOption(context, translate('litersSetting'), VolumeMetric.liters),
+                  _buildVolumeMetricOption(context, translate('gallonsSetting'), VolumeMetric.gallons),
                 ],
               );
             },

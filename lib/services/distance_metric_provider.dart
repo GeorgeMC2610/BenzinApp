@@ -42,4 +42,5 @@ class DistanceMetricProvider extends ChangeNotifier {
 
   String get label => _metric == DistanceMetric.miles ? 'mi' : 'km';
   String get longLabel => _metric == DistanceMetric.miles ? 'miles' : 'kilometers';
+  String get translatableCode => _metric == DistanceMetric.miles ? 'milesSetting' : 'kilometersSetting';
 }
