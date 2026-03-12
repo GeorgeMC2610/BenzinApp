@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,10 +32,20 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final TextEditingController _stationController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
 
-  final FocusNode _mileageFocusNode = FocusNode();
-  final FocusNode _costFocusNode = FocusNode();
-  final FocusNode _literFocusNode = FocusNode();
-  final FocusNode _totalMileageFocusNode = FocusNode();
+  final FocusNode _fuelTypeFocusNode = FocusNode();
+  final FocusNode _stationFocusNode = FocusNode();
+
+  List<String> get _fuelTypeOptions {
+    List<String> preset = ['95 Octane', '98 Octane', 'Racing 100', 'Diesel', 'Diesel Super', 'LPG', 'CNG'];
+    List<String> past = FuelFillRecordManager().local?.map((r) => r.fuelType).whereType<String>().where((t) => t.isNotEmpty).toList() ?? [];
+    return [...past, ...preset];
+  }
+
+  List<String> get _stationOptions {
+    List<String> preset = ['Shell', 'BP', 'EKO', 'Aegean', 'Revoil', 'Total', 'ExxonMobil', 'Chevron', 'Texaco', 'Eni', 'Repsol'];
+    List<String> past = FuelFillRecordManager().local?.map((r) => r.gasStation).whereType<String>().where((s) => s.isNotEmpty).toList() ?? [];
+    return [...past, ...preset];
+  }
 
   String? mileageError, totalMileageError, costError, literError,
           fuelTypeError, stationError, commentsError;
@@ -59,6 +71,31 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       _fuelTypeController.text = record.fuelType ?? '';
       _commentsController.text = record.comments ?? '';
     }
+    else {
+      final previousRecord = FuelFillRecordManager().local?.firstOrNull;
+      if (previousRecord != null) {
+        _totalMileageController.text = previousRecord.totalKilometers?.toString() ?? '';
+
+        _fuelTypeController.text = previousRecord.fuelType ?? '';
+        _stationController.text = previousRecord.gasStation ?? '';
+      }
+
+      _selectedDate = DateTime.now();
+    }
+  }
+
+  @override
+  void dispose() {
+    _mileageController.dispose();
+    _totalMileageController.dispose();
+    _costController.dispose();
+    _literController.dispose();
+    _fuelTypeController.dispose();
+    _stationController.dispose();
+    _commentsController.dispose();
+    _fuelTypeFocusNode.dispose();
+    _stationFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,168 +132,43 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
               const SizedBox(height: 10),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      controller: _mileageController,
-                      focusNode: _mileageFocusNode,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () async {
-                        if (_totalMileageController.text.isEmpty && _mileageController.text.isNotEmpty) {
-                          var lastRecord = FuelFillRecordManager().local?.firstOrNull;
-                          if (lastRecord?.totalKilometers != null) {
-                            var currentKilometers = double.tryParse(_mileageController.text);
-                            if (currentKilometers != null) {
-                              var newTotalKilometers = currentKilometers.round() + lastRecord!.totalKilometers!;
-                              setState(() {
-                                _totalMileageController.text = newTotalKilometers.toString();
-                              });
-                            }
-                          }
-
-                          FocusScope.of(context).requestFocus(_costFocusNode);
-                        }
-                        else {
-                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
-                        }
-
-                        setState(() {
-                          mileageError = _validator(_mileageController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                      decoration: InputDecoration(
-                        hintText: translate('inKmHint'),
-                        labelText: '${translate('mileage')} *',
-                        errorText: mileageError,
-                        errorMaxLines: 4,
-                        counterText: '',
-                        prefixIcon: const Icon(Icons.speed),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      controller: _totalMileageController,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _totalMileageFocusNode,
-                      onEditingComplete: () async {
-                        if (_mileageController.text.isEmpty && _totalMileageController.text.isNotEmpty) {
-                          var lastRecord = FuelFillRecordManager().local?.firstOrNull;
-                          if (lastRecord?.totalKilometers != null) {
-                            var currentKilometers = double.tryParse(_totalMileageController.text);
-                            if (currentKilometers != null) {
-                              var newKilometers = currentKilometers - lastRecord!.totalKilometers!;
-                              setState(() {
-                                _mileageController.text = newKilometers.toString();
-                              });
-                            }
-                          }
-
-                          FocusScope.of(context).requestFocus(_costFocusNode);
-                        }
-                        else {
-                          FocusScope.of(context).requestFocus(_totalMileageFocusNode);
-                        }
-
-                        setState(() {
-                          mileageError = _validator(_mileageController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: translate('inKmHint'),
-                        labelText: translate('totalMileage'),
-                        errorText: totalMileageError,
-                        errorMaxLines: 4,
-                        counterText: '',
-                        prefixIcon: const Icon(FontAwesomeIcons.carSide, size: 15,),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              NumericUpDownForm(
+                controller: _mileageController,
+                icon: const Icon(Icons.speed, size: 40),
+                title: '${translate('mileage')} *',
+                quickValues: const [-5, -1, 1, 10, 50, 100, 500],
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
 
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.475,
-                child: TextField(
-                  onTapOutside: (value) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  controller: _costController,
-                  focusNode: _costFocusNode,
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(_literFocusNode);
-                    setState(() {
-                      costError = _validator(_costController.text);
-                    });
-                  },
-                  enabled: !_isLoading,
-                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                  decoration: InputDecoration(
-                    hintText: translate('costHint'),
-                    labelText: '${translate('cost2')} *',
-                    errorText: costError,
-                    prefixIcon: const Icon(Icons.euro_symbol_sharp),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                ),
+              NumericUpDownForm(
+                controller: _totalMileageController,
+                icon: const Icon(FontAwesomeIcons.businessTime, size: 32),
+                title: translate('totalMileage'),
+                quickValues: const [-5, -1, 1, 10, 50, 100, 500],
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
 
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.475,
-                  child: TextField(
-                  onTapOutside: (value) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  controller: _literController,
-                  focusNode: _literFocusNode,
-                  textInputAction: TextInputAction.next,
-                  onEditingComplete: () {
-                    setState(() {
-                      literError = _validator(_literController.text);
-                    });
-                  },
-                  enabled: !_isLoading,
-                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                  decoration: InputDecoration(
-                    hintText: translate('litersHint'),
-                    labelText: '${translate('liters2')} *',
-                    errorText: literError,
-                    errorMaxLines: 4,
-                    counterText: '',
-                    prefixIcon: const Icon(Icons.water_drop),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                ),
+              NumericUpDownForm(
+                controller: _costController,
+                icon: const Icon(Icons.price_change_outlined, size: 40),
+                title: translate('cost'),
+                onChanged: (value) {
+                  print(value);
+                },
+                metric: CarManager().watchingCar?.currency,
+                quickValues: const [-5, -0.1, 0.1, 5],
+              ),
+
+              const SizedBox(height: 15),
+
+              NumericUpDownForm(
+                controller: _literController,
+                icon: const Icon(Icons.water_drop, size: 40),
+                title: translate('liters'),
+                metric: 'lt',
+                quickValues: const [-5, -0.1, 0.1, 5],
               ),
 
               const SizedBox(height: 30),
@@ -331,52 +243,88 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
+                    child: RawAutocomplete<String>(
+                      textEditingController: _fuelTypeController,
+                      focusNode: _fuelTypeFocusNode,
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        return _fuelTypeOptions.where((String option) {
+                          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                        });
                       },
-                      controller: _fuelTypeController,
-                      textInputAction: TextInputAction.next,
-                      enabled: !_isLoading,
-                      keyboardType: TextInputType.text,
-                      maxLength: 50,
-                      decoration: InputDecoration(
-                        hintText: translate('fuelTypeHint'),
-                        errorMaxLines: 4,
-                        counterText: '',
-                        labelText: translate('fuelType'),
-                        errorText: fuelTypeError,
-                        prefixIcon: const Icon(Icons.gas_meter),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
+                      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          onTapOutside: (value) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          textInputAction: TextInputAction.next,
+                          enabled: !_isLoading,
+                          keyboardType: TextInputType.text,
+                          maxLength: 50,
+                          decoration: InputDecoration(
+                            hintText: translate('fuelTypeHint'),
+                            errorMaxLines: 4,
+                            counterText: '',
+                            labelText: translate('fuelType'),
+                            errorText: fuelTypeError,
+                            prefixIcon: const Icon(Icons.gas_meter),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        );
+                      },
+                      optionsViewBuilder: (context, onSelected, options) {
+                        return _AutocompleteOptionsView(
+                          onSelected: onSelected,
+                          options: options,
+                        );
+                      },
                     ),
                   ),
 
                   const SizedBox(width: 5),
 
                   Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
+                    child: RawAutocomplete<String>(
+                      textEditingController: _stationController,
+                      focusNode: _stationFocusNode,
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        return _stationOptions.where((String option) {
+                          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                        });
                       },
-                      controller: _stationController,
-                      textInputAction: TextInputAction.next,
-                      enabled: !_isLoading,
-                      keyboardType: TextInputType.text,
-                      maxLength: 50,
-                      decoration: InputDecoration(
-                        hintText: translate('stationHint'),
-                        labelText: translate('station'),
-                        errorText: stationError,
-                        errorMaxLines: 4,
-                        counterText: '',
-                        prefixIcon: const Icon(Icons.local_gas_station),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
+                      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          onTapOutside: (value) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          textInputAction: TextInputAction.next,
+                          enabled: !_isLoading,
+                          keyboardType: TextInputType.text,
+                          maxLength: 50,
+                          decoration: InputDecoration(
+                            hintText: translate('stationHint'),
+                            labelText: translate('station'),
+                            errorText: stationError,
+                            errorMaxLines: 4,
+                            counterText: '',
+                            prefixIcon: const Icon(Icons.local_gas_station),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        );
+                      },
+                      optionsViewBuilder: (context, onSelected, options) {
+                        return _AutocompleteOptionsView(
+                          onSelected: onSelected,
+                          options: options,
+                        );
+                      },
                     ),
                   ),
 
@@ -567,4 +515,44 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     return null;
   }
 
+}
+
+class _AutocompleteOptionsView extends StatelessWidget {
+  const _AutocompleteOptionsView({
+    required this.onSelected,
+    required this.options,
+  });
+
+  final AutocompleteOnSelected<String> onSelected;
+  final Iterable<String> options;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Material(
+        elevation: 4.0,
+        borderRadius: BorderRadius.circular(15),
+        clipBehavior: Clip.antiAlias,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 200, maxWidth: 300), // Adjusted maxWidth
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: options.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String option = options.elementAt(index);
+              return InkWell(
+                onTap: () => onSelected(option),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(option),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
 }

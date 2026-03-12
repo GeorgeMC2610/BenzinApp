@@ -10,6 +10,9 @@ class NumericUpDownForm extends StatefulWidget {
     this.canBeNegative = false,
     this.quickValues = const [5, 10, 15, 20],
     this.metric,
+    this.showUpDownButtons = true,
+    this.bigTitle = true,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -17,8 +20,11 @@ class NumericUpDownForm extends StatefulWidget {
   final String title;
   final double? startingValue;
   final bool canBeNegative;
+  final bool showUpDownButtons;
+  final bool bigTitle;
   final List<double> quickValues;
   final String? metric;
+  final void Function(String)? onChanged;
 
   @override
   State<NumericUpDownForm> createState() => _NumericUpDownFormState();
@@ -55,6 +61,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
   }
 
   void _setValue(double value) {
+    if (widget.onChanged != null) widget.onChanged!(value.toString());
     if (!widget.canBeNegative && value < 0) {
       value = 0;
     }
@@ -81,10 +88,22 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Text(
+                widget.title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                )
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
             Row(
               children: [
                 Expanded(
@@ -101,7 +120,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     decoration: InputDecoration(
-                      labelText: widget.title,
+                      labelText: widget.bigTitle ? null : widget.title,
                       labelStyle: const TextStyle(fontSize: 18),
                       errorMaxLines: 4,
                       counterText: '',
@@ -112,7 +131,10 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                         maxHeight: 42,
                         maxWidth: 42,
                       ),
-                      prefixIcon: Padding(
+                      // MINUS BUTTON
+                      prefixIcon:
+                      widget.showUpDownButtons ? null :
+                      Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: IconButton(
                           iconSize: 18,
@@ -131,7 +153,10 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                         maxHeight: 42,
                         maxWidth: 42,
                       ),
-                      suffixIcon: Padding(
+                      // PLUS BUTTON
+                      suffixIcon:
+                      widget.showUpDownButtons ? null :
+                      Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: IconButton(
                           iconSize: 18,
@@ -160,6 +185,8 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       ),
                     ),
                     onChanged: (value) {
+                      if (widget.onChanged != null) widget.onChanged!(value);
+
                       final parsed = double.tryParse(value);
                       if (parsed != null && !widget.canBeNegative && parsed < 0) {
                         widget.controller.text = '0';
