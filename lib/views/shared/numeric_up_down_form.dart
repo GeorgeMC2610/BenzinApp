@@ -10,6 +10,7 @@ class NumericUpDownForm extends StatefulWidget {
     this.canBeNegative = false,
     this.quickValues = const [5, 10, 15, 20],
     this.metric,
+    this.upAndDownButtonValue,
     this.showUpDownButtons = true,
     this.bigTitle = true,
     this.onChanged,
@@ -21,6 +22,7 @@ class NumericUpDownForm extends StatefulWidget {
   final double? startingValue;
   final bool canBeNegative;
   final bool showUpDownButtons;
+  final double? upAndDownButtonValue;
   final bool bigTitle;
   final List<double> quickValues;
   final String? metric;
@@ -133,7 +135,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       ),
                       // MINUS BUTTON
                       prefixIcon:
-                      widget.showUpDownButtons ? null :
+                      !widget.showUpDownButtons ? null :
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: IconButton(
@@ -144,7 +146,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                             backgroundColor: Theme.of(context).colorScheme.error,
                             shape: const CircleBorder(),
                           ),
-                          onPressed: () => _decrement(1),
+                          onPressed: () => _decrement(widget.upAndDownButtonValue ?? 1),
                         ),
                       ),
                       suffixIconConstraints: const BoxConstraints(
@@ -155,7 +157,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       ),
                       // PLUS BUTTON
                       suffixIcon:
-                      widget.showUpDownButtons ? null :
+                      !widget.showUpDownButtons ? null :
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: IconButton(
@@ -166,7 +168,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                             backgroundColor: Theme.of(context).colorScheme.tertiary,
                             shape: const CircleBorder(),
                           ),
-                          onPressed: () => _increment(1),
+                          onPressed: () => _increment(widget.upAndDownButtonValue ?? 1),
                         ),
                       ),
                       border: OutlineInputBorder(
@@ -214,6 +216,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
               children: widget.quickValues.map((value) {
                 return FilledButton.tonal(
                   style: FilledButton.styleFrom(
+                    backgroundColor: value < 0 ? Theme.of(context).colorScheme.errorContainer : null,
                     visualDensity: VisualDensity.standard,
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                   ),

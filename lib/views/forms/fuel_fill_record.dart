@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
-import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
@@ -10,7 +9,6 @@ import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FuelFillRecordForm extends StatefulWidget {
   const FuelFillRecordForm({super.key, this.fuelFillRecord, this.viewingRecord = false});
@@ -32,6 +30,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   final TextEditingController _fuelTypeController = TextEditingController();
   final TextEditingController _stationController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
+  final TextEditingController _pricePerVolume = TextEditingController();
 
   final FocusNode _fuelTypeFocusNode = FocusNode();
   final FocusNode _stationFocusNode = FocusNode();
@@ -39,19 +38,20 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   List<String> get _fuelTypeOptions {
     List<String> preset = ['95 Octane', '98 Octane', 'Racing 100', 'Diesel', 'Diesel Super', 'LPG', 'CNG'];
     List<String> past = FuelFillRecordManager().local?.map((r) => r.fuelType).whereType<String>().where((t) => t.isNotEmpty).toList() ?? [];
-    return [...past, ...preset];
+    return [...past, ...preset].toSet().toList();
   }
 
   List<String> get _stationOptions {
     List<String> preset = ['Shell', 'BP', 'EKO', 'Aegean', 'Revoil', 'Total', 'ExxonMobil', 'Chevron', 'Texaco', 'Eni', 'Repsol'];
     List<String> past = FuelFillRecordManager().local?.map((r) => r.gasStation).whereType<String>().where((s) => s.isNotEmpty).toList() ?? [];
-    return [...past, ...preset];
+    return [...past, ...preset].toSet().toList();
   }
 
   String? mileageError, totalMileageError, costError, literError,
           fuelTypeError, stationError, commentsError;
 
   bool _isLoading = false;
+  bool _isCalculating = false;
 
   // this function is applied when the user clicks "edit" instead of "add".
   // in that case, the fuel fill record is passed in the widget above.
@@ -66,6 +66,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       _costController.text = record.cost.toString();
       _literController.text = record.liters.toString();
       _selectedDate = record.dateTime;
+
+      if (record.cost > 0 && record.liters > 0) {
+        _pricePerVolume.text = _formatCalcValue(record.cost / record.liters);
+      }
 
       _totalMileageController.text = record.totalKilometers?.toString() ?? '';
       _stationController.text = record.gasStation ?? '';
@@ -95,9 +99,66 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     _fuelTypeController.dispose();
     _stationController.dispose();
     _commentsController.dispose();
+    _pricePerVolume.dispose();
     _fuelTypeFocusNode.dispose();
     _stationFocusNode.dispose();
     super.dispose();
+  }
+
+  void _calculateFuelFields(String source) {
+    if (_isCalculating) return;
+    _isCalculating = true;
+
+    double? cost = double.tryParse(_costController.text);
+    double? liters = double.tryParse(_literController.text);
+    double? price = double.tryParse(_pricePerVolume.text);
+
+    if (source == 'price') {
+      if (price != null && price > 0) {
+        if (liters != null && liters > 0) {
+          _costController.text = _formatCalcValue(price * liters);
+        } else if (cost != null && cost > 0) {
+          _literController.text = _formatCalcValue(cost / price);
+        }
+      }
+    } else if (source == 'cost') {
+      if (cost != null && cost > 0) {
+        if (price != null && price > 0) {
+          _literController.text = _formatCalcValue(cost / price);
+        } else if (liters != null && liters > 0) {
+          _pricePerVolume.text = _formatCalcValue(cost / liters);
+        }
+      }
+    } else if (source == 'liters') {
+      if (liters != null && liters > 0) {
+        if (price != null && price > 0) {
+          _costController.text = _formatCalcValue(price * liters);
+        } else if (cost != null && cost > 0) {
+          _pricePerVolume.text = _formatCalcValue(cost / liters);
+        }
+      }
+    }
+
+    if (mounted) {
+      // This ensures we don't trigger a build while another build is in progress
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            // State is updated safely here
+          });
+        }
+      });
+    }
+
+    _isCalculating = false;
+  }
+
+  String _formatCalcValue(double value) {
+    String s = value.toStringAsFixed(3);
+    if (s.contains('.')) {
+      s = s.replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
+    }
+    return s;
   }
 
   @override
@@ -137,9 +198,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               DualNumericUpDownForm(
                 controller1: _mileageController,
                 controller2: _totalMileageController,
-                title: 'KILOMITARS',
+                title: translate('mileage').toUpperCase(),
                 quickValues: const [-5, -1, 1, 10, 50, 100, 500],
                 syncedControllers: true,
+                showUpDownButtons: false,
                 icon: const Icon(Icons.speed, size: 40),
                 fieldTitle1: '${translate('mileage')} *',
                 fieldTitle2: translate('totalMileage'),
@@ -148,24 +210,26 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 15),
 
               NumericUpDownForm(
-                controller: _costController,
-                icon: const Icon(Icons.price_change_outlined, size: 40),
-                title: translate('cost'),
-                onChanged: (value) {
-                  print(value);
-                },
-                metric: CarManager().watchingCar?.currency,
-                quickValues: const [-5, -0.1, 0.1, 5],
+                controller: _pricePerVolume,
+                showUpDownButtons: true,
+                upAndDownButtonValue: 0.001,
+                onChanged: (value) => _calculateFuelFields('price'),
+                title: translate('costPerLiter').toUpperCase(),
+                quickValues: const [-0.1, -0.01, 0.01, 0.1],
               ),
 
-              const SizedBox(height: 15),
-
-              NumericUpDownForm(
-                controller: _literController,
-                icon: const Icon(Icons.water_drop, size: 40),
-                title: translate('liters'),
-                metric: 'lt',
-                quickValues: const [-5, -0.1, 0.1, 5],
+              DualNumericUpDownForm(
+                controller1: _costController,
+                controller2: _literController,
+                title: translate('fuelFills').toUpperCase(),
+                quickValues: const [-5, -0.1, -0.01, 0.01, 0.1, 5, 10, 50],
+                showUpDownButtons: false,
+                syncedControllers: false,
+                onController1Changed: (string) => _calculateFuelFields('cost'),
+                onController2Changed: (string) => _calculateFuelFields('liters'),
+                icon: const Icon(Icons.gas_meter_outlined, size: 40),
+                fieldTitle1: '${translate('cost')} *',
+                fieldTitle2: '${translate('liters')} *',
               ),
 
               const SizedBox(height: 30),
@@ -419,6 +483,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         _isLoading = true;
       });
       await manager.create(newRecord);
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
@@ -449,6 +514,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         _isLoading = true;
       });
       await manager.update(widget.fuelFillRecord!);
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });

@@ -14,6 +14,8 @@ class DualNumericUpDownForm extends StatefulWidget {
     this.icon,
     this.metric,
     this.syncedControllers = false,
+    this.onController1Changed,
+    this.onController2Changed,
   });
 
   final TextEditingController controller1;
@@ -27,6 +29,8 @@ class DualNumericUpDownForm extends StatefulWidget {
   final bool syncedControllers;
   final bool showUpDownButtons;
   final List<double> quickValues;
+  final void Function(String)? onController1Changed;
+  final void Function(String)? onController2Changed;
 
   @override
   State<DualNumericUpDownForm> createState() => _NumericUpDownFormState();
@@ -52,7 +56,16 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
     if (!widget.canBeNegative && value < 0) {
       value = 0;
     }
+
     controller.text = _formatValue(value);
+
+    if (controller == widget.controller1) {
+      if (widget.onController1Changed != null) widget.onController1Changed!(controller.text);
+    }
+    else {
+      if (widget.onController2Changed != null) widget.onController2Changed!(controller.text);
+    }
+
     setState(() {});
   }
 
@@ -144,7 +157,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               maxWidth: 42,
             ),
             // MINUS BUTTON
-            prefixIcon: widget.showUpDownButtons
+            prefixIcon: !widget.showUpDownButtons
                 ? null
                 : Padding(
                     padding: const EdgeInsets.only(left: 8),
@@ -166,7 +179,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               maxWidth: 42,
             ),
             // PLUS BUTTON
-            suffixIcon: widget.showUpDownButtons
+            suffixIcon: !widget.showUpDownButtons
                 ? null
                 : Padding(
                     padding: const EdgeInsets.only(right: 8),
@@ -200,8 +213,13 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
             final parsed = double.tryParse(value);
             if (parsed != null && !widget.canBeNegative && parsed < 0) {
               controller.text = '0';
-              setState(() {});
             }
+            if (controller == widget.controller1) {
+              if (widget.onController1Changed != null) widget.onController1Changed!(controller.text);
+            } else {
+              if (widget.onController2Changed != null) widget.onController2Changed!(controller.text);
+            }
+            setState(() {});
           },
         ),
 
@@ -213,6 +231,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               return FilledButton.tonal(
                 style: FilledButton.styleFrom(
                   visualDensity: VisualDensity.standard,
+                  backgroundColor: value < 0 ? Theme.of(context).colorScheme.errorContainer : null,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                 ),
                 onPressed: () => _increment(value, controller),
@@ -307,6 +326,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                 children: widget.quickValues.map((value) {
                   return FilledButton.tonal(
                     style: FilledButton.styleFrom(
+                      backgroundColor: value < 0 ? Theme.of(context).colorScheme.errorContainer : null,
                       visualDensity: VisualDensity.standard,
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                     ),
