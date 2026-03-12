@@ -140,6 +140,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 title: 'KILOMITARS',
                 quickValues: const [-5, -1, 1, 10, 50, 100, 500],
                 syncedControllers: true,
+                icon: const Icon(Icons.speed, size: 40),
                 fieldTitle1: '${translate('mileage')} *',
                 fieldTitle2: translate('totalMileage'),
               ),
