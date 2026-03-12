@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       final previousRecord = FuelFillRecordManager().local?.firstOrNull;
       if (previousRecord != null) {
         _totalMileageController.text = previousRecord.totalKilometers?.toString() ?? '';
+        _mileageController.text = '';
 
         _fuelTypeController.text = previousRecord.fuelType ?? '';
         _stationController.text = previousRecord.gasStation ?? '';
@@ -132,20 +134,14 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
               const SizedBox(height: 10),
 
-              NumericUpDownForm(
-                controller: _mileageController,
-                icon: const Icon(Icons.speed, size: 40),
-                title: '${translate('mileage')} *',
+              DualNumericUpDownForm(
+                controller1: _mileageController,
+                controller2: _totalMileageController,
+                title: 'KILOMITARS',
                 quickValues: const [-5, -1, 1, 10, 50, 100, 500],
-              ),
-
-              const SizedBox(height: 15),
-
-              NumericUpDownForm(
-                controller: _totalMileageController,
-                icon: const Icon(FontAwesomeIcons.businessTime, size: 32),
-                title: translate('totalMileage'),
-                quickValues: const [-5, -1, 1, 10, 50, 100, 500],
+                syncedControllers: true,
+                fieldTitle1: '${translate('mileage')} *',
+                fieldTitle2: translate('totalMileage'),
               ),
 
               const SizedBox(height: 15),
