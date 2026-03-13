@@ -79,6 +79,56 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
     _setValue(_currentValue() - amount);
   }
 
+  void _showInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              if (widget.icon != null) ...[
+                widget.icon!,
+                const SizedBox(width: 10),
+              ],
+              Expanded(child: Text(widget.title)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Placeholder text for information regarding this section. You can describe what these fields represent or how they are calculated.',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 10),
+              const Text(
+                'Pictures:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () {
+                  // TODO: Implement image picking logic
+                },
+                icon: const Icon(Icons.add_a_photo_outlined),
+                label: const Text('Add Picture'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -94,14 +144,30 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                )
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.icon != null)
+                  widget.icon!,
+
+                Expanded(
+                  child: Text(
+                    widget.title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                IconButton(
+                  icon: const Icon(Icons.help_outline, color: Colors.grey, size: 30),
+                  onPressed: () => _showInfoDialog(context),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ],
             ),
 
             const SizedBox(height: 10),
@@ -126,7 +192,6 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       labelStyle: const TextStyle(fontSize: 18),
                       errorMaxLines: 4,
                       counterText: '',
-                      icon: widget.icon,
                       prefixIconConstraints: const BoxConstraints(
                         minWidth: 42,
                         minHeight: 42,

@@ -198,7 +198,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               DualNumericUpDownForm(
                 controller1: _mileageController,
                 controller2: _totalMileageController,
-                title: translate('mileage').toUpperCase(),
+                title: translate('mileageTitle'),
                 quickValues: const [-5, -1, 1, 10, 50, 100, 500],
                 syncedControllers: true,
                 showUpDownButtons: false,
@@ -214,14 +214,15 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 showUpDownButtons: true,
                 upAndDownButtonValue: 0.001,
                 onChanged: (value) => _calculateFuelFields('price'),
-                title: translate('costPerLiter').toUpperCase(),
+                title: translate('costPerVolume'),
+                icon: const Icon(Icons.price_change),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
               ),
 
               DualNumericUpDownForm(
                 controller1: _costController,
                 controller2: _literController,
-                title: translate('fuelFills').toUpperCase(),
+                title: translate('fuelFillInfo'),
                 quickValues: const [-5, -0.1, -0.01, 0.01, 0.1, 5, 10, 50],
                 showUpDownButtons: false,
                 syncedControllers: false,
