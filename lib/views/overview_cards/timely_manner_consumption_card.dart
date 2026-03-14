@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
+import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -9,6 +10,7 @@ import '../../services/locale_string_converter.dart';
 import '../../services/managers/fuel_fill_record_manager.dart';
 import '../../services/managers/malfunction_manager.dart';
 import '../../services/managers/service_manager.dart';
+import '../../services/volume_metric_provider.dart';
 import '../shared/cards/loading_data_card.dart';
 
 class TimelyMannerConsumptionCard extends StatefulWidget {
@@ -54,7 +56,8 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
                     fontWeight: FontWeight.bold
                 ),
               ),
-              Text('${LocaleStringConverter.formattedDouble(context, totalLitersFilled!)} lt.',
+              Text(
+                '${LocaleStringConverter.formattedDouble(context, Provider.of<VolumeMetricProvider>(context).convert(totalLitersFilled!))} ${Provider.of<VolumeMetricProvider>(context).label}',
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -68,10 +71,8 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
                     fontWeight: FontWeight.bold
                 ),
               ),
-              Text('${LocaleStringConverter.formattedDouble(
-                  context,
-                  totalKilometersTravelled!
-              )} km',
+              Text(
+                '${LocaleStringConverter.formattedDouble(context, Provider.of<DistanceMetricProvider>(context).convert(totalKilometersTravelled!))} ${Provider.of<DistanceMetricProvider>(context).label}',
                 style: const TextStyle(
                   fontSize: 15,
                 ),
