@@ -1,9 +1,6 @@
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
-import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
-import 'package:benzinapp/services/managers/malfunction_manager.dart';
-import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/overview_cards/car_info_card.dart';
 import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
@@ -25,7 +22,7 @@ class _OverviewFragmentState extends State<OverviewFragment> {
   String? username = CarManager().watchingCar?.username;
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
+  Widget build(BuildContext context) => const SingleChildScrollView(
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Column(
@@ -34,7 +31,6 @@ class _OverviewFragmentState extends State<OverviewFragment> {
         children: [
           // logged in as <username> text.
           // car info container
-          Text("Current Metrics: ${getCurrentMetrics(context)}"),
           CarInfoCard(),
 
           // graph with consumption container
