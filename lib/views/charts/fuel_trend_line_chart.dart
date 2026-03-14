@@ -126,7 +126,6 @@ class FuelTrendLineChart extends StatelessWidget {
 
     switch (focusType) {
       case ChartDisplayFocus.consumption:
-        if (isMiles && isGallons) return "mpg"; // MPG is usually what users want for efficiency/consumption
         return "${volumeProvider.label}./100${distanceProvider.label}";
       case ChartDisplayFocus.efficiency:
         if (isMiles && isGallons) return "mpg";
