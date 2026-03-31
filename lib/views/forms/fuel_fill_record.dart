@@ -216,7 +216,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 upAndDownButtonValue: 0.001,
                 onChanged: (value) => _calculateFuelFields('price'),
                 title: translate('costPerVolume'),
-                icon: const Icon(Icons.price_change),
+                metric: '€/lt.',
+                icon: const Icon(Icons.price_change, size: 40),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
               ),
 
