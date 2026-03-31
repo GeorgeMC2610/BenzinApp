@@ -1,14 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
-import 'package:benzinapp/views/maps/select_location.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
+import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../maps/select_location.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
 import '../shared/notification.dart';
 
@@ -48,6 +51,12 @@ class _ServiceFormState extends State<ServiceForm> {
       _selectedDate = widget.service!.dateHappened;
       _selectedAddress = widget.service!.getAddress();
       _selectedCoordinates = widget.service!.getCoordinates();
+    }
+    else {
+      final previousFuelFill = FuelFillRecordManager().local?.firstOrNull;
+      kmController.text = previousFuelFill?.totalKilometers?.toString() ?? '';
+      nextKmController.text = previousFuelFill?.totalKilometers?.toString() ?? '';
+      _selectedDate = DateTime.now();
     }
   }
 
@@ -102,6 +111,7 @@ class _ServiceFormState extends State<ServiceForm> {
         _isLoading  = true;
       });
       await manager.create(service);
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
@@ -133,6 +143,7 @@ class _ServiceFormState extends State<ServiceForm> {
         _isLoading  = true;
       });
       await manager.update(widget.service!);
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
@@ -214,11 +225,6 @@ class _ServiceFormState extends State<ServiceForm> {
                 },
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
-                onEditingComplete: () {
-                  setState(() {
-                    descError = _numValidator(descriptionController.text);
-                  });
-                },
                 enabled: !_isLoading,
                 minLines: 2,
                 maxLines: 10,
@@ -237,65 +243,17 @@ class _ServiceFormState extends State<ServiceForm> {
 
               const SizedBox(height: 15),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () {
-                        setState(() {
-                          kmError = _validator(kmController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      controller: kmController,
-                      decoration: InputDecoration(
-                        errorText: kmError,
-                        hintText: translate('serviceMileageHint'),
-                        errorMaxLines: 4,
-                        labelText: '${translate('serviceMileage2')} *',
-                        prefixIcon: const Icon(Icons.speed),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      controller: costController,
-                      onEditingComplete: () {
-                        setState(() {
-                          costError = _validator(costController.text);
-                        });
-                      },
-                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                      textInputAction: TextInputAction.next,
-                      enabled: !_isLoading,
-                      decoration: InputDecoration(
-                        errorText: costError,
-                        hintText: translate('costHint'),
-                        errorMaxLines: 4,
-                        labelText: '${translate('cost2')} *',
-                        prefixIcon: const Icon(Icons.euro),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+              DualNumericUpDownForm(
+                controller1: kmController,
+                controller2: costController,
+                title: translate('serviceInfo'),
+                fieldTitle1: '${translate('serviceMileage2')} *',
+                fieldTitle2: '${translate('cost2')} *',
+                error1: kmError,
+                error2: costError,
+                icon: const Icon(Icons.build_circle_outlined, size: 40),
+                quickValues: const [-10, -1, 1, 10, 100, 500],
+                showUpDownButtons: false,
               ),
 
               const SizedBox(height: 25),
@@ -421,8 +379,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 ],
               ),
 
-              // === FIX INFO === //
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
 
               DividerWithText(
                   text: translate('nextServiceInfo'),
@@ -433,29 +390,15 @@ class _ServiceFormState extends State<ServiceForm> {
 
               const SizedBox(height: 15),
 
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {
-                  setState(() {
-                    nextKmError = _numValidator(nextKmController.text);
-                  });
-                },
-                enabled: !_isLoading,
+              NumericUpDownForm(
                 controller: nextKmController,
-                decoration: InputDecoration(
-                  errorText: nextKmError,
-                  errorMaxLines: 4,
-                  hintText: translate('nextServiceMileageHint'),
-                  labelText: translate('nextServiceMileage'),
-                  prefixIcon: const Icon(Icons.next_plan_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
+                showUpDownButtons: true,
+                bigTitle: false,
+                error: nextKmError,
+                quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
+                title: translate('nextServiceMileage'),
+                metric: translate('km'),
+                icon: const Icon(Icons.speed, size: 40),
               ),
 
               const SizedBox(height: 15),
@@ -480,8 +423,8 @@ class _ServiceFormState extends State<ServiceForm> {
                       onPressed: _isLoading ? null : () async {
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
-                          lastDate: DateTime.parse('2100-01-01'),
-                          firstDate: _selectedDate != null ? _selectedDate! : DateTime.now(),
+                          lastDate: DateTime.parse('2100-29-01'),
+                          firstDate: DateTime.now(),
                         );
 
                         if (pickedDate != null) {
@@ -499,21 +442,23 @@ class _ServiceFormState extends State<ServiceForm> {
 
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: _isLoading || _selectedNextDate == null ? null : () {
+                      onPressed: _isLoading ? null : () {
                         setState(() {
                           _selectedNextDate = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
-                      icon: const Icon(Icons.cancel),
+                      label: AutoSizeText(maxLines: 1, translate('discard'), minFontSize: 10),
+                      icon: const Icon(Icons.delete_forever),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.error,
-                          foregroundColor: Theme.of(context).colorScheme.onError
+                          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                          foregroundColor: Theme.of(context).colorScheme.onErrorContainer
                       ),
                     ),
                   )
                 ],
               ),
+
+              const SizedBox(height: 70)
             ],
           ),
         ),
@@ -522,17 +467,15 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   String? _validator(String field) {
-
     if (field.isEmpty || field == '') {
       return translate('cannotBeEmpty');
     }
 
-    var isParsed = double.tryParse(field);
-    if (isParsed == null) {
+    if (double.tryParse(field) == null) {
       return translate('invalidNumber');
     }
 
-    if (isParsed < 0) {
+    if (double.parse(field) < 0) {
       return translate('cannotBeNegative');
     }
 
@@ -540,15 +483,15 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   String? _numValidator(String field) {
-    if (field == '' || field.isEmpty) {
+    if (field.isEmpty || field == '') {
       return null;
     }
 
-    else if (double.tryParse(field) == null) {
+    if (double.tryParse(field) == null) {
       return translate('invalidNumber');
     }
 
-    else if (double.parse(field) < 0) {
+    if (double.parse(field) < 0) {
       return translate('cannotBeNegative');
     }
 
