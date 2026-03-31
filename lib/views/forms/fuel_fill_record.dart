@@ -208,8 +208,6 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 fieldTitle2: translate('totalMileage'),
               ),
 
-              const SizedBox(height: 15),
-
               NumericUpDownForm(
                 controller: _pricePerVolume,
                 showUpDownButtons: true,
