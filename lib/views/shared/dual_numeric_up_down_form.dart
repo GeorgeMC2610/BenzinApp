@@ -16,6 +16,8 @@ class DualNumericUpDownForm extends StatefulWidget {
     this.syncedControllers = false,
     this.onController1Changed,
     this.onController2Changed,
+    this.error1,
+    this.error2,
   });
 
   final TextEditingController controller1;
@@ -28,6 +30,8 @@ class DualNumericUpDownForm extends StatefulWidget {
   final Widget? icon;
   final bool syncedControllers;
   final bool showUpDownButtons;
+  final String? error1;
+  final String? error2;
   final List<double> quickValues;
   final void Function(String)? onController1Changed;
   final void Function(String)? onController2Changed;
@@ -130,6 +134,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
+    required String? errorText,
   }) {
     return Column(
       children: [
@@ -149,6 +154,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
             labelText: labelText,
             labelStyle: const TextStyle(fontSize: 18),
             errorMaxLines: 4,
+            errorText: errorText,
             counterText: '',
             prefixIconConstraints: const BoxConstraints(
               minWidth: 42,
@@ -285,12 +291,14 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               ),
               const SizedBox(height: 15),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // FIRST FIELD
                   Expanded(
                     child: _buildTextField(
                       controller: widget.controller1,
                       labelText: widget.fieldTitle1,
+                      errorText: widget.error1
                     ),
                   ),
 
@@ -301,6 +309,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                     child: _buildTextField(
                       controller: widget.controller2,
                       labelText: widget.fieldTitle2,
+                      errorText: widget.error2
                     ),
                   ),
                   if (widget.metric != null) ...[

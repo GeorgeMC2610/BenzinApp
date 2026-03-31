@@ -13,6 +13,7 @@ class NumericUpDownForm extends StatefulWidget {
     this.upAndDownButtonValue,
     this.showUpDownButtons = true,
     this.bigTitle = true,
+    this.error,
     this.onChanged,
   });
 
@@ -24,6 +25,7 @@ class NumericUpDownForm extends StatefulWidget {
   final bool showUpDownButtons;
   final double? upAndDownButtonValue;
   final bool bigTitle;
+  final String? error;
   final List<double> quickValues;
   final String? metric;
   final void Function(String)? onChanged;
@@ -191,6 +193,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       labelText: widget.bigTitle ? null : widget.title,
                       labelStyle: const TextStyle(fontSize: 18),
                       errorMaxLines: 4,
+                      errorText: widget.error,
                       counterText: '',
                       prefixIconConstraints: const BoxConstraints(
                         minWidth: 42,
