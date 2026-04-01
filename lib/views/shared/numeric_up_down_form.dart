@@ -6,6 +6,7 @@ class NumericUpDownForm extends StatefulWidget {
     required this.controller,
     this.title = '',
     this.icon,
+    this.hint,
     this.startingValue,
     this.canBeNegative = false,
     this.quickValues = const [5, 10, 15, 20],
@@ -22,6 +23,7 @@ class NumericUpDownForm extends StatefulWidget {
   final String title;
   final double? startingValue;
   final bool canBeNegative;
+  final Widget? hint;
   final bool showUpDownButtons;
   final double? upAndDownButtonValue;
   final bool bigTitle;
@@ -95,7 +97,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
               Expanded(child: Text(widget.title)),
             ],
           ),
-          content: Column(
+          content: widget.hint ?? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

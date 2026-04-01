@@ -18,6 +18,7 @@ class DualNumericUpDownForm extends StatefulWidget {
     this.onController2Changed,
     this.error1,
     this.error2,
+    this.hint,
   });
 
   final TextEditingController controller1;
@@ -28,6 +29,7 @@ class DualNumericUpDownForm extends StatefulWidget {
   final String fieldTitle2;
   final String? metric;
   final Widget? icon;
+  final Widget? hint;
   final bool syncedControllers;
   final bool showUpDownButtons;
   final String? error1;
@@ -95,7 +97,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               Expanded(child: Text(widget.title)),
             ],
           ),
-          content: Column(
+          content: widget.hint ?? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
