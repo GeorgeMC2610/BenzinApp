@@ -100,6 +100,7 @@ flutter:
      - assets/i18n/
      - assets/long_screens/
      - assets/images/odometer.jpg
+     - assets/images/odometer_big.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

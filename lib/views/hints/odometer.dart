@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 class Odometer extends StatelessWidget {
   const Odometer({super.key});
@@ -22,7 +21,9 @@ class Odometer extends StatelessWidget {
         Text("Big Odometer", style: Theme.of(context).textTheme.titleLarge),
         Text("Big odometer refers to the total travelled distance of your car. It starts from when the car was bought. If the car is old, this number is usually really big, if the car used. It's usually written right below your car's speedometer",
             style: Theme.of(context).textTheme.bodyMedium
-        )
+        ),
+
+        Image.asset('assets/images/odometer_big.jpg'),
 
       ],
     ),
