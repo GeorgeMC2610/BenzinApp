@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class Odometer extends StatelessWidget {
   const Odometer({super.key});
@@ -9,8 +10,8 @@ class Odometer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text("Small Odometer", style: Theme.of(context).textTheme.titleLarge),
-        Text("Small odometer refers to the travelled distance starting from the last time you fuelled your vehicle up until the next time. It's usually written right below your car's speedometer.",
+        Text(translate('odometerHintTitle1'), style: Theme.of(context).textTheme.titleLarge),
+        Text(translate('odometerBody1'),
             style: Theme.of(context).textTheme.bodyMedium
         ),
 
@@ -18,8 +19,8 @@ class Odometer extends StatelessWidget {
 
         const SizedBox(height: 25),
 
-        Text("Big Odometer", style: Theme.of(context).textTheme.titleLarge),
-        Text("Big odometer refers to the total travelled distance of your car. It starts from when the car was bought. If the car is old, this number is usually really big, if the car used. It's usually written right below your car's speedometer",
+        Text(translate('odometerHintTitle2'), style: Theme.of(context).textTheme.titleLarge),
+        Text(translate('odometerBody2'),
             style: Theme.of(context).textTheme.bodyMedium
         ),
 

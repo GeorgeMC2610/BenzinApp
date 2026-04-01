@@ -216,6 +216,11 @@
   "successfullyUpdatedFuelFill": "Successfully updated Fuel Fill Record.",
   "successfullyDeletedFuelFill": "Successfully deleted Fuel Fill Record.",
 
+  "odometerHintTitle1": "Small Odometer",
+  "odometerBody1": "Small odometer refers to the travelled distance starting from the last time you fuelled your vehicle up until the next time. It's usually written right below your car's speedometer.",
+  "odometerHintTitle2": "Big Odometer",
+  "odometerBody2": "Big odometer refers to the total travelled distance of your car. It starts from when the car was bought. If the car is old, this number is usually really big, if the car used. It's usually written right below your car's speedometer",
+
   "discoveredAt":       "Discovered at:",
   "ongoingMalfunction": "Ongoing",
   "fixedMalfunction":   "Fixed",
