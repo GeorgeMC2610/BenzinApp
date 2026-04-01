@@ -115,10 +115,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
     if (source == 'price') {
       if (price != null && price > 0) {
-        if (liters != null && liters > 0) {
-          _costController.text = _formatCalcValue(price * liters);
-        } else if (cost != null && cost > 0) {
+        if (cost != null && cost > 0) {
           _literController.text = _formatCalcValue(cost / price);
+        } else if (liters != null && liters > 0 ) {
+          _costController.text = _formatCalcValue(price * liters);
         }
       }
     } else if (source == 'cost') {
