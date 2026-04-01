@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/views/hints/hint_collection.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
@@ -198,6 +200,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               DualNumericUpDownForm(
                 controller1: _mileageController,
                 controller2: _totalMileageController,
+                hint: Hint.odometer.widget,
                 title: translate('mileageTitle'),
                 error1: mileageError,
                 quickValues: const [-5, -1, 1, 10, 50, 100, 500],
@@ -210,11 +213,12 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
               NumericUpDownForm(
                 controller: _pricePerVolume,
+                hint: Hint.pricePerLiter.widget,
                 showUpDownButtons: true,
                 upAndDownButtonValue: 0.001,
                 onChanged: (value) => _calculateFuelFields('price'),
                 title: translate('costPerVolume'),
-                metric: '€/lt.',
+                metric: '${CarManager().watchingCar!.currency}/lt.',
                 icon: const Icon(Icons.price_change, size: 40),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
               ),
@@ -223,6 +227,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 controller1: _costController,
                 controller2: _literController,
                 title: translate('fuelFillInfo'),
+                hint: Hint.ffrStats.widget,
                 quickValues: const [-5, -0.1, -0.01, 0.01, 0.1, 5, 10, 50],
                 showUpDownButtons: false,
                 syncedControllers: false,
