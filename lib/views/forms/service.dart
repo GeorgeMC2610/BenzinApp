@@ -393,6 +393,7 @@ class _ServiceFormState extends State<ServiceForm> {
               NumericUpDownForm(
                 controller: nextKmController,
                 showUpDownButtons: true,
+                hint: null,
                 bigTitle: false,
                 error: nextKmError,
                 quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],

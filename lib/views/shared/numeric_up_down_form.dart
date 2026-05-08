@@ -165,6 +165,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                   ),
                 ),
 
+                if (widget.hint != null)
                 IconButton(
                   icon: const Icon(Icons.help_outline, color: Colors.grey, size: 30),
                   onPressed: () => _showInfoDialog(context),

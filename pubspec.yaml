@@ -99,8 +99,7 @@ flutter:
      - lib/assets/svg/no_trips.svg
      - assets/i18n/
      - assets/long_screens/
-     - assets/images/odometer.jpg
-     - assets/images/odometer_big.jpg
+     - assets/images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
