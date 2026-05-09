@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
+import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/locale_string_converter.dart';
+import '../../services/managers/fuel_fill_record_manager.dart';
 import '../maps/select_location.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
 import '../shared/divider_with_text.dart';
@@ -54,6 +56,11 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         _selectedAddress = widget.malfunction!.getAddress();
         _selectedCoordinates = widget.malfunction!.getCoordinates();
       }
+    }
+    else {
+      final lastFuelFill = FuelFillRecordManager().local?.firstOrNull;
+      kmController.text = lastFuelFill?.totalKilometers?.toString() ?? '';
+      _selectedDate = DateTime.now();
     }
   }
 
@@ -258,69 +265,31 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
               const SizedBox(height: 15),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      keyboardType: TextInputType.number,
-                      onEditingComplete: () async {
-                        setState(() {
-                          titleError = _emptyValidator(titleController.text);
-                        });
-                      },
-                      textInputAction: TextInputAction.next,
-                      controller: kmController,
-                      enabled: !_isLoading,
-                      decoration: InputDecoration(
-                        hintText: translate('inKmHint'),
-                        errorText: kmError,
-                        errorMaxLines: 4,
-                        labelText: '${translate('serviceMileage2')} *',
-                        prefixIcon: const Icon(Icons.speed),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
+              TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                onEditingComplete: () async {
+                  setState(() {
+                    kmError = _numberValidator(kmController.text);
+                  });
+                },
+                enabled: !_isLoading,
+                controller: titleController,
+                maxLength: 30,
+                decoration: InputDecoration(
+                  hintText: translate('malfunctionTitleHint'),
+                  errorText: titleError,
+                  errorMaxLines: 4,
+                  counterText: '',
+                  labelText: '${translate('malfunctionTitle')} *',
+                  prefixIcon: const Icon(Icons.next_plan_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    flex: 3,
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () async {
-                        setState(() {
-                          kmError = _numberValidator(kmController.text);
-                        });
-                      },
-                      enabled: !_isLoading,
-                      controller: titleController,
-                      maxLength: 30,
-                      decoration: InputDecoration(
-                        hintText: translate('malfunctionTitleHint'),
-                        errorText: titleError,
-                        errorMaxLines: 4,
-                        counterText: '',
-                        labelText: '${translate('malfunctionTitle')} *',
-                        prefixIcon: const Icon(Icons.next_plan_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
 
               const SizedBox(height: 15),
@@ -351,6 +320,18 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                   ),
                 ),
               ),
+
+              NumericUpDownForm(
+                controller: kmController,
+                showUpDownButtons: true,
+                bigTitle: false,
+                error: kmError,
+                quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
+                title: translate('serviceMileage2'),
+                metric: translate('km'),
+                icon: const Icon(Icons.speed, size: 40),
+              ),
+
 
               const SizedBox(height: 20),
 
@@ -497,29 +478,15 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
         const SizedBox(height: 20),
 
-
-        TextField(
-          onTapOutside: (value) {
-            FocusScope.of(context).unfocus();
-          },
-          keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+        NumericUpDownForm(
           controller: costController,
-          onEditingComplete: () async {
-            setState(() {
-              costError = _numberValidator(costController.text);
-            });
-          },
-          enabled: !_isLoading,
-          decoration: InputDecoration(
-            hintText: translate('repairCostHint'),
-            errorText: costError,
-            errorMaxLines: 4,
-            labelText: '${translate('repairCost')} *',
-            prefixIcon: const Icon(Icons.euro),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-          ),
+          showUpDownButtons: true,
+          bigTitle: false,
+          error: costError,
+          icon: const Icon(Icons.payments_outlined, size: 40),
+          title: translate('repairCost'),
+          metric: '€',
+          quickValues: const [-100, -10, 10, 100],
         ),
 
         const SizedBox(height: 20),

@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/forms/service.dart';
@@ -51,7 +52,7 @@ class _ServiceCardState extends State<ServiceCard> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.service.cost == null ? '-' : "€${LocaleStringConverter.formattedDouble(context, widget.service.cost!)}", style: const TextStyle(fontSize: 16)),
+          Text(widget.service.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, widget.service.cost!)), style: const TextStyle(fontSize: 16)),
           Text(widget.service.dateHappened.toString().substring(0, 10), style: const TextStyle(fontSize: 15)),
 
           if (widget.service.nextServiceKilometers != null && widget.service.nextServiceDate != null)

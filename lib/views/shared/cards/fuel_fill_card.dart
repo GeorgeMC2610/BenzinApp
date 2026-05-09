@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
@@ -58,7 +59,7 @@ class _FuelFillCardState extends State<FuelFillCard> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("€${widget.record.cost.toStringAsFixed(2)}", style: const TextStyle(fontSize: 16)),
+          Text(CarManager().watchingCar!.toCurrency(widget.record.cost.toStringAsFixed(2)), style: const TextStyle(fontSize: 16)),
           if (widget.record.totalKilometers != null)
             Text('${LocaleStringConverter.formattedBigInt(context, widget.record.totalKilometers!)} km', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           Text(_getFuelString(), style: const TextStyle(fontSize: 12)),

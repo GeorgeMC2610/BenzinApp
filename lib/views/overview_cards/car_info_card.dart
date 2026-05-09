@@ -113,7 +113,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
                       title: AutoSizeText(maxLines: 1, _getDaysString(context, lastRecord!)),
                       subtitle: Text(""
                           "${lastRecord!.liters} lt | "
-                          "€${lastRecord!.cost.toStringAsFixed(2)}"
+                          "${CarManager().watchingCar!.toCurrency(lastRecord!.cost.toStringAsFixed(2))}"
                       ),
                       leading: const Icon(FontAwesomeIcons.gasPump),
                     ) :

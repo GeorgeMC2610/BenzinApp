@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/details/trip.dart';
 import 'package:benzinapp/views/forms/trip.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +98,10 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.coins, size: 18,),
               const SizedBox(width: 5),
-              Text(" €${LocaleStringConverter.formattedDouble(context, widget.trip.totalKm * totalTravelCost)}",
-                style: const TextStyle(
+              Text( totalTravelCost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context,
+                      widget.trip.totalKm * totalTravelCost!
+                  )
+              ), style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
               )),
@@ -154,8 +157,7 @@ class _TripCardState extends State<TripCard> {
           children: [
             const Icon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText("€${LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost)
-                } ${translate('perWeek')}",
+            AutoSizeText(averageTripCost == null ? '-' : " ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost!))} ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold

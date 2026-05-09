@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +82,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
                     fontWeight: FontWeight.bold
                 ),
               ),
-              Text('€${LocaleStringConverter.formattedDouble(context, totalTravelCost!)}/km',
+              Text('${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalTravelCost!))}/km',
                 style: const TextStyle(
                   fontSize: 15,
                 ),

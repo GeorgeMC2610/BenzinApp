@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class _YearMonthFuelFillGroupsState extends State<YearMonthFuelFillGroups> {
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Text(
-              "€${records.map((value) => value.cost).reduce((value, element) => value + element).toStringAsFixed(2)}",
+              CarManager().watchingCar!.toCurrency(records.map((value) => value.cost).reduce((value, element) => value + element).toStringAsFixed(2)),
               style: const TextStyle(fontSize: 12),
             ),
           ),

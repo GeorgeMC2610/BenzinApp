@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
@@ -229,7 +230,7 @@ class _ViewTripState extends State<ViewTrip> {
                         // @note: These colors look just fine both in dark and light mode.
 
                         bestTripCost == null ? const Text('') : Text(
-                          '€${LocaleStringConverter.formattedDouble(context, bestTripCost!)} '
+                          '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestTripCost!))} '
                           '${translate('perTime')}',
                           style: mainDescription(Colors.green)
                         ),
@@ -242,7 +243,7 @@ class _ViewTripState extends State<ViewTrip> {
                         const SizedBox(height: 10),
 
                         averageTripCost == null ? const Text('') : Text(
-                            '€${LocaleStringConverter.formattedDouble(context, averageTripCost!)} '
+                            '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageTripCost!))} '
                             '${translate('perTime')}',
                             style: mainDescription(Colors.grey)
                         ),
@@ -255,7 +256,7 @@ class _ViewTripState extends State<ViewTrip> {
                         const SizedBox(height: 10),
 
                         worstTripCost == null ? const Text('') : Text(
-                            '€${LocaleStringConverter.formattedDouble(context, worstTripCost!)} '
+                            '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstTripCost!))} '
                             '${translate('perTime')}',
                             style: mainDescription(Colors.redAccent)
                         ),
@@ -347,7 +348,7 @@ class _ViewTripState extends State<ViewTrip> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             bestRepeatingTripCost == null ? const Text('') : Text(
-                                '€${LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!)} '
+                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!))} '
                                 '${translate('perWeek')}',
                                 style: mainDescription(Colors.green)
                             ),
@@ -360,7 +361,7 @@ class _ViewTripState extends State<ViewTrip> {
                             const SizedBox(height: 10),
 
                             averageRepeatingTripCost == null ? const Text('') : Text(
-                                '€${LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!)} '
+                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!))} '
                                     '${translate('perWeek')}',
                                 style: mainDescription(Colors.grey)
                             ),
@@ -373,7 +374,7 @@ class _ViewTripState extends State<ViewTrip> {
                             const SizedBox(height: 10),
 
                             worstRepeatingTripCost == null ? const Text('') : Text(
-                                '€${LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!)} '
+                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!))} '
                                     '${translate('perWeek')}',
                                 style: mainDescription(Colors.redAccent)
                             ),
