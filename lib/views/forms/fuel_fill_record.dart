@@ -82,6 +82,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       final previousRecord = FuelFillRecordManager().local?.firstOrNull;
       if (previousRecord != null) {
         _totalMileageController.text = previousRecord.totalKilometers?.toString() ?? '';
+        _pricePerVolume.text = previousRecord.getCostPerVolume().toStringAsFixed(3);
         _mileageController.text = '';
 
         _fuelTypeController.text = previousRecord.fuelType ?? '';
@@ -218,7 +219,6 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 upAndDownButtonValue: 0.001,
                 onChanged: (value) => _calculateFuelFields('price'),
                 title: translate('costPerVolume'),
-                startingValue: 1.851,
                 metric: '${CarManager().watchingCar!.currency}/lt.',
                 icon: const Icon(Icons.price_change, size: 40),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
