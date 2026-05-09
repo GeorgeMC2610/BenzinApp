@@ -97,6 +97,10 @@ class FuelFillRecord {
     return cost / kilometers;
   }
 
+  double getCostPerVolume() {
+    return cost / liters;
+  }
+
 }
 
 class FuelFillRecordFields {

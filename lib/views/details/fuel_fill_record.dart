@@ -260,6 +260,29 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                       ],
                     ),
 
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: MediaQuery.of(context).size.width),
+                            Text(translate('costPerVolume').toUpperCase(), style: SharedFontStyles.legendTextStyle),
+                            Text(
+                                "${(fuelFillRecord.cost / fuelFillRecord.liters).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/lt",
+                                style: SharedFontStyles.mainTextStyle.copyWith(
+                                    fontSize: 25,
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
                     // singular card with initial data
                     SizedBox(
                       width: MediaQuery.sizeOf(context).width,
