@@ -1,11 +1,13 @@
 # BenzinApp
+[<img width="22%" src="https://github.com/user-attachments/assets/c4e4eaa7-5080-4177-b36c-e82e4a69f39c" />](https://play.google.com/store/apps/details?id=com.georgemc2610.benzinapp.xplatform.benzinapp) [<img width="22%" src="https://github.com/user-attachments/assets/012cac9f-a4f1-42dd-b3b3-f6a8aefdfa77" />](https://apps.apple.com/gr/app/benzinapp/id6757866897)
+
 BenzinApp's official repository for the **X-Platform Mobile App** version, written in Dart using Flutter. Development starts and ends here! Anything related to the app will be found in this very repository! Read about the app below, for more info!
 
 ## Getting Started
 Follow the steps below, in order to test the App!
 
 ### Downloading the App
-The app is in **official open testing** both in [Play Store](https://play.google.com/store/apps/details?id=com.georgemc2610.benzinapp.xplatform.benzinapp) and the [Apple App Store](https://testflight.apple.com/join/ntpqBKrf)! 
+The app is in **available to download** for both Android in [Play Store](https://play.google.com/store/apps/details?id=com.georgemc2610.benzinapp.xplatform.benzinapp) and the [Apple App Store](https://play.google.com/store/apps/details?id=com.georgemc2610.benzinapp.xplatform.benzinapp) for iOS! 
 - Download it directly in your device if you're using Android. Use the link above to get started.
 - Downlaod TestFlight if you're using iOS, using the link above.
 
