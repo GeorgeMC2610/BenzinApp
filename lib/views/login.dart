@@ -11,6 +11,7 @@ import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, this.message});
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
     switch (result) {
       case SessionStatus.success:
+        TextInput.finishAutofillContext();
         // show the message that the user is authorized successfully.
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
         DataHolder().initializeValues();
@@ -219,85 +221,89 @@ class _LoginPageState extends State<LoginPage> {
               // E-mail text field
               Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      enabled: !isLoggingIn,
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      maxLength: 256,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (value) {
-                        setState(() {
-                          showUnlockButton = false;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        errorText: emailError,
-                        hintText: translate('emailHint'),
-                        labelText: translate('email'),
-                        counterText: '',
-                        prefixIcon: const Icon(Icons.email),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16.0),
-
-                    // Password TextField
-                    TextFormField(
-                      enabled: !isLoggingIn,
-                      controller: passwordController,
-                      obscureText: !_passwordVisible,
-                      decoration: InputDecoration(
-                        errorText: passwordError,
-                        hintText: translate('passwordHint'),
-                        labelText: translate('password'),
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                child: AutofillGroup(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        enabled: !isLoggingIn,
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        maxLength: 256,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (value) {
+                          setState(() {
+                            showUnlockButton = false;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          errorText: emailError,
+                          hintText: translate('emailHint'),
+                          labelText: translate('email'),
+                          counterText: '',
+                          prefixIcon: const Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    if (showUnlockButton)
-                      Center(
-                        child: FilledButton.tonalIcon(
-                          icon: const Icon(Icons.lock_reset),
-                          label: Text(translate('unlockAccountButton')),
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-                            textStyle: const TextStyle(
-                              fontSize: 16,
+                
+                      const SizedBox(height: 16.0),
+                
+                      // Password TextField
+                      TextFormField(
+                        enabled: !isLoggingIn,
+                        controller: passwordController,
+                        obscureText: !_passwordVisible,
+                        autofillHints: const [AutofillHints.password],
+                        decoration: InputDecoration(
+                          errorText: passwordError,
+                          hintText: translate('passwordHint'),
+                          labelText: translate('password'),
+                          prefixIcon: const Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                             ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => UnlockAccountScreen(email: emailController.text)
-                                )
-                            );
-                          },
                         ),
                       ),
-                  ],
+                
+                      const SizedBox(height: 25),
+
+                      if (showUnlockButton)
+                        Center(
+                          child: FilledButton.tonalIcon(
+                            icon: const Icon(Icons.lock_reset),
+                            label: Text(translate('unlockAccountButton')),
+                            style: FilledButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UnlockAccountScreen(email: emailController.text)
+                                  )
+                              );
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
 
