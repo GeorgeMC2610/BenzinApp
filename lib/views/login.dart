@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   String? emailError;
   String? passwordError;
@@ -216,78 +217,87 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
 
               // E-mail text field
-              TextField(
-                enabled: !isLoggingIn,
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                onChanged: (value) {
-                  setState(() {
-                    showUnlockButton = false;
-                  });
-                },
-                decoration: InputDecoration(
-                  errorText: emailError,
-                  hintText: translate('emailHint'),
-                  labelText: translate('email'),
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16.0),
-
-              // Password TextField
-              TextField(
-                enabled: !isLoggingIn,
-                controller: passwordController,
-                obscureText: !_passwordVisible,
-                decoration: InputDecoration(
-                  errorText: passwordError,
-                  hintText: translate('passwordHint'),
-                  labelText: translate('password'),
-                  prefixIcon: const Icon(Icons.lock),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _passwordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      enabled: !isLoggingIn,
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      maxLength: 256,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        setState(() {
+                          showUnlockButton = false;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        errorText: emailError,
+                        hintText: translate('emailHint'),
+                        labelText: translate('email'),
+                        counterText: '',
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  ),
-                ),
-              ),
 
-              const SizedBox(height: 25),
+                    const SizedBox(height: 16.0),
 
-              if (showUnlockButton)
-              Center(
-                child: FilledButton.tonalIcon(
-                  icon: const Icon(Icons.lock_reset),
-                  label: Text(translate('unlockAccountButton')),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-                    textStyle: const TextStyle(
-                      fontSize: 16,
+                    // Password TextField
+                    TextFormField(
+                      enabled: !isLoggingIn,
+                      controller: passwordController,
+                      obscureText: !_passwordVisible,
+                      decoration: InputDecoration(
+                        errorText: passwordError,
+                        hintText: translate('passwordHint'),
+                        labelText: translate('password'),
+                        prefixIcon: const Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UnlockAccountScreen(email: emailController.text)
-                        )
-                    );
-                  },
+
+                    const SizedBox(height: 25),
+
+                    if (showUnlockButton)
+                      Center(
+                        child: FilledButton.tonalIcon(
+                          icon: const Icon(Icons.lock_reset),
+                          label: Text(translate('unlockAccountButton')),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UnlockAccountScreen(email: emailController.text)
+                                )
+                            );
+                          },
+                        ),
+                      ),
+                  ],
                 ),
               ),
 

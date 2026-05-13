@@ -29,6 +29,8 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _confirmPasswordVisible = false;
   bool _termsAccepted = false;
 
+  final _formKey = GlobalKey<FormState>();
+
   void _sendRegisterPayload() async {
     // empty checks
     setState(() {
@@ -189,103 +191,113 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 40),
-              TextField(
-                controller: emailController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  errorText: emailError,
-                  hintText: translate('emailHint'),
-                  labelText: translate('email'),
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: usernameController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  errorText: usernameError,
-                  hintText: translate('usernameRegisterHint'),
-                  errorMaxLines: 4,
-                  labelText: translate('username'),
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: passwordController,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: emailController,
+                      keyboardType: TextInputType.text,
+                      maxLength: 256,
                       textInputAction: TextInputAction.next,
-                      obscureText: !_passwordVisible,
-                      maxLength: 128,
                       decoration: InputDecoration(
-                        errorText: passwordError,
+                        errorText: emailError,
+                        hintText: translate('emailHint'),
+                        counterText: '',
+                        labelText: translate('email'),
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: usernameController,
+                      keyboardType: TextInputType.text,
+                      maxLength: 16,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        errorText: usernameError,
+                        hintText: translate('usernameRegisterHint'),
                         errorMaxLines: 4,
-                        counterText: '',
-                        hintText: translate('passwordHint'),
-                        labelText: translate('password'),
-                        prefixIcon: const Icon(Icons.lock),
+                        labelText: translate('username'),
+                        prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
-                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 7.5),
-                  Expanded(
-                    child: TextField(
-                      controller: passwordConfirmController,
-                      textInputAction: TextInputAction.next,
-                      obscureText: !_confirmPasswordVisible,
-                      maxLength: 128,
-                      decoration: InputDecoration(
-                        errorText: passwordConfirmError,
-                        hintText: translate('passwordConfirmationHint'),
-                        labelText: translate('passwordConfirmation'),
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        counterText: '',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _confirmPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                    const SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: passwordController,
+                            textInputAction: TextInputAction.next,
+                            obscureText: !_passwordVisible,
+                            maxLength: 128,
+                            decoration: InputDecoration(
+                              errorText: passwordError,
+                              errorMaxLines: 4,
+                              counterText: '',
+                              hintText: translate('passwordHint'),
+                              labelText: translate('password'),
+                              prefixIcon: const Icon(Icons.lock),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
+                            ),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _confirmPasswordVisible = !_confirmPasswordVisible;
-                            });
-                          },
                         ),
-                      ),
+                        const SizedBox(width: 7.5),
+                        Expanded(
+                          child: TextFormField(
+                            controller: passwordConfirmController,
+                            textInputAction: TextInputAction.next,
+                            obscureText: !_confirmPasswordVisible,
+                            maxLength: 128,
+                            decoration: InputDecoration(
+                              errorText: passwordConfirmError,
+                              hintText: translate('passwordConfirmationHint'),
+                              labelText: translate('passwordConfirmation'),
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              counterText: '',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _confirmPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _confirmPasswordVisible = !_confirmPasswordVisible;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 50),
               Row(
