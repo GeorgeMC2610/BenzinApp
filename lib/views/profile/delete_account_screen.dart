@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
@@ -172,22 +173,15 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              TextField(
+              PasswordField(
                 enabled: !_isSending,
                 controller: _passwordController,
                 onChanged: (value) {
                   setState(() {});
                 },
-                keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: translate('deleteAccountRetypePassword'),
-                  prefixIcon: const Icon(Icons.password),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
+                labelText: translate('deleteAccountRetypePassword'),
+                prefixIcon: const Icon(Icons.password),
               ),
             ],
           ),

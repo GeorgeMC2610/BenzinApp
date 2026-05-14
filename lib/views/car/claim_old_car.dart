@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
@@ -117,24 +118,17 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                     const SizedBox(height: 20),
 
                     // Password TextField
-                    TextField(
+                    PasswordField(
                       enabled: !isSearching,
                       controller: passwordController,
+                      errorText: passwordError,
+                      hintText: translate('passwordHint'),
+                      labelText: translate('password'),
                       onChanged: (value) {
                         setState(() {
                           passwordEmpty = value.isEmpty;
                         });
                       },
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        errorText: passwordError,
-                        hintText: translate('passwordHint'),
-                        labelText: translate('password'),
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
                     ),
 
                     const SizedBox(height: 60),

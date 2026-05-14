@@ -5,6 +5,7 @@ import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -25,9 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? usernameError, passwordError, passwordConfirmError, emailError;
   bool isRegistering = false;
-  bool _passwordVisible = false;
-  bool _confirmPasswordVisible = false;
   bool _termsAccepted = false;
+
+
+  final _formKey = GlobalKey<FormState>();
 
   void _sendRegisterPayload() async {
     // empty checks
@@ -189,103 +191,81 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 40),
-              TextField(
-                controller: emailController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  errorText: emailError,
-                  hintText: translate('emailHint'),
-                  labelText: translate('email'),
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: usernameController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  errorText: usernameError,
-                  hintText: translate('usernameRegisterHint'),
-                  errorMaxLines: 4,
-                  labelText: translate('username'),
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: passwordController,
-                      textInputAction: TextInputAction.next,
-                      obscureText: !_passwordVisible,
-                      maxLength: 128,
-                      decoration: InputDecoration(
-                        errorText: passwordError,
-                        errorMaxLines: 4,
-                        counterText: '',
-                        hintText: translate('passwordHint'),
-                        labelText: translate('password'),
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+              Form(
+                key: _formKey,
+                child: AutofillGroup(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        maxLength: 256,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorText: emailError,
+                          hintText: translate('emailHint'),
+                          counterText: '',
+                          labelText: translate('email'),
+                          prefixIcon: const Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 7.5),
-                  Expanded(
-                    child: TextField(
-                      controller: passwordConfirmController,
-                      textInputAction: TextInputAction.next,
-                      obscureText: !_confirmPasswordVisible,
-                      maxLength: 128,
-                      decoration: InputDecoration(
-                        errorText: passwordConfirmError,
-                        hintText: translate('passwordConfirmationHint'),
-                        labelText: translate('passwordConfirmation'),
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        counterText: '',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _confirmPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        controller: usernameController,
+                        keyboardType: TextInputType.text,
+                        autofillHints: const [AutofillHints.newUsername],
+                        maxLength: 16,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorText: usernameError,
+                          hintText: translate('usernameRegisterHint'),
+                          errorMaxLines: 4,
+                          labelText: translate('username'),
+                          prefixIcon: const Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _confirmPasswordVisible = !_confirmPasswordVisible;
-                            });
-                          },
                         ),
                       ),
-                    ),
-                  )
-                ],
+                      const SizedBox(height: 10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: PasswordField(
+                              controller: passwordController,
+                              textInputAction: TextInputAction.next,
+                              autofillHints: const [AutofillHints.newPassword],
+                              maxLength: 128,
+                              errorText: passwordError,
+                              errorMaxLines: 4,
+                              hintText: translate('passwordHint'),
+                              labelText: translate('password'),
+                            ),
+                          ),
+                          const SizedBox(width: 7.5),
+                          Expanded(
+                            child: PasswordField(
+                              controller: passwordConfirmController,
+                              textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (_) => _sendRegisterPayload(),
+                              autofillHints: const [AutofillHints.newPassword],
+                              maxLength: 128,
+                              errorText: passwordConfirmError,
+                              hintText: translate('passwordConfirmationHint'),
+                              labelText: translate('passwordConfirmation'),
+                              prefixIcon: const Icon(Icons.lock_outline),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 50),
               Row(
