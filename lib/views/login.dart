@@ -9,6 +9,7 @@ import 'package:benzinapp/views/confirmations/unlock_account.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLoggingIn = false;
   bool showUnlockButton = false;
-  bool _passwordVisible = false;
+
 
   void sendLoginPayload() async {
 
@@ -251,33 +252,14 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 16.0),
                 
                       // Password TextField
-                      TextFormField(
+                      PasswordField(
                         enabled: !isLoggingIn,
                         controller: passwordController,
-                        obscureText: !_passwordVisible,
-                        autofillHints: const [AutofillHints.password],
-                        decoration: InputDecoration(
-                          errorText: passwordError,
-                          hintText: translate('passwordHint'),
-                          labelText: translate('password'),
-                          prefixIcon: const Icon(Icons.lock),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
-                        ),
+                        errorText: passwordError,
+                        hintText: translate('passwordHint'),
+                        labelText: translate('password'),
                       ),
+
                 
                       const SizedBox(height: 25),
 

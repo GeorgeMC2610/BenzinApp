@@ -5,6 +5,7 @@ import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -25,9 +26,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? usernameError, passwordError, passwordConfirmError, emailError;
   bool isRegistering = false;
-  bool _passwordVisible = false;
-  bool _confirmPasswordVisible = false;
   bool _termsAccepted = false;
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -236,68 +236,29 @@ class _RegisterPageState extends State<RegisterPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: TextFormField(
+                            child: PasswordField(
                               controller: passwordController,
                               textInputAction: TextInputAction.next,
-                              obscureText: !_passwordVisible,
                               autofillHints: const [AutofillHints.newPassword],
                               maxLength: 128,
-                              decoration: InputDecoration(
-                                errorText: passwordError,
-                                errorMaxLines: 4,
-                                counterText: '',
-                                hintText: translate('passwordHint'),
-                                labelText: translate('password'),
-                                prefixIcon: const Icon(Icons.lock),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _passwordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _passwordVisible = !_passwordVisible;
-                                    });
-                                  },
-                                ),
-                              ),
+                              errorText: passwordError,
+                              errorMaxLines: 4,
+                              hintText: translate('passwordHint'),
+                              labelText: translate('password'),
                             ),
                           ),
                           const SizedBox(width: 7.5),
                           Expanded(
-                            child: TextFormField(
+                            child: PasswordField(
                               controller: passwordConfirmController,
                               textInputAction: TextInputAction.done,
                               onFieldSubmitted: (_) => _sendRegisterPayload(),
-                              obscureText: !_confirmPasswordVisible,
                               autofillHints: const [AutofillHints.newPassword],
                               maxLength: 128,
-                              decoration: InputDecoration(
-                                errorText: passwordConfirmError,
-                                hintText: translate('passwordConfirmationHint'),
-                                labelText: translate('passwordConfirmation'),
-                                prefixIcon: const Icon(Icons.lock_outline),
-                                counterText: '',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _confirmPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _confirmPasswordVisible = !_confirmPasswordVisible;
-                                    });
-                                  },
-                                ),
-                              ),
+                              errorText: passwordConfirmError,
+                              hintText: translate('passwordConfirmationHint'),
+                              labelText: translate('passwordConfirmation'),
+                              prefixIcon: const Icon(Icons.lock_outline),
                             ),
                           )
                         ],

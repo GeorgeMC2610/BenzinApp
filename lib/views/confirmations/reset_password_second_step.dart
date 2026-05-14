@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/shared/notification.dart';
+import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -335,40 +336,26 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
                 const SizedBox(height: 20),
 
-                TextField(
+                PasswordField(
                   enabled: !isLoading,
                   controller: newPasswordController,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
+                  errorText: passwordError,
+                  hintText: translate('forgotPasswordSecondStepPasswordHint'),
+                  labelText: translate('forgotPasswordSecondStepPasswordLabel'),
+                  prefixIcon: const Icon(Icons.enhanced_encryption),
                   textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    errorText: passwordError,
-                    hintText: translate('forgotPasswordSecondStepPasswordHint'),
-                    labelText: translate('forgotPasswordSecondStepPasswordLabel'),
-                    prefixIcon: const Icon(Icons.enhanced_encryption),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
                 ),
 
                 const SizedBox(height: 25),
 
-                TextField(
+                PasswordField(
                   enabled: !isLoading,
                   controller: newPasswordConfirmController,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
+                  errorText: passwordConfirmError,
+                  hintText: translate('forgotPasswordSecondStepPasswordConfirmHint'),
+                  labelText: translate('forgotPasswordSecondStepPasswordConfirmLabel'),
+                  prefixIcon: const Icon(Icons.enhanced_encryption_outlined),
                   textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    errorText: passwordConfirmError,
-                    hintText: translate('forgotPasswordSecondStepPasswordConfirmHint'),
-                    labelText: translate('forgotPasswordSecondStepPasswordConfirmLabel'),
-                    prefixIcon: const Icon(Icons.enhanced_encryption_outlined),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
                 ),
               ],
             ),
