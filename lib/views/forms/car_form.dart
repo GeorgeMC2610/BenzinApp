@@ -6,6 +6,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/classes/car.dart';
+import '../../services/classes/car_data.dart';
 import '../shared/notification.dart';
 
 class CarForm extends StatefulWidget {
@@ -100,7 +101,7 @@ class _CarFormState extends State<CarForm> {
 
     if (CarManager().errors.isEmpty) {
       SnackbarNotification.show(MessageType.success, successMessage);
-      Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
     }
     else {
       setState(() {
@@ -131,6 +132,9 @@ class _CarFormState extends State<CarForm> {
       manufacturerController.text = widget.car!.manufacturer;
       yearController.text = widget.car!.year.toString();
       currencyController.text = widget.car!.currency;
+    }
+    else {
+      currencyController.text = '€';
     }
   }
 
@@ -214,27 +218,67 @@ class _CarFormState extends State<CarForm> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
-            TextField(
-              onTapOutside: (value) {
-                FocusScope.of(context).unfocus();
+            Autocomplete<String>(
+              initialValue:
+                  TextEditingValue(text: manufacturerController.text),
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                final Iterable<String> options = CarData.carModels.keys;
+                if (textEditingValue.text.isEmpty) {
+                  return options;
+                }
+                return options.where((String option) {
+                  return option
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase());
+                });
               },
-              controller: manufacturerController,
-              keyboardType: TextInputType.text,
-              enabled: !isLoading,
-              maxLength: 30,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                errorText: manufacturerError,
-                counterText: '',
-                hintText: translate('carManufacturerHint'),
-                labelText: translate('carManufacturer'),
-                prefixIcon: const Icon(Icons.car_rental),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
+              onSelected: (String selection) {
+                setState(() {
+                  manufacturerController.text = selection;
+                  // Optionally clear model if manufacturer changes
+                  if (widget.car?.manufacturer != selection) {
+                    modelController.text = '';
+                  }
+                });
+              },
+              fieldViewBuilder:
+                  (context, controller, focusNode, onFieldSubmitted) {
+                return TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  onTap: () {
+                    // Trigger the options list to show up if empty
+                    if (controller.text.isEmpty) {
+                      controller.value = const TextEditingValue(
+                        text: '',
+                        selection: TextSelection.collapsed(offset: 0),
+                      );
+                    }
+                  },
+                  controller: controller,
+                  focusNode: focusNode,
+                  onChanged: (value) {
+                    manufacturerController.text = value;
+                  },
+                  keyboardType: TextInputType.text,
+                  enabled: !isLoading,
+                  maxLength: 30,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    errorText: manufacturerError,
+                    counterText: '',
+                    hintText: translate('carManufacturerHint'),
+                    labelText: translate('carManufacturer'),
+                    prefixIcon: const Icon(Icons.car_rental),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 16.0),
@@ -244,24 +288,64 @@ class _CarFormState extends State<CarForm> {
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    onTapOutside: (value) {
-                      FocusScope.of(context).unfocus();
+                  child: Autocomplete<String>(
+                    key: ValueKey(manufacturerController.text),
+                    initialValue: TextEditingValue(text: modelController.text),
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      final manufacturer = manufacturerController.text.trim();
+                      final models = CarData.carModels[manufacturer] ??
+                          CarData.carModels.values
+                              .expand((element) => element)
+                              .toList();
+
+                      if (textEditingValue.text.isEmpty) {
+                        return models;
+                      }
+
+                      return models.where((String option) {
+                        return option
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase());
+                      });
                     },
-                    controller: modelController,
-                    textInputAction: TextInputAction.next,
-                    enabled: !isLoading,
-                    maxLength: 30,
-                    decoration: InputDecoration(
-                      errorText: modelError,
-                      counterText: '',
-                      hintText: translate('carModelHint'),
-                      labelText: translate('carModel'),
-                      prefixIcon: const Icon(Icons.car_rental_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
+                    onSelected: (String selection) {
+                      modelController.text = selection;
+                    },
+                    fieldViewBuilder:
+                        (context, controller, focusNode, onFieldSubmitted) {
+                      return TextField(
+                        onTapOutside: (value) {
+                          FocusScope.of(context).unfocus();
+                        },
+                        onTap: () {
+                          // Trigger the options list to show up if empty
+                          if (controller.text.isEmpty) {
+                            controller.value = const TextEditingValue(
+                              text: '',
+                              selection: TextSelection.collapsed(offset: 0),
+                            );
+                          }
+                        },
+                        controller: controller,
+                        focusNode: focusNode,
+                        onChanged: (value) {
+                          modelController.text = value;
+                        },
+                        textInputAction: TextInputAction.next,
+                        enabled: !isLoading,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                          errorText: modelError,
+                          counterText: '',
+                          hintText: translate('carModelHint'),
+                          labelText: translate('carModel'),
+                          prefixIcon: const Icon(Icons.car_rental_outlined),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
 
