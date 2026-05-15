@@ -580,7 +580,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       return translate('invalidNumber');
     }
 
-    if (double.parse(field) < 0) {
+    if (double.parse(field) <= 0) {
       return translate('cannotBeNegative');
     }
 
