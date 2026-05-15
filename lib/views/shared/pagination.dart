@@ -27,13 +27,13 @@ class Pagination extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildArrow(Icons.chevron_left, currentPage > 1 ? () => onPageChanged(currentPage - 1) : null, false),
             const SizedBox(width: 8),
-            ..._buildPages(),
+            ..._buildPages(context),
             const SizedBox(width: 8),
             _buildArrow(Icons.chevron_right, currentPage < totalPages ? () => onPageChanged(currentPage + 1) : null, true),
           ],
@@ -61,7 +61,7 @@ class Pagination extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildPages() {
+  List<Widget> _buildPages(BuildContext context) {
     List<Widget> widgets = [];
     List<dynamic> pages = [];
     
@@ -79,7 +79,7 @@ class Pagination extends StatelessWidget {
 
     for (var page in pages) {
       if (page is int) {
-        widgets.add(_buildPageItem(page));
+        widgets.add(_buildPageItem(page, context));
       } else {
         widgets.add(_buildEllipsis());
       }
@@ -88,7 +88,7 @@ class Pagination extends StatelessWidget {
     return widgets;
   }
 
-  Widget _buildPageItem(int page) {
+  Widget _buildPageItem(int page, BuildContext context) {
     bool isSelected = page == currentPage;
     return InkWell(
       onTap: () => onPageChanged(page),
@@ -97,7 +97,7 @@ class Pagination extends StatelessWidget {
         height: 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue : Colors.transparent,
+          color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
