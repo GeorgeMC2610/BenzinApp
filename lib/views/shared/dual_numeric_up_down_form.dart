@@ -242,7 +242,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                   backgroundColor: value < 0 ? Theme.of(context).colorScheme.errorContainer : null,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                 ),
-                onPressed: _currentValue(controller) <= 0 && value < 0 ? null : () => _increment(value, controller),
+                onPressed: _currentValue(controller) <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value, controller),
                 child:
                 Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
               );
@@ -342,7 +342,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                       visualDensity: VisualDensity.standard,
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                     ),
-                    onPressed: (_currentValue(widget.controller1) <= 0 || _currentValue(widget.controller1) <= 0) && value < 0 ? null : () {
+                    onPressed: (_currentValue(widget.controller1) <= 0 || _currentValue(widget.controller1) <= 0) && value < 0 && !widget.canBeNegative ? null : () {
                       _increment(value, widget.controller1);
                       _increment(value, widget.controller2);
                     },
