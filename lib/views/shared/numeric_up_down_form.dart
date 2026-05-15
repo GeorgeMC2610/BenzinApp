@@ -291,7 +291,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                     visualDensity: VisualDensity.standard,
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                   ),
-                  onPressed: () => _increment(value),
+                  onPressed: _currentValue() <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value),
                   child: Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
                 );
               }).toList(),

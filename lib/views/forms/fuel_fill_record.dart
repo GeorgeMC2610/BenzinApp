@@ -204,7 +204,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 hint: Hint.odometer.widget,
                 title: translate('mileageTitle'),
                 error1: mileageError,
-                quickValues: const [-5, -1, 1, 10, 50, 100, 500],
+                quickValues: const [-50, -5, -1, 1, 10, 50, 100, 500],
                 syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
                 showUpDownButtons: false,
                 icon: const Icon(Icons.speed, size: 40),
@@ -229,7 +229,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 controller2: _literController,
                 title: translate('fuelFillInfo'),
                 hint: Hint.ffrStats.widget,
-                quickValues: const [-5, -0.1, -0.01, 0.01, 0.1, 5, 10, 50],
+                quickValues: const [-5, -1, -0.1, -0.01, 0.01, 0.1, 1, 5, 10, 50],
                 showUpDownButtons: false,
                 syncedControllers: false,
                 error1: costError,
@@ -580,7 +580,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       return translate('invalidNumber');
     }
 
-    if (double.parse(field) < 0) {
+    if (double.parse(field) <= 0) {
       return translate('cannotBeNegative');
     }
 
