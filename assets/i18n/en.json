@@ -360,6 +360,7 @@
   "confirmTrip": "Confirm Trip",
   "confirmLocation": "Confirm Location",
 
+  "fuelFilters": "Fuel Fill Filters",
   "malfunctionFilters": "Malfunction Filters",
   "serviceFilters": "Service Filters",
   "statusFilter": "Status",
