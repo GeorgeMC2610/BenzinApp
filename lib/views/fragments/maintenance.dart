@@ -168,7 +168,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
     return Column(
       children: [
         for (var key in sortedKeys) ...[
-          _groupHeader("${translate('severityFilter')}: $key"),
+          _groupHeader(_severityHeader[key]!),
           ...groups[key]!.map((m) => MalfunctionCard(malfunction: m)),
         ],
         const SizedBox(height: 65)
@@ -186,6 +186,14 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
     ),
   );
 
+  final Map<int, String> _severityHeader = {
+    1: translate('severityLowest'),
+    2: translate('severityLow'),
+    3: translate('severityNormal'),
+    4: translate('severityHigh'),
+    5: translate('severityHighest'),
+  };
+
   Widget serviceListBody() => RefreshIndicator(
     onRefresh: () => refreshServices(),
     child: SingleChildScrollView(
@@ -196,6 +204,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
+            if (_showLastService())
             DividerWithText(
                 text: translate('lastService'),
                 lineColor: Colors.grey,
@@ -203,6 +212,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                 textSize: 16
             ),
 
+            if (_showLastService())
             SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
@@ -221,10 +231,25 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                 textSize: 16
             ),
 
+            if (_showLastService())
             ServiceManager().localOrFiltered!.skip(1).isEmpty ? Text(translate('nothingToShowHere')) :
             Column(
               children: ServiceManager().localOrFiltered!.skip(1).map((service) {
                 return ServiceManager().localOrFiltered!.skip(1).last != service ?
+                Column(
+                  children: [
+                    ServiceCard(service: service),
+                    const Divider()
+                  ],
+                ) : ServiceCard(service: service);
+              }).toList(),
+            ),
+
+            if (!_showLastService())
+            ServiceManager().localOrFiltered!.isEmpty ? Text(translate('nothingToShowHere')) :
+            Column(
+              children: ServiceManager().localOrFiltered!.map((service) {
+                return ServiceManager().localOrFiltered!.last != service ?
                 Column(
                   children: [
                     ServiceCard(service: service),
@@ -300,5 +325,13 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
   refreshServices() async {
     await ServiceManager().index();
+  }
+
+  bool _showLastService() {
+    if (ServiceManager().local == null) {
+      return false;
+    }
+
+    return ServiceManager().local?.firstOrNull == ServiceManager().localOrFiltered?.firstOrNull;
   }
 }
