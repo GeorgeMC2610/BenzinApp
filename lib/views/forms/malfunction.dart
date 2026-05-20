@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
@@ -41,9 +43,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   @override
   void initState() {
     super.initState();
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
 
     if (widget.malfunction != null) {
-      kmController.text = widget.malfunction!.kilometersDiscovered.toString();
+      kmController.text = distanceProvider.convert(widget.malfunction!.kilometersDiscovered.toDouble()).toInt().toString();
       titleController.text = widget.malfunction!.title;
       descriptionController.text = widget.malfunction!.description;
       _selectedDate = widget.malfunction!.dateStarted;
@@ -59,12 +62,14 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     }
     else {
       final lastFuelFill = FuelFillRecordManager().local?.firstOrNull;
-      kmController.text = lastFuelFill?.totalKilometers?.toString() ?? '';
+      kmController.text = lastFuelFill?.totalKilometers != null ? 
+          distanceProvider.convert(lastFuelFill!.totalKilometers!.toDouble()).toInt().toString() : '';
       _selectedDate = DateTime.now();
     }
   }
 
   void _buttonSubmit() async {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     // validate the fields.
     setState(() {
       kmError = null;
@@ -81,7 +86,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       final malfunction = Malfunction(
           id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
           title: titleController.text.trim(), severity: _severity.toInt(),
-          kilometersDiscovered: int.parse(kmController.text), dateEnded: _markAsFixed ? _selectedDateEnded : null,
+          kilometersDiscovered: distanceProvider.deconvert(double.parse(kmController.text)).toInt(), 
+          dateEnded: _markAsFixed ? _selectedDateEnded : null,
           cost: _markAsFixed ? double.tryParse(costController.text) : null,
           location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
       );
@@ -113,7 +119,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         ..description = descriptionController.text.trim()
         ..title = titleController.text.trim()
         ..severity = _severity.toInt()
-        ..kilometersDiscovered = int.parse(kmController.text);
+        ..kilometersDiscovered = distanceProvider.deconvert(double.parse(kmController.text)).toInt();
 
       if (_markAsFixed) {
         widget.malfunction!
@@ -238,6 +244,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -327,8 +334,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 bigTitle: false,
                 error: kmError,
                 quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
-                title: translate('serviceMileage2'),
-                metric: translate('km'),
+                title: '${translate('serviceMileage2')} (${distanceProvider.label})',
+                metric: distanceProvider.label,
                 icon: const Icon(Icons.speed, size: 40),
               ),
 

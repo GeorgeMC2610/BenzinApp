@@ -1,3 +1,6 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
@@ -61,19 +64,24 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   @override
   void initState() {
     super.initState();
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
+
     if (widget.fuelFillRecord != null) {
       FuelFillRecord record = widget.fuelFillRecord!;
 
-      _mileageController.text = record.kilometers.toString();
+      _mileageController.text = _formatCalcValue(distanceProvider.convert(record.kilometers.toDouble()));
       _costController.text = record.cost.toString();
-      _literController.text = record.liters.toString();
+      _literController.text = _formatCalcValue(volumeProvider.convert(record.liters));
       _selectedDate = record.dateTime;
 
       if (record.cost > 0 && record.liters > 0) {
-        _pricePerVolume.text = _formatCalcValue(record.cost / record.liters);
+        double convertedLiters = volumeProvider.convert(record.liters);
+        _pricePerVolume.text = _formatCalcValue(record.cost / convertedLiters);
       }
 
-      _totalMileageController.text = record.totalKilometers?.toString() ?? '';
+      _totalMileageController.text = record.totalKilometers != null ? 
+          distanceProvider.convert(record.totalKilometers!.toDouble()).toInt().toString() : '';
       _stationController.text = record.gasStation ?? '';
       _fuelTypeController.text = record.fuelType ?? '';
       _commentsController.text = record.comments ?? '';
@@ -81,8 +89,11 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     else {
       final previousRecord = FuelFillRecordManager().local?.firstOrNull;
       if (previousRecord != null) {
-        _totalMileageController.text = previousRecord.totalKilometers?.toString() ?? '';
-        _pricePerVolume.text = previousRecord.getCostPerVolume().toStringAsFixed(3);
+        _totalMileageController.text = previousRecord.totalKilometers != null ? 
+            distanceProvider.convert(previousRecord.totalKilometers!.toDouble()).toInt().toString() : '';
+        
+        double convertedLiters = volumeProvider.convert(previousRecord.liters);
+        _pricePerVolume.text = _formatCalcValue(previousRecord.cost / convertedLiters);
         _mileageController.text = '';
 
         _fuelTypeController.text = previousRecord.fuelType ?? '';
@@ -166,6 +177,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
     return Scaffold(
       persistentFooterButtons: [
         PersistentAddOrEditButton(
@@ -208,8 +222,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
                 showUpDownButtons: false,
                 icon: const Icon(Icons.speed, size: 40),
-                fieldTitle1: '${translate('mileage')} *',
-                fieldTitle2: translate('totalMileage'),
+                fieldTitle1: '${translate('mileage')} (${distanceProvider.label}) *',
+                fieldTitle2: '${translate('totalMileage')} (${distanceProvider.label})',
               ),
 
               NumericUpDownForm(
@@ -219,7 +233,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 upAndDownButtonValue: 0.001,
                 onChanged: (value) => _calculateFuelFields('price'),
                 title: translate('costPerVolume'),
-                metric: '${CarManager().watchingCar!.currency}/lt.',
+                metric: '${CarManager().watchingCar!.currency}/${volumeProvider.label}.',
                 icon: const Icon(Icons.price_change, size: 40),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
               ),
@@ -238,7 +252,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 onController2Changed: (string) => _calculateFuelFields('liters'),
                 icon: const Icon(Icons.gas_meter_outlined, size: 40),
                 fieldTitle1: '${translate('cost')} *',
-                fieldTitle2: '${translate('liters')} *',
+                fieldTitle2: '${translate('liters')} (${volumeProvider.label}) *',
               ),
 
               const SizedBox(height: 30),
@@ -435,6 +449,9 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
   }
 
   onButtonPressed() async {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
+
     // add field checks
     // TODO: Add those check when the user exits the fields.
     setState(() {
@@ -463,14 +480,16 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       return;
     }
 
-    double liters = double.parse(_literController.text);
+    double liters = volumeProvider.deconvert(double.parse(_literController.text));
     double cost = double.parse(_costController.text);
-    double kilometers = double.parse(_mileageController.text);
+    double kilometers = distanceProvider.deconvert(double.parse(_mileageController.text));
 
     String? comments = _commentsController.text.trim().isEmpty ? null : _commentsController.text.trim();
     String? station = _stationController.text.trim().isEmpty ? null : _stationController.text.trim();
     String? fuelType = _fuelTypeController.text.trim().isEmpty ? null : _fuelTypeController.text.trim();
-    int? totalKm = int.tryParse(_totalMileageController.text);
+    
+    double? totalMilesOrKm = double.tryParse(_totalMileageController.text);
+    int? totalKm = totalMilesOrKm != null ? distanceProvider.deconvert(totalMilesOrKm).toInt() : null;
 
     final manager = FuelFillRecordManager();
 
