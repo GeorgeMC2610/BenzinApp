@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
@@ -31,6 +33,7 @@ class _ViewServiceState extends State<ViewService> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('serviceData')),
@@ -123,7 +126,7 @@ class _ViewServiceState extends State<ViewService> {
 
                         Text(translate('serviceMileage'), style: SharedFontStyles.legendTextStyle),
                         Text(
-                          '${LocaleStringConverter.formattedBigInt(context, service.kilometersDone)} km',
+                          '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}',
                           style: SharedFontStyles.descriptiveTextStyle
                         ),
 
@@ -236,6 +239,7 @@ class _ViewServiceState extends State<ViewService> {
   }
 
   String getNextServiceInfo() {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     if (service.nextServiceKilometers == null && service.nextServiceDate == null) return '-';
 
     if (service.nextServiceKilometers == null) {
@@ -243,11 +247,11 @@ class _ViewServiceState extends State<ViewService> {
     }
 
     if (service.nextServiceDate == null) {
-      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km';
+      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}';
     }
 
     return '${translate('at')} '
-        '${LocaleStringConverter.formattedBigInt(context, service.nextServiceKilometers!)} km '
+        '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label} '
         '${translate('orBefore')} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
 
   }

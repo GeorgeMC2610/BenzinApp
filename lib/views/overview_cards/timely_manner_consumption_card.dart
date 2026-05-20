@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
+import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -9,6 +10,7 @@ import '../../services/locale_string_converter.dart';
 import '../../services/managers/fuel_fill_record_manager.dart';
 import '../../services/managers/malfunction_manager.dart';
 import '../../services/managers/service_manager.dart';
+import '../../services/volume_metric_provider.dart';
 import '../shared/cards/loading_data_card.dart';
 
 class TimelyMannerConsumptionCard extends StatefulWidget {
@@ -22,80 +24,84 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
 
   double? totalLitersFilled, totalCost, totalKilometersTravelled;
 
-  Widget normalBody() => SizedBox(
-    width: MediaQuery.sizeOf(context).width,
-    child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: AutoSizeText(
-                    translate('totalStatistics'),
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-              ),
+  Widget normalBody() {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
 
-              const SizedBox(height: 15),
-
-              Text(translate('totalLitersFilled'),
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              Text('${LocaleStringConverter.formattedDouble(context, totalLitersFilled!)} lt.',
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Text(translate('totalKilometersTravelled'),
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              Text('${LocaleStringConverter.formattedDouble(
-                  context,
-                  totalKilometersTravelled!
-              )} km',
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Text(translate('totalCosts'),
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              Text(CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalCost!)),
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-
-            ],
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)
           ),
-        )
-    ),
-  );
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: AutoSizeText(
+                      translate('totalStatistics'),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold
+                      )
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                Text(translate('totalLitersFilled'),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                Text(
+                  '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(totalLitersFilled!))} ${volumeProvider.label}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(translate('totalKilometersTravelled', args: {'unit': distanceProvider.longLabel}),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                Text(
+                  '${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(totalKilometersTravelled!))} ${distanceProvider.label}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(translate('totalCosts'),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                Text(CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalCost!)),
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+
+              ],
+            ),
+          )
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => Consumer3<FuelFillRecordManager, MalfunctionManager, ServiceManager>(

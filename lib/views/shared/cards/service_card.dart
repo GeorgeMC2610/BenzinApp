@@ -6,9 +6,10 @@ import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/forms/service.dart';
 import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
@@ -27,7 +28,7 @@ class _ServiceCardState extends State<ServiceCard> {
 
   @override
   Widget build(BuildContext context) {
-
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
 
     return ListTile(
@@ -40,7 +41,7 @@ class _ServiceCardState extends State<ServiceCard> {
         );
       },
       title: Text(
-          "${format.format(widget.service.kilometersDone)} km",
+          "${format.format(distanceProvider.convert(widget.service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}",
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
       ),
       trailing: CardEditDeleteButtons(
@@ -75,7 +76,7 @@ class _ServiceCardState extends State<ServiceCard> {
             children: [
               const Icon(Icons.speed, size: 17,),
               const SizedBox(width: 5),
-              Text("${translate('at')} ${LocaleStringConverter.formattedBigInt(context, widget.service.nextServiceKilometers!)} km")
+              Text("${translate('at')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(widget.service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}")
             ],
           ),
 

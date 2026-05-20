@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
@@ -41,10 +43,12 @@ class _ServiceFormState extends State<ServiceForm> {
   @override
   void initState() {
     super.initState();
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
 
     if (widget.service != null) {
-      kmController.text = widget.service!.kilometersDone.toString();
-      nextKmController.text = widget.service!.nextServiceKilometers?.toString() ?? '';
+      kmController.text = distanceProvider.convert(widget.service!.kilometersDone.toDouble()).toInt().toString();
+      nextKmController.text = widget.service!.nextServiceKilometers != null ? 
+          distanceProvider.convert(widget.service!.nextServiceKilometers!.toDouble()).toInt().toString() : '';
       costController.text = widget.service!.cost?.toString() ?? '';
       descriptionController.text = widget.service!.description;
       _selectedNextDate = widget.service!.nextServiceDate;
@@ -54,8 +58,9 @@ class _ServiceFormState extends State<ServiceForm> {
     }
     else {
       final previousFuelFill = FuelFillRecordManager().local?.firstOrNull;
-      kmController.text = previousFuelFill?.totalKilometers?.toString() ?? '';
-      nextKmController.text = previousFuelFill?.totalKilometers?.toString() ?? '';
+      kmController.text = previousFuelFill?.totalKilometers != null ? 
+          distanceProvider.convert(previousFuelFill!.totalKilometers!.toDouble()).toInt().toString() : '';
+      nextKmController.text = kmController.text;
       _selectedDate = DateTime.now();
     }
   }
@@ -86,6 +91,7 @@ class _ServiceFormState extends State<ServiceForm> {
   }
 
   void _buttonSubmit() async {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     setState(() {
       descError = null;
       kmError = null;
@@ -101,9 +107,11 @@ class _ServiceFormState extends State<ServiceForm> {
     final manager = ServiceManager();
     if (widget.service == null) {
       final service = Service(
-          id: -1, kilometersDone: int.parse(kmController.text),
+          id: -1, kilometersDone: distanceProvider.deconvert(double.parse(kmController.text)).toInt(),
           description: descriptionController.text.trim(), dateHappened: _selectedDate!,
-          cost: double.parse(costController.text), nextServiceKilometers: int.tryParse(nextKmController.text),
+          cost: double.parse(costController.text), 
+          nextServiceKilometers: nextKmController.text.isNotEmpty ? 
+              distanceProvider.deconvert(double.parse(nextKmController.text)).toInt() : null,
           nextServiceDate: _selectedNextDate
       );
 
@@ -132,11 +140,12 @@ class _ServiceFormState extends State<ServiceForm> {
     }
     // edit-service form
     else {
-      widget.service!.kilometersDone = int.parse(kmController.text);
+      widget.service!.kilometersDone = distanceProvider.deconvert(double.parse(kmController.text)).toInt();
       widget.service!.description = descriptionController.text.trim();
       widget.service!.dateHappened = _selectedDate!;
       widget.service!.cost = double.parse(costController.text);
-      widget.service!.nextServiceKilometers = int.tryParse(nextKmController.text);
+      widget.service!.nextServiceKilometers = nextKmController.text.isNotEmpty ? 
+          distanceProvider.deconvert(double.parse(nextKmController.text)).toInt() : null;
       widget.service!.nextServiceDate = _selectedNextDate;
 
       setState(() {
@@ -191,6 +200,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -247,7 +257,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 controller1: kmController,
                 controller2: costController,
                 title: translate('serviceInfo'),
-                fieldTitle1: '${translate('serviceMileage2')} *',
+                fieldTitle1: '${translate('serviceMileage2')} (${distanceProvider.label}) *',
                 fieldTitle2: '${translate('cost2')} *',
                 error1: kmError,
                 error2: costError,
@@ -398,7 +408,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 error: nextKmError,
                 quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
                 title: translate('nextServiceMileage'),
-                metric: translate('km'),
+                metric: distanceProvider.label,
                 icon: const Icon(Icons.speed, size: 40),
               ),
 

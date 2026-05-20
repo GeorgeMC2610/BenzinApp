@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/fuel_metric_service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
@@ -12,7 +13,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../../services/distance_metric_provider.dart';
 import '../../../services/language_provider.dart';
+import '../../../services/volume_metric_provider.dart';
 import '../dialogs/delete_dialog.dart';
 
 class FuelFillCard extends StatefulWidget {
@@ -31,6 +34,17 @@ class FuelFillCard extends StatefulWidget {
 class _FuelFillCardState extends State<FuelFillCard> {
 
   bool _isLoading = false;
+
+  String getConsumptionOrEfficiency(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
+    return FuelMetricService.getConsumptionOrEfficiency(
+        widget.record,
+        distanceProvider.metric,
+        volumeProvider.metric
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +75,14 @@ class _FuelFillCardState extends State<FuelFillCard> {
         children: [
           Text(CarManager().watchingCar!.toCurrency(widget.record.cost.toStringAsFixed(2)), style: const TextStyle(fontSize: 16)),
           if (widget.record.totalKilometers != null)
-            Text('${LocaleStringConverter.formattedBigInt(context, widget.record.totalKilometers!)} km', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            // the total kilometers. Converted into miles if the distance metric is set to miles
+            Text(
+                '${LocaleStringConverter.formattedBigInt(context, Provider.of<DistanceMetricProvider>(context).convert(widget.record.totalKilometers!.toDouble()).round())} ${Provider.of<DistanceMetricProvider>(context).label}',
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+            ),
+
           Text(_getFuelString(), style: const TextStyle(fontSize: 12)),
-          Text("${widget.record.getConsumption().toStringAsFixed(3)} lt./100km", style: const TextStyle(fontSize: 12)),
+          Text(getConsumptionOrEfficiency(context), style: const TextStyle(fontSize: 12)),
           const SizedBox(height: 4),
           if (widget.record.createdByUsername != null && widget.record.createdByUsername != UserManager().currentUser!.username)
           Row(

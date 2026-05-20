@@ -1,7 +1,6 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
-import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
-import 'package:benzinapp/services/managers/malfunction_manager.dart';
-import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/overview_cards/car_info_card.dart';
 import 'package:benzinapp/views/overview_cards/cost_pie_chart_card.dart';
 import 'package:benzinapp/views/overview_cards/timely_manner_consumption_card.dart';
@@ -50,4 +49,10 @@ class _OverviewFragmentState extends State<OverviewFragment> {
       )
     )
   );
+
+  String getCurrentMetrics(BuildContext context) {
+    final distanceLabel = Provider.of<DistanceMetricProvider>(context).label;
+    final volumeLabel = Provider.of<VolumeMetricProvider>(context).label;
+    return "$distanceLabel, $volumeLabel";
+  }
 }

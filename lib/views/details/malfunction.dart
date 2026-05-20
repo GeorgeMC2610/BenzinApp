@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
@@ -31,6 +33,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('malfunctionData')),
@@ -129,8 +132,8 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                         Text(
                             '${
                           LocaleStringConverter.formattedBigInt(
-                              context, malfunction.kilometersDiscovered)
-                        } km',
+                              context, distanceProvider.convert(malfunction.kilometersDiscovered.toDouble()).toInt())
+                        } ${distanceProvider.label}',
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
 

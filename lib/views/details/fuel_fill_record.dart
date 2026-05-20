@@ -1,3 +1,6 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/fuel_metric_service.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
 import 'package:benzinapp/services/language_provider.dart';
@@ -35,6 +38,9 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(translate('fuelFillRecordData')),
@@ -179,7 +185,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                   AutoSizeText(
                                     maxLines: 1,
                                     maxFontSize: 19,
-                                    '${LocaleStringConverter.formattedBigInt(context, fuelFillRecord.totalKilometers!)} km',
+                                    '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(fuelFillRecord.totalKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Theme.of(context).colorScheme.onSurface,
@@ -210,12 +216,12 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(translate('liters'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
+                                  Text("${volumeProvider.convert(fuelFillRecord.liters).toStringAsFixed(2)} ${volumeProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
 
                                   const SizedBox(height: 20),
 
                                   Text(translate('kilometers'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.kilometers} km", style: SharedFontStyles.descriptiveTextStyle),
+                                  Text("${distanceProvider.convert(fuelFillRecord.kilometers.toDouble()).toStringAsFixed(1)} ${distanceProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
 
                                   const SizedBox(height: 20),
 
@@ -241,17 +247,26 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(translate('consumption'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.getConsumption().toStringAsFixed(3)} lt/100km", style: SharedFontStyles.mainTextStyle),
+                                  Text(
+                                      "${FuelMetricService.getConvertedConsumption(fuelFillRecord.getConsumption(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getConsumptionLabel(distanceProvider.metric, volumeProvider.metric)}",
+                                      style: SharedFontStyles.mainTextStyle
+                                  ),
 
                                   const SizedBox(height: 20),
 
                                   Text(translate('efficiency'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.getEfficiency().toStringAsFixed(3)} km/lt", style: SharedFontStyles.mainTextStyle),
+                                  Text(
+                                      "${FuelMetricService.getConvertedEfficiency(fuelFillRecord.getEfficiency(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getEfficiencyLabel(distanceProvider.metric, volumeProvider.metric)}",
+                                      style: SharedFontStyles.mainTextStyle
+                                  ),
 
                                   const SizedBox(height: 20),
 
                                   Text(translate('travel_cost'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${CarManager().watchingCar!.toCurrency(fuelFillRecord.getTravelCost().toStringAsFixed(2))}/km", style: SharedFontStyles.mainTextStyle),
+                                  Text(
+                                      "${CarManager().watchingCar!.toCurrency(FuelMetricService.getConvertedTravelCost(fuelFillRecord.getTravelCost(), distanceProvider.metric).toStringAsFixed(2))}/${distanceProvider.label}",
+                                      style: SharedFontStyles.mainTextStyle
+                                  ),
                                 ],
                               ),
                             ),
@@ -273,7 +288,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                             SizedBox(width: MediaQuery.of(context).size.width),
                             Text(translate('costPerVolume').toUpperCase(), style: SharedFontStyles.legendTextStyle),
                             Text(
-                                "${(fuelFillRecord.cost / fuelFillRecord.liters).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/lt",
+                                "${(fuelFillRecord.cost / volumeProvider.convert(fuelFillRecord.liters)).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/${volumeProvider.label}",
                                 style: SharedFontStyles.mainTextStyle.copyWith(
                                     fontSize: 25,
                                 )

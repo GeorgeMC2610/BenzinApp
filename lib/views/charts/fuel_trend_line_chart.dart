@@ -1,7 +1,11 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
+import 'package:benzinapp/services/fuel_metric_service.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
@@ -22,6 +26,9 @@ class FuelTrendLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
     return Column(
       children: [
         SizedBox(
@@ -45,7 +52,7 @@ class FuelTrendLineChart extends StatelessWidget {
               zoomMode: ZoomMode.x,      // zoom horizontally (or ZoomMode.xy)
               enableDoubleTapZooming: true
             ),
-            title: ChartTitle(text: _getMetric()),
+            title: ChartTitle(text: _getMetric(distanceProvider, volumeProvider)),
             tooltipBehavior: TooltipBehavior(
               enable: true,
               canShowMarker: true,
@@ -60,7 +67,7 @@ class FuelTrendLineChart extends StatelessWidget {
                   child: Text(
                     '${DateFormat("yyyy-MM-dd").format(data.dateTime)}\n\n'
                         '${_getStringifiedFocusType()}\n '
-                        '${point.y.toStringAsFixed(3)} ${_getMetric()}',
+                        '${point.y.toStringAsFixed(3)} ${_getMetric(distanceProvider, volumeProvider)}',
                     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 );
@@ -71,14 +78,12 @@ class FuelTrendLineChart extends StatelessWidget {
                 dataSource: data,
                 xValueMapper: (ffr, _) => ffr.dateTime,
                 yValueMapper: (ffr, _) {
-                  switch (focusType) {
-                    case ChartDisplayFocus.consumption:
-                      return ffr.getConsumption();
-                    case ChartDisplayFocus.efficiency:
-                      return ffr.getEfficiency();
-                    case ChartDisplayFocus.travelCost:
-                      return ffr.getTravelCost();
-                  }
+                  return FuelMetricService.getChartValue(
+                      ffr,
+                      focusType.name,
+                      distanceProvider.metric,
+                      volumeProvider.metric
+                  );
                 },
                 color: _getLineColor().withOpacity(0.5),
                 borderColor: _getLineColor(),
@@ -115,14 +120,18 @@ class FuelTrendLineChart extends StatelessWidget {
     }
   }
 
-  String _getMetric() {
+  String _getMetric(DistanceMetricProvider distanceProvider, VolumeMetricProvider volumeProvider) {
+    final isMiles = distanceProvider.metric == DistanceMetric.miles;
+    final isGallons = volumeProvider.metric == VolumeMetric.gallons;
+
     switch (focusType) {
       case ChartDisplayFocus.consumption:
-        return 'lt./100km';
+        return "${volumeProvider.label}./100${distanceProvider.label}";
       case ChartDisplayFocus.efficiency:
-        return 'km/lt';
+        if (isMiles && isGallons) return "mpg";
+        return "${distanceProvider.label}/${volumeProvider.label}";
       case ChartDisplayFocus.travelCost:
-        return '${CarManager().watchingCar!.currency}/km';
+        return '${CarManager().watchingCar!.currency}/${distanceProvider.label}';
     }
   }
 }

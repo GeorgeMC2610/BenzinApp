@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/volume_metric_provider.dart';
+import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
@@ -44,130 +46,148 @@ class _CarInfoCardState extends State<CarInfoCard> {
     },
   );
 
-  Widget normalBody() => SizedBox(
-      width: MediaQuery.sizeOf(context).width,
+  Widget normalBody() {
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+    return SizedBox(
+      width: MediaQuery
+          .sizeOf(context)
+          .width,
       child: Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)
           ),
           child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-              Row(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Expanded(
-              child: AutoSizeText(
-                  '${car!.manufacturer} ${car!.model}',
-          maxLines: 1,
-          maxFontSize: 30,
-          style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold
-          )
-      )
-  ),
-
-  const SizedBox(width: 15),
-
-                Material(
-                    color: Theme.of(context).colorScheme.secondaryContainer, // Set exact background color
-                    borderRadius: BorderRadius.circular(20), // Keep shape consistent
-                    elevation: 0, // No shadow
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      child: Text(car!.year.toString()),
-                    )),
-
-              ],
-
-              ),
-
-                    // info with the user owner
-                    if (!car!.isOwned())
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.person, size: 25),
-                          const SizedBox(width: 10),
-                          Text(car!.ownerUsername.toString())
-                        ],
-                      ),
-
-                    Row(
-                      children: [
-                        const Icon(Icons.directions_car, size: 25),
-                        const SizedBox(width: 10),
-                        Text(car!.username),
-                      ],
+                Row(
+                  children: [
+                    Expanded(
+                        child: AutoSizeText(
+                            '${car!.manufacturer} ${car!.model}',
+                            maxLines: 1,
+                            maxFontSize: 30,
+                            style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
                     ),
 
-                    // fields that show if the car is ok
-                    // will be added at a later date
-                    // make them customizable pls
-                    lastRecord != null ?
-                    ListTile(
-                      dense: false,
-                      title: AutoSizeText(maxLines: 1, _getDaysString(context, lastRecord!)),
-                      subtitle: Text(""
-                          "${lastRecord!.liters} lt | "
-                          "${CarManager().watchingCar!.toCurrency(lastRecord!.cost.toStringAsFixed(2))}"
-                      ),
-                      leading: const Icon(FontAwesomeIcons.gasPump),
-                    ) :
-                    const SizedBox(),
+                    const SizedBox(width: 15),
 
-                    _canServiceBeDisplayed(lastService) ? const Divider()
-                        : const SizedBox(),
-
-                    _canServiceBeDisplayed(lastService) ? getServiceCard(lastService!) : const SizedBox(),
-
-                    lastService?.nextServiceDate != null ? getServiceCardWithDays(lastService!) : const SizedBox(),
-
-                    // const StatusCard(
-                    //     icon: Icon(FontAwesomeIcons.carBattery),
-                    //     text: "Battery changed 2 and a half years ago",
-                    //     status: StatusCardIndex.bad
-                    // ),
-                    //
-                    // const StatusCard(
-                    //     icon: Icon(FontAwesomeIcons.drumSteelpan),
-                    //     text: "Tyres changed two months ago",
-                    //     status: StatusCardIndex.good
-                    // ),
-                    //
-                    // const StatusCard(
-                    //     icon: Icon(FontAwesomeIcons.shower),
-                    //     text: "Last car wash 1 month ago",
-                    //     status: StatusCardIndex.good
-                    // ),
-                    //
-                    // const StatusCard(
-                    //     icon: Icon(FontAwesomeIcons.fileContract),
-                    //     text: "Governmental check-up (KTEO) in 2 years",
-                    //     status: StatusCardIndex.good
-                    // ),
-                    //
-                    // const StatusCard(
-                    //     icon: Icon(FontAwesomeIcons.idCard),
-                    //     text: "Gas card in 1 years",
-                    //     status: StatusCardIndex.good
-                    // ),
-                    //
-                    // const StatusCard(
-                    //   icon: Icon(FontAwesomeIcons.wifi),
-                    //   text: "e-PASS is low on money",
-                    //   status: StatusCardIndex.warning
-                    // )
-
+                    Material(
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .secondaryContainer,
+                        // Set exact background color
+                        borderRadius: BorderRadius.circular(20),
+                        // Keep shape consistent
+                        elevation: 0,
+                        // No shadow
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          child: Text(car!.year.toString()),
+                        )),
 
                   ],
-              ),
+
+                ),
+
+                // info with the user owner
+                if (!car!.isOwned())
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.person, size: 25),
+                      const SizedBox(width: 10),
+                      Text(car!.ownerUsername.toString())
+                    ],
+                  ),
+
+                Row(
+                  children: [
+                    const Icon(Icons.directions_car, size: 25),
+                    const SizedBox(width: 10),
+                    Text(car!.username),
+                  ],
+                ),
+
+                // fields that show if the car is ok
+                // will be added at a later date
+                // make them customizable pls
+                lastRecord != null ?
+                ListTile(
+                  dense: false,
+                  title: AutoSizeText(
+                      maxLines: 1, _getDaysString(context, lastRecord!)),
+                  subtitle: Text(""
+                      "${volumeProvider
+                      .convert(lastRecord!.liters)
+                      .toStringAsFixed(1)} ${volumeProvider.label} | "
+                      "${CarManager().watchingCar!.toCurrency(
+                      lastRecord!.cost.toStringAsFixed(2))}"
+                  ),
+                  leading: const Icon(FontAwesomeIcons.gasPump),
+                ) :
+                const SizedBox(),
+
+                _canServiceBeDisplayed(lastService) ? const Divider()
+                    : const SizedBox(),
+
+                _canServiceBeDisplayed(lastService) ? getServiceCard(
+                    lastService!) : const SizedBox(),
+
+                lastService?.nextServiceDate != null ? getServiceCardWithDays(
+                    lastService!) : const SizedBox(),
+
+                // const StatusCard(
+                //     icon: Icon(FontAwesomeIcons.carBattery),
+                //     text: "Battery changed 2 and a half years ago",
+                //     status: StatusCardIndex.bad
+                // ),
+                //
+                // const StatusCard(
+                //     icon: Icon(FontAwesomeIcons.drumSteelpan),
+                //     text: "Tyres changed two months ago",
+                //     status: StatusCardIndex.good
+                // ),
+                //
+                // const StatusCard(
+                //     icon: Icon(FontAwesomeIcons.shower),
+                //     text: "Last car wash 1 month ago",
+                //     status: StatusCardIndex.good
+                // ),
+                //
+                // const StatusCard(
+                //     icon: Icon(FontAwesomeIcons.fileContract),
+                //     text: "Governmental check-up (KTEO) in 2 years",
+                //     status: StatusCardIndex.good
+                // ),
+                //
+                // const StatusCard(
+                //     icon: Icon(FontAwesomeIcons.idCard),
+                //     text: "Gas card in 1 years",
+                //     status: StatusCardIndex.good
+                // ),
+                //
+                // const StatusCard(
+                //   icon: Icon(FontAwesomeIcons.wifi),
+                //   text: "e-PASS is low on money",
+                //   status: StatusCardIndex.warning
+                // )
+
+
+              ],
+            ),
           )
       ),
-  );
+    );
+  }
 
   bool _canServiceBeDisplayed(Service? service) {
     if (service == null) return false;
@@ -199,10 +219,11 @@ class _CarInfoCardState extends State<CarInfoCard> {
   }
 
   Widget getServiceCard(Service lastService) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     if (mostRecentTotalKilometers == null) {
       return StatusCard(
           icon: const Icon(FontAwesomeIcons.wrench),
-          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
+          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(lastService.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
           status: StatusCardIndex.warning
       );
     }
@@ -210,21 +231,34 @@ class _CarInfoCardState extends State<CarInfoCard> {
     String message;
     StatusCardIndex status;
     var difference = lastService.nextServiceKilometers! - mostRecentTotalKilometers!;
+    var convertedDifference = distanceProvider.convert(difference.toDouble()).toInt();
 
     if (difference < 0) {
-      message = translate('serviceOverdueInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference.abs())} );
+      message = translate('serviceOverdueInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference.abs()),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.bad;
     }
     else if (difference < 200) {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.bad;
     }
     else if (difference < 600) {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.warning;
     }
     else {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.good;
     }
 
