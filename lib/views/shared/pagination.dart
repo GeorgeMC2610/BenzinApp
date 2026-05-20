@@ -31,11 +31,9 @@ class Pagination extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildArrow(Icons.chevron_left, currentPage > 1 ? () => onPageChanged(currentPage - 1) : null, false),
             const SizedBox(width: 8),
             ..._buildPages(context),
             const SizedBox(width: 8),
-            _buildArrow(Icons.chevron_right, currentPage < totalPages ? () => onPageChanged(currentPage + 1) : null, true),
           ],
         ),
       ),

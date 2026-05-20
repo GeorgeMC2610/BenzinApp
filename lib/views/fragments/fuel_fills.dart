@@ -93,7 +93,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
           if (totalPages > 1)
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
               child: Center(
                 child: Pagination(
                   totalPages: totalPages,
