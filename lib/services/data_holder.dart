@@ -57,6 +57,6 @@ class DataHolder {
     CarUserInvitationManager().destroyValues();
   }
 
-  // TODO: Stop using this logic here. This will be migrated to the API.
-  String getPlacesApiKey() => "AIzaSyDF8CsxExnX2PmHOYUvU2EytDzHMGabEno";
+  // TODO: Stop doxxing the key, and store it somewhere safe
+  String getPlacesApiKey() => "MAPS_API_KEY";
 }
