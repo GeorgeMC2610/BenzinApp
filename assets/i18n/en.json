@@ -236,7 +236,7 @@
   "ffrStatsTitle2": "Cost",
   "ffrStatsBody2": "The final price you paid should be listed in the same place where the total liters are shown. You can also find this on your receipt.",
 
-  "discoveredAt":       "Discovered {at}:",
+  "discoveredAt":       "Discovered at:",
   "ongoingMalfunction": "Ongoing",
   "fixedMalfunction":   "Fixed",
   "nextAtKm":           "Next:",
