@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import '../../../services/managers/trip_manager.dart';
 import '../../../services/managers/user_manager.dart';
+import '../../../services/volume_metric_provider.dart';
 import '../buttons/card_edit_delete_buttons.dart';
 import '../dialogs/delete_dialog.dart';
 import '../notification.dart';
@@ -83,6 +84,7 @@ class _TripCardState extends State<TripCard> {
 
   Widget getSubtitle() {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
     if (widget.trip.timesRepeating == 1) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,8 +176,8 @@ class _TripCardState extends State<TripCard> {
             const Icon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
             AutoSizeText(" ${
-                LocaleStringConverter.formattedDouble(context, repeatingAverageTripConsumption)
-            } lt. ${translate('perWeek')}",
+                LocaleStringConverter.formattedDouble(context, volumeProvider.convert(repeatingAverageTripConsumption))
+            } ${volumeProvider.label}. ${translate('perWeek')}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold

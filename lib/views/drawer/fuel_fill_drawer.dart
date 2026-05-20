@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -33,6 +34,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
     super.initState();
     final filter = FuelFillRecordManager().filter;
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
 
     if (filter != null) {
       startDate = filter.period?.start;
@@ -45,8 +47,9 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
       startTotalKmController.text = filter.totalKm?.start == null ? '' : distanceProvider.convert(filter.totalKm!.start!).toStringAsFixed(1);
       endTotalKmController.text = filter.totalKm?.end == null ? '' : distanceProvider.convert(filter.totalKm!.end!).toStringAsFixed(1);
 
-      startLtController.text = filter.lt?.start?.toString() ?? '';
-      endLtController.text = filter.lt?.end?.toString() ?? '';
+      startLtController.text = filter.lt?.start == null ? '' : volumeProvider.convert(filter.lt!.start!).toStringAsFixed(1);
+      endLtController.text = filter.lt?.end == null ? '' : volumeProvider.convert(filter.lt!.end!).toStringAsFixed(1);
+
       startCostController.text = filter.cost?.start?.toString() ?? '';
       endCostController.text = filter.cost?.end?.toString() ?? '';
     }
@@ -59,6 +62,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
 
   _applyFilters() {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context, listen: false);
 
     var newFilter = FuelFillRecordManager().filter ?? FuelFillFilter();
     newFilter.searchString = searchController.text;
@@ -78,7 +82,13 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
       end: eTKm == null ? null : distanceProvider.deconvert(eTKm)
     );
 
-    newFilter.lt = (start: double.tryParse(startLtController.text), end: double.tryParse(endLtController.text));
+    double? sLt = double.tryParse(startLtController.text);
+    double? eLt = double.tryParse(endLtController.text);
+    newFilter.lt = (
+      start: sLt == null ? null : volumeProvider.deconvert(sLt),
+      end: eLt == null ? null : volumeProvider.deconvert(eLt)
+    );
+
     newFilter.cost = (start: double.tryParse(startCostController.text), end: double.tryParse(endCostController.text));
 
     FuelFillRecordManager().filter = newFilter;
@@ -134,6 +144,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
   @override
   Widget build(BuildContext context) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -236,12 +247,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // Liters fields
                     _buildFilterField(
                       controller: startLtController,
-                      label: translate('startLt'),
+                      label: translate('startLt', args: {'unit': volumeProvider.label}),
                       icon: Icons.local_gas_station,
                     ),
                     _buildFilterField(
                       controller: endLtController,
-                      label: translate('endLt'),
+                      label: translate('endLt', args: {'unit': volumeProvider.label}),
                       icon: Icons.local_gas_station,
                     ),
 

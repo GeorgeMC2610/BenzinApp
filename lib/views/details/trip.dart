@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -97,6 +98,7 @@ class _ViewTripState extends State<ViewTrip> {
   @override
   Widget build(BuildContext context) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('tripData')),
@@ -238,7 +240,7 @@ class _ViewTripState extends State<ViewTrip> {
                           style: mainDescription(Colors.green)
                         ),
                         bestConsumption == null ? const Text('') : Text(
-                          '${LocaleStringConverter.formattedDouble(context, bestConsumption!)} lt. '
+                          '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestConsumption!))} ${volumeProvider.label} '
                           '${translate('perTime')}',
                           style: legendDescription(Colors.green)
                         ),
@@ -251,7 +253,7 @@ class _ViewTripState extends State<ViewTrip> {
                             style: mainDescription(Colors.grey)
                         ),
                         averageConsumption == null ? const Text('') : Text(
-                            '${LocaleStringConverter.formattedDouble(context, averageConsumption!)} lt. '
+                            '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageConsumption!))} ${volumeProvider.label} '
                             '${translate('perTime')}',
                             style: legendDescription(Colors.grey)
                         ),
@@ -264,7 +266,7 @@ class _ViewTripState extends State<ViewTrip> {
                             style: mainDescription(Colors.redAccent)
                         ),
                         worstConsumption == null ? const Text('') : Text(
-                            '${LocaleStringConverter.formattedDouble(context, worstConsumption!)} lt. '
+                            '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstConsumption!))} ${volumeProvider.label} '
                             '${translate('perTime')}',
                             style: legendDescription(Colors.redAccent)
                         ),
@@ -356,7 +358,7 @@ class _ViewTripState extends State<ViewTrip> {
                                 style: mainDescription(Colors.green)
                             ),
                             bestRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, bestRepeatingConsumption!)} lt. '
+                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestRepeatingConsumption!))} ${volumeProvider.label} '
                                 '${translate('perWeek')}',
                                 style: legendDescription(Colors.green)
                             ),
@@ -369,7 +371,7 @@ class _ViewTripState extends State<ViewTrip> {
                                 style: mainDescription(Colors.grey)
                             ),
                             averageRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, averageRepeatingConsumption!)} lt. '
+                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageRepeatingConsumption!))} ${volumeProvider.label} '
                                     '${translate('perWeek')}',
                                 style: legendDescription(Colors.grey)
                             ),
@@ -382,7 +384,7 @@ class _ViewTripState extends State<ViewTrip> {
                                 style: mainDescription(Colors.redAccent)
                             ),
                             worstRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, worstRepeatingConsumption!)} lt. '
+                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstRepeatingConsumption!))} ${volumeProvider.label} '
                                     '${translate('perWeek')}',
                                 style: legendDescription(Colors.redAccent)
                             ),

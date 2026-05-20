@@ -216,7 +216,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(translate('liters'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${fuelFillRecord.liters} lt", style: SharedFontStyles.descriptiveTextStyle),
+                                  Text("${volumeProvider.convert(fuelFillRecord.liters).toStringAsFixed(2)} ${volumeProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
 
                                   const SizedBox(height: 20),
 
@@ -288,7 +288,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                             SizedBox(width: MediaQuery.of(context).size.width),
                             Text(translate('costPerVolume').toUpperCase(), style: SharedFontStyles.legendTextStyle),
                             Text(
-                                "${(fuelFillRecord.cost / fuelFillRecord.liters).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/lt",
+                                "${(fuelFillRecord.cost / volumeProvider.convert(fuelFillRecord.liters)).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/${volumeProvider.label}",
                                 style: SharedFontStyles.mainTextStyle.copyWith(
                                     fontSize: 25,
                                 )

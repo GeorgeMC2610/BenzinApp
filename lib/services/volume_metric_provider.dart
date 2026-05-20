@@ -40,6 +40,13 @@ class VolumeMetricProvider extends ChangeNotifier {
     return liters;
   }
 
+  double deconvert(double gallons) {
+    if (_metric == VolumeMetric.gallons) {
+      return gallons / 0.264172;
+    }
+    return gallons;
+  }
+
   String get label => _metric == VolumeMetric.gallons ? 'gal' : 'lt';
   String get longLabel => _metric == VolumeMetric.gallons ? 'gallons' : 'liters';
   String get translatableCode => _metric == VolumeMetric.gallons ? 'gallonsSetting' : 'litersSetting';

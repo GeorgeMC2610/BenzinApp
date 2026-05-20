@@ -13,7 +13,7 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'http://localhost:3000';
+  static const String destination = 'https://benzin-app.fly.dev';
 
   Future<void> initializeValues() async {
     List<Future<void>> futures = [
@@ -58,5 +58,5 @@ class DataHolder {
   }
 
   // TODO: Stop using this logic here. This will be migrated to the API.
-  String getPlacesApiKey() => const String.fromEnvironment("BENZINAPP_PLACES_KEY");
+  String getPlacesApiKey() => "AIzaSyDF8CsxExnX2PmHOYUvU2EytDzHMGabEno";
 }
