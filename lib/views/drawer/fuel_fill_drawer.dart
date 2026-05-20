@@ -93,6 +93,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
 
     FuelFillRecordManager().filter = newFilter;
     FuelFillRecordManager().applyFilters();
+    Navigator.of(context).pop();
   }
 
   _selectDate(bool endDate) async {
@@ -262,12 +263,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     _buildFilterField(
                       controller: startCostController,
                       label: translate('startCost'),
-                      icon: Icons.euro,
+                      icon: Icons.payments,
                     ),
                     _buildFilterField(
                       controller: endCostController,
                       label: translate('endCost'),
-                      icon: Icons.euro,
+                      icon: Icons.payments,
                     ),
 
                     const SizedBox(height: 20),

@@ -1,4 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:benzinapp/filters/service_filter.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,12 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
   void initState() {
     super.initState();
     final filter = ServiceManager().filter;
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+
     if (filter != null) {
       searchController.text = filter.searchString ?? '';
-      startKmController.text = filter.km?.start?.toString() ?? '';
-      endKmController.text = filter.km?.end?.toString() ?? '';
+      startKmController.text = filter.km?.start == null ? '' : distanceProvider.convert(filter.km!.start!).toStringAsFixed(1);
+      endKmController.text = filter.km?.end == null ? '' : distanceProvider.convert(filter.km!.end!).toStringAsFixed(1);
       startCostController.text = filter.cost?.start?.toString() ?? '';
       endCostController.text = filter.cost?.end?.toString() ?? '';
       startDate = filter.period?.start;
@@ -42,9 +45,17 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
   }
 
   _applyFilters() {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
+
+    double? sKm = double.tryParse(startKmController.text);
+    double? eKm = double.tryParse(endKmController.text);
+
     var newFilter = ServiceFilter(
       searchString: searchController.text,
-      km: (start: double.tryParse(startKmController.text), end: double.tryParse(endKmController.text)),
+      km: (
+        start: sKm == null ? null : distanceProvider.deconvert(sKm),
+        end: eKm == null ? null : distanceProvider.deconvert(eKm)
+      ),
       cost: (start: double.tryParse(startCostController.text), end: double.tryParse(endCostController.text)),
       period: (startDate == null && endDate == null) ? null : (start: startDate, end: endDate),
     );
@@ -93,6 +104,8 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+
     return Column(
       children: [
         Padding(
@@ -137,11 +150,19 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                _buildFilterField(controller: startKmController, label: translate('startKm'), icon: Icons.speed),
-                _buildFilterField(controller: endKmController, label: translate('endKm'), icon: Icons.speed),
+                _buildFilterField(
+                  controller: startKmController,
+                  label: translate('startKm', args: {'unit': distanceProvider.label}),
+                  icon: Icons.speed,
+                ),
+                _buildFilterField(
+                  controller: endKmController,
+                  label: translate('endKm', args: {'unit': distanceProvider.label}),
+                  icon: Icons.speed,
+                ),
                 const SizedBox(height: 20),
-                _buildFilterField(controller: startCostController, label: translate('startCost'), icon: Icons.euro),
-                _buildFilterField(controller: endCostController, label: translate('endCost'), icon: Icons.euro),
+                _buildFilterField(controller: startCostController, label: translate('startCost'), icon: Icons.payments),
+                _buildFilterField(controller: endCostController, label: translate('endCost'), icon: Icons.payments),
               ],
             ),
           ),
