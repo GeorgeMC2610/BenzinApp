@@ -2,6 +2,7 @@ import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/drawer/fuel_fill_drawer.dart';
+import 'package:benzinapp/views/drawer/maintenance_drawer.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/forms/trip.dart';
@@ -175,6 +176,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> getActions() {
     switch (_selectedTabIndex) {
       case 1:
+      case 2:
         return [
           IconButton(
               onPressed: () {
@@ -194,6 +196,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const FuelFillDrawer();
       case 2:
+        return const MaintenanceDrawer();
       case 3:
       default:
         return null;

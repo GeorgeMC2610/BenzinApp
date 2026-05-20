@@ -1,3 +1,4 @@
+import 'package:benzinapp/filters/malfunction_filter.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
@@ -12,6 +13,12 @@ class MalfunctionManager extends AbstractManager<Malfunction> {
 
   @override
   String get baseUrl => '${DataHolder.destination}/car/${CarManager().watchingCar!.id}/malfunction';
+
+  @override
+  MalfunctionFilter? get filter => super.filter as MalfunctionFilter?;
+
+  @override
+  set filter(setted) => super.filter = setted;
 
   @override
   Malfunction fromJson(Map<String, dynamic> json) => Malfunction.fromJson(json);
