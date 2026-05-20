@@ -6,7 +6,6 @@ import 'package:benzinapp/views/drawer/maintenance_drawer.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/maintenance_guidance_menu.dart';
 import 'package:benzinapp/views/forms/trip.dart';
-import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/fragments/fuel_fills.dart';
 import 'package:benzinapp/views/fragments/invitees.dart';
 import 'package:benzinapp/views/fragments/maintenance.dart';
