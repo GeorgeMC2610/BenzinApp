@@ -48,7 +48,6 @@ class _TripCardState extends State<TripCard> {
 
   @override
   Widget build(BuildContext context) {
-    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return ListTile(
       onTap: () {
         Navigator.push(

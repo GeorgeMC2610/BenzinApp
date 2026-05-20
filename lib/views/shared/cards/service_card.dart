@@ -10,7 +10,6 @@ import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
