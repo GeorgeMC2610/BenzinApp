@@ -1,6 +1,7 @@
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/views/charts/insufficient_data_card.dart';
 import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
   Widget normalBody(FuelFillRecordManager manager) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
+    final volumeProvider = Provider.of<VolumeMetricProvider>(context);
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
       child: manager.local!.length < 2 ? const InsufficientDataCard() : Card(
@@ -58,8 +60,8 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
                     value: _selectedFocusValue, // No default selected
                     hint: const Text("Select an option"), // TODO: Localize string
                     items: [
-                      DropdownMenuItem(value: 0, child: Text(translate('litersPer100km', args: {'unit': distanceProvider.label}))),
-                      DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter', args: {'unit': distanceProvider.label}))),
+                      DropdownMenuItem(value: 0, child: Text(translate('litersPer100km', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
+                      DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
                       DropdownMenuItem(value: 2, child: Text(translate('costPerKilometer', args: {'unit': distanceProvider.label}))),
                     ],
                     onChanged: (int? value) {
