@@ -1,3 +1,4 @@
+import 'package:benzinapp/filters/service_filter.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
@@ -12,6 +13,12 @@ class ServiceManager extends AbstractManager<Service> {
 
   @override
   String get baseUrl => '${DataHolder.destination}/car/${CarManager().watchingCar!.id}/service';
+
+  @override
+  ServiceFilter? get filter => super.filter as ServiceFilter?;
+
+  @override
+  set filter(setted) => super.filter = setted;
 
   @override
   Service fromJson(Map<String, dynamic> json) => Service.fromJson(json);
