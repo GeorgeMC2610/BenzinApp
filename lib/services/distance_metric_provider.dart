@@ -40,6 +40,13 @@ class DistanceMetricProvider extends ChangeNotifier {
     return kilometers;
   }
 
+  double deconvert(double miles) {
+    if (_metric == DistanceMetric.miles) {
+      return miles / 0.621371;
+    }
+    return miles;
+  }
+
   String get label => _metric == DistanceMetric.miles ? 'mi' : 'km';
   String get longLabel => _metric == DistanceMetric.miles ? 'miles' : 'kilometers';
   String get translatableCode => _metric == DistanceMetric.miles ? 'milesSetting' : 'kilometersSetting';

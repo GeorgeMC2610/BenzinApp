@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
@@ -94,6 +96,7 @@ class _ViewTripState extends State<ViewTrip> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(translate('tripData')),
@@ -197,7 +200,7 @@ class _ViewTripState extends State<ViewTrip> {
 
                         Text(translate('tripDistance'), style: SharedFontStyles.legendTextStyle),
                         Text(
-                          '${LocaleStringConverter.formattedDouble(context, trip.totalKm)} km',
+                          '${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(trip.totalKm))} ${distanceProvider.label}',
                           style: SharedFontStyles.descriptiveTextStyle
                         ),
                       ],

@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/forms/malfunction.dart';
@@ -25,7 +26,7 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
 
   @override
   Widget build(BuildContext context) {
-
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
 
     return ListTile(
@@ -53,7 +54,7 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           Text(widget.malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
           _getStatus(),
           _getSeverity(),
-          Text("${translate('discoveredAt')} ${format.format(widget.malfunction.kilometersDiscovered)} km", style: const TextStyle(fontSize: 12)),
+          Text("${translate('discoveredAt')} ${format.format(distanceProvider.convert(widget.malfunction.kilometersDiscovered.toDouble()).toInt())} ${distanceProvider.label}", style: const TextStyle(fontSize: 12)),
           if (widget.malfunction.createdByUsername != null && widget.malfunction.createdByUsername != UserManager().currentUser!.username)
             Row(
               mainAxisSize: MainAxisSize.min,

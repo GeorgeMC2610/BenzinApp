@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/classes/trip.dart';
@@ -45,6 +47,7 @@ class _TripCardState extends State<TripCard> {
 
   @override
   Widget build(BuildContext context) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return ListTile(
       onTap: () {
         Navigator.push(
@@ -79,6 +82,7 @@ class _TripCardState extends State<TripCard> {
   }
 
   Widget getSubtitle() {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     if (widget.trip.timesRepeating == 1) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +118,7 @@ class _TripCardState extends State<TripCard> {
             children: [
               const Icon(FontAwesomeIcons.car, size: 15,),
               const SizedBox(width: 5),
-              Text(" ${LocaleStringConverter.formattedDouble(context, widget.trip.totalKm)} km")
+              Text(" ${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(widget.trip.totalKm))} ${distanceProvider.label}")
             ],
           ),
 
@@ -181,13 +185,13 @@ class _TripCardState extends State<TripCard> {
 
         const SizedBox(height: 5),
 
-        Row(
-          children: [
-            const Icon(FontAwesomeIcons.car, size: 15,),
-            const SizedBox(width: 5),
-            Text(" ${LocaleStringConverter.formattedDouble(context, widget.trip.totalKm)} km")
-          ],
-        ),
+          Row(
+            children: [
+              const Icon(FontAwesomeIcons.car, size: 15,),
+              const SizedBox(width: 5),
+              Text(" ${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(widget.trip.totalKm))} ${distanceProvider.label}")
+            ],
+          ),
 
         AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
         if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)

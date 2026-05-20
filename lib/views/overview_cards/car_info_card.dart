@@ -1,3 +1,4 @@
+import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
@@ -199,10 +200,11 @@ class _CarInfoCardState extends State<CarInfoCard> {
   }
 
   Widget getServiceCard(Service lastService) {
+    final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     if (mostRecentTotalKilometers == null) {
       return StatusCard(
           icon: const Icon(FontAwesomeIcons.wrench),
-          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, lastService.nextServiceKilometers!)} km',
+          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(lastService.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
           status: StatusCardIndex.warning
       );
     }
@@ -210,21 +212,34 @@ class _CarInfoCardState extends State<CarInfoCard> {
     String message;
     StatusCardIndex status;
     var difference = lastService.nextServiceKilometers! - mostRecentTotalKilometers!;
+    var convertedDifference = distanceProvider.convert(difference.toDouble()).toInt();
 
     if (difference < 0) {
-      message = translate('serviceOverdueInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference.abs())} );
+      message = translate('serviceOverdueInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference.abs()),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.bad;
     }
     else if (difference < 200) {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.bad;
     }
     else if (difference < 600) {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.warning;
     }
     else {
-      message = translate('nextServiceInKm', args: {'amount': LocaleStringConverter.formattedBigInt(context, difference)});
+      message = translate('nextServiceInKm', args: {
+        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
+        'unit': distanceProvider.label
+      });
       status = StatusCardIndex.good;
     }
 
