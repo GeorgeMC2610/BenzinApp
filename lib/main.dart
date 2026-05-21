@@ -13,6 +13,7 @@ import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/services/theme_provider.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/start.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp();
 
     var delegate = await LocalizationDelegate.create(
         fallbackLocale: 'en',
