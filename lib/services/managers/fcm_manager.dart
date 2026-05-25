@@ -15,7 +15,7 @@ class FCMManager with ChangeNotifier {
 
   static String baseUrl = DataHolder.destination;
 
-  bool _receiveEmailNotifications = false;
+  bool _receiveEmailNotifications = true;
   bool _receivePushNotifications = false;
 
   bool get receiveEmailNotifications => _receiveEmailNotifications;
@@ -23,13 +23,29 @@ class FCMManager with ChangeNotifier {
 
   Future<void> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
-    _receiveEmailNotifications = prefs.getBool('receiveEmailNotifications') ?? false;
+    _receiveEmailNotifications = prefs.getBool('receiveEmailNotifications') ?? true;
     _receivePushNotifications = prefs.getBool('receivePushNotifications') ?? false;
     notifyListeners();
   }
 
+  Future<bool> isSubscribedEmail() async {
+    final String url = "$baseUrl/is_subscribed_email";
+    final response = await RequestHandler.sendGetRequest(url);
+    return response.ok;
+  }
+
+  Future<void> subscribeEmail() async {
+    final String url = "$baseUrl/subscribe_email";
+    await RequestHandler.sendPostRequest(url, true, {});
+  }
+
+  Future<void> unsubscribeEmail() async {
+    final String url = "$baseUrl/unsubscribe_email";
+    await RequestHandler.sendDeleteRequest(url);
+  }
+
   Future<bool> isSubscribed({String? fcmToken}) async {
-    final String url = "$baseUrl/is_subscribed?token=$fcmToken";
+    final String url = "$baseUrl/is_subscribed_notifications?token=$fcmToken";
     final response = await RequestHandler.sendGetRequest(url);
     return response.ok;
   }
@@ -55,7 +71,11 @@ class FCMManager with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('receiveEmailNotifications', value);
 
-    // TODO: Implement remote email notification subscription if endpoint exists
+    if (value) {
+      await subscribeEmail();
+    } else {
+      await unsubscribeEmail();
+    }
   }
 
   Future<void> togglePushNotifications(bool value) async {
