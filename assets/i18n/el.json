@@ -523,5 +523,8 @@
   "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
   "transferCarOwnershipButton": "Ολοκλήρωση Μεταβίβασης",
   "carTransferredSuccessfully": "Επιτυχής μεταβίβαση ιδιοκτησίας αυτοκινήτου",
-  "carTransferFailed": "Η μεταβίβαση απέτυχε"
+  "carTransferFailed": "Η μεταβίβαση απέτυχε",
+
+  "carInvitationTitle": "Πρόσκληση από {sender}",
+  "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε."
 }

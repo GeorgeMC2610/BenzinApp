@@ -523,5 +523,8 @@
   "transferCarOwnershipRetypeCarNameTitle": "Confirm the transfer again and type \"{carName}\":",
   "transferCarOwnershipButton": "Transfer Ownership",
   "carTransferredSuccessfully": "Successfully transferred car's ownership",
-  "carTransferFailed": "Failed to transfer car's ownership"
+  "carTransferFailed": "Failed to transfer car's ownership",
+
+  "carInvitationTitle": "{sender} has invited you to a car",
+  "carInvitationBody": "{sender} would like you to contribute to {car}. Tap to accept or decline."
 }
