@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/notifications/firebase_messaging_service.dart';
+import 'package:benzinapp/services/notifications/local_notifications_service.dart';
 import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/language_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
+import 'package:benzinapp/services/managers/fcm_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
@@ -29,6 +32,12 @@ void main() {
 
     await Firebase.initializeApp();
 
+    final localNotificationsService = LocalNotificationsService.instance();
+    await localNotificationsService.init();
+
+    final firebaseMessagingService = FirebaseMessagingService.instance();
+    await firebaseMessagingService.init(localNotificationsService: localNotificationsService);
+
     var delegate = await LocalizationDelegate.create(
         fallbackLocale: 'en',
         supportedLocales: ['el', 'en'],
@@ -48,6 +57,7 @@ void main() {
                 ChangeNotifierProvider(create: (context) => TripManager()),
                 ChangeNotifierProvider(create: (context) => CarManager()),
                 ChangeNotifierProvider(create: (context) => CarUserInvitationManager()),
+                ChangeNotifierProvider(create: (context) => FCMManager()),
                 ChangeNotifierProvider(create: (context) => ThemeProvider()),
                 ChangeNotifierProvider(create: (context) => DistanceMetricProvider()),
                 ChangeNotifierProvider(create: (context) => VolumeMetricProvider()),

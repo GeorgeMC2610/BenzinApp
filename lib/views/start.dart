@@ -60,7 +60,6 @@ class _StartState extends State<Start> {
     // it's best that the token manager is initialized in the very start
     // of the application.
     await TokenManager.initialize();
-    await FCMManager().init();
 
     // once it's initialized, check if there is a token.
     if (TokenManager().isTokenPresent) {
