@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'local_notifications_service.dart';
 
 class FirebaseMessagingService {
@@ -29,7 +31,7 @@ class FirebaseMessagingService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Listen for messages when the app is in foreground
-    FirebaseMessaging.onMessage.listen(_onForegroundMessage);
+    FirebaseMessaging.onMessage.listen(_onMessageReceived);
 
     // Listen for notification taps when the app is in background but not terminated
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
@@ -70,21 +72,58 @@ class FirebaseMessagingService {
     print('User granted permission: ${result.authorizationStatus}');
   }
 
-  /// Handles messages received while the app is in the foreground
-  void _onForegroundMessage(RemoteMessage message) {
-    print('Foreground message received: ${message.data.toString()}');
-    final notificationData = message.notification;
-    if (notificationData != null) {
-      // Display a local notification using the service
+  /// Centralized message handler
+  void _onMessageReceived(RemoteMessage message) {
+    print('Message received data: ${message.data}');
+    
+    String? title;
+    String? body;
+
+    // 1. Check if the message is using your translatable structure in the data payload
+    if (message.data.containsKey('title_key')) {
+      title = translate(message.data['title_key'], args: _parseArgs(message.data['title_args']));
+    } 
+    
+    if (message.data.containsKey('body_key')) {
+      body = translate(message.data['body_key'], args: _parseArgs(message.data['body_args']));
+    }
+
+    // 2. Fallback to standard notification if keys weren't found
+    title ??= message.notification?.title;
+    body ??= message.notification?.body;
+
+    if (title != null || body != null) {
+      // Show notification. We pass the whole data map as a payload for navigation on tap.
       _localNotificationsService?.showNotification(
-          notificationData.title, notificationData.body, message.data.toString());
+          title, body, jsonEncode(message.data));
     }
   }
 
-  /// Handles notification taps when app is opened from the background or terminated state
+  /// Handles notification taps
   void _onMessageOpenedApp(RemoteMessage message) {
     print('Notification caused the app to open: ${message.data.toString()}');
-    // TODO: Add navigation or specific handling based on message data
+    _handleNavigation(message.data);
+  }
+
+  /// Logic to navigate based on message data
+  void _handleNavigation(Map<String, dynamic> data) {
+    print('Navigating with data: $data');
+    final screen = data['screen'];
+    
+    if (screen == 'invitation_screen') {
+      // final invitationId = data['invitation_id'];
+      // TODO: Navigate using your Navigator or global key
+    }
+  }
+
+  Map<String, dynamic>? _parseArgs(dynamic args) {
+    if (args == null) return null;
+    if (args is Map<String, dynamic>) return args;
+    try {
+      return jsonDecode(args as String) as Map<String, dynamic>;
+    } catch (e) {
+      return null;
+    }
   }
 }
 
