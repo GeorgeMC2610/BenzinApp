@@ -85,7 +85,11 @@ class LocalNotificationsService {
     );
 
     // iOS-specific notification details
-    const iosDetails = DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
 
     // Combine platform-specific details
     final notificationDetails = NotificationDetails(
