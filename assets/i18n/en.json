@@ -526,5 +526,8 @@
   "carTransferFailed": "Failed to transfer car's ownership",
 
   "carInvitationTitle": "{sender} has invited you to a car",
-  "carInvitationBody": "{sender} would like you to contribute to {car}. Tap to accept or decline."
+  "carInvitationBody": "{sender} would like you to contribute to {car}. Tap to accept or decline.",
+
+  "fuelFillRecordTitle": "New fuel fill record for {car}",
+  "fuelFillRecordBody": "User {username} has created a Fuel Fill Record. Tap to see more info."
 }

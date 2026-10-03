@@ -526,5 +526,8 @@
   "carTransferFailed": "Η μεταβίβαση απέτυχε",
 
   "carInvitationTitle": "Πρόσκληση από {sender}",
-  "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε."
+  "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε.",
+
+  "fuelFillRecordTitle": "Νέο γέμισμα για το αμάξι {car}.",
+  "fuelFillRecordBody": "Ο χρήστης {username} έφτιαξε ένα νέο γέμισμα. Πατήστε εδώ για να το δείτε."
 }
