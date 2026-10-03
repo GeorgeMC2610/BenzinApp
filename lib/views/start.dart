@@ -55,7 +55,7 @@ class _StartState extends State<Start> {
     // honestly, suffering from success.
     // Delay the process of checking a token's validity (if there is any) by
     // one second.
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     // it's best that the token manager is initialized in the very start
     // of the application.
