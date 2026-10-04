@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/main.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class LocalNotificationsService {
 
     // Initialize plugin with settings and callback for notification taps
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse response) {
+        onDidReceiveNotificationResponse: (NotificationResponse response) async {
           // Handle notification tap in foreground / background
           print('Foreground notification has been tapped: ${response.payload}');
           if (response.payload == null) return;
@@ -69,44 +70,26 @@ class LocalNotificationsService {
           try {
             final Map<String, dynamic> payload = jsonDecode(response.payload!);
 
-            print("GOT HERE!");
-
+            // Navigating to a different screen when the "screen" arg is present.
             if (payload.containsKey("screen")) {
-              print("ALSO GOT HERE!");
               switch (payload["screen"]) {
                 case "fuel_fill_record_screen":
-                  print("ALSO GOT HERE AS WELL!");
-
                   dynamic rawArgs = payload['screen_args'];
                   if (rawArgs is String) {
                     rawArgs = jsonDecode(rawArgs);
                   }
                   final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
-
                   final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
-                  print("NEW RECORD: ${newRecord.toString()}");
 
-                  void navigate() {
-                    if (navigatorKey.currentState != null) {
-                      navigatorKey.currentState!.push(
-                        // TODO: Because watchingCar is null, this might crash most times.
-                        // Make sure to pass watchingCar as well.
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => ViewFuelFillRecord(record: newRecord),
-                        ),
-                      );
-                    } else {
-                      print("NAVIGATOR KEY CURRENT STATE IS NULL!");
-                    }
+                  // TODO: Find a better way to do this. Ideally pass the Car or CarID into the FFR model.
+                  final carId = screenArgs['car_id'];
+                  if (CarManager().local == null) {
+                    await CarManager().index();
                   }
+                  final car = CarManager().local?.firstWhere((c) => c.id == carId);
+                  CarManager().watchingCar = car;
 
-                  if (navigatorKey.currentState == null) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) => navigate());
-                  } else {
-                    navigate();
-                  }
-
-                  print("NAVIGATOR KEY: ${navigatorKey.currentState}");
+                  navigateNowOrLater(ViewFuelFillRecord(record: newRecord));
                   break;
                 default:
                   break;
@@ -125,6 +108,23 @@ class LocalNotificationsService {
 
     // Mark initialization as complete
     _isFlutterLocalNotificationInitialized = true;
+  }
+
+  void navigateNowOrLater(Widget nextScreen) {
+    if (navigatorKey.currentState != null) {
+      navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => nextScreen,
+        ),
+      );
+    }
+    else {
+      WidgetsBinding.instance.addPostFrameCallback((_) => navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => nextScreen,
+        ),
+      ));
+    }
   }
 
   /// Show a local notification with the given title, body, and payload.
