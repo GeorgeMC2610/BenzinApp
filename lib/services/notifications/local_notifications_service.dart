@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/views/details/fuel_fill_record.dart';
+import 'package:benzinapp/main.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationsService {
@@ -56,8 +62,60 @@ class LocalNotificationsService {
     // Initialize plugin with settings and callback for notification taps
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (NotificationResponse response) {
-          // Handle notification tap in foreground
+          // Handle notification tap in foreground / background
           print('Foreground notification has been tapped: ${response.payload}');
+          if (response.payload == null) return;
+
+          try {
+            final Map<String, dynamic> payload = jsonDecode(response.payload!);
+
+            print("GOT HERE!");
+
+            if (payload.containsKey("screen")) {
+              print("ALSO GOT HERE!");
+              switch (payload["screen"]) {
+                case "fuel_fill_record_screen":
+                  print("ALSO GOT HERE AS WELL!");
+
+                  dynamic rawArgs = payload['screen_args'];
+                  if (rawArgs is String) {
+                    rawArgs = jsonDecode(rawArgs);
+                  }
+                  final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
+
+                  final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
+                  print("NEW RECORD: ${newRecord.toString()}");
+
+                  void navigate() {
+                    if (navigatorKey.currentState != null) {
+                      navigatorKey.currentState!.push(
+                        // TODO: Because watchingCar is null, this might crash most times.
+                        // Make sure to pass watchingCar as well.
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => ViewFuelFillRecord(record: newRecord),
+                        ),
+                      );
+                    } else {
+                      print("NAVIGATOR KEY CURRENT STATE IS NULL!");
+                    }
+                  }
+
+                  if (navigatorKey.currentState == null) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) => navigate());
+                  } else {
+                    navigate();
+                  }
+
+                  print("NAVIGATOR KEY: ${navigatorKey.currentState}");
+                  break;
+                default:
+                  break;
+              }
+            }
+          } catch (e, stackTrace) {
+            print("Error handling notification tap: $e");
+            print(stackTrace);
+          }
         });
 
     // Create Android notification channel
