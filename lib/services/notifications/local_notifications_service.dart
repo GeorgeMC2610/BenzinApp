@@ -1,9 +1,15 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/main.dart';
+import 'package:benzinapp/views/details/malfunction.dart';
+import 'package:benzinapp/views/details/service.dart';
+import 'package:benzinapp/views/details/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -70,26 +76,42 @@ class LocalNotificationsService {
           try {
             final Map<String, dynamic> payload = jsonDecode(response.payload!);
 
+            // TODO: This chunk of code must be changed from the back-end as well.
+            // Add an additional tag that will read "car_args". When present, it will
+            // initialize the car being watched.
+            // better yet, don't include it at all. Make sure that we only pass
+            // the record id, and just tell each "view" screen to fetch it if it
+            // doesn't exist. But that's a story for later.
+            dynamic rawArgs = payload['screen_args'];
+            if (rawArgs is String) {
+              rawArgs = jsonDecode(rawArgs);
+            }
+            final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
+            final carId = screenArgs['car_id'];
+            if (CarManager().local == null) {
+              await CarManager().index();
+            }
+            final car = CarManager().local?.firstWhere((c) => c.id == carId);
+            CarManager().watchingCar = car;
+
             // Navigating to a different screen when the "screen" arg is present.
             if (payload.containsKey("screen")) {
               switch (payload["screen"]) {
                 case "fuel_fill_record_screen":
-                  dynamic rawArgs = payload['screen_args'];
-                  if (rawArgs is String) {
-                    rawArgs = jsonDecode(rawArgs);
-                  }
-                  final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
                   final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
-
-                  // TODO: Find a better way to do this. Ideally pass the Car or CarID into the FFR model.
-                  final carId = screenArgs['car_id'];
-                  if (CarManager().local == null) {
-                    await CarManager().index();
-                  }
-                  final car = CarManager().local?.firstWhere((c) => c.id == carId);
-                  CarManager().watchingCar = car;
-
                   navigateNowOrLater(ViewFuelFillRecord(record: newRecord));
+                  break;
+                case "malfunction_screen":
+                  final Malfunction newRecord = Malfunction.fromJson(screenArgs);
+                  navigateNowOrLater(ViewMalfunction(malfunction: newRecord));
+                  break;
+                case "service_screen":
+                  final Service newRecord = Service.fromJson(screenArgs);
+                  navigateNowOrLater(ViewService(service: newRecord));
+                  break;
+                case "repeated_trip_screen":
+                  final Trip newRecord = Trip.fromJson(screenArgs);
+                  navigateNowOrLater(ViewTrip(trip: newRecord));
                   break;
                 default:
                   break;
