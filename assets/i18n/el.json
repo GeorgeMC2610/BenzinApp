@@ -528,6 +528,15 @@
   "carInvitationTitle": "Πρόσκληση από {sender}",
   "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε.",
 
-  "fuelFillRecordTitle": "Νέο γέμισμα για το αμάξι {car}.",
-  "fuelFillRecordBody": "Ο χρήστης {username} έφτιαξε ένα νέο γέμισμα. Πατήστε εδώ για να το δείτε."
+  "fuelFillRecordNotificationTitle": "Νέο γέμισμα για το αμάξι {car}.",
+  "fuelFillRecordNotificationBody": "Ο χρήστης {username} έφτιαξε ένα νέο γέμισμα. Πατήστε εδώ για να το δείτε.",
+
+  "malfunctionNotificationTitle": "Νέα βλάβη για το αμάξι {car}",
+  "malfunctionNotificationBody": "Ο χρήστης {username} έφτιαξε μία νέα βλάβη. Πατήστε εδώ για να τη δείτε.",
+
+  "serviceNotificationTitle": "Νέο σέρβις για το αμάξι {car}",
+  "serviceNotificationBody": "Ο χρήστης {username} έβαλε ένα καινούριο σέρβις. Πατήστε εδώ για να το δείτε.",
+
+  "repeatedTripNotificationTitle": "Νέα διαδρομή για το αμάξι {car}",
+  "repeatedTripNotificationBody": "Ο χρήστης {username} πρόσθεσε μία νέα διαδρομή. Πατήστε εδώ για να τη δείτε."
 }
