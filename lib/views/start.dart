@@ -1,6 +1,7 @@
 import 'package:benzinapp/services/managers/fcm_manager.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
+import 'package:benzinapp/services/notifications/firebase_messaging_service.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:benzinapp/views/login.dart';
@@ -81,8 +82,22 @@ class _StartState extends State<Start> {
     final result = await SessionManager().testConnection();
 
     if (result) {
-      await DataHolder().initializeValues();
+      if (FirebaseMessagingService.instance().pendingNotificationPayload != null) {
+        final payload = FirebaseMessagingService.instance().pendingNotificationPayload!;
+        FirebaseMessagingService.instance().pendingNotificationPayload = null;
 
+        // Now that TokenManager & Session are ready, safely navigate:
+        DataHolder().initializeValues();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const Dashboard()
+            ));
+        FirebaseMessagingService.instance().handleNavigation(payload);
+        return;
+      }
+
+      await DataHolder().initializeValues();
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

@@ -1,5 +1,16 @@
 import 'dart:convert';
+import 'package:benzinapp/main.dart';
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/classes/trip.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/views/details/fuel_fill_record.dart';
+import 'package:benzinapp/views/details/malfunction.dart';
+import 'package:benzinapp/views/details/service.dart';
+import 'package:benzinapp/views/details/trip.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'local_notifications_service.dart';
 
@@ -12,6 +23,8 @@ class FirebaseMessagingService {
 
   // Factory constructor to provide singleton instance
   factory FirebaseMessagingService.instance() => _instance;
+
+  Map<String, dynamic>? pendingNotificationPayload;
 
   // Reference to local notifications service for displaying notifications
   LocalNotificationsService? _localNotificationsService;
@@ -39,7 +52,7 @@ class FirebaseMessagingService {
     // Check for initial message that opened the app from terminated state
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      _onMessageOpenedApp(initialMessage);
+      pendingNotificationPayload = initialMessage.data;
     }
   }
 
@@ -102,17 +115,69 @@ class FirebaseMessagingService {
   /// Handles notification taps
   void _onMessageOpenedApp(RemoteMessage message) {
     print('Notification caused the app to open: ${message.data.toString()}');
-    _handleNavigation(message.data);
+    handleNavigation(message.data);
   }
 
   /// Logic to navigate based on message data
-  void _handleNavigation(Map<String, dynamic> data) {
+  Future<void> handleNavigation(Map<String, dynamic> data) async {
     print('Navigating with data: $data');
-    final screen = data['screen'];
-    
-    if (screen == 'invitation_screen') {
-      // final invitationId = data['invitation_id'];
-      // TODO: Navigate using your Navigator or global key
+    try {
+      if (data.containsKey('screen_args')) {
+        dynamic rawArgs = data['screen_args'];
+        if (rawArgs is String) {
+          rawArgs = jsonDecode(rawArgs);
+        }
+        final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
+        final carId = screenArgs['car_id'];
+        if (CarManager().local == null) {
+          await CarManager().index();
+        }
+        final car = CarManager().local?.firstWhere((c) => c.id == carId);
+        CarManager().watchingCar = car;
+
+        // Navigating to a different screen when the "screen" arg is present.
+        if (data.containsKey("screen")) {
+          switch (data["screen"]) {
+            case "fuel_fill_record_screen":
+              final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
+              navigateNowOrLater(ViewFuelFillRecord(record: newRecord));
+              break;
+            case "malfunction_screen":
+              final Malfunction newRecord = Malfunction.fromJson(screenArgs);
+              navigateNowOrLater(ViewMalfunction(malfunction: newRecord));
+              break;
+            case "service_screen":
+              final Service newRecord = Service.fromJson(screenArgs);
+              navigateNowOrLater(ViewService(service: newRecord));
+              break;
+            case "repeated_trip_screen":
+              final Trip newRecord = Trip.fromJson(screenArgs);
+              navigateNowOrLater(ViewTrip(trip: newRecord));
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    } catch (e, stackTrace) {
+      print("Error handling notification tap in FirebaseMessagingService: $e");
+      print(stackTrace);
+    }
+  }
+
+  void navigateNowOrLater(Widget nextScreen) {
+    if (navigatorKey.currentState != null) {
+      navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => nextScreen,
+        ),
+      );
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) => navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => nextScreen,
+        ),
+      ));
     }
   }
 
