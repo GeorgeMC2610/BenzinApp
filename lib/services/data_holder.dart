@@ -15,29 +15,12 @@ class DataHolder {
 
   static const String destination = 'http://localhost:3000';
 
-  Future<void> initializeValues() async {
-    List<Future<void>> futures = [
-      CarManager().index(),
-      UserManager().getCurrentUser(),
-      CarUserInvitationManager().index(),
-    ];
-
-    await Future.wait(futures);
-  }
 
   /// Since all these data belong to separate cars, they will have to wait
   /// until the `watchingCar` value is initialized.
   Future<void> getCarData(int id) async {
     CarManager().watchingCar = CarManager().local?.firstWhere((car) => car.id == id);
-
-    List<Future<void>> futures = [
-      FuelFillRecordManager().index(),
-      ServiceManager().index(),
-      MalfunctionManager().index(),
-      TripManager().index(),
-    ];
-
-    await Future.wait(futures);
+    await CarManager().getData(id);
   }
 
   void destroyCarValues() {

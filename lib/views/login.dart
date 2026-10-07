@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         TextInput.finishAutofillContext();
         // show the message that the user is authorized successfully.
         SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-        DataHolder().initializeValues();
+        UserManager().getCurrentUser();
 
         Widget screen = const Dashboard();
 
