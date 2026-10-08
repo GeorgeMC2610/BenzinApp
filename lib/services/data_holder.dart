@@ -30,7 +30,7 @@ class DataHolder {
     TripManager().destroyValues();
   }
 
-  void destroyValues() async {
+  void destroyValues() {
     FuelFillRecordManager().destroyValues();
     ServiceManager().destroyValues();
     MalfunctionManager().destroyValues();
