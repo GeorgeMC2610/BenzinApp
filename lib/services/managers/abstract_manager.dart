@@ -123,11 +123,19 @@ abstract class AbstractManager<T> with ChangeNotifier {
       int index = _findIndex(model);
       _local!.insert(index, model);
     }
+    notifyListeners();
   }
 
   @protected
   void setErrors(Map<String, dynamic> json) {
     _errors = json;
+    notifyListeners();
+  }
+
+  @protected
+  void setLocal(List<T> models) {
+    _local = models;
+    notifyListeners();
   }
 
   int _findIndex(T item) {

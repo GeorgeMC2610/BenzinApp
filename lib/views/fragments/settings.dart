@@ -1,4 +1,5 @@
 import 'package:benzinapp/services/distance_metric_provider.dart';
+import 'package:benzinapp/services/managers/fcm_manager.dart';
 import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
@@ -121,6 +122,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: _showVolumeMetricModal,
                   trailing: const Icon(Icons.arrow_forward_ios),
                   leading: const Icon(Icons.opacity),
+                ),
+
+                const SizedBox(height: 30),
+
+                Text(
+                    translate('notificationSettings'),
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500
+                    )
+                ),
+
+                const SizedBox(height: 12),
+
+                ListTile(
+                  title: Text(translate('receiveEmailNotifications')),
+                  trailing: Consumer<FCMManager>(
+                    builder: (context, fcmManager, child) {
+                      return Switch.adaptive(
+                        value: fcmManager.receiveEmailNotifications,
+                        onChanged: (bool value) {
+                          fcmManager.toggleEmailNotifications(value);
+                        },
+                      );
+                    },
+                  ),
+                  leading: const Icon(Icons.email_outlined),
+                ),
+
+                ListTile(
+                  title: Text(translate('receivePushNotifications')),
+                  trailing: Consumer<FCMManager>(
+                    builder: (context, fcmManager, child) {
+                      return Switch.adaptive(
+                        value: fcmManager.receivePushNotifications,
+                        onChanged: (bool value) {
+                          fcmManager.togglePushNotifications(value);
+                        },
+                      );
+                    },
+                  ),
+                  leading: const Icon(Icons.notifications_active_outlined),
                 ),
 
                 if (isWatchingCar)

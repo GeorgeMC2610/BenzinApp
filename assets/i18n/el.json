@@ -111,8 +111,8 @@
   "litersPer100km":           "{volUnit} ανά 100 {distUnit}:",
   "kilometersPerLiter":       "{distUnit} ανά {volUnit}:",
   "costPerKilometer":         "Κόστος ανά {unit}:",
-  "totalLitersFilled":        "Συνολικά Γεμισμένα {unit}:",
-  "totalKilometersTravelled": "Συνολικά {unit}:",
+  "totalLitersFilled":        "Συνολικά Γεμισμένα Καύσιμα:",
+  "totalKilometersTravelled": "Συνολική Απόσταση:",
   "totalCosts":               "Συνολικά Κόστη:",
 
   "serviceOverdueInDays": "Σέρβις εκπρόθεσμο εδώ και {amount} ημέρα(-ες)",
@@ -136,6 +136,9 @@
   "language":              "Γλώσσα",
   "distanceMetric":        "Μονάδα Απόστασης",
   "volumeMetric":          "Μονάδα Όγκου",
+  "notificationSettings":  "Ρυθμίσεις Ειδοποιήσεων",
+  "receiveEmailNotifications": "Λήψη επιπλέον ειδοποιήσεων e-mail",
+  "receivePushNotifications":  "Λήψη ειδοποιήσεων push (εντός εφαρμογής)",
   "kilometersSetting":     "Χιλιόμετρα (km)",
   "milesSetting":          "Μίλια (mi)",
   "litersSetting":         "Λίτρα",
@@ -520,5 +523,20 @@
   "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
   "transferCarOwnershipButton": "Ολοκλήρωση Μεταβίβασης",
   "carTransferredSuccessfully": "Επιτυχής μεταβίβαση ιδιοκτησίας αυτοκινήτου",
-  "carTransferFailed": "Η μεταβίβαση απέτυχε"
+  "carTransferFailed": "Η μεταβίβαση απέτυχε",
+
+  "carInvitationTitle": "Πρόσκληση από {sender}",
+  "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε.",
+
+  "fuelFillRecordNotificationTitle": "Νέο γέμισμα για το αμάξι {car}.",
+  "fuelFillRecordNotificationBody": "Ο χρήστης {username} έφτιαξε ένα νέο γέμισμα. Πατήστε εδώ για να το δείτε.",
+
+  "malfunctionNotificationTitle": "Νέα βλάβη για το αμάξι {car}",
+  "malfunctionNotificationBody": "Ο χρήστης {username} έφτιαξε μία νέα βλάβη. Πατήστε εδώ για να τη δείτε.",
+
+  "serviceNotificationTitle": "Νέο σέρβις για το αμάξι {car}",
+  "serviceNotificationBody": "Ο χρήστης {username} έβαλε ένα καινούριο σέρβις. Πατήστε εδώ για να το δείτε.",
+
+  "repeatedTripNotificationTitle": "Νέα διαδρομή για το αμάξι {car}",
+  "repeatedTripNotificationBody": "Ο χρήστης {username} πρόσθεσε μία νέα διαδρομή. Πατήστε εδώ για να τη δείτε."
 }
