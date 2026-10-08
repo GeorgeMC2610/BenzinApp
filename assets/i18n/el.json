@@ -111,8 +111,8 @@
   "litersPer100km":           "{volUnit} ανά 100 {distUnit}:",
   "kilometersPerLiter":       "{distUnit} ανά {volUnit}:",
   "costPerKilometer":         "Κόστος ανά {unit}:",
-  "totalLitersFilled":        "Συνολικά Γεμισμένα {unit}:",
-  "totalKilometersTravelled": "Συνολικά {unit}:",
+  "totalLitersFilled":        "Συνολικά Γεμισμένα Καύσιμα:",
+  "totalKilometersTravelled": "Συνολική Απόσταση:",
   "totalCosts":               "Συνολικά Κόστη:",
 
   "serviceOverdueInDays": "Σέρβις εκπρόθεσμο εδώ και {amount} ημέρα(-ες)",
