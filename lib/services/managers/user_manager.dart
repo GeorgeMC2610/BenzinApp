@@ -33,14 +33,14 @@ class UserManager with ChangeNotifier {
     const url = '${DataHolder.destination}/users';
 
     final response = await RequestHandler.sendGetRequest(url);
-    final jsonResponse = jsonDecode(response.body)['user'];
+    final jsonResponse = jsonDecode(response.body);
 
-    currentUser = User.fromJson(jsonResponse);
-    final invitations = (jsonResponse['json_invitations'] as List<dynamic>? ?? [])
+    currentUser = User.fromJson(jsonResponse['user']);
+    final invitations = (jsonResponse['invitations'] as List<dynamic>? ?? [])
         .map((e) => CarUserInvitation.fromJson(e as Map<String, dynamic>))
         .toList();
 
-    final cars = (jsonResponse['cars_json'] as List<dynamic>? ?? [])
+    final cars = (jsonResponse['cars'] as List<dynamic>? ?? [])
         .map((e) => Car.fromJson(e as Map<String, dynamic>))
         .toList();
 
