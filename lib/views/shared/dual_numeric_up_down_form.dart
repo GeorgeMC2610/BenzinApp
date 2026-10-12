@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/locale_string_converter.dart';
+import '../../services/localized_number_input.dart';
 
 class DualNumericUpDownForm extends StatefulWidget {
   const DualNumericUpDownForm({
@@ -22,8 +22,8 @@ class DualNumericUpDownForm extends StatefulWidget {
     this.hint,
   });
 
-  final TextEditingController controller1;
-  final TextEditingController controller2;
+  final NumericTextController controller1;
+  final NumericTextController controller2;
   final bool canBeNegative;
   final String title;
   final String fieldTitle1;
@@ -36,51 +36,61 @@ class DualNumericUpDownForm extends StatefulWidget {
   final String? error1;
   final String? error2;
   final List<double> quickValues;
-  final void Function(String)? onController1Changed;
-  final void Function(String)? onController2Changed;
+  final ValueChanged<double?>? onController1Changed;
+  final ValueChanged<double?>? onController2Changed;
 
   @override
   State<DualNumericUpDownForm> createState() => _NumericUpDownFormState();
 }
 
 class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
-  double _currentValue(TextEditingController controller) {
-    return double.tryParse(controller.text) ?? 0;
+  @override
+  void initState() {
+    super.initState();
+    _applySeparators(NumberSeparators.of(context, listen: false));
   }
 
-  /// Formats the value to remove trailing zeros and fix floating point precision issues.
-  String _formatValue(double value) {
-    // Round to 10 decimal places to handle the "mantissa" problem (e.g. 0.30000000000000004)
-    String s = value.toStringAsFixed(10);
-    if (s.contains('.')) {
-      // Remove trailing zeros and the decimal point if it's no longer needed
-      s = s.replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // re-renders the values when the app language changes
+    _applySeparators(NumberSeparators.of(context));
+  }
+
+  void _applySeparators(NumberSeparators separators) {
+    widget.controller1.separators = separators;
+    widget.controller2.separators = separators;
+  }
+
+  double _currentValue(NumericTextController controller) {
+    return controller.numericValue ?? 0;
+  }
+
+  void _notifyChanged(NumericTextController controller) {
+    if (controller == widget.controller1) {
+      if (widget.onController1Changed != null) widget.onController1Changed!(controller.numericValue);
     }
-    return s;
+    else {
+      if (widget.onController2Changed != null) widget.onController2Changed!(controller.numericValue);
+    }
   }
 
-  void _setValue(double value, TextEditingController controller) {
+  void _setValue(double value, NumericTextController controller) {
     if (!widget.canBeNegative && value < 0) {
       value = 0;
     }
 
-    controller.text = _formatValue(value);
-
-    if (controller == widget.controller1) {
-      if (widget.onController1Changed != null) widget.onController1Changed!(controller.text);
-    }
-    else {
-      if (widget.onController2Changed != null) widget.onController2Changed!(controller.text);
-    }
+    controller.numericValue = value;
+    _notifyChanged(controller);
 
     setState(() {});
   }
 
-  void _increment(double amount, TextEditingController controller) {
+  void _increment(double amount, NumericTextController controller) {
     _setValue(_currentValue(controller) + amount, controller);
   }
 
-  void _decrement(double amount, TextEditingController controller) {
+  void _decrement(double amount, NumericTextController controller) {
     _setValue(_currentValue(controller) - amount, controller);
   }
 
@@ -135,7 +145,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
   }
 
   Widget _buildTextField({
-    required TextEditingController controller,
+    required NumericTextController controller,
     required String labelText,
     required String? errorText,
   }) {
@@ -146,7 +156,13 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
             FocusScope.of(context).unfocus();
           },
           controller: controller,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: TextInputType.numberWithOptions(decimal: true, signed: widget.canBeNegative),
+          inputFormatters: [
+            LocalizedNumberInputFormatter(
+              separators: controller.separators,
+              allowNegative: widget.canBeNegative,
+            ),
+          ],
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -218,16 +234,9 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
               ),
             ),
           ),
+          // the formatter already rejects a minus sign when canBeNegative is false
           onChanged: (value) {
-            final parsed = double.tryParse(value);
-            if (parsed != null && !widget.canBeNegative && parsed < 0) {
-              controller.text = '0';
-            }
-            if (controller == widget.controller1) {
-              if (widget.onController1Changed != null) widget.onController1Changed!(controller.text);
-            } else {
-              if (widget.onController2Changed != null) widget.onController2Changed!(controller.text);
-            }
+            _notifyChanged(controller);
             setState(() {});
           },
         ),
@@ -245,7 +254,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                 ),
                 onPressed: _currentValue(controller) <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value, controller),
                 child:
-                Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
+                Text('${value > 0 ? '+' : ''}${LocalizedNumber.format(value, widget.controller1.separators)}'),
               );
             }).toList(),
           ),
@@ -343,12 +352,12 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                       visualDensity: VisualDensity.standard,
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                     ),
-                    onPressed: (_currentValue(widget.controller1) <= 0 || _currentValue(widget.controller1) <= 0) && value < 0 && !widget.canBeNegative ? null : () {
+                    onPressed: (_currentValue(widget.controller1) <= 0 || _currentValue(widget.controller2) <= 0) && value < 0 && !widget.canBeNegative ? null : () {
                       _increment(value, widget.controller1);
                       _increment(value, widget.controller2);
                     },
                     child:
-                        Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
+                        Text('${value > 0 ? '+' : ''}${LocalizedNumber.format(value, widget.controller1.separators)}'),
                   );
                 }).toList(),
               ),

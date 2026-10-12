@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/locale_string_converter.dart';
+import '../../services/localized_number_input.dart';
 
 class NumericUpDownForm extends StatefulWidget {
   const NumericUpDownForm({
@@ -19,7 +19,7 @@ class NumericUpDownForm extends StatefulWidget {
     this.onChanged,
   });
 
-  final TextEditingController controller;
+  final NumericTextController controller;
   final Widget? icon;
   final String title;
   final double? startingValue;
@@ -31,7 +31,7 @@ class NumericUpDownForm extends StatefulWidget {
   final String? error;
   final List<double> quickValues;
   final String? metric;
-  final void Function(String)? onChanged;
+  final ValueChanged<double?>? onChanged;
 
   @override
   State<NumericUpDownForm> createState() => _NumericUpDownFormState();
@@ -41,38 +41,35 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
   @override
   void initState() {
     super.initState();
+    widget.controller.separators = NumberSeparators.of(context, listen: false);
 
     if (widget.controller.text.isEmpty) {
       _setValue(widget.startingValue ?? 0);
     } else {
-      final parsed = double.tryParse(widget.controller.text);
+      final parsed = widget.controller.numericValue;
       if (parsed != null) {
         _setValue(parsed);
       }
     }
   }
 
-  double _currentValue() {
-    return double.tryParse(widget.controller.text) ?? 0;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // re-renders the value when the app language changes
+    widget.controller.separators = NumberSeparators.of(context);
   }
 
-  /// Formats the value to remove trailing zeros and fix floating point precision issues.
-  String _formatValue(double value) {
-    // Round to 10 decimal places to handle the "mantissa" problem (e.g. 0.30000000000000004)
-    String s = value.toStringAsFixed(10);
-    if (s.contains('.')) {
-      // Remove trailing zeros and the decimal point if it's no longer needed
-      s = s.replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
-    }
-    return s;
+  double _currentValue() {
+    return widget.controller.numericValue ?? 0;
   }
 
   void _setValue(double value) {
-    if (widget.onChanged != null) widget.onChanged!(value.toString());
     if (!widget.canBeNegative && value < 0) {
       value = 0;
     }
-    widget.controller.text = _formatValue(value);
+    widget.controller.numericValue = value;
+    if (widget.onChanged != null) widget.onChanged!(value);
     setState(() {});
   }
 
@@ -186,7 +183,13 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                       FocusScope.of(context).unfocus();
                     },
                     controller: widget.controller,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: widget.canBeNegative),
+                    inputFormatters: [
+                      LocalizedNumberInputFormatter(
+                        separators: widget.controller.separators,
+                        allowNegative: widget.canBeNegative,
+                      ),
+                    ],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -258,14 +261,10 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                         ),
                       ),
                     ),
+                    // the formatter already rejects a minus sign when canBeNegative is false
                     onChanged: (value) {
-                      if (widget.onChanged != null) widget.onChanged!(value);
-
-                      final parsed = double.tryParse(value);
-                      if (parsed != null && !widget.canBeNegative && parsed < 0) {
-                        widget.controller.text = '0';
-                        setState(() {});
-                      }
+                      if (widget.onChanged != null) widget.onChanged!(widget.controller.numericValue);
+                      setState(() {});
                     },
                   ),
                 ),
@@ -293,7 +292,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                   ),
                   onPressed: _currentValue() <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value),
-                  child: Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
+                  child: Text('${value > 0 ? '+' : ''}${LocalizedNumber.format(value, widget.controller.separators)}'),
                 );
               }).toList(),
             ),
