@@ -1,10 +1,15 @@
 import 'dart:convert';
 
+import 'package:benzinapp/services/classes/car.dart';
+import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/classes/user.dart';
 import 'package:benzinapp/services/data_holder.dart';
+import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
 import 'package:flutter/material.dart';
+
+import 'car_user_invitation_manager.dart';
 
 class UserManager with ChangeNotifier {
 
@@ -28,9 +33,20 @@ class UserManager with ChangeNotifier {
     const url = '${DataHolder.destination}/users';
 
     final response = await RequestHandler.sendGetRequest(url);
-    final jsonResponse = jsonDecode(response.body)['user'];
+    final jsonResponse = jsonDecode(response.body);
 
-    currentUser = User.fromJson(jsonResponse);
+    currentUser = User.fromJson(jsonResponse['user']);
+    final invitations = (jsonResponse['invitations'] as List<dynamic>? ?? [])
+        .map((e) => CarUserInvitation.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    final cars = (jsonResponse['cars'] as List<dynamic>? ?? [])
+        .map((e) => Car.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    CarManager().setLocal(cars);
+    CarUserInvitationManager().setLocal(invitations);
+
     notifyListeners();
   }
 

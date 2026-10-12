@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
@@ -86,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
         SnackbarNotification.show(
             MessageType.success, translate('successfullyCreatedAccount'));
 
-        await DataHolder().initializeValues();
+        await UserManager().getCurrentUser();
 
         if (mounted) {
           Navigator.pop(context);

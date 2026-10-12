@@ -1,8 +1,16 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/car.dart';
+import 'package:benzinapp/services/classes/fuel_fill_record.dart';
+import 'package:benzinapp/services/classes/malfunction.dart';
+import 'package:benzinapp/services/classes/service.dart';
+import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/managers/abstract_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/services/managers/malfunction_manager.dart';
+import 'package:benzinapp/services/managers/service_manager.dart';
+import 'package:benzinapp/services/managers/trip_manager.dart';
 
 import '../data_holder.dart';
 import '../request_handler.dart';
@@ -33,6 +41,43 @@ class CarManager extends AbstractManager<Car> {
     if (!body.containsKey('username')) return;
     if (body["username"] != model.username) return;
     super.delete(model, body: { responseKeyword: body });
+  }
+
+  Future<void> getData(int id) async {
+    final response = await RequestHandler.sendGetRequest("$baseUrl/$id");
+
+    if (response.ok) {
+      final jsonResponse = json.decode(response.body);
+
+      final car = fromJson(jsonResponse[responseKeyword]);
+      watchingCar = car;
+
+      final ffrs = (jsonResponse['fuel_fill_records'] as List<dynamic>? ?? [])
+          .map((e) => FuelFillRecord.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      final mlf = (jsonResponse['malfunctions'] as List<dynamic>? ?? [])
+          .map((e) => Malfunction.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      final srv = (jsonResponse['services'] as List<dynamic>? ?? [])
+          .map((e) => Service.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      final rpt = (jsonResponse['repeated_trips'] as List<dynamic>? ?? [])
+          .map((e) => Trip.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      FuelFillRecordManager().setLocal(ffrs.toList());
+      MalfunctionManager().setLocal(mlf.toList());
+      ServiceManager().setLocal(srv.toList());
+      TripManager().setLocal(rpt.toList());
+
+      notifyListeners();
+    }
+    else {
+
+    }
   }
 
   Future<void> transferOwnership(Car car, String username, String carUsername) async {

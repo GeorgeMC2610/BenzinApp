@@ -111,8 +111,8 @@
   "litersPer100km":           "{volUnit} per 100 {distUnit}:",
   "kilometersPerLiter":       "{distUnit} per {volUnit}:",
   "costPerKilometer":         "Cost per {unit}:",
-  "totalLitersFilled":        "Total {unit} Filled:",
-  "totalKilometersTravelled": "Total {unit} Travelled:",
+  "totalLitersFilled":        "Total Petrol Filled:",
+  "totalKilometersTravelled": "Total Distance Travelled:",
   "totalCosts":               "Total Costs:",
 
   "serviceOverdueInDays": "Service overdue by {amount} days",
@@ -136,6 +136,9 @@
   "language":              "Language",
   "distanceMetric":        "Distance Metric",
   "volumeMetric":          "Volume Metric",
+  "notificationSettings":  "Notification Settings",
+  "receiveEmailNotifications": "Receive extra e-mail notifications",
+  "receivePushNotifications":  "Receive in-app push notifications",
   "kilometersSetting":     "Kilometers (km)",
   "milesSetting":          "Miles (mi)",
   "litersSetting":         "Liters",
@@ -520,5 +523,20 @@
   "transferCarOwnershipRetypeCarNameTitle": "Confirm the transfer again and type \"{carName}\":",
   "transferCarOwnershipButton": "Transfer Ownership",
   "carTransferredSuccessfully": "Successfully transferred car's ownership",
-  "carTransferFailed": "Failed to transfer car's ownership"
+  "carTransferFailed": "Failed to transfer car's ownership",
+
+  "carInvitationTitle": "{sender} has invited you to a car",
+  "carInvitationBody": "{sender} would like you to contribute to {car}. Tap to accept or decline.",
+
+  "fuelFillRecordNotificationTitle": "New fuel fill record for {car}",
+  "fuelFillRecordNotificationBody": "User {username} has created a Fuel Fill Record. Tap to see more info.",
+
+  "malfunctionNotificationTitle": "New malfunction for {car}",
+  "malfunctionNotificationBody": "User {username} has created a Malfunction. Tap to see more info.",
+
+  "serviceNotificationTitle": "New service for {car}",
+  "serviceNotificationBody": "User {username} has created a Service. Tap to see more info.",
+
+  "repeatedTripNotificationTitle": "New trip for {car}",
+  "repeatedTripNotificationBody": "User {username} has created a Trip. Tap to see more info."
 }

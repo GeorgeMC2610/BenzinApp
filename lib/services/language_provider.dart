@@ -1,3 +1,5 @@
+import 'package:benzinapp/services/managers/fcm_manager.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,13 @@ class LanguageProvider extends ChangeNotifier implements ITranslatePreferences {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language_code', newLocale.languageCode);
     notifyListeners();
+
+    if (FCMManager().receivePushNotifications) {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await FCMManager().subscribe(token, locale: newLocale.languageCode);
+      }
+    }
   }
 
   @override
@@ -40,5 +49,12 @@ class LanguageProvider extends ChangeNotifier implements ITranslatePreferences {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language_code', locale.languageCode);
     notifyListeners();
+
+    if (FCMManager().receivePushNotifications) {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await FCMManager().subscribe(token, locale: locale.languageCode);
+      }
+    }
   }
 }
