@@ -50,10 +50,13 @@ class FCMManager with ChangeNotifier {
     return response.ok;
   }
 
-  Future<void> subscribe(String fcmToken) async {
+  Future<void> subscribe(String fcmToken, {String? locale}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String localeCode = locale ?? prefs.getString('language_code') ?? 'en';
     final String url = "$baseUrl/subscribe_notifications";
     await RequestHandler.sendPostRequest(url, true, {
-      'token': fcmToken
+      'token': fcmToken,
+      'locale': localeCode,
     });
   }
 

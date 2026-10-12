@@ -5,6 +5,7 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/fcm_manager.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/details/service.dart';
@@ -63,9 +64,11 @@ class FirebaseMessagingService {
     print('Push notifications token: $token');
 
     // Listen for token refresh events
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
       print('FCM token refreshed: $fcmToken');
-      // TODO: optionally send token to your server for targeting this device
+      if (FCMManager().receivePushNotifications) {
+        await FCMManager().subscribe(fcmToken);
+      }
     }).onError((error) {
       // Handle errors during token refresh
       print('Error refreshing FCM token: $error');
