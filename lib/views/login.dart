@@ -56,47 +56,63 @@ class _LoginPageState extends State<LoginPage> {
       isLoggingIn = true;
     });
 
-    final result = await SessionManager().login(emailController.text, passwordController.text);
+    try {
+      final result = await SessionManager().login(emailController.text, passwordController.text);
 
-    switch (result) {
-      case SessionStatus.success:
-        TextInput.finishAutofillContext();
-        // show the message that the user is authorized successfully.
-        SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
-        await UserManager().getCurrentUser();
+      switch (result) {
+        case SessionStatus.success:
+          TextInput.finishAutofillContext();
+          // show the message that the user is authorized successfully.
+          SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
+          await UserManager().getCurrentUser();
 
-        Widget screen = const Dashboard();
+          Widget screen = const Dashboard();
 
-        if (!UserManager().currentUser!.isConfirmed()) {
-          screen = const ConfirmEmail();
-        }
+          if (!UserManager().currentUser!.isConfirmed()) {
+            screen = const ConfirmEmail();
+          }
 
-        Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => screen
-        ));
+          Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) => screen
+          ));
 
-        break;
-      case SessionStatus.locked:
-        SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
-        setState(() {
-          showUnlockButton = true;
-        });
-      case SessionStatus.wrongCredentials:
-        setState(() {
-          emailError = translate('wrongCredentials');
-          passwordError = translate('wrongCredentials');
-        });
-        break;
-      case SessionStatus.serverError:
-        SnackbarNotification.show(MessageType.danger, "SERVER ERROR"); // TODO: Localize
-        break;
-      default:
-        break;
+          break;
+        case SessionStatus.locked:
+          SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
+          setState(() {
+            showUnlockButton = true;
+          });
+        case SessionStatus.wrongCredentials:
+          setState(() {
+            emailError = translate('wrongCredentials');
+            passwordError = translate('wrongCredentials');
+          });
+          break;
+        case SessionStatus.serverError:
+          SnackbarNotification.show(MessageType.danger, translate('serverError'));
+          break;
+        default:
+          break;
+      }
+    }
+    catch (e) {
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    }
+    finally {
+      setState(() {
+        isLoggingIn = false;
+      });
     }
 
-    setState(() {
-      isLoggingIn = false;
-    });
   }
 
   @override

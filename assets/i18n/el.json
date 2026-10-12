@@ -1,6 +1,9 @@
 {
   "loggedInAs": "Συνδέθηκες ως: {username}",
 
+  "serverError": "Κάτι πήγε λάθος με τον server",
+  "serverErrorTitle": "Αδυναμία Σύνδεσης",
+  "serverErrorBody": "Υπήρξαν δυσκολίες κατά την προσπάθεια σύνδεσης με τον κεντρικό server. Παρακαλώ δοκιμάστε αργότερα.",
   "wrongCredentials":      "Λάθος στοιχεία",
   "successfullyLoggedIn":  "Επιτυχής σύνδεση.",
   "sessionEnded":          "Η σύνοδός σας έληξε. Παρακαλώ συνδεθείτε ξανά.",

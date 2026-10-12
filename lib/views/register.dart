@@ -71,53 +71,68 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = true;
     });
 
-    var result = await SessionManager().signup(
-      emailController.text,
-      usernameController.text,
-      passwordController.text,
-      passwordConfirmController.text,
-    );
+    try {
+      var result = await SessionManager().signup(
+        emailController.text,
+        usernameController.text,
+        passwordController.text,
+        passwordConfirmController.text,
+      );
 
-    setState(() {
-      isRegistering = false;
-    });
+      switch (result) {
+        case SessionStatus.success:
+          SnackbarNotification.show(
+              MessageType.success, translate('successfullyCreatedAccount'));
 
-    switch (result) {
-      case SessionStatus.success:
-        SnackbarNotification.show(
-            MessageType.success, translate('successfullyCreatedAccount'));
+          await UserManager().getCurrentUser();
 
-        await UserManager().getCurrentUser();
-
-        if (mounted) {
-          Navigator.pop(context);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const ConfirmEmail(fromRegister: true)));
-        }
-        break;
-      case SessionStatus.usernameTaken:
-        setState(() {
-          usernameError = translate('usernameAlreadyTaken');
-        });
-        break;
-      case SessionStatus.usernameBad:
-        setState(() {
-          usernameError = translate('usernameBad');
-        });
-        break;
-      case SessionStatus.emailTaken:
-        setState(() {
-          emailError = translate('emailAlreadyTaken');
-        });
-        break;
-      case SessionStatus.serverError:
-        SnackbarNotification.show(
-            MessageType.success, translate('SERVER ERROR!!!'));
-        break;
-      default:
-        break;
+          if (mounted) {
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConfirmEmail(fromRegister: true)));
+          }
+          break;
+        case SessionStatus.usernameTaken:
+          setState(() {
+            usernameError = translate('usernameAlreadyTaken');
+          });
+          break;
+        case SessionStatus.usernameBad:
+          setState(() {
+            usernameError = translate('usernameBad');
+          });
+          break;
+        case SessionStatus.emailTaken:
+          setState(() {
+            emailError = translate('emailAlreadyTaken');
+          });
+          break;
+        case SessionStatus.serverError:
+          SnackbarNotification.show(
+              MessageType.success, translate('SERVER ERROR!!!'));
+          break;
+        default:
+          break;
+      }
+    }
+    catch (e) {
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    }
+    finally {
+      setState(() {
+        isRegistering = false;
+      });
     }
   }
 

@@ -1,6 +1,9 @@
 {
   "loggedInAs": "Logged in as: {username}",
 
+  "serverError": "An error occurred on the server",
+  "serverErrorTitle": "Bad Connection",
+  "serverErrorBody": "There was an error connecting to the server. This might be because the services are down. Please try again in a few minutes.",
   "wrongCredentials": "Wrong credentials",
   "successfullyLoggedIn": "Successfully logged in.",
   "sessionEnded": "Your session has ended. Please log in again.",
