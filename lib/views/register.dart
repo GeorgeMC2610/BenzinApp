@@ -110,8 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
           });
           break;
         case SessionStatus.serverError:
-          SnackbarNotification.show(
-              MessageType.success, translate('SERVER ERROR!!!'));
+          SnackbarNotification.show(MessageType.danger, translate('serverError'));
           break;
         default:
           break;
