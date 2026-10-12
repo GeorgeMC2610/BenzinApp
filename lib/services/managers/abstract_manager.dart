@@ -117,11 +117,13 @@ abstract class AbstractManager<T> with ChangeNotifier {
     notifyListeners();
   }
 
-  @protected
   void manualInsert(T model) {
     if (_local != null) {
+      _local!.removeWhere((e) => getId(e) == getId(model));
       int index = _findIndex(model);
       _local!.insert(index, model);
+    } else {
+      _local = [model];
     }
     notifyListeners();
   }

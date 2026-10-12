@@ -5,6 +5,10 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/classes/trip.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
+import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
+import 'package:benzinapp/services/managers/malfunction_manager.dart';
+import 'package:benzinapp/services/managers/service_manager.dart';
+import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
@@ -56,6 +60,71 @@ class NotificationHandler {
     return (title, body);
   }
 
+  /// Parses screen_args and screen from raw payload (Map or String), sets the watching car,
+  /// and creates/inserts the record locally in the appropriate Manager.
+  static Future<void> processRecord(dynamic rawPayload) async {
+    if (rawPayload == null) return;
+
+    try {
+      Map<String, dynamic> payload;
+      if (rawPayload is String) {
+        payload = Map<String, dynamic>.from(jsonDecode(rawPayload) as Map);
+      } else if (rawPayload is Map) {
+        payload = Map<String, dynamic>.from(rawPayload);
+      } else {
+        return;
+      }
+
+      Map<String, dynamic>? screenArgs;
+      if (payload.containsKey('screen_args') && payload['screen_args'] != null) {
+        dynamic rawArgs = payload['screen_args'];
+        if (rawArgs is String) {
+          rawArgs = jsonDecode(rawArgs);
+        }
+        if (rawArgs is Map) {
+          screenArgs = Map<String, dynamic>.from(rawArgs);
+        }
+      }
+
+      if (screenArgs != null && screenArgs.containsKey('car_id')) {
+        final carId = screenArgs['car_id'];
+        if (CarManager().local == null) {
+          await CarManager().index();
+        }
+        final car = CarManager().local?.where((c) => c.id == carId).firstOrNull;
+        if (car != null) {
+          CarManager().watchingCar = car;
+        }
+      }
+
+      if (payload.containsKey('screen') && screenArgs != null) {
+        switch (payload['screen']) {
+          case 'fuel_fill_record_screen':
+            final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
+            FuelFillRecordManager().manualInsert(newRecord);
+            break;
+          case 'malfunction_screen':
+            final Malfunction newRecord = Malfunction.fromJson(screenArgs);
+            MalfunctionManager().manualInsert(newRecord);
+            break;
+          case 'service_screen':
+            final Service newRecord = Service.fromJson(screenArgs);
+            ServiceManager().manualInsert(newRecord);
+            break;
+          case 'repeated_trip_screen':
+            final Trip newRecord = Trip.fromJson(screenArgs);
+            TripManager().manualInsert(newRecord);
+            break;
+          default:
+            break;
+        }
+      }
+    } catch (e, stackTrace) {
+      print('Error creating record from notification payload: $e');
+      print(stackTrace);
+    }
+  }
+
   /// Handles incoming notification payload (either Map or JSON String) and performs navigation.
   static Future<void> handlePayload(dynamic rawPayload) async {
     if (rawPayload == null) return;
@@ -72,6 +141,9 @@ class NotificationHandler {
 
       print('Handling notification navigation with payload: $payload');
 
+      // Create/insert record locally into appropriate manager
+      await processRecord(payload);
+
       Map<String, dynamic>? screenArgs;
       if (payload.containsKey('screen_args') && payload['screen_args'] != null) {
         dynamic rawArgs = payload['screen_args'];
@@ -80,18 +152,6 @@ class NotificationHandler {
         }
         if (rawArgs is Map) {
           screenArgs = Map<String, dynamic>.from(rawArgs);
-        }
-      }
-
-      // If car_id is provided in screen_args, ensure CarManager watching car is set
-      if (screenArgs != null && screenArgs.containsKey('car_id')) {
-        final carId = screenArgs['car_id'];
-        if (CarManager().local == null) {
-          await CarManager().index();
-        }
-        final car = CarManager().local?.where((c) => c.id == carId).firstOrNull;
-        if (car != null) {
-          CarManager().watchingCar = car;
         }
       }
 

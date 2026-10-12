@@ -81,6 +81,9 @@ class FirebaseMessagingService {
   void _onMessageReceived(RemoteMessage message) {
     print('Message received data: ${message.data}');
 
+    // Create/insert record locally immediately when notification is received
+    NotificationHandler.processRecord(message.data);
+
     final (title, body) = NotificationHandler.resolveTitleAndBody(
       data: message.data,
       fallbackTitle: message.notification?.title,
