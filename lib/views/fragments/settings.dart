@@ -124,48 +124,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   leading: const Icon(Icons.opacity),
                 ),
 
-                const SizedBox(height: 30),
+                if (loggedIn)
+                  const SizedBox(height: 30),
 
-                Text(
-                    translate('notificationSettings'),
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w500
-                    )
-                ),
-
-                const SizedBox(height: 12),
-
-                ListTile(
-                  title: Text(translate('receiveEmailNotifications')),
-                  trailing: Consumer<FCMManager>(
-                    builder: (context, fcmManager, child) {
-                      return Switch.adaptive(
-                        value: fcmManager.receiveEmailNotifications,
-                        onChanged: (bool value) {
-                          fcmManager.toggleEmailNotifications(value);
-                        },
-                      );
-                    },
-                  ),
-                  leading: const Icon(Icons.email_outlined),
-                ),
-
-                ListTile(
-                  title: Text(translate('receivePushNotifications')),
-                  trailing: Consumer<FCMManager>(
-                    builder: (context, fcmManager, child) {
-                      return Switch.adaptive(
-                        value: fcmManager.receivePushNotifications,
-                        onChanged: (bool value) {
-                          fcmManager.togglePushNotifications(value);
-                        },
-                      );
-                    },
-                  ),
-                  leading: const Icon(Icons.notifications_active_outlined),
-                ),
+                if (loggedIn)
+                  ...getNotificationOptions(),
 
                 if (isWatchingCar)
                   ...getCarOptions(),
@@ -228,6 +191,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     ),
   );
+
+  List<Widget> getNotificationOptions() => [
+      Text(
+          translate('notificationSettings'),
+          style: TextStyle(
+              fontSize: 24,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500
+          )
+      ),
+
+      const SizedBox(height: 12),
+
+      ListTile(
+        title: Text(translate('receiveEmailNotifications')),
+        trailing: Consumer<FCMManager>(
+          builder: (context, fcmManager, child) {
+            return Switch.adaptive(
+              value: fcmManager.receiveEmailNotifications,
+              onChanged: (bool value) {
+                fcmManager.toggleEmailNotifications(value);
+              },
+            );
+          },
+        ),
+        leading: const Icon(Icons.email_outlined),
+      ),
+
+      ListTile(
+        title: Text(translate('receivePushNotifications')),
+        trailing: Consumer<FCMManager>(
+          builder: (context, fcmManager, child) {
+            return Switch.adaptive(
+              value: fcmManager.receivePushNotifications,
+              onChanged: (bool value) {
+                fcmManager.togglePushNotifications(value);
+              },
+            );
+          },
+        ),
+        leading: const Icon(Icons.notifications_active_outlined),
+      ),
+  ];
 
   List<Widget> getCarOptions() {
     final isConfirmed = UserManager().currentUser?.isConfirmed() ?? false;
