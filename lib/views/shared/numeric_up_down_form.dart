@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/locale_string_converter.dart';
 
 class NumericUpDownForm extends StatefulWidget {
   const NumericUpDownForm({
@@ -292,7 +293,7 @@ class _NumericUpDownFormState extends State<NumericUpDownForm> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                   ),
                   onPressed: _currentValue() <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value),
-                  child: Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
+                  child: Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
                 );
               }).toList(),
             ),

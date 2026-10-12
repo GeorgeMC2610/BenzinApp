@@ -218,7 +218,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 hint: Hint.odometer.widget,
                 title: translate('mileageTitle'),
                 error1: mileageError,
-                quickValues: const [-50, -5, -1, 1, 10, 50, 100, 500],
+                quickValues: const [-100, -50, -5, -1, 1, 10, 50, 100, 500, 1000],
                 syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
                 showUpDownButtons: false,
                 icon: const Icon(Icons.speed, size: 40),

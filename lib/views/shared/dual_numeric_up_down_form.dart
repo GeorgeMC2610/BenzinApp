@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/locale_string_converter.dart';
 
 class DualNumericUpDownForm extends StatefulWidget {
   const DualNumericUpDownForm({
@@ -244,7 +245,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                 ),
                 onPressed: _currentValue(controller) <= 0 && value < 0 && !widget.canBeNegative ? null : () => _increment(value, controller),
                 child:
-                Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
+                Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
               );
             }).toList(),
           ),
@@ -347,7 +348,7 @@ class _NumericUpDownFormState extends State<DualNumericUpDownForm> {
                       _increment(value, widget.controller2);
                     },
                     child:
-                        Text('${value > 0 ? '+' : ''}${_formatValue(value)}'),
+                        Text('${value > 0 ? '+' : ''}${LocaleStringConverter.formattedDoubleToFivePoints(context, value)}'),
                   );
                 }).toList(),
               ),
