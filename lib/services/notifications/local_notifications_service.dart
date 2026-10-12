@@ -1,16 +1,4 @@
-import 'dart:convert';
-
-import 'package:benzinapp/services/classes/fuel_fill_record.dart';
-import 'package:benzinapp/services/classes/malfunction.dart';
-import 'package:benzinapp/services/classes/service.dart';
-import 'package:benzinapp/services/classes/trip.dart';
-import 'package:benzinapp/services/managers/car_manager.dart';
-import 'package:benzinapp/views/details/fuel_fill_record.dart';
-import 'package:benzinapp/main.dart';
-import 'package:benzinapp/views/details/malfunction.dart';
-import 'package:benzinapp/views/details/service.dart';
-import 'package:benzinapp/views/details/trip.dart';
-import 'package:flutter/material.dart';
+import 'package:benzinapp/services/notifications/notification_handler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationsService {
@@ -72,55 +60,7 @@ class LocalNotificationsService {
           // Handle notification tap in foreground / background
           print('Foreground notification has been tapped: ${response.payload}');
           if (response.payload == null) return;
-
-          try {
-            final Map<String, dynamic> payload = jsonDecode(response.payload!);
-
-            // TODO: This chunk of code must be changed from the back-end as well.
-            // Add an additional tag that will read "car_args". When present, it will
-            // initialize the car being watched.
-            // better yet, don't include it at all. Make sure that we only pass
-            // the record id, and just tell each "view" screen to fetch it if it
-            // doesn't exist. But that's a story for later.
-            dynamic rawArgs = payload['screen_args'];
-            if (rawArgs is String) {
-              rawArgs = jsonDecode(rawArgs);
-            }
-            final Map<String, dynamic> screenArgs = Map<String, dynamic>.from(rawArgs as Map);
-            final carId = screenArgs['car_id'];
-            if (CarManager().local == null) {
-              await CarManager().index();
-            }
-            final car = CarManager().local?.firstWhere((c) => c.id == carId);
-            CarManager().watchingCar = car;
-
-            // Navigating to a different screen when the "screen" arg is present.
-            if (payload.containsKey("screen")) {
-              switch (payload["screen"]) {
-                case "fuel_fill_record_screen":
-                  final FuelFillRecord newRecord = FuelFillRecord.fromJson(screenArgs);
-                  navigateNowOrLater(ViewFuelFillRecord(record: newRecord));
-                  break;
-                case "malfunction_screen":
-                  final Malfunction newRecord = Malfunction.fromJson(screenArgs);
-                  navigateNowOrLater(ViewMalfunction(malfunction: newRecord));
-                  break;
-                case "service_screen":
-                  final Service newRecord = Service.fromJson(screenArgs);
-                  navigateNowOrLater(ViewService(service: newRecord));
-                  break;
-                case "repeated_trip_screen":
-                  final Trip newRecord = Trip.fromJson(screenArgs);
-                  navigateNowOrLater(ViewTrip(trip: newRecord));
-                  break;
-                default:
-                  break;
-              }
-            }
-          } catch (e, stackTrace) {
-            print("Error handling notification tap: $e");
-            print(stackTrace);
-          }
+          await NotificationHandler.handlePayload(response.payload);
         });
 
     // Create Android notification channel
@@ -132,29 +72,12 @@ class LocalNotificationsService {
     _isFlutterLocalNotificationInitialized = true;
   }
 
-  void navigateNowOrLater(Widget nextScreen) {
-    if (navigatorKey.currentState != null) {
-      navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (BuildContext context) => nextScreen,
-        ),
-      );
-    }
-    else {
-      WidgetsBinding.instance.addPostFrameCallback((_) => navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (BuildContext context) => nextScreen,
-        ),
-      ));
-    }
-  }
-
   /// Show a local notification with the given title, body, and payload.
   Future<void> showNotification(
-      String? title,
-      String? body,
-      String? payload,
-      ) async {
+    String? title,
+    String? body,
+    String? payload,
+  ) async {
     // Android-specific notification details
     AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       _androidChannel.id,
