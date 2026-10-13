@@ -11,6 +11,7 @@ import '../../../services/language_provider.dart';
 import '../../../services/managers/malfunction_manager.dart';
 import '../../../services/managers/user_manager.dart';
 import '../dialogs/delete_dialog.dart';
+import '../malfunction_severity.dart';
 import '../notification.dart';
 
 class MalfunctionCard extends StatefulWidget {
@@ -27,7 +28,13 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
   @override
   Widget build(BuildContext context) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
-    final NumberFormat format = NumberFormat('#,###', Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag());
+    final locale = Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag();
+    final NumberFormat format = NumberFormat('#,###', locale);
+    final theme = Theme.of(context);
+    final isFixed = widget.malfunction.isFixed();
+    final metaStyle = theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant);
+    final showCreator = widget.malfunction.createdByUsername != null
+        && widget.malfunction.createdByUsername != UserManager().currentUser!.username;
 
     return ListTile(
       onTap: () {
@@ -38,9 +45,18 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
             )
         );
       },
+      leading: Opacity(
+        opacity: isFixed ? 0.5 : 1,
+        child: _getSeverity(),
+      ),
       title: Text(
-          widget.malfunction.title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+        widget.malfunction.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: theme.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: isFixed ? theme.colorScheme.onSurfaceVariant : null,
+        ),
       ),
       trailing: CardEditDeleteButtons(
         onEditButtonPressed: edit,
@@ -51,26 +67,39 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.malfunction.dateStarted.toString().substring(0, 10), style: const TextStyle(fontSize: 16)),
-          _getStatus(),
-          _getSeverity(),
-          Text("${translate('discoveredAt')} ${format.format(distanceProvider.convert(widget.malfunction.kilometersDiscovered.toDouble()).toInt())} ${distanceProvider.label}", style: const TextStyle(fontSize: 12)),
-          if (widget.malfunction.createdByUsername != null && widget.malfunction.createdByUsername != UserManager().currentUser!.username)
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.person,
-                  size: 14,
-                  color: Colors.blueGrey,
+          const SizedBox(height: 2),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            children: [
+              Icon(Icons.calendar_today, size: 13, color: metaStyle?.color),
+              Text(DateFormat.yMMMd(locale).format(widget.malfunction.dateStarted), style: metaStyle),
+              Text('·', style: metaStyle),
+              Icon(Icons.speed, size: 14, color: metaStyle?.color),
+              Text(
+                "${format.format(distanceProvider.convert(widget.malfunction.kilometersDiscovered.toDouble()).toInt())} ${distanceProvider.label}",
+                style: metaStyle,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              _getStatus(),
+              if (showCreator)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.person, size: 14, color: metaStyle?.color),
+                    const SizedBox(width: 2),
+                    Text(widget.malfunction.createdByUsername!, style: metaStyle),
+                  ],
                 ),
-                const SizedBox(width: 4),
-                Text(
-                  widget.malfunction.createdByUsername!,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+            ],
+          ),
         ],
       ),
     );
@@ -102,69 +131,47 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
   }
 
   Widget _getStatus() {
-    final isFixed = widget.malfunction.dateEnded != null;
+    final colorScheme = Theme.of(context).colorScheme;
+    final isFixed = widget.malfunction.isFixed();
+    final background = isFixed ? colorScheme.surfaceContainerHighest : colorScheme.errorContainer;
+    final foreground = isFixed ? colorScheme.onSurfaceVariant : colorScheme.onErrorContainer;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          isFixed
-              ? translate('fixedMalfunction')
-              : translate('ongoingMalfunction'),
-          style: TextStyle(
-            fontSize: 14,
-            color: isFixed ? Colors.green : Colors.red,
-          ),
-        ),
-        if (isFixed) ...[
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(isFixed ? Icons.check : Icons.error_outline, size: 14, color: foreground),
           const SizedBox(width: 4),
-          const Icon(Icons.check_circle, color: Colors.green, size: 18),
+          Text(
+            isFixed ? translate('fixedMalfunction') : translate('ongoingMalfunction'),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(color: foreground),
+          ),
         ],
-      ],
+      ),
     );
   }
 
   Widget _getSeverity() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        severityIconIndex[widget.malfunction.severity]!,
-        const SizedBox(width: 5),
-        Text(
-          severityStringIndex(context)[widget.malfunction.severity]!,
-          style: TextStyle(
-            fontSize: 14,
-            color: severityColorIndex[widget.malfunction.severity]!,
-          ),
+    final severity = widget.malfunction.severity;
+    final color = MalfunctionSeverity.color(severity);
+
+    return Tooltip(
+      message: MalfunctionSeverity.label(severity),
+      child: CircleAvatar(
+        radius: 20,
+        backgroundColor: color.withOpacity(0.15),
+        child: Icon(
+          MalfunctionSeverity.icon(severity),
+          color: color,
+          semanticLabel: MalfunctionSeverity.label(severity),
         ),
-      ],
+      ),
     );
   }
-
-  Map<int, String> severityStringIndex(context) {
-    return {
-      1: translate('severityLowest'),
-      2: translate('severityLow'),
-      3: translate('severityNormal'),
-      4: translate('severityHigh'),
-      5: translate('severityHighest')
-    };
-  }
-
-  static const Map<int, Color> severityColorIndex = {
-    1: Colors.blue,
-    2: Colors.lightBlue,
-    3: Colors.orange,
-    4: Colors.red,
-    5: Color.fromARGB(255, 128, 0, 0)
-  };
-
-  static const Map<int, Icon> severityIconIndex = {
-    1: Icon(Icons.arrow_downward, color: Colors.blue, size: 20),
-    2: Icon(Icons.keyboard_arrow_down, color: Colors.lightBlue, size: 20),
-    3: Icon(Icons.horizontal_rule_sharp, color: Colors.orange, size: 20),
-    4: Icon(Icons.keyboard_arrow_up, color: Colors.red, size: 20),
-    5: Icon(Icons.arrow_upward, color:Color.fromARGB(255, 128, 0, 0), size: 20),
-  };
 
 }
