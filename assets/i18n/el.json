@@ -100,6 +100,8 @@
   "trips":       "Διαδρομές",
   "settings":    "Ρυθμίσεις",
 
+  "fuelFillNotificationTitle": "Αδυναμία προσθήκης γεμίσματος",
+  "fuelFillNotificationBody":  "Υπήρξε πρόβλημα κατά την αποστολή του γεμίσματος. Πιθανώς επειδή οι διακομιστές είναι εκτός λειτουργίας. Παρακαλώ δοκιμάστε ξανά.",
   "youPlannedYourFuelFill":   "Προσχεδιάσατε το γέμισμα; 🤨",
   "lastFilledToday":          "Τελευταίο γέμισμα σήμερα",
   "lastFilledYesterday":      "Τελευταίο γέμισμα χθες",
@@ -118,6 +120,8 @@
   "totalKilometersTravelled": "Συνολική Απόσταση:",
   "totalCosts":               "Συνολικά Κόστη:",
 
+  "serviceNotificationTitle": "Αδυναμία προσθήκης σέρβις",
+  "serviceNotificationBody":  "Υπήρξε πρόβλημα κατά την αποστολή του σέρβις. Πιθανώς επειδή οι διακομιστές είναι εκτός λειτουργίας. Παρακαλώ δοκιμάστε ξανά.",
   "serviceOverdueInDays": "Σέρβις εκπρόθεσμο εδώ και {amount} ημέρα(-ες)",
   "serviceDueToday": "Επόμενο σέρβις σήμερα",
   "serviceDueTomorrow": "Επόμενο σέρβις αύριο",
@@ -250,6 +254,8 @@
   "orBefore": "ή πριν τις",
   "before": "πριν τις",
 
+  "malfunctionNotificationTitle": "Αδυναμία προσθήκης βλάβης",
+  "malfunctionNotificationBody":  "Υπήρξε πρόβλημα κατά την αποστολή της βλάβης. Πιθανώς επειδή οι διακομιστές είναι εκτός λειτουργίας. Παρακαλώ δοκιμάστε ξανά.",
   "malfunctionData":      "Στοιχεία Βλάβης",
   "dateDiscovered":       "Ημερομηνία καταγραφής:",
   "kilometersDiscovered": "Χιλιόμετρα που ανακαλύφθηκε:",
@@ -316,6 +322,8 @@
 
   "pleaseEnterFuelFills": "Οι διαδρομές βασίζονται στα δεδομένα που βάζετε!",
   "atlEastThreeFuelFills": "Παρακαλώ εισάγετε τουλάχιστον 3 γεμίσματα, για να δείτε τα κόστη και την κατανάλωση των διαδρομών σας.",
+  "tripNotificationTitle": "Αδυναμία προσθήκης διαδρομής",
+  "tripNotificationBody":  "Υπήρξε πρόβλημα κατά την αποστολή της διαδρομής. Πιθανώς επειδή οι διακομιστές είναι εκτός λειτουργίας. Παρακαλώ δοκιμάστε ξανά.",
   "tripData": "Στοιχεία Διαδρομής",
   "tripName": "Φιλική Ονομασία:",
   "weeklyOccurrence": "Εβδομαδιαία Επανάληψη:",
@@ -523,23 +531,5 @@
   "transferCarOwnershipRetypeUsername": "Username",
   "transferCarOwnershipRetypeUsernameTitle": "Για να επιβεβαιώσετε την μεταβίβαση, γράψτε \"{username}\":",
   "transferCarOwnershipRetypeCarName": "Όνομα αμαξιού",
-  "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
-  "transferCarOwnershipButton": "Ολοκλήρωση Μεταβίβασης",
-  "carTransferredSuccessfully": "Επιτυχής μεταβίβαση ιδιοκτησίας αυτοκινήτου",
-  "carTransferFailed": "Η μεταβίβαση απέτυχε",
-
-  "carInvitationTitle": "Πρόσκληση από {sender}",
-  "carInvitationBody": "Ο χρήστης {sender} θα ήθελε να συμβάλετε στο αμάξι {car}. Πατήστε για να απαντήσετε.",
-
-  "fuelFillRecordNotificationTitle": "Νέο γέμισμα για το αμάξι {car}.",
-  "fuelFillRecordNotificationBody": "Ο χρήστης {username} έφτιαξε ένα νέο γέμισμα. Πατήστε εδώ για να το δείτε.",
-
-  "malfunctionNotificationTitle": "Νέα βλάβη για το αμάξι {car}",
-  "malfunctionNotificationBody": "Ο χρήστης {username} έφτιαξε μία νέα βλάβη. Πατήστε εδώ για να τη δείτε.",
-
-  "serviceNotificationTitle": "Νέο σέρβις για το αμάξι {car}",
-  "serviceNotificationBody": "Ο χρήστης {username} έβαλε ένα καινούριο σέρβις. Πατήστε εδώ για να το δείτε.",
-
-  "repeatedTripNotificationTitle": "Νέα διαδρομή για το αμάξι {car}",
-  "repeatedTripNotificationBody": "Ο χρήστης {username} πρόσθεσε μία νέα διαδρομή. Πατήστε εδώ για να τη δείτε."
+  "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":"
 }
