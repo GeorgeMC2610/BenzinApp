@@ -6,6 +6,7 @@ import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/shared/cards/malfunction_card.dart';
 import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
+import 'package:benzinapp/views/shared/malfunction_severity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_svg/svg.dart';
@@ -168,7 +169,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
     return Column(
       children: [
         for (var key in sortedKeys) ...[
-          _groupHeader(_severityHeader[key]!),
+          _groupHeader(MalfunctionSeverity.label(key)),
           ...groups[key]!.map((m) => MalfunctionCard(malfunction: m)),
         ],
         const SizedBox(height: 65)
@@ -185,14 +186,6 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         textSize: 16
     ),
   );
-
-  final Map<int, String> _severityHeader = {
-    1: translate('severityLowest'),
-    2: translate('severityLow'),
-    3: translate('severityNormal'),
-    4: translate('severityHigh'),
-    5: translate('severityHighest'),
-  };
 
   Widget serviceListBody() => RefreshIndicator(
     onRefresh: () => refreshServices(),

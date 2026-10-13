@@ -1,6 +1,9 @@
 {
   "loggedInAs": "Logged in as: {username}",
 
+  "serverError": "An error occurred on the server",
+  "serverErrorTitle": "Bad Connection",
+  "serverErrorBody": "There was an error connecting to the server. This might be because the services are down. Please try again in a few minutes.",
   "wrongCredentials": "Wrong credentials",
   "successfullyLoggedIn": "Successfully logged in.",
   "sessionEnded": "Your session has ended. Please log in again.",
@@ -97,6 +100,8 @@
   "trips":       "Trips",
   "settings":    "Settings",
 
+  "fuelFillNotificationTitle": "Unable to add fuel fill",
+  "fuelFillNotificationBody":  "There was a problem uploading the fuel fill. Possibly because the servers are down. Please try again.",
   "youPlannedYourFuelFill":   "You planned your fuel fill?",
   "lastFilledToday":          "Last filled today",
   "lastFilledYesterday":      "Last filled yesterday",
@@ -111,10 +116,12 @@
   "litersPer100km":           "{volUnit} per 100 {distUnit}:",
   "kilometersPerLiter":       "{distUnit} per {volUnit}:",
   "costPerKilometer":         "Cost per {unit}:",
-  "totalLitersFilled":        "Total {unit} Filled:",
-  "totalKilometersTravelled": "Total {unit} Travelled:",
+  "totalLitersFilled":        "Total Petrol Filled:",
+  "totalKilometersTravelled": "Total Distance Travelled:",
   "totalCosts":               "Total Costs:",
 
+  "serviceNotificationTitle": "Unable to add service",
+  "serviceNotificationBody":  "There was a problem uploading the service. Possibly because the servers are down. Please try again.",
   "serviceOverdueInDays": "Service overdue by {amount} days",
   "serviceDueToday": "Service due today",
   "serviceDueTomorrow": "Service due tomorrow",
@@ -136,6 +143,9 @@
   "language":              "Language",
   "distanceMetric":        "Distance Metric",
   "volumeMetric":          "Volume Metric",
+  "notificationSettings":  "Notification Settings",
+  "receiveEmailNotifications": "Receive extra e-mail notifications",
+  "receivePushNotifications":  "Receive in-app push notifications",
   "kilometersSetting":     "Kilometers (km)",
   "milesSetting":          "Miles (mi)",
   "litersSetting":         "Liters",
@@ -244,6 +254,8 @@
   "orBefore": "or before",
   "before": "before",
 
+  "malfunctionNotificationTitle": "Unable to add malfunction",
+  "malfunctionNotificationBody":  "There was a problem uploading the malfunction. Possibly because the servers are down. Please try again.",
   "malfunctionData":      "Malfunction data",
   "dateDiscovered":       "Date discovered:",
   "kilometersDiscovered": "Kilometers discovered:",
@@ -310,6 +322,8 @@
 
   "pleaseEnterFuelFills": "Trips rely on your data!",
   "atlEastThreeFuelFills": "Please enter at least 3 fuel fills to see the cost and consumption of your trips.",
+  "tripNotificationTitle": "Unable to add trip",
+  "tripNotificationBody":  "There was a problem uploading the trip. Possibly because the servers are down. Please try again.",
   "tripData": "Trip Data",
   "tripName": "Title:",
   "weeklyOccurrence": "Weekly Occurrence:",

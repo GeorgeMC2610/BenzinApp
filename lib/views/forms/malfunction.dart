@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/locale_string_converter.dart';
+import '../../services/localized_number_input.dart';
 import '../../services/managers/fuel_fill_record_manager.dart';
 import '../maps/select_location.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
@@ -31,10 +32,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
   LatLng? _selectedCoordinates;
   double _severity = 3;
 
-  final TextEditingController kmController = TextEditingController();
+  final NumericTextController kmController = NumericTextController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController costController = TextEditingController();
+  final NumericTextController costController = NumericTextController();
 
   String? kmError, titleError, descriptionError, costError;
   bool _isLoading = false;
@@ -46,7 +47,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
 
     if (widget.malfunction != null) {
-      kmController.text = distanceProvider.convert(widget.malfunction!.kilometersDiscovered.toDouble()).toInt().toString();
+      kmController.numericValue = distanceProvider.convert(widget.malfunction!.kilometersDiscovered.toDouble()).toInt().toDouble();
       titleController.text = widget.malfunction!.title;
       descriptionController.text = widget.malfunction!.description;
       _selectedDate = widget.malfunction!.dateStarted;
@@ -54,7 +55,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
       if (widget.malfunction!.isFixed()) {
         _markAsFixed = true;
-        costController.text = widget.malfunction!.cost!.toString();
+        costController.numericValue = widget.malfunction!.cost;
         _selectedDateEnded = widget.malfunction!.dateEnded!;
         _selectedAddress = widget.malfunction!.getAddress();
         _selectedCoordinates = widget.malfunction!.getCoordinates();
@@ -62,8 +63,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     }
     else {
       final lastFuelFill = FuelFillRecordManager().local?.firstOrNull;
-      kmController.text = lastFuelFill?.totalKilometers != null ? 
-          distanceProvider.convert(lastFuelFill!.totalKilometers!.toDouble()).toInt().toString() : '';
+      kmController.numericValue = lastFuelFill?.totalKilometers != null ? 
+          distanceProvider.convert(lastFuelFill!.totalKilometers!.toDouble()).toInt().toDouble() : null;
       _selectedDate = DateTime.now();
     }
   }
@@ -82,80 +83,94 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     if (!isValidated) return;
 
     final manager = MalfunctionManager();
-    if (widget.malfunction == null) {
-      final malfunction = Malfunction(
-          id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
-          title: titleController.text.trim(), severity: _severity.toInt(),
-          kilometersDiscovered: distanceProvider.deconvert(double.parse(kmController.text)).toInt(), 
-          dateEnded: _markAsFixed ? _selectedDateEnded : null,
-          cost: _markAsFixed ? double.tryParse(costController.text) : null,
-          location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.create(malfunction);
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.malfunction == null) {
+        final malfunction = Malfunction(
+            id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
+            title: titleController.text.trim(), severity: _severity.toInt(),
+            kilometersDiscovered: distanceProvider.deconvert(kmController.numericValue!).toInt(), 
+            dateEnded: _markAsFixed ? _selectedDateEnded : null,
+            cost: _markAsFixed ? costController.numericValue : null,
+            location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+        );
 
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
+        await manager.create(malfunction);
+        if (!mounted) return;
+
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedMalfunction'),
+        );
+        if (mounted) Navigator.pop(context);
+        if (mounted) Navigator.pop(context);
       }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedMalfunction'),
-      );
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-    // patch request for new malfunction
-    else {
-      widget.malfunction!
-        ..dateStarted = _selectedDate!
-        ..description = descriptionController.text.trim()
-        ..title = titleController.text.trim()
-        ..severity = _severity.toInt()
-        ..kilometersDiscovered = distanceProvider.deconvert(double.parse(kmController.text)).toInt();
-
-      if (_markAsFixed) {
-        widget.malfunction!
-            ..dateEnded = _selectedDateEnded
-            ..cost = double.tryParse(costController.text)
-            ..location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
-      }
+      // patch request for new malfunction
       else {
         widget.malfunction!
-          ..dateEnded = null
-          ..cost = null
-          ..location = null;
+          ..dateStarted = _selectedDate!
+          ..description = descriptionController.text.trim()
+          ..title = titleController.text.trim()
+          ..severity = _severity.toInt()
+          ..kilometersDiscovered = distanceProvider.deconvert(kmController.numericValue!).toInt();
+
+        if (_markAsFixed) {
+          widget.malfunction!
+              ..dateEnded = _selectedDateEnded
+              ..cost = costController.numericValue
+              ..location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
+        }
+        else {
+          widget.malfunction!
+            ..dateEnded = null
+            ..cost = null
+            ..location = null;
+        }
+
+        await manager.update(widget.malfunction!);
+        if (!mounted) return;
+
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedMalfunction'),
+        );
+
+        if (widget.isViewing) {
+          Navigator.pop(context, widget.malfunction!);
+        } else {
+          Navigator.pop(context);
+        }
       }
-
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.update(widget.malfunction!);
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedMalfunction'),
-      );
-
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.malfunction!);
-      } else {
-        Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -164,7 +179,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     String? dateValidator;
 
     setState(() {
-      kmError = _numberValidator(kmController.text);
+      kmError = _numberValidator(kmController);
       titleError = _emptyValidator(titleController.text);
       descriptionError = _emptyValidator(descriptionController.text);
       dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
@@ -211,10 +226,10 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     String? dateValidator, endedDateValidator;
 
     setState(() {
-      kmError = _numberValidator(kmController.text);
+      kmError = _numberValidator(kmController);
       titleError = _emptyValidator(titleController.text);
       descriptionError = _emptyValidator(descriptionController.text);
-      costError = _numberValidator(costController.text);
+      costError = _numberValidator(costController);
       dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
       endedDateValidator = _selectedDateEnded == null ? translate('pleaseSelectAnEndDate') : null;
     });
@@ -280,7 +295,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () async {
                   setState(() {
-                    kmError = _numberValidator(kmController.text);
+                    kmError = _numberValidator(kmController);
                   });
                 },
                 enabled: !_isLoading,
@@ -624,16 +639,17 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     );
   }
 
-  String? _numberValidator(String field) {
-    if (field.isEmpty || field == '') {
+  String? _numberValidator(NumericTextController field) {
+    if (field.text.isEmpty) {
       return translate('cannotBeEmpty');
     }
 
-    if (double.tryParse(field) == null) {
+    final value = field.numericValue;
+    if (value == null) {
       return translate('invalidNumber');
     }
 
-    if (double.parse(field) < 0) {
+    if (value < 0) {
       return translate('cannotBeNegative');
     }
 

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/managers/session_manager.dart';
+import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/about/privacy_policy.dart';
 import 'package:benzinapp/views/confirmations/confirm_email.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
@@ -70,53 +70,67 @@ class _RegisterPageState extends State<RegisterPage> {
       isRegistering = true;
     });
 
-    var result = await SessionManager().signup(
-      emailController.text,
-      usernameController.text,
-      passwordController.text,
-      passwordConfirmController.text,
-    );
+    try {
+      var result = await SessionManager().signup(
+        emailController.text,
+        usernameController.text,
+        passwordController.text,
+        passwordConfirmController.text,
+      );
 
-    setState(() {
-      isRegistering = false;
-    });
+      switch (result) {
+        case SessionStatus.success:
+          SnackbarNotification.show(
+              MessageType.success, translate('successfullyCreatedAccount'));
 
-    switch (result) {
-      case SessionStatus.success:
-        SnackbarNotification.show(
-            MessageType.success, translate('successfullyCreatedAccount'));
+          await UserManager().getCurrentUser();
 
-        await DataHolder().initializeValues();
-
-        if (mounted) {
-          Navigator.pop(context);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const ConfirmEmail(fromRegister: true)));
-        }
-        break;
-      case SessionStatus.usernameTaken:
-        setState(() {
-          usernameError = translate('usernameAlreadyTaken');
-        });
-        break;
-      case SessionStatus.usernameBad:
-        setState(() {
-          usernameError = translate('usernameBad');
-        });
-        break;
-      case SessionStatus.emailTaken:
-        setState(() {
-          emailError = translate('emailAlreadyTaken');
-        });
-        break;
-      case SessionStatus.serverError:
-        SnackbarNotification.show(
-            MessageType.success, translate('SERVER ERROR!!!'));
-        break;
-      default:
-        break;
+          if (mounted) {
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConfirmEmail(fromRegister: true)));
+          }
+          break;
+        case SessionStatus.usernameTaken:
+          setState(() {
+            usernameError = translate('usernameAlreadyTaken');
+          });
+          break;
+        case SessionStatus.usernameBad:
+          setState(() {
+            usernameError = translate('usernameBad');
+          });
+          break;
+        case SessionStatus.emailTaken:
+          setState(() {
+            emailError = translate('emailAlreadyTaken');
+          });
+          break;
+        case SessionStatus.serverError:
+          SnackbarNotification.show(MessageType.danger, translate('serverError'));
+          break;
+        default:
+          break;
+      }
+    }
+    catch (e) {
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    }
+    finally {
+      setState(() {
+        isRegistering = false;
+      });
     }
   }
 

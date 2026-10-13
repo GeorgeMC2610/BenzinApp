@@ -168,26 +168,44 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
       isSearching = true;
     });
 
-    final result = await CarManager().claimCar(carUsername.text, passwordController.text);
+    try {
+      final result = await CarManager().claimCar(carUsername.text, passwordController.text);
 
-    setState(() {
-      isSearching = false;
-    });
+      if (!mounted) return;
 
-    if (result != null) {
-      setState(() {
-        usernameError = translate('wrongCredentials');
-        passwordError = translate('wrongCredentials');
-      });
-    }
-    else {
-      SnackbarNotification.show(MessageType.success, translate('claimCarSuccess'));
-      setState(() {
-        carUsername.text = '';
-        passwordController.text = '';
-        usernameError = null;
-        passwordError = null;
-      });
+      if (result != null) {
+        setState(() {
+          usernameError = translate('wrongCredentials');
+          passwordError = translate('wrongCredentials');
+        });
+      }
+      else {
+        SnackbarNotification.show(MessageType.success, translate('claimCarSuccess'));
+        setState(() {
+          carUsername.text = '';
+          passwordController.text = '';
+          usernameError = null;
+          passwordError = null;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          isSearching = false;
+        });
+      }
     }
   }
 }

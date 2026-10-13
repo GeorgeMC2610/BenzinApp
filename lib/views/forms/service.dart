@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/classes/service.dart';
 import 'package:benzinapp/services/locale_string_converter.dart';
+import 'package:benzinapp/services/localized_number_input.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
@@ -33,9 +34,9 @@ class _ServiceFormState extends State<ServiceForm> {
   String? _selectedAddress;
   LatLng? _selectedCoordinates;
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController costController = TextEditingController();
-  final TextEditingController kmController = TextEditingController();
-  final TextEditingController nextKmController = TextEditingController();
+  final NumericTextController costController = NumericTextController();
+  final NumericTextController kmController = NumericTextController();
+  final NumericTextController nextKmController = NumericTextController();
 
   bool _isLoading = false;
   String? costError, kmError, nextKmError, descError;
@@ -46,10 +47,10 @@ class _ServiceFormState extends State<ServiceForm> {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
 
     if (widget.service != null) {
-      kmController.text = distanceProvider.convert(widget.service!.kilometersDone.toDouble()).toInt().toString();
-      nextKmController.text = widget.service!.nextServiceKilometers != null ? 
-          distanceProvider.convert(widget.service!.nextServiceKilometers!.toDouble()).toInt().toString() : '';
-      costController.text = widget.service!.cost?.toString() ?? '';
+      kmController.numericValue = distanceProvider.convert(widget.service!.kilometersDone.toDouble()).toInt().toDouble();
+      nextKmController.numericValue = widget.service!.nextServiceKilometers != null ? 
+          distanceProvider.convert(widget.service!.nextServiceKilometers!.toDouble()).toInt().toDouble() : null;
+      costController.numericValue = widget.service!.cost;
       descriptionController.text = widget.service!.description;
       _selectedNextDate = widget.service!.nextServiceDate;
       _selectedDate = widget.service!.dateHappened;
@@ -58,9 +59,9 @@ class _ServiceFormState extends State<ServiceForm> {
     }
     else {
       final previousFuelFill = FuelFillRecordManager().local?.firstOrNull;
-      kmController.text = previousFuelFill?.totalKilometers != null ? 
-          distanceProvider.convert(previousFuelFill!.totalKilometers!.toDouble()).toInt().toString() : '';
-      nextKmController.text = kmController.text;
+      kmController.numericValue = previousFuelFill?.totalKilometers != null ? 
+          distanceProvider.convert(previousFuelFill!.totalKilometers!.toDouble()).toInt().toDouble() : null;
+      nextKmController.numericValue = kmController.numericValue;
       _selectedDate = DateTime.now();
     }
   }
@@ -70,9 +71,9 @@ class _ServiceFormState extends State<ServiceForm> {
 
     setState(() {
       descError = _emptyValidator(descriptionController.text);
-      kmError = _validator(kmController.text);
-      costError = _validator(costController.text);
-      nextKmError = _numValidator(nextKmController.text);
+      kmError = _validator(kmController);
+      costError = _validator(costController);
+      nextKmError = _numValidator(nextKmController);
       dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
     });
 
@@ -105,74 +106,86 @@ class _ServiceFormState extends State<ServiceForm> {
     // all validations have passed here
     // add-service form
     final manager = ServiceManager();
-    if (widget.service == null) {
-      final service = Service(
-          id: -1, kilometersDone: distanceProvider.deconvert(double.parse(kmController.text)).toInt(),
-          description: descriptionController.text.trim(), dateHappened: _selectedDate!,
-          cost: double.parse(costController.text), 
-          nextServiceKilometers: nextKmController.text.isNotEmpty ? 
-              distanceProvider.deconvert(double.parse(nextKmController.text)).toInt() : null,
-          nextServiceDate: _selectedNextDate
-      );
+    setState(() {
+      _isLoading  = true;
+    });
 
-      setState(() {
-        _isLoading  = true;
-      });
-      await manager.create(service);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.service == null) {
+        final service = Service(
+            id: -1, kilometersDone: distanceProvider.deconvert(kmController.numericValue!).toInt(),
+            description: descriptionController.text.trim(), dateHappened: _selectedDate!,
+            cost: costController.numericValue!, 
+            nextServiceKilometers: nextKmController.numericValue != null ? 
+                distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null,
+            nextServiceDate: _selectedNextDate
+        );
 
-      // server errors from back-end
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
+        await manager.create(service);
+        if (!mounted) return;
 
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedService'),
-      );
+        // server errors from back-end
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
 
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-    // edit-service form
-    else {
-      widget.service!.kilometersDone = distanceProvider.deconvert(double.parse(kmController.text)).toInt();
-      widget.service!.description = descriptionController.text.trim();
-      widget.service!.dateHappened = _selectedDate!;
-      widget.service!.cost = double.parse(costController.text);
-      widget.service!.nextServiceKilometers = nextKmController.text.isNotEmpty ? 
-          distanceProvider.deconvert(double.parse(nextKmController.text)).toInt() : null;
-      widget.service!.nextServiceDate = _selectedNextDate;
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedService'),
+        );
 
-      setState(() {
-        _isLoading  = true;
-      });
-      await manager.update(widget.service!);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-
-      // server errors from back-end
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedService'),
-      );
-
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.service!);
-      }
-      else {
         Navigator.pop(context);
+        Navigator.pop(context);
+      }
+      // edit-service form
+      else {
+        widget.service!.kilometersDone = distanceProvider.deconvert(kmController.numericValue!).toInt();
+        widget.service!.description = descriptionController.text.trim();
+        widget.service!.dateHappened = _selectedDate!;
+        widget.service!.cost = costController.numericValue!;
+        widget.service!.nextServiceKilometers = nextKmController.numericValue != null ? 
+            distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null;
+        widget.service!.nextServiceDate = _selectedNextDate;
+
+        await manager.update(widget.service!);
+        if (!mounted) return;
+
+        // server errors from back-end
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedService'),
+        );
+
+        if (widget.isViewing) {
+          Navigator.pop(context, widget.service!);
+        }
+        else {
+          Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -477,32 +490,34 @@ class _ServiceFormState extends State<ServiceForm> {
     );
   }
 
-  String? _validator(String field) {
-    if (field.isEmpty || field == '') {
+  String? _validator(NumericTextController field) {
+    if (field.text.isEmpty) {
       return translate('cannotBeEmpty');
     }
 
-    if (double.tryParse(field) == null) {
+    final value = field.numericValue;
+    if (value == null) {
       return translate('invalidNumber');
     }
 
-    if (double.parse(field) < 0) {
+    if (value < 0) {
       return translate('cannotBeNegative');
     }
 
     return null;
   }
 
-  String? _numValidator(String field) {
-    if (field.isEmpty || field == '') {
+  String? _numValidator(NumericTextController field) {
+    if (field.text.isEmpty) {
       return null;
     }
 
-    if (double.tryParse(field) == null) {
+    final value = field.numericValue;
+    if (value == null) {
       return translate('invalidNumber');
     }
 
-    if (double.parse(field) < 0) {
+    if (value < 0) {
       return translate('cannotBeNegative');
     }
 

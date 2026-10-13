@@ -161,13 +161,6 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
   bool buttonLocked() => _usernameEmpty || _isSending;
 
   void _sendInvitation() async {
-    // if (_usernameController.text == UserManager().currentUser!.username) {
-    //   setState(() {
-    //     _usernameError = '🤯';
-    //   });
-    //   return;
-    // }
-
     setState(() {
       _isSending = true;
     });
@@ -180,8 +173,8 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
           updatedAt: DateTime.now()
       );
       await CarUserInvitationManager().create(invitation);
+      if (!mounted) return;
       if (CarUserInvitationManager().errors.keys.isEmpty) {
-        // TODO: Translate!
         SnackbarNotification.show(MessageType.success, translate('invitationSent', args: {'user': _usernameController.text}));
         setState(() {
           _usernameController.clear();
@@ -192,14 +185,25 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
         SnackbarNotification.show(MessageType.danger, CarUserInvitationManager().errors["base"].join(', '));
       }
     }
-    catch (e, stack) {
-      print(e);
-      print(stack);
+    catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
     }
     finally {
-      setState(() {
-        _isSending = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isSending = false;
+        });
+      }
     }
   }
 }

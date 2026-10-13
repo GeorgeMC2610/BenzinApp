@@ -10,6 +10,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import '../forms/malfunction.dart';
 import '../maps/view_trip.dart';
 import '../shared/dialogs/delete_dialog.dart';
+import '../shared/malfunction_severity.dart';
 import '../shared/shared_font_styles.dart';
 
 class ViewMalfunction extends StatefulWidget {
@@ -253,48 +254,23 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
   }
 
   Widget _getSeverity() {
+    final color = MalfunctionSeverity.color(malfunction.severity);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        severityIconIndex[malfunction.severity]!,
+        Icon(MalfunctionSeverity.icon(malfunction.severity), color: color, size: 20),
         const SizedBox(width: 5),
         Text(
-          severityStringIndex(context)[malfunction.severity]!,
+          MalfunctionSeverity.label(malfunction.severity),
           style: TextStyle(
             fontSize: 20.5,
             fontWeight: FontWeight.bold,
-            color: severityColorIndex[malfunction.severity]!,
+            color: color,
           ),
         ),
       ],
     );
   }
-
-  Map<int, String> severityStringIndex(context) {
-    return {
-      1: translate('severityLowest'),
-      2: translate('severityLow'),
-      3: translate('severityNormal'),
-      4: translate('severityHigh'),
-      5: translate('severityHighest')
-    };
-  }
-
-  static const Map<int, Color> severityColorIndex = {
-    1: Colors.blue,
-    2: Colors.lightBlue,
-    3: Colors.orange,
-    4: Colors.red,
-    5: Color.fromARGB(255, 128, 0, 0)
-  };
-
-  static const Map<int, Icon> severityIconIndex = {
-    1: Icon(Icons.arrow_downward, color: Colors.blue, size: 20),
-    2: Icon(Icons.keyboard_arrow_down, color: Colors.lightBlue, size: 20),
-    3: Icon(Icons.horizontal_rule_sharp, color: Colors.orange, size: 20),
-    4: Icon(Icons.keyboard_arrow_up, color: Colors.red, size: 20),
-    5: Icon(Icons.arrow_upward, color:Color.fromARGB(255, 128, 0, 0), size: 20),
-  };
-
 
 }
