@@ -84,65 +84,84 @@ class _TripFormState extends State<TripForm> {
 
     TripManager manager = TripManager();
 
-    if (widget.trip == null) {
-      var newTrip = Trip(
-          id: -1, title: _titleController.text,
-          timesRepeating: int.parse(_timesRepeatingController.text),
-          totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
-          originLatitude: originLatitude!, originLongitude: originLongitude!,
-          destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
-          originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.create(newTrip);
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.trip == null) {
+        var newTrip = Trip(
+            id: -1, title: _titleController.text,
+            timesRepeating: int.parse(_timesRepeatingController.text),
+            totalKm: totalKm!, created: DateTime.now(), updated: DateTime.now(),
+            originLatitude: originLatitude!, originLongitude: originLongitude!,
+            destinationLatitude: destinationLatitude!, destinationLongitude: destinationLongitude!,
+            originAddress: originAddress!, destinationAddress: destinationAddress!, polyline: polyline!
+        );
 
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedTrip'),
-      );
-      Navigator.pop(context);
-    }
-    else {
-      widget.trip!.title = _titleController.text;
-      widget.trip!.timesRepeating = int.parse(_timesRepeatingController.text);
-      widget.trip!.totalKm = totalKm!;
-      widget.trip!.originLatitude = originLatitude!;
-      widget.trip!.originLongitude = originLongitude!;
-      widget.trip!.originAddress = originAddress!;
-      widget.trip!.destinationLongitude = destinationLongitude!;
-      widget.trip!.destinationLatitude = destinationLatitude!;
-      widget.trip!.polyline = polyline!;
+        await manager.create(newTrip);
+        if (!mounted) return;
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.update(widget.trip!);
-      setState(() {
-        _isLoading = false;
-      });
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
 
-      // server errors from back-end
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedTrip'),
-      );
-
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.trip);
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedTrip'),
+        );
+        Navigator.pop(context);
       }
       else {
-        Navigator.pop(context);
+        widget.trip!.title = _titleController.text;
+        widget.trip!.timesRepeating = int.parse(_timesRepeatingController.text);
+        widget.trip!.totalKm = totalKm!;
+        widget.trip!.originLatitude = originLatitude!;
+        widget.trip!.originLongitude = originLongitude!;
+        widget.trip!.originAddress = originAddress!;
+        widget.trip!.destinationLongitude = destinationLongitude!;
+        widget.trip!.destinationLatitude = destinationLatitude!;
+        widget.trip!.polyline = polyline!;
+
+        await manager.update(widget.trip!);
+        if (!mounted) return;
+
+        // server errors from back-end
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedTrip'),
+        );
+
+        if (widget.isViewing) {
+          if (mounted) Navigator.pop(context, widget.trip);
+        }
+        else {
+          if (mounted) Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

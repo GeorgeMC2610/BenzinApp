@@ -72,53 +72,71 @@ class _CarFormState extends State<CarForm> {
 
     String successMessage;
 
-    if (widget.car == null) {
-      var newCar = Car(
-          id: -1, username: usernameController.text, ownerUsername: '',
-          manufacturer: manufacturerController.text, model: modelController.text,
-          year: int.parse(yearController.text), isShared: false,
-          currency: currencyController.text,
-          createdAt: DateTime.now(), updatedAt: DateTime.now()
-      );
-
-      await CarManager().create(newCar);
-      successMessage = translate('successfullyCreatedCar');
-    }
-    else {
-      widget.car!.username = usernameController.text;
-      widget.car!.manufacturer = manufacturerController.text;
-      widget.car!.model = modelController.text;
-      widget.car!.year = int.parse(yearController.text);
-      widget.car!.currency = currencyController.text;
-
-      await CarManager().update(widget.car!);
-      successMessage = translate('successfullyUpdatedCar');
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-
-    if (CarManager().errors.isEmpty) {
-      SnackbarNotification.show(MessageType.success, successMessage);
-      if (mounted) Navigator.pop(context);
-    }
-    else {
-      setState(() {
-        modelError = CarManager().errors['model']?.join(', ');
-        manufacturerError = CarManager().errors['manufacturer']?.join(', ');
-        yearError = CarManager().errors['year']?.join(', ');
-        usernameError = CarManager().errors['username']?.join(', ');
-      });
-
-      if (CarManager().errors.containsKey('base')) {
-        SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
-      }
-      else if (CarManager().errors.containsKey('error')) {
-        SnackbarNotification.show(
-          MessageType.danger,
-          CarManager().errors['error']!,
+    try {
+      if (widget.car == null) {
+        var newCar = Car(
+            id: -1, username: usernameController.text, ownerUsername: '',
+            manufacturer: manufacturerController.text, model: modelController.text,
+            year: int.parse(yearController.text), isShared: false,
+            currency: currencyController.text,
+            createdAt: DateTime.now(), updatedAt: DateTime.now()
         );
+
+        await CarManager().create(newCar);
+        successMessage = translate('successfullyCreatedCar');
+      }
+      else {
+        widget.car!.username = usernameController.text;
+        widget.car!.manufacturer = manufacturerController.text;
+        widget.car!.model = modelController.text;
+        widget.car!.year = int.parse(yearController.text);
+        widget.car!.currency = currencyController.text;
+
+        await CarManager().update(widget.car!);
+        successMessage = translate('successfullyUpdatedCar');
+      }
+
+      if (!mounted) return;
+
+      if (CarManager().errors.isEmpty) {
+        SnackbarNotification.show(MessageType.success, successMessage);
+        Navigator.pop(context);
+      }
+      else {
+        setState(() {
+          modelError = CarManager().errors['model']?.join(', ');
+          manufacturerError = CarManager().errors['manufacturer']?.join(', ');
+          yearError = CarManager().errors['year']?.join(', ');
+          usernameError = CarManager().errors['username']?.join(', ');
+        });
+
+        if (CarManager().errors.containsKey('base')) {
+          SnackbarNotification.show(MessageType.danger, CarManager().errors["base"].join(', '));
+        }
+        else if (CarManager().errors.containsKey('error')) {
+          SnackbarNotification.show(
+            MessageType.danger,
+            CarManager().errors['error']!,
+          );
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }

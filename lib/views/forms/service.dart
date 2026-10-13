@@ -106,74 +106,86 @@ class _ServiceFormState extends State<ServiceForm> {
     // all validations have passed here
     // add-service form
     final manager = ServiceManager();
-    if (widget.service == null) {
-      final service = Service(
-          id: -1, kilometersDone: distanceProvider.deconvert(kmController.numericValue!).toInt(),
-          description: descriptionController.text.trim(), dateHappened: _selectedDate!,
-          cost: costController.numericValue!, 
-          nextServiceKilometers: nextKmController.numericValue != null ? 
-              distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null,
-          nextServiceDate: _selectedNextDate
-      );
+    setState(() {
+      _isLoading  = true;
+    });
 
-      setState(() {
-        _isLoading  = true;
-      });
-      await manager.create(service);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.service == null) {
+        final service = Service(
+            id: -1, kilometersDone: distanceProvider.deconvert(kmController.numericValue!).toInt(),
+            description: descriptionController.text.trim(), dateHappened: _selectedDate!,
+            cost: costController.numericValue!, 
+            nextServiceKilometers: nextKmController.numericValue != null ? 
+                distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null,
+            nextServiceDate: _selectedNextDate
+        );
 
-      // server errors from back-end
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
+        await manager.create(service);
+        if (!mounted) return;
 
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedService'),
-      );
+        // server errors from back-end
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
 
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-    // edit-service form
-    else {
-      widget.service!.kilometersDone = distanceProvider.deconvert(kmController.numericValue!).toInt();
-      widget.service!.description = descriptionController.text.trim();
-      widget.service!.dateHappened = _selectedDate!;
-      widget.service!.cost = costController.numericValue!;
-      widget.service!.nextServiceKilometers = nextKmController.numericValue != null ? 
-          distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null;
-      widget.service!.nextServiceDate = _selectedNextDate;
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedService'),
+        );
 
-      setState(() {
-        _isLoading  = true;
-      });
-      await manager.update(widget.service!);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-
-      // server errors from back-end
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedService'),
-      );
-
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.service!);
-      }
-      else {
         Navigator.pop(context);
+        Navigator.pop(context);
+      }
+      // edit-service form
+      else {
+        widget.service!.kilometersDone = distanceProvider.deconvert(kmController.numericValue!).toInt();
+        widget.service!.description = descriptionController.text.trim();
+        widget.service!.dateHappened = _selectedDate!;
+        widget.service!.cost = costController.numericValue!;
+        widget.service!.nextServiceKilometers = nextKmController.numericValue != null ? 
+            distanceProvider.deconvert(nextKmController.numericValue!).toInt() : null;
+        widget.service!.nextServiceDate = _selectedNextDate;
+
+        await manager.update(widget.service!);
+        if (!mounted) return;
+
+        // server errors from back-end
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedService'),
+        );
+
+        if (widget.isViewing) {
+          Navigator.pop(context, widget.service!);
+        }
+        else {
+          Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
