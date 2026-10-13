@@ -81,23 +81,11 @@ class FirebaseMessagingService {
   void _onMessageReceived(RemoteMessage message) {
     print('Message received data: ${message.data}');
 
-    // Create/insert record locally immediately when notification is received
-    NotificationHandler.processRecord(message.data);
-
-    final (title, body) = NotificationHandler.resolveTitleAndBody(
-      data: message.data,
-      fallbackTitle: message.notification?.title,
-      fallbackBody: message.notification?.body,
+    _localNotificationsService?.showNotification(
+      message.notification?.title,
+      message.notification?.body,
+      jsonEncode(message.data),
     );
-
-    if (title != null || body != null) {
-      // Show notification. We pass the whole data map as a payload for navigation on tap.
-      _localNotificationsService?.showNotification(
-        title,
-        body,
-        jsonEncode(message.data),
-      );
-    }
   }
 
   /// Handles notification taps

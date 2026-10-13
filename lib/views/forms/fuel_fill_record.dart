@@ -490,74 +490,86 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
     final manager = FuelFillRecordManager();
 
-    if (widget.fuelFillRecord == null) {
-      var newRecord = FuelFillRecord(
-        id: -1,
-        dateTime: _selectedDate!,
-        liters: liters,
-        cost: cost,
-        kilometers: kilometers,
-        comments: comments,
-        createdByUsername: '',
-        gasStation: station,
-        fuelType: fuelType,
-        totalKilometers: totalKm,
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.create(newRecord);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.fuelFillRecord == null) {
+        var newRecord = FuelFillRecord(
+          id: -1,
+          dateTime: _selectedDate!,
+          liters: liters,
+          cost: cost,
+          kilometers: kilometers,
+          comments: comments,
+          createdByUsername: '',
+          gasStation: station,
+          fuelType: fuelType,
+          totalKilometers: totalKm,
+        );
 
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
+        await manager.create(newRecord);
+        if (!mounted) return;
+
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedFuelFill'),
+        );
+        Navigator.pop(context);
       }
+      else {
+        widget.fuelFillRecord!
+          ..liters = liters
+          ..cost = cost
+          ..kilometers = kilometers
+          ..comments = comments
+          ..gasStation = station
+          ..fuelType = fuelType
+          ..totalKilometers = totalKm
+          ..dateTime = _selectedDate!;
 
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedFuelFill'),
-      );
-      Navigator.pop(context);
-    }
-    else {
-      widget.fuelFillRecord!
-        ..liters = liters
-        ..cost = cost
-        ..kilometers = kilometers
-        ..comments = comments
-        ..gasStation = station
-        ..fuelType = fuelType
-        ..totalKilometers = totalKm
-        ..dateTime = _selectedDate!;
+        await manager.update(widget.fuelFillRecord!);
+        if (!mounted) return;
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.update(widget.fuelFillRecord!);
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
 
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedFuelFill'),
+        );
+
+        Navigator.pop(
+          context,
+          widget.viewingRecord ? widget.fuelFillRecord : null,
+        );
       }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedFuelFill'),
-      );
-
-      Navigator.pop(
-        context,
-        widget.viewingRecord ? widget.fuelFillRecord : null,
-      );
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

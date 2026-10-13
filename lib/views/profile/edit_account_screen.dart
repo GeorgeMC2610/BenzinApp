@@ -1,5 +1,6 @@
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
+import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
@@ -33,16 +34,35 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       usernameError = null;
       isLoading = true;
     });
-    final result = await UserManager().update(usernameController.text);
-    setState(() {
-      isLoading = false;
-    });
-    if (result != UserPayloadStatus.confirmedOk) {
-      setState(() {
-        usernameError = translate('usernameAlreadyTaken');
-      });
-    }
 
+    try {
+      final result = await UserManager().update(usernameController.text);
+      if (!mounted) return;
+
+      if (result != UserPayloadStatus.confirmedOk) {
+        setState(() {
+          usernameError = translate('usernameAlreadyTaken');
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override

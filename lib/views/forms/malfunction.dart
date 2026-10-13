@@ -83,80 +83,94 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     if (!isValidated) return;
 
     final manager = MalfunctionManager();
-    if (widget.malfunction == null) {
-      final malfunction = Malfunction(
-          id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
-          title: titleController.text.trim(), severity: _severity.toInt(),
-          kilometersDiscovered: distanceProvider.deconvert(kmController.numericValue!).toInt(), 
-          dateEnded: _markAsFixed ? _selectedDateEnded : null,
-          cost: _markAsFixed ? costController.numericValue : null,
-          location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.create(malfunction);
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      if (widget.malfunction == null) {
+        final malfunction = Malfunction(
+            id: -1, dateStarted: _selectedDate!, description: descriptionController.text.trim(),
+            title: titleController.text.trim(), severity: _severity.toInt(),
+            kilometersDiscovered: distanceProvider.deconvert(kmController.numericValue!).toInt(), 
+            dateEnded: _markAsFixed ? _selectedDateEnded : null,
+            cost: _markAsFixed ? costController.numericValue : null,
+            location: _selectedCoordinates == null || !_markAsFixed  ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}'
+        );
 
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
+        await manager.create(malfunction);
+        if (!mounted) return;
+
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyAddedMalfunction'),
+        );
+        if (mounted) Navigator.pop(context);
+        if (mounted) Navigator.pop(context);
       }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyAddedMalfunction'),
-      );
-      Navigator.pop(context);
-      Navigator.pop(context);
-    }
-    // patch request for new malfunction
-    else {
-      widget.malfunction!
-        ..dateStarted = _selectedDate!
-        ..description = descriptionController.text.trim()
-        ..title = titleController.text.trim()
-        ..severity = _severity.toInt()
-        ..kilometersDiscovered = distanceProvider.deconvert(kmController.numericValue!).toInt();
-
-      if (_markAsFixed) {
-        widget.malfunction!
-            ..dateEnded = _selectedDateEnded
-            ..cost = costController.numericValue
-            ..location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
-      }
+      // patch request for new malfunction
       else {
         widget.malfunction!
-          ..dateEnded = null
-          ..cost = null
-          ..location = null;
+          ..dateStarted = _selectedDate!
+          ..description = descriptionController.text.trim()
+          ..title = titleController.text.trim()
+          ..severity = _severity.toInt()
+          ..kilometersDiscovered = distanceProvider.deconvert(kmController.numericValue!).toInt();
+
+        if (_markAsFixed) {
+          widget.malfunction!
+              ..dateEnded = _selectedDateEnded
+              ..cost = costController.numericValue
+              ..location = _selectedCoordinates == null ? null : '$_selectedAddress|${_selectedCoordinates!.latitude}, ${_selectedCoordinates!.longitude}';
+        }
+        else {
+          widget.malfunction!
+            ..dateEnded = null
+            ..cost = null
+            ..location = null;
+        }
+
+        await manager.update(widget.malfunction!);
+        if (!mounted) return;
+
+        if (manager.errors.isNotEmpty) {
+          _handleErrors(manager);
+          return;
+        }
+
+        SnackbarNotification.show(
+          MessageType.success,
+          translate('successfullyUpdatedMalfunction'),
+        );
+
+        if (widget.isViewing) {
+          Navigator.pop(context, widget.malfunction!);
+        } else {
+          Navigator.pop(context);
+        }
       }
-
-      setState(() {
-        _isLoading = true;
-      });
-      await manager.update(widget.malfunction!);
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (manager.errors.isNotEmpty) {
-        _handleErrors(manager);
-        return;
-      }
-
-      SnackbarNotification.show(
-        MessageType.success,
-        translate('successfullyUpdatedMalfunction'),
-      );
-
-      if (widget.isViewing) {
-        Navigator.pop(context, widget.malfunction!);
-      } else {
-        Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      showDialog(context: context, builder: (buildContext) => AlertDialog(
+        title: Text(translate('serverErrorTitle')),
+        content: Text(translate('serverErrorBody')),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.pop(context);
+          }, child: Text(translate('OK')))
+        ],
+      ));
+      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

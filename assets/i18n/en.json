@@ -1,6 +1,9 @@
 {
   "loggedInAs": "Logged in as: {username}",
 
+  "serverError": "An error occurred on the server",
+  "serverErrorTitle": "Bad Connection",
+  "serverErrorBody": "There was an error connecting to the server. This might be because the services are down. Please try again in a few minutes.",
   "wrongCredentials": "Wrong credentials",
   "successfullyLoggedIn": "Successfully logged in.",
   "sessionEnded": "Your session has ended. Please log in again.",
@@ -97,6 +100,8 @@
   "trips":       "Trips",
   "settings":    "Settings",
 
+  "fuelFillNotificationTitle": "Unable to add fuel fill",
+  "fuelFillNotificationBody":  "There was a problem uploading the fuel fill. Possibly because the servers are down. Please try again.",
   "youPlannedYourFuelFill":   "You planned your fuel fill?",
   "lastFilledToday":          "Last filled today",
   "lastFilledYesterday":      "Last filled yesterday",
@@ -115,6 +120,8 @@
   "totalKilometersTravelled": "Total Distance Travelled:",
   "totalCosts":               "Total Costs:",
 
+  "serviceNotificationTitle": "Unable to add service",
+  "serviceNotificationBody":  "There was a problem uploading the service. Possibly because the servers are down. Please try again.",
   "serviceOverdueInDays": "Service overdue by {amount} days",
   "serviceDueToday": "Service due today",
   "serviceDueTomorrow": "Service due tomorrow",
@@ -247,6 +254,8 @@
   "orBefore": "or before",
   "before": "before",
 
+  "malfunctionNotificationTitle": "Unable to add malfunction",
+  "malfunctionNotificationBody":  "There was a problem uploading the malfunction. Possibly because the servers are down. Please try again.",
   "malfunctionData":      "Malfunction data",
   "dateDiscovered":       "Date discovered:",
   "kilometersDiscovered": "Kilometers discovered:",
@@ -313,6 +322,8 @@
 
   "pleaseEnterFuelFills": "Trips rely on your data!",
   "atlEastThreeFuelFills": "Please enter at least 3 fuel fills to see the cost and consumption of your trips.",
+  "tripNotificationTitle": "Unable to add trip",
+  "tripNotificationBody":  "There was a problem uploading the trip. Possibly because the servers are down. Please try again.",
   "tripData": "Trip Data",
   "tripName": "Title:",
   "weeklyOccurrence": "Weekly Occurrence:",
@@ -523,20 +534,5 @@
   "transferCarOwnershipRetypeCarNameTitle": "Confirm the transfer again and type \"{carName}\":",
   "transferCarOwnershipButton": "Transfer Ownership",
   "carTransferredSuccessfully": "Successfully transferred car's ownership",
-  "carTransferFailed": "Failed to transfer car's ownership",
-
-  "carInvitationTitle": "{sender} has invited you to a car",
-  "carInvitationBody": "{sender} would like you to contribute to {car}. Tap to accept or decline.",
-
-  "fuelFillRecordNotificationTitle": "New fuel fill record for {car}",
-  "fuelFillRecordNotificationBody": "User {username} has created a Fuel Fill Record. Tap to see more info.",
-
-  "malfunctionNotificationTitle": "New malfunction for {car}",
-  "malfunctionNotificationBody": "User {username} has created a Malfunction. Tap to see more info.",
-
-  "serviceNotificationTitle": "New service for {car}",
-  "serviceNotificationBody": "User {username} has created a Service. Tap to see more info.",
-
-  "repeatedTripNotificationTitle": "New trip for {car}",
-  "repeatedTripNotificationBody": "User {username} has created a Trip. Tap to see more info."
+  "carTransferFailed": "Failed to transfer car's ownership"
 }
