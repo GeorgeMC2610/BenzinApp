@@ -34,12 +34,12 @@ class FuelTrendLineChart extends StatelessWidget {
     final volumeProvider = Provider.of<VolumeMetricProvider>(context);
 
     final duration = endDate.difference(startDate);
-    final useDayMonthFormat = duration.inDays <= 60;
+    final useDayMonthFormat = duration.inDays <= 93;
     final locale = Localizations.localeOf(context).toString();
 
     final axisDateFormat = useDayMonthFormat
         ? DateFormat("dd-MM", locale)
-        : DateFormat("MMM ''yy", locale);
+        : DateFormat("MMM-yy", locale);
 
     return Column(
       children: [

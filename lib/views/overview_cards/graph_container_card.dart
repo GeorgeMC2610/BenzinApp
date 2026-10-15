@@ -36,7 +36,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
-      child: filteredData.length < 2 ? const InsufficientDataCard() : Card(
+      child: (manager.local?.length ?? 0) < 2 ? const InsufficientDataCard() : Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)
           ),
