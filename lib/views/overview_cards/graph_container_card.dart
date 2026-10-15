@@ -22,7 +22,8 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
-  DateTime _startDate = DateTime(2000);
+
+  DateTime _startDate = DateTime.now().subtract(const Duration(days: 90));
   DateTime _endDate = DateTime.now();
 
   Widget normalBody(FuelFillRecordManager manager) {
