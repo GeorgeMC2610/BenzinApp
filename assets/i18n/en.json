@@ -534,5 +534,14 @@
   "transferCarOwnershipRetypeCarNameTitle": "Confirm the transfer again and type \"{carName}\":",
   "transferCarOwnershipButton": "Transfer Ownership",
   "carTransferredSuccessfully": "Successfully transferred car's ownership",
-  "carTransferFailed": "Failed to transfer car's ownership"
+  "carTransferFailed": "Failed to transfer car's ownership",
+  "lastMonth": "Last 1 month",
+  "lastTwoMonths": "Last 2 months",
+  "lastThreeMonths": "Last 3 months",
+  "lastFourMonths": "Last 4 months",
+  "lastSixMonths": "Last 6 months",
+  "lastTenMonths": "Last 10 months",
+  "lastTwelveMonths": "Last 12 months",
+  "lifetime": "Lifetime",
+  "customRange": "Custom Range"
 }

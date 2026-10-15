@@ -17,17 +17,29 @@ class FuelTrendLineChart extends StatelessWidget {
     required this.size,
     required this.focusType,
     required this.context,
+    required this.startDate,
+    required this.endDate,
   });
 
   final List<FuelFillRecord> data;
   final double size;
   final ChartDisplayFocus focusType;
   final BuildContext context;
+  final DateTime startDate;
+  final DateTime endDate;
 
   @override
   Widget build(BuildContext context) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
+    final duration = endDate.difference(startDate);
+    final useDayMonthFormat = duration.inDays <= 60;
+    final locale = Localizations.localeOf(context).toString();
+
+    final axisDateFormat = useDayMonthFormat
+        ? DateFormat("dd-MM", locale)
+        : DateFormat("MMM ''yy", locale);
 
     return Column(
       children: [
@@ -37,8 +49,8 @@ class FuelTrendLineChart extends StatelessWidget {
           child: SfCartesianChart(
             primaryXAxis: DateTimeAxis(
               edgeLabelPlacement: EdgeLabelPlacement.shift,
-              dateFormat: DateFormat("yyyy-MM-dd"),
-              intervalType: DateTimeIntervalType.days,
+              dateFormat: axisDateFormat,
+              intervalType: DateTimeIntervalType.auto,
               majorGridLines: const MajorGridLines(width: 0.5),
             ),
             primaryYAxis: const NumericAxis(
@@ -65,7 +77,7 @@ class FuelTrendLineChart extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    '${DateFormat("yyyy-MM-dd").format(data.dateTime)}\n\n'
+                    '${DateFormat.yMMMd(locale).format(data.dateTime)}\n\n'
                         '${_getStringifiedFocusType()}\n '
                         '${point.y.toStringAsFixed(3)} ${_getMetric(distanceProvider, volumeProvider)}',
                     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

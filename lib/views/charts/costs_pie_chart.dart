@@ -4,8 +4,11 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CostsPieChart extends StatelessWidget {
-  const CostsPieChart({super.key, required this.theme});
+  const CostsPieChart({super.key, required this.theme, this.fuelFillCost = 0, this.malfunctionsCost = 0, this.servicesCost = 0});
   final String theme;
+  final double fuelFillCost;
+  final double malfunctionsCost;
+  final double servicesCost;
 
   static const Map<String, Map<String, Color>> pieChartColors = {
     "dark": {
@@ -22,9 +25,6 @@ class CostsPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double fuelFillCost = Car.getTotalFuelFillCosts();
-    final double malfunctionsCost = Car.getTotalMalfunctionCosts();
-    final double servicesCost = Car.getTotalServiceCosts();
     final double totalCost = fuelFillCost + malfunctionsCost + servicesCost;
 
     if (totalCost == 0) return const SizedBox();
