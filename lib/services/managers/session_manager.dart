@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benzinapp/services/classes/user.dart';
+import 'package:benzinapp/services/managers/fcm_manager.dart';
 import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/services/request_handler.dart';
@@ -29,6 +30,8 @@ class SessionManager {
   }
 
   Future<void> logout() async {
+    // must happen before the logout request, while the token is still valid.
+    await FCMManager().unsubscribeDevice();
     await RequestHandler.sendDeleteRequest(logoutUri);
     await TokenManager().removeToken();
     isLoggedIn = false;
@@ -54,6 +57,7 @@ class SessionManager {
         final user = User.fromJson(jsonResponse['user']);
         UserManager().setCurrentUser(user);
         isLoggedIn = true;
+        FCMManager().syncWithServer();
         return SessionStatus.success;
       case 401:
         return SessionStatus.wrongCredentials;
@@ -83,6 +87,7 @@ class SessionManager {
         await TokenManager().removeToken();
         await TokenManager().setToken(response.headers['authorization']!);
         isLoggedIn = true;
+        FCMManager().syncWithServer();
         return SessionStatus.success;
       case 422:
         print(response.body);
