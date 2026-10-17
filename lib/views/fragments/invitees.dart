@@ -40,6 +40,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
   );
 
   _normalBody(List<CarUserInvitation> invitations) => ListView.builder(
+    padding: const EdgeInsets.symmetric(vertical: 8),
     itemCount: invitations.length,
     itemBuilder: (context, index) {
       final invitation = invitations[index];
@@ -73,37 +74,109 @@ class _InviteesFragmentState extends State<InviteesFragment> {
     );
   }
 
-  ListTile _buildListTile(CarUserInvitation invitation) =>  ListTile(
-    title: Text(invitation.recipientUsername),
-    leading: Icon(invitation.isAccepted ? Icons.person : Icons.access_time_outlined),
-    subtitle: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(translate('sentAt', args: { 'date': DateFormat.yMMMd().add_Hm().format(invitation.createdAt)} )),
-        Text(invitation.isAccepted ? translate('accepted') : translate('pending')),
-      ],
-    ),
-    trailing: TextButton.icon(
-      style: TextButton.styleFrom(
-        foregroundColor: Theme.of(context).colorScheme.error
+  Widget _buildListTile(CarUserInvitation invitation) {
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final accepted = invitation.isAccepted;
+    final username = invitation.recipientUsername;
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      elevation: 0,
+      color: scheme.surfaceContainerHighest.withOpacity(0.5),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 4, 12),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 24,
+              backgroundColor: accepted ? scheme.primaryContainer : scheme.secondaryContainer,
+              foregroundColor: accepted ? scheme.onPrimaryContainer : scheme.onSecondaryContainer,
+              child: Text(
+                username.isNotEmpty ? username[0].toUpperCase() : '?',
+                style: textTheme.titleLarge?.copyWith(color: accepted ? scheme.onPrimaryContainer : scheme.onSecondaryContainer),
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    username,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.schedule, size: 14, color: scheme.onSurfaceVariant),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          translate('sentAt', args: { 'date': DateFormat.yMMMd().add_Hm().format(invitation.createdAt)} ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  _statusChip(accepted),
+                ],
+              ),
+            ),
+            IconButton(
+              tooltip: accepted ? translate('revoke') : translate('cancel'),
+              color: scheme.error,
+              icon: Icon(accepted ? Icons.person_remove_outlined : Icons.close),
+              onPressed: () => _confirmRemoval(invitation),
+            ),
+          ],
+        ),
       ),
-      icon: const Icon(Icons.close),
-      label: Text(invitation.isAccepted ? translate('revoke') : translate('cancel')),
-      onPressed: () {
-        ConfirmationDialog.show(
-          context,
-          invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
-          invitation.isAccepted
-              ? translate('areYouSureYouWantToRevokeAccess')
-              : translate('areYouSureYouWantToCancelInvitationForThisUser'),
-              (confirmed) async {
-            if (confirmed) {
-              await CarUserInvitationManager().delete(invitation);
-            }
-          },
-        );
+    );
+  }
+
+  Widget _statusChip(bool accepted) {
+    final scheme = Theme.of(context).colorScheme;
+    final color = accepted ? scheme.primary : scheme.tertiary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.14),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(accepted ? Icons.check_circle_outline : Icons.hourglass_empty, size: 14, color: color),
+          const SizedBox(width: 6),
+          Text(
+            accepted ? translate('accepted') : translate('pending'),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: color, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmRemoval(CarUserInvitation invitation) {
+    ConfirmationDialog.show(
+      context,
+      invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
+      invitation.isAccepted
+          ? translate('areYouSureYouWantToRevokeAccess')
+          : translate('areYouSureYouWantToCancelInvitationForThisUser'),
+      (confirmed) async {
+        if (confirmed) {
+          await CarUserInvitationManager().delete(invitation);
+        }
       },
-    ),
-  );
+    );
+  }
 
 }
