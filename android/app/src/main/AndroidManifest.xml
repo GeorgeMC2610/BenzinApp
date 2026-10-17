@@ -9,7 +9,7 @@
     <application
         android:label="BenzinApp"
         android:name="${applicationName}"
-        android:icon="@drawable/benzinapp_logo_round">
+        android:icon="@mipmap/ic_launcher">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

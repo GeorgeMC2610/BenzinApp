@@ -7,7 +7,6 @@ import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
-import '../services/data_holder.dart';
 
 class Start extends StatefulWidget {
   const Start({super.key});
@@ -83,6 +82,10 @@ class _StartState extends State<Start> {
     final result = await SessionManager().testConnection();
 
     if (result) {
+      // not awaited: the settings switches update themselves once the
+      // server responds, so there's no need to hold up the splash screen.
+      FCMManager().syncWithServer();
+
       if (FirebaseMessagingService.instance().pendingNotificationPayload != null) {
         final payload = FirebaseMessagingService.instance().pendingNotificationPayload!;
         FirebaseMessagingService.instance().pendingNotificationPayload = null;
