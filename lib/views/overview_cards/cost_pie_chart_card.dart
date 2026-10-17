@@ -22,7 +22,7 @@ class CostPieChartCard extends StatefulWidget {
 }
 
 class _CostPieChartCardState extends State<CostPieChartCard> {
-  DateTime _startDate = DateTime(2000);
+  DateTime _startDate = DateTime.now().subtract(const Duration(days: 92));
   DateTime _endDate = DateTime.now();
 
   Widget normalBody(double fuelCost, double malfunctionCost, double serviceCost) => SizedBox(
