@@ -16,7 +16,7 @@ class Pagination extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surfaceBright,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(

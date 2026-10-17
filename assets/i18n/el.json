@@ -531,5 +531,16 @@
   "transferCarOwnershipRetypeUsername": "Username",
   "transferCarOwnershipRetypeUsernameTitle": "Για να επιβεβαιώσετε την μεταβίβαση, γράψτε \"{username}\":",
   "transferCarOwnershipRetypeCarName": "Όνομα αμαξιού",
-  "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":"
+  "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
+  "carTransferredSuccessfully": "Επιτυχής μεταβίβαση αμαξιού",
+  "carTransferFailed": "Αποτυχής μεταβίβαση αμαξιού",
+  "lastMonth": "Τελευταίος 1 μήνας",
+  "lastTwoMonths": "Τελευταίοι 2 μήνες",
+  "lastThreeMonths": "Τελευταίοι 3 μήνες",
+  "lastFourMonths": "Τελευταίοι 4 μήνες",
+  "lastSixMonths": "Τελευταίοι 6 μήνες",
+  "lastTenMonths": "Τελευταίοι 10 μήνες",
+  "lastTwelveMonths": "Τελευταίοι 12 μήνες",
+  "lifetime": "Συνολικά",
+  "customRange": "Επιλογή εύρους"
 }

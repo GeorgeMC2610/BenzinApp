@@ -4,6 +4,7 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/views/charts/insufficient_data_card.dart';
 import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
+import 'package:benzinapp/views/shared/date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:provider/provider.dart';
@@ -22,12 +23,21 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
   ChartDisplayFocus _focus = ChartDisplayFocus.consumption;
   int? _selectedFocusValue = 0;
 
+  DateTime _startDate = DateTime.now().subtract(const Duration(days: 90));
+  DateTime _endDate = DateTime.now();
+
   Widget normalBody(FuelFillRecordManager manager) {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     final volumeProvider = Provider.of<VolumeMetricProvider>(context);
+
+    final filteredData = manager.local!.where((record) =>
+      record.dateTime.isAfter(_startDate.subtract(const Duration(seconds: 1))) &&
+      record.dateTime.isBefore(_endDate.add(const Duration(days: 1)))
+    ).toList();
+
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
-      child: manager.local!.length < 2 ? const InsufficientDataCard() : Card(
+      child: (manager.local?.length ?? 0) < 2 ? const InsufficientDataCard() : Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)
           ),
@@ -50,57 +60,72 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
 
                 const SizedBox(height: 15),
 
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Theme.of(context).colorScheme.onSurface.withAlpha(77), width: 1),
-                  ),
-                  child: DropdownButton<int>(
-                    value: _selectedFocusValue, // No default selected
-                    hint: const Text("Select an option"), // TODO: Localize string
-                    items: [
-                      DropdownMenuItem(value: 0, child: Text(translate('litersPer100km', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
-                      DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
-                      DropdownMenuItem(value: 2, child: Text(translate('costPerKilometer', args: {'unit': distanceProvider.label}))),
-                    ],
-                    onChanged: (int? value) {
-                      setState(() {
-                        switch (value!) {
-                          case 0:
-                            _focus = ChartDisplayFocus.consumption;
-                            break;
-                          case 1:
-                            _focus = ChartDisplayFocus.efficiency;
-                            break;
-                          case 2:
-                            _focus = ChartDisplayFocus.travelCost;
-                            break;
-                        }
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Theme.of(context).colorScheme.onSurface.withAlpha(77), width: 1),
+                      ),
+                      child: DropdownButton<int>(
+                        value: _selectedFocusValue, // No default selected
+                        hint: const Text("Select an option"), // TODO: Localize string
+                        items: [
+                          DropdownMenuItem(value: 0, child: Text(translate('litersPer100km', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
+                          DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
+                          DropdownMenuItem(value: 2, child: Text(translate('costPerKilometer', args: {'unit': distanceProvider.label}))),
+                        ],
+                        onChanged: (int? value) {
+                          setState(() {
+                            switch (value!) {
+                              case 0:
+                                _focus = ChartDisplayFocus.consumption;
+                                break;
+                              case 1:
+                                _focus = ChartDisplayFocus.efficiency;
+                                break;
+                              case 2:
+                                _focus = ChartDisplayFocus.travelCost;
+                                break;
+                            }
 
-                        _selectedFocusValue = value;
-                      });
-                    },
-                    dropdownColor: Theme.of(context).colorScheme.surfaceContainerLow,
-                    style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurface),
-                    icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurface),
+                            _selectedFocusValue = value;
+                          });
+                        },
+                        dropdownColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                        style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurface),
+                        icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurface),
 
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    borderRadius: BorderRadius.circular(15), // Rounded corners
-                    underline: Container(
-                      color: Colors.transparent, // Custom underline
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        borderRadius: BorderRadius.circular(15), // Rounded corners
+                        underline: Container(
+                          color: Colors.transparent, // Custom underline
+                        ),
+                      ),
                     ),
-                  ),
+                    DateRangePicker(
+                      onRangeSelected: (start, end) {
+                        setState(() {
+                          _startDate = start;
+                          _endDate = end;
+                        });
+                      },
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 20),
 
                 // graph with consumption container
                 FuelTrendLineChart(
-                  data: manager.local!,
+                  data: filteredData.reversed.toList(),
                   size: 300,
                   focusType: _focus,
                   context: context,
+                  startDate: _startDate,
+                  endDate: _endDate,
                 ),
 
               ],

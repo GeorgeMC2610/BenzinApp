@@ -5,6 +5,7 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
+import 'package:benzinapp/views/shared/date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -21,9 +22,10 @@ class CostPieChartCard extends StatefulWidget {
 }
 
 class _CostPieChartCardState extends State<CostPieChartCard> {
-  double? totalServiceCosts, totalMalfunctionCosts, totalFuelFillCosts;
+  DateTime _startDate = DateTime.now().subtract(const Duration(days: 92));
+  DateTime _endDate = DateTime.now();
 
-  Widget normalBody() => SizedBox(
+  Widget normalBody(double fuelCost, double malfunctionCost, double serviceCost) => SizedBox(
         width: MediaQuery.sizeOf(context).width,
         child: Card(
             shape: RoundedRectangleBorder(
@@ -40,12 +42,28 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                         style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold)),
                   ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: DateRangePicker(
+                      onRangeSelected: (start, end) {
+                        setState(() {
+                          _startDate = start;
+                          _endDate = end;
+                        });
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Consumer<ThemeProvider>(builder:
                       (BuildContext context, ThemeProvider value, Widget? child) {
                     return Column(
                       children: [
-                        CostsPieChart(theme: value.themeMode.name),
+                        CostsPieChart(
+                          theme: value.themeMode.name,
+                          fuelFillCost: fuelCost,
+                          malfunctionsCost: malfunctionCost,
+                          servicesCost: serviceCost,
+                        ),
                         const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +76,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('fuelFills')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalFuelFillCosts!))}')
+                                '${translate('fuelFills')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, fuelCost))}')
                           ],
                         ),
                         Row(
@@ -72,7 +90,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('malfunctions')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalMalfunctionCosts!))}')
+                                '${translate('malfunctions')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunctionCost))}')
                           ],
                         ),
                         Row(
@@ -86,7 +104,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('services')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, totalServiceCosts!))}')
+                                '${translate('services')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, serviceCost))}')
                           ],
                         ),
                       ],
@@ -107,11 +125,19 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
             return const LoadingDataCard();
           }
 
-          totalServiceCosts = Car.getTotalServiceCosts();
-          totalMalfunctionCosts = Car.getTotalMalfunctionCosts();
-          totalFuelFillCosts = Car.getTotalFuelFillCosts();
+          final start = _startDate.subtract(const Duration(seconds: 1));
+          final end = _endDate.add(const Duration(days: 1));
 
-          return normalBody();
+          final filteredFuel = fuelManager.local!.where((r) => r.dateTime.isAfter(start) && r.dateTime.isBefore(end));
+          final fuelCost = filteredFuel.fold<double>(0, (sum, r) => sum + r.cost);
+
+          final filteredMalfunctions = malfunctionManager.local!.where((r) => r.dateStarted.isAfter(start) && r.dateStarted.isBefore(end));
+          final malfunctionCost = filteredMalfunctions.fold<double>(0, (sum, r) => sum + (r.cost ?? 0));
+
+          final filteredServices = serviceManager.local!.where((r) => r.dateHappened.isAfter(start) && r.dateHappened.isBefore(end));
+          final serviceCost = filteredServices.fold<double>(0, (sum, r) => sum + (r.cost ?? 0));
+
+          return normalBody(fuelCost, malfunctionCost, serviceCost);
         },
       );
 }
