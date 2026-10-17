@@ -169,8 +169,8 @@ class _InviteesFragmentState extends State<InviteesFragment> {
       context,
       invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
       invitation.isAccepted
-          ? translate('areYouSureYouWantToRevokeAccess')
-          : translate('areYouSureYouWantToCancelInvitationForThisUser'),
+          ? translate('areYouSureYouWantToRevokeAccess', args: {'car': invitation.carUsername, 'user': invitation.recipientUsername})
+          : translate('areYouSureYouWantToCancelInvitationForThisUser', args: {'car': invitation.carUsername, 'user': invitation.recipientUsername}),
       (confirmed) async {
         if (confirmed) {
           await CarUserInvitationManager().delete(invitation);
