@@ -7,6 +7,12 @@ plugins {
 }
 
 android {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(new FileInputStream(localPropertiesFile))
+    }
+
     def keystoreProperties = new Properties()
     def keystorePropertiesFile = rootProject.file("key.properties")
     if (keystorePropertiesFile.exists()) {
@@ -34,6 +40,7 @@ android {
         targetSdk = 36
         versionCode = 9
         versionName = flutter.versionName
+        manifestPlaceholders += [mapsApiKey: localProperties.getProperty("MAPS_API_KEY", "")]
     }
 
     signingConfigs {

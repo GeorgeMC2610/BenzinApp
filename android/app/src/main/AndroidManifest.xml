@@ -9,7 +9,13 @@
     <application
         android:label="BenzinApp"
         android:name="${applicationName}"
-        android:icon="@mipmap/benzinapp_logo_round">
+        android:icon="@drawable/benzinapp_logo_round">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}"
+        />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
