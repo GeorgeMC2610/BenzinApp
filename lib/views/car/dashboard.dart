@@ -3,7 +3,10 @@ import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
+import 'package:benzinapp/views/maps/nearby_auto_repair.dart';
+import 'package:benzinapp/views/maps/nearby_gas_stations.dart';
 import 'package:benzinapp/views/shared/car_list.dart';
+import 'package:benzinapp/views/shared/cards/nearby_shortcut_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +72,15 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 DividerWithText(
+                  text: translate('dashboardNearby'),
+                  lineColor: Colors.grey,
+                  textColor: Theme.of(context).colorScheme.primary,
+                  textSize: 16,
+                ),
+                const SizedBox(height: 10),
+                _nearbyShortcuts(),
+                const SizedBox(height: 15),
+                DividerWithText(
                   text: translate('dashboardMyCars'),
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
@@ -90,6 +102,41 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       );
+
+  Widget _nearbyShortcuts() {
+    final shortcuts = [
+      (
+        icon: Icons.local_gas_station_rounded,
+        title: translate('nearbyGasStations'),
+        screen: const NearbyGasStations(),
+      ),
+      (
+        icon: Icons.car_repair_rounded,
+        title: translate('nearbyAutoRepair'),
+        screen: const NearbyAutoRepair(),
+      ),
+    ];
+
+    return SizedBox(
+      height: 110,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: shortcuts.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          final shortcut = shortcuts[index];
+          return NearbyShortcutCard(
+            icon: shortcut.icon,
+            title: shortcut.title,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => shortcut.screen),
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   _loadingBody() => const LinearProgressIndicator(
         value: null,

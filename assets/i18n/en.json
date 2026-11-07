@@ -79,6 +79,9 @@
   "claimCarSuccess":      "Successfully claimed old car.",
 
   "dashboardAppBar":       "Dashboard",
+  "dashboardNearby":       "Nearby",
+  "nearbyGasStations":     "Gas stations nearby",
+  "nearbyAutoRepair":      "Auto-repair nearby",
   "dashboardMyCars":       "My Cars",
   "dashboardSharedWithMe": "Shared With Me",
   "addNewCar":             "Add a new car",

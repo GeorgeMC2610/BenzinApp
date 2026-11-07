@@ -79,6 +79,9 @@
   "claimCarSuccess":      "Επιτυχής καταχώρηση παλαιού αμαξιού.",
 
   "dashboardAppBar":       "Αρχική",
+  "dashboardNearby":       "Κοντά μου",
+  "nearbyGasStations":     "Βενζινάδικα κοντά μου",
+  "nearbyAutoRepair":      "Συνεργεία κοντά μου",
   "dashboardMyCars":       "Τα αυτοκίνητά μου",
   "dashboardSharedWithMe": "Κοινοποιημένα με εμένα",
   "addNewCar":             "Προσθήκη αμαξιού",
