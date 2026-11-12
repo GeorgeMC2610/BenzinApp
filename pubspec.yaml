@@ -76,7 +76,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 dependency_overrides:
-  google_maps_flutter_ios: 2.13.1
   geolocator_android: 4.6.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
