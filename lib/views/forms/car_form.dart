@@ -4,6 +4,7 @@ import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:benzinapp/views/shared/fa_prefix_icon.dart';
 
 import '../../services/classes/car.dart';
 import '../../services/classes/car_data.dart';
@@ -410,7 +411,7 @@ class _CarFormState extends State<CarForm> {
                       errorText: currencyError,
                       hintText: t.carCurrencyHint,
                       labelText: t.carCurrency,
-                      prefixIcon: const FaIcon(FontAwesomeIcons.coins, size: 17),
+                      prefixIcon: const FaPrefixIcon(FontAwesomeIcons.coins, size: 17),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),

@@ -11,6 +11,7 @@ import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:benzinapp/views/shared/fa_prefix_icon.dart';
 import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -257,7 +258,7 @@ class _ServiceFormState extends State<ServiceForm> {
                   errorMaxLines: 4,
                   hintText: t.descriptionHint,
                   labelText: '${t.description2} *',
-                  prefixIcon: const FaIcon(FontAwesomeIcons.wrench),
+                  prefixIcon: const FaPrefixIcon(FontAwesomeIcons.wrench),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),

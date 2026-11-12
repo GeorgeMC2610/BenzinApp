@@ -8,6 +8,7 @@ import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:benzinapp/views/shared/fa_prefix_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
@@ -238,7 +239,7 @@ class _TripFormState extends State<TripForm> {
                   counterText: '',
                   hintText: t.tripNameHint,
                   labelText: t.tripName2,
-                  prefixIcon: const FaIcon(FontAwesomeIcons.tag),
+                  prefixIcon: const FaPrefixIcon(FontAwesomeIcons.tag),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -269,7 +270,7 @@ class _TripFormState extends State<TripForm> {
                         errorMaxLines: 4,
                         hintText: t.timesRepeatingHint,
                         labelText: t.timesRepeating,
-                        prefixIcon: const FaIcon(FontAwesomeIcons.repeat),
+                        prefixIcon: const FaPrefixIcon(FontAwesomeIcons.repeat),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
