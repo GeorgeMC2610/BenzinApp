@@ -2,7 +2,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/confirmations/reset_password_second_step.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class ResetPasswordFirstStep extends StatefulWidget {
   const ResetPasswordFirstStep({super.key});
@@ -37,7 +37,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
         );
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -53,7 +53,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(translate('forgotPasswordMenu')),
+          title: Text(t.forgotPasswordMenu),
 
         ),
         persistentFooterAlignment: AlignmentDirectional.center,
@@ -69,7 +69,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 label: Text(
-                  translate('forgotPasswordNextStep'),
+                  t.forgotPasswordNextStep,
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black
@@ -99,7 +99,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
               children: [
                 Center(
                   child: Text(
-                    translate('forgotPasswordTitle'),
+                    t.forgotPasswordTitle,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.bold,
@@ -112,7 +112,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
 
                 Center(
                   child: Text(
-                      translate('forgotPasswordSubtitle')
+                      t.forgotPasswordSubtitle
                   ),
                 ),
 
@@ -120,7 +120,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
 
                 Center(
                   child: Text(
-                    translate('forgotPasswordEmailPrompt'),
+                    t.forgotPasswordEmailPrompt,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -137,8 +137,8 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     errorText: emailError,
-                    hintText: translate('forgotPasswordEmailHint'),
-                    labelText: translate('forgotPasswordEmailLabel'),
+                    hintText: t.forgotPasswordEmailHint,
+                    labelText: t.forgotPasswordEmailLabel,
                     prefixIcon: const Icon(Icons.email),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),

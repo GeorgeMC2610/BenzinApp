@@ -2,7 +2,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class EditAccountScreen extends StatefulWidget {
   const EditAccountScreen({super.key});
@@ -41,21 +41,21 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
 
       if (result != UserPayloadStatus.confirmedOk) {
         setState(() {
-          usernameError = translate('usernameAlreadyTaken');
+          usernameError = t.usernameAlreadyTaken;
         });
       }
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -70,7 +70,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('editAccount')), 
+        title: Text(t.editAccount), 
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -90,7 +90,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 keyboardType: TextInputType.emailAddress,
                 enabled: false, // Locked for now
                 decoration: InputDecoration(
-                  labelText: translate('email'),
+                  labelText: t.email,
                   prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -107,7 +107,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 decoration: InputDecoration(
                   errorMaxLines: 3,
                   errorText: usernameError,
-                  labelText: translate('username'),
+                  labelText: t.username,
                   prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),

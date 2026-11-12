@@ -8,7 +8,7 @@ import 'package:benzinapp/views/shared/cards/service_card.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:benzinapp/views/shared/malfunction_severity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +46,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         const SizedBox(height: 40),
 
         Text(
-          translate('noMalfunctions'),
+          t.noMalfunctions,
           style: const TextStyle(
               fontSize: 29,
               fontWeight: FontWeight.bold
@@ -70,7 +70,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
         const SizedBox(height: 40),
 
         AutoSizeText(
-          translate('noServices'),
+          t.noServices,
           maxLines: 1,
           style: const TextStyle(
               fontSize: 29,
@@ -147,11 +147,11 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
     return Column(
       children: [
         if (ongoing.isNotEmpty) ...[
-          _groupHeader(translate('onlyUnfixed')),
+          _groupHeader(t.onlyUnfixed),
           ...ongoing.map((m) => MalfunctionCard(malfunction: m)),
         ],
         if (fixed.isNotEmpty) ...[
-          _groupHeader(translate('onlyFixed')),
+          _groupHeader(t.onlyFixed),
           ...fixed.map((m) => MalfunctionCard(malfunction: m)),
         ],
         const SizedBox(height: 65)
@@ -199,7 +199,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
 
             if (_showLastService())
             DividerWithText(
-                text: translate('lastService'),
+                text: t.lastService,
                 lineColor: Colors.grey,
                 textColor: Theme.of(context).colorScheme.primary,
                 textSize: 16
@@ -218,14 +218,14 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
             ),
 
             DividerWithText(
-                text: translate('previousServices'),
+                text: t.previousServices,
                 lineColor: Colors.grey,
                 textColor: Theme.of(context).colorScheme.primary,
                 textSize: 16
             ),
 
             if (_showLastService())
-            ServiceManager().localOrFiltered!.skip(1).isEmpty ? Text(translate('nothingToShowHere')) :
+            ServiceManager().localOrFiltered!.skip(1).isEmpty ? Text(t.nothingToShowHere) :
             Column(
               children: ServiceManager().localOrFiltered!.skip(1).map((service) {
                 return ServiceManager().localOrFiltered!.skip(1).last != service ?
@@ -239,7 +239,7 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
             ),
 
             if (!_showLastService())
-            ServiceManager().localOrFiltered!.isEmpty ? Text(translate('nothingToShowHere')) :
+            ServiceManager().localOrFiltered!.isEmpty ? Text(t.nothingToShowHere) :
             Column(
               children: ServiceManager().localOrFiltered!.map((service) {
                 return ServiceManager().localOrFiltered!.last != service ?
@@ -290,8 +290,8 @@ class _MaintenanceFragmentState extends State<MaintenanceFragment> {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 child: TabBar(
                 tabs: [
-                  Tab(text: translate('malfunctions')),
-                  Tab(text: translate('services')),
+                  Tab(text: t.malfunctions),
+                  Tab(text: t.services),
                   ],
                 )
               ),

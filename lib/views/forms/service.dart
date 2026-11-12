@@ -11,7 +11,7 @@ import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../maps/select_location.dart';
@@ -74,7 +74,7 @@ class _ServiceFormState extends State<ServiceForm> {
       kmError = _validator(kmController);
       costError = _validator(costController);
       nextKmError = _numValidator(nextKmController);
-      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
+      dateValidator = _selectedDate == null ? t.noDateSelected : null;
     });
 
     if (_selectedDate == null) {
@@ -132,7 +132,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyAddedService'),
+          t.successfullyAddedService,
         );
 
         Navigator.pop(context);
@@ -159,7 +159,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyUpdatedService'),
+          t.successfullyUpdatedService,
         );
 
         if (widget.isViewing) {
@@ -172,15 +172,15 @@ class _ServiceFormState extends State<ServiceForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -217,8 +217,8 @@ class _ServiceFormState extends State<ServiceForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: widget.service != null ? Text(translate('editService')) :
-          Text(translate('addService')),
+          title: widget.service != null ? Text(t.editService) :
+          Text(t.addService),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -234,7 +234,7 @@ class _ServiceFormState extends State<ServiceForm> {
           child: Column(
             children: [
               DividerWithText(
-                  text: translate('serviceInfo'),
+                  text: t.serviceInfo,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
@@ -255,9 +255,9 @@ class _ServiceFormState extends State<ServiceForm> {
                 decoration: InputDecoration(
                   errorText: descError,
                   errorMaxLines: 4,
-                  hintText: translate('descriptionHint'),
-                  labelText: '${translate('description2')} *',
-                  prefixIcon: const Icon(FontAwesomeIcons.wrench),
+                  hintText: t.descriptionHint,
+                  labelText: '${t.description2} *',
+                  prefixIcon: const FaIcon(FontAwesomeIcons.wrench),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -269,9 +269,9 @@ class _ServiceFormState extends State<ServiceForm> {
               DualNumericUpDownForm(
                 controller1: kmController,
                 controller2: costController,
-                title: translate('serviceInfo'),
-                fieldTitle1: '${translate('serviceMileage2')} (${distanceProvider.label}) *',
-                fieldTitle2: '${translate('cost2')} *',
+                title: t.serviceInfo,
+                fieldTitle1: '${t.serviceMileage2} (${distanceProvider.label}) *',
+                fieldTitle2: '${t.cost2} *',
                 error1: kmError,
                 error2: costError,
                 icon: const Icon(Icons.build_circle_outlined, size: 40),
@@ -284,7 +284,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedDate == null ?
-                '${translate('selectADate')} *' :
+                '${t.selectADate} *' :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -311,7 +311,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           });
                         }
                       },
-                      label: Text(translate('pickADate')),
+                      label: Text(t.pickADate),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -325,7 +325,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -342,7 +342,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedAddress == null ?
-                translate('selectLocation') :
+                t.selectLocation :
                 _selectedAddress!,
                 style: const TextStyle(
                     fontSize: 22,
@@ -376,7 +376,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = data["coordinates"]!;
                         });
                       },
-                      label: Text(translate('pickAPlace')),
+                      label: Text(t.pickAPlace),
                       icon: const Icon(Icons.map),
                     ),
                   ),
@@ -391,7 +391,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedCoordinates = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, t.removeLocation, minFontSize: 10),
                       icon: const Icon(Icons.cancel),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.error,
@@ -405,7 +405,7 @@ class _ServiceFormState extends State<ServiceForm> {
               const SizedBox(height: 15),
 
               DividerWithText(
-                  text: translate('nextServiceInfo'),
+                  text: t.nextServiceInfo,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
@@ -420,7 +420,7 @@ class _ServiceFormState extends State<ServiceForm> {
                 bigTitle: false,
                 error: nextKmError,
                 quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
-                title: translate('nextServiceMileage'),
+                title: t.nextServiceMileage,
                 metric: distanceProvider.label,
                 icon: const Icon(Icons.speed, size: 40),
               ),
@@ -430,7 +430,7 @@ class _ServiceFormState extends State<ServiceForm> {
               AutoSizeText(
                 maxLines: 1,
                 _selectedNextDate == null ?
-                translate('selectNextServiceDate') :
+                t.selectNextServiceDate :
                 LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
                 style: const TextStyle(
                     fontSize: 22,
@@ -457,7 +457,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           });
                         }
                       },
-                      label: Text(translate('pickADate')),
+                      label: Text(t.pickADate),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -471,7 +471,7 @@ class _ServiceFormState extends State<ServiceForm> {
                           _selectedNextDate = null;
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, translate('discard'), minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, t.discard, minFontSize: 10),
                       icon: const Icon(Icons.delete_forever),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.errorContainer,
@@ -492,16 +492,16 @@ class _ServiceFormState extends State<ServiceForm> {
 
   String? _validator(NumericTextController field) {
     if (field.text.isEmpty) {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     final value = field.numericValue;
     if (value == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (value < 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;
@@ -514,11 +514,11 @@ class _ServiceFormState extends State<ServiceForm> {
 
     final value = field.numericValue;
     if (value == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (value < 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;
@@ -526,7 +526,7 @@ class _ServiceFormState extends State<ServiceForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     return null;

@@ -9,7 +9,7 @@ import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/register.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/password_field.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -39,11 +39,11 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() {
       emailError = emailController.text.trim().isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       passwordError = passwordController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
     });
 
@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         case SessionStatus.success:
           TextInput.finishAutofillContext();
           // show the message that the user is authorized successfully.
-          SnackbarNotification.show(MessageType.success, translate('successfullyLoggedIn'));
+          SnackbarNotification.show(MessageType.success, t.successfullyLoggedIn);
           await UserManager().getCurrentUser();
 
           Widget screen = const Dashboard();
@@ -77,18 +77,18 @@ class _LoginPageState extends State<LoginPage> {
 
           break;
         case SessionStatus.locked:
-          SnackbarNotification.show(MessageType.danger, translate('accountLockedNotification'));
+          SnackbarNotification.show(MessageType.danger, t.accountLockedNotification);
           setState(() {
             showUnlockButton = true;
           });
         case SessionStatus.wrongCredentials:
           setState(() {
-            emailError = translate('wrongCredentials');
-            passwordError = translate('wrongCredentials');
+            emailError = t.wrongCredentials;
+            passwordError = t.wrongCredentials;
           });
           break;
         case SessionStatus.serverError:
-          SnackbarNotification.show(MessageType.danger, translate('serverError'));
+          SnackbarNotification.show(MessageType.danger, t.serverError);
           break;
         default:
           break;
@@ -96,15 +96,15 @@ class _LoginPageState extends State<LoginPage> {
     }
     catch (e) {
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     }
     finally {
       setState(() {
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('loginToBenzinApp')),
+        title: Text(t.loginToBenzinApp),
         actions: [
           IconButton(onPressed: () {
             Navigator.push(
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('login'),
+                t.login,
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -196,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Center(
                   child: AutoSizeText(
-                    translate('welcomeBack'),
+                    t.welcomeBack,
                     maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -227,8 +227,8 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
                 leading: const Icon(Icons.person_add_rounded),
-                title: Text(translate('dontHaveAnAccount')),
-                subtitle: Text(translate('registerToBenzinApp')),
+                title: Text(t.dontHaveAnAccount),
+                subtitle: Text(t.registerToBenzinApp),
                 trailing: const Icon(Icons.arrow_forward_ios_rounded),
               ),
 
@@ -254,8 +254,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         decoration: InputDecoration(
                           errorText: emailError,
-                          hintText: translate('emailHint'),
-                          labelText: translate('email'),
+                          hintText: t.emailHint,
+                          labelText: t.email,
                           counterText: '',
                           prefixIcon: const Icon(Icons.email),
                           border: OutlineInputBorder(
@@ -271,8 +271,8 @@ class _LoginPageState extends State<LoginPage> {
                         enabled: !isLoggingIn,
                         controller: passwordController,
                         errorText: passwordError,
-                        hintText: translate('passwordHint'),
-                        labelText: translate('password'),
+                        hintText: t.passwordHint,
+                        labelText: t.password,
                       ),
 
                 
@@ -282,7 +282,7 @@ class _LoginPageState extends State<LoginPage> {
                         Center(
                           child: FilledButton.tonalIcon(
                             icon: const Icon(Icons.lock_reset),
-                            label: Text(translate('unlockAccountButton')),
+                            label: Text(t.unlockAccountButton),
                             style: FilledButton.styleFrom(
                               backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
                               textStyle: const TextStyle(
@@ -310,7 +310,7 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: TextButton.icon(
                   icon: const Icon(Icons.password),
-                  label: Text(translate('forgotPassword')),
+                  label: Text(t.forgotPassword),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.blueAccent,
                     textStyle: const TextStyle(
@@ -332,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
               // Row(
               //   children: [
               //     Expanded(
-              //       child: AutoSizeText( maxLines: 1, "• ${translate('forgotPassword')}"),
+              //       child: AutoSizeText( maxLines: 1, "• ${t.forgotPassword}"),
               //     ),
               //     const SizedBox(width: 5),
               //     const Icon(Icons.key_off, size: 18,)

@@ -5,7 +5,7 @@ import 'package:benzinapp/services/fuel_metric_service.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/locale_string_converter.dart';
@@ -47,7 +47,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
                 children: [
                   Center(
                       child: AutoSizeText(
-                          translate('averageConsumption'),
+                          t.averageConsumption,
                           maxLines: 1,
                           maxFontSize: 25,
                           style: const TextStyle(
@@ -59,7 +59,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
                   const SizedBox(height: 15),
 
-                  Text(translate('consumption'),
+                  Text(t.consumption,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold
@@ -73,7 +73,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
                   const SizedBox(height: 10),
 
-                  Text(translate('efficiency'),
+                  Text(t.efficiency,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold
@@ -87,7 +87,7 @@ class _TotalCostCardContainerState extends State<TotalCostCardContainer> {
 
                   const SizedBox(height: 10),
 
-                  Text(translate('travel_cost'),
+                  Text(t.travel_cost,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold

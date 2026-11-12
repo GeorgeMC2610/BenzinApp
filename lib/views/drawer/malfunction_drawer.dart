@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/filters/malfunction_filter.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class MalfunctionDrawerContent extends StatefulWidget {
   const MalfunctionDrawerContent({super.key});
@@ -75,7 +75,7 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            translate('malfunctionFilters'),
+            t.malfunctionFilters,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
@@ -87,11 +87,11 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
               children: [
                 _buildFilterField(
                   controller: searchController,
-                  label: translate('searchInMalfunctions'),
+                  label: t.searchInMalfunctions,
                   icon: Icons.search,
                 ),
                 const SizedBox(height: 20),
-                Text(translate('statusFilter'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(t.statusFilter, style: const TextStyle(fontWeight: FontWeight.bold)),
                 DropdownButton<MalfunctionStatusFilter>(
                   isExpanded: true,
                   value: statusFilter,
@@ -101,13 +101,13 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
                     });
                   },
                   items: [
-                    DropdownMenuItem(value: MalfunctionStatusFilter.both, child: Text(translate('allStatuses'))),
-                    DropdownMenuItem(value: MalfunctionStatusFilter.fixed, child: Text(translate('onlyFixed'))),
-                    DropdownMenuItem(value: MalfunctionStatusFilter.unfixed, child: Text(translate('onlyUnfixed'))),
+                    DropdownMenuItem(value: MalfunctionStatusFilter.both, child: Text(t.allStatuses)),
+                    DropdownMenuItem(value: MalfunctionStatusFilter.fixed, child: Text(t.onlyFixed)),
+                    DropdownMenuItem(value: MalfunctionStatusFilter.unfixed, child: Text(t.onlyUnfixed)),
                   ],
                 ),
                 const SizedBox(height: 20),
-                Text(translate('severityFilter'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(t.severityFilter, style: const TextStyle(fontWeight: FontWeight.bold)),
                 Wrap(
                   spacing: 8.0,
                   children: List<Widget>.generate(5, (int index) {
@@ -128,7 +128,7 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
                   }),
                 ),
                 const SizedBox(height: 20),
-                Text(translate('groupBy'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(t.groupBy, style: const TextStyle(fontWeight: FontWeight.bold)),
                 DropdownButton<MalfunctionGroupBy>(
                   isExpanded: true,
                   value: groupBy,
@@ -138,9 +138,9 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
                     });
                   },
                   items: [
-                    DropdownMenuItem(value: MalfunctionGroupBy.none, child: Text(translate('groupNone'))),
-                    DropdownMenuItem(value: MalfunctionGroupBy.status, child: Text(translate('groupStatus'))),
-                    DropdownMenuItem(value: MalfunctionGroupBy.severity, child: Text(translate('groupSeverity'))),
+                    DropdownMenuItem(value: MalfunctionGroupBy.none, child: Text(t.groupNone)),
+                    DropdownMenuItem(value: MalfunctionGroupBy.status, child: Text(t.groupStatus)),
+                    DropdownMenuItem(value: MalfunctionGroupBy.severity, child: Text(t.groupSeverity)),
                   ],
                 ),
               ],
@@ -154,14 +154,14 @@ class _MalfunctionDrawerContentState extends State<MalfunctionDrawerContent> {
               Expanded(
                 child: FilledButton.tonal(
                   onPressed: _discardFilters,
-                  child: Text(translate('discard')),
+                  child: Text(t.discard),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: FilledButton(
                   onPressed: _applyFilters,
-                  child: Text(translate('apply')),
+                  child: Text(t.apply),
                 ),
               ),
             ],

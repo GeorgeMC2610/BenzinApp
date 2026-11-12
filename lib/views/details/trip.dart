@@ -8,7 +8,7 @@ import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
@@ -101,7 +101,7 @@ class _ViewTripState extends State<ViewTrip> {
     final volumeProvider = Provider.of<VolumeMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('tripData')),
+        title: Text(t.tripData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.topStart,
@@ -130,7 +130,7 @@ class _ViewTripState extends State<ViewTrip> {
                     foregroundColor: Theme.of(context).colorScheme.onSecondary,
                   ),
                   icon: const Icon(Icons.edit),
-                  label: Text(translate('edit'))
+                  label: Text(t.edit)
               ),
             ),
 
@@ -141,7 +141,7 @@ class _ViewTripState extends State<ViewTrip> {
                   onPressed: () {
                     DeleteDialog.show(
                         context,
-                        translate('confirmDeleteTrip'), // This doesn't exist?
+                        t.confirmDeleteTrips,
                             (Function(bool) setLoadingState) async {
 
                           await TripManager().delete(widget.trip);
@@ -155,7 +155,7 @@ class _ViewTripState extends State<ViewTrip> {
                     foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary),
                   ),
                   icon: const Icon(Icons.delete),
-                  label: Text(translate('delete'))
+                  label: Text(t.delete)
               ),
             )
           ],
@@ -182,7 +182,7 @@ class _ViewTripState extends State<ViewTrip> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate('tripName'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.tripName, style: SharedFontStyles.legendTextStyle),
                         Text(
                             trip.title,
                             style: SharedFontStyles.mainTextStyle
@@ -190,17 +190,17 @@ class _ViewTripState extends State<ViewTrip> {
 
                         const SizedBox(height: 20),
 
-                        Text(translate('weeklyOccurrence'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.weeklyOccurrence, style: SharedFontStyles.legendTextStyle),
                         AutoSizeText(
                             maxLines: 1,
-                            trip.timesRepeating == 1 ? translate('noRepeat') :
-                            translate('repeatingTimesPerWeek', args: {'n': trip.timesRepeating}),
+                            trip.timesRepeating == 1 ? t.noRepeat :
+                            t.repeatingTimesPerWeek(n: trip.timesRepeating),
                             style: SharedFontStyles.descriptiveTextStyle
                         ),
 
                         const SizedBox(height: 20),
 
-                        Text(translate('tripDistance'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.tripDistance, style: SharedFontStyles.legendTextStyle),
                         Text(
                           '${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(trip.totalKm))} ${distanceProvider.label}',
                           style: SharedFontStyles.descriptiveTextStyle
@@ -213,7 +213,7 @@ class _ViewTripState extends State<ViewTrip> {
 
               // === ANALYTICS PER ONE TIME === //
               DividerWithText(
-                  text: translate('analyticsPerTime'),
+                  text: t.analyticsPerTime,
                   lineColor: Colors.grey ,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 17,
@@ -236,12 +236,12 @@ class _ViewTripState extends State<ViewTrip> {
 
                         bestTripCost == null ? const Text('') : Text(
                           '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestTripCost!))} '
-                          '${translate('perTime')}',
+                          '${t.perTime}',
                           style: mainDescription(Colors.green)
                         ),
                         bestConsumption == null ? const Text('') : Text(
                           '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestConsumption!))} ${volumeProvider.label} '
-                          '${translate('perTime')}',
+                          '${t.perTime}',
                           style: legendDescription(Colors.green)
                         ),
 
@@ -249,12 +249,12 @@ class _ViewTripState extends State<ViewTrip> {
 
                         averageTripCost == null ? const Text('') : Text(
                             '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageTripCost!))} '
-                            '${translate('perTime')}',
+                            '${t.perTime}',
                             style: mainDescription(Colors.grey)
                         ),
                         averageConsumption == null ? const Text('') : Text(
                             '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageConsumption!))} ${volumeProvider.label} '
-                            '${translate('perTime')}',
+                            '${t.perTime}',
                             style: legendDescription(Colors.grey)
                         ),
 
@@ -262,12 +262,12 @@ class _ViewTripState extends State<ViewTrip> {
 
                         worstTripCost == null ? const Text('') : Text(
                             '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstTripCost!))} '
-                            '${translate('perTime')}',
+                            '${t.perTime}',
                             style: mainDescription(Colors.redAccent)
                         ),
                         worstConsumption == null ? const Text('') : Text(
                             '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstConsumption!))} ${volumeProvider.label} '
-                            '${translate('perTime')}',
+                            '${t.perTime}',
                             style: legendDescription(Colors.redAccent)
                         ),
                       ],
@@ -289,7 +289,7 @@ class _ViewTripState extends State<ViewTrip> {
                   const SizedBox(width: 10),
 
                   Expanded(
-                    child: Text(translate("bestCase")),
+                    child: Text(t.bestCase),
                   ),
                 ],
               ),
@@ -305,7 +305,7 @@ class _ViewTripState extends State<ViewTrip> {
                   const SizedBox(width: 10),
 
                   Expanded(
-                    child: Text(translate("averageCase")),
+                    child: Text(t.averageCase),
                   ),
                 ],
               ),
@@ -321,7 +321,7 @@ class _ViewTripState extends State<ViewTrip> {
                   const SizedBox(width: 10),
 
                   Expanded(
-                    child: Text(translate("worstCase")),
+                    child: Text(t.worstCase),
                   ),
                 ],
               ),
@@ -331,7 +331,7 @@ class _ViewTripState extends State<ViewTrip> {
               Column(
                 children: [
                   DividerWithText(
-                    text: translate('weeklyAnalytics'),
+                    text: t.weeklyAnalytics,
                     lineColor: Colors.grey ,
                     textColor: Theme.of(context).colorScheme.primary,
                     textSize: 17,
@@ -354,12 +354,12 @@ class _ViewTripState extends State<ViewTrip> {
                           children: [
                             bestRepeatingTripCost == null ? const Text('') : Text(
                                 '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!))} '
-                                '${translate('perWeek')}',
+                                '${t.perWeek}',
                                 style: mainDescription(Colors.green)
                             ),
                             bestRepeatingConsumption == null ? const Text('') : Text(
                                 '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestRepeatingConsumption!))} ${volumeProvider.label} '
-                                '${translate('perWeek')}',
+                                '${t.perWeek}',
                                 style: legendDescription(Colors.green)
                             ),
 
@@ -367,12 +367,12 @@ class _ViewTripState extends State<ViewTrip> {
 
                             averageRepeatingTripCost == null ? const Text('') : Text(
                                 '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!))} '
-                                    '${translate('perWeek')}',
+                                    '${t.perWeek}',
                                 style: mainDescription(Colors.grey)
                             ),
                             averageRepeatingConsumption == null ? const Text('') : Text(
                                 '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageRepeatingConsumption!))} ${volumeProvider.label} '
-                                    '${translate('perWeek')}',
+                                    '${t.perWeek}',
                                 style: legendDescription(Colors.grey)
                             ),
 
@@ -380,12 +380,12 @@ class _ViewTripState extends State<ViewTrip> {
 
                             worstRepeatingTripCost == null ? const Text('') : Text(
                                 '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!))} '
-                                    '${translate('perWeek')}',
+                                    '${t.perWeek}',
                                 style: mainDescription(Colors.redAccent)
                             ),
                             worstRepeatingConsumption == null ? const Text('') : Text(
                                 '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstRepeatingConsumption!))} ${volumeProvider.label} '
-                                    '${translate('perWeek')}',
+                                    '${t.perWeek}',
                                 style: legendDescription(Colors.redAccent)
                             ),
                           ],
@@ -397,7 +397,7 @@ class _ViewTripState extends State<ViewTrip> {
               ),
 
               DividerWithText(
-                text: translate('mapDetails'),
+                text: t.mapDetails,
                 lineColor: Colors.grey ,
                 textColor: Theme.of(context).colorScheme.primary,
                 textSize: 17,
@@ -422,7 +422,7 @@ class _ViewTripState extends State<ViewTrip> {
                         ),
                         const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.green,),
                         const SizedBox(height: 15),
-                        const Icon(FontAwesomeIcons.arrowDownLong, size: 40),
+                        const FaIcon(FontAwesomeIcons.arrowDownLong, size: 40),
                         const SizedBox(height: 20),
                         const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.red,),
                         Text(
@@ -456,7 +456,7 @@ class _ViewTripState extends State<ViewTrip> {
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Theme.of(context).colorScheme.primary
                             ),
-                            label: Text(translate('showOnMaps')),
+                            label: Text(t.showOnMaps),
                             icon: const Icon(Icons.map),
                           ),
                         )

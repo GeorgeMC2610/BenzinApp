@@ -8,7 +8,7 @@ import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 import '../../../services/language_provider.dart';
 import '../../../services/managers/user_manager.dart';
@@ -62,7 +62,7 @@ class _ServiceCardState extends State<ServiceCard> {
                 const SizedBox(height: 5),
 
                 Text(
-                  translate("nextAtKm"),
+                  t.nextAtKm,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold
                   ),
@@ -76,7 +76,7 @@ class _ServiceCardState extends State<ServiceCard> {
             children: [
               const Icon(Icons.speed, size: 17,),
               const SizedBox(width: 5),
-              Text("${translate('at')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(widget.service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}")
+              Text("${t.at} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(widget.service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}")
             ],
           ),
 
@@ -86,7 +86,7 @@ class _ServiceCardState extends State<ServiceCard> {
             children: [
               const Icon(Icons.date_range, size: 17,),
               const SizedBox(width: 5),
-              Text("${translate('before')} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}")
+              Text("${t.before} ${widget.service.nextServiceDate!.toIso8601String().substring(0, 10)}")
             ],
           ),
 
@@ -123,13 +123,13 @@ class _ServiceCardState extends State<ServiceCard> {
   delete() {
     DeleteDialog.show(
         context,
-        translate('confirmDeleteService'),
+        t.confirmDeleteService,
             (Function(bool) setLoadingState) async {
 
           await ServiceManager().delete(widget.service);
           SnackbarNotification.show(
             MessageType.info,
-            translate('successfullyDeletedService'),
+            t.successfullyDeletedService,
           );
           setLoadingState(true);
         }

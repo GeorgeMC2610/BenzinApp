@@ -13,7 +13,7 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'http://localhost:3000';
+  static const String destination = 'https://benzin-app.fly.dev';
 
 
   /// Since all these data belong to separate cars, they will have to wait
@@ -41,5 +41,5 @@ class DataHolder {
   }
 
   // TODO: Stop doxxing the key, and store it somewhere safe
-  String getPlacesApiKey() => "MAPS_API_KEY";
+  String getPlacesApiKey() => "AIzaSyAXvd2RMljTh1SlbcJmCrT_yeFY1iHOSrU";
 }

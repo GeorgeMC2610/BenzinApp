@@ -6,7 +6,7 @@ import 'package:benzinapp/services/locale_string_converter.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import '../forms/malfunction.dart';
 import '../maps/view_trip.dart';
 import '../shared/dialogs/delete_dialog.dart';
@@ -37,7 +37,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('malfunctionData')),
+        title: Text(t.malfunctionData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -66,7 +66,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                     foregroundColor: Theme.of(context).colorScheme.onSecondary,
                   ),
                   icon: const Icon(Icons.edit),
-                  label: Text(translate('edit'))
+                  label: Text(t.edit)
               ),
             ),
 
@@ -77,7 +77,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                   onPressed: () {
                     DeleteDialog.show(
                         context,
-                        translate('confirmDeleteMalfunction'),
+                        t.confirmDeleteMalfunction,
                             (Function(bool) setLoadingState) async {
 
                           await MalfunctionManager().delete(widget.malfunction);
@@ -91,7 +91,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                     foregroundColor: Theme.of(context).colorScheme.onError,
                   ),
                   icon: const Icon(Icons.delete),
-                  label: Text(translate('delete'))
+                  label: Text(t.delete)
               ),
             )
           ],
@@ -120,7 +120,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       children: [
 
                         // DATE DISCOVERED
-                        Text(translate('dateDiscovered'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.dateDiscovered, style: SharedFontStyles.legendTextStyle),
                         Text(
                             LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateStarted),
                             style: SharedFontStyles.descriptiveTextStyle
@@ -129,7 +129,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                         const SizedBox(height: 20),
 
                         // KM DISCOVERED
-                        Text(translate('kilometersDiscovered'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.kilometersDiscovered, style: SharedFontStyles.legendTextStyle),
                         Text(
                             '${
                           LocaleStringConverter.formattedBigInt(
@@ -141,11 +141,11 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                         const SizedBox(height: 20),
 
                         // STATUS (FIXED/UNFIXED)
-                        Text(translate('status'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.status, style: SharedFontStyles.legendTextStyle),
                         Text(
                             malfunction.isFixed() ?
-                            translate('fixedMalfunction') :
-                            translate('ongoingMalfunction'),
+                            t.fixedMalfunction :
+                            t.ongoingMalfunction,
                             style: TextStyle(
                               fontSize: 20.5,
                               fontWeight: FontWeight.bold,
@@ -177,12 +177,12 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate('title'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.title, style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.title, style: SharedFontStyles.descriptiveTextStyle),
 
                         const SizedBox(height: 20),
 
-                        Text(translate('description'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.description, style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.description, style: SharedFontStyles.descriptiveTextStyle),
                       ],
                     ),
@@ -204,7 +204,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate('dateFixed'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.dateFixed, style: SharedFontStyles.legendTextStyle),
                         Text(
                             LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateEnded!),
                             style: SharedFontStyles.descriptiveTextStyle
@@ -212,7 +212,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
                         const SizedBox(height: 20),
 
-                        Text(translate('locationFixed'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.locationFixed, style: SharedFontStyles.legendTextStyle),
                         Text(malfunction.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
 
                         malfunction.location == null ? const SizedBox() : ElevatedButton.icon(
@@ -227,7 +227,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
                                 )
                             );
                           },
-                          label: AutoSizeText(translate('seeOnMap'), maxLines: 1, minFontSize: 8),
+                          label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
                           icon: const Icon(Icons.pin_drop, size: 20.3,),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -236,7 +236,7 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
 
                         const SizedBox(height: 20),
 
-                        Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
+                        Text(t.cost, style: SharedFontStyles.legendTextStyle),
                         Text(
                             malfunction.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunction.cost!)),
                             style: SharedFontStyles.descriptiveTextStyle

@@ -8,7 +8,7 @@ import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
 import 'package:benzinapp/views/shared/date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import '../../services/locale_string_converter.dart';
 import '../charts/costs_pie_chart.dart';
 
@@ -37,7 +37,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: AutoSizeText(translate('combinedCosts'),
+                    child: AutoSizeText(t.combinedCosts,
                         maxLines: 1,
                         style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold)),
@@ -76,7 +76,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('fuelFills')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, fuelCost))}')
+                                '${t.fuelFills} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, fuelCost))}')
                           ],
                         ),
                         Row(
@@ -90,7 +90,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('malfunctions')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunctionCost))}')
+                                '${t.malfunctions} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunctionCost))}')
                           ],
                         ),
                         Row(
@@ -104,7 +104,7 @@ class _CostPieChartCardState extends State<CostPieChartCard> {
                                   fontSize: 25),
                             ),
                             Text(
-                                '${translate('services')} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, serviceCost))}')
+                                '${t.services} - ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, serviceCost))}')
                           ],
                         ),
                       ],

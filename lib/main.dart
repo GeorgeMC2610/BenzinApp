@@ -18,7 +18,7 @@ import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/start.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -38,17 +38,12 @@ void main() {
     final firebaseMessagingService = FirebaseMessagingService.instance();
     await firebaseMessagingService.init(localNotificationsService: localNotificationsService);
 
-    var delegate = await LocalizationDelegate.create(
-        fallbackLocale: 'en',
-        supportedLocales: ['el', 'en'],
-        preferences: LanguageProvider()
-    );
+    await LanguageProvider.restoreSavedLocale();
 
     runApp(
       OverlaySupport.global(
-          child: LocalizedApp(
-            delegate,
-            MultiProvider(
+          child: TranslationProvider(
+            child: MultiProvider(
               providers: [
                 ChangeNotifierProvider(create: (context) => LanguageProvider()),
                 ChangeNotifierProvider(create: (context) => FuelFillRecordManager()),
@@ -94,36 +89,31 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = LocalizedApp.of(context).delegate;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return LocalizationProvider(
-      state: LocalizationProvider.of(context).state,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        navigatorKey: navigatorKey,
-        title: 'BenzinApp',
-        locale: languageProvider.currentLocale,
-        themeMode: themeProvider.themeMode,
-        supportedLocales: languageProvider.supportedLocales,
-        localizationsDelegates: [
-          languageProvider,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-          useMaterial3: true,
-          brightness: Brightness.light,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
-          useMaterial3: true,
-          brightness: Brightness.dark,
-        ),
-        home: const Start(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
+      title: 'BenzinApp',
+      locale: TranslationProvider.of(context).flutterLocale,
+      themeMode: themeProvider.themeMode,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        useMaterial3: true,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      home: const Start(),
     );
   }
 

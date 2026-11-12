@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/car/claim_old_car.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class UseCaseRegister extends StatelessWidget {
   const UseCaseRegister({super.key});
@@ -11,7 +11,7 @@ class UseCaseRegister extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('welcomeUseCaseAppBar')),
+        title: Text(t.welcomeUseCaseAppBar),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -20,7 +20,7 @@ class UseCaseRegister extends StatelessWidget {
                 children: [
                   Center(
                     child: AutoSizeText(
-                      translate('welcomeUseCase'),
+                      t.welcomeUseCase,
                       minFontSize: 15,
                       maxLines: 1,
                       maxFontSize: 35,
@@ -36,7 +36,7 @@ class UseCaseRegister extends StatelessWidget {
 
                   Center(
                     child: Text(
-                      translate('welcomeUseCaseSubtitle')
+                      t.welcomeUseCaseSubtitle
                     ),
                   ),
 
@@ -64,7 +64,7 @@ class UseCaseRegister extends StatelessWidget {
                       },
                       label: AutoSizeText(
                         maxLines: 2,
-                        translate('welcomeUseCaseYesButton'),
+                        t.welcomeUseCaseYesButton,
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -99,7 +99,7 @@ class UseCaseRegister extends StatelessWidget {
                       },
                       label: AutoSizeText(
                           maxLines: 1,
-                          translate('welcomeUseCaseNoButton'),
+                          t.welcomeUseCaseNoButton,
                           style: const TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,

@@ -9,6 +9,7 @@
   "sessionEnded":          "Η σύνοδός σας έληξε. Παρακαλώ συνδεθείτε ξανά.",
   "successfullyLoggedOut": "Αποσυνδεθήκατε επιτυχώς.",
   "usernameAlreadyTaken": "Αυτό το username υπάρχει ήδη.",
+  "emailAlreadyTaken": "Αυτό το email υπάρχει ήδη.",
   "usernameBad": "Επιτρέπονται (λατινικοί) χαρακτήρες, νούμερα, παύλες και κάτω-παύλες.",
   "successfullyCreatedAccount": "Επιτυχής εγγραφή στο BenzinApp. Καλώς ορίσατε!",
   "carsNotExistingBackThen": "Συγγνώμη...; 😭",
@@ -185,6 +186,7 @@
   "confirmDeleteTrips": "Διαγραφή Διαδρομής",
   "confirmDeleteGenericBody": "Η διαγραφή είναι μόνιμη. Είστε σίγουρος;",
   "cancel": "Ακύρωση",
+  "ok": "OK",
 
   "fuelFillRecordData": "Στοιχεία Γεμίσματος",
   "unspecified":        "Άγνωστο",
@@ -487,6 +489,7 @@
   "sharedUsernameHint": "Το Username του φίλου σας...",
   "sendInvitationButton": "Αποστολή Πρόσκλησης",
   "invitationSent": "Η πρόσκληση απεστάλη στον χρήστη {user}.",
+  "invitationRejected": "Η πρόσκληση απορρίφθηκε.",
 
   "selectAccessLevel": "Επιλογή ρόλου πρόσβασης:",
   "accessModerator": "Συντονιστής (Moderator)",
@@ -532,6 +535,7 @@
   "transferCarOwnershipRetypeUsernameTitle": "Για να επιβεβαιώσετε την μεταβίβαση, γράψτε \"{username}\":",
   "transferCarOwnershipRetypeCarName": "Όνομα αμαξιού",
   "transferCarOwnershipRetypeCarNameTitle": "Τέλος, για επιβεβαίωση ξανά, γράψτε \"{carName}\":",
+  "transferCarOwnershipButton": "Μεταβίβαση Ιδιοκτησίας",
   "carTransferredSuccessfully": "Επιτυχής μεταβίβαση αμαξιού",
   "carTransferFailed": "Αποτυχής μεταβίβαση αμαξιού",
   "lastMonth": "Τελευταίος 1 μήνας",

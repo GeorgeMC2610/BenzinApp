@@ -5,7 +5,7 @@ import 'package:benzinapp/views/car/invite_user_to_car.dart';
 import 'package:benzinapp/views/car/transfer_car_ownership_screen.dart';
 import 'package:benzinapp/views/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../../services/classes/car.dart';
@@ -49,7 +49,7 @@ class CarCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  translate('addNewCar'),
+                  t.addNewCar,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
@@ -166,7 +166,7 @@ class CarCard extends StatelessWidget {
                           ),
                         ),
                         icon: const Icon(Icons.remove_red_eye, size: 17),
-                        label: AutoSizeText(translate('viewDetails'), maxLines: 1, minFontSize: 10)
+                        label: AutoSizeText(t.viewDetails, maxLines: 1, minFontSize: 10)
                     )
                   ],
                 ),
@@ -187,10 +187,7 @@ class CarCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: AutoSizeText(
-                          translate(
-                            'carMenuDetails',
-                            args: {'car': car!.username},
-                          ),
+                          t.carMenuDetails(car: car!.username),
                           maxLines: 1,
                           minFontSize: 10,
                           overflow: TextOverflow.ellipsis,
@@ -219,7 +216,7 @@ class CarCard extends StatelessWidget {
   getSharedSettings(buildContext) => [
     ListTile(
       leading: const Icon(Icons.visibility),
-      title: Text(translate('carMenuView')),
+      title: Text(t.carMenuView),
       onTap: () {
         Navigator.of(buildContext).pop();
         DataHolder().getCarData(car!.id);
@@ -232,13 +229,13 @@ class CarCard extends StatelessWidget {
     ),
     ListTile(
       leading: const Icon(Icons.logout_rounded),
-      title: Text(translate('carMenuLeaveCar')),
+      title: Text(t.carMenuLeaveCar),
       textColor: Colors.red,
       iconColor: Colors.red,
       onTap: () async {
         final invitation = CarUserInvitationManager().local!.firstWhere((inv) => inv.carUsername == car!.username);
         await CarUserInvitationManager().delete(invitation);
-        SnackbarNotification.show(MessageType.info, translate('invitationCanceled'));
+        SnackbarNotification.show(MessageType.info, t.invitationCanceled);
         Navigator.of(buildContext).pop();
       },
     ),
@@ -247,7 +244,7 @@ class CarCard extends StatelessWidget {
   getOwnedSettings(buildContext) => [
     ListTile(
       leading: const Icon(Icons.visibility),
-      title: Text(translate('carMenuView')),
+      title: Text(t.carMenuView),
       onTap: () {
         Navigator.of(buildContext).pop();
         DataHolder().getCarData(car!.id);
@@ -260,7 +257,7 @@ class CarCard extends StatelessWidget {
     ),
     ListTile(
       leading: const Icon(Icons.edit),
-      title: Text(translate('carMenuEdit')),
+      title: Text(t.carMenuEdit),
       onTap: () async {
         Navigator.of(buildContext).pop();
         Navigator.of(buildContext).push(
@@ -272,7 +269,7 @@ class CarCard extends StatelessWidget {
     ),
     ListTile(
       leading: const Icon(Icons.share),
-      title: Text(translate('carMenuShare')),
+      title: Text(t.carMenuShare),
       onTap: () {
         Navigator.of(buildContext).pop();
         Navigator.of(buildContext).push(
@@ -284,7 +281,7 @@ class CarCard extends StatelessWidget {
     ),
     ListTile(
       leading: const Icon(Icons.swap_horiz),
-      title: Text(translate('carMenuTransferOwnership')),
+      title: Text(t.carMenuTransferOwnership),
       enabled: car!.isShared,
       textColor: car!.isShared ? Colors.red : null,
       iconColor: car!.isShared ? Colors.red : null,
@@ -299,7 +296,7 @@ class CarCard extends StatelessWidget {
     ),
     ListTile(
       leading: const Icon(Icons.delete),
-      title: Text(translate('carMenuDelete')),
+      title: Text(t.carMenuDelete),
       textColor: Colors.red,
       iconColor: Colors.red,
       onTap: () {

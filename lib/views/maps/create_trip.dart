@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:benzinapp/services/data_holder.dart';
 import 'package:benzinapp/services/request_handler.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -97,7 +97,7 @@ class _CreateTripState extends State<CreateTrip> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('createTrip')),
+        title: Text(t.createTrip),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -115,7 +115,7 @@ class _CreateTripState extends State<CreateTrip> {
             Navigator.pop<Map<String, dynamic>>(context, data);
           },
           icon: const Icon(Icons.check),
-          label: Text(translate('confirmTrip')),
+          label: Text(t.confirmTrip),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
             minimumSize: const Size(200, 55),
@@ -142,8 +142,8 @@ class _CreateTripState extends State<CreateTrip> {
                     });
                   },
                   tabs: [
-                    Tab(text: translate('origin')),
-                    Tab(text: translate('destination')),
+                    Tab(text: t.origin),
+                    Tab(text: t.destination),
                   ],
                 ),
 
@@ -167,8 +167,8 @@ class _CreateTripState extends State<CreateTrip> {
                             ],
                             textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
-                              hintText: translate('searchAddressHintOrigin'),
-                              labelText: translate('searchAddress'),
+                              hintText: t.searchAddressHintOrigin,
+                              labelText: t.searchAddress,
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.0),
@@ -188,8 +188,8 @@ class _CreateTripState extends State<CreateTrip> {
                                 _addMarkerFromAddress(value, false);
                               },
                               decoration: InputDecoration(
-                                hintText: translate('searchAddressHintDestination'),
-                                labelText: translate('searchAddress'),
+                                hintText: t.searchAddressHintDestination,
+                                labelText: t.searchAddress,
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
@@ -208,7 +208,7 @@ class _CreateTripState extends State<CreateTrip> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text(translate('typeAnAddress')),
+            child: Text(t.typeAnAddress),
           ),
 
           Expanded( // Google Map should remain Expanded
@@ -277,7 +277,7 @@ class _CreateTripState extends State<CreateTrip> {
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           // TODO: Convert to new notification.
-            SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
+            SnackBar(content: Text(t.noPlacesFoundWithThisAddress)));
         return;
       }
 
@@ -309,7 +309,7 @@ class _CreateTripState extends State<CreateTrip> {
       // TODO: Convert to new notification.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(translate('noPlacesFoundWithThisAddress'))
+          content: Text(t.noPlacesFoundWithThisAddress)
         )
       );
     }
@@ -324,8 +324,8 @@ class _CreateTripState extends State<CreateTrip> {
           isOrigin ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
       visible: true,
       infoWindow: InfoWindow(title: isOrigin ?
-      translate('origin') :
-      translate('destination'),
+      t.origin :
+      t.destination,
           snippet: address
       ),
     );
@@ -357,7 +357,7 @@ class _CreateTripState extends State<CreateTrip> {
       // TODO: Convert to new notification.
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(translate('noTripsFound'))
+              content: Text(t.noTripsFound)
           )
       );
       return;

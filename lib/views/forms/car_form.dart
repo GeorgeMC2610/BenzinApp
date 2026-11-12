@@ -2,7 +2,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/shared/buttons/persistent_add_or_edit_button.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../services/classes/car.dart';
@@ -38,27 +38,27 @@ class _CarFormState extends State<CarForm> {
       currencyError = null;
 
       manufacturerError = manufacturerController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       usernameError = usernameController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       currencyError = currencyController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       modelError = modelController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       yearError = yearController.text.isEmpty?
-      translate('cannotBeEmpty') :
+      t.cannotBeEmpty :
       null;
 
       yearError ??= int.parse(yearController.text) < 1900 ?
-      translate('carsNotExistingBackThen') :
+      t.carsNotExistingBackThen :
       null;
     });
 
@@ -83,7 +83,7 @@ class _CarFormState extends State<CarForm> {
         );
 
         await CarManager().create(newCar);
-        successMessage = translate('successfullyCreatedCar');
+        successMessage = t.successfullyCreatedCar;
       }
       else {
         widget.car!.username = usernameController.text;
@@ -93,7 +93,7 @@ class _CarFormState extends State<CarForm> {
         widget.car!.currency = currencyController.text;
 
         await CarManager().update(widget.car!);
-        successMessage = translate('successfullyUpdatedCar');
+        successMessage = t.successfullyUpdatedCar;
       }
 
       if (!mounted) return;
@@ -123,15 +123,15 @@ class _CarFormState extends State<CarForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -160,7 +160,7 @@ class _CarFormState extends State<CarForm> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(widget.car == null ? translate('addCar') : translate('editCar')),
+      title: Text(widget.car == null ? t.addCar : t.editCar),
     ),
     persistentFooterAlignment: AlignmentDirectional.center,
     persistentFooterButtons: [
@@ -193,7 +193,7 @@ class _CarFormState extends State<CarForm> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        translate('tooManyCars'),
+                        t.tooManyCars,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -205,7 +205,7 @@ class _CarFormState extends State<CarForm> {
 
 
             DividerWithText(
-              text: translate('carDetails'),
+              text: t.carDetails,
               textColor: Theme.of(context).colorScheme.primary,
               textSize: 17,
               barThickness: 3,
@@ -227,8 +227,8 @@ class _CarFormState extends State<CarForm> {
                 errorMaxLines: 3,
                 counterText: '',
                 errorText: usernameError,
-                hintText: translate('carUsernameHint'),
-                labelText: translate('carUsername'),
+                hintText: t.carUsernameHint,
+                labelText: t.carUsername,
                 prefixIcon: const Icon(Icons.directions_car_outlined),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -288,8 +288,8 @@ class _CarFormState extends State<CarForm> {
                   decoration: InputDecoration(
                     errorText: manufacturerError,
                     counterText: '',
-                    hintText: translate('carManufacturerHint'),
-                    labelText: translate('carManufacturer'),
+                    hintText: t.carManufacturerHint,
+                    labelText: t.carManufacturer,
                     prefixIcon: const Icon(Icons.car_rental),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -355,8 +355,8 @@ class _CarFormState extends State<CarForm> {
                         decoration: InputDecoration(
                           errorText: modelError,
                           counterText: '',
-                          hintText: translate('carModelHint'),
-                          labelText: translate('carModel'),
+                          hintText: t.carModelHint,
+                          labelText: t.carModel,
                           prefixIcon: const Icon(Icons.car_rental_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
@@ -381,8 +381,8 @@ class _CarFormState extends State<CarForm> {
                     decoration: InputDecoration(
                       errorText: yearError,
                       counterText: '',
-                      hintText: translate('carYearHint'),
-                      labelText: translate('carYear'),
+                      hintText: t.carYearHint,
+                      labelText: t.carYear,
                       errorMaxLines: 4,
                       suffixIcon: const Icon(Icons.calendar_month),
                       border: OutlineInputBorder(
@@ -408,9 +408,9 @@ class _CarFormState extends State<CarForm> {
                     maxLength: 3,
                     decoration: InputDecoration(
                       errorText: currencyError,
-                      hintText: translate('carCurrencyHint'),
-                      labelText: translate('carCurrency'),
-                      prefixIcon: const Icon(FontAwesomeIcons.coins, size: 17),
+                      hintText: t.carCurrencyHint,
+                      labelText: t.carCurrency,
+                      prefixIcon: const FaIcon(FontAwesomeIcons.coins, size: 17),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),

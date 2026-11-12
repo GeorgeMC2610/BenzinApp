@@ -1,6 +1,6 @@
 import 'package:benzinapp/services/classes/car.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CostsPieChart extends StatelessWidget {
@@ -30,11 +30,11 @@ class CostsPieChart extends StatelessWidget {
     if (totalCost == 0) return const SizedBox();
 
     final chartData = [
-      _CostData(translate('fuelFills'), fuelFillCost,
+      _CostData(t.fuelFills, fuelFillCost,
           pieChartColors[theme]!["fuel"]!),
-      _CostData(translate('malfunctions'), malfunctionsCost,
+      _CostData(t.malfunctions, malfunctionsCost,
           pieChartColors[theme]!["malfunction"]!),
-      _CostData(translate('services'), servicesCost,
+      _CostData(t.services, servicesCost,
           pieChartColors[theme]!["service"]!),
     ].where((d) => d.value > 0).toList(); // filter out empty slices
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class PersistentAddOrEditButton extends StatelessWidget {
   const PersistentAddOrEditButton({
@@ -32,8 +32,8 @@ class PersistentAddOrEditButton extends StatelessWidget {
       ),
       label: Text(
           !isEditing ?
-          translate('confirmAdd') :
-          translate('confirmEdit')
+          t.confirmAdd :
+          t.confirmEdit
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,

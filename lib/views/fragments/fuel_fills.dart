@@ -2,7 +2,7 @@ import 'package:benzinapp/views/shared/pagination.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/views/shared/year_month_fuel_fill_groups.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
 
           AutoSizeText(
             maxLines: 1,
-            translate('noFuelFillRecords'),
+            t.noFuelFillRecords,
             style: const TextStyle(
                 fontSize: 29,
                 fontWeight: FontWeight.bold
@@ -78,15 +78,15 @@ class _FuelFillsFragmentState extends State<FuelFillsFragment> {
           // TOTAL RECORDS
           Text(
               manager.local!.length == 1 ?
-              translate('oneRecord') :
-              translate('totalRecords', args: {'totalRecords': manager.local!.length})
+              t.oneRecord :
+              t.totalRecords(totalRecords: manager.local!.length)
           ),
 
           if (manager.filter != null)
             Text(
                 manager.localOrFiltered!.length == 1 ?
-                translate('oneRecordWithFilters') :
-                translate('totalFilteredRecords', args: {'totalRecords': manager.localOrFiltered!.length})
+                t.oneRecordWithFilters :
+                t.totalFilteredRecords(totalRecords: manager.localOrFiltered!.length)
             ),
 
           YearMonthFuelFillGroups(records: pagedRecords),

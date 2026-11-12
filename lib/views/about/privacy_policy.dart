@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrivacyPolicy extends StatefulWidget {
@@ -33,7 +33,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('privacyPolicy'))
+        title: Text(t.privacyPolicy)
     ),
     body: _markdownContent.isEmpty
         ? const Center(child: CircularProgressIndicator())

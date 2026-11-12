@@ -5,7 +5,7 @@ import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ResetPasswordSecondStep extends StatefulWidget {
@@ -93,25 +93,25 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
     // null checks etc.
     if (code == null) {
       setState(() {
-        codeError = translate('emptyCode');
+        codeError = t.emptyCode;
       });
     }
 
     if (newPasswordController.text.isEmpty) {
       setState(() {
-        passwordError = translate('cannotBeEmpty');
+        passwordError = t.cannotBeEmpty;
       });
     }
 
     if (newPasswordConfirmController.text.isEmpty) {
       setState(() {
-        passwordConfirmError = translate('cannotBeEmpty');
+        passwordConfirmError = t.cannotBeEmpty;
       });
     }
 
     if (newPasswordConfirmController.text != newPasswordController.text) {
       setState(() {
-        passwordConfirmError = translate('confirmPasswordCorrectly');
+        passwordConfirmError = t.confirmPasswordCorrectly;
       });
     }
 
@@ -134,7 +134,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
     switch (result) {
       case UserPayloadStatus.passwordResetOk:
-        SnackbarNotification.show(MessageType.success, translate('forgotPasswordSuccessfullyReset'));
+        SnackbarNotification.show(MessageType.success, t.forgotPasswordSuccessfullyReset);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -144,11 +144,11 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
         break;
       case UserPayloadStatus.resetTokenWrong:
         setState(() {
-          codeError = translate('wrongCode');
+          codeError = t.wrongCode;
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -163,7 +163,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(translate('resetPasswordMenu')),
+          title: Text(t.resetPasswordMenu),
 
         ),
         persistentFooterAlignment: AlignmentDirectional.center,
@@ -179,7 +179,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 label: Text(
-                  translate('forgotPasswordFinishButton'),
+                  t.forgotPasswordFinishButton,
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black
@@ -208,7 +208,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
               children: [
                 Center(
                   child: Text(
-                    translate('forgotPasswordSecondStepTitle'),
+                    t.forgotPasswordSecondStepTitle,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.bold,
@@ -221,7 +221,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
                 Center(
                   child: Text(
-                      translate('checkYourEmail')
+                      t.checkYourEmail
                   ),
                 ),
 
@@ -229,7 +229,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
                 Center(
                   child: Text(
-                    translate('enterCode'),
+                    t.enterCode,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -273,7 +273,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
                         const SizedBox(width: 5),
 
                         Text(
-                          translate('wrongCode'),
+                          t.wrongCode,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.error,
                           ),
@@ -327,7 +327,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
                 Center(
                   child: Text(
-                    translate('forgotPasswordSecondStepEnterPassword'),
+                    t.forgotPasswordSecondStepEnterPassword,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold
                     ),
@@ -340,8 +340,8 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
                   enabled: !isLoading,
                   controller: newPasswordController,
                   errorText: passwordError,
-                  hintText: translate('forgotPasswordSecondStepPasswordHint'),
-                  labelText: translate('forgotPasswordSecondStepPasswordLabel'),
+                  hintText: t.forgotPasswordSecondStepPasswordHint,
+                  labelText: t.forgotPasswordSecondStepPasswordLabel,
                   prefixIcon: const Icon(Icons.enhanced_encryption),
                   textInputAction: TextInputAction.next,
                 ),
@@ -352,8 +352,8 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
                   enabled: !isLoading,
                   controller: newPasswordConfirmController,
                   errorText: passwordConfirmError,
-                  hintText: translate('forgotPasswordSecondStepPasswordConfirmHint'),
-                  labelText: translate('forgotPasswordSecondStepPasswordConfirmLabel'),
+                  hintText: t.forgotPasswordSecondStepPasswordConfirmHint,
+                  labelText: t.forgotPasswordSecondStepPasswordConfirmLabel,
                   prefixIcon: const Icon(Icons.enhanced_encryption_outlined),
                   textInputAction: TextInputAction.done,
                 ),

@@ -3,7 +3,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 import '../shared/notification.dart';
 
@@ -22,7 +22,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('claimCarAppBar')),
+        title: Text(t.claimCarAppBar),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -37,7 +37,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('claimCarButton'),
+                t.claimCarButton,
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -63,7 +63,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                   children: [
                     Center(
                       child: AutoSizeText(
-                        widget.fromSettings ? translate('claimCarTitleAlt') : translate('claimCarTitle'),
+                        widget.fromSettings ? t.claimCarTitleAlt : t.claimCarTitle,
                         minFontSize: 20,
                         maxLines: 1,
                         maxFontSize: 35,
@@ -77,7 +77,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
 
                     Center(
                       child: Text(
-                          widget.fromSettings ? translate('claimCarSubtitleAlt') : translate('claimCarSubtitle')
+                          widget.fromSettings ? t.claimCarSubtitleAlt : t.claimCarSubtitle
                       ),
                     ),
 
@@ -85,7 +85,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
 
                     Center(
                       child: Text(
-                        translate('enterExistingCarData'),
+                        t.enterExistingCarData,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold
                         ),
@@ -106,8 +106,8 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         errorText: usernameError,
-                        hintText: translate('usernameHint'),
-                        labelText: translate('username'),
+                        hintText: t.usernameHint,
+                        labelText: t.username,
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -122,8 +122,8 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                       enabled: !isSearching,
                       controller: passwordController,
                       errorText: passwordError,
-                      hintText: translate('passwordHint'),
-                      labelText: translate('password'),
+                      hintText: t.passwordHint,
+                      labelText: t.password,
                       onChanged: (value) {
                         setState(() {
                           passwordEmpty = value.isEmpty;
@@ -142,7 +142,7 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
                             ),
                           );
                         },
-                        title: Text(translate('claimCarBackToDashboard')),
+                        title: Text(t.claimCarBackToDashboard),
                         trailing: const Icon(Icons.arrow_forward_ios),
                         leading: const Icon(Icons.dashboard),
                       )
@@ -175,12 +175,12 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
 
       if (result != null) {
         setState(() {
-          usernameError = translate('wrongCredentials');
-          passwordError = translate('wrongCredentials');
+          usernameError = t.wrongCredentials;
+          passwordError = t.wrongCredentials;
         });
       }
       else {
-        SnackbarNotification.show(MessageType.success, translate('claimCarSuccess'));
+        SnackbarNotification.show(MessageType.success, t.claimCarSuccess);
         setState(() {
           carUsername.text = '';
           passwordController.text = '';
@@ -191,15 +191,15 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {

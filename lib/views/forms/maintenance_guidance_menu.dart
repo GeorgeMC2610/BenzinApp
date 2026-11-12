@@ -3,7 +3,7 @@ import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:benzinapp/views/forms/service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class MaintenanceGuidanceMenu extends StatelessWidget {
 
@@ -14,7 +14,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('maintenanceCategory')),
+        title: Text(t.maintenanceCategory),
       ),
       body: Center(
         child: Padding(
@@ -28,7 +28,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                 maxLines: 1,
                 maxFontSize: 30,
                 minFontSize: 12,
-                translate('selectMaintenanceType'),
+                t.selectMaintenanceType,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30
@@ -44,7 +44,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(translate('malfunction')),
+                        Text(t.malfunction),
 
                         const SizedBox(height: 10),
 
@@ -69,7 +69,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Icon(FontAwesomeIcons.carBurst, size: 45),
+                            child: const FaIcon(FontAwesomeIcons.carBurst, size: 45),
                           ),
                         ),
                       ],
@@ -81,7 +81,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(translate('service')),
+                        Text(t.service),
 
                         const SizedBox(height: 10),
 
@@ -106,7 +106,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Icon(FontAwesomeIcons.wrench, size: 40),
+                            child: const FaIcon(FontAwesomeIcons.wrench, size: 40),
                           ),
                         ),
                       ],
@@ -118,7 +118,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(translate('comingSoon')),
+                        Text(t.comingSoon),
 
                         const SizedBox(height: 10),
 
@@ -137,7 +137,7 @@ class MaintenanceGuidanceMenu extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Icon(FontAwesomeIcons.question, size: 40),
+                            child: const FaIcon(FontAwesomeIcons.question, size: 40),
                           ),
                         ),
                       ],

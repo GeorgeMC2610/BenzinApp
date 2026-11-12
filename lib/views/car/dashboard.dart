@@ -7,7 +7,7 @@ import 'package:benzinapp/views/shared/car_list.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -57,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            translate('dashboardConfirmAccount'),
+                            t.dashboardConfirmAccount,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -69,7 +69,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 DividerWithText(
-                  text: translate('dashboardMyCars'),
+                  text: t.dashboardMyCars,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16,
@@ -78,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
                 const CarList(owned: true),
                 const SizedBox(height: 15),
                 DividerWithText(
-                  text: translate('dashboardSharedWithMe'),
+                  text: t.dashboardSharedWithMe,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16,
@@ -113,7 +113,7 @@ class _DashboardState extends State<Dashboard> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: Text(translate('dashboardAppBar')),
+            title: Text(t.dashboardAppBar),
             actions: [
               Stack(
                 children: [

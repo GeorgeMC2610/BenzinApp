@@ -6,7 +6,7 @@ import 'package:benzinapp/views/maps/create_trip.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
@@ -73,7 +73,7 @@ class _TripFormState extends State<TripForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         // TODO: Convert to new notification.
           SnackBar(
-            content: Text(translate('pleaseMakeATrip')),
+            content: Text(t.pleaseMakeATrip),
           )
       );
     }
@@ -109,7 +109,7 @@ class _TripFormState extends State<TripForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyAddedTrip'),
+          t.successfullyAddedTrip,
         );
         Navigator.pop(context);
       }
@@ -135,7 +135,7 @@ class _TripFormState extends State<TripForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyUpdatedTrip'),
+          t.successfullyUpdatedTrip,
         );
 
         if (widget.isViewing) {
@@ -148,15 +148,15 @@ class _TripFormState extends State<TripForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -194,7 +194,7 @@ class _TripFormState extends State<TripForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.trip != null ? translate('editTrip') : translate('addTrip')),
+        title: Text(widget.trip != null ? t.editTrip : t.addTrip),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -212,7 +212,7 @@ class _TripFormState extends State<TripForm> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DividerWithText(
-                  text: translate('tripInfo'),
+                  text: t.tripInfo,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 16
@@ -236,9 +236,9 @@ class _TripFormState extends State<TripForm> {
                   errorText: titleError,
                   errorMaxLines: 4,
                   counterText: '',
-                  hintText: translate('tripNameHint'),
-                  labelText: translate('tripName2'),
-                  prefixIcon: const Icon(FontAwesomeIcons.tag),
+                  hintText: t.tripNameHint,
+                  labelText: t.tripName2,
+                  prefixIcon: const FaIcon(FontAwesomeIcons.tag),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -267,9 +267,9 @@ class _TripFormState extends State<TripForm> {
                       decoration: InputDecoration(
                         errorText: timesRepeatingError,
                         errorMaxLines: 4,
-                        hintText: translate('timesRepeatingHint'),
-                        labelText: translate('timesRepeating'),
-                        prefixIcon: const Icon(FontAwesomeIcons.repeat),
+                        hintText: t.timesRepeatingHint,
+                        labelText: t.timesRepeating,
+                        prefixIcon: const FaIcon(FontAwesomeIcons.repeat),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
@@ -296,7 +296,7 @@ class _TripFormState extends State<TripForm> {
                             }
                         ),
 
-                        AutoSizeText(translate('noRepeat'), maxLines: 1, maxFontSize: 19,)
+                        AutoSizeText(t.noRepeat, maxLines: 1, maxFontSize: 19,)
                       ],
                     )
                   ),
@@ -307,7 +307,7 @@ class _TripFormState extends State<TripForm> {
 
               Center(
                 child: Text(
-                  polyline == null ? translate('makeTrip') : getTripString(),
+                  polyline == null ? t.makeTrip : getTripString(),
                   style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold
@@ -355,7 +355,7 @@ class _TripFormState extends State<TripForm> {
                         });
 
                       },
-                      label: Text(translate('makeOnMaps')),
+                      label: Text(t.makeOnMaps),
                       icon: const Icon(Icons.pin_drop),
                     ),
                   ),
@@ -367,7 +367,7 @@ class _TripFormState extends State<TripForm> {
                       onPressed: _isLoading ? null : polyline == null ? null : () {
 
                         DeleteDialog.show(
-                          context, translate('deleteTrip'),
+                          context, t.deleteTrip,
                           (value) {
                             setState(() {
                               originAddress = null;
@@ -385,7 +385,7 @@ class _TripFormState extends State<TripForm> {
                         );
 
                       },
-                      label: AutoSizeText(translate('deleteTrip'), minFontSize: 10),
+                      label: AutoSizeText(t.deleteTrip, minFontSize: 10),
                       icon: const Icon(Icons.cancel_outlined),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
@@ -398,7 +398,7 @@ class _TripFormState extends State<TripForm> {
 
               totalKm == null ? const SizedBox() :
               Text(
-                "${translate('tripDistance')} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
+                "${t.tripDistance} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
                 style: Theme.of(context).textTheme.labelLarge,
               )
             ],
@@ -410,21 +410,21 @@ class _TripFormState extends State<TripForm> {
   }
 
   String getTripString() {
-    return '${translate('from')}: $originAddress\n\n ${translate('to')}: $destinationAddress';
+    return '${t.from}: $originAddress\n\n ${t.to}: $destinationAddress';
   }
 
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     if (double.tryParse(field) == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (double.parse(field) < 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;
@@ -432,7 +432,7 @@ class _TripFormState extends State<TripForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     return null;

@@ -18,7 +18,8 @@ import 'package:benzinapp/views/profile/edit_account_screen.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/services/language_provider.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/services/translation_lookup.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/theme_provider.dart';
@@ -38,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _performLogout() {
     SessionManager().logout();
-    SnackbarNotification.show(MessageType.info, translate('successfullyLoggedOut'));
+    SnackbarNotification.show(MessageType.info, t.successfullyLoggedOut);
 
     while (Navigator.canPop(context)) {
       Navigator.pop(context);
@@ -56,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('settings')),
+      title: Text(t.settings),
     ),
     body: SafeArea(
       child:  SingleChildScrollView(
@@ -67,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      translate('applicationAppearance'),
+                      t.applicationAppearance,
                       style: TextStyle(
                           fontSize: 24,
                           color: Theme.of(context).colorScheme.primary,
@@ -78,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 12),
 
                   ListTile(
-                    title: Text(translate('darkMode')),
+                    title: Text(t.darkMode),
                     trailing: Consumer<ThemeProvider>(
                       builder: (context, themeProvider, child) {
                         return Switch.adaptive(
@@ -98,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     leading: const Icon(Icons.dark_mode),
                   ),
                   ListTile(
-                    title: Text(translate('language')),
+                    title: Text(t.language),
                     subtitle: Text(
                         Provider.of<LanguageProvider>(context).currentLocale.toLanguageTag()
                     ),
@@ -107,18 +108,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     leading: const Icon(Icons.language_outlined),
                   ),
                   ListTile(
-                    title: Text(translate('distanceMetric')),
+                    title: Text(t.distanceMetric),
                     subtitle: Text(
-                        translate(Provider.of<DistanceMetricProvider>(context).translatableCode)
+                        TranslationLookup.byKey(Provider.of<DistanceMetricProvider>(context).translatableCode)!
                     ),
                     onTap: _showDistanceMetricModal,
                     trailing: const Icon(Icons.arrow_forward_ios),
                     leading: const Icon(Icons.straighten),
                   ),
                   ListTile(
-                    title: Text(translate('volumeMetric')),
+                    title: Text(t.volumeMetric),
                     subtitle: Text(
-                        translate(Provider.of<VolumeMetricProvider>(context).translatableCode)
+                        TranslationLookup.byKey(Provider.of<VolumeMetricProvider>(context).translatableCode)!
                     ),
                     onTap: _showVolumeMetricModal,
                     trailing: const Icon(Icons.arrow_forward_ios),
@@ -139,7 +140,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const SizedBox(height: 30),
 
-                  Text(translate('aboutTheApp'),
+                  Text(t.aboutTheApp,
                       style: TextStyle(
                           fontSize: 24,
                           color: Theme.of(context).colorScheme.primary,
@@ -150,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 12),
 
                   ListTile(
-                    title: Text(translate('privacyPolicy')),
+                    title: Text(t.privacyPolicy),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -163,7 +164,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     leading: const Icon(Icons.security_outlined),
                   ),
                   ListTile(
-                    title: Text(translate('termsAndConditions')),
+                    title: Text(t.termsAndConditions),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -176,7 +177,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     leading: const Icon(Icons.newspaper),
                   ),
                   ListTile(
-                    title: Text(translate('appInformation')),
+                    title: Text(t.appInformation),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -196,7 +197,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List<Widget> getNotificationOptions() => [
       Text(
-          translate('notificationSettings'),
+          t.notificationSettings,
           style: TextStyle(
               fontSize: 24,
               color: Theme.of(context).colorScheme.primary,
@@ -207,7 +208,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 12),
 
       ListTile(
-        title: Text(translate('receiveEmailNotifications')),
+        title: Text(t.receiveEmailNotifications),
         trailing: Consumer<FCMManager>(
           builder: (context, fcmManager, child) {
             return Switch.adaptive(
@@ -222,7 +223,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
 
       ListTile(
-        title: Text(translate('receivePushNotifications')),
+        title: Text(t.receivePushNotifications),
         trailing: Consumer<FCMManager>(
           builder: (context, fcmManager, child) {
             return Switch.adaptive(
@@ -244,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 30),
 
       Text(
-          translate('carOptions'),
+          t.carOptions,
           style: TextStyle(
               fontSize: 24,
               color: Theme.of(context).colorScheme.primary,
@@ -255,7 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 12),
 
       ListTile(
-        title: Text(translate('inviteUserToCar')),
+        title: Text(t.inviteUserToCar),
         enabled: UserManager().currentUser?.confirmedAt != null,
         onTap: () {
           Navigator.push(
@@ -270,7 +271,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
 
       ListTile(
-        title: Text(translate('transferOwnership'), style: TextStyle(
+        title: Text(t.transferOwnership, style: TextStyle(
             color: !isConfirmed ? null : const Color.fromARGB(255, 200, 0, 0))
         ),
         enabled: UserManager().currentUser?.confirmedAt != null,
@@ -287,7 +288,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
 
       ListTile(
-        title: Text(translate('deleteCar'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        title: Text(t.deleteCar, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
         leading: const Icon(Icons.car_crash, color: Color.fromARGB(255, 200, 0, 0)),
         onTap: () {
@@ -309,7 +310,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 30),
 
       Text(
-          translate('accountSettings'),
+          t.accountSettings,
           style: TextStyle(
               fontSize: 24,
               color: Theme.of(context).colorScheme.primary,
@@ -320,7 +321,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const SizedBox(height: 12),
 
       ListTile(
-        title: Text(translate('editAccount')),
+        title: Text(t.editAccount),
         enabled: true,
         onTap: () {
           Navigator.push(
@@ -336,7 +337,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       if (isConfirmed)
         ListTile(
-          title: Text(translate('invitations')),
+          title: Text(t.invitations),
           enabled: true,
           onTap: () {
             Navigator.push(
@@ -352,7 +353,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       if (isConfirmed)
         ListTile(
-          title: Text(translate('claimCarSettings')),
+          title: Text(t.claimCarSettings),
           enabled: true,
           onTap: () {
             Navigator.push(
@@ -368,7 +369,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       if (!isConfirmed)
         ListTile(
-          title: Text(translate('confirmAccount')),
+          title: Text(t.confirmAccount),
           enabled: true,
           onTap: () {
             Navigator.push(
@@ -383,14 +384,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
 
       ListTile(
-        title: Text(translate('logout'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        title: Text(t.logout, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
         leading: const Icon(Icons.logout, color: Color.fromARGB(255, 200, 0, 0)),
         onTap: _performLogout,
       ),
 
       ListTile(
-        title: Text(translate('deleteAccount'), style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
+        title: Text(t.deleteAccount, style: const TextStyle(color: Color.fromARGB(255, 200, 0, 0))),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 200, 0, 0)),
         leading: const Icon(Icons.person_remove, color: Color.fromARGB(255, 200, 0, 0)),
         onTap: () {
@@ -410,14 +411,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(translate('distanceMetric')),
+          title: Text(t.distanceMetric),
           content: Consumer<DistanceMetricProvider>(
             builder: (context, distanceMetricProvider, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildDistanceMetricOption(context, translate('kilometersSetting'), DistanceMetric.kilometers),
-                  _buildDistanceMetricOption(context, translate('milesSetting'), DistanceMetric.miles),
+                  _buildDistanceMetricOption(context, t.kilometersSetting, DistanceMetric.kilometers),
+                  _buildDistanceMetricOption(context, t.milesSetting, DistanceMetric.miles),
                 ],
               );
             },
@@ -425,7 +426,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(translate("cancel")),
+              child: Text(t.cancel),
             ),
           ],
         );
@@ -453,14 +454,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(translate('volumeMetric')),
+          title: Text(t.volumeMetric),
           content: Consumer<VolumeMetricProvider>(
             builder: (context, volumeMetricProvider, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildVolumeMetricOption(context, translate('litersSetting'), VolumeMetric.liters),
-                  _buildVolumeMetricOption(context, translate('gallonsSetting'), VolumeMetric.gallons),
+                  _buildVolumeMetricOption(context, t.litersSetting, VolumeMetric.liters),
+                  _buildVolumeMetricOption(context, t.gallonsSetting, VolumeMetric.gallons),
                 ],
               );
             },
@@ -468,7 +469,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(translate("cancel")),
+              child: Text(t.cancel),
             ),
           ],
         );
@@ -525,10 +526,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: Text(title),
       value: locale,
       groupValue: languageProvider.currentLocale,
-      onChanged: (Locale? value) async {
+      onChanged: (Locale? value) {
         if (value != null) {
           languageProvider.changeLocale(value);
-          await changeLocale(context, value.languageCode);
           Navigator.pop(context); // Close modal after selection
         }
       },

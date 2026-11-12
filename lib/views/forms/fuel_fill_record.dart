@@ -14,7 +14,7 @@ import 'package:benzinapp/views/shared/dual_numeric_up_down_form.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class FuelFillRecordForm extends StatefulWidget {
   const FuelFillRecordForm({super.key, this.fuelFillRecord, this.viewingRecord = false});
@@ -190,8 +190,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           widget.fuelFillRecord == null?
-          translate('addFuelFillRecord') :
-          translate('editFuelFillRecord')
+          t.addFuelFillRecord :
+          t.editFuelFillRecord
         ),
       ),
       body: SingleChildScrollView(
@@ -201,7 +201,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DividerWithText(
-                  text: translate('requiredInfo'),
+                  text: t.requiredInfo,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 13
@@ -213,14 +213,14 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 controller1: _mileageController,
                 controller2: _totalMileageController,
                 hint: Hint.odometer.widget,
-                title: translate('mileageTitle'),
+                title: t.mileageTitle,
                 error1: mileageError,
                 quickValues: const [-100, -50, -5, -1, 1, 10, 50, 100, 500, 1000],
                 syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
                 showUpDownButtons: false,
                 icon: const Icon(Icons.speed, size: 40),
-                fieldTitle1: '${translate('mileage')} (${distanceProvider.label}) *',
-                fieldTitle2: '${translate('totalMileage')} (${distanceProvider.label})',
+                fieldTitle1: '${t.mileage} (${distanceProvider.label}) *',
+                fieldTitle2: '${t.totalMileage} (${distanceProvider.label})',
               ),
 
               NumericUpDownForm(
@@ -229,7 +229,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 showUpDownButtons: true,
                 upAndDownButtonValue: 0.001,
                 onChanged: (_) => _calculateFuelFields('price'),
-                title: translate('costPerVolume'),
+                title: t.costPerVolume,
                 metric: '${CarManager().watchingCar!.currency}/${volumeProvider.label}.',
                 icon: const Icon(Icons.price_change, size: 40),
                 quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
@@ -238,7 +238,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               DualNumericUpDownForm(
                 controller1: _costController,
                 controller2: _literController,
-                title: translate('fuelFillInfo'),
+                title: t.fuelFillInfo,
                 hint: Hint.ffrStats.widget,
                 quickValues: const [-5, -1, -0.1, -0.01, 0.01, 0.1, 1, 5, 10, 50],
                 showUpDownButtons: false,
@@ -248,8 +248,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 onController1Changed: (_) => _calculateFuelFields('cost'),
                 onController2Changed: (_) => _calculateFuelFields('liters'),
                 icon: const Icon(Icons.gas_meter_outlined, size: 40),
-                fieldTitle1: '${translate('cost')} *',
-                fieldTitle2: '${translate('liters')} (${volumeProvider.label}) *',
+                fieldTitle1: '${t.cost} *',
+                fieldTitle2: '${t.liters} (${volumeProvider.label}) *',
               ),
 
               const SizedBox(height: 30),
@@ -258,7 +258,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 child: AutoSizeText(
                   maxLines: 1,
                   _selectedDate == null ?
-                  translate('selectADate') :
+                  t.selectADate :
                   LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
                   style: const TextStyle(
                       fontSize: 30,
@@ -284,7 +284,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           });
                         }
                       },
-                      label: Text(translate('pickADate')),
+                      label: Text(t.pickADate),
                       icon: const Icon(Icons.date_range),
                     ),
                   ),
@@ -298,7 +298,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           _selectedDate = DateTime.now();
                         });
                       },
-                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
+                      label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
                       icon: const Icon(Icons.more_time_rounded),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -312,7 +312,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
               const SizedBox(height: 15),
 
               DividerWithText(
-                  text: translate('optionalInfo'),
+                  text: t.optionalInfo,
                   lineColor: Colors.grey,
                   textColor: Theme.of(context).colorScheme.primary,
                   textSize: 13
@@ -344,10 +344,10 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           keyboardType: TextInputType.text,
                           maxLength: 50,
                           decoration: InputDecoration(
-                            hintText: translate('fuelTypeHint'),
+                            hintText: t.fuelTypeHint,
                             errorMaxLines: 4,
                             counterText: '',
-                            labelText: translate('fuelType'),
+                            labelText: t.fuelType,
                             errorText: fuelTypeError,
                             prefixIcon: const Icon(Icons.gas_meter),
                             border: OutlineInputBorder(
@@ -388,8 +388,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                           keyboardType: TextInputType.text,
                           maxLength: 50,
                           decoration: InputDecoration(
-                            hintText: translate('stationHint'),
-                            labelText: translate('station'),
+                            hintText: t.stationHint,
+                            labelText: t.station,
                             errorText: stationError,
                             errorMaxLines: 4,
                             counterText: '',
@@ -425,8 +425,8 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
                 maxLines: 10,
                 maxLength: 2048,
                 decoration: InputDecoration(
-                  hintText: translate('commentsHint'),
-                  labelText: translate('comments2'),
+                  hintText: t.commentsHint,
+                  labelText: t.comments2,
                   errorText: commentsError,
                   errorMaxLines: 4,
                   prefixIcon: const Icon(Icons.comment),
@@ -468,7 +468,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         // TODO: Convert to new notification.
           SnackBar(
-            content: Text(translate('noDateSelected')),
+            content: Text(t.noDateSelected),
           )
       );
     }
@@ -519,7 +519,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyAddedFuelFill'),
+          t.successfullyAddedFuelFill,
         );
         Navigator.pop(context);
       }
@@ -544,7 +544,7 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyUpdatedFuelFill'),
+          t.successfullyUpdatedFuelFill,
         );
 
         Navigator.pop(
@@ -555,15 +555,15 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -601,16 +601,16 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
 
   String? _validator(NumericTextController field) {
     if (field.text.isEmpty) {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     final value = field.numericValue;
     if (value == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (value <= 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;

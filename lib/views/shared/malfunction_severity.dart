@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 /// Labels, colors and icons for a malfunction's severity (1 = lowest, 5 = highest).
 class MalfunctionSeverity {
 
   static String label(int severity) => switch (severity) {
-    1 => translate('severityLowest'),
-    2 => translate('severityLow'),
-    3 => translate('severityNormal'),
-    4 => translate('severityHigh'),
-    _ => translate('severityHighest'),
+    1 => t.severityLowest,
+    2 => t.severityLow,
+    3 => t.severityNormal,
+    4 => t.severityHigh,
+    _ => t.severityHighest,
   };
 
   static Color color(int severity) => switch (severity) {

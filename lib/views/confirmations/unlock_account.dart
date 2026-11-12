@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../services/managers/user_manager.dart';
@@ -78,10 +78,10 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
         _startTimer();
         break;
       case UserPayloadStatus.unlockTokenEarly:
-        SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));
+        SnackbarNotification.show(MessageType.alert, t.confirmAccountPleaseWait);
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
+        SnackbarNotification.show(MessageType.danger, t.confirmAccountSomethingElseWentWrong);
         break;
     }
   }
@@ -113,7 +113,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
 
     switch (result) {
       case UserPayloadStatus.unlockSuccess:
-        SnackbarNotification.show(MessageType.success, translate('unlockAccountSuccess'));
+        SnackbarNotification.show(MessageType.success, t.unlockAccountSuccess);
         Navigator.pushReplacement(context, MaterialPageRoute(
             builder: (context) => const LoginPage()
         ));
@@ -124,7 +124,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -133,7 +133,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('unlockAccount')),
+      title: Text(t.unlockAccount),
     ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -148,7 +148,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('confirmButton'),
+                t.confirmButton,
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -174,7 +174,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
           children: [
             Center(
               child: AutoSizeText(
-                translate('unlockAccountTitle'),
+                t.unlockAccountTitle,
                 maxLines: 1,
                 minFontSize: 20,
                 maxFontSize: 35,
@@ -190,7 +190,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
 
             Center(
               child: Text(
-                  translate('checkYourEmail')
+                  t.checkYourEmail
               ),
             ),
 
@@ -198,7 +198,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
 
             Center(
               child: Text(
-                translate('enterCode'),
+                t.enterCode,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold
                 ),
@@ -247,7 +247,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
                     const SizedBox(width: 5),
 
                     Text(
-                      translate('wrongCode'),
+                      t.wrongCode,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
@@ -290,7 +290,7 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
                   child: FilledButton.icon(
                     onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
                     icon: const Icon(Icons.refresh),
-                    label: Text(translate('resendButton')),
+                    label: Text(t.resendButton),
                   ),
                 )
               ],

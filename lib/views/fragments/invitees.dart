@@ -5,7 +5,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/shared/dialogs/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
           const Icon(Icons.mail_outlined, size: 150,),
           AutoSizeText(
             maxLines: 1,
-            translate('noInvitations'),
+            t.noInvitations,
             style: const TextStyle(
                 fontSize: 29,
                 fontWeight: FontWeight.bold
@@ -116,7 +116,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          translate('sentAt', args: { 'date': DateFormat.yMMMd().add_Hm().format(invitation.createdAt)} ),
+                          t.sentAt(date: DateFormat.yMMMd().add_Hm().format(invitation.createdAt)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
@@ -130,7 +130,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
               ),
             ),
             IconButton(
-              tooltip: accepted ? translate('revoke') : translate('cancel'),
+              tooltip: accepted ? t.revoke : t.cancel,
               color: scheme.error,
               icon: Icon(accepted ? Icons.person_remove_outlined : Icons.close),
               onPressed: () => _confirmRemoval(invitation),
@@ -156,7 +156,7 @@ class _InviteesFragmentState extends State<InviteesFragment> {
           Icon(accepted ? Icons.check_circle_outline : Icons.hourglass_empty, size: 14, color: color),
           const SizedBox(width: 6),
           Text(
-            accepted ? translate('accepted') : translate('pending'),
+            accepted ? t.accepted : t.pending,
             style: Theme.of(context).textTheme.labelMedium?.copyWith(color: color, fontWeight: FontWeight.w600),
           ),
         ],
@@ -167,10 +167,10 @@ class _InviteesFragmentState extends State<InviteesFragment> {
   void _confirmRemoval(CarUserInvitation invitation) {
     ConfirmationDialog.show(
       context,
-      invitation.isAccepted ? translate('revokeInvitation') : translate('cancelInvitation'),
+      invitation.isAccepted ? t.revokeInvitation : t.cancelInvitation,
       invitation.isAccepted
-          ? translate('areYouSureYouWantToRevokeAccess', args: {'car': invitation.carUsername, 'user': invitation.recipientUsername})
-          : translate('areYouSureYouWantToCancelInvitationForThisUser', args: {'car': invitation.carUsername, 'user': invitation.recipientUsername}),
+          ? t.areYouSureYouWantToRevokeAccess(car: invitation.carUsername, user: invitation.recipientUsername)
+          : t.areYouSureYouWantToCancelInvitationForThisUser(car: invitation.carUsername, user: invitation.recipientUsername),
       (confirmed) async {
         if (confirmed) {
           await CarUserInvitationManager().delete(invitation);

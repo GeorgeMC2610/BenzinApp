@@ -4,7 +4,7 @@ import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
@@ -32,7 +32,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('deleteAccountAppBar')),
+        title: Text(t.deleteAccountAppBar),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -47,7 +47,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
               label: Text(
-                translate('deleteAccountButton'),
+                t.deleteAccountButton,
                 style: TextStyle(
                     fontSize: 18,
                     color: buttonLocked()
@@ -77,7 +77,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             children: [
               Center(
                 child: AutoSizeText(
-                  translate('deleteAccountTitle'),
+                  t.deleteAccountTitle,
                   minFontSize: 20,
                   maxLines: 1,
                   maxFontSize: 35,
@@ -90,7 +90,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               ),
               Center(
                 child: Text(
-                  translate('deleteAccountSubtitle'),
+                  t.deleteAccountSubtitle,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -112,7 +112,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        translate('deleteAccountWarning'),
+                        t.deleteAccountWarning,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -124,7 +124,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               const SizedBox(height: 30),
               Center(
                 child: AutoSizeText(
-                  translate('deleteAccountDangerZone'),
+                  t.deleteAccountDangerZone,
                   minFontSize: 20,
                   maxLines: 1,
                   maxFontSize: 25,
@@ -138,7 +138,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               const SizedBox(height: 15),
               Center(
                 child: Text(
-                  translate('deleteAccountRetypeUsernameTitle', args: {'username': UserManager().currentUser!.username}),
+                  t.deleteAccountRetypeUsernameTitle(username: UserManager().currentUser!.username),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.error,
@@ -155,7 +155,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: translate('deleteAccountRetypeUsername'),
+                  labelText: t.deleteAccountRetypeUsername,
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -165,7 +165,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               const SizedBox(height: 25),
               Center(
                 child: Text(
-                  translate('deleteAccountRetypePasswordTitle'),
+                  t.deleteAccountRetypePasswordTitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.error,
@@ -180,7 +180,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                   setState(() {});
                 },
                 textInputAction: TextInputAction.done,
-                labelText: translate('deleteAccountRetypePassword'),
+                labelText: t.deleteAccountRetypePassword,
                 prefixIcon: const Icon(Icons.password),
               ),
             ],
@@ -205,17 +205,17 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
       final result = await UserManager().deleteAccount(_userNameController.text, _passwordController.text);
       if (result && mounted) {
         SnackbarNotification.show(MessageType.success,
-            translate('accountDeletedSuccessfully'));
+            t.accountDeletedSuccessfully);
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const LoginPage()),
             (Route<dynamic> route) => false);
       } else {
         SnackbarNotification.show(
-          MessageType.danger, translate('accountDeletionFailed'));
+          MessageType.danger, t.accountDeletionFailed);
       }
     } catch (e) {
       SnackbarNotification.show(
-          MessageType.danger, translate('accountDeletionFailed'));
+          MessageType.danger, t.accountDeletionFailed);
     } finally {
       if (mounted) {
         setState(() {

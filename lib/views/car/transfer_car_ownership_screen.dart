@@ -6,7 +6,7 @@ import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class TransferCarOwnershipScreen extends StatefulWidget {
   const TransferCarOwnershipScreen({super.key, required this.car});
@@ -37,7 +37,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('transferCarOwnershipAppBar')),
+        title: Text(t.transferCarOwnershipAppBar),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -52,7 +52,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
               label: Text(
-                translate('transferCarOwnershipButton'),
+                t.transferCarOwnershipButton,
                 style: TextStyle(
                     fontSize: 18,
                     color: buttonLocked()
@@ -82,7 +82,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
             children: [
               Center(
                 child: AutoSizeText(
-                  translate('transferCarOwnershipTitle'),
+                  t.transferCarOwnershipTitle,
                   minFontSize: 20,
                   maxLines: 1,
                   maxFontSize: 35,
@@ -95,7 +95,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
               ),
               Center(
                 child: Text(
-                  translate('transferCarOwnershipSubtitle'),
+                  t.transferCarOwnershipSubtitle,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -117,7 +117,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        translate('transferCarOwnershipWarning'),
+                        t.transferCarOwnershipWarning,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -129,14 +129,14 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
               const SizedBox(height: 30),
               Center(
                 child: Text(
-                  translate('transferCarOwnershipSelectUserTitle'),
+                  t.transferCarOwnershipSelectUserTitle,
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 15),
               DropdownButtonFormField<CarUserInvitation>(
                 decoration: InputDecoration(
-                  labelText: translate('transferCarOwnershipSelectUser'),
+                  labelText: t.transferCarOwnershipSelectUser,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -172,7 +172,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     const SizedBox(height: 30),
                     Center(
                       child: AutoSizeText(
-                        translate('transferCarOwnershipDangerZone'),
+                        t.transferCarOwnershipDangerZone,
                         minFontSize: 20,
                         maxLines: 1,
                         maxFontSize: 25,
@@ -186,7 +186,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     const SizedBox(height: 15),
                     Center(
                       child: Text(
-                        translate('transferCarOwnershipRetypeUsernameTitle', args: { 'username': _selectedInvitation!.recipientUsername }),
+                        t.transferCarOwnershipRetypeUsernameTitle(username: _selectedInvitation!.recipientUsername),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
@@ -207,7 +207,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: _selectedInvitation!.recipientUsername,
-                        labelText: translate('transferCarOwnershipRetypeUsername'),
+                        labelText: t.transferCarOwnershipRetypeUsername,
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -217,7 +217,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                     const SizedBox(height: 25),
                     Center(
                       child: Text(
-                        translate('transferCarOwnershipRetypeCarNameTitle', args: { 'carName': _selectedInvitation!.carUsername }),
+                        t.transferCarOwnershipRetypeCarNameTitle(carName: _selectedInvitation!.carUsername),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
@@ -238,7 +238,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         hintText: widget.car.username,
-                        labelText: translate('transferCarOwnershipRetypeCarName'),
+                        labelText: t.transferCarOwnershipRetypeCarName,
                         prefixIcon: const Icon(Icons.directions_car),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -270,7 +270,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
       if (mounted) {
         if (CarManager().errors.isEmpty) {
           SnackbarNotification.show(MessageType.success,
-              translate('carTransferredSuccessfully'));
+              t.carTransferredSuccessfully);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const Dashboard()),
                   (Route<dynamic> route) => false);
@@ -288,7 +288,7 @@ class _TransferCarOwnershipScreenState extends State<TransferCarOwnershipScreen>
       }
     } catch (e) {
       SnackbarNotification.show(
-          MessageType.danger, translate('carTransferFailed'));
+          MessageType.danger, t.carTransferFailed);
     } finally {
       if (mounted) {
         setState(() {

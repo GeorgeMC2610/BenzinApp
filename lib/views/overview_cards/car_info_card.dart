@@ -6,7 +6,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -132,7 +132,7 @@ class _CarInfoCardState extends State<CarInfoCard> {
                       "${CarManager().watchingCar!.toCurrency(
                       lastRecord!.cost.toStringAsFixed(2))}"
                   ),
-                  leading: const Icon(FontAwesomeIcons.gasPump),
+                  leading: const FaIcon(FontAwesomeIcons.gasPump),
                 ) :
                 const SizedBox(),
 
@@ -146,37 +146,37 @@ class _CarInfoCardState extends State<CarInfoCard> {
                     lastService!) : const SizedBox(),
 
                 // const StatusCard(
-                //     icon: Icon(FontAwesomeIcons.carBattery),
+                //     icon: FaIcon(FontAwesomeIcons.carBattery),
                 //     text: "Battery changed 2 and a half years ago",
                 //     status: StatusCardIndex.bad
                 // ),
                 //
                 // const StatusCard(
-                //     icon: Icon(FontAwesomeIcons.drumSteelpan),
+                //     icon: FaIcon(FontAwesomeIcons.drumSteelpan),
                 //     text: "Tyres changed two months ago",
                 //     status: StatusCardIndex.good
                 // ),
                 //
                 // const StatusCard(
-                //     icon: Icon(FontAwesomeIcons.shower),
+                //     icon: FaIcon(FontAwesomeIcons.shower),
                 //     text: "Last car wash 1 month ago",
                 //     status: StatusCardIndex.good
                 // ),
                 //
                 // const StatusCard(
-                //     icon: Icon(FontAwesomeIcons.fileContract),
+                //     icon: FaIcon(FontAwesomeIcons.fileContract),
                 //     text: "Governmental check-up (KTEO) in 2 years",
                 //     status: StatusCardIndex.good
                 // ),
                 //
                 // const StatusCard(
-                //     icon: Icon(FontAwesomeIcons.idCard),
+                //     icon: FaIcon(FontAwesomeIcons.idCard),
                 //     text: "Gas card in 1 years",
                 //     status: StatusCardIndex.good
                 // ),
                 //
                 // const StatusCard(
-                //   icon: Icon(FontAwesomeIcons.wifi),
+                //   icon: FaIcon(FontAwesomeIcons.wifi),
                 //   text: "e-PASS is low on money",
                 //   status: StatusCardIndex.warning
                 // )
@@ -201,19 +201,19 @@ class _CarInfoCardState extends State<CarInfoCard> {
     var difference = record.dateTime.difference(DateTime.now());
 
     if (difference.inDays > 0) {
-      return translate('youPlannedYourFuelFill');
+      return t.youPlannedYourFuelFill;
     }
     else if (difference.inDays == 0) {
-      return translate('lastFilledToday');
+      return t.lastFilledToday;
     }
     else if (difference.inDays == -1) {
-      return translate('lastFilledYesterday');
+      return t.lastFilledYesterday;
     }
     else if (difference.inDays >= -30) {
-      return translate('lastFilledDaysAgo', args: {'amountOfDays': difference.inDays.abs()});
+      return t.lastFilledDaysAgo(amountOfDays: difference.inDays.abs());
     }
     else {
-      return translate('lastFilledAtDate', args: {'date': record.dateTime.toString().substring(0, 10)});
+      return t.lastFilledAtDate(date: record.dateTime.toString().substring(0, 10));
     }
 
   }
@@ -222,8 +222,8 @@ class _CarInfoCardState extends State<CarInfoCard> {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context, listen: false);
     if (mostRecentTotalKilometers == null) {
       return StatusCard(
-          icon: const Icon(FontAwesomeIcons.wrench),
-          text: '${translate('nextServiceAt')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(lastService.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
+          icon: const FaIcon(FontAwesomeIcons.wrench),
+          text: '${t.nextServiceAt} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(lastService.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
           status: StatusCardIndex.warning
       );
     }
@@ -234,36 +234,24 @@ class _CarInfoCardState extends State<CarInfoCard> {
     var convertedDifference = distanceProvider.convert(difference.toDouble()).toInt();
 
     if (difference < 0) {
-      message = translate('serviceOverdueInKm', args: {
-        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference.abs()),
-        'unit': distanceProvider.label
-      });
+      message = t.serviceOverdueInKm(amount: LocaleStringConverter.formattedBigInt(context, convertedDifference.abs()), unit: distanceProvider.label);
       status = StatusCardIndex.bad;
     }
     else if (difference < 200) {
-      message = translate('nextServiceInKm', args: {
-        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
-        'unit': distanceProvider.label
-      });
+      message = t.nextServiceInKm(amount: LocaleStringConverter.formattedBigInt(context, convertedDifference), unit: distanceProvider.label);
       status = StatusCardIndex.bad;
     }
     else if (difference < 600) {
-      message = translate('nextServiceInKm', args: {
-        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
-        'unit': distanceProvider.label
-      });
+      message = t.nextServiceInKm(amount: LocaleStringConverter.formattedBigInt(context, convertedDifference), unit: distanceProvider.label);
       status = StatusCardIndex.warning;
     }
     else {
-      message = translate('nextServiceInKm', args: {
-        'amount': LocaleStringConverter.formattedBigInt(context, convertedDifference),
-        'unit': distanceProvider.label
-      });
+      message = t.nextServiceInKm(amount: LocaleStringConverter.formattedBigInt(context, convertedDifference), unit: distanceProvider.label);
       status = StatusCardIndex.good;
     }
 
     return StatusCard(
-        icon: const Icon(FontAwesomeIcons.wrench),
+        icon: const FaIcon(FontAwesomeIcons.wrench),
         text: message,
         status: status
     );
@@ -275,32 +263,32 @@ class _CarInfoCardState extends State<CarInfoCard> {
     StatusCardIndex index;
 
     if (difference.inDays < 0) {
-      message = translate('serviceOverdueInDays', args: {'amount': difference.inDays.abs()});
+      message = t.serviceOverdueInDays(amount: difference.inDays.abs());
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 1) {
-      message = translate('serviceDueToday');
+      message = t.serviceDueToday;
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 2) {
-      message = translate('serviceDueTomorrow');
+      message = t.serviceDueTomorrow;
       index = StatusCardIndex.bad;
     }
     else if (difference.inDays < 30) {
-      message = translate('serviceDueInDays', args: {'amount': difference.inDays});
+      message = t.serviceDueInDays(amount: difference.inDays);
       index = StatusCardIndex.warning;
     }
     else if (difference.inDays < 365) {
-      message = translate('serviceDueInMonths', args: {'amount': difference.inDays~/30});
+      message = t.serviceDueInMonths(amount: difference.inDays~/30);
       index = StatusCardIndex.good;
     }
     else {
-      message = translate('serviceDueInDateTime', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!)});
+      message = t.serviceDueInDateTime(date: LocaleStringConverter.dateShortDayMonthYearString(context, lastService.nextServiceDate!));
       index = StatusCardIndex.good;
     }
 
     return StatusCard(
-      icon: const Icon(FontAwesomeIcons.calendar),
+      icon: const FaIcon(FontAwesomeIcons.calendar),
       text: message,
       status: index,
     );

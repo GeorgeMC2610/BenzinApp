@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../services/managers/user_manager.dart';
@@ -107,16 +107,16 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         _startTimer();
         break;
       case UserPayloadStatus.confirmTokenEarly:
-        SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));
+        SnackbarNotification.show(MessageType.alert, t.confirmAccountPleaseWait);
         break;
       case UserPayloadStatus.confirmedAlready:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountAlreadyConfirmed'));
+        SnackbarNotification.show(MessageType.success, t.confirmAccountAlreadyConfirmed);
         Navigator.pushReplacement(context, MaterialPageRoute(
             builder: (context) => const Dashboard()
         ));
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
+        SnackbarNotification.show(MessageType.danger, t.confirmAccountSomethingElseWentWrong);
         break;
     }
   }
@@ -148,7 +148,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
     switch (result) {
       case UserPayloadStatus.confirmedOk:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountOkay'));
+        SnackbarNotification.show(MessageType.success, t.confirmAccountOkay);
         Widget redirectScreen = widget.fromRegister ? const UseCaseRegister() : const Dashboard();
 
         Navigator.pushReplacement(context, MaterialPageRoute(
@@ -161,7 +161,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -170,7 +170,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('confirmAccount')),
+      title: Text(t.confirmAccount),
     ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -185,7 +185,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('confirmButton'),
+                t.confirmButton,
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -211,7 +211,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           children: [
             Center(
               child: AutoSizeText(
-                translate('confirmAccountTitle'),
+                t.confirmAccountTitle,
                 maxLines: 1,
                 minFontSize: 20,
                 maxFontSize: 35,
@@ -227,7 +227,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
             Center(
               child: Text(
-                  translate('checkYourEmail')
+                  t.checkYourEmail
               ),
             ),
 
@@ -235,7 +235,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
             Center(
               child: Text(
-                translate('enterCode'),
+                t.enterCode,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold
                 ),
@@ -284,7 +284,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                     const SizedBox(width: 5),
 
                     Text(
-                      translate('wrongCode'),
+                      t.wrongCode,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
@@ -327,7 +327,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                   child: FilledButton.icon(
                     onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
                     icon: const Icon(Icons.refresh),
-                    label: Text(translate('resendButton')),
+                    label: Text(t.resendButton),
                   ),
                 )
               ],
@@ -345,7 +345,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                     ));
                   },
                   child: Text(
-                    translate('skipVerification'),
+                    t.skipVerification,
                     style: const TextStyle(
                         fontSize: 16,
                         color: Colors.blue,
@@ -363,7 +363,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 onTap: skipModal,
                 leading: const Icon(Icons.question_mark_rounded),
                 title: AutoSizeText(
-                  translate('skipConsequences'),
+                  t.skipConsequences,
                 ),
                 trailing: const Icon(Icons.keyboard_arrow_down),
               )
@@ -388,7 +388,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             children: [
               Center(
                 child: Text(
-                  translate("skipConsequencesTitle1"),
+                  t.skipConsequencesTitle1,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -397,12 +397,12 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
               ),
               const SizedBox(height: 20),
               Text(
-                translate("skipConsequencesText1"),
+                t.skipConsequencesText1,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 15),
               Text(
-                translate("skipConsequencesText2"),
+                t.skipConsequencesText2,
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             ],

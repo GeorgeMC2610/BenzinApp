@@ -4,7 +4,7 @@ import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/forms/malfunction.dart';
 import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../services/language_provider.dart';
@@ -117,13 +117,13 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
   delete() {
     DeleteDialog.show(
         context,
-        translate('confirmDeleteMalfunction'),
+        t.confirmDeleteMalfunction,
             (Function(bool) setLoadingState) async {
 
           await MalfunctionManager().delete(widget.malfunction);
           SnackbarNotification.show(
             MessageType.info,
-            translate('successfullyDeletedMalfunction'),
+            t.successfullyDeletedMalfunction,
           );
           setLoadingState(true);
         }
@@ -148,7 +148,7 @@ class _MalfunctionCardState extends State<MalfunctionCard> {
           Icon(isFixed ? Icons.check : Icons.error_outline, size: 14, color: foreground),
           const SizedBox(width: 4),
           Text(
-            isFixed ? translate('fixedMalfunction') : translate('ongoingMalfunction'),
+            isFixed ? t.fixedMalfunction : t.ongoingMalfunction,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(color: foreground),
           ),
         ],
