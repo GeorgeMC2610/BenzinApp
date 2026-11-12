@@ -16,7 +16,6 @@ import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/details/trip.dart';
 import 'package:flutter/material.dart';
-import 'package:benzinapp/i18n/strings.g.dart';
 
 class NotificationHandler {
   /// Parses raw argument object or JSON string into a Map<String, dynamic>.

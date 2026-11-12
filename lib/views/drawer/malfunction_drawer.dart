@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/filters/malfunction_filter.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:flutter/material.dart';

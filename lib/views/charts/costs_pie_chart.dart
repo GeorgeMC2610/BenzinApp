@@ -1,4 +1,3 @@
-import 'package:benzinapp/services/classes/car.dart';
 import 'package:flutter/material.dart';
 import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
