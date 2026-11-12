@@ -385,6 +385,13 @@ class TranslationsEl with BaseTranslations<AppLocale, Translations> implements T
 	@override String get noPlacesFoundWithThisAddress => 'Δεν βρέθηκε κάποιο μέρος με αυτήν τη διεύθυνση.';
 	@override String get noTripsFound => 'Δεν υπάρχει κάποια διαδρομή με αυτές τις τοποθεσίες.';
 	@override String get confirmTrip => 'Επιβεβαίωση Διαδρομής';
+	@override String get useMyLocation => 'Χρήση της τοποθεσίας μου';
+	@override String get swapOriginDestination => 'Αντιστροφή αφετηρίας και τέρματος';
+	@override String get longPressToSetOrigin => 'Συμβουλή: πατήστε παρατεταμένα τον χάρτη για να ορίσετε την αφετηρία.';
+	@override String get longPressToSetDestination => 'Συμβουλή: πατήστε παρατεταμένα τον χάρτη για να ορίσετε το τέρμα.';
+	@override String viaRoad({required Object road}) => 'μέσω ${road}';
+	@override String get locationUnavailable => 'Δεν ήταν δυνατή η λήψη της τοποθεσίας σας. Ελέγξτε ότι η τοποθεσία είναι ενεργή και επιτρέπεται για το BenzinApp.';
+	@override String get routeRequestFailed => 'Δεν ήταν δυνατή η φόρτωση διαδρομών. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.';
 	@override String get confirmLocation => 'Επιβεβαίωση Τοποθεσίας';
 	@override String get malfunctionFilters => 'Φίλτρα Βλαβών';
 	@override String get serviceFilters => 'Φίλτρα Σέρβις';
@@ -892,6 +899,13 @@ extension on TranslationsEl {
 			'noPlacesFoundWithThisAddress' => 'Δεν βρέθηκε κάποιο μέρος με αυτήν τη διεύθυνση.',
 			'noTripsFound' => 'Δεν υπάρχει κάποια διαδρομή με αυτές τις τοποθεσίες.',
 			'confirmTrip' => 'Επιβεβαίωση Διαδρομής',
+			'useMyLocation' => 'Χρήση της τοποθεσίας μου',
+			'swapOriginDestination' => 'Αντιστροφή αφετηρίας και τέρματος',
+			'longPressToSetOrigin' => 'Συμβουλή: πατήστε παρατεταμένα τον χάρτη για να ορίσετε την αφετηρία.',
+			'longPressToSetDestination' => 'Συμβουλή: πατήστε παρατεταμένα τον χάρτη για να ορίσετε το τέρμα.',
+			'viaRoad' => ({required Object road}) => 'μέσω ${road}',
+			'locationUnavailable' => 'Δεν ήταν δυνατή η λήψη της τοποθεσίας σας. Ελέγξτε ότι η τοποθεσία είναι ενεργή και επιτρέπεται για το BenzinApp.',
+			'routeRequestFailed' => 'Δεν ήταν δυνατή η φόρτωση διαδρομών. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.',
 			'confirmLocation' => 'Επιβεβαίωση Τοποθεσίας',
 			'malfunctionFilters' => 'Φίλτρα Βλαβών',
 			'serviceFilters' => 'Φίλτρα Σέρβις',

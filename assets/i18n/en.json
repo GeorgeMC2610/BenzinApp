@@ -380,6 +380,13 @@
   "noPlacesFoundWithThisAddress": "No places found with this address.",
   "noTripsFound": "There is no route available for the current positions.",
   "confirmTrip": "Confirm Trip",
+  "useMyLocation": "Use my location",
+  "swapOriginDestination": "Swap origin and destination",
+  "longPressToSetOrigin": "Tip: long-press the map to set the origin.",
+  "longPressToSetDestination": "Tip: long-press the map to set the destination.",
+  "viaRoad": "via {road}",
+  "locationUnavailable": "Couldn't get your location. Check that location is turned on and allowed for BenzinApp.",
+  "routeRequestFailed": "Couldn't load routes. Check your connection and try again.",
   "confirmLocation": "Confirm Location",
 
   "fuelFilters": "Fuel Fill Filters",

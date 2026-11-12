@@ -1083,6 +1083,27 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Confirm Trip'
 	String get confirmTrip => 'Confirm Trip';
 
+	/// en: 'Use my location'
+	String get useMyLocation => 'Use my location';
+
+	/// en: 'Swap origin and destination'
+	String get swapOriginDestination => 'Swap origin and destination';
+
+	/// en: 'Tip: long-press the map to set the origin.'
+	String get longPressToSetOrigin => 'Tip: long-press the map to set the origin.';
+
+	/// en: 'Tip: long-press the map to set the destination.'
+	String get longPressToSetDestination => 'Tip: long-press the map to set the destination.';
+
+	/// en: 'via {road}'
+	String viaRoad({required Object road}) => 'via ${road}';
+
+	/// en: 'Couldn't get your location. Check that location is turned on and allowed for BenzinApp.'
+	String get locationUnavailable => 'Couldn\'t get your location. Check that location is turned on and allowed for BenzinApp.';
+
+	/// en: 'Couldn't load routes. Check your connection and try again.'
+	String get routeRequestFailed => 'Couldn\'t load routes. Check your connection and try again.';
+
 	/// en: 'Confirm Location'
 	String get confirmLocation => 'Confirm Location';
 
@@ -1889,6 +1910,13 @@ extension on Translations {
 			'noPlacesFoundWithThisAddress' => 'No places found with this address.',
 			'noTripsFound' => 'There is no route available for the current positions.',
 			'confirmTrip' => 'Confirm Trip',
+			'useMyLocation' => 'Use my location',
+			'swapOriginDestination' => 'Swap origin and destination',
+			'longPressToSetOrigin' => 'Tip: long-press the map to set the origin.',
+			'longPressToSetDestination' => 'Tip: long-press the map to set the destination.',
+			'viaRoad' => ({required Object road}) => 'via ${road}',
+			'locationUnavailable' => 'Couldn\'t get your location. Check that location is turned on and allowed for BenzinApp.',
+			'routeRequestFailed' => 'Couldn\'t load routes. Check your connection and try again.',
 			'confirmLocation' => 'Confirm Location',
 			'fuelFilters' => 'Fuel Fill Filters',
 			'malfunctionFilters' => 'Malfunction Filters',
