@@ -13,8 +13,9 @@ class DataHolder {
   factory DataHolder() => _instance;
   DataHolder._internal();
 
-  static const String destination = 'https://benzin-app.fly.dev';
-
+  static const String destination = String.fromEnvironment(
+    'BENZINAPP_BACKEND',
+  );
 
   /// Since all these data belong to separate cars, they will have to wait
   /// until the `watchingCar` value is initialized.
@@ -40,6 +41,7 @@ class DataHolder {
     CarUserInvitationManager().destroyValues();
   }
 
-  // TODO: Stop doxxing the key, and store it somewhere safe
-  String getPlacesApiKey() => "AIzaSyAXvd2RMljTh1SlbcJmCrT_yeFY1iHOSrU";
+  String getPlacesApiKey() => const String.fromEnvironment(
+    'BENZINAPP_PLACES_KEY',
+  );
 }
