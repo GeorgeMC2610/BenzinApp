@@ -89,63 +89,66 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: Text(
-                    t.forgotPasswordTitle,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Text(
+                      t.forgotPasswordTitle,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
+                      ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Center(
-                  child: Text(
-                      t.forgotPasswordSubtitle
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                Center(
-                  child: Text(
-                    t.forgotPasswordEmailPrompt,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
+  
+                  const SizedBox(height: 5),
+  
+                  Center(
+                    child: Text(
+                        t.forgotPasswordSubtitle
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 15),
-
-                TextField(
-                  enabled: !isLoading,
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: checkEmail,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    errorText: emailError,
-                    hintText: t.forgotPasswordEmailHint,
-                    labelText: t.forgotPasswordEmailLabel,
-                    prefixIcon: const Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+  
+                  const SizedBox(height: 25),
+  
+                  Center(
+                    child: Text(
+                      t.forgotPasswordEmailPrompt,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                ),
-              ],
+  
+                  const SizedBox(height: 15),
+  
+                  TextField(
+                    enabled: !isLoading,
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: checkEmail,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      errorText: emailError,
+                      hintText: t.forgotPasswordEmailHint,
+                      labelText: t.forgotPasswordEmailLabel,
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

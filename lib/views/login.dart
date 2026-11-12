@@ -188,157 +188,160 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                  child: AutoSizeText(
-                    t.welcomeBack,
-                    maxLines: 1,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35
-                    ),
-                  )
-              ),
-
-              const SizedBox(height: 20),
-
-              Center(
-                child: Image.asset(
-                  "lib/assets/images/benzinapp_logo_round.png",
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-
-              const SizedBox(height: 40),
-
-              ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterPage()
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                    child: AutoSizeText(
+                      t.welcomeBack,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35
+                      ),
                     )
-                  );
-                },
-                leading: const Icon(Icons.person_add_rounded),
-                title: Text(t.dontHaveAnAccount),
-                subtitle: Text(t.registerToBenzinApp),
-                trailing: const Icon(Icons.arrow_forward_ios_rounded),
-              ),
-
-              const SizedBox(height: 60),
-
-              // E-mail text field
-              Form(
-                key: _formKey,
-                child: AutofillGroup(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        enabled: !isLoggingIn,
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [AutofillHints.email],
-                        maxLength: 256,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (value) {
-                          setState(() {
-                            showUnlockButton = false;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          errorText: emailError,
-                          hintText: t.emailHint,
-                          labelText: t.email,
-                          counterText: '',
-                          prefixIcon: const Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                      ),
-                
-                      const SizedBox(height: 16.0),
-                
-                      // Password TextField
-                      PasswordField(
-                        enabled: !isLoggingIn,
-                        controller: passwordController,
-                        errorText: passwordError,
-                        hintText: t.passwordHint,
-                        labelText: t.password,
-                      ),
-
-                
-                      const SizedBox(height: 25),
-
-                      if (showUnlockButton)
-                        Center(
-                          child: FilledButton.tonalIcon(
-                            icon: const Icon(Icons.lock_reset),
-                            label: Text(t.unlockAccountButton),
-                            style: FilledButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-                              textStyle: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => UnlockAccountScreen(email: emailController.text)
-                                  )
-                              );
-                            },
-                          ),
-                        ),
-                    ],
+                ),
+  
+                const SizedBox(height: 20),
+  
+                Center(
+                  child: Image.asset(
+                    "lib/assets/images/benzinapp_logo_round.png",
+                    height: 150,
+                    width: 150,
                   ),
                 ),
-              ),
-
-              if (showUnlockButton)
-              const SizedBox(height: 15),
-
-              Center(
-                child: TextButton.icon(
-                  icon: const Icon(Icons.password),
-                  label: Text(t.forgotPassword),
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.blueAccent,
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  onPressed: () {
+  
+                const SizedBox(height: 40),
+  
+                ListTile(
+                  onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ResetPasswordFirstStep()
-                        )
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()
+                      )
                     );
                   },
+                  leading: const Icon(Icons.person_add_rounded),
+                  title: Text(t.dontHaveAnAccount),
+                  subtitle: Text(t.registerToBenzinApp),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
                 ),
-              ),
-
-              // const SizedBox(height: 5),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: AutoSizeText( maxLines: 1, "• ${t.forgotPassword}"),
-              //     ),
-              //     const SizedBox(width: 5),
-              //     const Icon(Icons.key_off, size: 18,)
-              //   ],
-              // ),
-            ]
+  
+                const SizedBox(height: 60),
+  
+                // E-mail text field
+                Form(
+                  key: _formKey,
+                  child: AutofillGroup(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          enabled: !isLoggingIn,
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          autofillHints: const [AutofillHints.email],
+                          maxLength: 256,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) {
+                            setState(() {
+                              showUnlockButton = false;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            errorText: emailError,
+                            hintText: t.emailHint,
+                            labelText: t.email,
+                            counterText: '',
+                            prefixIcon: const Icon(Icons.email),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                  
+                        const SizedBox(height: 16.0),
+                  
+                        // Password TextField
+                        PasswordField(
+                          enabled: !isLoggingIn,
+                          controller: passwordController,
+                          errorText: passwordError,
+                          hintText: t.passwordHint,
+                          labelText: t.password,
+                        ),
+  
+                  
+                        const SizedBox(height: 25),
+  
+                        if (showUnlockButton)
+                          Center(
+                            child: FilledButton.tonalIcon(
+                              icon: const Icon(Icons.lock_reset),
+                              label: Text(t.unlockAccountButton),
+                              style: FilledButton.styleFrom(
+                                backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UnlockAccountScreen(email: emailController.text)
+                                    )
+                                );
+                              },
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+  
+                if (showUnlockButton)
+                const SizedBox(height: 15),
+  
+                Center(
+                  child: TextButton.icon(
+                    icon: const Icon(Icons.password),
+                    label: Text(t.forgotPassword),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.blueAccent,
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ResetPasswordFirstStep()
+                          )
+                      );
+                    },
+                  ),
+                ),
+  
+                // const SizedBox(height: 5),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: AutoSizeText( maxLines: 1, "• ${t.forgotPassword}"),
+                //     ),
+                //     const SizedBox(width: 5),
+                //     const Icon(Icons.key_off, size: 18,)
+                //   ],
+                // ),
+              ]
+            ),
           ),
         ),
       ));

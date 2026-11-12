@@ -184,151 +184,154 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ],
         persistentFooterAlignment: AlignmentDirectional.center,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Center(
-                  child: AutoSizeText(
-                t.welcome,
-                maxLines: 1,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              )),
-              const SizedBox(height: 20),
-              Center(
-                child: Image.asset(
-                  "lib/assets/images/benzinapp_logo_round.png",
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-              const SizedBox(height: 40),
-              Form(
-                key: _formKey,
-                child: AutofillGroup(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [AutofillHints.email],
-                        maxLength: 256,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorText: emailError,
-                          hintText: t.emailHint,
-                          counterText: '',
-                          labelText: t.email,
-                          prefixIcon: const Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: usernameController,
-                        keyboardType: TextInputType.text,
-                        autofillHints: const [AutofillHints.newUsername],
-                        maxLength: 16,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorText: usernameError,
-                          hintText: t.usernameRegisterHint,
-                          errorMaxLines: 4,
-                          labelText: t.username,
-                          prefixIcon: const Icon(Icons.person),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: PasswordField(
-                              controller: passwordController,
-                              textInputAction: TextInputAction.next,
-                              autofillHints: const [AutofillHints.newPassword],
-                              maxLength: 128,
-                              errorText: passwordError,
-                              errorMaxLines: 4,
-                              hintText: t.passwordHint,
-                              labelText: t.password,
-                            ),
-                          ),
-                          const SizedBox(width: 7.5),
-                          Expanded(
-                            child: PasswordField(
-                              controller: passwordConfirmController,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (_) => _sendRegisterPayload(),
-                              autofillHints: const [AutofillHints.newPassword],
-                              maxLength: 128,
-                              errorText: passwordConfirmError,
-                              hintText: t.passwordConfirmationHint,
-                              labelText: t.passwordConfirmation,
-                              prefixIcon: const Icon(Icons.lock_outline),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+              child:
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Center(
+                    child: AutoSizeText(
+                  t.welcome,
+                  maxLines: 1,
+                  style:
+                      const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                )),
+                const SizedBox(height: 20),
+                Center(
+                  child: Image.asset(
+                    "lib/assets/images/benzinapp_logo_round.png",
+                    height: 150,
+                    width: 150,
                   ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: _termsAccepted,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _termsAccepted = value ?? false;
-                      });
-                    },
-                  ),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        text: t.termsPart1,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: t.termsPart2,
-                              style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TermsAndConditions()));
-                                }),
-                          TextSpan(text: t.termsPart3),
-                          TextSpan(
-                              text: t.termsPart4,
-                              style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PrivacyPolicy()));
-                                }),
-                        ],
-                      ),
+                const SizedBox(height: 40),
+                Form(
+                  key: _formKey,
+                  child: AutofillGroup(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          autofillHints: const [AutofillHints.email],
+                          maxLength: 256,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            errorText: emailError,
+                            hintText: t.emailHint,
+                            counterText: '',
+                            labelText: t.email,
+                            prefixIcon: const Icon(Icons.email),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: usernameController,
+                          keyboardType: TextInputType.text,
+                          autofillHints: const [AutofillHints.newUsername],
+                          maxLength: 16,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            errorText: usernameError,
+                            hintText: t.usernameRegisterHint,
+                            errorMaxLines: 4,
+                            labelText: t.username,
+                            prefixIcon: const Icon(Icons.person),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: PasswordField(
+                                controller: passwordController,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.newPassword],
+                                maxLength: 128,
+                                errorText: passwordError,
+                                errorMaxLines: 4,
+                                hintText: t.passwordHint,
+                                labelText: t.password,
+                              ),
+                            ),
+                            const SizedBox(width: 7.5),
+                            Expanded(
+                              child: PasswordField(
+                                controller: passwordConfirmController,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (_) => _sendRegisterPayload(),
+                                autofillHints: const [AutofillHints.newPassword],
+                                maxLength: 128,
+                                errorText: passwordConfirmError,
+                                hintText: t.passwordConfirmationHint,
+                                labelText: t.passwordConfirmation,
+                                prefixIcon: const Icon(Icons.lock_outline),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ]),
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: _termsAccepted,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _termsAccepted = value ?? false;
+                        });
+                      },
+                    ),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          text: t.termsPart1,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: t.termsPart2,
+                                style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TermsAndConditions()));
+                                  }),
+                            TextSpan(text: t.termsPart3),
+                            TextSpan(
+                                text: t.termsPart4,
+                                style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const PrivacyPolicy()));
+                                  }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ),
           ),
         ));
   }

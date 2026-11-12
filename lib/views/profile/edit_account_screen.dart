@@ -80,41 +80,44 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           isLoading: isLoading,
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-          child: Column(
-            children: [
-              TextField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                enabled: false, // Locked for now
-                decoration: InputDecoration(
-                  labelText: t.email,
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+            child: Column(
+              children: [
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  enabled: false, // Locked for now
+                  decoration: InputDecoration(
+                    labelText: t.email,
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: usernameController,
-                keyboardType: TextInputType.text,
-                enabled: !isLoading,
-                maxLength: 16,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  errorMaxLines: 3,
-                  errorText: usernameError,
-                  labelText: t.username,
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: usernameController,
+                  keyboardType: TextInputType.text,
+                  enabled: !isLoading,
+                  maxLength: 16,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    errorMaxLines: 3,
+                    errorText: usernameError,
+                    labelText: t.username,
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

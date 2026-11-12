@@ -70,120 +70,123 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  t.deleteAccountTitle,
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 35,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    t.deleteAccountTitle,
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 35,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  t.deleteAccountSubtitle,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                Center(
+                  child: Text(
+                    t.deleteAccountSubtitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning_amber_rounded,
-                        color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        t.deleteAccountWarning,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
+                const SizedBox(height: 30),
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning_amber_rounded,
+                          color: Theme.of(context).colorScheme.error),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.deleteAccountWarning,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: AutoSizeText(
-                  t.deleteAccountDangerZone,
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 25,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                      )
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  t.deleteAccountRetypeUsernameTitle(username: UserManager().currentUser!.username),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
+                const SizedBox(height: 30),
+                Center(
+                  child: AutoSizeText(
+                    t.deleteAccountDangerZone,
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 25,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                enabled: !_isSending,
-                controller: _userNameController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  labelText: t.deleteAccountRetypeUsername,
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                const SizedBox(height: 15),
+                Center(
+                  child: Text(
+                    t.deleteAccountRetypeUsernameTitle(username: UserManager().currentUser!.username),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 25),
-              Center(
-                child: Text(
-                  t.deleteAccountRetypePasswordTitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
+                const SizedBox(height: 10),
+                TextField(
+                  enabled: !_isSending,
+                  controller: _userNameController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    labelText: t.deleteAccountRetypeUsername,
+                    prefixIcon: const Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              PasswordField(
-                enabled: !_isSending,
-                controller: _passwordController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                textInputAction: TextInputAction.done,
-                labelText: t.deleteAccountRetypePassword,
-                prefixIcon: const Icon(Icons.password),
-              ),
-            ],
+                const SizedBox(height: 25),
+                Center(
+                  child: Text(
+                    t.deleteAccountRetypePasswordTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                PasswordField(
+                  enabled: !_isSending,
+                  controller: _passwordController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  textInputAction: TextInputAction.done,
+                  labelText: t.deleteAccountRetypePassword,
+                  prefixIcon: const Icon(Icons.password),
+                ),
+              ],
+            ),
           ),
         ),
       ),

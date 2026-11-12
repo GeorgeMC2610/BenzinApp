@@ -163,7 +163,10 @@ class _DashboardState extends State<Dashboard> {
               ),
             ],
           ),
-          body: _bodyDecider(carManager, invitationManager),
+          body: SafeArea(
+            top: false,
+            child: _bodyDecider(carManager, invitationManager),
+          ),
         );
       },
     );

@@ -56,99 +56,102 @@ class _ClaimOldCarState extends State<ClaimOldCar> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                  children: [
-                    Center(
-                      child: AutoSizeText(
-                        widget.fromSettings ? t.claimCarTitleAlt : t.claimCarTitle,
-                        minFontSize: 20,
-                        maxLines: 1,
-                        maxFontSize: 35,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Column(
+                    children: [
+                      Center(
+                        child: AutoSizeText(
+                          widget.fromSettings ? t.claimCarTitleAlt : t.claimCarTitle,
+                          minFontSize: 20,
+                          maxLines: 1,
+                          maxFontSize: 35,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-
-                    Center(
-                      child: Text(
-                          widget.fromSettings ? t.claimCarSubtitleAlt : t.claimCarSubtitle
-                      ),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    Center(
-                      child: Text(
-                        t.enterExistingCarData,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold
+  
+                      Center(
+                        child: Text(
+                            widget.fromSettings ? t.claimCarSubtitleAlt : t.claimCarSubtitle
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    TextField(
-                      enabled: !isSearching,
-                      controller: carUsername,
-                      onChanged: (value) {
-                        setState(() {
-                          usernameEmpty = value.isEmpty;
-                        });
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        errorText: usernameError,
-                        hintText: t.usernameHint,
-                        labelText: t.username,
-                        prefixIcon: const Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+  
+                      const SizedBox(height: 30),
+  
+                      Center(
+                        child: Text(
+                          t.enterExistingCarData,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Password TextField
-                    PasswordField(
-                      enabled: !isSearching,
-                      controller: passwordController,
-                      errorText: passwordError,
-                      hintText: t.passwordHint,
-                      labelText: t.password,
-                      onChanged: (value) {
-                        setState(() {
-                          passwordEmpty = value.isEmpty;
-                        });
-                      },
-                    ),
-
-                    const SizedBox(height: 60),
-
-                    if (!widget.fromSettings)
-                      ListTile(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const Dashboard(),
-                            ),
-                          );
+  
+                      const SizedBox(height: 15),
+  
+                      TextField(
+                        enabled: !isSearching,
+                        controller: carUsername,
+                        onChanged: (value) {
+                          setState(() {
+                            usernameEmpty = value.isEmpty;
+                          });
                         },
-                        title: Text(t.claimCarBackToDashboard),
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        leading: const Icon(Icons.dashboard),
-                      )
-                  ]
-              )
-          )
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorText: usernameError,
+                          hintText: t.usernameHint,
+                          labelText: t.username,
+                          prefixIcon: const Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+  
+                      const SizedBox(height: 20),
+  
+                      // Password TextField
+                      PasswordField(
+                        enabled: !isSearching,
+                        controller: passwordController,
+                        errorText: passwordError,
+                        hintText: t.passwordHint,
+                        labelText: t.password,
+                        onChanged: (value) {
+                          setState(() {
+                            passwordEmpty = value.isEmpty;
+                          });
+                        },
+                      ),
+  
+                      const SizedBox(height: 60),
+  
+                      if (!widget.fromSettings)
+                        ListTile(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const Dashboard(),
+                              ),
+                            );
+                          },
+                          title: Text(t.claimCarBackToDashboard),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          leading: const Icon(Icons.dashboard),
+                        )
+                    ]
+                )
+            )
+        ),
       )
   );
 

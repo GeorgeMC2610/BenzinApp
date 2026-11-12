@@ -167,135 +167,138 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
           ),
         ),
       ],
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Column(
-          children: [
-            Center(
-              child: AutoSizeText(
-                t.unlockAccountTitle,
-                maxLines: 1,
-                minFontSize: 20,
-                maxFontSize: 35,
-                style: TextStyle(
-                    fontSize: 35,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 5),
-
-            Center(
-              child: Text(
-                  t.checkYourEmail
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            Center(
-              child: Text(
-                t.enterCode,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            PinCodeTextField(
-              length: 8,
-              appContext: context,
-
-              keyboardType: TextInputType.text,
-              animationType: AnimationType.fade,
-              textCapitalization: TextCapitalization.characters,
-              pinTheme: PinTheme(
-                shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(8),
-                fieldHeight: 45,
-                fieldWidth: 35,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Colors.grey.shade400,
-                selectedColor: Theme.of(context).colorScheme.secondary,
-              ),
-              onCompleted: onComplete,
-              onChanged: (code) {
-                setState(() {
-                  codeLength = code.length;
-                });
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            if (wrongCode)
+    body: SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            children: [
               Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.clear,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-
-                    const SizedBox(width: 5),
-
-                    Text(
-                      t.wrongCode,
-                      style: TextStyle(
+                child: AutoSizeText(
+                  t.unlockAccountTitle,
+                  maxLines: 1,
+                  minFontSize: 20,
+                  maxFontSize: 35,
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 5),
+  
+              Center(
+                child: Text(
+                    t.checkYourEmail
+                ),
+              ),
+  
+              const SizedBox(height: 25),
+  
+              Center(
+                child: Text(
+                  t.enterCode,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 15),
+  
+              PinCodeTextField(
+                length: 8,
+                appContext: context,
+  
+                keyboardType: TextInputType.text,
+                animationType: AnimationType.fade,
+                textCapitalization: TextCapitalization.characters,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(8),
+                  fieldHeight: 45,
+                  fieldWidth: 35,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  inactiveColor: Colors.grey.shade400,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                ),
+                onCompleted: onComplete,
+                onChanged: (code) {
+                  setState(() {
+                    codeLength = code.length;
+                  });
+                },
+              ),
+  
+              const SizedBox(height: 10),
+  
+              if (wrongCode)
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(
+                        Icons.clear,
                         color: Theme.of(context).colorScheme.error,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                // CIRCLE PROGRESS WITH TIME
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 3,
-                        backgroundColor: Colors.grey.shade300,
-                        color: Theme.of(context).colorScheme.primary,
+  
+                      const SizedBox(width: 5),
+  
+                      Text(
+                        t.wrongCode,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
-                    ),
-                    Text(
-                      remainingSeconds.toString(),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(width: 15),
-
-                // RESEND TOKEN BUTTON
-                Expanded(
-                  child: FilledButton.icon(
-                    onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
-                    icon: const Icon(Icons.refresh),
-                    label: Text(t.resendButton),
+                    ],
                   ),
-                )
-              ],
-            ),
-          ],
+                ),
+  
+              const SizedBox(height: 20),
+  
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+  
+                  // CIRCLE PROGRESS WITH TIME
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 3,
+                          backgroundColor: Colors.grey.shade300,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        remainingSeconds.toString(),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+  
+                  const SizedBox(width: 15),
+  
+                  // RESEND TOKEN BUTTON
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
+                      icon: const Icon(Icons.refresh),
+                      label: Text(t.resendButton),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     )

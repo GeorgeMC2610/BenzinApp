@@ -171,258 +171,261 @@ class _CarFormState extends State<CarForm> {
           isLoading: isLoading,
       )
     ],
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-        child: Column(
-          children: [
-            if (((CarManager().local?.where((car) => car.isOwned()).length) ?? 0) >= 7)
-              Container(
-                padding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning_amber_rounded,
-                        color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        t.tooManyCars,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-
-            DividerWithText(
-              text: t.carDetails,
-              textColor: Theme.of(context).colorScheme.primary,
-              textSize: 17,
-              barThickness: 3,
-              lineColor: Colors.grey,
-            ),
-
-            const SizedBox(height: 10),
-
-            TextField(
-              onTapOutside: (value) {
-                FocusScope.of(context).unfocus();
-              },
-              controller: usernameController,
-              keyboardType: TextInputType.text,
-              enabled: !isLoading,
-              maxLength: 30,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                errorMaxLines: 3,
-                counterText: '',
-                errorText: usernameError,
-                hintText: t.carUsernameHint,
-                labelText: t.carUsername,
-                prefixIcon: const Icon(Icons.directions_car_outlined),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            Autocomplete<String>(
-              initialValue:
-                  TextEditingValue(text: manufacturerController.text),
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                final Iterable<String> options = CarData.carModels.keys;
-                if (textEditingValue.text.isEmpty) {
-                  return options;
-                }
-                return options.where((String option) {
-                  return option
-                      .toLowerCase()
-                      .contains(textEditingValue.text.toLowerCase());
-                });
-              },
-              onSelected: (String selection) {
-                setState(() {
-                  manufacturerController.text = selection;
-                  // Optionally clear model if manufacturer changes
-                  if (widget.car?.manufacturer != selection) {
-                    modelController.text = '';
-                  }
-                });
-              },
-              fieldViewBuilder:
-                  (context, controller, focusNode, onFieldSubmitted) {
-                return TextField(
-                  onTapOutside: (value) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  onTap: () {
-                    // Trigger the options list to show up if empty
-                    if (controller.text.isEmpty) {
-                      controller.value = const TextEditingValue(
-                        text: '',
-                        selection: TextSelection.collapsed(offset: 0),
-                      );
-                    }
-                  },
-                  controller: controller,
-                  focusNode: focusNode,
-                  onChanged: (value) {
-                    manufacturerController.text = value;
-                  },
-                  keyboardType: TextInputType.text,
-                  enabled: !isLoading,
-                  maxLength: 30,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    errorText: manufacturerError,
-                    counterText: '',
-                    hintText: t.carManufacturerHint,
-                    labelText: t.carManufacturer,
-                    prefixIcon: const Icon(Icons.car_rental),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+    body: SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+          child: Column(
+            children: [
+              if (((CarManager().local?.where((car) => car.isOwned()).length) ?? 0) >= 7)
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.error.withOpacity(0.5),
                     ),
                   ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 16.0),
-
-            // Password TextField
-
-            Row(
-              children: [
-                Expanded(
-                  child: Autocomplete<String>(
-                    key: ValueKey(manufacturerController.text),
-                    initialValue: TextEditingValue(text: modelController.text),
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      final manufacturer = manufacturerController.text.trim();
-                      final models = CarData.carModels[manufacturer] ??
-                          CarData.carModels.values
-                              .expand((element) => element)
-                              .toList();
-
-                      if (textEditingValue.text.isEmpty) {
-                        return models;
-                      }
-
-                      return models.where((String option) {
-                        return option
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase());
-                      });
-                    },
-                    onSelected: (String selection) {
-                      modelController.text = selection;
-                    },
-                    fieldViewBuilder:
-                        (context, controller, focusNode, onFieldSubmitted) {
-                      return TextField(
-                        onTapOutside: (value) {
-                          FocusScope.of(context).unfocus();
-                        },
-                        onTap: () {
-                          // Trigger the options list to show up if empty
-                          if (controller.text.isEmpty) {
-                            controller.value = const TextEditingValue(
-                              text: '',
-                              selection: TextSelection.collapsed(offset: 0),
-                            );
-                          }
-                        },
-                        controller: controller,
-                        focusNode: focusNode,
-                        onChanged: (value) {
-                          modelController.text = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                        enabled: !isLoading,
-                        maxLength: 30,
-                        decoration: InputDecoration(
-                          errorText: modelError,
-                          counterText: '',
-                          hintText: t.carModelHint,
-                          labelText: t.carModel,
-                          prefixIcon: const Icon(Icons.car_rental_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning_amber_rounded,
+                          color: Theme.of(context).colorScheme.error),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.tooManyCars,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
-                      );
-                    },
+                      )
+                    ],
                   ),
                 ),
-
-                const SizedBox(width: 7.5),
-
-                Expanded(
-                  child: TextField(
+  
+  
+              DividerWithText(
+                text: t.carDetails,
+                textColor: Theme.of(context).colorScheme.primary,
+                textSize: 17,
+                barThickness: 3,
+                lineColor: Colors.grey,
+              ),
+  
+              const SizedBox(height: 10),
+  
+              TextField(
+                onTapOutside: (value) {
+                  FocusScope.of(context).unfocus();
+                },
+                controller: usernameController,
+                keyboardType: TextInputType.text,
+                enabled: !isLoading,
+                maxLength: 30,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  errorMaxLines: 3,
+                  counterText: '',
+                  errorText: usernameError,
+                  hintText: t.carUsernameHint,
+                  labelText: t.carUsername,
+                  prefixIcon: const Icon(Icons.directions_car_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 10),
+  
+              Autocomplete<String>(
+                initialValue:
+                    TextEditingValue(text: manufacturerController.text),
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  final Iterable<String> options = CarData.carModels.keys;
+                  if (textEditingValue.text.isEmpty) {
+                    return options;
+                  }
+                  return options.where((String option) {
+                    return option
+                        .toLowerCase()
+                        .contains(textEditingValue.text.toLowerCase());
+                  });
+                },
+                onSelected: (String selection) {
+                  setState(() {
+                    manufacturerController.text = selection;
+                    // Optionally clear model if manufacturer changes
+                    if (widget.car?.manufacturer != selection) {
+                      modelController.text = '';
+                    }
+                  });
+                },
+                fieldViewBuilder:
+                    (context, controller, focusNode, onFieldSubmitted) {
+                  return TextField(
                     onTapOutside: (value) {
                       FocusScope.of(context).unfocus();
                     },
-                    controller: yearController,
-                    keyboardType: const TextInputType.numberWithOptions(signed: true),
+                    onTap: () {
+                      // Trigger the options list to show up if empty
+                      if (controller.text.isEmpty) {
+                        controller.value = const TextEditingValue(
+                          text: '',
+                          selection: TextSelection.collapsed(offset: 0),
+                        );
+                      }
+                    },
+                    controller: controller,
+                    focusNode: focusNode,
+                    onChanged: (value) {
+                      manufacturerController.text = value;
+                    },
+                    keyboardType: TextInputType.text,
                     enabled: !isLoading,
-                    maxLength: 4,
-                    decoration: InputDecoration(
-                      errorText: yearError,
-                      counterText: '',
-                      hintText: t.carYearHint,
-                      labelText: t.carYear,
-                      errorMaxLines: 4,
-                      suffixIcon: const Icon(Icons.calendar_month),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                )
-
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  child: TextField(
-                    controller: currencyController,
+                    maxLength: 30,
                     textInputAction: TextInputAction.next,
-                    enabled: !isLoading,
-                    maxLength: 3,
                     decoration: InputDecoration(
-                      errorText: currencyError,
-                      hintText: t.carCurrencyHint,
-                      labelText: t.carCurrency,
-                      prefixIcon: const FaPrefixIcon(FontAwesomeIcons.coins, size: 17),
+                      errorText: manufacturerError,
+                      counterText: '',
+                      hintText: t.carManufacturerHint,
+                      labelText: t.carManufacturer,
+                      prefixIcon: const Icon(Icons.car_rental),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
+                  );
+                },
+              ),
+  
+              const SizedBox(height: 16.0),
+  
+              // Password TextField
+  
+              Row(
+                children: [
+                  Expanded(
+                    child: Autocomplete<String>(
+                      key: ValueKey(manufacturerController.text),
+                      initialValue: TextEditingValue(text: modelController.text),
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        final manufacturer = manufacturerController.text.trim();
+                        final models = CarData.carModels[manufacturer] ??
+                            CarData.carModels.values
+                                .expand((element) => element)
+                                .toList();
+  
+                        if (textEditingValue.text.isEmpty) {
+                          return models;
+                        }
+  
+                        return models.where((String option) {
+                          return option
+                              .toLowerCase()
+                              .contains(textEditingValue.text.toLowerCase());
+                        });
+                      },
+                      onSelected: (String selection) {
+                        modelController.text = selection;
+                      },
+                      fieldViewBuilder:
+                          (context, controller, focusNode, onFieldSubmitted) {
+                        return TextField(
+                          onTapOutside: (value) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          onTap: () {
+                            // Trigger the options list to show up if empty
+                            if (controller.text.isEmpty) {
+                              controller.value = const TextEditingValue(
+                                text: '',
+                                selection: TextSelection.collapsed(offset: 0),
+                              );
+                            }
+                          },
+                          controller: controller,
+                          focusNode: focusNode,
+                          onChanged: (value) {
+                            modelController.text = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                          enabled: !isLoading,
+                          maxLength: 30,
+                          decoration: InputDecoration(
+                            errorText: modelError,
+                            counterText: '',
+                            hintText: t.carModelHint,
+                            labelText: t.carModel,
+                            prefixIcon: const Icon(Icons.car_rental_outlined),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-
-
-              ],
-            ),
-          ],
+  
+                  const SizedBox(width: 7.5),
+  
+                  Expanded(
+                    child: TextField(
+                      onTapOutside: (value) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      controller: yearController,
+                      keyboardType: const TextInputType.numberWithOptions(signed: true),
+                      enabled: !isLoading,
+                      maxLength: 4,
+                      decoration: InputDecoration(
+                        errorText: yearError,
+                        counterText: '',
+                        hintText: t.carYearHint,
+                        labelText: t.carYear,
+                        errorMaxLines: 4,
+                        suffixIcon: const Icon(Icons.calendar_month),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                  )
+  
+                ],
+              ),
+  
+              const SizedBox(height: 20),
+  
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: TextField(
+                      controller: currencyController,
+                      textInputAction: TextInputAction.next,
+                      enabled: !isLoading,
+                      maxLength: 3,
+                      decoration: InputDecoration(
+                        errorText: currencyError,
+                        hintText: t.carCurrencyHint,
+                        labelText: t.carCurrency,
+                        prefixIcon: const FaPrefixIcon(FontAwesomeIcons.coins, size: 17),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                  ),
+  
+  
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),

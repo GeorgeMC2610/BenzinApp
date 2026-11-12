@@ -30,35 +30,38 @@ class _AppInformationState extends State<AppInformation> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(t.appInformation)
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  "lib/assets/images/benzinapp_logo_round.png",
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-
-              const Center(
-                child: Text(
-                  "BenzinApp",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: Image.asset(
+                    "lib/assets/images/benzinapp_logo_round.png",
+                    height: 150,
+                    width: 150,
                   ),
                 ),
-              ),
-
-              Center(
-                child: Text("Version ${packageInfo?.version ?? '-'}"),
-              )
-            ],
+  
+                const Center(
+                  child: Text(
+                    "BenzinApp",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
+                    ),
+                  ),
+                ),
+  
+                Center(
+                  child: Text("Version ${packageInfo?.version ?? '-'}"),
+                )
+              ],
+            ),
           ),
         ),
       ),

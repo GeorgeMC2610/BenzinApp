@@ -67,91 +67,94 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  t.inviteUserToCarTitle,
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 35,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Center(
-                child: Text(
-                  t.inviteUserToCarSubtitle,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: Text(
-                  t.enterUsernameToInvite,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              Consumer<CarUserInvitationManager>(
-                builder: (context, manager, child) => TextField(
-                  enabled: !_isSending,
-                  controller: _usernameController,
-                  onChanged: (value) {
-                    setState(() {
-                      _usernameEmpty = value.isEmpty;
-                    });
-                  },
-                  onTapOutside: (value) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    errorText: manager.errors["recipient"]?.join(', '),
-                    hintText: t.sharedUsernameHint,
-                    labelText: t.sharedUsername,
-                    prefixIcon: const Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    t.inviteUserToCarTitle,
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 35,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                Center(
+                  child: Text(
+                    t.inviteUserToCarSubtitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        t.accessContributorDesc,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                    )
-                  ],
+                const SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    t.enterUsernameToInvite,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-
-
-            ],
+                const SizedBox(height: 15),
+                Consumer<CarUserInvitationManager>(
+                  builder: (context, manager, child) => TextField(
+                    enabled: !_isSending,
+                    controller: _usernameController,
+                    onChanged: (value) {
+                      setState(() {
+                        _usernameEmpty = value.isEmpty;
+                      });
+                    },
+                    onTapOutside: (value) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      errorText: manager.errors["recipient"]?.join(', '),
+                      hintText: t.sharedUsernameHint,
+                      labelText: t.sharedUsername,
+                      prefixIcon: const Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.accessContributorDesc,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+  
+  
+              ],
+            ),
           ),
         ),
       ),

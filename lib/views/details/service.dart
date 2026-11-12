@@ -96,142 +96,145 @@ class _ViewServiceState extends State<ViewService> {
           ],
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // CARD WITH BASE DATA
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // CARD WITH BASE DATA
+                  SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.dateDone, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.serviceMileage, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                            '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}',
+                            style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.cost, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, service.cost!)),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+  
+                // TITLE AND DESCRIPTION
                 SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.dateDone, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(t.serviceMileage, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                          '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}',
-                          style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(t.cost, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, service.cost!)),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-                      ],
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.description, style: SharedFontStyles.legendTextStyle),
+                          Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-
-              // TITLE AND DESCRIPTION
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.description, style: SharedFontStyles.legendTextStyle),
-                        Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(t.nextAtKm, style: SharedFontStyles.legendTextStyle),
-                            Text(
-                                getNextServiceInfo(),
-                                style: SharedFontStyles.descriptiveTextStyle
-                            ),
-                          ],
+  
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.nextAtKm, style: SharedFontStyles.legendTextStyle),
+                              Text(
+                                  getNextServiceInfo(),
+                                  style: SharedFontStyles.descriptiveTextStyle
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(t.location, style: SharedFontStyles.legendTextStyle),
-                            Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
-                            Center(
-                              child: service.getAddress() == null ? const SizedBox() : ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) => ViewTripOnMaps(
-                                          positions: [service.getCoordinates()!],
-                                          addresses: [service.getAddress()!]
+  
+                    Expanded(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.location, style: SharedFontStyles.legendTextStyle),
+                              Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                              Center(
+                                child: service.getAddress() == null ? const SizedBox() : ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) => ViewTripOnMaps(
+                                            positions: [service.getCoordinates()!],
+                                            addresses: [service.getAddress()!]
+                                        )
                                       )
-                                    )
-                                  );
-                                },
-                                label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
-                                icon: const Icon(Icons.pin_drop, size: 20.3,),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-                                  foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
-                                ),
+                                    );
+                                  },
+                                  label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
+                                  icon: const Icon(Icons.pin_drop, size: 20.3,),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                                    foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                                  ),
+                                )
                               )
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

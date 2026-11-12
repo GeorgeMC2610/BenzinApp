@@ -91,6 +91,8 @@ class _ViewTripsOnMapsState extends State<ViewTripOnMaps> {
           myLocationButtonEnabled: true,
           myLocationEnabled: true,
           mapToolbarEnabled: true,
+          // The map runs under the system bars; keep its controls and logo clear of them.
+          padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
           markers: markers,
           polylines: polylines,
           initialCameraPosition: const CameraPosition(

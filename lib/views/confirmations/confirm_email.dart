@@ -204,172 +204,175 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           ),
         ),
       ],
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Column(
-          children: [
-            Center(
-              child: AutoSizeText(
-                t.confirmAccountTitle,
-                maxLines: 1,
-                minFontSize: 20,
-                maxFontSize: 35,
-                style: TextStyle(
-                    fontSize: 35,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 5),
-
-            Center(
-              child: Text(
-                  t.checkYourEmail
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            Center(
-              child: Text(
-                t.enterCode,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            PinCodeTextField(
-              length: 6,
-              appContext: context,
-
-              keyboardType: TextInputType.text,
-              animationType: AnimationType.fade,
-              textCapitalization: TextCapitalization.characters,
-              pinTheme: PinTheme(
-                shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(8),
-                fieldHeight: 45,
-                fieldWidth: 45,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Colors.grey.shade400,
-                selectedColor: Theme.of(context).colorScheme.secondary,
-              ),
-              onCompleted: onComplete,
-              onChanged: (code) {
-                setState(() {
-                  codeLength = code.length;
-                });
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            if (wrongCode)
+    body: SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            children: [
               Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.clear,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-
-                    const SizedBox(width: 5),
-
-                    Text(
-                      t.wrongCode,
-                      style: TextStyle(
+                child: AutoSizeText(
+                  t.confirmAccountTitle,
+                  maxLines: 1,
+                  minFontSize: 20,
+                  maxFontSize: 35,
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 5),
+  
+              Center(
+                child: Text(
+                    t.checkYourEmail
+                ),
+              ),
+  
+              const SizedBox(height: 25),
+  
+              Center(
+                child: Text(
+                  t.enterCode,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 15),
+  
+              PinCodeTextField(
+                length: 6,
+                appContext: context,
+  
+                keyboardType: TextInputType.text,
+                animationType: AnimationType.fade,
+                textCapitalization: TextCapitalization.characters,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(8),
+                  fieldHeight: 45,
+                  fieldWidth: 45,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  inactiveColor: Colors.grey.shade400,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                ),
+                onCompleted: onComplete,
+                onChanged: (code) {
+                  setState(() {
+                    codeLength = code.length;
+                  });
+                },
+              ),
+  
+              const SizedBox(height: 10),
+  
+              if (wrongCode)
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(
+                        Icons.clear,
                         color: Theme.of(context).colorScheme.error,
                       ),
-                    ),
-                  ],
+  
+                      const SizedBox(width: 5),
+  
+                      Text(
+                        t.wrongCode,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+  
+              const SizedBox(height: 20),
+  
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+  
+                  // CIRCLE PROGRESS WITH TIME
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 3,
+                          backgroundColor: Colors.grey.shade300,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        remainingSeconds.toString(),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+  
+                  const SizedBox(width: 15),
+  
+                  // RESEND TOKEN BUTTON
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
+                      icon: const Icon(Icons.refresh),
+                      label: Text(t.resendButton),
+                    ),
+                  )
+                ],
               ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                // CIRCLE PROGRESS WITH TIME
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 3,
-                        backgroundColor: Colors.grey.shade300,
-                        color: Theme.of(context).colorScheme.primary,
+  
+              if (!widget.fromSettings)
+                const SizedBox(height: 75),
+  
+              if (!widget.fromSettings)
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => const Dashboard()
+                      ));
+                    },
+                    child: Text(
+                      t.skipVerification,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.blue
                       ),
                     ),
-                    Text(
-                      remainingSeconds.toString(),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                  )
                 ),
-
-                const SizedBox(width: 15),
-
-                // RESEND TOKEN BUTTON
-                Expanded(
-                  child: FilledButton.icon(
-                    onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
-                    icon: const Icon(Icons.refresh),
-                    label: Text(t.resendButton),
-                  ),
-                )
-              ],
-            ),
-
-            if (!widget.fromSettings)
-              const SizedBox(height: 75),
-
-            if (!widget.fromSettings)
+  
+              const SizedBox(height: 55),
+  
               Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => const Dashboard()
-                    ));
-                  },
-                  child: Text(
-                    t.skipVerification,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
+                child: ListTile(
+                  onTap: skipModal,
+                  leading: const Icon(Icons.question_mark_rounded),
+                  title: AutoSizeText(
+                    t.skipConsequences,
                   ),
+                  trailing: const Icon(Icons.keyboard_arrow_down),
                 )
               ),
-
-            const SizedBox(height: 55),
-
-            Center(
-              child: ListTile(
-                onTap: skipModal,
-                leading: const Icon(Icons.question_mark_rounded),
-                title: AutoSizeText(
-                  t.skipConsequences,
-                ),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-              )
-            ),
-
-          ],
+  
+            ],
+          ),
         ),
       ),
     )
@@ -382,7 +385,8 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          // Extra bottom space so the last lines can scroll clear of the home indicator.
+          padding: EdgeInsets.fromLTRB(10, 20, 10, 20 + MediaQuery.paddingOf(context).bottom),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

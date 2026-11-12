@@ -205,204 +205,207 @@ class _TripFormState extends State<TripForm> {
           isLoading: _isLoading,
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              DividerWithText(
-                  text: t.tripInfo,
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 16
-              ),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                controller: _titleController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {
-                  setState(() {
-                    titleError = _emptyValidator(_titleController.text);
-                  });
-                },
-                enabled: !_isLoading,
-                maxLength: 127,
-                decoration: InputDecoration(
-                  errorText: titleError,
-                  errorMaxLines: 4,
-                  counterText: '',
-                  hintText: t.tripNameHint,
-                  labelText: t.tripName2,
-                  prefixIcon: const FaPrefixIcon(FontAwesomeIcons.tag),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DividerWithText(
+                    text: t.tripInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 16
+                ),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  controller: _titleController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    setState(() {
+                      titleError = _emptyValidator(_titleController.text);
+                    });
+                  },
+                  enabled: !_isLoading,
+                  maxLength: 127,
+                  decoration: InputDecoration(
+                    errorText: titleError,
+                    errorMaxLines: 4,
+                    counterText: '',
+                    hintText: t.tripNameHint,
+                    labelText: t.tripName2,
+                    prefixIcon: const FaPrefixIcon(FontAwesomeIcons.tag),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      controller: _timesRepeatingController,
-                      keyboardType: TextInputType.number,
-                      onEditingComplete: () {
-                        setState(() {
-                          timesRepeatingError = _validator(_timesRepeatingController.text);
-                        });
-                      },
-                      enabled: !_isLoading && !_isRepeating,
-                      decoration: InputDecoration(
-                        errorText: timesRepeatingError,
-                        errorMaxLines: 4,
-                        hintText: t.timesRepeatingHint,
-                        labelText: t.timesRepeating,
-                        prefixIcon: const FaPrefixIcon(FontAwesomeIcons.repeat),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+  
+                const SizedBox(height: 20),
+  
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextField(
+                        onTapOutside: (value) {
+                          FocusScope.of(context).unfocus();
+                        },
+                        controller: _timesRepeatingController,
+                        keyboardType: TextInputType.number,
+                        onEditingComplete: () {
+                          setState(() {
+                            timesRepeatingError = _validator(_timesRepeatingController.text);
+                          });
+                        },
+                        enabled: !_isLoading && !_isRepeating,
+                        decoration: InputDecoration(
+                          errorText: timesRepeatingError,
+                          errorMaxLines: 4,
+                          hintText: t.timesRepeatingHint,
+                          labelText: t.timesRepeating,
+                          prefixIcon: const FaPrefixIcon(FontAwesomeIcons.repeat),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            value: _isRepeating,
-                            onChanged: (value) {
-                              setState(() {
-                                _isRepeating = value!;
-
-                                if (_isRepeating) {
-                                  _timesRepeatingController.text = '1';
-                                }
-                              });
-                            }
-                        ),
-
-                        AutoSizeText(t.noRepeat, maxLines: 1, maxFontSize: 19,)
-                      ],
-                    )
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Center(
-                child: Text(
-                  polyline == null ? t.makeTrip : getTripString(),
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                  ),
+  
+                    const SizedBox(width: 5),
+  
+                    Expanded(
+                      flex: 3,
+                      child: Row(
+                        children: [
+                          Checkbox(
+                              value: _isRepeating,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isRepeating = value!;
+  
+                                  if (_isRepeating) {
+                                    _timesRepeatingController.text = '1';
+                                  }
+                                });
+                              }
+                          ),
+  
+                          AutoSizeText(t.noRepeat, maxLines: 1, maxFontSize: 19,)
+                        ],
+                      )
+                    ),
+                  ],
                 ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-
-
-                        var data = await Navigator.push<Map<String, dynamic>>(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => polyline == null ? const CreateTrip() :
-                                    CreateTrip(
-                                      polyline: polyline!,
-                                      originAddress: originAddress!,
-                                      destinationAddress: destinationAddress!,
-                                      originCoordinates: LatLng(originLatitude!, originLongitude!),
-                                      destinationCoordinates: LatLng(destinationLatitude!, destinationLongitude!),
-                                      totalKm: totalKm!,
-                                    )
-                            )
-                        );
-
-                        if (data == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          originAddress = data["originAddress"];
-                          destinationAddress = data["destinationAddress"];
-                          polyline = data["polyline"];
-                          originLatitude = data["originCoordinates"].latitude;
-                          originLongitude = data["originCoordinates"].longitude;
-                          destinationLatitude = data["destinationCoordinates"].latitude;
-                          destinationLongitude = data["destinationCoordinates"].longitude;
-                          totalKm = data['totalKm'];
-                        });
-
-                      },
-                      label: Text(t.makeOnMaps),
-                      icon: const Icon(Icons.pin_drop),
+  
+                const SizedBox(height: 20),
+  
+                Center(
+                  child: Text(
+                    polyline == null ? t.makeTrip : getTripString(),
+                    style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : polyline == null ? null : () {
-
-                        DeleteDialog.show(
-                          context, t.deleteTrip,
-                          (value) {
-                            setState(() {
-                              originAddress = null;
-                              destinationAddress = null;
-                              polyline = null;
-                              originLatitude = null;
-                              originLongitude = null;
-                              destinationLatitude = null;
-                              destinationLongitude = null;
-                              totalKm = null;
-                            });
-
-                            value(true);
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+  
+  
+                          var data = await Navigator.push<Map<String, dynamic>>(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => polyline == null ? const CreateTrip() :
+                                      CreateTrip(
+                                        polyline: polyline!,
+                                        originAddress: originAddress!,
+                                        destinationAddress: destinationAddress!,
+                                        originCoordinates: LatLng(originLatitude!, originLongitude!),
+                                        destinationCoordinates: LatLng(destinationLatitude!, destinationLongitude!),
+                                        totalKm: totalKm!,
+                                      )
+                              )
+                          );
+  
+                          if (data == null) {
+                            return;
                           }
-                        );
-
-                      },
-                      label: AutoSizeText(t.deleteTrip, minFontSize: 10),
-                      icon: const Icon(Icons.cancel_outlined),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
-                        foregroundColor: Theme.of(context).buttonTheme.colorScheme!.onError
+  
+                          setState(() {
+                            originAddress = data["originAddress"];
+                            destinationAddress = data["destinationAddress"];
+                            polyline = data["polyline"];
+                            originLatitude = data["originCoordinates"].latitude;
+                            originLongitude = data["originCoordinates"].longitude;
+                            destinationLatitude = data["destinationCoordinates"].latitude;
+                            destinationLongitude = data["destinationCoordinates"].longitude;
+                            totalKm = data['totalKm'];
+                          });
+  
+                        },
+                        label: Text(t.makeOnMaps),
+                        icon: const Icon(Icons.pin_drop),
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              totalKm == null ? const SizedBox() :
-              Text(
-                "${t.tripDistance} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
-                style: Theme.of(context).textTheme.labelLarge,
-              )
-            ],
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : polyline == null ? null : () {
+  
+                          DeleteDialog.show(
+                            context, t.deleteTrip,
+                            (value) {
+                              setState(() {
+                                originAddress = null;
+                                destinationAddress = null;
+                                polyline = null;
+                                originLatitude = null;
+                                originLongitude = null;
+                                destinationLatitude = null;
+                                destinationLongitude = null;
+                                totalKm = null;
+                              });
+  
+                              value(true);
+                            }
+                          );
+  
+                        },
+                        label: AutoSizeText(t.deleteTrip, minFontSize: 10),
+                        icon: const Icon(Icons.cancel_outlined),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
+                          foregroundColor: Theme.of(context).buttonTheme.colorScheme!.onError
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+  
+                totalKm == null ? const SizedBox() :
+                Text(
+                  "${t.tripDistance} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
+                  style: Theme.of(context).textTheme.labelLarge,
+                )
+              ],
+            ),
           ),
         ),
       ),

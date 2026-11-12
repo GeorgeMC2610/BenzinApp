@@ -65,83 +65,86 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  t.deleteCarTitle(carName: widget.car.username),
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 35,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    t.deleteCarTitle(carName: widget.car.username),
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 35,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  t.deleteCarSubtitle,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: Text(
-                  t.deleteCarEnterCarNameToDelete(carName: widget.car.username),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                enabled: !_isSending,
-                controller: _carNameController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  hintText: widget.car.username,
-                  labelText: t.deleteCarEnterCarName,
-                  prefixIcon: const Icon(Icons.directions_car),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                Center(
+                  child: Text(
+                    t.deleteCarSubtitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                const SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    t.deleteCarEnterCarNameToDelete(carName: widget.car.username),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning_amber_rounded, color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        t.deleteCarWarning,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.error,
+                const SizedBox(height: 15),
+                TextField(
+                  enabled: !_isSending,
+                  controller: _carNameController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    hintText: widget.car.username,
+                    labelText: t.deleteCarEnterCarName,
+                    prefixIcon: const Icon(Icons.directions_car),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning_amber_rounded, color: Theme.of(context).colorScheme.error),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.deleteCarWarning,
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.error,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -158,7 +158,10 @@ class _CreateTripState extends State<CreateTrip> {
             zoomControlsEnabled: false,
             // Keep Google's logo and the camera framing clear of the floating
             // search card and route panel (the map itself never resizes).
-            padding: EdgeInsets.only(top: _searchCardHeight, bottom: _bottomPanelHeight),
+            padding: EdgeInsets.only(
+              top: _searchCardHeight,
+              bottom: _bottomPanelHeight + MediaQuery.paddingOf(context).bottom,
+            ),
             markers: _buildMarkers(),
             polylines: _buildPolylines(),
           ),
@@ -325,31 +328,36 @@ class _CreateTripState extends State<CreateTrip> {
       elevation: 8,
       color: Theme.of(context).colorScheme.surface,
       borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, _panelSpacing, 12, _panelSpacing),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_routes.length > 1) ...[
-              SizedBox(
-                height: _routeCardsHeight,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _routes.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 8),
-                  itemBuilder: (context, i) => _buildRouteCard(context, i, distanceProvider),
+      // The panel's background runs to the screen edge; its contents stay
+      // above the home indicator / system navigation buttons.
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, _panelSpacing, 12, _panelSpacing),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (_routes.length > 1) ...[
+                SizedBox(
+                  height: _routeCardsHeight,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _routes.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    itemBuilder: (context, i) => _buildRouteCard(context, i, distanceProvider),
+                  ),
                 ),
+                const SizedBox(height: _panelSpacing),
+              ],
+              FilledButton.icon(
+                onPressed: _isBusy ? null : _confirm,
+                icon: const Icon(Icons.check),
+                label: Text('${t.confirmTrip} · $selectedDistance'),
+                style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(_confirmButtonHeight)),
               ),
-              const SizedBox(height: _panelSpacing),
             ],
-            FilledButton.icon(
-              onPressed: _isBusy ? null : _confirm,
-              icon: const Icon(Icons.check),
-              label: Text('${t.confirmTrip} · $selectedDistance'),
-              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(_confirmButtonHeight)),
-            ),
-          ],
+          ),
         ),
       ),
     );

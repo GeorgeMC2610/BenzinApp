@@ -113,17 +113,10 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      // Android 15+ forces edge-to-edge, so with 3-button navigation the bottom
-      // of every screen would be drawn under the system buttons. Keep all routes
-      // (and the bottom sheets/dialogs inside them) clear of the system bars.
-      // Top is left to each Scaffold's AppBar, which already pads for the status bar.
-      builder: (context, child) => ColoredBox(
-        color: Theme.of(context).colorScheme.surface,
-        child: SafeArea(
-          top: false,
-          child: child ?? const SizedBox.shrink(),
-        ),
-      ),
+      // Android 15+ forces edge-to-edge, so each screen keeps its own content
+      // clear of the bottom system bars (SafeArea around the Scaffold body, or
+      // the BottomNavigationBar, which pads itself). Not done globally here, as
+      // that would stop bottom bars from extending under the iOS home indicator.
       home: const Start(),
     );
   }

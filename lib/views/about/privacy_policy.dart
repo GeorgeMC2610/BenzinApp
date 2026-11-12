@@ -35,15 +35,18 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(t.privacyPolicy)
     ),
-    body: _markdownContent.isEmpty
-        ? const Center(child: CircularProgressIndicator())
-        : Markdown(
-      data: _markdownContent,
-      styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-        p: const TextStyle(fontSize: 16.0, height: 1.5),
-        h1: const TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
-        h2: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
-        h3: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+    body: SafeArea(
+      top: false,
+      child: _markdownContent.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Markdown(
+        data: _markdownContent,
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+          p: const TextStyle(fontSize: 16.0, height: 1.5),
+          h1: const TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
+          h2: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+          h3: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+        ),
       ),
     ),
   );

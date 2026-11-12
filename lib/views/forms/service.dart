@@ -229,262 +229,265 @@ class _ServiceFormState extends State<ServiceForm> {
           isLoading: _isLoading,
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              DividerWithText(
-                  text: t.serviceInfo,
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 16
-              ),
-
-              const SizedBox(height: 15),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                controller: descriptionController,
-                keyboardType: TextInputType.multiline,
-                enabled: !_isLoading,
-                minLines: 2,
-                maxLines: 10,
-                maxLength: 1024,
-                decoration: InputDecoration(
-                  errorText: descError,
-                  errorMaxLines: 4,
-                  hintText: t.descriptionHint,
-                  labelText: '${t.description2} *',
-                  prefixIcon: const FaPrefixIcon(FontAwesomeIcons.wrench),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                DividerWithText(
+                    text: t.serviceInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 16
                 ),
-              ),
-
-              const SizedBox(height: 15),
-
-              DualNumericUpDownForm(
-                controller1: kmController,
-                controller2: costController,
-                title: t.serviceInfo,
-                fieldTitle1: '${t.serviceMileage2} (${distanceProvider.label}) *',
-                fieldTitle2: '${t.cost2} *',
-                error1: kmError,
-                error2: costError,
-                icon: const Icon(Icons.build_circle_outlined, size: 40),
-                quickValues: const [-10, -1, 1, 10, 100, 500],
-                showUpDownButtons: false,
-              ),
-
-              const SizedBox(height: 25),
-
-              AutoSizeText(
-                maxLines: 1,
-                _selectedDate == null ?
-                '${t.selectADate} *' :
-                LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
-                style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          lastDate: DateTime.now(),
-                          firstDate: DateTime.parse('1886-29-01'),
-                        );
-
-                        if (pickedDate != null) {
-                          setState(() {
-                            _selectedDate = pickedDate;
-                          });
-                        }
-                      },
-                      label: Text(t.pickADate),
-                      icon: const Icon(Icons.date_range),
+  
+                const SizedBox(height: 15),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  controller: descriptionController,
+                  keyboardType: TextInputType.multiline,
+                  enabled: !_isLoading,
+                  minLines: 2,
+                  maxLines: 10,
+                  maxLength: 1024,
+                  decoration: InputDecoration(
+                    errorText: descError,
+                    errorMaxLines: 4,
+                    hintText: t.descriptionHint,
+                    labelText: '${t.description2} *',
+                    prefixIcon: const FaPrefixIcon(FontAwesomeIcons.wrench),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
-                        setState(() {
-                          _selectedDate = DateTime.now();
-                        });
-                      },
-                      label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
-                      icon: const Icon(Icons.more_time_rounded),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-                          foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                ),
+  
+                const SizedBox(height: 15),
+  
+                DualNumericUpDownForm(
+                  controller1: kmController,
+                  controller2: costController,
+                  title: t.serviceInfo,
+                  fieldTitle1: '${t.serviceMileage2} (${distanceProvider.label}) *',
+                  fieldTitle2: '${t.cost2} *',
+                  error1: kmError,
+                  error2: costError,
+                  icon: const Icon(Icons.build_circle_outlined, size: 40),
+                  quickValues: const [-10, -1, 1, 10, 100, 500],
+                  showUpDownButtons: false,
+                ),
+  
+                const SizedBox(height: 25),
+  
+                AutoSizeText(
+                  maxLines: 1,
+                  _selectedDate == null ?
+                  '${t.selectADate} *' :
+                  LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            lastDate: DateTime.now(),
+                            firstDate: DateTime.parse('1886-29-01'),
+                          );
+  
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedDate = pickedDate;
+                            });
+                          }
+                        },
+                        label: Text(t.pickADate),
+                        icon: const Icon(Icons.date_range),
                       ),
                     ),
-                  )
-                ],
-              ),
-
-              // === SELECT LOCATION === //
-              const SizedBox(height: 25),
-
-              AutoSizeText(
-                maxLines: 1,
-                _selectedAddress == null ?
-                t.selectLocation :
-                _selectedAddress!,
-                style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () {
+                          setState(() {
+                            _selectedDate = DateTime.now();
+                          });
+                        },
+                        label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
+                        icon: const Icon(Icons.more_time_rounded),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-                        var data = await Navigator.push<Map<String, dynamic>>(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => SelectLocationOnMaps(
-                              address: _selectedAddress,
-                              coordinates: _selectedCoordinates,
+  
+                // === SELECT LOCATION === //
+                const SizedBox(height: 25),
+  
+                AutoSizeText(
+                  maxLines: 1,
+                  _selectedAddress == null ?
+                  t.selectLocation :
+                  _selectedAddress!,
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+                          var data = await Navigator.push<Map<String, dynamic>>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => SelectLocationOnMaps(
+                                address: _selectedAddress,
+                                coordinates: _selectedCoordinates,
+                              )
                             )
-                          )
-                        );
-
-                        if (data == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          _selectedAddress = data["address"]!;
-                          _selectedCoordinates = data["coordinates"]!;
-                        });
-                      },
-                      label: Text(t.pickAPlace),
-                      icon: const Icon(Icons.map),
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading || _selectedAddress == null ? null : () {
-                        setState(() {
-                          _selectedAddress = null;
-                          _selectedCoordinates = null;
-                        });
-                      },
-                      label: AutoSizeText(maxLines: 1, t.removeLocation, minFontSize: 10),
-                      icon: const Icon(Icons.cancel),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.error,
-                        foregroundColor: Theme.of(context).colorScheme.onError
-                      ),
-                    ),
-                  )
-                ],
-              ),
-
-              const SizedBox(height: 15),
-
-              DividerWithText(
-                  text: t.nextServiceInfo,
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 16
-              ),
-
-              const SizedBox(height: 15),
-
-              NumericUpDownForm(
-                controller: nextKmController,
-                showUpDownButtons: true,
-                hint: null,
-                bigTitle: false,
-                error: nextKmError,
-                quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
-                title: t.nextServiceMileage,
-                metric: distanceProvider.label,
-                icon: const Icon(Icons.speed, size: 40),
-              ),
-
-              const SizedBox(height: 15),
-
-              AutoSizeText(
-                maxLines: 1,
-                _selectedNextDate == null ?
-                t.selectNextServiceDate :
-                LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
-                style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          lastDate: DateTime.parse('2100-29-01'),
-                          firstDate: DateTime.now(),
-                        );
-
-                        if (pickedDate != null) {
+                          );
+  
+                          if (data == null) {
+                            return;
+                          }
+  
                           setState(() {
-                            _selectedNextDate = pickedDate;
+                            _selectedAddress = data["address"]!;
+                            _selectedCoordinates = data["coordinates"]!;
                           });
-                        }
-                      },
-                      label: Text(t.pickADate),
-                      icon: const Icon(Icons.date_range),
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
-                        setState(() {
-                          _selectedNextDate = null;
-                        });
-                      },
-                      label: AutoSizeText(maxLines: 1, t.discard, minFontSize: 10),
-                      icon: const Icon(Icons.delete_forever),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                          foregroundColor: Theme.of(context).colorScheme.onErrorContainer
+                        },
+                        label: Text(t.pickAPlace),
+                        icon: const Icon(Icons.map),
                       ),
                     ),
-                  )
-                ],
-              ),
-
-              const SizedBox(height: 70)
-            ],
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading || _selectedAddress == null ? null : () {
+                          setState(() {
+                            _selectedAddress = null;
+                            _selectedCoordinates = null;
+                          });
+                        },
+                        label: AutoSizeText(maxLines: 1, t.removeLocation, minFontSize: 10),
+                        icon: const Icon(Icons.cancel),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor: Theme.of(context).colorScheme.onError
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+  
+                const SizedBox(height: 15),
+  
+                DividerWithText(
+                    text: t.nextServiceInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 16
+                ),
+  
+                const SizedBox(height: 15),
+  
+                NumericUpDownForm(
+                  controller: nextKmController,
+                  showUpDownButtons: true,
+                  hint: null,
+                  bigTitle: false,
+                  error: nextKmError,
+                  quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
+                  title: t.nextServiceMileage,
+                  metric: distanceProvider.label,
+                  icon: const Icon(Icons.speed, size: 40),
+                ),
+  
+                const SizedBox(height: 15),
+  
+                AutoSizeText(
+                  maxLines: 1,
+                  _selectedNextDate == null ?
+                  t.selectNextServiceDate :
+                  LocaleStringConverter.dateShortDayMonthYearString(context, _selectedNextDate!),
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            lastDate: DateTime.parse('2100-29-01'),
+                            firstDate: DateTime.now(),
+                          );
+  
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedNextDate = pickedDate;
+                            });
+                          }
+                        },
+                        label: Text(t.pickADate),
+                        icon: const Icon(Icons.date_range),
+                      ),
+                    ),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () {
+                          setState(() {
+                            _selectedNextDate = null;
+                          });
+                        },
+                        label: AutoSizeText(maxLines: 1, t.discard, minFontSize: 10),
+                        icon: const Icon(Icons.delete_forever),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                            foregroundColor: Theme.of(context).colorScheme.onErrorContainer
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+  
+                const SizedBox(height: 70)
+              ],
+            ),
           ),
         ),
       ),

@@ -194,251 +194,254 @@ class _FuelFillRecordFormState extends State<FuelFillRecordForm> {
           t.editFuelFillRecord
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DividerWithText(
-                  text: t.requiredInfo,
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 13
-              ),
-
-              const SizedBox(height: 10),
-
-              DualNumericUpDownForm(
-                controller1: _mileageController,
-                controller2: _totalMileageController,
-                hint: Hint.odometer.widget,
-                title: t.mileageTitle,
-                error1: mileageError,
-                quickValues: const [-100, -50, -5, -1, 1, 10, 50, 100, 500, 1000],
-                syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
-                showUpDownButtons: false,
-                icon: const Icon(Icons.speed, size: 40),
-                fieldTitle1: '${t.mileage} (${distanceProvider.label}) *',
-                fieldTitle2: '${t.totalMileage} (${distanceProvider.label})',
-              ),
-
-              NumericUpDownForm(
-                controller: _pricePerVolume,
-                hint: Hint.pricePerLiter.widget,
-                showUpDownButtons: true,
-                upAndDownButtonValue: 0.001,
-                onChanged: (_) => _calculateFuelFields('price'),
-                title: t.costPerVolume,
-                metric: '${CarManager().watchingCar!.currency}/${volumeProvider.label}.',
-                icon: const Icon(Icons.price_change, size: 40),
-                quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
-              ),
-
-              DualNumericUpDownForm(
-                controller1: _costController,
-                controller2: _literController,
-                title: t.fuelFillInfo,
-                hint: Hint.ffrStats.widget,
-                quickValues: const [-5, -1, -0.1, -0.01, 0.01, 0.1, 1, 5, 10, 50],
-                showUpDownButtons: false,
-                syncedControllers: false,
-                error1: costError,
-                error2: literError,
-                onController1Changed: (_) => _calculateFuelFields('cost'),
-                onController2Changed: (_) => _calculateFuelFields('liters'),
-                icon: const Icon(Icons.gas_meter_outlined, size: 40),
-                fieldTitle1: '${t.cost} *',
-                fieldTitle2: '${t.liters} (${volumeProvider.label}) *',
-              ),
-
-              const SizedBox(height: 30),
-
-              Center(
-                child: AutoSizeText(
-                  maxLines: 1,
-                  _selectedDate == null ?
-                  t.selectADate :
-                  LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
-                  style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold
-                  ),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DividerWithText(
+                    text: t.requiredInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 13
                 ),
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            lastDate: DateTime.now(),
-                            firstDate: DateTime.parse('1886-29-01'),
-                        );
-
-                        if (pickedDate != null) {
-                          setState(() {
-                            _selectedDate = pickedDate;
-                          });
-                        }
-                      },
-                      label: Text(t.pickADate),
-                      icon: const Icon(Icons.date_range),
+  
+                const SizedBox(height: 10),
+  
+                DualNumericUpDownForm(
+                  controller1: _mileageController,
+                  controller2: _totalMileageController,
+                  hint: Hint.odometer.widget,
+                  title: t.mileageTitle,
+                  error1: mileageError,
+                  quickValues: const [-100, -50, -5, -1, 1, 10, 50, 100, 500, 1000],
+                  syncedControllers: FuelFillRecordManager().local?.isNotEmpty ?? false,
+                  showUpDownButtons: false,
+                  icon: const Icon(Icons.speed, size: 40),
+                  fieldTitle1: '${t.mileage} (${distanceProvider.label}) *',
+                  fieldTitle2: '${t.totalMileage} (${distanceProvider.label})',
+                ),
+  
+                NumericUpDownForm(
+                  controller: _pricePerVolume,
+                  hint: Hint.pricePerLiter.widget,
+                  showUpDownButtons: true,
+                  upAndDownButtonValue: 0.001,
+                  onChanged: (_) => _calculateFuelFields('price'),
+                  title: t.costPerVolume,
+                  metric: '${CarManager().watchingCar!.currency}/${volumeProvider.label}.',
+                  icon: const Icon(Icons.price_change, size: 40),
+                  quickValues: const [-0.1, -0.01, 0.01, 0.1, 1],
+                ),
+  
+                DualNumericUpDownForm(
+                  controller1: _costController,
+                  controller2: _literController,
+                  title: t.fuelFillInfo,
+                  hint: Hint.ffrStats.widget,
+                  quickValues: const [-5, -1, -0.1, -0.01, 0.01, 0.1, 1, 5, 10, 50],
+                  showUpDownButtons: false,
+                  syncedControllers: false,
+                  error1: costError,
+                  error2: literError,
+                  onController1Changed: (_) => _calculateFuelFields('cost'),
+                  onController2Changed: (_) => _calculateFuelFields('liters'),
+                  icon: const Icon(Icons.gas_meter_outlined, size: 40),
+                  fieldTitle1: '${t.cost} *',
+                  fieldTitle2: '${t.liters} (${volumeProvider.label}) *',
+                ),
+  
+                const SizedBox(height: 30),
+  
+                Center(
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    _selectedDate == null ?
+                    t.selectADate :
+                    LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
+                    style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
-                        setState(() {
-                          _selectedDate = DateTime.now();
-                        });
-                      },
-                      label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
-                      icon: const Icon(Icons.more_time_rounded),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                ),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              lastDate: DateTime.now(),
+                              firstDate: DateTime.parse('1886-29-01'),
+                          );
+  
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedDate = pickedDate;
+                            });
+                          }
+                        },
+                        label: Text(t.pickADate),
+                        icon: const Icon(Icons.date_range),
                       ),
                     ),
-                  )
-                ],
-              ),
-
-              const SizedBox(height: 15),
-
-              DividerWithText(
-                  text: t.optionalInfo,
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 13
-              ),
-
-              const SizedBox(height: 15),
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: RawAutocomplete<String>(
-                      textEditingController: _fuelTypeController,
-                      focusNode: _fuelTypeFocusNode,
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        return _fuelTypeOptions.where((String option) {
-                          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                        });
-                      },
-                      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-                        return TextField(
-                          controller: controller,
-                          focusNode: focusNode,
-                          onTapOutside: (value) {
-                            FocusScope.of(context).unfocus();
-                          },
-                          textInputAction: TextInputAction.next,
-                          enabled: !_isLoading,
-                          keyboardType: TextInputType.text,
-                          maxLength: 50,
-                          decoration: InputDecoration(
-                            hintText: t.fuelTypeHint,
-                            errorMaxLines: 4,
-                            counterText: '',
-                            labelText: t.fuelType,
-                            errorText: fuelTypeError,
-                            prefixIcon: const Icon(Icons.gas_meter),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () {
+                          setState(() {
+                            _selectedDate = DateTime.now();
+                          });
+                        },
+                        label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
+                        icon: const Icon(Icons.more_time_rounded),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+  
+                const SizedBox(height: 15),
+  
+                DividerWithText(
+                    text: t.optionalInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 13
+                ),
+  
+                const SizedBox(height: 15),
+  
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: RawAutocomplete<String>(
+                        textEditingController: _fuelTypeController,
+                        focusNode: _fuelTypeFocusNode,
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          return _fuelTypeOptions.where((String option) {
+                            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                          return TextField(
+                            controller: controller,
+                            focusNode: focusNode,
+                            onTapOutside: (value) {
+                              FocusScope.of(context).unfocus();
+                            },
+                            textInputAction: TextInputAction.next,
+                            enabled: !_isLoading,
+                            keyboardType: TextInputType.text,
+                            maxLength: 50,
+                            decoration: InputDecoration(
+                              hintText: t.fuelTypeHint,
+                              errorMaxLines: 4,
+                              counterText: '',
+                              labelText: t.fuelType,
+                              errorText: fuelTypeError,
+                              prefixIcon: const Icon(Icons.gas_meter),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      optionsViewBuilder: (context, onSelected, options) {
-                        return _AutocompleteOptionsView(
-                          onSelected: onSelected,
-                          options: options,
-                        );
-                      },
+                          );
+                        },
+                        optionsViewBuilder: (context, onSelected, options) {
+                          return _AutocompleteOptionsView(
+                            onSelected: onSelected,
+                            options: options,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    child: RawAutocomplete<String>(
-                      textEditingController: _stationController,
-                      focusNode: _stationFocusNode,
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        return _stationOptions.where((String option) {
-                          return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                        });
-                      },
-                      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-                        return TextField(
-                          controller: controller,
-                          focusNode: focusNode,
-                          onTapOutside: (value) {
-                            FocusScope.of(context).unfocus();
-                          },
-                          textInputAction: TextInputAction.next,
-                          enabled: !_isLoading,
-                          keyboardType: TextInputType.text,
-                          maxLength: 50,
-                          decoration: InputDecoration(
-                            hintText: t.stationHint,
-                            labelText: t.station,
-                            errorText: stationError,
-                            errorMaxLines: 4,
-                            counterText: '',
-                            prefixIcon: const Icon(Icons.local_gas_station),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+  
+                    const SizedBox(width: 5),
+  
+                    Expanded(
+                      child: RawAutocomplete<String>(
+                        textEditingController: _stationController,
+                        focusNode: _stationFocusNode,
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          return _stationOptions.where((String option) {
+                            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                          return TextField(
+                            controller: controller,
+                            focusNode: focusNode,
+                            onTapOutside: (value) {
+                              FocusScope.of(context).unfocus();
+                            },
+                            textInputAction: TextInputAction.next,
+                            enabled: !_isLoading,
+                            keyboardType: TextInputType.text,
+                            maxLength: 50,
+                            decoration: InputDecoration(
+                              hintText: t.stationHint,
+                              labelText: t.station,
+                              errorText: stationError,
+                              errorMaxLines: 4,
+                              counterText: '',
+                              prefixIcon: const Icon(Icons.local_gas_station),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      optionsViewBuilder: (context, onSelected, options) {
-                        return _AutocompleteOptionsView(
-                          onSelected: onSelected,
-                          options: options,
-                        );
-                      },
+                          );
+                        },
+                        optionsViewBuilder: (context, onSelected, options) {
+                          return _AutocompleteOptionsView(
+                            onSelected: onSelected,
+                            options: options,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-
-                ],
-              ),
-
-              const SizedBox(height: 15),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                keyboardType: TextInputType.multiline,
-                enabled: !_isLoading,
-                controller: _commentsController,
-                minLines: 2,
-                maxLines: 10,
-                maxLength: 2048,
-                decoration: InputDecoration(
-                  hintText: t.commentsHint,
-                  labelText: t.comments2,
-                  errorText: commentsError,
-                  errorMaxLines: 4,
-                  prefixIcon: const Icon(Icons.comment),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+  
+                  ],
+                ),
+  
+                const SizedBox(height: 15),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  keyboardType: TextInputType.multiline,
+                  enabled: !_isLoading,
+                  controller: _commentsController,
+                  minLines: 2,
+                  maxLines: 10,
+                  maxLength: 2048,
+                  decoration: InputDecoration(
+                    hintText: t.commentsHint,
+                    labelText: t.comments2,
+                    errorText: commentsError,
+                    errorMaxLines: 4,
+                    prefixIcon: const Icon(Icons.comment),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 70)
-
-            ],
+  
+                const SizedBox(height: 70)
+  
+              ],
+            ),
           ),
         ),
       ),

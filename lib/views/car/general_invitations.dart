@@ -61,12 +61,15 @@ class _GeneralInvitationsState extends State<GeneralInvitations>
               ],
             ),
           ),
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildInvitationList(incoming ?? [], true),
-              _buildInvitationList(outgoing ?? [], false),
-            ],
+          body: SafeArea(
+            top: false,
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildInvitationList(incoming ?? [], true),
+                _buildInvitationList(outgoing ?? [], false),
+              ],
+            ),
           ),
         );
       }

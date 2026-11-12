@@ -97,156 +97,159 @@ class _ViewMalfunctionState extends State<ViewMalfunction> {
           ],
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-
-              // CARD WITH BASE DATA
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        // DATE DISCOVERED
-                        Text(t.dateDiscovered, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateStarted),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // KM DISCOVERED
-                        Text(t.kilometersDiscovered, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            '${
-                          LocaleStringConverter.formattedBigInt(
-                              context, distanceProvider.convert(malfunction.kilometersDiscovered.toDouble()).toInt())
-                        } ${distanceProvider.label}',
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // STATUS (FIXED/UNFIXED)
-                        Text(t.status, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            malfunction.isFixed() ?
-                            t.fixedMalfunction :
-                            t.ongoingMalfunction,
-                            style: TextStyle(
-                              fontSize: 20.5,
-                              fontWeight: FontWeight.bold,
-                              color: malfunction.isFixed() ? Colors.green : Colors.red
-                            ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // SEVERITY
-                        Text('Severity', style: SharedFontStyles.legendTextStyle),
-                        _getSeverity()
-                      ],
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+  
+                // CARD WITH BASE DATA
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
                     ),
-                  ),
-                ),
-              ),
-
-              // TITLE AND DESCRIPTION
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.title, style: SharedFontStyles.legendTextStyle),
-                        Text(malfunction.title, style: SharedFontStyles.descriptiveTextStyle),
-
-                        const SizedBox(height: 20),
-
-                        Text(t.description, style: SharedFontStyles.legendTextStyle),
-                        Text(malfunction.description, style: SharedFontStyles.descriptiveTextStyle),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              // CONDITIONAL DATA IF THE MALFUNCTION IS FIXED
-              malfunction.isFixed() ?
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.dateFixed, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateEnded!),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(t.locationFixed, style: SharedFontStyles.legendTextStyle),
-                        Text(malfunction.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
-
-                        malfunction.location == null ? const SizedBox() : ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) => ViewTripOnMaps(
-                                        positions: [malfunction.getCoordinates()!],
-                                        addresses: [malfunction.getAddress()!]
-                                    )
-                                )
-                            );
-                          },
-                          label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
-                          icon: const Icon(Icons.pin_drop, size: 20.3,),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+  
+                          // DATE DISCOVERED
+                          Text(t.dateDiscovered, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateStarted),
+                              style: SharedFontStyles.descriptiveTextStyle
                           ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(t.cost, style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            malfunction.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunction.cost!)),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-                      ],
+  
+                          const SizedBox(height: 20),
+  
+                          // KM DISCOVERED
+                          Text(t.kilometersDiscovered, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              '${
+                            LocaleStringConverter.formattedBigInt(
+                                context, distanceProvider.convert(malfunction.kilometersDiscovered.toDouble()).toInt())
+                          } ${distanceProvider.label}',
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          // STATUS (FIXED/UNFIXED)
+                          Text(t.status, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              malfunction.isFixed() ?
+                              t.fixedMalfunction :
+                              t.ongoingMalfunction,
+                              style: TextStyle(
+                                fontSize: 20.5,
+                                fontWeight: FontWeight.bold,
+                                color: malfunction.isFixed() ? Colors.green : Colors.red
+                              ),
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          // SEVERITY
+                          Text('Severity', style: SharedFontStyles.legendTextStyle),
+                          _getSeverity()
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ) :  const SizedBox()
-            ],
+  
+                // TITLE AND DESCRIPTION
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.title, style: SharedFontStyles.legendTextStyle),
+                          Text(malfunction.title, style: SharedFontStyles.descriptiveTextStyle),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.description, style: SharedFontStyles.legendTextStyle),
+                          Text(malfunction.description, style: SharedFontStyles.descriptiveTextStyle),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+  
+                // CONDITIONAL DATA IF THE MALFUNCTION IS FIXED
+                malfunction.isFixed() ?
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.dateFixed, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              LocaleStringConverter.dateDayMonthYearString(context, malfunction.dateEnded!),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.locationFixed, style: SharedFontStyles.legendTextStyle),
+                          Text(malfunction.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+  
+                          malfunction.location == null ? const SizedBox() : ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => ViewTripOnMaps(
+                                          positions: [malfunction.getCoordinates()!],
+                                          addresses: [malfunction.getAddress()!]
+                                      )
+                                  )
+                              );
+                            },
+                            label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
+                            icon: const Icon(Icons.pin_drop, size: 20.3,),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                            ),
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.cost, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              malfunction.cost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, malfunction.cost!)),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ) :  const SizedBox()
+              ],
+            ),
           ),
         ),
       ),
