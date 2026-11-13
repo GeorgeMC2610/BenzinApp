@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppInformation extends StatefulWidget {
@@ -28,37 +28,40 @@ class _AppInformationState extends State<AppInformation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('appInformation'))
+        title: Text(t.appInformation)
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  "lib/assets/images/benzinapp_logo_round.png",
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-
-              const Center(
-                child: Text(
-                  "BenzinApp",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: Image.asset(
+                    "lib/assets/images/benzinapp_logo_round.png",
+                    height: 150,
+                    width: 150,
                   ),
                 ),
-              ),
-
-              Center(
-                child: Text("Version ${packageInfo?.version ?? '-'}"),
-              )
-            ],
+  
+                const Center(
+                  child: Text(
+                    "BenzinApp",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
+                    ),
+                  ),
+                ),
+  
+                Center(
+                  child: Text("Version ${packageInfo?.version ?? '-'}"),
+                )
+              ],
+            ),
           ),
         ),
       ),

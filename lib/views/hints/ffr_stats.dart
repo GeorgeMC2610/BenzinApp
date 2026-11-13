@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class FfrStats extends StatelessWidget {
   const FfrStats({super.key});
@@ -10,8 +10,8 @@ class FfrStats extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(translate('ffrStatsTitle1'), style: Theme.of(context).textTheme.titleLarge),
-        Text(translate('ffrStatsBody1'),
+        Text(t.ffrStatsTitle1, style: Theme.of(context).textTheme.titleLarge),
+        Text(t.ffrStatsBody1,
             style: Theme.of(context).textTheme.bodyMedium
         ),
 
@@ -19,8 +19,8 @@ class FfrStats extends StatelessWidget {
 
         const SizedBox(height: 25),
 
-        Text(translate('ffrStatsTitle2'), style: Theme.of(context).textTheme.titleLarge),
-        Text(translate('ffrStatsBody2'),
+        Text(t.ffrStatsTitle2, style: Theme.of(context).textTheme.titleLarge),
+        Text(t.ffrStatsBody2,
             style: Theme.of(context).textTheme.bodyMedium
         ),
 

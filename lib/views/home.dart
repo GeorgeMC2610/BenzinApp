@@ -12,7 +12,7 @@ import 'package:benzinapp/views/fragments/maintenance.dart';
 import 'package:benzinapp/views/fragments/overview.dart';
 import 'package:benzinapp/views/fragments/settings.dart';
 import 'package:benzinapp/views/fragments/trips.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -60,19 +60,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       switch (_selectedTabIndex) {
         case 0:
-          _title = translate('home');
+          _title = t.home;
           break;
         case 1:
-          _title = translate('fuelFills');
+          _title = t.fuelFills;
           break;
         case 2:
-          _title = translate('maintenance');
+          _title = t.maintenance;
           break;
         case 3:
-          _title = translate('trips');
+          _title = t.trips;
           break;
         case 4:
-          _title = translate('invitations');
+          _title = t.invitations;
           break;
       }
     });
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
           // TODO: Convert to new notification.
-          SnackBar(content: Text(translate('enableLocationSetting')))
+          SnackBar(content: Text(t.enableLocationSetting))
         );
         return;
       }
@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
         case LocationPermission.deniedForever:
           ScaffoldMessenger.of(context).showSnackBar(
             // TODO: Convert to new notification.
-              SnackBar(content: Text(translate('permissionDeniedForever')))
+              SnackBar(content: Text(t.permissionDeniedForever))
           );
           break;
         case LocationPermission.whileInUse:
@@ -143,19 +143,19 @@ class _HomePageState extends State<HomePage> {
           case LocationPermission.denied:
             ScaffoldMessenger.of(context).showSnackBar(
               // TODO: Convert to new notification.
-                SnackBar(content: Text(translate('mustGrantPermissionToUseThis')))
+                SnackBar(content: Text(t.mustGrantPermissionToUseThis))
             );
             return;
           case LocationPermission.deniedForever:
             ScaffoldMessenger.of(context).showSnackBar(
               // TODO: Convert to new notification.
-                SnackBar(content: Text(translate('permissionDeniedForever')))
+                SnackBar(content: Text(t.permissionDeniedForever))
             );
             return;
           case LocationPermission.unableToDetermine:
             ScaffoldMessenger.of(context).showSnackBar(
               // TODO: Convert to new notification.
-                SnackBar(content: Text(translate('unableToDeterminePermissionStatus')))
+                SnackBar(content: Text(t.unableToDeterminePermissionStatus))
             );
             return;
           default:
@@ -229,24 +229,24 @@ class _HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            label: translate('home'),
+            label: t.home,
             icon: const Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-              label: translate('fuelFills'),
+              label: t.fuelFills,
               icon: const Icon(Icons.local_gas_station)
           ),
           BottomNavigationBarItem(
-              label: translate('maintenance'),
+              label: t.maintenance,
               icon: const Icon(Icons.car_repair)
           ),
           BottomNavigationBarItem(
-              label: translate('trips'),
+              label: t.trips,
               icon: const Icon(Icons.pin_drop)
           ),
          if (CarManager().watchingCar!.isOwned())
            BottomNavigationBarItem(
-               label: translate('invitations'),
+               label: t.invitations,
                icon: const Icon(Icons.mail)
            ),
         ]),

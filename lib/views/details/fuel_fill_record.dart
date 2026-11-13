@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 import 'package:benzinapp/views/shared/shared_font_styles.dart';
 import '../../services/managers/fuel_fill_record_manager.dart';
@@ -43,7 +43,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(translate('fuelFillRecordData')),
+          title: Text(t.fuelFillRecordData),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -74,7 +74,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                       foregroundColor: Theme.of(context).colorScheme.onSecondary,
                     ),
                     icon: const Icon(Icons.edit),
-                    label: Text(translate('edit'))
+                    label: Text(t.edit)
                 ),
               ),
               const SizedBox(width: 10),
@@ -83,7 +83,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                       onPressed: () {
                         DeleteDialog.show(
                             context,
-                            translate('confirmDeleteFuelFill'),
+                            t.confirmDeleteFuelFill,
                                 (Function(bool) setLoadingState) async {
                               setState(() => isLoading = true);
 
@@ -101,243 +101,246 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
                         foregroundColor: Theme.of(context).colorScheme.onError,
                       ),
                       icon: const Icon(Icons.delete),
-                      label: Text(translate('delete'))
+                      label: Text(t.delete)
                   )
               )
             ],
           )
         ],
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    // fuelFillRecord.getNext() == null?
-                    // ListTile(
-                    //     leading: const Icon(Icons.info),
-                    //     title: Text(translate('statsCannotBeCalculated'))
-                    // ) : const SizedBox(),
-
-                    // singular card with initial data
-                    SizedBox(
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-
-                              Row(
-                                children: [
-                                  const Icon(Icons.access_time_outlined, size: 30,),
-                                  const SizedBox(width: 15),
-                                  AutoSizeText(
-                                    _getFullDateTimeString(context),
-                                    maxLines: 1,
-                                    maxFontSize: 19,
-                                    style: const TextStyle(
-                                        fontSize: 18
-                                    ),
-
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              Row(
-                                children: [
-                                  const Icon(Icons.local_gas_station_outlined, size: 30),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      _getFuelString(context),
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+  
+                      // fuelFillRecord.getNext() == null?
+                      // ListTile(
+                      //     leading: const Icon(Icons.info),
+                      //     title: Text(t.statsCannotBeCalculated)
+                      // ) : const SizedBox(),
+  
+                      // singular card with initial data
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+  
+                                Row(
+                                  children: [
+                                    const Icon(Icons.access_time_outlined, size: 30,),
+                                    const SizedBox(width: 15),
+                                    AutoSizeText(
+                                      _getFullDateTimeString(context),
                                       maxLines: 1,
                                       maxFontSize: 19,
+                                      style: const TextStyle(
+                                          fontSize: 18
+                                      ),
+  
+                                    ),
+                                  ],
+                                ),
+  
+                                const SizedBox(height: 10),
+  
+                                Row(
+                                  children: [
+                                    const Icon(Icons.local_gas_station_outlined, size: 30),
+                                    const SizedBox(width: 15),
+                                    Expanded(
+                                      child: AutoSizeText(
+                                        _getFuelString(context),
+                                        maxLines: 1,
+                                        maxFontSize: 19,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: _getFuelString(context) == t.unspecified ? Colors.grey : Theme.of(context).colorScheme.onSurface,
+                                          fontStyle: _getFuelString(context) == t.unspecified ? FontStyle.italic : FontStyle.normal,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+  
+                                fuelFillRecord.totalKilometers == null ?
+                                const SizedBox() :
+                                const SizedBox(height: 10),
+  
+                                fuelFillRecord.totalKilometers == null ?
+                                const SizedBox() :
+                                Row(
+                                  children: [
+                                    const FaIcon(FontAwesomeIcons.carSide, size: 25),
+                                    const SizedBox(width: 20),
+                                    AutoSizeText(
+                                      maxLines: 1,
+                                      maxFontSize: 19,
+                                      '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(fuelFillRecord.totalKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: _getFuelString(context) == translate('unspecified') ? Colors.grey : Theme.of(context).colorScheme.onSurface,
-                                        fontStyle: _getFuelString(context) == translate('unspecified') ? FontStyle.italic : FontStyle.normal,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+  
+                      // TWO CARDS WITH THE DATA AND THE STATS
+                      Row(
+                        children: [
+  
+                          Expanded(
+                            flex: 2,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)
                               ),
-
-                              fuelFillRecord.totalKilometers == null ?
-                              const SizedBox() :
-                              const SizedBox(height: 10),
-
-                              fuelFillRecord.totalKilometers == null ?
-                              const SizedBox() :
-                              Row(
-                                children: [
-                                  const Icon(FontAwesomeIcons.carSide, size: 25),
-                                  const SizedBox(width: 20),
-                                  AutoSizeText(
-                                    maxLines: 1,
-                                    maxFontSize: 19,
-                                    '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(fuelFillRecord.totalKilometers!.toDouble()).toInt())} ${distanceProvider.label}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Theme.of(context).colorScheme.onSurface,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(t.liters, style: SharedFontStyles.legendTextStyle),
+                                    Text("${volumeProvider.convert(fuelFillRecord.liters).toStringAsFixed(2)} ${volumeProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
+  
+                                    const SizedBox(height: 20),
+  
+                                    Text(t.kilometers, style: SharedFontStyles.legendTextStyle),
+                                    Text("${distanceProvider.convert(fuelFillRecord.kilometers.toDouble()).toStringAsFixed(1)} ${distanceProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
+  
+                                    const SizedBox(height: 20),
+  
+                                    Text(t.cost, style: SharedFontStyles.legendTextStyle),
+                                    Text(CarManager().watchingCar!.toCurrency(fuelFillRecord.cost.toString()), style: SharedFontStyles.descriptiveTextStyle),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+  
+                          // fuelFillRecord.getNext() == null ? const SizedBox() :
+                          Expanded(
+                            flex: 3,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(t.consumption, style: SharedFontStyles.legendTextStyle),
+                                    Text(
+                                        "${FuelMetricService.getConvertedConsumption(fuelFillRecord.getConsumption(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getConsumptionLabel(distanceProvider.metric, volumeProvider.metric)}",
+                                        style: SharedFontStyles.mainTextStyle
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // TWO CARDS WITH THE DATA AND THE STATS
-                    Row(
-                      children: [
-
-                        Expanded(
-                          flex: 2,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(translate('liters'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${volumeProvider.convert(fuelFillRecord.liters).toStringAsFixed(2)} ${volumeProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
-
-                                  const SizedBox(height: 20),
-
-                                  Text(translate('kilometers'), style: SharedFontStyles.legendTextStyle),
-                                  Text("${distanceProvider.convert(fuelFillRecord.kilometers.toDouble()).toStringAsFixed(1)} ${distanceProvider.label}", style: SharedFontStyles.descriptiveTextStyle),
-
-                                  const SizedBox(height: 20),
-
-                                  Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
-                                  Text(CarManager().watchingCar!.toCurrency(fuelFillRecord.cost.toString()), style: SharedFontStyles.descriptiveTextStyle),
-                                ],
+  
+                                    const SizedBox(height: 20),
+  
+                                    Text(t.efficiency, style: SharedFontStyles.legendTextStyle),
+                                    Text(
+                                        "${FuelMetricService.getConvertedEfficiency(fuelFillRecord.getEfficiency(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getEfficiencyLabel(distanceProvider.metric, volumeProvider.metric)}",
+                                        style: SharedFontStyles.mainTextStyle
+                                    ),
+  
+                                    const SizedBox(height: 20),
+  
+                                    Text(t.travel_cost, style: SharedFontStyles.legendTextStyle),
+                                    Text(
+                                        "${CarManager().watchingCar!.toCurrency(FuelMetricService.getConvertedTravelCost(fuelFillRecord.getTravelCost(), distanceProvider.metric).toStringAsFixed(2))}/${distanceProvider.label}",
+                                        style: SharedFontStyles.mainTextStyle
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-
-                        // fuelFillRecord.getNext() == null ? const SizedBox() :
-                        Expanded(
-                          flex: 3,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(translate('consumption'), style: SharedFontStyles.legendTextStyle),
-                                  Text(
-                                      "${FuelMetricService.getConvertedConsumption(fuelFillRecord.getConsumption(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getConsumptionLabel(distanceProvider.metric, volumeProvider.metric)}",
-                                      style: SharedFontStyles.mainTextStyle
-                                  ),
-
-                                  const SizedBox(height: 20),
-
-                                  Text(translate('efficiency'), style: SharedFontStyles.legendTextStyle),
-                                  Text(
-                                      "${FuelMetricService.getConvertedEfficiency(fuelFillRecord.getEfficiency(), distanceProvider.metric, volumeProvider.metric).toStringAsFixed(3)} ${FuelMetricService.getEfficiencyLabel(distanceProvider.metric, volumeProvider.metric)}",
-                                      style: SharedFontStyles.mainTextStyle
-                                  ),
-
-                                  const SizedBox(height: 20),
-
-                                  Text(translate('travel_cost'), style: SharedFontStyles.legendTextStyle),
-                                  Text(
-                                      "${CarManager().watchingCar!.toCurrency(FuelMetricService.getConvertedTravelCost(fuelFillRecord.getTravelCost(), distanceProvider.metric).toStringAsFixed(2))}/${distanceProvider.label}",
-                                      style: SharedFontStyles.mainTextStyle
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(width: MediaQuery.of(context).size.width),
-                            Text(translate('costPerVolume').toUpperCase(), style: SharedFontStyles.legendTextStyle),
-                            Text(
-                                "${(fuelFillRecord.cost / volumeProvider.convert(fuelFillRecord.liters)).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/${volumeProvider.label}",
-                                style: SharedFontStyles.mainTextStyle.copyWith(
-                                    fontSize: 25,
-                                )
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // singular card with initial data
-                    SizedBox(
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Card(
+  
+                      Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-
-                              Row(
-                                children: [
-                                  const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
-                                  const SizedBox(width: 5),
-                                  Text(translate('comments'), style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
-                                ],
-                              ),
-
-                              const SizedBox(height: 10),
-
+                              SizedBox(width: MediaQuery.of(context).size.width),
+                              Text(t.costPerVolume.toUpperCase(), style: SharedFontStyles.legendTextStyle),
                               Text(
-                                fuelFillRecord.comments == null ? translate('nothingToShowHere') : fuelFillRecord.comments!,
-                                style: TextStyle(
-                                    color: fuelFillRecord.comments == null ? Colors.grey : Theme.of(context).colorScheme.onSurface,
-                                    fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
-                                ),
-                              )
-
+                                  "${(fuelFillRecord.cost / volumeProvider.convert(fuelFillRecord.liters)).toStringAsFixed(3)} ${CarManager().watchingCar!.currency}/${volumeProvider.label}",
+                                  style: SharedFontStyles.mainTextStyle.copyWith(
+                                      fontSize: 25,
+                                  )
+                              ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-            )
+  
+                      // singular card with initial data
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+  
+                                Row(
+                                  children: [
+                                    const Icon(Icons.comment_outlined, size: 15, color: CupertinoColors.systemGrey,),
+                                    const SizedBox(width: 5),
+                                    Text(t.comments, style: const TextStyle(fontSize: 12, color: CupertinoColors.systemGrey)),
+                                  ],
+                                ),
+  
+                                const SizedBox(height: 10),
+  
+                                Text(
+                                  fuelFillRecord.comments == null ? t.nothingToShowHere : fuelFillRecord.comments!,
+                                  style: TextStyle(
+                                      color: fuelFillRecord.comments == null ? Colors.grey : Theme.of(context).colorScheme.onSurface,
+                                      fontStyle: fuelFillRecord.comments == null ? FontStyle.italic : FontStyle.normal
+                                  ),
+                                )
+  
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              )
+          ),
         )
     );
   }
@@ -351,7 +354,7 @@ class _ViewFuelFillRecordState extends State<ViewFuelFillRecord> {
     if (fuelFillRecord.fuelType == null) {
 
       if (fuelFillRecord.gasStation == null) {
-        return translate('unspecified');
+        return t.unspecified;
       }
 
       return fuelFillRecord.gasStation!;

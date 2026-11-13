@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class Odometer extends StatelessWidget {
   const Odometer({super.key});
@@ -10,8 +10,8 @@ class Odometer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(translate('odometerHintTitle1'), style: Theme.of(context).textTheme.titleLarge),
-        Text(translate('odometerBody1'),
+        Text(t.odometerHintTitle1, style: Theme.of(context).textTheme.titleLarge),
+        Text(t.odometerBody1,
             style: Theme.of(context).textTheme.bodyMedium
         ),
 
@@ -19,8 +19,8 @@ class Odometer extends StatelessWidget {
 
         const SizedBox(height: 25),
 
-        Text(translate('odometerHintTitle2'), style: Theme.of(context).textTheme.titleLarge),
-        Text(translate('odometerBody2'),
+        Text(t.odometerHintTitle2, style: Theme.of(context).textTheme.titleLarge),
+        Text(t.odometerBody2,
             style: Theme.of(context).textTheme.bodyMedium
         ),
 

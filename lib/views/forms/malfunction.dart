@@ -5,7 +5,7 @@ import 'package:benzinapp/services/classes/malfunction.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/views/shared/numeric_up_down_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/locale_string_converter.dart';
 import '../../services/localized_number_input.dart';
@@ -108,7 +108,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyAddedMalfunction'),
+          t.successfullyAddedMalfunction,
         );
         if (mounted) Navigator.pop(context);
         if (mounted) Navigator.pop(context);
@@ -145,7 +145,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyUpdatedMalfunction'),
+          t.successfullyUpdatedMalfunction,
         );
 
         if (widget.isViewing) {
@@ -157,15 +157,15 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -182,7 +182,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       kmError = _numberValidator(kmController);
       titleError = _emptyValidator(titleController.text);
       descriptionError = _emptyValidator(descriptionController.text);
-      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
+      dateValidator = _selectedDate == null ? t.noDateSelected : null;
     });
 
     if (_selectedDate == null) {
@@ -230,8 +230,8 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
       titleError = _emptyValidator(titleController.text);
       descriptionError = _emptyValidator(descriptionController.text);
       costError = _numberValidator(costController);
-      dateValidator = _selectedDate == null ? translate('noDateSelected') : null;
-      endedDateValidator = _selectedDateEnded == null ? translate('pleaseSelectAnEndDate') : null;
+      dateValidator = _selectedDate == null ? t.noDateSelected : null;
+      endedDateValidator = _selectedDateEnded == null ? t.pleaseSelectAnEndDate : null;
     });
 
     if (_selectedDate == null) {
@@ -263,7 +263,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.malfunction == null ? translate('addMalfunction') : translate('editMalfunction')),
+        title: Text(widget.malfunction == null ? t.addMalfunction : t.editMalfunction),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -273,205 +273,208 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           isLoading: _isLoading,
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: Column(
-            children: [
-              DividerWithText(
-                  text: translate('malfunctionData'),
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 16
-              ),
-
-              const SizedBox(height: 15),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () async {
-                  setState(() {
-                    kmError = _numberValidator(kmController);
-                  });
-                },
-                enabled: !_isLoading,
-                controller: titleController,
-                maxLength: 30,
-                decoration: InputDecoration(
-                  hintText: translate('malfunctionTitleHint'),
-                  errorText: titleError,
-                  errorMaxLines: 4,
-                  counterText: '',
-                  labelText: '${translate('malfunctionTitle')} *',
-                  prefixIcon: const Icon(Icons.next_plan_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Column(
+              children: [
+                DividerWithText(
+                    text: t.malfunctionData,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 16
                 ),
-              ),
-
-              const SizedBox(height: 15),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                keyboardType: TextInputType.multiline,
-                onEditingComplete: () async {
-                  setState(() {
-                    descriptionError = _emptyValidator(descriptionController.text);
-                  });
-                },
-                minLines: 2,
-                maxLines: 10,
-                maxLength: 2048,
-                enabled: !_isLoading,
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  hintText: translate('descriptionHintMalfunction'),
-                  labelText: '${translate('description2')} *',
-                  errorText: descriptionError,
-                  errorMaxLines: 4,
-                  prefixIcon: const Icon(Icons.comment),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-              ),
-
-              NumericUpDownForm(
-                controller: kmController,
-                showUpDownButtons: true,
-                bigTitle: false,
-                error: kmError,
-                quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
-                title: '${translate('serviceMileage2')} (${distanceProvider.label})',
-                metric: distanceProvider.label,
-                icon: const Icon(Icons.speed, size: 40),
-              ),
-
-
-              const SizedBox(height: 20),
-
-              Text(
-                '${translate('malfunctionSeverity')}*:',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Slider(
-                    value: _severity,
-                    min: 1,
-                    max: 5,
-                    divisions: 4,
-                    label: _severity.round().toString(),
-                    onChanged: (value) {
-                      setState(() {
-                        _severity = value;
-                      });
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(translate('severityLowest'), style: const TextStyle(fontSize: 12)),
-                        Text(translate('severityHighest'), style: const TextStyle(fontSize: 12)),
-                      ],
+  
+                const SizedBox(height: 15),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () async {
+                    setState(() {
+                      kmError = _numberValidator(kmController);
+                    });
+                  },
+                  enabled: !_isLoading,
+                  controller: titleController,
+                  maxLength: 30,
+                  decoration: InputDecoration(
+                    hintText: t.malfunctionTitleHint,
+                    errorText: titleError,
+                    errorMaxLines: 4,
+                    counterText: '',
+                    labelText: '${t.malfunctionTitle} *',
+                    prefixIcon: const Icon(Icons.next_plan_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              AutoSizeText(
-                maxLines: 1,
-                _selectedDate == null ?
-                '${translate('selectADate')} *' :
-                LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
-                style: const TextStyle(
-                    fontSize: 22,
+                ),
+  
+                const SizedBox(height: 15),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  keyboardType: TextInputType.multiline,
+                  onEditingComplete: () async {
+                    setState(() {
+                      descriptionError = _emptyValidator(descriptionController.text);
+                    });
+                  },
+                  minLines: 2,
+                  maxLines: 10,
+                  maxLength: 2048,
+                  enabled: !_isLoading,
+                  controller: descriptionController,
+                  decoration: InputDecoration(
+                    hintText: t.descriptionHintMalfunction,
+                    labelText: '${t.description2} *',
+                    errorText: descriptionError,
+                    errorMaxLines: 4,
+                    prefixIcon: const Icon(Icons.comment),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
+  
+                NumericUpDownForm(
+                  controller: kmController,
+                  showUpDownButtons: true,
+                  bigTitle: false,
+                  error: kmError,
+                  quickValues: const [-1000, -100, -10, 10, 100, 500, 1000, 10000],
+                  title: '${t.serviceMileage2} (${distanceProvider.label})',
+                  metric: distanceProvider.label,
+                  icon: const Icon(Icons.speed, size: 40),
+                ),
+  
+  
+                const SizedBox(height: 20),
+  
+                Text(
+                  '${t.malfunctionSeverity}*:',
+                  style: const TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.bold
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          lastDate: DateTime.now(),
-                          firstDate: DateTime.parse('1886-29-01'),
-                        );
-
-                        if (pickedDate != null) {
-                          setState(() {
-                            _selectedDate = pickedDate;
-                          });
-                        }
-                      },
-                      label: Text(translate('pickADate')),
-                      icon: const Icon(Icons.date_range),
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () {
-                        setState(() {
-                          _selectedDate = DateTime.now();
-                        });
-                      },
-                      label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
-                      icon: const Icon(Icons.more_time_rounded),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-                          foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              // Checkbox only appears when the malfunction is not being edited
-              Row(
-                children: [
-                  Checkbox(
-                      value: _markAsFixed,
+  
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Slider(
+                      value: _severity,
+                      min: 1,
+                      max: 5,
+                      divisions: 4,
+                      label: _severity.round().toString(),
                       onChanged: (value) {
                         setState(() {
-                          _markAsFixed = value!;
+                          _severity = value;
                         });
-                      }
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(t.severityLowest, style: const TextStyle(fontSize: 12)),
+                          Text(t.severityHighest, style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+  
+                const SizedBox(height: 20),
+  
+                AutoSizeText(
+                  maxLines: 1,
+                  _selectedDate == null ?
+                  '${t.selectADate} *' :
+                  LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDate!),
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
                   ),
-                  Text(translate('iFixedThisMalfunction'))
-                ],
-              ),
-
-              !_markAsFixed && _getMalfunctionStatus() ? Text(
-                translate('uncheckingTheBox'),
-                style: Theme.of(context).textTheme.labelLarge
-              ) : const SizedBox(),
-
-              _markAsFixed ? _editForm() : const SizedBox()
-            ],
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            lastDate: DateTime.now(),
+                            firstDate: DateTime.parse('1886-29-01'),
+                          );
+  
+                          if (pickedDate != null) {
+                            setState(() {
+                              _selectedDate = pickedDate;
+                            });
+                          }
+                        },
+                        label: Text(t.pickADate),
+                        icon: const Icon(Icons.date_range),
+                      ),
+                    ),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () {
+                          setState(() {
+                            _selectedDate = DateTime.now();
+                          });
+                        },
+                        label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
+                        icon: const Icon(Icons.more_time_rounded),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+  
+                // Checkbox only appears when the malfunction is not being edited
+                Row(
+                  children: [
+                    Checkbox(
+                        value: _markAsFixed,
+                        onChanged: (value) {
+                          setState(() {
+                            _markAsFixed = value!;
+                          });
+                        }
+                    ),
+                    Text(t.iFixedThisMalfunction)
+                  ],
+                ),
+  
+                !_markAsFixed && _getMalfunctionStatus() ? Text(
+                  t.uncheckingTheBox,
+                  style: Theme.of(context).textTheme.labelLarge
+                ) : const SizedBox(),
+  
+                _markAsFixed ? _editForm() : const SizedBox()
+              ],
+            ),
           ),
         ),
       ),
@@ -492,7 +495,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         const SizedBox(height: 10),
 
         DividerWithText(
-            text: translate('repairData'),
+            text: t.repairData,
             lineColor: Colors.grey,
             textColor: Theme.of(context).colorScheme.primary,
             textSize: 16
@@ -506,7 +509,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
           bigTitle: false,
           error: costError,
           icon: const Icon(Icons.payments_outlined, size: 40),
-          title: translate('repairCost'),
+          title: t.repairCost,
           metric: '€',
           quickValues: const [-100, -10, 10, 100],
         ),
@@ -517,7 +520,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedDateEnded == null ?
-          '${translate('malfunctionEnded')} *' :
+          '${t.malfunctionEnded} *' :
           LocaleStringConverter.dateShortDayMonthYearString(context, _selectedDateEnded!),
           style: const TextStyle(
               fontSize: 22,
@@ -546,7 +549,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     });
                   }
                 },
-                label: Text(translate('pickADate')),
+                label: Text(t.pickADate),
                 icon: const Icon(Icons.date_range),
               ),
             ),
@@ -560,7 +563,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedDateEnded = DateTime.now();
                   });
                 },
-                label: AutoSizeText(maxLines: 1, translate('todayDate'), minFontSize: 10),
+                label: AutoSizeText(maxLines: 1, t.todayDate, minFontSize: 10),
                 icon: const Icon(Icons.more_time_rounded),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
@@ -576,7 +579,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
         AutoSizeText(
           maxLines: 1,
           _selectedAddress == null ?
-          translate('selectLocation') :
+          t.selectLocation :
           _selectedAddress!,
           style: const TextStyle(
               fontSize: 22,
@@ -610,7 +613,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = data["coordinates"]!;
                   });
                 },
-                label: Text(translate('pickAPlace')),
+                label: Text(t.pickAPlace),
                 icon: const Icon(Icons.map),
               ),
             ),
@@ -625,7 +628,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
                     _selectedCoordinates = null;
                   });
                 },
-                label: AutoSizeText(maxLines: 1, translate('removeLocation'), minFontSize: 10),
+                label: AutoSizeText(maxLines: 1, t.removeLocation, minFontSize: 10),
                 icon: const Icon(Icons.cancel),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,
@@ -641,16 +644,16 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   String? _numberValidator(NumericTextController field) {
     if (field.text.isEmpty) {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     final value = field.numericValue;
     if (value == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (value < 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;
@@ -658,7 +661,7 @@ class _MalfunctionFormState extends State<MalfunctionForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     return null;

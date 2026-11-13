@@ -5,7 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/filters/fuel_fill_filter.dart';
 import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class FuelFillDrawer extends StatefulWidget {
   const FuelFillDrawer({super.key});
@@ -153,7 +153,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                translate('fuelFilters'),
+                t.fuelFilters,
                 style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
@@ -166,7 +166,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // search
                     _buildFilterField(
                       controller: searchController,
-                      label: translate('searchHint'),
+                      label: t.searchHint,
                       type: TextInputType.text,
                       icon: Icons.search,
                     ),
@@ -177,7 +177,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                             "${translate('fromDate')} ${startDate?.toIso8601String().substring(0, 10) ?? translate('notSelected')}",
+                             "${t.fromDate} ${startDate?.toIso8601String().substring(0, 10) ?? t.notSelected}",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -199,7 +199,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            "${translate('toDate')}  ${endDate?.toIso8601String().substring(0, 10) ?? translate('notSelected')}",
+                            "${t.toDate}  ${endDate?.toIso8601String().substring(0, 10) ?? t.notSelected}",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -220,12 +220,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // Km fields
                     _buildFilterField(
                       controller: startKmController,
-                      label: translate('startKm', args: {'unit': distanceProvider.label}),
+                      label: t.startKm(unit: distanceProvider.label),
                       icon: Icons.speed,
                     ),
                     _buildFilterField(
                       controller: endKmController,
-                      label: translate('endKm', args: {'unit': distanceProvider.label}),
+                      label: t.endKm(unit: distanceProvider.label),
                       icon: Icons.speed,
                     ),
 
@@ -234,12 +234,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // Total Km fields
                     _buildFilterField(
                       controller: startTotalKmController,
-                      label: translate('startTotalKm', args: {'unit': distanceProvider.label}),
+                      label: t.startTotalKm(unit: distanceProvider.label),
                       icon: Icons.alt_route,
                     ),
                     _buildFilterField(
                       controller: endTotalKmController,
-                      label: translate('endTotalKm', args: {'unit': distanceProvider.label}),
+                      label: t.endTotalKm(unit: distanceProvider.label),
                       icon: Icons.alt_route,
                     ),
 
@@ -248,12 +248,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // Liters fields
                     _buildFilterField(
                       controller: startLtController,
-                      label: translate('startLt', args: {'unit': volumeProvider.label}),
+                      label: t.startLt(unit: volumeProvider.label),
                       icon: Icons.local_gas_station,
                     ),
                     _buildFilterField(
                       controller: endLtController,
-                      label: translate('endLt', args: {'unit': volumeProvider.label}),
+                      label: t.endLt(unit: volumeProvider.label),
                       icon: Icons.local_gas_station,
                     ),
 
@@ -262,12 +262,12 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     // Cost fields
                     _buildFilterField(
                       controller: startCostController,
-                      label: translate('startCost'),
+                      label: t.startCost,
                       icon: Icons.payments,
                     ),
                     _buildFilterField(
                       controller: endCostController,
-                      label: translate('endCost'),
+                      label: t.endCost,
                       icon: Icons.payments,
                     ),
 
@@ -296,7 +296,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                       ),
                       onPressed: _discardFilters,
                       icon: const Icon(Icons.clear),
-                      label: AutoSizeText(translate('discard'), maxLines: 1),
+                      label: AutoSizeText(t.discard, maxLines: 1),
                     ),
                   ),
 
@@ -306,7 +306,7 @@ class _FuelFillDrawerState extends State<FuelFillDrawer> {
                     child: FilledButton.icon(
                       onPressed: _applyFilters,
                       icon: const Icon(Icons.check),
-                      label: AutoSizeText(translate('apply'), maxLines: 1),
+                      label: AutoSizeText(t.apply, maxLines: 1),
                     ),
                   )
                 ],

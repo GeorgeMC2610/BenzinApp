@@ -8,7 +8,7 @@ import 'package:benzinapp/services/managers/trip_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
@@ -101,7 +101,7 @@ class _ViewTripState extends State<ViewTrip> {
     final volumeProvider = Provider.of<VolumeMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('tripData')),
+        title: Text(t.tripData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.topStart,
@@ -130,7 +130,7 @@ class _ViewTripState extends State<ViewTrip> {
                     foregroundColor: Theme.of(context).colorScheme.onSecondary,
                   ),
                   icon: const Icon(Icons.edit),
-                  label: Text(translate('edit'))
+                  label: Text(t.edit)
               ),
             ),
 
@@ -141,7 +141,7 @@ class _ViewTripState extends State<ViewTrip> {
                   onPressed: () {
                     DeleteDialog.show(
                         context,
-                        translate('confirmDeleteTrip'), // This doesn't exist?
+                        t.confirmDeleteTrips,
                             (Function(bool) setLoadingState) async {
 
                           await TripManager().delete(widget.trip);
@@ -155,317 +155,320 @@ class _ViewTripState extends State<ViewTrip> {
                     foregroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.onPrimary),
                   ),
                   icon: const Icon(Icons.delete),
-                  label: Text(translate('delete'))
+                  label: Text(t.delete)
               ),
             )
           ],
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-
-              // === CARD WITH BASE DATA ===
-                SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(translate('tripName'), style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            trip.title,
-                            style: SharedFontStyles.mainTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(translate('weeklyOccurrence'), style: SharedFontStyles.legendTextStyle),
-                        AutoSizeText(
-                            maxLines: 1,
-                            trip.timesRepeating == 1 ? translate('noRepeat') :
-                            translate('repeatingTimesPerWeek', args: {'n': trip.timesRepeating}),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+  
+                // === CARD WITH BASE DATA ===
+                  SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.tripName, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              trip.title,
+                              style: SharedFontStyles.mainTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.weeklyOccurrence, style: SharedFontStyles.legendTextStyle),
+                          AutoSizeText(
+                              maxLines: 1,
+                              trip.timesRepeating == 1 ? t.noRepeat :
+                              t.repeatingTimesPerWeek(n: trip.timesRepeating),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.tripDistance, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                            '${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(trip.totalKm))} ${distanceProvider.label}',
                             style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(translate('tripDistance'), style: SharedFontStyles.legendTextStyle),
-                        Text(
-                          '${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(trip.totalKm))} ${distanceProvider.label}',
-                          style: SharedFontStyles.descriptiveTextStyle
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-
-              // === ANALYTICS PER ONE TIME === //
-              DividerWithText(
-                  text: translate('analyticsPerTime'),
-                  lineColor: Colors.grey ,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 17,
-                  barThickness: 3,
-              ),
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // @note: These colors look just fine both in dark and light mode.
-
-                        bestTripCost == null ? const Text('') : Text(
-                          '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestTripCost!))} '
-                          '${translate('perTime')}',
-                          style: mainDescription(Colors.green)
-                        ),
-                        bestConsumption == null ? const Text('') : Text(
-                          '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestConsumption!))} ${volumeProvider.label} '
-                          '${translate('perTime')}',
-                          style: legendDescription(Colors.green)
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        averageTripCost == null ? const Text('') : Text(
-                            '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageTripCost!))} '
-                            '${translate('perTime')}',
-                            style: mainDescription(Colors.grey)
-                        ),
-                        averageConsumption == null ? const Text('') : Text(
-                            '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageConsumption!))} ${volumeProvider.label} '
-                            '${translate('perTime')}',
-                            style: legendDescription(Colors.grey)
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        worstTripCost == null ? const Text('') : Text(
-                            '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstTripCost!))} '
-                            '${translate('perTime')}',
-                            style: mainDescription(Colors.redAccent)
-                        ),
-                        worstConsumption == null ? const Text('') : Text(
-                            '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstConsumption!))} ${volumeProvider.label} '
-                            '${translate('perTime')}',
-                            style: legendDescription(Colors.redAccent)
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // best case material
-              Row(
-                children: [
-                  const Material(
-                    color: Colors.green,
-                    child: SizedBox(height: 15, width: 15,),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: Text(translate("bestCase")),
-                  ),
-                ],
-              ),
-
-              // average case material
-              Row(
-                children: [
-                  const Material(
-                    color: Colors.grey,
-                    child: SizedBox(height: 15, width: 15),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: Text(translate("averageCase")),
-                  ),
-                ],
-              ),
-
-              // worst case material
-              Row(
-                children: [
-                  const Material(
-                    color: Colors.red,
-                    child: SizedBox(height: 15, width: 15),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: Text(translate("worstCase")),
-                  ),
-                ],
-              ),
-
-              // === ANALYTICS PER WEEK === //
-              if (trip.timesRepeating != 1)
-              Column(
-                children: [
-                  DividerWithText(
-                    text: translate('weeklyAnalytics'),
+  
+                // === ANALYTICS PER ONE TIME === //
+                DividerWithText(
+                    text: t.analyticsPerTime,
                     lineColor: Colors.grey ,
                     textColor: Theme.of(context).colorScheme.primary,
                     textSize: 17,
                     barThickness: 3,
-                  ),
-
-                  // TITLE AND DESCRIPTION
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Card(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            bestRepeatingTripCost == null ? const Text('') : Text(
-                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!))} '
-                                '${translate('perWeek')}',
-                                style: mainDescription(Colors.green)
-                            ),
-                            bestRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestRepeatingConsumption!))} ${volumeProvider.label} '
-                                '${translate('perWeek')}',
-                                style: legendDescription(Colors.green)
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            averageRepeatingTripCost == null ? const Text('') : Text(
-                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!))} '
-                                    '${translate('perWeek')}',
-                                style: mainDescription(Colors.grey)
-                            ),
-                            averageRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageRepeatingConsumption!))} ${volumeProvider.label} '
-                                    '${translate('perWeek')}',
-                                style: legendDescription(Colors.grey)
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            worstRepeatingTripCost == null ? const Text('') : Text(
-                                '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!))} '
-                                    '${translate('perWeek')}',
-                                style: mainDescription(Colors.redAccent)
-                            ),
-                            worstRepeatingConsumption == null ? const Text('') : Text(
-                                '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstRepeatingConsumption!))} ${volumeProvider.label} '
-                                    '${translate('perWeek')}',
-                                style: legendDescription(Colors.redAccent)
-                            ),
-                          ],
-                        ),
-                      ),
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
                     ),
-                  ),
-                ],
-              ),
-
-              DividerWithText(
-                text: translate('mapDetails'),
-                lineColor: Colors.grey ,
-                textColor: Theme.of(context).colorScheme.primary,
-                textSize: 17,
-                barThickness: 3,
-              ),
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          trip.originAddress,
-                          textAlign: TextAlign.center,
-                          style: SharedFontStyles.mainTextStyle
-                        ),
-                        const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.green,),
-                        const SizedBox(height: 15),
-                        const Icon(FontAwesomeIcons.arrowDownLong, size: 40),
-                        const SizedBox(height: 20),
-                        const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.red,),
-                        Text(
-                            trip.destinationAddress,
-                            textAlign: TextAlign.center,
-                            style: SharedFontStyles.mainTextStyle
-                        ),
-
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: FilledButton.tonalIcon(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewTripOnMaps(
-                                        polyline: trip.polyline,
-                                        positions: [
-                                          LatLng(trip.originLatitude, trip.originLongitude),
-                                          LatLng(trip.destinationLatitude, trip.destinationLongitude)
-                                        ],
-                                        addresses: [
-                                          trip.originAddress,
-                                          trip.destinationAddress
-                                        ],
-                                      )
-                                  )
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Theme.of(context).colorScheme.primary
-                            ),
-                            label: Text(translate('showOnMaps')),
-                            icon: const Icon(Icons.map),
+  
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // @note: These colors look just fine both in dark and light mode.
+  
+                          bestTripCost == null ? const Text('') : Text(
+                            '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestTripCost!))} '
+                            '${t.perTime}',
+                            style: mainDescription(Colors.green)
                           ),
-                        )
-                      ],
+                          bestConsumption == null ? const Text('') : Text(
+                            '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestConsumption!))} ${volumeProvider.label} '
+                            '${t.perTime}',
+                            style: legendDescription(Colors.green)
+                          ),
+  
+                          const SizedBox(height: 10),
+  
+                          averageTripCost == null ? const Text('') : Text(
+                              '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageTripCost!))} '
+                              '${t.perTime}',
+                              style: mainDescription(Colors.grey)
+                          ),
+                          averageConsumption == null ? const Text('') : Text(
+                              '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageConsumption!))} ${volumeProvider.label} '
+                              '${t.perTime}',
+                              style: legendDescription(Colors.grey)
+                          ),
+  
+                          const SizedBox(height: 10),
+  
+                          worstTripCost == null ? const Text('') : Text(
+                              '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstTripCost!))} '
+                              '${t.perTime}',
+                              style: mainDescription(Colors.redAccent)
+                          ),
+                          worstConsumption == null ? const Text('') : Text(
+                              '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstConsumption!))} ${volumeProvider.label} '
+                              '${t.perTime}',
+                              style: legendDescription(Colors.redAccent)
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+  
+                const SizedBox(height: 10),
+  
+                // best case material
+                Row(
+                  children: [
+                    const Material(
+                      color: Colors.green,
+                      child: SizedBox(height: 15, width: 15,),
+                    ),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: Text(t.bestCase),
+                    ),
+                  ],
+                ),
+  
+                // average case material
+                Row(
+                  children: [
+                    const Material(
+                      color: Colors.grey,
+                      child: SizedBox(height: 15, width: 15),
+                    ),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: Text(t.averageCase),
+                    ),
+                  ],
+                ),
+  
+                // worst case material
+                Row(
+                  children: [
+                    const Material(
+                      color: Colors.red,
+                      child: SizedBox(height: 15, width: 15),
+                    ),
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: Text(t.worstCase),
+                    ),
+                  ],
+                ),
+  
+                // === ANALYTICS PER WEEK === //
+                if (trip.timesRepeating != 1)
+                Column(
+                  children: [
+                    DividerWithText(
+                      text: t.weeklyAnalytics,
+                      lineColor: Colors.grey ,
+                      textColor: Theme.of(context).colorScheme.primary,
+                      textSize: 17,
+                      barThickness: 3,
+                    ),
+  
+                    // TITLE AND DESCRIPTION
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Card(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              bestRepeatingTripCost == null ? const Text('') : Text(
+                                  '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, bestRepeatingTripCost!))} '
+                                  '${t.perWeek}',
+                                  style: mainDescription(Colors.green)
+                              ),
+                              bestRepeatingConsumption == null ? const Text('') : Text(
+                                  '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(bestRepeatingConsumption!))} ${volumeProvider.label} '
+                                  '${t.perWeek}',
+                                  style: legendDescription(Colors.green)
+                              ),
+  
+                              const SizedBox(height: 10),
+  
+                              averageRepeatingTripCost == null ? const Text('') : Text(
+                                  '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, averageRepeatingTripCost!))} '
+                                      '${t.perWeek}',
+                                  style: mainDescription(Colors.grey)
+                              ),
+                              averageRepeatingConsumption == null ? const Text('') : Text(
+                                  '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(averageRepeatingConsumption!))} ${volumeProvider.label} '
+                                      '${t.perWeek}',
+                                  style: legendDescription(Colors.grey)
+                              ),
+  
+                              const SizedBox(height: 10),
+  
+                              worstRepeatingTripCost == null ? const Text('') : Text(
+                                  '${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, worstRepeatingTripCost!))} '
+                                      '${t.perWeek}',
+                                  style: mainDescription(Colors.redAccent)
+                              ),
+                              worstRepeatingConsumption == null ? const Text('') : Text(
+                                  '${LocaleStringConverter.formattedDouble(context, volumeProvider.convert(worstRepeatingConsumption!))} ${volumeProvider.label} '
+                                      '${t.perWeek}',
+                                  style: legendDescription(Colors.redAccent)
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+  
+                DividerWithText(
+                  text: t.mapDetails,
+                  lineColor: Colors.grey ,
+                  textColor: Theme.of(context).colorScheme.primary,
+                  textSize: 17,
+                  barThickness: 3,
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            trip.originAddress,
+                            textAlign: TextAlign.center,
+                            style: SharedFontStyles.mainTextStyle
+                          ),
+                          const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.green,),
+                          const SizedBox(height: 15),
+                          const FaIcon(FontAwesomeIcons.arrowDownLong, size: 40),
+                          const SizedBox(height: 20),
+                          const Icon(Icons.pin_drop_sharp, size: 40, color: Colors.red,),
+                          Text(
+                              trip.destinationAddress,
+                              textAlign: TextAlign.center,
+                              style: SharedFontStyles.mainTextStyle
+                          ),
+  
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: FilledButton.tonalIcon(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ViewTripOnMaps(
+                                          polyline: trip.polyline,
+                                          positions: [
+                                            LatLng(trip.originLatitude, trip.originLongitude),
+                                            LatLng(trip.destinationLatitude, trip.destinationLongitude)
+                                          ],
+                                          addresses: [
+                                            trip.originAddress,
+                                            trip.destinationAddress
+                                          ],
+                                        )
+                                    )
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Theme.of(context).colorScheme.primary
+                              ),
+                              label: Text(t.showOnMaps),
+                              icon: const Icon(Icons.map),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

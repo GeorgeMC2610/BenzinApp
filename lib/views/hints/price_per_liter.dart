@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class PricePerLiter extends StatelessWidget {
   const PricePerLiter({super.key});
@@ -10,8 +10,8 @@ class PricePerLiter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(translate('gasPriceTitle'), style: Theme.of(context).textTheme.titleLarge),
-        Text(translate('gasPriceBody'),
+        Text(t.gasPriceTitle, style: Theme.of(context).textTheme.titleLarge),
+        Text(t.gasPriceBody,
             style: Theme.of(context).textTheme.bodyMedium
         ),
 

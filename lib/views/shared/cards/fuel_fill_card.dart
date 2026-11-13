@@ -9,7 +9,7 @@ import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/forms/fuel_fill_record.dart';
 import 'package:benzinapp/views/shared/buttons/card_edit_delete_buttons.dart';
 import 'package:benzinapp/views/shared/notification.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -118,12 +118,12 @@ class _FuelFillCardState extends State<FuelFillCard> {
   delete() {
     DeleteDialog.show(
         context,
-        translate('confirmDeleteFuelFill'),
+        t.confirmDeleteFuelFill,
             (Function(bool) setLoadingState) async {
           setState(() => _isLoading = true);
 
           await FuelFillRecordManager().delete(widget.record);
-          SnackbarNotification.show(MessageType.info, translate('successfullyDeletedFuelFill'));
+          SnackbarNotification.show(MessageType.info, t.successfullyDeletedFuelFill);
           setState(() {
             _isLoading = false;
           });

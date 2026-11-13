@@ -3,7 +3,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 import '../../services/classes/car.dart';
 
@@ -31,7 +31,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('deleteCarAppBar')),
+        title: Text(t.deleteCarAppBar),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -46,7 +46,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
                   backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
               label: Text(
-                translate('deleteCarButton'),
+                t.deleteCarButton,
                 style: TextStyle(fontSize: 18, color: buttonLocked() ? null : Theme.of(context).colorScheme.onErrorContainer),
               ),
               iconAlignment: IconAlignment.start,
@@ -65,83 +65,86 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  translate('deleteCarTitle', args: { 'carName': widget.car.username }),
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 35,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    t.deleteCarTitle(carName: widget.car.username),
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 35,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  translate('deleteCarSubtitle'),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: Text(
-                  translate('deleteCarEnterCarNameToDelete', args: { 'carName': widget.car.username }),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                enabled: !_isSending,
-                controller: _carNameController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  hintText: widget.car.username,
-                  labelText: translate('deleteCarEnterCarName'),
-                  prefixIcon: const Icon(Icons.directions_car),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                Center(
+                  child: Text(
+                    t.deleteCarSubtitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                const SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    t.deleteCarEnterCarNameToDelete(carName: widget.car.username),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning_amber_rounded, color: Theme.of(context).colorScheme.error),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        translate('deleteCarWarning'),
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.error,
+                const SizedBox(height: 15),
+                TextField(
+                  enabled: !_isSending,
+                  controller: _carNameController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    hintText: widget.car.username,
+                    labelText: t.deleteCarEnterCarName,
+                    prefixIcon: const Icon(Icons.directions_car),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning_amber_rounded, color: Theme.of(context).colorScheme.error),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.deleteCarWarning,
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.error,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -160,7 +163,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
       final carManager = CarManager();
       await carManager.delete(widget.car, body: { 'username': _carNameController.text });
       if (mounted) {
-        SnackbarNotification.show(MessageType.success, translate('carDeletedSuccessfully'));
+        SnackbarNotification.show(MessageType.success, t.carDeletedSuccessfully);
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const Dashboard()),
             (Route<dynamic> route) => false);
@@ -168,7 +171,7 @@ class _DeleteCarScreenState extends State<DeleteCarScreen> {
     }
     catch (e) {
       SnackbarNotification.show(
-          MessageType.danger, translate('carDeletionFailed'));
+          MessageType.danger, t.carDeletionFailed);
     }
     finally {
       if (mounted) {

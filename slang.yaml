@@ -1,0 +1,9 @@
+# Translations are compiled from assets/i18n/*.json into lib/i18n/strings.g.dart.
+# After editing a JSON file, regenerate with: fvm dart run slang
+base_locale: en
+fallback_strategy: base_and_empty
+input_directory: assets/i18n
+input_file_pattern: .json
+output_directory: lib/i18n
+string_interpolation: braces
+lazy: false

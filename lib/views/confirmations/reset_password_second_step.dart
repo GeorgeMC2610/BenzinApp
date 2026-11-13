@@ -5,7 +5,7 @@ import 'package:benzinapp/views/login.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:benzinapp/views/shared/password_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ResetPasswordSecondStep extends StatefulWidget {
@@ -93,25 +93,25 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
     // null checks etc.
     if (code == null) {
       setState(() {
-        codeError = translate('emptyCode');
+        codeError = t.emptyCode;
       });
     }
 
     if (newPasswordController.text.isEmpty) {
       setState(() {
-        passwordError = translate('cannotBeEmpty');
+        passwordError = t.cannotBeEmpty;
       });
     }
 
     if (newPasswordConfirmController.text.isEmpty) {
       setState(() {
-        passwordConfirmError = translate('cannotBeEmpty');
+        passwordConfirmError = t.cannotBeEmpty;
       });
     }
 
     if (newPasswordConfirmController.text != newPasswordController.text) {
       setState(() {
-        passwordConfirmError = translate('confirmPasswordCorrectly');
+        passwordConfirmError = t.confirmPasswordCorrectly;
       });
     }
 
@@ -134,7 +134,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
 
     switch (result) {
       case UserPayloadStatus.passwordResetOk:
-        SnackbarNotification.show(MessageType.success, translate('forgotPasswordSuccessfullyReset'));
+        SnackbarNotification.show(MessageType.success, t.forgotPasswordSuccessfullyReset);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -144,11 +144,11 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
         break;
       case UserPayloadStatus.resetTokenWrong:
         setState(() {
-          codeError = translate('wrongCode');
+          codeError = t.wrongCode;
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -163,7 +163,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(translate('resetPasswordMenu')),
+          title: Text(t.resetPasswordMenu),
 
         ),
         persistentFooterAlignment: AlignmentDirectional.center,
@@ -179,7 +179,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 label: Text(
-                  translate('forgotPasswordFinishButton'),
+                  t.forgotPasswordFinishButton,
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black
@@ -198,166 +198,169 @@ class _ResetPasswordFirstStep extends State<ResetPasswordSecondStep> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: Text(
-                    translate('forgotPasswordSecondStepTitle'),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Center(
-                  child: Text(
-                      translate('checkYourEmail')
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                Center(
-                  child: Text(
-                    translate('enterCode'),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                PinCodeTextField(
-                  length: 10,
-                  appContext: context,
-                  keyboardType: TextInputType.text,
-                  animationType: AnimationType.fade,
-                  textCapitalization: TextCapitalization.characters,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(8),
-                    fieldHeight: 45,
-                    fieldWidth: 35,
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    inactiveColor: Colors.grey.shade400,
-                    selectedColor: Theme.of(context).colorScheme.secondary,
-                  ),
-                  onCompleted: onComplete,
-                  onChanged: (_) {},
-                ),
-
-                const SizedBox(height: 10),
-
-                if (codeError != null)
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Icon(
-                          Icons.clear,
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-
-                        const SizedBox(width: 5),
-
-                        Text(
-                          translate('wrongCode'),
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                const SizedBox(height: 20),
-
-                // RESEND TOKEN ROW
-                Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                // CIRCLE PROGRESS WITH TIME
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 3,
-                        backgroundColor: Colors.grey.shade300,
-                        color: Theme.of(context).colorScheme.primary,
+                    child: Text(
+                      t.forgotPasswordSecondStepTitle,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
                       ),
                     ),
-                    Text(
-                      remainingSeconds.toString(),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(width: 15),
-
-                // RESEND TOKEN BUTTON
-                Expanded(
-                  child: FilledButton.icon(
-                      onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
-                      icon: const Icon(Icons.refresh),
-                      label: const Text("Resend"),
                   ),
-                )
-              ],
-            ),
-
-                const SizedBox(height: 25),
-
-                Center(
-                  child: Text(
-                    translate('forgotPasswordSecondStepEnterPassword'),
-                    style: const TextStyle(
+  
+                  const SizedBox(height: 5),
+  
+                  Center(
+                    child: Text(
+                        t.checkYourEmail
+                    ),
+                  ),
+  
+                  const SizedBox(height: 25),
+  
+                  Center(
+                    child: Text(
+                      t.enterCode,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 20),
-
-                PasswordField(
-                  enabled: !isLoading,
-                  controller: newPasswordController,
-                  errorText: passwordError,
-                  hintText: translate('forgotPasswordSecondStepPasswordHint'),
-                  labelText: translate('forgotPasswordSecondStepPasswordLabel'),
-                  prefixIcon: const Icon(Icons.enhanced_encryption),
-                  textInputAction: TextInputAction.next,
-                ),
-
-                const SizedBox(height: 25),
-
-                PasswordField(
-                  enabled: !isLoading,
-                  controller: newPasswordConfirmController,
-                  errorText: passwordConfirmError,
-                  hintText: translate('forgotPasswordSecondStepPasswordConfirmHint'),
-                  labelText: translate('forgotPasswordSecondStepPasswordConfirmLabel'),
-                  prefixIcon: const Icon(Icons.enhanced_encryption_outlined),
-                  textInputAction: TextInputAction.done,
-                ),
-              ],
+  
+                  const SizedBox(height: 15),
+  
+                  PinCodeTextField(
+                    length: 10,
+                    appContext: context,
+                    keyboardType: TextInputType.text,
+                    animationType: AnimationType.fade,
+                    textCapitalization: TextCapitalization.characters,
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(8),
+                      fieldHeight: 45,
+                      fieldWidth: 35,
+                      activeColor: Theme.of(context).colorScheme.primary,
+                      inactiveColor: Colors.grey.shade400,
+                      selectedColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    onCompleted: onComplete,
+                    onChanged: (_) {},
+                  ),
+  
+                  const SizedBox(height: 10),
+  
+                  if (codeError != null)
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.clear,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+  
+                          const SizedBox(width: 5),
+  
+                          Text(
+                            t.wrongCode,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+  
+                  const SizedBox(height: 20),
+  
+                  // RESEND TOKEN ROW
+                  Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+  
+                  // CIRCLE PROGRESS WITH TIME
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 3,
+                          backgroundColor: Colors.grey.shade300,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        remainingSeconds.toString(),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+  
+                  const SizedBox(width: 15),
+  
+                  // RESEND TOKEN BUTTON
+                  Expanded(
+                    child: FilledButton.icon(
+                        onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text("Resend"),
+                    ),
+                  )
+                ],
+              ),
+  
+                  const SizedBox(height: 25),
+  
+                  Center(
+                    child: Text(
+                      t.forgotPasswordSecondStepEnterPassword,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+  
+                  const SizedBox(height: 20),
+  
+                  PasswordField(
+                    enabled: !isLoading,
+                    controller: newPasswordController,
+                    errorText: passwordError,
+                    hintText: t.forgotPasswordSecondStepPasswordHint,
+                    labelText: t.forgotPasswordSecondStepPasswordLabel,
+                    prefixIcon: const Icon(Icons.enhanced_encryption),
+                    textInputAction: TextInputAction.next,
+                  ),
+  
+                  const SizedBox(height: 25),
+  
+                  PasswordField(
+                    enabled: !isLoading,
+                    controller: newPasswordConfirmController,
+                    errorText: passwordConfirmError,
+                    hintText: t.forgotPasswordSecondStepPasswordConfirmHint,
+                    labelText: t.forgotPasswordSecondStepPasswordConfirmLabel,
+                    prefixIcon: const Icon(Icons.enhanced_encryption_outlined),
+                    textInputAction: TextInputAction.done,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

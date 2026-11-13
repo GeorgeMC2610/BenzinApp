@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TermsAndConditions extends StatefulWidget {
@@ -33,17 +33,20 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('termsAndConditions'))
+        title: Text(t.termsAndConditions)
     ),
-    body: _markdownContent.isEmpty
-        ? const Center(child: CircularProgressIndicator())
-        : Markdown(
-      data: _markdownContent,
-      styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-        p: const TextStyle(fontSize: 16.0, height: 1.5),
-        h1: const TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
-        h2: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
-        h3: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+    body: SafeArea(
+      top: false,
+      child: _markdownContent.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Markdown(
+        data: _markdownContent,
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+          p: const TextStyle(fontSize: 16.0, height: 1.5),
+          h1: const TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
+          h2: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+          h3: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+        ),
       ),
     ),
   );

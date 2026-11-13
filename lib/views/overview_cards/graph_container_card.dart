@@ -6,7 +6,7 @@ import 'package:benzinapp/views/charts/insufficient_data_card.dart';
 import 'package:benzinapp/views/shared/cards/loading_data_card.dart';
 import 'package:benzinapp/views/shared/date_range_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 import '../charts/fuel_trend_line_chart.dart';
@@ -49,7 +49,7 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
               children: [
                 Center(
                     child: AutoSizeText(
-                        translate('fuelUsageTrend'),
+                        t.fuelUsageTrend,
                         maxLines: 1,
                         style: const TextStyle(
                             fontSize: 25,
@@ -73,9 +73,9 @@ class _GraphContainerCardState extends State<GraphContainerCard> {
                         value: _selectedFocusValue, // No default selected
                         hint: const Text("Select an option"), // TODO: Localize string
                         items: [
-                          DropdownMenuItem(value: 0, child: Text(translate('litersPer100km', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
-                          DropdownMenuItem(value: 1, child: Text(translate('kilometersPerLiter', args: {'distUnit': distanceProvider.label, 'volUnit': volumeProvider.label}))),
-                          DropdownMenuItem(value: 2, child: Text(translate('costPerKilometer', args: {'unit': distanceProvider.label}))),
+                          DropdownMenuItem(value: 0, child: Text(t.litersPer100km(distUnit: distanceProvider.label, volUnit: volumeProvider.label))),
+                          DropdownMenuItem(value: 1, child: Text(t.kilometersPerLiter(distUnit: distanceProvider.label, volUnit: volumeProvider.label))),
+                          DropdownMenuItem(value: 2, child: Text(t.costPerKilometer(unit: distanceProvider.label))),
                         ],
                         onChanged: (int? value) {
                           setState(() {

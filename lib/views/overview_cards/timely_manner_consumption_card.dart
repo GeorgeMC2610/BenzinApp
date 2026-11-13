@@ -3,7 +3,7 @@ import 'package:benzinapp/services/classes/car.dart';
 import 'package:benzinapp/services/distance_metric_provider.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/locale_string_converter.dart';
@@ -42,7 +42,7 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
               children: [
                 Center(
                   child: AutoSizeText(
-                      translate('totalStatistics'),
+                      t.totalStatistics,
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
@@ -54,7 +54,7 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
 
                 const SizedBox(height: 15),
 
-                Text(translate('totalLitersFilled'),
+                Text(t.totalLitersFilled,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold
@@ -69,7 +69,7 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
 
                 const SizedBox(height: 10),
 
-                Text(translate('totalKilometersTravelled', args: {'unit': distanceProvider.longLabel}),
+                Text(t.totalKilometersTravelled,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold
@@ -84,7 +84,7 @@ class _TimelyMannerConsumptionCardState extends State<TimelyMannerConsumptionCar
 
                 const SizedBox(height: 10),
 
-                Text(translate('totalCosts'),
+                Text(t.totalCosts,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold

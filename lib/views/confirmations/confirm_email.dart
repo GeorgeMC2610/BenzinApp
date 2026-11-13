@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
 import 'package:benzinapp/views/use_case_register.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../services/managers/user_manager.dart';
@@ -107,16 +107,16 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         _startTimer();
         break;
       case UserPayloadStatus.confirmTokenEarly:
-        SnackbarNotification.show(MessageType.alert, translate('confirmAccountPleaseWait'));
+        SnackbarNotification.show(MessageType.alert, t.confirmAccountPleaseWait);
         break;
       case UserPayloadStatus.confirmedAlready:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountAlreadyConfirmed'));
+        SnackbarNotification.show(MessageType.success, t.confirmAccountAlreadyConfirmed);
         Navigator.pushReplacement(context, MaterialPageRoute(
             builder: (context) => const Dashboard()
         ));
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('confirmAccountSomethingElseWentWrong'));
+        SnackbarNotification.show(MessageType.danger, t.confirmAccountSomethingElseWentWrong);
         break;
     }
   }
@@ -148,7 +148,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
 
     switch (result) {
       case UserPayloadStatus.confirmedOk:
-        SnackbarNotification.show(MessageType.success, translate('confirmAccountOkay'));
+        SnackbarNotification.show(MessageType.success, t.confirmAccountOkay);
         Widget redirectScreen = widget.fromRegister ? const UseCaseRegister() : const Dashboard();
 
         Navigator.pushReplacement(context, MaterialPageRoute(
@@ -161,7 +161,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
         });
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -170,7 +170,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(translate('confirmAccount')),
+      title: Text(t.confirmAccount),
     ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -185,7 +185,7 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('confirmButton'),
+                t.confirmButton,
                 style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black
@@ -204,172 +204,175 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
           ),
         ),
       ],
-    body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Column(
-          children: [
-            Center(
-              child: AutoSizeText(
-                translate('confirmAccountTitle'),
-                maxLines: 1,
-                minFontSize: 20,
-                maxFontSize: 35,
-                style: TextStyle(
-                    fontSize: 35,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 5),
-
-            Center(
-              child: Text(
-                  translate('checkYourEmail')
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            Center(
-              child: Text(
-                translate('enterCode'),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            PinCodeTextField(
-              length: 6,
-              appContext: context,
-
-              keyboardType: TextInputType.text,
-              animationType: AnimationType.fade,
-              textCapitalization: TextCapitalization.characters,
-              pinTheme: PinTheme(
-                shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(8),
-                fieldHeight: 45,
-                fieldWidth: 45,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Colors.grey.shade400,
-                selectedColor: Theme.of(context).colorScheme.secondary,
-              ),
-              onCompleted: onComplete,
-              onChanged: (code) {
-                setState(() {
-                  codeLength = code.length;
-                });
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            if (wrongCode)
+    body: SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            children: [
               Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.clear,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-
-                    const SizedBox(width: 5),
-
-                    Text(
-                      translate('wrongCode'),
-                      style: TextStyle(
+                child: AutoSizeText(
+                  t.confirmAccountTitle,
+                  maxLines: 1,
+                  minFontSize: 20,
+                  maxFontSize: 35,
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 5),
+  
+              Center(
+                child: Text(
+                    t.checkYourEmail
+                ),
+              ),
+  
+              const SizedBox(height: 25),
+  
+              Center(
+                child: Text(
+                  t.enterCode,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+  
+              const SizedBox(height: 15),
+  
+              PinCodeTextField(
+                length: 6,
+                appContext: context,
+  
+                keyboardType: TextInputType.text,
+                animationType: AnimationType.fade,
+                textCapitalization: TextCapitalization.characters,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(8),
+                  fieldHeight: 45,
+                  fieldWidth: 45,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  inactiveColor: Colors.grey.shade400,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                ),
+                onCompleted: onComplete,
+                onChanged: (code) {
+                  setState(() {
+                    codeLength = code.length;
+                  });
+                },
+              ),
+  
+              const SizedBox(height: 10),
+  
+              if (wrongCode)
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Icon(
+                        Icons.clear,
                         color: Theme.of(context).colorScheme.error,
                       ),
-                    ),
-                  ],
+  
+                      const SizedBox(width: 5),
+  
+                      Text(
+                        t.wrongCode,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+  
+              const SizedBox(height: 20),
+  
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+  
+                  // CIRCLE PROGRESS WITH TIME
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 3,
+                          backgroundColor: Colors.grey.shade300,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        remainingSeconds.toString(),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+  
+                  const SizedBox(width: 15),
+  
+                  // RESEND TOKEN BUTTON
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
+                      icon: const Icon(Icons.refresh),
+                      label: Text(t.resendButton),
+                    ),
+                  )
+                ],
               ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                // CIRCLE PROGRESS WITH TIME
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 3,
-                        backgroundColor: Colors.grey.shade300,
-                        color: Theme.of(context).colorScheme.primary,
+  
+              if (!widget.fromSettings)
+                const SizedBox(height: 75),
+  
+              if (!widget.fromSettings)
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => const Dashboard()
+                      ));
+                    },
+                    child: Text(
+                      t.skipVerification,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.blue
                       ),
                     ),
-                    Text(
-                      remainingSeconds.toString(),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                  )
                 ),
-
-                const SizedBox(width: 15),
-
-                // RESEND TOKEN BUTTON
-                Expanded(
-                  child: FilledButton.icon(
-                    onPressed: canResendTokenButtonBePressed() ? requestNewToken : null,
-                    icon: const Icon(Icons.refresh),
-                    label: Text(translate('resendButton')),
-                  ),
-                )
-              ],
-            ),
-
-            if (!widget.fromSettings)
-              const SizedBox(height: 75),
-
-            if (!widget.fromSettings)
+  
+              const SizedBox(height: 55),
+  
               Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => const Dashboard()
-                    ));
-                  },
-                  child: Text(
-                    translate('skipVerification'),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue
-                    ),
+                child: ListTile(
+                  onTap: skipModal,
+                  leading: const Icon(Icons.question_mark_rounded),
+                  title: AutoSizeText(
+                    t.skipConsequences,
                   ),
+                  trailing: const Icon(Icons.keyboard_arrow_down),
                 )
               ),
-
-            const SizedBox(height: 55),
-
-            Center(
-              child: ListTile(
-                onTap: skipModal,
-                leading: const Icon(Icons.question_mark_rounded),
-                title: AutoSizeText(
-                  translate('skipConsequences'),
-                ),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-              )
-            ),
-
-          ],
+  
+            ],
+          ),
         ),
       ),
     )
@@ -382,13 +385,14 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          // Extra bottom space so the last lines can scroll clear of the home indicator.
+          padding: EdgeInsets.fromLTRB(10, 20, 10, 20 + MediaQuery.paddingOf(context).bottom),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Text(
-                  translate("skipConsequencesTitle1"),
+                  t.skipConsequencesTitle1,
                   style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -397,12 +401,12 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
               ),
               const SizedBox(height: 20),
               Text(
-                translate("skipConsequencesText1"),
+                t.skipConsequencesText1,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 15),
               Text(
-                translate("skipConsequencesText2"),
+                t.skipConsequencesText2,
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             ],

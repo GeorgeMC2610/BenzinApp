@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:benzinapp/filters/service_filter.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class ServiceDrawerContent extends StatefulWidget {
   const ServiceDrawerContent({super.key});
@@ -111,7 +111,7 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            translate('serviceFilters'),
+            t.serviceFilters,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
@@ -122,7 +122,7 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
               children: [
                 _buildFilterField(
                   controller: searchController,
-                  label: translate('searchInServices'),
+                  label: t.searchInServices,
                   type: TextInputType.text,
                   icon: Icons.search,
                 ),
@@ -130,7 +130,7 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text("${translate('fromDate')} ${startDate?.toIso8601String().substring(0, 10) ?? translate('notSelected')}"),
+                      child: Text("${t.fromDate} ${startDate?.toIso8601String().substring(0, 10) ?? t.notSelected}"),
                     ),
                     IconButton(
                       onPressed: () => _selectDate(false),
@@ -141,7 +141,7 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text("${translate('toDate')} ${endDate?.toIso8601String().substring(0, 10) ?? translate('notSelected')}"),
+                      child: Text("${t.toDate} ${endDate?.toIso8601String().substring(0, 10) ?? t.notSelected}"),
                     ),
                     IconButton(
                       onPressed: () => _selectDate(true),
@@ -152,17 +152,17 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
                 const SizedBox(height: 20),
                 _buildFilterField(
                   controller: startKmController,
-                  label: translate('startKm', args: {'unit': distanceProvider.label}),
+                  label: t.startKm(unit: distanceProvider.label),
                   icon: Icons.speed,
                 ),
                 _buildFilterField(
                   controller: endKmController,
-                  label: translate('endKm', args: {'unit': distanceProvider.label}),
+                  label: t.endKm(unit: distanceProvider.label),
                   icon: Icons.speed,
                 ),
                 const SizedBox(height: 20),
-                _buildFilterField(controller: startCostController, label: translate('startCost'), icon: Icons.payments),
-                _buildFilterField(controller: endCostController, label: translate('endCost'), icon: Icons.payments),
+                _buildFilterField(controller: startCostController, label: t.startCost, icon: Icons.payments),
+                _buildFilterField(controller: endCostController, label: t.endCost, icon: Icons.payments),
               ],
             ),
           ),
@@ -174,14 +174,14 @@ class _ServiceDrawerContentState extends State<ServiceDrawerContent> {
               Expanded(
                 child: FilledButton.tonal(
                   onPressed: _discardFilters,
-                  child: Text(translate('discard')),
+                  child: Text(t.discard),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: FilledButton(
                   onPressed: _applyFilters,
-                  child: Text(translate('apply')),
+                  child: Text(t.apply),
                 ),
               ),
             ],

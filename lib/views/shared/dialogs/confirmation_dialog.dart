@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class ConfirmationDialog {
   static Future<void> show(
@@ -24,14 +24,14 @@ class ConfirmationDialog {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(translate('cancel')),
+              child: Text(t.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
                 onConfirm(false);
               },
             ),
             TextButton(
-              child: Text(translate('confirm')),
+              child: Text(t.confirm),
               onPressed: () {
                 Navigator.of(context).pop();
                 onConfirm(true);

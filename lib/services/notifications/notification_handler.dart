@@ -9,13 +9,13 @@ import 'package:benzinapp/services/managers/fuel_fill_record_manager.dart';
 import 'package:benzinapp/services/managers/malfunction_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/services/managers/trip_manager.dart';
+import 'package:benzinapp/services/translation_lookup.dart';
 import 'package:benzinapp/views/car/general_invitations.dart';
 import 'package:benzinapp/views/details/fuel_fill_record.dart';
 import 'package:benzinapp/views/details/malfunction.dart';
 import 'package:benzinapp/views/details/service.dart';
 import 'package:benzinapp/views/details/trip.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 
 class NotificationHandler {
   /// Parses raw argument object or JSON string into a Map<String, dynamic>.
@@ -46,11 +46,11 @@ class NotificationHandler {
 
     // 1. Check if the message is using translatable keys in data payload
     if (data.containsKey('title_key') && data['title_key'] != null) {
-      title = translate(data['title_key'].toString(), args: parseArgs(data['title_args']));
+      title = TranslationLookup.byKey(data['title_key'].toString(), args: parseArgs(data['title_args']));
     }
 
     if (data.containsKey('body_key') && data['body_key'] != null) {
-      body = translate(data['body_key'].toString(), args: parseArgs(data['body_args']));
+      body = TranslationLookup.byKey(data['body_key'].toString(), args: parseArgs(data['body_args']));
     }
 
     // 2. Fallback to standard notification values if keys weren't found or translated

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class SelectLocationOnMaps extends StatefulWidget {
   const SelectLocationOnMaps({super.key, this.address, this.coordinates});
@@ -34,7 +34,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
             flat: true,
             icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
             visible: true,
-            infoWindow: InfoWindow(title: translate('location'), snippet: selectedAddress),
+            infoWindow: InfoWindow(title: t.location, snippet: selectedAddress),
           );
 
           markers.add(marker);
@@ -72,7 +72,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
       // TODO: Convert to new notification.
       if (locations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
+            SnackBar(content: Text(t.noPlacesFoundWithThisAddress)));
         return;
       }
 
@@ -94,7 +94,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
           flat: true,
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           visible: true,
-          infoWindow: InfoWindow(title: translate('location'), snippet: fullAddress),
+          infoWindow: InfoWindow(title: t.location, snippet: fullAddress),
         ));
       });
 
@@ -106,7 +106,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
       // TODO: Convert to new notification.
       debugPrint("Error fetching address: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(translate('noPlacesFoundWithThisAddress'))));
+          SnackBar(content: Text(t.noPlacesFoundWithThisAddress)));
     }
   }
 
@@ -127,7 +127,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
         flat: true,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         visible: true,
-        infoWindow: InfoWindow(title: translate('location'), snippet: selectedAddress),
+        infoWindow: InfoWindow(title: t.location, snippet: selectedAddress),
       );
 
       markers.add(marker);
@@ -142,7 +142,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('pickLocationOnMap')),
+        title: Text(t.pickLocationOnMap),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterButtons: [
@@ -156,7 +156,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
             Navigator.pop<Map<String, dynamic>>(context, data);
           },
           icon: const Icon(Icons.check),
-          label: Text(translate('confirmLocation')),
+          label: Text(t.confirmLocation),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondaryFixed,
             minimumSize: const Size(200, 55),
@@ -184,8 +184,8 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
                   ],
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: translate('searchAddressHintLocation'),
-                    labelText: translate('searchAddress'),
+                    hintText: t.searchAddressHintLocation,
+                    labelText: t.searchAddress,
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -197,7 +197,7 @@ class _SelectLocationOnMaps extends State<SelectLocationOnMaps> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Text(translate('typeAnAddress')),
+            child: Text(t.typeAnAddress),
           ),
 
           // google maps

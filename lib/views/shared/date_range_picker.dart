@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 
 enum DateRangePreset {
@@ -93,23 +93,23 @@ class _DateRangePickerState extends State<DateRangePicker> {
   String _getPresetLabel(DateRangePreset preset) {
     switch (preset) {
       case DateRangePreset.lastMonth:
-        return translate('lastMonth');
+        return t.lastMonth;
       case DateRangePreset.lastTwoMonths:
-        return translate('lastTwoMonths');
+        return t.lastTwoMonths;
       case DateRangePreset.lastThreeMonths:
-        return translate('lastThreeMonths');
+        return t.lastThreeMonths;
       case DateRangePreset.lastFourMonths:
-        return translate('lastFourMonths');
+        return t.lastFourMonths;
       case DateRangePreset.lastSixMonths:
-        return translate('lastSixMonths');
+        return t.lastSixMonths;
       case DateRangePreset.lastTenMonths:
-        return translate('lastTenMonths');
+        return t.lastTenMonths;
       case DateRangePreset.lastTwelveMonths:
-        return translate('lastTwelveMonths');
+        return t.lastTwelveMonths;
       case DateRangePreset.lifetime:
-        return translate('lifetime');
+        return t.lifetime;
       case DateRangePreset.custom:
-        return translate('customRange');
+        return t.customRange;
     }
   }
 

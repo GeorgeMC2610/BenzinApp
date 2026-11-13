@@ -2,7 +2,7 @@ import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/views/confirmations/reset_password_second_step.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 class ResetPasswordFirstStep extends StatefulWidget {
   const ResetPasswordFirstStep({super.key});
@@ -37,7 +37,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
         );
         break;
       default:
-        SnackbarNotification.show(MessageType.danger, translate('forgotPasswordErrorSomethingElse', args: { 'code': 500 }));
+        SnackbarNotification.show(MessageType.danger, t.forgotPasswordErrorSomethingElse(code: 500));
         break;
     }
   }
@@ -53,7 +53,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(translate('forgotPasswordMenu')),
+          title: Text(t.forgotPasswordMenu),
 
         ),
         persistentFooterAlignment: AlignmentDirectional.center,
@@ -69,7 +69,7 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 label: Text(
-                  translate('forgotPasswordNextStep'),
+                  t.forgotPasswordNextStep,
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black
@@ -89,63 +89,66 @@ class _ResetPasswordFirstStep extends State<ResetPasswordFirstStep> {
             ),
           ),
         ],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: Text(
-                    translate('forgotPasswordTitle'),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Text(
+                      t.forgotPasswordTitle,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30
+                      ),
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Center(
-                  child: Text(
-                      translate('forgotPasswordSubtitle')
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                Center(
-                  child: Text(
-                    translate('forgotPasswordEmailPrompt'),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
+  
+                  const SizedBox(height: 5),
+  
+                  Center(
+                    child: Text(
+                        t.forgotPasswordSubtitle
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 15),
-
-                TextField(
-                  enabled: !isLoading,
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: checkEmail,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    errorText: emailError,
-                    hintText: translate('forgotPasswordEmailHint'),
-                    labelText: translate('forgotPasswordEmailLabel'),
-                    prefixIcon: const Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+  
+                  const SizedBox(height: 25),
+  
+                  Center(
+                    child: Text(
+                      t.forgotPasswordEmailPrompt,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                ),
-              ],
+  
+                  const SizedBox(height: 15),
+  
+                  TextField(
+                    enabled: !isLoading,
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: checkEmail,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      errorText: emailError,
+                      hintText: t.forgotPasswordEmailHint,
+                      labelText: t.forgotPasswordEmailLabel,
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

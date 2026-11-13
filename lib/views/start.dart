@@ -4,7 +4,7 @@ import 'package:benzinapp/services/managers/token_manager.dart';
 import 'package:benzinapp/services/managers/user_manager.dart';
 import 'package:benzinapp/services/notifications/firebase_messaging_service.dart';
 import 'package:benzinapp/views/car/dashboard.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:benzinapp/views/login.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +113,7 @@ class _StartState extends State<Start> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                LoginPage(message: translate('sessionEnded')),
+                LoginPage(message: t.sessionEnded),
           )
       );
     }

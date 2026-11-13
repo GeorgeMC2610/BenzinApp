@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 
 
 class DeleteDialog {
@@ -16,7 +16,7 @@ class DeleteDialog {
               return AlertDialog(
                 title: Text(title),
                 content: Text(
-                    translate('confirmDeleteGenericBody')),
+                    t.confirmDeleteGenericBody),
                 actions: [
                   OutlinedButton(
                     onPressed: () {
@@ -26,7 +26,7 @@ class DeleteDialog {
                       foregroundColor: Colors.red,
                       side: const BorderSide(width: 1.0, color: Colors.red),
                     ),
-                    child: Text(translate('cancel')),
+                    child: Text(t.cancel),
                   ),
 
                   ElevatedButton.icon(
@@ -55,7 +55,7 @@ class DeleteDialog {
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white
                     ),
-                    label: Text(translate('delete')),
+                    label: Text(t.delete),
                   ),
                 ],
               );

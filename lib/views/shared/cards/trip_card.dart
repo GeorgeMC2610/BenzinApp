@@ -9,7 +9,7 @@ import 'package:benzinapp/views/details/trip.dart';
 import 'package:benzinapp/views/forms/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import '../../../services/managers/trip_manager.dart';
 import '../../../services/managers/user_manager.dart';
 import '../../../services/volume_metric_provider.dart';
@@ -91,9 +91,9 @@ class _TripCardState extends State<TripCard> {
         children: [
           Row(
             children: [
-              const Icon(FontAwesomeIcons.arrowRight, size: 15,),
+              const FaIcon(FontAwesomeIcons.arrowRight, size: 15,),
               const SizedBox(width: 5),
-              Text(" ${translate('oneTimeTrip')}", )
+              Text(" ${t.oneTimeTrip}", )
             ],
           ),
 
@@ -101,7 +101,7 @@ class _TripCardState extends State<TripCard> {
 
           Row(
             children: [
-              const Icon(FontAwesomeIcons.coins, size: 18,),
+              const FaIcon(FontAwesomeIcons.coins, size: 18,),
               const SizedBox(width: 5),
               Text( totalTravelCost == null ? '-' : CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context,
                       widget.trip.totalKm * totalTravelCost!
@@ -117,13 +117,13 @@ class _TripCardState extends State<TripCard> {
 
           Row(
             children: [
-              const Icon(FontAwesomeIcons.car, size: 15,),
+              const FaIcon(FontAwesomeIcons.car, size: 15,),
               const SizedBox(width: 5),
               Text(" ${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(widget.trip.totalKm))} ${distanceProvider.label}")
             ],
           ),
 
-          AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+          AutoSizeText(maxLines: 1, t.createdAt(date: LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created))),
           if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -150,9 +150,9 @@ class _TripCardState extends State<TripCard> {
       children: [
         Row(
           children: [
-            const Icon(FontAwesomeIcons.arrowRotateRight, size: 15,),
+            const FaIcon(FontAwesomeIcons.arrowRotateRight, size: 15,),
             const SizedBox(width: 5),
-            Text(" ${translate('repeatingTimesPerWeekShort', args: {'n': widget.trip.timesRepeating})}", )
+            Text(" ${t.repeatingTimesPerWeekShort(n: widget.trip.timesRepeating)}", )
           ],
         ),
 
@@ -160,9 +160,9 @@ class _TripCardState extends State<TripCard> {
 
         Row(
           children: [
-            const Icon(FontAwesomeIcons.coins, size: 18,),
+            const FaIcon(FontAwesomeIcons.coins, size: 18,),
             const SizedBox(width: 5),
-            AutoSizeText(averageTripCost == null ? '-' : " ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost!))} ${translate('perWeek')}",
+            AutoSizeText(averageTripCost == null ? '-' : " ${CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, repeatingAverageTripCost!))} ${t.perWeek}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold
@@ -172,11 +172,11 @@ class _TripCardState extends State<TripCard> {
 
         Row(
           children: [
-            const Icon(FontAwesomeIcons.gasPump, size: 18,),
+            const FaIcon(FontAwesomeIcons.gasPump, size: 18,),
             const SizedBox(width: 5),
             AutoSizeText(" ${
                 LocaleStringConverter.formattedDouble(context, volumeProvider.convert(repeatingAverageTripConsumption))
-            } ${volumeProvider.label}. ${translate('perWeek')}",
+            } ${volumeProvider.label}. ${t.perWeek}",
                 maxFontSize: 18,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold
@@ -188,13 +188,13 @@ class _TripCardState extends State<TripCard> {
 
           Row(
             children: [
-              const Icon(FontAwesomeIcons.car, size: 15,),
+              const FaIcon(FontAwesomeIcons.car, size: 15,),
               const SizedBox(width: 5),
               Text(" ${LocaleStringConverter.formattedDouble(context, distanceProvider.convert(widget.trip.totalKm))} ${distanceProvider.label}")
             ],
           ),
 
-        AutoSizeText(maxLines: 1, translate('createdAt', args: {'date': LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created)})),
+        AutoSizeText(maxLines: 1, t.createdAt(date: LocaleStringConverter.dateShortDayMonthYearString(context, widget.trip.created))),
         if (widget.trip.createdByUsername != null && widget.trip.createdByUsername != UserManager().currentUser!.username)
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -227,13 +227,13 @@ class _TripCardState extends State<TripCard> {
   delete() {
     DeleteDialog.show(
         context,
-        translate('deleteTrip'),
+        t.deleteTrip,
             (Function(bool) setLoadingState) async {
 
           await TripManager().delete(widget.trip);
           SnackbarNotification.show(
             MessageType.info,
-            translate('successfullyDeletedTrip'),
+            t.successfullyDeletedTrip,
           );
           setLoadingState(true);
         }

@@ -3,7 +3,7 @@ import 'package:benzinapp/services/classes/car_user_invitation.dart';
 import 'package:benzinapp/services/managers/car_user_invitation_manager.dart';
 import 'package:benzinapp/views/shared/notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/classes/car.dart';
@@ -33,7 +33,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(translate('inviteUserToCarAppBar')),
+        title: Text(t.inviteUserToCarAppBar),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -48,7 +48,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               label: Text(
-                translate('sendInvitationButton'),
+                t.sendInvitationButton,
                 style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
               iconAlignment: IconAlignment.end,
@@ -67,91 +67,94 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
           ),
         ),
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  translate('inviteUserToCarTitle'),
-                  minFontSize: 20,
-                  maxLines: 1,
-                  maxFontSize: 35,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Center(
-                child: Text(
-                  translate('inviteUserToCarSubtitle'),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: Text(
-                  translate('enterUsernameToInvite'),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              Consumer<CarUserInvitationManager>(
-                builder: (context, manager, child) => TextField(
-                  enabled: !_isSending,
-                  controller: _usernameController,
-                  onChanged: (value) {
-                    setState(() {
-                      _usernameEmpty = value.isEmpty;
-                    });
-                  },
-                  onTapOutside: (value) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    errorText: manager.errors["recipient"]?.join(', '),
-                    hintText: translate('sharedUsernameHint'),
-                    labelText: translate('sharedUsername'),
-                    prefixIcon: const Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    t.inviteUserToCarTitle,
+                    minFontSize: 20,
+                    maxLines: 1,
+                    maxFontSize: 35,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                Center(
+                  child: Text(
+                    t.inviteUserToCarSubtitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        translate('accessContributorDesc'),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                    )
-                  ],
+                const SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    t.enterUsernameToInvite,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-
-
-            ],
+                const SizedBox(height: 15),
+                Consumer<CarUserInvitationManager>(
+                  builder: (context, manager, child) => TextField(
+                    enabled: !_isSending,
+                    controller: _usernameController,
+                    onChanged: (value) {
+                      setState(() {
+                        _usernameEmpty = value.isEmpty;
+                      });
+                    },
+                    onTapOutside: (value) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      errorText: manager.errors["recipient"]?.join(', '),
+                      hintText: t.sharedUsernameHint,
+                      labelText: t.sharedUsername,
+                      prefixIcon: const Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          t.accessContributorDesc,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+  
+  
+              ],
+            ),
           ),
         ),
       ),
@@ -175,7 +178,7 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
       await CarUserInvitationManager().create(invitation);
       if (!mounted) return;
       if (CarUserInvitationManager().errors.keys.isEmpty) {
-        SnackbarNotification.show(MessageType.success, translate('invitationSent', args: {'user': _usernameController.text}));
+        SnackbarNotification.show(MessageType.success, t.invitationSent(user: _usernameController.text));
         setState(() {
           _usernameController.clear();
           _usernameEmpty = true;
@@ -188,15 +191,15 @@ class _InviteUserToCarState extends State<InviteUserToCar> {
     catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     }
     finally {
       if (mounted) {

@@ -7,7 +7,7 @@ import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:benzinapp/services/managers/service_manager.dart';
 import 'package:benzinapp/views/maps/view_trip.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import '../forms/service.dart';
 import '../shared/dialogs/delete_dialog.dart';
 import '../shared/shared_font_styles.dart';
@@ -36,7 +36,7 @@ class _ViewServiceState extends State<ViewService> {
     final distanceProvider = Provider.of<DistanceMetricProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate('serviceData')),
+        title: Text(t.serviceData),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       persistentFooterAlignment: AlignmentDirectional.centerStart,
@@ -65,7 +65,7 @@ class _ViewServiceState extends State<ViewService> {
                     foregroundColor: Theme.of(context).colorScheme.onSecondary,
                   ),
                   icon: const Icon(Icons.edit),
-                  label: Text(translate('edit'))
+                  label: Text(t.edit)
               ),
             ),
 
@@ -76,7 +76,7 @@ class _ViewServiceState extends State<ViewService> {
                   onPressed: () {
                     DeleteDialog.show(
                         context,
-                        translate('confirmDeleteService'),
+                        t.confirmDeleteService,
                             (Function(bool) setLoadingState) async {
 
                           await ServiceManager().delete(widget.service);
@@ -90,148 +90,151 @@ class _ViewServiceState extends State<ViewService> {
                     foregroundColor: Theme.of(context).colorScheme.onError,
                   ),
                   icon: const Icon(Icons.delete),
-                  label: Text(translate('delete'))
+                  label: Text(t.delete)
               ),
             )
           ],
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // CARD WITH BASE DATA
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // CARD WITH BASE DATA
+                  SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.dateDone, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.serviceMileage, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                            '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}',
+                            style: SharedFontStyles.descriptiveTextStyle
+                          ),
+  
+                          const SizedBox(height: 20),
+  
+                          Text(t.cost, style: SharedFontStyles.legendTextStyle),
+                          Text(
+                              CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, service.cost!)),
+                              style: SharedFontStyles.descriptiveTextStyle
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+  
+                // TITLE AND DESCRIPTION
                 SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(translate('dateDone'), style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            LocaleStringConverter.dateDayMonthYearString(context, service.dateHappened),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(translate('serviceMileage'), style: SharedFontStyles.legendTextStyle),
-                        Text(
-                          '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.kilometersDone.toDouble()).toInt())} ${distanceProvider.label}',
-                          style: SharedFontStyles.descriptiveTextStyle
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Text(translate('cost'), style: SharedFontStyles.legendTextStyle),
-                        Text(
-                            CarManager().watchingCar!.toCurrency(LocaleStringConverter.formattedDouble(context, service.cost!)),
-                            style: SharedFontStyles.descriptiveTextStyle
-                        ),
-                      ],
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.description, style: SharedFontStyles.legendTextStyle),
+                          Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-
-              // TITLE AND DESCRIPTION
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(translate('description'), style: SharedFontStyles.legendTextStyle),
-                        Text(service.description, style: SharedFontStyles.descriptiveTextStyle),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(translate('nextAtKm'), style: SharedFontStyles.legendTextStyle),
-                            Text(
-                                getNextServiceInfo(),
-                                style: SharedFontStyles.descriptiveTextStyle
-                            ),
-                          ],
+  
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.nextAtKm, style: SharedFontStyles.legendTextStyle),
+                              Text(
+                                  getNextServiceInfo(),
+                                  style: SharedFontStyles.descriptiveTextStyle
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(translate('location'), style: SharedFontStyles.legendTextStyle),
-                            Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
-                            Center(
-                              child: service.getAddress() == null ? const SizedBox() : ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) => ViewTripOnMaps(
-                                          positions: [service.getCoordinates()!],
-                                          addresses: [service.getAddress()!]
+  
+                    Expanded(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(t.location, style: SharedFontStyles.legendTextStyle),
+                              Text(service.getAddress() ?? '-', style: SharedFontStyles.descriptiveTextStyle),
+                              Center(
+                                child: service.getAddress() == null ? const SizedBox() : ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) => ViewTripOnMaps(
+                                            positions: [service.getCoordinates()!],
+                                            addresses: [service.getAddress()!]
+                                        )
                                       )
-                                    )
-                                  );
-                                },
-                                label: AutoSizeText(translate('seeOnMap'), maxLines: 1, minFontSize: 8),
-                                icon: const Icon(Icons.pin_drop, size: 20.3,),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-                                  foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
-                                ),
+                                    );
+                                  },
+                                  label: AutoSizeText(t.seeOnMap, maxLines: 1, minFontSize: 8),
+                                  icon: const Icon(Icons.pin_drop, size: 20.3,),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+                                    foregroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant
+                                  ),
+                                )
                               )
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -243,16 +246,16 @@ class _ViewServiceState extends State<ViewService> {
     if (service.nextServiceKilometers == null && service.nextServiceDate == null) return '-';
 
     if (service.nextServiceKilometers == null) {
-      return '${translate('before')} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+      return '${t.before} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
     }
 
     if (service.nextServiceDate == null) {
-      return '${translate('at')} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}';
+      return '${t.at} ${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label}';
     }
 
-    return '${translate('at')} '
+    return '${t.at} '
         '${LocaleStringConverter.formattedBigInt(context, distanceProvider.convert(service.nextServiceKilometers!.toDouble()).toInt())} ${distanceProvider.label} '
-        '${translate('orBefore')} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
+        '${t.orBefore} ${service.nextServiceDate!.toIso8601String().substring(0, 10)}';
 
   }
 }

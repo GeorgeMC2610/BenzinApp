@@ -6,8 +6,9 @@ import 'package:benzinapp/views/maps/create_trip.dart';
 import 'package:benzinapp/views/shared/dialogs/delete_dialog.dart';
 import 'package:benzinapp/views/shared/divider_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:benzinapp/views/shared/fa_prefix_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../services/classes/trip.dart';
 import '../shared/buttons/persistent_add_or_edit_button.dart';
@@ -73,7 +74,7 @@ class _TripFormState extends State<TripForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         // TODO: Convert to new notification.
           SnackBar(
-            content: Text(translate('pleaseMakeATrip')),
+            content: Text(t.pleaseMakeATrip),
           )
       );
     }
@@ -109,7 +110,7 @@ class _TripFormState extends State<TripForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyAddedTrip'),
+          t.successfullyAddedTrip,
         );
         Navigator.pop(context);
       }
@@ -135,7 +136,7 @@ class _TripFormState extends State<TripForm> {
 
         SnackbarNotification.show(
           MessageType.success,
-          translate('successfullyUpdatedTrip'),
+          t.successfullyUpdatedTrip,
         );
 
         if (widget.isViewing) {
@@ -148,15 +149,15 @@ class _TripFormState extends State<TripForm> {
     } catch (e) {
       if (!mounted) return;
       showDialog(context: context, builder: (buildContext) => AlertDialog(
-        title: Text(translate('serverErrorTitle')),
-        content: Text(translate('serverErrorBody')),
+        title: Text(t.serverErrorTitle),
+        content: Text(t.serverErrorBody),
         actions: [
           TextButton(onPressed: () {
             Navigator.pop(context);
-          }, child: Text(translate('OK')))
+          }, child: Text(t.ok))
         ],
       ));
-      SnackbarNotification.show(MessageType.danger, translate('serverError'));
+      SnackbarNotification.show(MessageType.danger, t.serverError);
     } finally {
       if (mounted) {
         setState(() {
@@ -194,7 +195,7 @@ class _TripFormState extends State<TripForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.trip != null ? translate('editTrip') : translate('addTrip')),
+        title: Text(widget.trip != null ? t.editTrip : t.addTrip),
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
@@ -204,204 +205,207 @@ class _TripFormState extends State<TripForm> {
           isLoading: _isLoading,
         )
       ],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              DividerWithText(
-                  text: translate('tripInfo'),
-                  lineColor: Colors.grey,
-                  textColor: Theme.of(context).colorScheme.primary,
-                  textSize: 16
-              ),
-
-              TextField(
-                onTapOutside: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                controller: _titleController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {
-                  setState(() {
-                    titleError = _emptyValidator(_titleController.text);
-                  });
-                },
-                enabled: !_isLoading,
-                maxLength: 127,
-                decoration: InputDecoration(
-                  errorText: titleError,
-                  errorMaxLines: 4,
-                  counterText: '',
-                  hintText: translate('tripNameHint'),
-                  labelText: translate('tripName2'),
-                  prefixIcon: const Icon(FontAwesomeIcons.tag),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DividerWithText(
+                    text: t.tripInfo,
+                    lineColor: Colors.grey,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textSize: 16
+                ),
+  
+                TextField(
+                  onTapOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  controller: _titleController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    setState(() {
+                      titleError = _emptyValidator(_titleController.text);
+                    });
+                  },
+                  enabled: !_isLoading,
+                  maxLength: 127,
+                  decoration: InputDecoration(
+                    errorText: titleError,
+                    errorMaxLines: 4,
+                    counterText: '',
+                    hintText: t.tripNameHint,
+                    labelText: t.tripName2,
+                    prefixIcon: const FaPrefixIcon(FontAwesomeIcons.tag),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      onTapOutside: (value) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      controller: _timesRepeatingController,
-                      keyboardType: TextInputType.number,
-                      onEditingComplete: () {
-                        setState(() {
-                          timesRepeatingError = _validator(_timesRepeatingController.text);
-                        });
-                      },
-                      enabled: !_isLoading && !_isRepeating,
-                      decoration: InputDecoration(
-                        errorText: timesRepeatingError,
-                        errorMaxLines: 4,
-                        hintText: translate('timesRepeatingHint'),
-                        labelText: translate('timesRepeating'),
-                        prefixIcon: const Icon(FontAwesomeIcons.repeat),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+  
+                const SizedBox(height: 20),
+  
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextField(
+                        onTapOutside: (value) {
+                          FocusScope.of(context).unfocus();
+                        },
+                        controller: _timesRepeatingController,
+                        keyboardType: TextInputType.number,
+                        onEditingComplete: () {
+                          setState(() {
+                            timesRepeatingError = _validator(_timesRepeatingController.text);
+                          });
+                        },
+                        enabled: !_isLoading && !_isRepeating,
+                        decoration: InputDecoration(
+                          errorText: timesRepeatingError,
+                          errorMaxLines: 4,
+                          hintText: t.timesRepeatingHint,
+                          labelText: t.timesRepeating,
+                          prefixIcon: const FaPrefixIcon(FontAwesomeIcons.repeat),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                  const SizedBox(width: 5),
-
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            value: _isRepeating,
-                            onChanged: (value) {
-                              setState(() {
-                                _isRepeating = value!;
-
-                                if (_isRepeating) {
-                                  _timesRepeatingController.text = '1';
-                                }
-                              });
-                            }
-                        ),
-
-                        AutoSizeText(translate('noRepeat'), maxLines: 1, maxFontSize: 19,)
-                      ],
-                    )
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              Center(
-                child: Text(
-                  polyline == null ? translate('makeTrip') : getTripString(),
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                  ),
+  
+                    const SizedBox(width: 5),
+  
+                    Expanded(
+                      flex: 3,
+                      child: Row(
+                        children: [
+                          Checkbox(
+                              value: _isRepeating,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isRepeating = value!;
+  
+                                  if (_isRepeating) {
+                                    _timesRepeatingController.text = '1';
+                                  }
+                                });
+                              }
+                          ),
+  
+                          AutoSizeText(t.noRepeat, maxLines: 1, maxFontSize: 19,)
+                        ],
+                      )
+                    ),
+                  ],
                 ),
-              ),
-
-              const SizedBox(height: 5),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : () async {
-
-
-                        var data = await Navigator.push<Map<String, dynamic>>(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => polyline == null ? const CreateTrip() :
-                                    CreateTrip(
-                                      polyline: polyline!,
-                                      originAddress: originAddress!,
-                                      destinationAddress: destinationAddress!,
-                                      originCoordinates: LatLng(originLatitude!, originLongitude!),
-                                      destinationCoordinates: LatLng(destinationLatitude!, destinationLongitude!),
-                                      totalKm: totalKm!,
-                                    )
-                            )
-                        );
-
-                        if (data == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          originAddress = data["originAddress"];
-                          destinationAddress = data["destinationAddress"];
-                          polyline = data["polyline"];
-                          originLatitude = data["originCoordinates"].latitude;
-                          originLongitude = data["originCoordinates"].longitude;
-                          destinationLatitude = data["destinationCoordinates"].latitude;
-                          destinationLongitude = data["destinationCoordinates"].longitude;
-                          totalKm = data['totalKm'];
-                        });
-
-                      },
-                      label: Text(translate('makeOnMaps')),
-                      icon: const Icon(Icons.pin_drop),
+  
+                const SizedBox(height: 20),
+  
+                Center(
+                  child: Text(
+                    polyline == null ? t.makeTrip : getTripString(),
+                    style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: _isLoading ? null : polyline == null ? null : () {
-
-                        DeleteDialog.show(
-                          context, translate('deleteTrip'),
-                          (value) {
-                            setState(() {
-                              originAddress = null;
-                              destinationAddress = null;
-                              polyline = null;
-                              originLatitude = null;
-                              originLongitude = null;
-                              destinationLatitude = null;
-                              destinationLongitude = null;
-                              totalKm = null;
-                            });
-
-                            value(true);
+                ),
+  
+                const SizedBox(height: 5),
+  
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () async {
+  
+  
+                          var data = await Navigator.push<Map<String, dynamic>>(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => polyline == null ? const CreateTrip() :
+                                      CreateTrip(
+                                        polyline: polyline!,
+                                        originAddress: originAddress!,
+                                        destinationAddress: destinationAddress!,
+                                        originCoordinates: LatLng(originLatitude!, originLongitude!),
+                                        destinationCoordinates: LatLng(destinationLatitude!, destinationLongitude!),
+                                        totalKm: totalKm!,
+                                      )
+                              )
+                          );
+  
+                          if (data == null) {
+                            return;
                           }
-                        );
-
-                      },
-                      label: AutoSizeText(translate('deleteTrip'), minFontSize: 10),
-                      icon: const Icon(Icons.cancel_outlined),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
-                        foregroundColor: Theme.of(context).buttonTheme.colorScheme!.onError
+  
+                          setState(() {
+                            originAddress = data["originAddress"];
+                            destinationAddress = data["destinationAddress"];
+                            polyline = data["polyline"];
+                            originLatitude = data["originCoordinates"].latitude;
+                            originLongitude = data["originCoordinates"].longitude;
+                            destinationLatitude = data["destinationCoordinates"].latitude;
+                            destinationLongitude = data["destinationCoordinates"].longitude;
+                            totalKm = data['totalKm'];
+                          });
+  
+                        },
+                        label: Text(t.makeOnMaps),
+                        icon: const Icon(Icons.pin_drop),
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              totalKm == null ? const SizedBox() :
-              Text(
-                "${translate('tripDistance')} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
-                style: Theme.of(context).textTheme.labelLarge,
-              )
-            ],
+  
+                    const SizedBox(width: 10),
+  
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : polyline == null ? null : () {
+  
+                          DeleteDialog.show(
+                            context, t.deleteTrip,
+                            (value) {
+                              setState(() {
+                                originAddress = null;
+                                destinationAddress = null;
+                                polyline = null;
+                                originLatitude = null;
+                                originLongitude = null;
+                                destinationLatitude = null;
+                                destinationLongitude = null;
+                                totalKm = null;
+                              });
+  
+                              value(true);
+                            }
+                          );
+  
+                        },
+                        label: AutoSizeText(t.deleteTrip, minFontSize: 10),
+                        icon: const Icon(Icons.cancel_outlined),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).buttonTheme.colorScheme!.error,
+                          foregroundColor: Theme.of(context).buttonTheme.colorScheme!.onError
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+  
+                totalKm == null ? const SizedBox() :
+                Text(
+                  "${t.tripDistance} ${distanceProvider.convert(totalKm!).toStringAsFixed(1)} ${distanceProvider.label}",
+                  style: Theme.of(context).textTheme.labelLarge,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -410,21 +414,21 @@ class _TripFormState extends State<TripForm> {
   }
 
   String getTripString() {
-    return '${translate('from')}: $originAddress\n\n ${translate('to')}: $destinationAddress';
+    return '${t.from}: $originAddress\n\n ${t.to}: $destinationAddress';
   }
 
   String? _validator(String field) {
 
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     if (double.tryParse(field) == null) {
-      return translate('invalidNumber');
+      return t.invalidNumber;
     }
 
     if (double.parse(field) < 0) {
-      return translate('cannotBeNegative');
+      return t.cannotBeNegative;
     }
 
     return null;
@@ -432,7 +436,7 @@ class _TripFormState extends State<TripForm> {
 
   String? _emptyValidator(String field) {
     if (field.isEmpty || field == '') {
-      return translate('cannotBeEmpty');
+      return t.cannotBeEmpty;
     }
 
     return null;

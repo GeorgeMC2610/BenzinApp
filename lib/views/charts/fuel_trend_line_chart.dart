@@ -3,7 +3,7 @@ import 'package:benzinapp/services/volume_metric_provider.dart';
 import 'package:benzinapp/services/fuel_metric_service.dart';
 import 'package:benzinapp/services/managers/car_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
+import 'package:benzinapp/i18n/strings.g.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -124,11 +124,11 @@ class FuelTrendLineChart extends StatelessWidget {
   String _getStringifiedFocusType() {
     switch (focusType) {
       case ChartDisplayFocus.consumption:
-        return translate('consumption');
+        return t.consumption;
       case ChartDisplayFocus.efficiency:
-        return translate('efficiency');
+        return t.efficiency;
       case ChartDisplayFocus.travelCost:
-        return translate('travel_cost');
+        return t.travel_cost;
     }
   }
 
